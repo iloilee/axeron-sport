@@ -51,7 +51,8 @@ function getUserData() {
         'user_id' => $_SESSION['user_id'],
         'full_name' => $_SESSION['full_name'] ?? '',
         'email' => $_SESSION['email'] ?? '',
-        'role' => $_SESSION['role'] ?? 'customer'
+        'role' => $_SESSION['role'] ?? 'customer',
+        'avatar_url' => $_SESSION['avatar_url'] ?? ''
     ];
 }
 
@@ -60,6 +61,7 @@ function loginUser($user) {
     $_SESSION['full_name'] = $user['full_name'];
     $_SESSION['email'] = $user['email'];
     $_SESSION['role'] = $user['role_name'] ?? 'customer';
+    $_SESSION['avatar_url'] = $user['avatar_url'] ?? '';
     $_SESSION['login_time'] = time();
 }
 
@@ -70,6 +72,7 @@ function logoutUser() {
     unset($_SESSION['full_name']);
     unset($_SESSION['email']);
     unset($_SESSION['role']);
+    unset($_SESSION['avatar_url']);
     session_destroy();
 }
 

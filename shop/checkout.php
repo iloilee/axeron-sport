@@ -92,11 +92,118 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
+<?php
+/**
+ * Checkout - Thanh toán
+ */
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/session.php';
+
+$db = db();
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    requireLogin();
+
+    // Kiểm tra user có tồn tại không
+    $userId = getUserId();
+    $userCheck = $db->selectOne("SELECT user_id FROM users WHERE user_id = ?", [$userId]);
+    if (!$userCheck) {
+        // User không tồn tại - đăng xuất và chuyển về login
+        logoutUser();
+        setFlash('error', 'Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại.');
+        header('Location: ' . BASE_URL . '/auth/login.php');
+        exit;
+    }
+
+    $recipientName = sanitize($_POST['fullname'] ?? '');
+    $recipientPhone = sanitize($_POST['phone'] ?? '');
+    $province = sanitize($_POST['province'] ?? '');
+    $district = sanitize($_POST['district'] ?? '');
+    $ward = sanitize($_POST['ward'] ?? '');
+    $streetAddress = sanitize($_POST['address'] ?? '');
+    $shippingId = (int)($_POST['shipping'] ?? 1);
+    $paymentMethod = sanitize($_POST['payment'] ?? 'cod');
+    $note = sanitize($_POST['note'] ?? '');
+
+    // Validate
+    if (empty($recipientName) || empty($recipientPhone) || empty($streetAddress) || empty($province)) {
+        setFlash('error', 'Vui lòng điền đầy đủ thông tin giao hàng');
+        redirect(BASE_URL . '/shop/checkout.php');
+    }
+
+    // Get cart items
+    $cart = $db->selectOne("SELECT cart_id FROM carts WHERE user_id = ?", [$userId]);
+    if (!$cart) {
+        setFlash('error', 'Giỏ hàng trống');
+        redirect(BASE_URL . '/shop/cart.php');
+    }
+
+    $cartItems = $db->select("
+        SELECT ci.*, pv.variant_id, pv.stock_quantity, p.product_name, p.base_price, pv.extra_price, pv.color, pv.size
+        FROM cart_items ci
+        JOIN product_variants pv ON ci.variant_id = pv.variant_id
+        JOIN products p ON pv.product_id = p.product_id
+        WHERE ci.cart_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0
+    ", [$cart['cart_id']]);
+
+    if (empty($cartItems)) {
+        setFlash('error', 'Giỏ hàng trống');
+        redirect(BASE_URL . '/shop/cart.php');
+    }
+
+    // Calculate totals
+    $subtotal = 0;
+    $shippingFee = 0;
+    $discountAmount = 0;
+
+    foreach ($cartItems as $item) {
+        $subtotal += $item['quantity'] * ($item['base_price'] + $item['extra_price']);
+    }
+
+    // Get shipping rate
+    $shipping = $db->selectOne("SELECT * FROM shipping_prices WHERE shipping_id = ?", [$shippingId]);
+    if ($shipping) {
+        $shippingFee = (float)$shipping['base_price'];
+    } else {
+        $shippingFee = 30000;
+    }
+
+    // Apply promo if exists
+    $promoId = null;
+    if (isset($_SESSION['checkout_promo'])) {
+        $promoId = $_SESSION['checkout_promo']['promo_id'];
+        $promo = $_SESSION['checkout_promo'];
+
+        if ($subtotal >= $promo['min_order_value']) {
+            if ($promo['discount_type'] === 'percent') {
+                $discountAmount = $subtotal * ($promo['discount_value'] / 100);
+                if ($promo['max_discount']) {
+                    $discountAmount = min($discountAmount, $promo['max_discount']);
+                }
+            } else {
+                $discountAmount = $promo['discount_value'];
+            }
+        }
+    }
 
     $totalAmount = $subtotal + $shippingFee - $discountAmount;
 
     // Create order
     $shippingAddress = "$streetAddress, $ward, $district, $province";
+
+    // Save address if requested
+    $saveAddress = isset($_POST['save_address']) && $_POST['save_address'] == '1';
+    if ($saveAddress && $userId) {
+        $existingAddress = $db->selectOne("SELECT address_id FROM user_addresses WHERE user_id = ? AND is_default = 1", [$userId]);
+        if (!$existingAddress) {
+            $db->update("UPDATE user_addresses SET is_default = 0 WHERE user_id = ?", [$userId]);
+            $db->insert(
+                "INSERT INTO user_addresses (user_id, recipient_name, phone, province, district, ward, street_address, is_default, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, 1, NOW())",
+                [$userId, $recipientName, $recipientPhone, $province, $district, $ward, $streetAddress]
+            );
+        }
+    }
 
     try {
         $db->beginTransaction();
@@ -326,108 +433,6 @@ $totalAmount = $subtotal + $shippingFee - $discountAmount;
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Thanh Toán - Axeron</title>
-    <link rel="icon" type="image/jpeg" href="<?= defined('BASE_URL') ? BASE_URL : '' ?>/assets/images/logo-axeron.jpg" />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "on-background": "#1b1c1c", "inverse-surface": "#303030", "text-dark": "#212121",
-                        "tertiary-container": "#006a85", background: "#fcf9f8", "on-primary-fixed-variant": "#930019",
-                        "inverse-primary": "#ffb3b0", "secondary-fixed-dim": "#b0c6ff", "error-container": "#ffdad6",
-                        "outline-variant": "#e3bebb", "tertiary-fixed": "#baeaff", "on-secondary": "#ffffff",
-                        "secondary-fixed": "#d9e2ff", "on-primary-fixed": "#410006", "surface-container": "#f0eded",
-                        error: "#ba1a1a", "axeron-red": "#BE1E2D", "on-tertiary": "#ffffff",
-                        "surface-dim": "#dcd9d9", "on-primary-container": "#ffd3d1", "secondary-container": "#0f6df3",
-                        "surface-tint": "#b91a2a", primary: "#98001b", "surface-gray": "#F5F5F5",
-                        "surface-bright": "#fcf9f8", "surface-container-highest": "#e5e2e1", "on-surface": "#1b1c1c",
-                        white: "#FFFFFF", tertiary: "#005066", "surface-container-high": "#eae7e7",
-                        "on-error-container": "#93000a", "primary-container": "#be1e2d", "primary-fixed": "#ffdad8",
-                        "surface-container-lowest": "#ffffff", "inverse-on-surface": "#f3f0ef",
-                        "on-tertiary-container": "#abe6ff", "surface-variant": "#e5e2e1",
-                        "on-secondary-container": "#fefcff", secondary: "#0056c5", outline: "#8f6f6e",
-                        "axeron-blue": "#2979FF", "tertiary-fixed-dim": "#85d1ef", surface: "#fcf9f8",
-                        "on-secondary-fixed-variant": "#00429b", "on-tertiary-fixed": "#001f29",
-                        "on-tertiary-fixed-variant": "#004d62", "surface-container-low": "#f6f3f2",
-                        "on-secondary-fixed": "#001945", "primary-fixed-dim": "#ffb3b0",
-                        "on-surface-variant": "#5b403f", "on-primary": "#ffffff", "on-error": "#ffffff"
-                    },
-                    borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
-                    spacing: { "margin-desktop": "24px", gutter: "16px", "container-max": "1200px", base: "8px", "margin-mobile": "16px" },
-                    fontFamily: { "body-lg": ["Noto Sans", "sans-serif"], "headline-lg-mobile": ["Montserrat", "sans-serif"], "label-sm": ["Noto Sans", "sans-serif"], "display-lg": ["Montserrat", "sans-serif"], "body-md": ["Noto Sans", "sans-serif"], "headline-md": ["Montserrat", "sans-serif"], "headline-lg": ["Montserrat", "sans-serif"], "label-lg": ["Noto Sans", "sans-serif"] },
-                    fontSize: { "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }], "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "700" }], "label-sm": ["12px", { lineHeight: "16px", fontWeight: "500" }], "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "800" }], "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }], "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }], "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "700" }], "label-lg": ["14px", { lineHeight: "20px", fontWeight: "700" }] }
-                }
-            }
-        };
-    </script>
-</head>
-<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
-    <?php include __DIR__ . '/../includes/header.php'; ?>
-
-    <main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12">
-        <h1 class="font-headline-lg text-headline-lg mb-8 uppercase text-center md:text-left">Thanh Toán</h1>
-
-        <?php if (empty($cartItems)): ?>
-            <div class="text-center py-16">
-                <span class="material-symbols-outlined text-8xl text-on-surface-variant mb-6">shopping_cart</span>
-                <h2 class="font-headline-lg text-2xl text-on-surface mb-4">Giỏ hàng trống</h2>
-                <p class="text-on-surface-variant mb-8">Bạn cần thêm sản phẩm vào giỏ hàng trước khi thanh toán</p>
-                <a href="<?= BASE_URL ?>/shop/product-catalog.php" class="inline-flex items-center gap-2 bg-axeron-red text-white px-8 py-4 rounded-lg font-bold hover:bg-primary transition-colors">
-                    Tiếp tục mua sắm
-                </a>
-            </div>
-        <?php else: ?>
-            <form method="POST">
-                <div class="flex flex-col lg:flex-row gap-gutter lg:gap-8 items-start">
-                    <!-- Left Column: Forms -->
-                    <div class="w-full lg:w-2/3 flex flex-col gap-8">
-                        <!-- Thông tin giao hàng -->
-                        <section class="bg-surface-container-lowest p-6 rounded-xl border border-surface-container shadow-sm">
-                            <h2 class="font-headline-md text-headline-md mb-6 flex items-center gap-2 border-b border-surface-variant pb-4">
-                                <span class="material-symbols-outlined text-axeron-red">local_shipping</span>
-                                Thông tin giao hàng
-                            </h2>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="flex flex-col gap-1">
-                                    <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="fullname">Họ và tên *</label>
-                                    <input class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors w-full font-body-md" id="fullname" name="fullname" placeholder="Nhập họ và tên" type="text" value="<?= htmlspecialchars($userData['full_name'] ?? '') ?>" required/>
-                                </div>
-                                <div class="flex flex-col gap-1">
-                                    <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="phone">Số điện thoại *</label>
-                                    <input class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors w-full font-body-md" id="phone" name="phone" placeholder="Nhập số điện thoại" type="tel" value="<?= htmlspecialchars($defaultAddress['phone'] ?? '') ?>" required/>
-                                </div>
-                                <div class="flex flex-col gap-1 md:col-span-2">
-                                    <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="address">Địa chỉ cụ thể *</label>
-                                    <input class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors w-full font-body-md" id="address" name="address" placeholder="Số nhà, tên đường, phường/xã" type="text" value="<?= htmlspecialchars($defaultAddress['street_address'] ?? '') ?>" required/>
-                                </div>
-                                <div class="flex flex-col gap-1">
-                                    <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="province">Tỉnh/Thành phố *</label>
-                                    <select class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors w-full font-body-md appearance-none" id="province" name="province" required>
-                                        <option value="">Chọn Tỉnh/Thành</option>
-                                        <?php foreach ($shippingPrices as $sp): ?>
-                                            <option value="<?= htmlspecialchars($sp['province_city']) ?>" <?= $defaultProvince === $sp['province_city'] ? 'selected' : '' ?>>
-                                                <?= htmlspecialchars($sp['province_city']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="flex flex-col gap-1">
-                                    <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="district">Quận/Huyện</label>
-                                    <input class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors w-full font-body-md" id="district" name="district" placeholder="Quận/Huyện" type="text" value="<?= htmlspecialchars($defaultAddress['district'] ?? '') ?>"/>
-                                </div>
-                                <div class="flex flex-col gap-1 md:col-span-2">
-                                    <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="note">Ghi chú đơn hàng</label>
-                                    <textarea class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors w-full font-body-md" id="note" name="note" placeholder="Ví dụ: Giao giờ hành chính, gọi trước khi giao..." rows="2"></textarea>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- Shipping & Payment -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter lg:gap-8">
                             <!-- Vận chuyển -->
                             <section class="bg-surface-container-lowest p-6 rounded-xl border border-surface-container shadow-sm flex flex-col h-full">
                                 <h2 class="font-headline-md text-headline-md mb-6 flex items-center gap-2 border-b border-surface-variant pb-4">

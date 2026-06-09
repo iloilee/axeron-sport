@@ -360,7 +360,11 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
             <?php if (isLoggedIn()): ?>
                 <div class="relative group">
                     <button aria-label="Account" class="hover:text-axeron-red transition-colors duration-200 flex items-center gap-1">
-                        <span class="material-symbols-outlined text-2xl">account_circle</span>
+                        <?php if (!empty($_SESSION['avatar_url'])): ?>
+                            <img src="<?= BASE_URL . htmlspecialchars($_SESSION['avatar_url']) ?>" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-outline-variant">
+                        <?php else: ?>
+                            <span class="material-symbols-outlined text-2xl">account_circle</span>
+                        <?php endif; ?>
                         <span class="hidden xl:inline text-sm max-w-[100px] truncate"><?= htmlspecialchars($_SESSION['full_name'] ?? 'Tài khoản') ?></span>
                     </button>
                     <!-- Dropdown Menu -->
