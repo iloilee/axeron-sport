@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/config/session.php';
 $pageTitle = 'Về Axeron - Axeron Sport';
 require_once __DIR__ . '/includes/head.php';
@@ -144,35 +144,6 @@ require_once __DIR__ . '/includes/header.php';
             </div>
         </section>
     </main>
-
-<nav class="fixed right-4 bottom-24 z-50 flex flex-col space-y-3">
-        <a class="bg-inverse-surface rounded-full p-3 text-white hover:scale-110 transition-transform shadow-md flex items-center justify-center group relative"
-            href="#">
-            <span class="material-symbols-outlined" data-icon="chat">chat</span>
-            <span
-                class="absolute right-full mr-2 bg-inverse-surface text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Zalo</span>
-        </a>
-        <a class="bg-inverse-surface rounded-full p-3 text-white hover:scale-110 transition-transform shadow-md flex items-center justify-center group relative"
-            href="#">
-            <span class="material-symbols-outlined" data-icon="call">call</span>
-            <span
-                class="absolute right-full mr-2 bg-inverse-surface text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Hotline</span>
-        </a>
-        <a class="bg-inverse-surface rounded-full p-3 text-white hover:scale-110 transition-transform shadow-md flex items-center justify-center group relative"
-            href="#">
-            <span class="material-symbols-outlined" data-icon="forum">forum</span>
-            <span
-                class="absolute right-full mr-2 bg-inverse-surface text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Messenger</span>
-        </a>
-        <button
-            class="bg-inverse-surface rounded-full p-3 text-white hover:scale-110 transition-transform shadow-md flex items-center justify-center group relative"
-            onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-            <span class="material-symbols-outlined" data-icon="arrow_upward">arrow_upward</span>
-            <span
-                class="absolute right-full mr-2 bg-inverse-surface text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Lên
-                đầu trang</span>
-        </button>
-    </nav>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
 </body>

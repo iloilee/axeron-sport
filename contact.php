@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/config/session.php';
 $pageTitle = 'Liên hệ - Axeron Sport';
 require_once __DIR__ . '/includes/head.php';
@@ -154,34 +154,6 @@ require_once __DIR__ . '/includes/header.php';
             </div>
         </div>
     </main>
-
-<div class="fixed right-4 bottom-24 z-50 flex flex-col space-y-3">
-        <a class="bg-inverse-surface hover:scale-110 transition-transform rounded-full p-3 text-white flex items-center justify-center shadow-md group relative"
-            href="#">
-            <span class="material-symbols-outlined">chat</span>
-            <span
-                class="absolute right-full mr-3 bg-inverse-surface text-white font-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Zalo</span>
-        </a>
-        <a class="bg-axeron-blue scale-95 rounded-full p-3 text-white flex items-center justify-center shadow-md group relative"
-            href="#">
-            <span class="material-symbols-outlined">call</span>
-            <span
-                class="absolute right-full mr-3 bg-inverse-surface text-white font-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Hotline</span>
-        </a>
-        <a class="bg-inverse-surface hover:scale-110 transition-transform rounded-full p-3 text-white flex items-center justify-center shadow-md group relative"
-            href="#">
-            <span class="material-symbols-outlined">forum</span>
-            <span
-                class="absolute right-full mr-3 bg-inverse-surface text-white font-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Messenger</span>
-        </a>
-        <a class="bg-inverse-surface hover:scale-110 transition-transform rounded-full p-3 text-white flex items-center justify-center shadow-md mt-4 group relative"
-            href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
-            <span class="material-symbols-outlined">arrow_upward</span>
-            <span
-                class="absolute right-full mr-3 bg-inverse-surface text-white font-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Lên
-                đầu trang</span>
-        </a>
-    </div>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
 </body>

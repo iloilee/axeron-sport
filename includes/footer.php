@@ -33,24 +33,24 @@ $socialZalo = $footerData['social_zalo'] ?? '#';
 <!-- SideNavBar (Floating Support) -->
 <div class="fixed right-4 bottom-24 z-50 flex flex-col space-y-3">
     <!-- Chatbot Button -->
-    <button aria-label="Chatbot AI" class="bg-axeron-red rounded-full p-3 text-white hover:scale-110 transition-transform shadow-lg group relative animate-pulse" onclick="toggleChatbox()">
+    <button aria-label="Chatbot AI" class="w-12 h-12 flex items-center justify-center bg-axeron-red rounded-full text-white hover:scale-110 transition-transform shadow-lg group relative animate-pulse" onclick="toggleChatbox()">
         <span class="material-symbols-outlined text-2xl">smart_toy</span>
         <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-axeron-red text-white font-label-sm text-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Hỏi đáp AI</span>
     </button>
     
     <?php if (!empty($socialZalo) && $socialZalo !== '#'): ?>
-    <a aria-label="Zalo" class="bg-inverse-surface rounded-full p-3 text-white hover:scale-110 transition-transform shadow-md group relative" href="<?= htmlspecialchars($socialZalo) ?>" target="_blank">
+    <a aria-label="Zalo" class="w-12 h-12 flex items-center justify-center bg-inverse-surface rounded-full text-white hover:scale-110 transition-transform shadow-md group relative" href="<?= htmlspecialchars($socialZalo) ?>" target="_blank">
         <span class="material-symbols-outlined text-2xl">chat</span>
         <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-inverse-surface text-white font-label-sm text-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Zalo</span>
     </a>
     <?php endif; ?>
     <?php if (!empty($contactPhone)): ?>
-    <a aria-label="Hotline" class="bg-axeron-blue rounded-full p-3 text-white hover:scale-110 transition-transform shadow-md group relative" href="tel:<?= preg_replace('/[^0-9]/', '', $contactPhone) ?>">
+    <a aria-label="Hotline" class="w-12 h-12 flex items-center justify-center bg-axeron-blue rounded-full text-white hover:scale-110 transition-transform shadow-md group relative" href="tel:<?= preg_replace('/[^0-9]/', '', $contactPhone) ?>">
         <span class="material-symbols-outlined text-2xl">call</span>
         <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-axeron-blue text-white font-label-sm text-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"><?= htmlspecialchars($contactPhone) ?></span>
     </a>
     <?php endif; ?>
-    <button aria-label="Lên đầu trang" class="bg-inverse-surface rounded-full p-3 text-white hover:scale-110 transition-transform shadow-md group relative" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+    <button aria-label="Lên đầu trang" class="w-12 h-12 flex items-center justify-center bg-inverse-surface rounded-full text-white hover:scale-110 transition-transform shadow-md group relative" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
         <span class="material-symbols-outlined text-2xl">arrow_upward</span>
         <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-inverse-surface text-white font-label-sm text-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Lên đầu</span>
     </button>

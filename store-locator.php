@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/config/session.php';
 $pageTitle = 'Hệ thống cửa hàng - Axeron Sport';
 require_once __DIR__ . '/includes/head.php';
@@ -127,34 +127,6 @@ require_once __DIR__ . '/includes/header.php';
             </div>
         </div>
     </main>
-
-<div class="fixed right-4 bottom-24 z-50 flex flex-col space-y-3">
-        <button aria-label="Lên đầu trang"
-            class="bg-inverse-surface rounded-full p-3 text-white shadow-md hover:scale-110 transition-transform group relative">
-            <span class="material-symbols-outlined">arrow_upward</span>
-            <span
-                class="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-inverse-surface text-white px-3 py-1 rounded text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">Lên
-                đầu trang</span>
-        </button>
-        <button aria-label="Messenger"
-            class="bg-inverse-surface rounded-full p-3 text-white shadow-md hover:scale-110 transition-transform group relative">
-            <span class="material-symbols-outlined">forum</span>
-            <span
-                class="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-inverse-surface text-white px-3 py-1 rounded text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">Messenger</span>
-        </button>
-        <button aria-label="Hotline"
-            class="bg-inverse-surface rounded-full p-3 text-white shadow-md hover:scale-110 transition-transform group relative">
-            <span class="material-symbols-outlined">call</span>
-            <span
-                class="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-inverse-surface text-white px-3 py-1 rounded text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">Hotline</span>
-        </button>
-        <button aria-label="Zalo"
-            class="bg-axeron-blue rounded-full p-3 text-white shadow-md hover:scale-110 transition-transform group relative">
-            <span class="material-symbols-outlined">chat</span>
-            <span
-                class="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-axeron-blue text-white px-3 py-1 rounded text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">Zalo</span>
-        </button>
-    </div>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
 </body>
