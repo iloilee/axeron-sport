@@ -214,50 +214,62 @@ $categories = $db->select("
         </section>
 
         <!-- Info Sections -->
-        <section class="bg-white py-16 md:py-20">
-            <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                    <div>
-                        <span class="text-axeron-red uppercase tracking-[4px] text-label-sm font-bold">About Axeron</span>
-                        <h2 class="text-headline-lg md:text-display-lg font-headline-lg mt-3 mb-6 uppercase text-on-background">GIỚI THIỆU</h2>
-                        <p class="text-on-surface-variant leading-relaxed mb-5 text-body-lg">
+        <section class="relative py-20 md:py-24 bg-center bg-cover" style="background-image: url('https://images.unsplash.com/photo-1508344928928-7137b29de216?q=80&w=1920&auto=format&fit=crop');">
+            <!-- Lớp phủ trắng mờ để nổi bật nội dung chữ -->
+            <div class="absolute inset-0 bg-[#fcf9f8]/90 backdrop-blur-[2px]"></div>
+            
+            <div class="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+                    <!-- Giới thiệu -->
+                    <div class="text-left">
+                        <h2 class="text-2xl md:text-3xl font-bold mb-3 uppercase text-axeron-red">GIỚI THIỆU</h2>
+                        <div class="w-16 h-[3px] bg-axeron-red mb-6"></div>
+                        <p class="text-[#4a4a4a] leading-[1.8] mb-5 text-[15px] md:text-base">
                             Công ty Cổ phần Axeron tự hào là tập đoàn hàng đầu Việt Nam với hơn 32 năm kinh nghiệm trong lĩnh vực sản xuất, phân phối và xuất nhập khẩu trang phục thể thao.
                         </p>
-                        <p class="text-on-surface-variant leading-relaxed mb-5 text-body-lg">
+                        <p class="text-[#4a4a4a] leading-[1.8] mb-8 text-[15px] md:text-base">
                             Axeron hiện có chi nhánh tại Hà Nội, Vinh và TP.HCM với hệ thống phân phối hơn 800 đại lý trên toàn quốc.
                         </p>
-                        <a href="<?= BASE_URL ?>/about.php" class="bg-axeron-red hover:bg-red-700 text-white px-6 py-3 rounded-lg font-bold transition-colors inline-block">
-                            XEM THÊM
+                        <a href="<?= BASE_URL ?>/about.php" class="bg-[#222222] hover:bg-axeron-red text-white px-8 py-3 rounded-sm font-semibold transition-colors duration-300 inline-block shadow-sm">
+                            Xem thêm
                         </a>
                     </div>
+                    <!-- Các dự án -->
                     <div>
-                        <span class="text-axeron-blue uppercase tracking-[4px] text-label-sm font-bold">Projects</span>
-                        <h2 class="text-headline-lg md:text-display-lg font-headline-lg mt-3 mb-6 uppercase text-on-background">CÁC DỰ ÁN</h2>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="relative rounded-2xl overflow-hidden group cursor-pointer aspect-video">
-                                <img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"/>
-                                <div class="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors"></div>
-                                <div class="absolute bottom-4 left-4 z-10"><h3 class="text-lg font-bold text-white">SÂN VẬN ĐỘNG</h3></div>
-                            </div>
-                            <div class="relative rounded-2xl overflow-hidden group cursor-pointer aspect-video">
-                                <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"/>
-                                <div class="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors"></div>
-                                <div class="absolute bottom-4 left-4 z-10"><h3 class="text-lg font-bold text-white">NHÀ THI ĐẤU</h3></div>
-                            </div>
-                            <div class="relative rounded-2xl overflow-hidden group cursor-pointer aspect-video">
-                                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"/>
-                                <div class="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors"></div>
-                                <div class="absolute bottom-4 left-4 z-10"><h3 class="text-lg font-bold text-white">ĐỒNG PHỤC HỌC SINH</h3></div>
-                            </div>
-                            <div class="relative rounded-2xl overflow-hidden group cursor-pointer aspect-video">
-                                <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"/>
-                                <div class="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors"></div>
-                                <div class="absolute bottom-4 left-4 z-10"><h3 class="text-lg font-bold text-white">THIẾT BỊ PHÒNG TẬP</h3></div>
-                            </div>
+                        <h2 class="text-2xl md:text-3xl font-bold mb-3 uppercase text-axeron-red">CÁC DỰ ÁN</h2>
+                        <div class="w-16 h-[3px] bg-axeron-red mb-6"></div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+                            <a href="<?= BASE_URL ?>/about.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
+                                <img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
+                                <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
+                                <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
+                                    <h3 class="text-[18px] md:text-xl font-extrabold text-white text-center uppercase tracking-wider drop-shadow-md">SÂN VẬN ĐỘNG</h3>
+                                </div>
+                            </a>
+                            <a href="<?= BASE_URL ?>/about.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
+                                <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
+                                <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
+                                <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
+                                    <h3 class="text-[18px] md:text-xl font-extrabold text-white text-center uppercase tracking-wider drop-shadow-md">NHÀ THI ĐẤU</h3>
+                                </div>
+                            </a>
+                            <a href="<?= BASE_URL ?>/about.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
+                                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
+                                <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
+                                <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
+                                    <h3 class="text-[18px] md:text-xl font-extrabold text-white text-center uppercase tracking-wider drop-shadow-md">ĐỒNG PHỤC HỌC SINH</h3>
+                                </div>
+                            </a>
+                            <a href="<?= BASE_URL ?>/about.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
+                                <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
+                                <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
+                                <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
+                                    <h3 class="text-[18px] md:text-xl font-extrabold text-white text-center uppercase tracking-wider drop-shadow-md">THIẾT BỊ PHÒNG TẬP</h3>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
-            </div>
         </section>
     </main>
 
