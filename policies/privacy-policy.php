@@ -1,8 +1,15 @@
-<?php
-/**
- * Privacy Policy page redirect
- */
+﻿<?php
 require_once __DIR__ . '/../config/session.php';
+require_once __DIR__ . '/../includes/header.php';
+?>
 
-header('Location: ' . BASE_URL . '/policies/privacy-policy.html');
-exit;
+<main class="w-full bg-surface py-12">
+    <div class="max-w-container mx-auto px-margin-desktop">
+        <h1 class="text-3xl font-bold mb-6">Chính sách bảo mật</h1>
+        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 prose max-w-none">
+            <p>Nội dung trang <strong>Chính sách bảo mật</strong> đang được cập nhật. Vui lòng quay lại sau!</p>
+        </div>
+    </div>
+</main>
+
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>

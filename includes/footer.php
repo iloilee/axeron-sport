@@ -138,9 +138,9 @@ $socialZalo = $footerData['social_zalo'] ?? '#';
             <div class="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/10">
                 <span class="material-symbols-outlined text-axeron-red text-3xl">call</span>
                 <div>
-                    <p class="font-headline-md text-headline-md text-white font-bold leading-none">
+                    <a href="tel:<?= htmlspecialchars(preg_replace('/[^0-9+]/', '', $contactPhone)) ?>" class="hover:text-axeron-red transition-colors block font-headline-md text-headline-md text-white font-bold leading-none">
                         <?= htmlspecialchars($contactPhone) ?>
-                    </p>
+                    </a>
                     <?php if (!empty($footerData['contact_phone_2'])): ?>
                     <p class="font-body-md text-xs text-surface-variant mt-1">
                         Hỗ trợ: <?= htmlspecialchars($footerData['contact_phone_2']) ?>
@@ -163,8 +163,10 @@ $socialZalo = $footerData['social_zalo'] ?? '#';
             <?php endif; ?>
             <?php if (!empty($contactAddress)): ?>
             <p class="font-body-md text-sm text-surface-variant">
-                <span class="material-symbols-outlined text-lg align-middle mr-1">location_on</span>
-                <?= nl2br(htmlspecialchars($contactAddress)) ?>
+                <a href="https://maps.google.com/?q=<?= urlencode(strip_tags($contactAddress)) ?>" target="_blank" class="hover:text-white transition-colors flex items-start gap-1">
+                    <span class="material-symbols-outlined text-lg align-middle">location_on</span>
+                    <span><?= nl2br(htmlspecialchars($contactAddress)) ?></span>
+                </a>
             </p>
             <?php endif; ?>
         </div>

@@ -75,7 +75,7 @@ if ($action === 'login') {
     // Nếu là admin hoặc staff thì chuyển đến trang admin
     if (in_array($user['role_id'], [1, 2, 4, 5, 6, 7, 8])) {
         setFlash('success', 'Chào mừng ' . $user['full_name'] . '!');
-        axRedirect(BASE_URL . '/admin.php');
+        axRedirect(BASE_URL . /admin/admin.php);
     }
 
     // Merge cart

@@ -3,8 +3,8 @@
  * Admin Dashboard - Axeron Sports Shop
  * Trang quản trị chính
  */
-require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/config/session.php';
+require_once __DIR__ . /../config/database.php';
+require_once __DIR__ . /../config/session.php';
 
 // Kiểm tra đăng nhập và quyền admin
 if (!isLoggedIn()) {
