@@ -124,8 +124,8 @@ $socialZalo = $footerData['social_zalo'] ?? '#';
             <a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1" href="<?= BASE_URL ?>/policies/privacy-policy.php">
                 Chính sách bảo mật
             </a>
-            <a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1" href="<?= BASE_URL ?>/policies/purchase-policy.php">
-                Điều khoản dịch vụ
+            <a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1" href="<?= BASE_URL ?>/policies/size-guide.php">
+                Hướng dẫn chọn size
             </a>
         </div>
 

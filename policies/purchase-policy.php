@@ -1,5 +1,7 @@
 ﻿<?php
 require_once __DIR__ . '/../config/session.php';
+$pageTitle = 'Chính sách - Axeron Sport';
+require_once __DIR__ . '/../includes/head.php';
 require_once __DIR__ . '/../includes/header.php';
 ?>
 

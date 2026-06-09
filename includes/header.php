@@ -341,7 +341,7 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
             <!-- Search -->
             <div class="relative hidden lg:block">
                 <input
-                    class="bg-surface-container rounded-full py-2 pl-4 pr-10 border border-outline-variant focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue outline-none text-body-md font-body-md w-56 transition-all"
+                    class="bg-surface-container rounded-full py-2 pl-4 pr-10 border border-outline-variant focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue outline-none text-body-md font-body-md w-80 transition-all"
                     placeholder="Tìm kiếm..."
                     type="text"
                     id="search-input"

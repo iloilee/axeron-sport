@@ -125,11 +125,11 @@ $categories = $db->select("
             <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
                 <a class="relative h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=ao-polo">
                     <img alt="Axeron Polo Shirt Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        src="https://lh3.googleusercontent.com/aida/ADBb0ujuRrW5g32r9sw8f5z2wAVDWrCiPpNsJt5pvZivUVOvnVnS-9zBhh9CHA_1JNdJ7j8wmH8hGFPQdgdZ4yKBr6xRW3x7RbZuevOmNa7peEz1Jd7RiMX44nC0oRWYSplrreUKzzI4X2NKzrUH3emUg_qU3eiVLxXYvgDOW_g-kRtXfN4951IB2cqWrEYCmvtSnjHIspHgsRONHfgziMUY39rYQOd7GgTX_wInD-8LK0fNnovBRMyYcIlrIEo4"/>
+                        src="https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=800&q=80"/>
                 </a>
                 <a class="relative h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=giay-pickleball">
                     <img alt="Axeron Pickleball Shoes Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        src="https://lh3.googleusercontent.com/aida/ADBb0ui6G5OTndCGIG-FMQxRAvW-YT4W_YJhsNr8QoYtC5rKSuRBdndhDqM9KAgbCXA6h32GMwVqBBfhhlqE1HWNkktZG585n1YDv45hkgFzqwt7dpDlAqMRw-UI5grIIUEY6OtPEToaMWeaIygVEKOCrPEwCR5womaFhyND6eSgCU9EtfoOMPwq4tKo_amzf7IUwXQwF30pI0mfwbI1Amp7PyNImqV5lGYDzfWAxh3FF5grwWaZwD84OMhh0kSM"/>
+                        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80"/>
                 </a>
             </div>
         </section>
