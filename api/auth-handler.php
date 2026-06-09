@@ -21,7 +21,7 @@ if ($action === 'login') {
 
     // Tìm user
     $user = $db->selectOne("
-        SELECT u.user_id, u.full_name, u.email, u.password_hash, u.role_id, r.role_name
+        SELECT u.user_id, u.full_name, u.email, u.password_hash, u.role_id, r.role_name, u.avatar_url, u.login_attempts, u.locked_until
         FROM users u
         JOIN roles r ON u.role_id = r.role_id
         WHERE u.email = ? AND u.is_active = 1
@@ -29,7 +29,7 @@ if ($action === 'login') {
 
     if (!$user) {
         $user = $db->selectOne("
-            SELECT u.user_id, u.full_name, u.email, u.password_hash, u.role_id, r.role_name
+            SELECT u.user_id, u.full_name, u.email, u.password_hash, u.role_id, r.role_name, u.avatar_url, u.login_attempts, u.locked_until
             FROM users u
             JOIN roles r ON u.role_id = r.role_id
             WHERE u.phone = ? AND u.is_active = 1
