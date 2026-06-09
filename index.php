@@ -239,28 +239,28 @@ $categories = $db->select("
                         <h2 class="text-2xl md:text-3xl font-bold mb-3 uppercase text-axeron-red">CÁC DỰ ÁN</h2>
                         <div class="w-16 h-[3px] bg-axeron-red mb-6"></div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-                            <a href="<?= BASE_URL ?>/about.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
+                            <a href="<?= BASE_URL ?>/blog/stadiums.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
                                 <img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
                                 <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
                                 <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
                                     <h3 class="text-[18px] md:text-xl font-extrabold text-white text-center uppercase tracking-wider drop-shadow-md">SÂN VẬN ĐỘNG</h3>
                                 </div>
                             </a>
-                            <a href="<?= BASE_URL ?>/about.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
+                            <a href="<?= BASE_URL ?>/blog/arenas.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
                                 <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
                                 <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
                                 <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
                                     <h3 class="text-[18px] md:text-xl font-extrabold text-white text-center uppercase tracking-wider drop-shadow-md">NHÀ THI ĐẤU</h3>
                                 </div>
                             </a>
-                            <a href="<?= BASE_URL ?>/about.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
+                            <a href="<?= BASE_URL ?>/blog/school-uniforms.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
                                 <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
                                 <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
                                 <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
                                     <h3 class="text-[18px] md:text-xl font-extrabold text-white text-center uppercase tracking-wider drop-shadow-md">ĐỒNG PHỤC HỌC SINH</h3>
                                 </div>
                             </a>
-                            <a href="<?= BASE_URL ?>/about.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
+                            <a href="<?= BASE_URL ?>/blog/gym-equipment.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
                                 <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
                                 <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
                                 <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
