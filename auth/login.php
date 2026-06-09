@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Login - ÄÄƒng nháº­p
  */
@@ -18,7 +18,7 @@ $flash = getFlash();
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>ÄÄƒng Nháº­p - Axeron</title>
+    <title>Đăng Nhập - Axeron</title>
     <link rel="icon" type="image/jpeg" href="<?= defined('BASE_URL') ? BASE_URL : '' ?>/assets/images/logo-axeron.jpg" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
@@ -75,9 +75,9 @@ $flash = getFlash();
         <div class="hidden md:flex md:w-1/2 relative bg-surface-gray items-center justify-center overflow-hidden">
             <div class="absolute inset-0 bg-black/40"></div>
             <div class="relative z-10 p-12 text-center text-white">
-                <h1 class="font-display-lg text-display-lg text-white mb-4 uppercase drop-shadow-md">VÆ°á»£t Má»i<br/>Giá»›i Háº¡n</h1>
+                <h1 class="font-display-lg text-display-lg text-white mb-4 uppercase drop-shadow-md">Vượt Mọi<br/>Giới Hạn</h1>
                 <p class="font-body-lg text-body-lg text-surface-container-highest max-w-md mx-auto">
-                    Tham gia cá»™ng Ä‘á»“ng Axeron Ä‘á»ƒ khÃ¡m phÃ¡ nhá»¯ng bá»™ sÆ°u táº­p thá»ƒ thao Ä‘á»‰nh cao vÃ  Æ°u Ä‘Ã£i Ä‘á»™c quyá»n.
+                    Tham gia cộng đồng Axeron để khám phá những bộ sưu tập thể thao đỉnh cao và ưu đãi độc quyền.
                 </p>
             </div>
         </div>
@@ -93,8 +93,8 @@ $flash = getFlash();
                 <?php endif; ?>
 
                 <div class="mb-8 text-center md:text-left">
-                    <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">ÄÄƒng Nháº­p</h2>
-                    <p class="font-body-md text-body-md text-on-surface-variant">ChÃ o má»«ng báº¡n trá»Ÿ láº¡i! Vui lÃ²ng nháº­p thÃ´ng tin.</p>
+                    <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Đăng Nhập</h2>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Chào mừng bạn trở lại! Vui lòng nhập thông tin.</p>
                 </div>
 
                 <form method="POST" action="<?= BASE_URL ?>/api/auth-handler.php" class="space-y-6">
@@ -103,23 +103,23 @@ $flash = getFlash();
 
                     <!-- Email / Phone Input -->
                     <div>
-                        <label class="block font-label-lg text-label-lg text-on-surface mb-2" for="email">Email hoáº·c Sá»‘ Ä‘iá»‡n thoáº¡i</label>
+                        <label class="block font-label-lg text-label-lg text-on-surface mb-2" for="email">Email hoặc Số điện thoại</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <span class="material-symbols-outlined text-outline">person</span>
                             </div>
-                            <input class="w-full pl-10 pr-4 py-3 border border-outline-variant rounded bg-surface-container-lowest text-on-surface focus:outline-none focus:ring-2 focus:ring-axeron-blue focus:border-transparent transition-shadow" id="email" name="email" placeholder="Nháº­p email hoáº·c sá»‘ Ä‘iá»‡n thoáº¡i" required type="text" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"/>
+                            <input class="w-full pl-10 pr-4 py-3 border border-outline-variant rounded bg-surface-container-lowest text-on-surface focus:outline-none focus:ring-2 focus:ring-axeron-blue focus:border-transparent transition-shadow" id="email" name="email" placeholder="Nhập email hoặc số điện thoại" required type="text" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"/>
                         </div>
                     </div>
 
                     <!-- Password Input -->
                     <div>
-                        <label class="block font-label-lg text-label-lg text-on-surface mb-2" for="password">Máº­t kháº©u</label>
+                        <label class="block font-label-lg text-label-lg text-on-surface mb-2" for="password">Mật khẩu</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <span class="material-symbols-outlined text-outline">lock</span>
                             </div>
-                            <input class="w-full pl-10 pr-10 py-3 border border-outline-variant rounded bg-surface-container-lowest text-on-surface focus:outline-none focus:ring-2 focus:ring-axeron-blue focus:border-transparent transition-shadow" id="password" name="password" placeholder="Nháº­p máº­t kháº©u" required type="password"/>
+                            <input class="w-full pl-10 pr-10 py-3 border border-outline-variant rounded bg-surface-container-lowest text-on-surface focus:outline-none focus:ring-2 focus:ring-axeron-blue focus:border-transparent transition-shadow" id="password" name="password" placeholder="Nhập mật khẩu" required type="password"/>
                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-outline hover:text-on-surface transition-colors" onclick="togglePasswordVisibility()">
                                 <span class="material-symbols-outlined" id="visibility-icon">visibility_off</span>
                             </div>
@@ -131,18 +131,18 @@ $flash = getFlash();
                         <div class="flex items-center">
                             <input class="h-4 w-4 text-axeron-red focus:ring-axeron-blue border-outline rounded cursor-pointer" id="remember-me" name="remember_me" type="checkbox" value="1"/>
                             <label class="ml-2 block font-body-md text-body-md text-on-surface cursor-pointer" for="remember-me">
-                                Ghi nhá»› Ä‘Äƒng nháº­p
+                                Ghi nhớ đăng nhập
                             </label>
                         </div>
                         <div class="text-sm">
-                            <a class="font-label-lg text-label-lg text-axeron-blue hover:text-secondary transition-colors" href="<?= BASE_URL ?>/auth/forgot-password.php">QuÃªn máº­t kháº©u?</a>
+                            <a class="font-label-lg text-label-lg text-axeron-blue hover:text-secondary transition-colors" href="<?= BASE_URL ?>/auth/forgot-password.php">Quên mật khẩu?</a>
                         </div>
                     </div>
 
                     <!-- Submit Button -->
                     <div>
                         <button class="w-full flex justify-center py-3 px-4 border border-transparent rounded shadow-sm font-label-lg text-label-lg uppercase text-white bg-axeron-red hover:bg-primary-container focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-axeron-red transition-colors duration-200" type="submit">
-                            ÄÄƒng nháº­p
+                            Đăng nhập
                         </button>
                     </div>
                 </form>
@@ -153,7 +153,7 @@ $flash = getFlash();
                         <div class="w-full border-t border-outline-variant"></div>
                     </div>
                     <div class="relative flex justify-center">
-                        <span class="px-2 bg-surface font-body-md text-body-md text-on-surface-variant">Hoáº·c tiáº¿p tá»¥c vá»›i</span>
+                        <span class="px-2 bg-surface font-body-md text-body-md text-on-surface-variant">Hoặc tiếp tục với</span>
                     </div>
                 </div>
 
@@ -178,8 +178,8 @@ $flash = getFlash();
 
                 <!-- Sign up prompt -->
                 <p class="mt-8 text-center font-body-md text-body-md text-on-surface-variant">
-                    ChÆ°a cÃ³ tÃ i khoáº£n?
-                    <a class="font-label-lg text-label-lg text-axeron-red hover:text-primary transition-colors" href="<?= BASE_URL ?>/auth/register.php">ÄÄƒng kÃ½ ngay</a>
+                    Chưa có tài khoản?
+                    <a class="font-label-lg text-label-lg text-axeron-red hover:text-primary transition-colors" href="<?= BASE_URL ?>/auth/register.php">Đăng ký ngay</a>
                 </p>
             </div>
         </div>
@@ -198,13 +198,13 @@ $flash = getFlash();
             }
         }
 
-        // === Ghi nhá»› Ä‘Äƒng nháº­p (localStorage) ===
+        // === Ghi nhớ đăng nhập (localStorage) ===
         const STORAGE_KEY = 'axeron_saved_credentials';
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
         const rememberCheckbox = document.getElementById('remember-me');
 
-        // KhÃ´i phá»¥c thÃ´ng tin Ä‘Ã£ lÆ°u khi load trang
+        // Khôi phục thông tin đã lưu khi load trang
         (function restoreSavedCredentials() {
             const saved = localStorage.getItem(STORAGE_KEY);
             if (!saved) return;
@@ -218,7 +218,7 @@ $flash = getFlash();
             }
         })();
 
-        // LÆ°u hoáº·c xoÃ¡ thÃ´ng tin khi submit form
+        // Lưu hoặc xoá thông tin khi submit form
         document.querySelector('form').addEventListener('submit', function() {
             if (rememberCheckbox.checked) {
                 const data = btoa(JSON.stringify({
@@ -231,7 +231,7 @@ $flash = getFlash();
             }
         });
 
-        // XoÃ¡ thÃ´ng tin lÆ°u khi bá» tick checkbox
+        // Xoá thông tin lưu khi bỏ tick checkbox
         rememberCheckbox.addEventListener('change', function() {
             if (!this.checked) {
                 localStorage.removeItem(STORAGE_KEY);
