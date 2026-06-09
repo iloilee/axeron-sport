@@ -52,7 +52,7 @@ $banners = $db->select("
     AND (start_date IS NULL OR start_date <= NOW())
     AND (end_date IS NULL OR end_date >= NOW())
     ORDER BY position ASC
-    LIMIT 5
+    LIMIT 6
 ");
 
 // Load articles/news dynamically
@@ -94,8 +94,9 @@ $categories = $db->select("
             </div>
             <?php else: ?>
             <?php foreach ($banners as $index => $banner): ?>
+            <?php $link = strpos($banner['link_url'] ?? '', 'http') === 0 ? $banner['link_url'] : BASE_URL . '/' . ltrim($banner['link_url'] ?? '', '/'); ?>
             <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out <?= $index === 0 ? 'opacity-100' : 'opacity-0' ?>"
-                 id="slide-<?= $index + 1 ?>" <?php if ($banner['link_url']): ?>onclick="window.location.href='<?= htmlspecialchars($banner['link_url']) ?>'" style="cursor: pointer;"<?php endif; ?>>
+                 id="slide-<?= $index + 1 ?>" <?php if ($banner['link_url']): ?>onclick="window.location.href='<?= htmlspecialchars($link) ?>'" style="cursor: pointer;"<?php endif; ?>>
                 <img alt="<?= htmlspecialchars($banner['title']) ?>" class="w-full h-full object-cover"
                     src="<?= htmlspecialchars(getImageUrl($banner['image_url'])) ?>"/>
                 <?php if ($banner['title'] || $banner['subtitle']): ?>
@@ -109,8 +110,8 @@ $categories = $db->select("
                         <p class="text-white text-xl md:text-2xl mb-6"><?= htmlspecialchars($banner['subtitle']) ?></p>
                         <?php endif; ?>
                         <?php if ($banner['button_text'] && $banner['link_url']): ?>
-                        <a href="<?= htmlspecialchars($banner['link_url']) ?>"
-                           class="inline-block bg-white text-axeron-red px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors">
+                        <a href="<?= htmlspecialchars($link) ?>"
+                           class="inline-block bg-white text-axeron-red px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors relative z-20">
                             <?= htmlspecialchars($banner['button_text']) ?>
                         </a>
                         <?php endif; ?>
