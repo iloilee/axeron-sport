@@ -166,9 +166,9 @@ $categories = $db->select("
                 <?php foreach ($featuredProducts as $product): ?>
                 <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
                     class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col relative">
-                    <div class="aspect-square bg-surface-container-low p-4 relative overflow-hidden flex items-center justify-center">
+                    <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
                         <img alt="<?= htmlspecialchars($product['product_name']) ?>"
-                            class="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
                     </div>
                     <div class="p-4 flex flex-col flex-grow">
@@ -211,9 +211,9 @@ $categories = $db->select("
                 <?php foreach ($shoesProducts as $product): ?>
                 <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
                     class="shoe-item <?= htmlspecialchars($product['category_slug']) ?> hidden group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex-col relative">
-                    <div class="aspect-square bg-surface-container-low p-4 relative overflow-hidden flex items-center justify-center">
+                    <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
                         <img alt="<?= htmlspecialchars($product['product_name']) ?>"
-                            class="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
                     </div>
                     <div class="p-4 flex flex-col flex-grow">

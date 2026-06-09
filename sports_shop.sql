@@ -3,10 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 05, 2026 lúc 10:46 PM
--- Thời gian đã tạo: Th6 09, 2026 lúc 05:25 AM
+-- Thời gian đã tạo: Th6 09, 2026 lúc 07:55 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.1.25
+-- Phiên bản PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -55,10 +54,14 @@ CREATE TABLE `articles` (
 -- Đang đổ dữ liệu cho bảng `articles`
 --
 
-REPLACE INTO `articles` (`article_id`, `title`, `slug`, `excerpt`, `content`, `featured_image`, `category`, `tags`, `author_id`, `author_name`, `is_featured`, `is_published`, `published_at`, `view_count`, `meta_title`, `meta_description`, `meta_keywords`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024', 'top-10-giay-chay-bo-2024', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024 với công nghệ tiên tiến nhất.', '<h2>Giới thiệu</h2><p>Năm 2024 hứa hẹn là năm của những đôi giày chạy bộ công nghệ cao với nhiều cải tiến vượt bậc. Dưới đây là top 10 sản phẩm đáng mua nhất.</p><h2>1. Nike Alphafly 3</h2><p>Đôi giày định hình lại ngành giày chạy bộ với công nghệ ZoomX foam và Air Zoom pods.</p><h2>2. Adidas Ultraboost Light</h2><p>Phiên bản nhẹ hơn, êm hơn với Boost foam thế hệ mới.</p>', 'https://placehold.co/800x400/1d3557/ffffff?text=Top+Running+Shoes', 'blog', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 0, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024 | Axeron Sport', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024.', NULL, 0, '2026-06-05 12:54:12', '2026-06-05 12:54:12'),
-(2, 'Hướng Dẫn Chọn Size Giày Thể Thao', 'huong-dan-chon-size-giay', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ, mẹo đo chân tại nhà để chọn được đôi giày vừa vặn.', '<h2>Tại sao chọn đúng size quan trọng?</h2><p>Giày vừa vặn giúp bạn thoải mái khi vận động, tránh chấn thương và tối ưu hiệu suất tập luyện.</p><h2>Cách đo chân</h2><p>1. Đứng lên tờ giấy và vẽ viền chân<br>2. Đo khoảng cách từ gót đến ngón dài nhất<br>3. Cộng thêm 0.5-1cm để có không gian thoải mái</p>', 'https://placehold.co/800x400/457b9d/ffffff?text=Size+Guide', 'guide', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 0, 'Hướng Dẫn Chọn Size Giày Thể Thao | Axeron Sport', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ.', NULL, 0, '2026-06-05 12:54:12', '2026-06-05 12:54:12'),
-(3, 'Axeron Khai Trương Cửa Hàng Mới', 'axeron-khai-truong-cua-hang-moi', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi hấp dẫn dành cho khách hàng.', '<h2>Grand Opening Event</h2><p>Axeron Sport hân hạnh thông báo khai trương cửa hàng mới tại 456 Nguyễn Thị Thập, Quận 7, TP.HCM.</p><h2>Ưu đãi khai trương</h2><ul><li>Giảm 20% toàn bộ sản phẩm</li><li>Miễn phí vận chuyển cho đơn từ 500K</li><li>Tặng voucher 200K cho 100 khách hàng đầu tiên</li></ul>', 'https://placehold.co/800x400/e63946/ffffff?text=Grand+Opening', 'announcement', NULL, NULL, 'Axeron Team', 0, 1, '2026-06-05 12:54:12', 0, 'Axeron Khai Trương Cửa Hàng Mới | Axeron Sport', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi.', NULL, 0, '2026-06-05 12:54:12', '2026-06-05 12:54:12');
+INSERT INTO `articles` (`article_id`, `title`, `slug`, `excerpt`, `content`, `featured_image`, `category`, `tags`, `author_id`, `author_name`, `is_featured`, `is_published`, `published_at`, `view_count`, `meta_title`, `meta_description`, `meta_keywords`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024', 'top-10-giay-chay-bo-2024', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024 với công nghệ tiên tiến nhất.', '<h2>Giới thiệu</h2><p>Năm 2024 hứa hẹn là năm của những đôi giày chạy bộ công nghệ cao với nhiều cải tiến vượt bậc. Dưới đây là top 10 sản phẩm đáng mua nhất.</p><h2>1. Nike Alphafly 3</h2><p>Đôi giày định hình lại ngành giày chạy bộ với công nghệ ZoomX foam và Air Zoom pods.</p><h2>2. Adidas Ultraboost Light</h2><p>Phiên bản nhẹ hơn, êm hơn với Boost foam thế hệ mới.</p>', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', 'blog', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 2, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024 | Axeron Sport', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024.', NULL, 0, '2026-06-05 12:54:12', '2026-06-10 00:30:45'),
+(2, 'Hướng Dẫn Chọn Size Giày Thể Thao', 'huong-dan-chon-size-giay', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ, mẹo đo chân tại nhà để chọn được đôi giày vừa vặn.', '<h2>Tại sao chọn đúng size quan trọng?</h2><p>Giày vừa vặn giúp bạn thoải mái khi vận động, tránh chấn thương và tối ưu hiệu suất tập luyện.</p><h2>Cách đo chân</h2><p>1. Đứng lên tờ giấy và vẽ viền chân<br>2. Đo khoảng cách từ gót đến ngón dài nhất<br>3. Cộng thêm 0.5-1cm để có không gian thoải mái</p>', 'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=800&auto=format&fit=crop', 'guide', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 3, 'Hướng Dẫn Chọn Size Giày Thể Thao | Axeron Sport', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ.', NULL, 0, '2026-06-05 12:54:12', '2026-06-10 00:30:45'),
+(3, 'Axeron Khai Trương Cửa Hàng Mới', 'axeron-khai-truong-cua-hang-moi', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi hấp dẫn dành cho khách hàng.', '<h2>Grand Opening Event</h2><p>Axeron Sport hân hạnh thông báo khai trương cửa hàng mới tại 456 Nguyễn Thị Thập, Quận 7, TP.HCM.</p><h2>Ưu đãi khai trương</h2><ul><li>Giảm 20% toàn bộ sản phẩm</li><li>Miễn phí vận chuyển cho đơn từ 500K</li><li>Tặng voucher 200K cho 100 khách hàng đầu tiên</li></ul>', 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=800&auto=format&fit=crop', 'announcement', NULL, NULL, 'Axeron Team', 0, 1, '2026-06-05 12:54:12', 0, 'Axeron Khai Trương Cửa Hàng Mới | Axeron Sport', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi.', NULL, 0, '2026-06-05 12:54:12', '2026-06-10 00:30:45'),
+(4, 'Sân vận động', 'stadiums', 'Khám phá các dự án sân vận động tiêu chuẩn quốc tế mà Axeron đã tham gia thi công và cung cấp trang thiết bị.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 0, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-10 00:25:12'),
+(5, 'Nhà thi đấu', 'arenas', 'Các dự án nhà thi đấu đa năng được trang bị hệ thống ánh sáng, âm thanh và sàn gỗ thể thao cao cấp từ Axeron.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 0, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-10 00:25:12'),
+(6, 'Đồng phục học sinh - sinh viên', 'school-uniforms', 'Thiết kế và sản xuất đồng phục thể dục, đồng phục lớp cho các trường đại học và phổ thông trên toàn quốc.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 0, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-10 00:25:12'),
+(7, 'Thiết bị phòng tập', 'gym-equipment', 'Cung cấp và lắp đặt thiết bị gym chuyên nghiệp cho các trung tâm thể hình với công nghệ hiện đại nhất.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 0, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-10 00:25:12');
 
 -- --------------------------------------------------------
 
@@ -90,10 +93,13 @@ CREATE TABLE `banners` (
 -- Đang đổ dữ liệu cho bảng `banners`
 --
 
-REPLACE INTO `banners` (`banner_id`, `title`, `subtitle`, `image_url`, `image_url_mobile`, `link_url`, `link_type`, `target_id`, `button_text`, `position`, `is_active`, `start_date`, `end_date`, `click_count`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 'Siêu Sale Mùa Hè', 'Giảm đến 50% cho các sản phẩm thể thao', 'https://placehold.co/1920x800/e63946/ffffff?text=Summer+SALE+50%25', NULL, NULL, 'url', NULL, 'Mua Ngay', 1, 1, NULL, NULL, 0, NULL, '2026-06-05 12:54:12', '2026-06-05 12:54:12'),
-(2, 'Colección Adidas Mới', 'Công nghệ Boost đỉnh cao - Thiết kế hiện đại', 'https://placehold.co/1920x800/1d3557/ffffff?text=Adidas+Collection', NULL, NULL, 'category', NULL, 'Khám Phá Ngay', 2, 1, NULL, NULL, 0, NULL, '2026-06-05 12:54:12', '2026-06-05 12:54:12'),
-(3, 'Giày Chạy Bộ Pro', 'Hỗ trợ tối đa - Cực kỳ nhẹ', 'https://placehold.co/1920x800/457b9d/ffffff?text=Running+Pro', NULL, NULL, 'url', NULL, 'Xem Chi Tiết', 3, 1, NULL, NULL, 0, NULL, '2026-06-05 12:54:12', '2026-06-05 12:54:12');
+INSERT INTO `banners` (`banner_id`, `title`, `subtitle`, `image_url`, `image_url_mobile`, `link_url`, `link_type`, `target_id`, `button_text`, `position`, `is_active`, `start_date`, `end_date`, `click_count`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, 'Siêu Sale Mùa Hè', 'Giảm đến 50% cho các sản phẩm thể thao', 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=1920&auto=format&fit=crop', 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=1920&auto=format&fit=crop', NULL, 'url', NULL, 'Mua Ngay', 1, 1, NULL, NULL, 0, NULL, '2026-06-05 12:54:12', '2026-06-10 00:33:58'),
+(2, 'Colección Adidas Mới', 'Công nghệ Boost đỉnh cao - Thiết kế hiện đại', 'https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1920&auto=format&fit=crop', 'https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1920&auto=format&fit=crop', NULL, 'category', NULL, 'Khám Phá Ngay', 2, 1, NULL, NULL, 0, NULL, '2026-06-05 12:54:12', '2026-06-10 00:33:58'),
+(3, 'Giày Chạy Bộ Pro', 'Hỗ trợ tối đa - Cực kỳ nhẹ', 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?q=80&w=1920&auto=format&fit=crop', 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?q=80&w=1920&auto=format&fit=crop', NULL, 'url', NULL, 'Xem Chi Tiết', 3, 1, NULL, NULL, 0, NULL, '2026-06-05 12:54:12', '2026-06-10 00:33:58'),
+(4, 'Bùng Nổ Đam Mê Bóng Đá', 'Trang bị trọn bộ thiết bị và giày bóng đá chuyên nghiệp', 'https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=1920&auto=format&fit=crop', 'https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=1920&auto=format&fit=crop', '/shop/product-catalog.php?category=bong-da', '', NULL, 'Mua ngay', 4, 1, NULL, NULL, 0, NULL, '2026-06-10 00:33:58', '2026-06-10 00:33:58'),
+(5, 'Cầu Lông Đỉnh Cao', 'Khám phá bộ sưu tập vợt và giày cầu lông mới nhất', 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?q=80&w=1920&auto=format&fit=crop', 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?q=80&w=1920&auto=format&fit=crop', '/shop/product-catalog.php?category=cau-long', '', NULL, 'Khám phá', 5, 1, NULL, NULL, 0, NULL, '2026-06-10 00:33:58', '2026-06-10 00:36:28'),
+(6, 'Gym & Fitness', 'Nâng tầm sức mạnh với thiết bị tập gym đẳng cấp', 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1920&auto=format&fit=crop', 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1920&auto=format&fit=crop', '/shop/product-catalog.php?category=gym-fitness', '', NULL, 'Xem chi tiết', 6, 1, NULL, NULL, 0, NULL, '2026-06-10 00:33:58', '2026-06-10 00:33:58');
 
 -- --------------------------------------------------------
 
@@ -113,7 +119,7 @@ CREATE TABLE `brands` (
 -- Đang đổ dữ liệu cho bảng `brands`
 --
 
-REPLACE INTO `brands` (`brand_id`, `brand_name`, `logo_url`, `description`, `is_active`) VALUES
+INSERT INTO `brands` (`brand_id`, `brand_name`, `logo_url`, `description`, `is_active`) VALUES
 (1, 'Động Lực', '', '', 1),
 (2, 'Nike', NULL, NULL, 1),
 (3, 'Adidas', NULL, NULL, 1),
@@ -123,7 +129,8 @@ REPLACE INTO `brands` (`brand_id`, `brand_name`, `logo_url`, `description`, `is_
 (7, 'Under Armour', NULL, NULL, 1),
 (8, 'Mizuno', NULL, NULL, 1),
 (9, 'Asics', NULL, NULL, 1),
-(10, 'Head', NULL, NULL, 1);
+(10, 'Head', NULL, NULL, 1),
+(11, 'Axeron', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -142,11 +149,12 @@ CREATE TABLE `carts` (
 -- Đang đổ dữ liệu cho bảng `carts`
 --
 
-REPLACE INTO `carts` (`cart_id`, `user_id`, `created_at`, `updated_at`) VALUES
+INSERT INTO `carts` (`cart_id`, `user_id`, `created_at`, `updated_at`) VALUES
 (1, 3, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (2, 4, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (3, 5, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
-(13, 1, '2026-06-05 15:51:29', '2026-06-05 15:51:29');
+(13, 1, '2026-06-05 15:51:29', '2026-06-05 15:51:29'),
+(15, 27, '2026-06-09 19:32:29', '2026-06-09 19:32:29');
 
 -- --------------------------------------------------------
 
@@ -166,7 +174,7 @@ CREATE TABLE `cart_items` (
 -- Đang đổ dữ liệu cho bảng `cart_items`
 --
 
-REPLACE INTO `cart_items` (`cart_item_id`, `cart_id`, `variant_id`, `quantity`, `added_at`) VALUES
+INSERT INTO `cart_items` (`cart_item_id`, `cart_id`, `variant_id`, `quantity`, `added_at`) VALUES
 (1, 1, 147, 1, '2026-05-29 19:17:55'),
 (2, 1, 3, 1, '2026-05-29 19:17:55'),
 (3, 1, 172, 2, '2026-05-29 19:17:55'),
@@ -200,10 +208,10 @@ CREATE TABLE `categories` (
 -- Đang đổ dữ liệu cho bảng `categories`
 --
 
-REPLACE INTO `categories` (`category_id`, `parent_id`, `category_name`, `slug`, `description`, `image_url`, `sort_order`, `is_visible`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'Nam', 'nam', NULL, NULL, 1, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
-(2, NULL, 'Nữ', 'nu', NULL, NULL, 2, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
-(3, NULL, 'Thể Thao', 'the-thao', NULL, NULL, 3, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
+INSERT INTO `categories` (`category_id`, `parent_id`, `category_name`, `slug`, `description`, `image_url`, `sort_order`, `is_visible`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'Nam', 'nam', NULL, NULL, 10, 1, '2026-05-29 19:17:55', '2026-06-10 00:18:05'),
+(2, NULL, 'Nữ', 'nu', NULL, NULL, 20, 1, '2026-05-29 19:17:55', '2026-06-10 00:18:05'),
+(3, NULL, 'Thể Thao', 'the-thao', NULL, NULL, 30, 1, '2026-05-29 19:17:55', '2026-06-10 00:18:05'),
 (10, 1, 'Giày Nam', 'giay-nam', NULL, NULL, 1, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (11, 1, 'Quần Áo Nam', 'quan-ao-nam', NULL, NULL, 2, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (12, 1, 'Bộ Thể Thao Nam', 'bo-the-thao-nam', NULL, NULL, 3, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
@@ -218,7 +226,7 @@ REPLACE INTO `categories` (`category_id`, `parent_id`, `category_name`, `slug`, 
 (33, 3, 'Bóng Rổ', 'bong-ro', NULL, NULL, 4, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (34, 3, 'Bóng Chuyền', 'bong-chuyen', NULL, NULL, 5, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (35, 3, 'Thiết Bị Tập', 'thiet-bi-tap', NULL, NULL, 6, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
-(100, 10, 'Giày Đá Bóng', 'giay-da-bong', NULL, NULL, 1, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
+(100, 318, 'Giày Đá Bóng', 'giay-da-bong', NULL, NULL, 1, 1, '2026-05-29 19:17:55', '2026-06-10 00:15:37'),
 (101, 10, 'Giày Chạy Bộ Nam', 'giay-chay-bo-nam', NULL, NULL, 2, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (102, 10, 'Giày Cầu Lông Nam', 'giay-cau-long-nam', NULL, NULL, 3, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (103, 10, 'Giày Bóng Rổ', 'giay-bong-ro', NULL, NULL, 4, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
@@ -247,9 +255,13 @@ REPLACE INTO `categories` (`category_id`, `parent_id`, `category_name`, `slug`, 
 (306, 35, 'Máy Chạy Bộ', 'may-chay-bo', NULL, NULL, 1, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (307, 35, 'Tạ Tay Và Ghế', 'ta-tay-va-giai', NULL, NULL, 2, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (308, 35, 'Giàn Tập', 'gian-tap', NULL, NULL, 3, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
-(312, NULL, 'bóng đá', 'bong-a', '', NULL, 4, 1, '2026-06-06 01:44:00', '2026-06-06 01:44:00'),
+(312, NULL, 'bóng đá', 'bong-a', '', NULL, 40, 1, '2026-06-06 01:44:00', '2026-06-10 00:18:05'),
 (313, 312, 'bóng đá đơn', 'bong-a-n', '', NULL, 1, 1, '2026-06-06 01:44:26', '2026-06-06 01:44:26'),
-(314, 313, 'bóng đá đơn đôi', 'bong-a-n-i', '', NULL, 1, 1, '2026-06-06 01:44:39', '2026-06-06 01:44:39');
+(314, 313, 'bóng đá đơn đôi', 'bong-a-n-i', '', NULL, 1, 1, '2026-06-06 01:44:39', '2026-06-06 01:44:39'),
+(315, 318, 'Giày Pickleball', 'giay-pickleball', NULL, NULL, 0, 1, '2026-06-10 00:10:10', '2026-06-10 00:15:37'),
+(316, 318, 'Giày cầu lông', 'giay-cau-long', NULL, NULL, 0, 1, '2026-06-10 00:10:10', '2026-06-10 00:15:37'),
+(317, 318, 'Giày chạy bộ', 'giay-chay-bo', NULL, NULL, 0, 1, '2026-06-10 00:10:10', '2026-06-10 00:15:37'),
+(318, NULL, 'Giày Thể Thao', 'giay-the-thao', NULL, NULL, 45, 1, '2026-06-10 00:15:37', '2026-06-10 00:18:48');
 
 -- --------------------------------------------------------
 
@@ -269,7 +281,7 @@ CREATE TABLE `chat_messages` (
 -- Đang đổ dữ liệu cho bảng `chat_messages`
 --
 
-REPLACE INTO `chat_messages` (`message_id`, `session_id`, `sender_type`, `content`, `sent_at`) VALUES
+INSERT INTO `chat_messages` (`message_id`, `session_id`, `sender_type`, `content`, `sent_at`) VALUES
 (1, 1, 'user', 'Cho tôi hỏi vợt Yonex Astrox 99 Pro có hàng thật không ạ?', '2026-05-29 19:17:55'),
 (2, 1, 'bot', 'Dạ, Yonex Astrox 99 Pro tại cửa hàng là hàng chính hãng 100%, có tem chống hàng giả và chứng nhận phân phối chính thức. Bạn cần hỗ trợ thêm gì không?', '2026-05-29 19:17:55'),
 (3, 1, 'user', 'Ok cảm ơn, vậy tôi muốn đặt hàng', '2026-05-29 19:17:55'),
@@ -277,7 +289,23 @@ REPLACE INTO `chat_messages` (`message_id`, `session_id`, `sender_type`, `conten
 (5, 2, 'user', 'Giày size 41 có còn hàng không?', '2026-05-29 19:17:55'),
 (6, 2, 'bot', 'Bên mình còn hàng size 41 của nhiều dòng sản phẩm. Bạn đang quan tâm sản phẩm nào? Giày chạy bộ, đá bóng hay cầu lông ạ?', '2026-05-29 19:17:55'),
 (7, 3, 'user', 'Ship Hà Nội mất bao lâu vậy shop?', '2026-05-29 19:17:55'),
-(8, 3, 'bot', 'Giao hàng tiêu chuẩn Hà Nội khoảng 3-5 ngày làm việc. Giao hàng nhanh 1-2 ngày. Bạn muốn chọn hình thức nào?', '2026-05-29 19:17:55');
+(8, 3, 'bot', 'Giao hàng tiêu chuẩn Hà Nội khoảng 3-5 ngày làm việc. Giao hàng nhanh 1-2 ngày. Bạn muốn chọn hình thức nào?', '2026-05-29 19:17:55'),
+(9, 4, 'user', 'Xin chào', '2026-06-09 11:56:08'),
+(10, 4, 'bot', 'Xin lỗi, hiện tại hệ thống AI đang bị quá tải yêu cầu hoặc đã hết hạn mức sử dụng (Quota Exceeded). Vui lòng cung cấp API Key mới hoặc quay lại sau!', '2026-06-09 11:56:08'),
+(11, 5, 'user', 'Giày chạy bộ nào đang bán chạy nhất bên mình?', '2026-06-09 11:57:01'),
+(12, 5, 'bot', 'Xin lỗi, hiện tại hệ thống AI đang bị quá tải yêu cầu hoặc đã hết hạn mức sử dụng (Quota Exceeded). Vui lòng cung cấp API Key mới hoặc quay lại sau!', '2026-06-09 11:57:02'),
+(13, 6, 'user', 'Giá của đôi giày bóng đá rẻ nhất hiện tại là bao nhiêu?', '2026-06-09 11:59:34'),
+(14, 6, 'bot', 'Xin lỗi, hiện tại hệ thống AI đang bị quá tải yêu cầu hoặc đã hết hạn mức sử dụng (Quota Exceeded). Vui lòng cung cấp API Key mới hoặc quay lại sau!', '2026-06-09 11:59:34'),
+(15, 6, 'user', 'Tôi muốn mua giày chạy bộ.', '2026-06-09 12:42:51'),
+(16, 6, 'bot', 'Xin lỗi, hiện tại hệ thống AI đang bị quá tải yêu cầu hoặc đã hết hạn mức sử dụng (Quota Exceeded). Vui lòng cung cấp API Key mới hoặc quay lại sau!', '2026-06-09 12:42:52'),
+(17, 6, 'user', 'tôi muốn mua vợt', '2026-06-09 18:23:21'),
+(18, 6, 'bot', 'Chào bạn, hiện tại Axeron Sport đang có sẵn sản phẩm vợt cầu lông sau:\n\n*   **Vợt cầu lông Yonex Astrox 99 Pro**\n    *   **Giá:** 4.500.000 VNĐ\n    *   **Tình trạng:** Còn hàng\n\nĐể đặt mua sản phẩm, bạn có thể ghé trực tiếp cửa hàng tại địa chỉ **123 Nguyễn Trãi, Quận 1, TP.HCM** hoặc liên hệ hotline **1900 1234** (8:00 - 20:00) để được hỗ trợ nhanh nhất nhé!', '2026-06-09 18:23:27'),
+(19, 6, 'user', 'vợt cho nữ có không?', '2026-06-09 18:23:39'),
+(20, 6, 'bot', 'Máy chủ AI của Google hiện đang bị quá tải (Service Unavailable). Vui lòng thử lại sau vài phút.', '2026-06-09 18:23:40'),
+(21, 6, 'user', 'có bán giày chạy bộ không?', '2026-06-09 18:23:54'),
+(22, 6, 'bot', 'Máy chủ AI của Google hiện đang bị quá tải (Service Unavailable). Vui lòng thử lại sau vài phút.', '2026-06-09 18:24:08'),
+(23, 6, 'user', 'tôi muốn mua giày', '2026-06-10 00:42:29'),
+(24, 6, 'bot', 'Dạ hiện tại Axeron Sport đang sẵn hàng rất nhiều mẫu giày thể thao chất lượng. Bạn có thể tham khảo các mẫu dưới đây:\n\n**Giày Chạy Bộ:**\n*   **Giày chạy bộ DL Speed Pro X1:** 890.000 VNĐ\n*   **Giày Nike Revolution 7:** 1.950.000 VNĐ\n*   **Giày ASICS Gel-Nimbus 26:** 3.200.000 VNĐ\n\n**Giày Đá Bóng:**\n*   **Giày đá bóng DL Striker FG 2024:** 650.000 VNĐ\n*   **Giày đá bóng Adidas Predator 24 FG:** 2.800.000 VNĐ\n\n**Giày Cầu Lông:**\n*   **Giày cầu lông Yonex Power Cushion 65Z3 (Nam):** 2.900.000 VNĐ\n*   **Giày cầu lông nữ Yonex SHB-01MXLX (Nữ):** 3.100.000 VNĐ\n\nTất cả các sản phẩm trên đều đang **còn hàng**. Bạn đang quan tâm đến dòng giày nào để em tư vấn chi tiết hơn ạ? Bạn cũng có thể liên hệ hotline **1900 1234** hoặc ghé cửa hàng tại **123 Nguyễn Trãi, Quận 1, TP.HCM** để thử giày trực tiếp nhé!', '2026-06-10 00:43:53');
 
 -- --------------------------------------------------------
 
@@ -297,10 +325,29 @@ CREATE TABLE `chat_sessions` (
 -- Đang đổ dữ liệu cho bảng `chat_sessions`
 --
 
-REPLACE INTO `chat_sessions` (`session_id`, `user_id`, `status`, `started_at`, `ended_at`) VALUES
+INSERT INTO `chat_sessions` (`session_id`, `user_id`, `status`, `started_at`, `ended_at`) VALUES
 (1, 3, 'closed', '2026-05-29 19:17:55', NULL),
 (2, NULL, 'closed', '2026-05-29 19:17:55', NULL),
-(3, 5, 'open', '2026-05-29 19:17:55', NULL);
+(3, 5, 'open', '2026-05-29 19:17:55', NULL),
+(4, NULL, 'open', '2026-06-09 11:56:08', NULL),
+(5, NULL, 'open', '2026-06-09 11:57:01', NULL),
+(6, NULL, 'open', '2026-06-09 11:59:34', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `contact_messages`
+--
+
+CREATE TABLE `contact_messages` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `fullname` varchar(100) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `subject` varchar(50) NOT NULL,
+  `message` text NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -332,7 +379,7 @@ CREATE TABLE `orders` (
 -- Đang đổ dữ liệu cho bảng `orders`
 --
 
-REPLACE INTO `orders` (`order_id`, `user_id`, `shipping_id`, `promo_id`, `recipient_name`, `recipient_phone`, `shipping_address`, `subtotal`, `discount_amount`, `shipping_fee`, `total_amount`, `order_status`, `payment_method`, `payment_status`, `note`, `created_at`, `updated_at`) VALUES
+INSERT INTO `orders` (`order_id`, `user_id`, `shipping_id`, `promo_id`, `recipient_name`, `recipient_phone`, `shipping_address`, `subtotal`, `discount_amount`, `shipping_fee`, `total_amount`, `order_status`, `payment_method`, `payment_status`, `note`, `created_at`, `updated_at`) VALUES
 (1, 3, 1, 1, 'Nguyễn Văn An', '0912345678', '12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP HCM', 890000.00, 50000.00, 0.00, 840000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (2, 4, 2, NULL, 'Trần Thị Bích', '0923456789', '45 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP HCM', 4500000.00, 0.00, 50000.00, 4550000.00, 'shipped', 'vnpay', 'paid', 'Giao hàng giờ hành chính', '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (3, 5, 1, 2, 'Lê Minh Cường', '0934567890', '88 Trần Thái Tông, Phường Dịch Vọng, Cầu Giấy, Hà Nội', 2900000.00, 100000.00, 0.00, 2800000.00, 'confirmed', 'bank_transfer', 'paid', NULL, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
@@ -342,7 +389,9 @@ REPLACE INTO `orders` (`order_id`, `user_id`, `shipping_id`, `promo_id`, `recipi
 (7, 8, 2, NULL, 'Nguyễn Thị Phương', '0967890123', '100 Võ Văn Ngân, Phường Linh Trung, Thủ Đức, TP HCM', 1570000.00, 0.00, 50000.00, 1620000.00, 'processing', 'vnpay', 'paid', NULL, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (8, 4, 1, 1, 'Trần Thị Bích', '0923456789', '45 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP HCM', 750000.00, 50000.00, 0.00, 700000.00, 'cancelled', 'cod', 'unpaid', 'Khách hủy vì sai size', '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (16, 1, 2, 6, 'Quản Trị Viên', '0123456789', '77/5a phường 4 tpvl, , , Vĩnh Long', 4500000.00, 225000.00, 0.00, 4275000.00, 'cancelled', 'cod', 'refunded', '', '2026-06-05 16:08:26', '2026-06-05 16:08:54'),
-(17, 1, 14, 6, 'Quản Trị Viên', '0123456789', '77/5a phường 4 tpvl, , , Bình Dương', 4500000.00, 225000.00, 25000.00, 4300000.00, 'delivered', 'bank_transfer', 'paid', '', '2026-06-05 16:33:17', '2026-06-05 16:33:49');
+(17, 1, 14, 6, 'Quản Trị Viên', '0123456789', '77/5a phường 4 tpvl, , , Bình Dương', 4500000.00, 225000.00, 25000.00, 4300000.00, 'delivered', 'bank_transfer', 'paid', '', '2026-06-05 16:33:17', '2026-06-05 16:33:49'),
+(18, 27, 61, NULL, 'Lợi Lê Hữu', '0772130908', '6/71, Nguyễn Văn Lâu, , tp Vĩnh Long, Vĩnh Long', 420000.00, 0.00, 25000.00, 445000.00, 'pending', 'cod', 'unpaid', '', '2026-06-09 21:45:12', '2026-06-09 21:45:12'),
+(19, 27, 61, NULL, 'Lợi Lê Hữu', '0772130908', '6/71, Nguyễn Văn Lâu, , tp Vĩnh Long, Vĩnh Long', 3300000.00, 0.00, 25000.00, 3325000.00, 'pending', 'bank_transfer', 'unpaid', '', '2026-06-10 00:36:05', '2026-06-10 00:36:05');
 
 -- --------------------------------------------------------
 
@@ -365,7 +414,7 @@ CREATE TABLE `order_items` (
 -- Đang đổ dữ liệu cho bảng `order_items`
 --
 
-REPLACE INTO `order_items` (`order_item_id`, `order_id`, `variant_id`, `product_name`, `variant_info`, `unit_price`, `quantity`, `subtotal`) VALUES
+INSERT INTO `order_items` (`order_item_id`, `order_id`, `variant_id`, `product_name`, `variant_info`, `unit_price`, `quantity`, `subtotal`) VALUES
 (1, 1, 3, 'Giày chạy bộ DL Speed Pro X1', 'Đen - Size 41', 890000.00, 1, 890000.00),
 (2, 2, 147, 'Vợt cầu lông Yonex Astrox 99 Pro', 'Đỏ - 4U/G5', 4500000.00, 1, 4500000.00),
 (3, 3, 151, 'Vợt cầu lông Yonex Nanoflare 700', 'Xanh lá - 4U/G5', 3200000.00, 1, 3200000.00),
@@ -377,7 +426,9 @@ REPLACE INTO `order_items` (`order_item_id`, `order_id`, `variant_id`, `product_
 (9, 7, 136, 'Áo sport bra Adidas Powerreact', 'Đen - M', 680000.00, 1, 680000.00),
 (10, 8, 15, 'Giày Nike Revolution 7', 'Đen - Size 41', 1950000.00, 1, 1950000.00),
 (16, 16, 148, 'Vợt cầu lông Yonex Astrox 99 Pro', 'Do (3U) - Size 3U/G4', 4500000.00, 1, 4500000.00),
-(17, 17, 148, 'Vợt cầu lông Yonex Astrox 99 Pro', 'Do (3U) - Size 3U/G4', 4500000.00, 1, 4500000.00);
+(17, 17, 148, 'Vợt cầu lông Yonex Astrox 99 Pro', 'Do (3U) - Size 3U/G4', 4500000.00, 1, 4500000.00),
+(18, 18, 229, 'Balo thể thao DL Sport 20L', 'Trắng - Size 20L', 420000.00, 1, 420000.00),
+(19, 19, 30, 'Giày ASICS Gel-Nimbus 26', 'Trắng - Size 41', 3300000.00, 1, 3300000.00);
 
 -- --------------------------------------------------------
 
@@ -399,7 +450,7 @@ CREATE TABLE `order_status_logs` (
 -- Đang đổ dữ liệu cho bảng `order_status_logs`
 --
 
-REPLACE INTO `order_status_logs` (`log_id`, `order_id`, `changed_by`, `old_status`, `new_status`, `note`, `changed_at`) VALUES
+INSERT INTO `order_status_logs` (`log_id`, `order_id`, `changed_by`, `old_status`, `new_status`, `note`, `changed_at`) VALUES
 (1, 1, 2, 'pending', 'confirmed', 'Xác nhận đơn hàng', '2026-05-29 19:17:55'),
 (2, 1, 2, 'confirmed', 'processing', 'Đang đóng gói', '2026-05-29 19:17:55'),
 (3, 1, 2, 'processing', 'shipped', 'Đã giao cho GHTK', '2026-05-29 19:17:55'),
@@ -427,7 +478,9 @@ REPLACE INTO `order_status_logs` (`log_id`, `order_id`, `changed_by`, `old_statu
 (29, 16, 1, 'unpaid', 'refunded', 'Cập nhật thanh toán bởi admin', '2026-06-05 16:08:54'),
 (30, 17, NULL, NULL, 'pending', NULL, '2026-06-05 16:33:17'),
 (31, 17, 1, 'unpaid', 'paid', 'Cập nhật thanh toán bởi admin', '2026-06-05 16:33:46'),
-(32, 17, 1, 'pending', 'delivered', NULL, '2026-06-05 16:33:49');
+(32, 17, 1, 'pending', 'delivered', NULL, '2026-06-05 16:33:49'),
+(33, 18, NULL, NULL, 'pending', NULL, '2026-06-09 21:45:12'),
+(34, 19, NULL, NULL, 'pending', NULL, '2026-06-10 00:36:05');
 
 -- --------------------------------------------------------
 
@@ -447,6 +500,13 @@ CREATE TABLE `password_resets` (
   `ip_address` varchar(45) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `password_resets`
+--
+
+INSERT INTO `password_resets` (`id`, `user_id`, `email`, `reset_token`, `otp_code`, `expires_at`, `verified_at`, `used_at`, `ip_address`, `created_at`) VALUES
+(2, 27, 'loiledelta0@gmail.com', '2400e3125f75e95f21c91daa6bc09e63fd479c1bf621ea0b6bc8cba63e96bf50', '058279', '2026-06-09 14:37:57', '2026-06-09 19:33:18', NULL, '::1', '2026-06-09 19:32:57');
 
 -- --------------------------------------------------------
 
@@ -470,7 +530,7 @@ CREATE TABLE `payment_transactions` (
 -- Đang đổ dữ liệu cho bảng `payment_transactions`
 --
 
-REPLACE INTO `payment_transactions` (`txn_id`, `order_id`, `gateway`, `gateway_txn_id`, `amount`, `status`, `raw_response`, `created_at`, `updated_at`) VALUES
+INSERT INTO `payment_transactions` (`txn_id`, `order_id`, `gateway`, `gateway_txn_id`, `amount`, `status`, `raw_response`, `created_at`, `updated_at`) VALUES
 (1, 2, 'vnpay', 'VNPAY20250615001', 4550000.00, 'success', NULL, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (2, 3, 'bank_transfer', 'BIDV20250618001', 2800000.00, 'success', NULL, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (3, 5, 'momo', 'MOMO20250620001', 630000.00, 'success', NULL, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
@@ -504,7 +564,7 @@ CREATE TABLE `products` (
 -- Đang đổ dữ liệu cho bảng `products`
 --
 
-REPLACE INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`, `slug`, `description`, `base_price`, `stock_quantity`, `is_visible`, `is_featured`, `featured_sort_order`, `avg_rating`, `total_reviews`, `created_at`, `updated_at`) VALUES
+INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`, `slug`, `description`, `base_price`, `stock_quantity`, `is_visible`, `is_featured`, `featured_sort_order`, `avg_rating`, `total_reviews`, `created_at`, `updated_at`) VALUES
 (1, 101, 1, 'Giày chạy bộ DL Speed Pro X1', 'giay-chay-bo-dl-speed-pro-x1', 'Giày chạy bộ chuyên nghiệp với đế giày EVA siêu nhẹ.', 890000.00, 50, 1, 1, 4, 4.60, 12, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
 (2, 101, 1, 'Giày chạy bộ DL Runner Air 2024', 'giay-chay-bo-dl-runner-air-2024', 'Thiết kế khí động học giúp tăng tốc độ.', 750000.00, 60, 1, 0, 999, 4.40, 8, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
 (3, 101, 2, 'Giày Nike Revolution 7', 'giay-nike-revolution-7', 'Giày chạy bộ phổ biến của Nike với đế giữa foam đen.', 1950000.00, 30, 1, 1, 3, 4.50, 15, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
@@ -555,7 +615,42 @@ REPLACE INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`
 (48, 13, 1, 'Tất thể thao DL Sport (5 doi)', 'tat-the-thao-dl-sport-5doi', '5 đôi tất thể thao DL, chất liệu cotton pha.', 95000.00, 150, 1, 0, 999, 4.20, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
 (49, 23, 1, 'Mũ thể thao nữ DL Lily', 'mu-the-thao-nu-dl-lily', 'Mũ nữ kiểu bucket hat thời trang.', 155000.00, 60, 1, 0, 999, 4.30, 5, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
 (50, 23, 3, 'Balo nữ Adidas Classic BOS', 'balo-nu-adidas-classic', 'Balo nữ Adidas Classic BOS dung tích 22L.', 650000.00, 30, 1, 0, 999, 4.60, 9, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(56, 314, 4, 'sản phẩm test ẩn hiện', 'san-phm-test-n-hin', '', 1000000.00, 10, 1, 1, 2, NULL, 0, '2026-06-06 02:20:00', '2026-06-06 02:53:39');
+(56, 314, 4, 'sản phẩm test ẩn hiện', 'san-phm-test-n-hin', '', 1000000.00, 10, 1, 1, 2, NULL, 0, '2026-06-06 02:20:00', '2026-06-06 02:53:39'),
+(58, 315, 11, 'Giày Pickleball Axeron Pro V1-C439', 'giay-pickleball-v1-c439', '<p>Sản phẩm Giày Pickleball Axeron Pro V1-C439 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 835000.00, 42, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(59, 315, 11, 'Giày Pickleball Axeron Pro V2-D06C', 'giay-pickleball-v2-d06c', '<p>Sản phẩm Giày Pickleball Axeron Pro V2-D06C với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1459000.00, 75, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(60, 315, 11, 'Giày Pickleball Axeron Pro V3-0BD7', 'giay-pickleball-v3-0bd7', '<p>Sản phẩm Giày Pickleball Axeron Pro V3-0BD7 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 926000.00, 79, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(61, 315, 11, 'Giày Pickleball Axeron Pro V4-0A99', 'giay-pickleball-v4-0a99', '<p>Sản phẩm Giày Pickleball Axeron Pro V4-0A99 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1095000.00, 22, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(62, 315, 11, 'Giày Pickleball Axeron Pro V5-F316', 'giay-pickleball-v5-f316', '<p>Sản phẩm Giày Pickleball Axeron Pro V5-F316 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 854000.00, 63, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(63, 315, 11, 'Giày Pickleball Axeron Pro V6-CD61', 'giay-pickleball-v6-cd61', '<p>Sản phẩm Giày Pickleball Axeron Pro V6-CD61 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1289000.00, 67, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(64, 315, 11, 'Giày Pickleball Axeron Pro V7-076E', 'giay-pickleball-v7-076e', '<p>Sản phẩm Giày Pickleball Axeron Pro V7-076E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 936000.00, 26, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(65, 315, 11, 'Giày Pickleball Axeron Pro V8-972E', 'giay-pickleball-v8-972e', '<p>Sản phẩm Giày Pickleball Axeron Pro V8-972E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1251000.00, 58, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(66, 315, 11, 'Giày Pickleball Axeron Pro V9-CBAB', 'giay-pickleball-v9-cbab', '<p>Sản phẩm Giày Pickleball Axeron Pro V9-CBAB với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1343000.00, 55, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(67, 315, 11, 'Giày Pickleball Axeron Pro V10-77AD', 'giay-pickleball-v10-77ad', '<p>Sản phẩm Giày Pickleball Axeron Pro V10-77AD với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 938000.00, 40, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(68, 100, 11, 'Giày Bóng Đá Axeron V1-FF6F', 'giay-da-bong-v1-ff6f', '<p>Sản phẩm Giày Bóng Đá Axeron V1-FF6F với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1677000.00, 19, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(69, 100, 11, 'Giày Bóng Đá Axeron V2-0429', 'giay-da-bong-v2-0429', '<p>Sản phẩm Giày Bóng Đá Axeron V2-0429 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1284000.00, 20, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(70, 100, 11, 'Giày Bóng Đá Axeron V3-8DBF', 'giay-da-bong-v3-8dbf', '<p>Sản phẩm Giày Bóng Đá Axeron V3-8DBF với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1760000.00, 12, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(71, 100, 11, 'Giày Bóng Đá Axeron V4-7620', 'giay-da-bong-v4-7620', '<p>Sản phẩm Giày Bóng Đá Axeron V4-7620 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1204000.00, 25, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(72, 100, 11, 'Giày Bóng Đá Axeron V5-C9CD', 'giay-da-bong-v5-c9cd', '<p>Sản phẩm Giày Bóng Đá Axeron V5-C9CD với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1591000.00, 82, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(73, 316, 11, 'Giày Cầu Lông Axeron Smash V1-5FD8', 'giay-cau-long-v1-5fd8', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V1-5FD8 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1040000.00, 66, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(74, 316, 11, 'Giày Cầu Lông Axeron Smash V2-28A4', 'giay-cau-long-v2-28a4', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V2-28A4 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 921000.00, 79, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(75, 316, 11, 'Giày Cầu Lông Axeron Smash V3-231E', 'giay-cau-long-v3-231e', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V3-231E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 896000.00, 35, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(76, 316, 11, 'Giày Cầu Lông Axeron Smash V4-215C', 'giay-cau-long-v4-215c', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V4-215C với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1029000.00, 10, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(77, 316, 11, 'Giày Cầu Lông Axeron Smash V5-3B23', 'giay-cau-long-v5-3b23', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V5-3B23 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1073000.00, 16, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(78, 316, 11, 'Giày Cầu Lông Axeron Smash V6-2124', 'giay-cau-long-v6-2124', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V6-2124 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 803000.00, 93, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(79, 316, 11, 'Giày Cầu Lông Axeron Smash V7-C6A6', 'giay-cau-long-v7-c6a6', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V7-C6A6 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 846000.00, 98, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(80, 316, 11, 'Giày Cầu Lông Axeron Smash V8-AC76', 'giay-cau-long-v8-ac76', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V8-AC76 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1072000.00, 52, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(81, 316, 11, 'Giày Cầu Lông Axeron Smash V9-C744', 'giay-cau-long-v9-c744', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V9-C744 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 687000.00, 45, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(82, 316, 11, 'Giày Cầu Lông Axeron Smash V10-79F1', 'giay-cau-long-v10-79f1', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V10-79F1 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 675000.00, 31, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(83, 317, 11, 'Giày Chạy Bộ Axeron Run V1-DA7E', 'giay-chay-bo-v1-da7e', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V1-DA7E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 570000.00, 12, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(84, 317, 11, 'Giày Chạy Bộ Axeron Run V2-9BCA', 'giay-chay-bo-v2-9bca', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V2-9BCA với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1447000.00, 34, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(85, 317, 11, 'Giày Chạy Bộ Axeron Run V3-F9B5', 'giay-chay-bo-v3-f9b5', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V3-F9B5 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 950000.00, 86, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(86, 317, 11, 'Giày Chạy Bộ Axeron Run V4-455D', 'giay-chay-bo-v4-455d', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V4-455D với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 980000.00, 50, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(87, 317, 11, 'Giày Chạy Bộ Axeron Run V5-B9B5', 'giay-chay-bo-v5-b9b5', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V5-B9B5 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 568000.00, 64, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(88, 317, 11, 'Giày Chạy Bộ Axeron Run V6-D657', 'giay-chay-bo-v6-d657', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V6-D657 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 843000.00, 84, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(89, 317, 11, 'Giày Chạy Bộ Axeron Run V7-EBB9', 'giay-chay-bo-v7-ebb9', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V7-EBB9 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1488000.00, 83, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(90, 317, 11, 'Giày Chạy Bộ Axeron Run V8-2DEA', 'giay-chay-bo-v8-2dea', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V8-2DEA với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1261000.00, 98, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(91, 317, 11, 'Giày Chạy Bộ Axeron Run V9-2FED', 'giay-chay-bo-v9-2fed', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V9-2FED với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1152000.00, 77, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(92, 317, 11, 'Giày Chạy Bộ Axeron Run V10-82E4', 'giay-chay-bo-v10-82e4', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V10-82E4 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 617000.00, 19, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43');
 
 -- --------------------------------------------------------
 
@@ -577,59 +672,94 @@ CREATE TABLE `product_images` (
 -- Đang đổ dữ liệu cho bảng `product_images`
 --
 
-REPLACE INTO `product_images` (`image_id`, `product_id`, `image_url`, `alt_text`, `sort_order`, `is_primary`, `color`) VALUES
-(1, 1, 'https://placehold.co/600x600/111827/ffffff?text=DL+Speed+Pro+X1', 'Giày chạy bộ DL Speed Pro X1', 0, 1, NULL),
-(2, 2, 'https://placehold.co/600x600/1e3a8a/ffffff?text=DL+Runner+Air', 'Giày chạy bộ DL Runner Air', 0, 1, NULL),
-(3, 3, 'https://placehold.co/600x600/000000/ffffff?text=Nike+Rev+7', 'Nike Revolution 7', 0, 1, NULL),
-(4, 4, 'https://placehold.co/600x600/1f2937/ffffff?text=Adidas+RF3', 'Adidas Runfalcon 3', 0, 1, NULL),
-(5, 5, 'https://placehold.co/600x600/0369a1/ffffff?text=ASICS+GN26', 'ASICS Gel-Nimbus 26', 0, 1, NULL),
-(6, 6, 'https://placehold.co/600x600/ca8a04/ffffff?text=DL+Striker+FG', 'Giày đá bóng DL Striker FG', 0, 1, NULL),
-(7, 7, 'https://placehold.co/600x600/111827/ffffff?text=DL+Futsal+Pro', 'Giày đá bóng Futsal Pro', 0, 1, NULL),
-(8, 8, 'https://placehold.co/600x600/1c1917/ffffff?text=Adidas+Predator', 'Adidas Predator 24', 0, 1, NULL),
-(9, 9, 'https://placehold.co/600x600/dc2626/ffffff?text=Nike+Phantom', 'Nike Phantom GX2', 0, 1, NULL),
-(10, 10, 'https://placehold.co/600x600/ca8a04/ffffff?text=DL+Speed+Jr', 'DL Speed FG Jr', 0, 1, NULL),
-(11, 11, 'https://placehold.co/600x600/f59e0b/ffffff?text=Yonex+65Z3', 'Yonex Power Cushion 65Z3', 0, 1, NULL),
-(12, 12, 'https://placehold.co/600x600/dc2626/ffffff?text=DL+Wing+Pro', 'DL Wing Pro 2024', 0, 1, NULL),
-(13, 13, 'https://placehold.co/600x600/1e40af/ffffff?text=Lining+Ranger', 'Lining Ranger TD', 0, 1, NULL),
-(14, 14, 'https://placehold.co/600x600/be185d/ffffff?text=Yonex+01MX', 'Yonex SHB-01MXLX Nữ', 0, 1, NULL),
-(15, 15, 'https://placehold.co/600x600/f472b6/ffffff?text=DL+Wing+Lite', 'DL Wing Lite Nữ', 0, 1, NULL),
-(16, 16, 'https://placehold.co/600x600/f0fdf4/166534?text=Polo+Classic', 'DL Polo Classic', 0, 1, NULL),
-(17, 17, 'https://placehold.co/600x600/111827/ffffff?text=Polo+Pro+Team', 'DL Polo Pro Team', 0, 1, NULL),
-(18, 18, 'https://placehold.co/600x600/1e40af/ffffff?text=DL+T-shirt', 'DL T-shirt Basic', 0, 1, NULL),
-(19, 19, 'https://placehold.co/600x600/111827/ffffff?text=UA+HeatGear', 'UA HeatGear Nam', 0, 1, NULL),
-(20, 20, 'https://placehold.co/600x600/dc2626/ffffff?text=Nike+DriFIT', 'Nike Dri-FIT Training', 0, 1, NULL),
-(21, 21, 'https://placehold.co/600x600/fce7f3/9d174d?text=DL+Nu+Sport', 'DL Sport Lite Nữ', 0, 1, NULL),
-(22, 22, 'https://placehold.co/600x600/111827/ffffff?text=UA+Nu', 'UA HeatGear Nữ', 0, 1, NULL),
-(23, 23, 'https://placehold.co/600x600/7f1d1d/fecdd3?text=Adidas+Bra', 'Adidas Sport Bra', 0, 1, NULL),
-(24, 24, 'https://placehold.co/600x600/dc2626/ffffff?text=Nike+Indy', 'Nike Indy Bra', 0, 1, NULL),
-(26, 26, 'https://placehold.co/600x600/16a34a/ffffff?text=Yonex+NF700', 'Yonex Nanoflare 700', 0, 1, NULL),
-(27, 27, 'https://placehold.co/600x600/1d4ed8/ffffff?text=Lining+WS72', 'Lining Windstorm 72', 0, 1, NULL),
-(28, 28, 'https://placehold.co/600x600/111827/ffffff?text=DL+Pro+500', 'DL Pro 500', 0, 1, NULL),
-(29, 29, 'https://placehold.co/600x600/374151/ffffff?text=DL+Fighter+200', 'DL Fighter 200', 0, 1, NULL),
-(30, 30, 'https://placehold.co/600x600/f59e0b/111827?text=Head+Zephyr', 'Head Zephyr Pro', 0, 1, NULL),
-(31, 31, 'https://placehold.co/600x600/fef9c3/713f12?text=Yonex+AS05', 'Yonex AS-05', 0, 1, NULL),
-(32, 32, 'https://placehold.co/600x600/fef9c3/713f12?text=Yonex+AS30', 'Yonex AS-30', 0, 1, NULL),
-(33, 33, 'https://placehold.co/600x600/ca8a04/ffffff?text=DL+Training', 'DL Training Cầu', 0, 1, NULL),
-(34, 34, 'https://placehold.co/600x600/dc2626/ffffff?text=Lining+A90D', 'Lining A+90D', 0, 1, NULL),
-(35, 35, 'https://placehold.co/600x600/111827/ffffff?text=DL+Short+Nam', 'DL Short Training Nam', 0, 1, NULL),
-(36, 36, 'https://placehold.co/600x600/dc2626/ffffff?text=Nike+Short', 'Nike Short Dri-FIT', 0, 1, NULL),
-(37, 37, 'https://placehold.co/600x600/fce7f3/9d174d?text=DL+Short+Nu', 'DL Active Short Nữ', 0, 1, NULL),
-(38, 38, 'https://placehold.co/600x600/111827/ffffff?text=UA+Legging', 'UA Legging HeatGear', 0, 1, NULL),
-(39, 39, 'https://placehold.co/600x600/1c1917/ffffff?text=Adidas+Legging', 'Adidas Legging Optime', 0, 1, NULL),
-(40, 40, 'https://placehold.co/600x600/1c1917/ffffff?text=Adidas+Bong', 'Bóng đá Adidas Al Rihla', 0, 1, NULL),
-(41, 41, 'https://placehold.co/600x600/ca8a04/ffffff?text=DL+Bong+DA', 'DL Bóng đá Classic 5', 0, 1, NULL),
-(42, 42, 'https://placehold.co/600x600/1d4ed8/ffffff?text=DL+Futsal', 'DL Bóng Futsal', 0, 1, NULL),
-(43, 43, 'https://placehold.co/600x600/ca8a04/111827?text=Pickleball', 'Bóng Pickleball DL', 0, 1, NULL),
-(44, 44, 'https://placehold.co/600x600/1e40af/ffffff?text=Ta+Tay+DL', 'Tạ tay DL Vinyl', 0, 1, NULL),
-(45, 45, 'https://placehold.co/600x600/111827/ffffff?text=Mu+DL', 'Mũ thể thao DL', 0, 1, NULL),
-(46, 46, 'https://placehold.co/600x600/1e3a8a/ffffff?text=Balo+DL', 'Balo DL Sport', 0, 1, NULL),
-(47, 47, 'https://placehold.co/600x600/f0fdf4/166534?text=Tat+Yonex', 'Tất Yonex', 0, 1, NULL),
-(48, 48, 'https://placehold.co/600x600/f0fdf4/166534?text=Tat+DL', 'Tất DL Sport', 0, 1, NULL),
-(49, 49, 'https://placehold.co/600x600/fce7f3/9d174d?text=Mu+Nu+DL', 'Mũ nữ DL Lily', 0, 1, NULL),
-(50, 50, 'https://placehold.co/600x600/1c1917/ffffff?text=Balo+Adidas', 'Balo nữ Adidas', 0, 1, NULL),
-(55, 56, 'https://placehold.co/600x600/111827/ffffff?text=sa%CC%89n+ph%C3%A2%CC%89m+test+%C3', 'sản phẩm test ẩn hiện', 0, 1, NULL),
+INSERT INTO `product_images` (`image_id`, `product_id`, `image_url`, `alt_text`, `sort_order`, `is_primary`, `color`) VALUES
+(1, 1, 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', 'Giày chạy bộ DL Speed Pro X1', 0, 1, NULL),
+(2, 2, 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=800&auto=format&fit=crop', 'Giày chạy bộ DL Runner Air', 0, 1, NULL),
+(3, 3, 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?q=80&w=800&auto=format&fit=crop', 'Nike Revolution 7', 0, 1, NULL),
+(4, 4, 'https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=800&auto=format&fit=crop', 'Adidas Runfalcon 3', 0, 1, NULL),
+(5, 5, 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', 'ASICS Gel-Nimbus 26', 0, 1, NULL),
+(6, 6, 'https://images.unsplash.com/photo-1628891435222-06592ce293c4?q=80&w=800&auto=format&fit=crop', 'Giày đá bóng DL Striker FG', 0, 1, NULL),
+(7, 7, 'https://images.unsplash.com/photo-1608139556277-2b7de02af46e?q=80&w=800&auto=format&fit=crop', 'Giày đá bóng Futsal Pro', 0, 1, NULL),
+(8, 8, 'https://images.unsplash.com/photo-1614232389104-58a36ff8d5db?q=80&w=800&auto=format&fit=crop', 'Adidas Predator 24', 0, 1, NULL),
+(9, 9, 'https://images.unsplash.com/photo-1628891435222-06592ce293c4?q=80&w=800&auto=format&fit=crop', 'Nike Phantom GX2', 0, 1, NULL),
+(10, 10, 'https://images.unsplash.com/photo-1608139556277-2b7de02af46e?q=80&w=800&auto=format&fit=crop', 'DL Speed FG Jr', 0, 1, NULL),
+(11, 11, 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=800&auto=format&fit=crop', 'Yonex Power Cushion 65Z3', 0, 1, NULL),
+(12, 12, 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?q=80&w=800&auto=format&fit=crop', 'DL Wing Pro 2024', 0, 1, NULL),
+(13, 13, 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=800&auto=format&fit=crop', 'Lining Ranger TD', 0, 1, NULL),
+(14, 14, 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=800&auto=format&fit=crop', 'Yonex SHB-01MXLX Nữ', 0, 1, NULL),
+(15, 15, 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?q=80&w=800&auto=format&fit=crop', 'DL Wing Lite Nữ', 0, 1, NULL),
+(16, 16, 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=800&auto=format&fit=crop', 'DL Polo Classic', 0, 1, NULL),
+(17, 17, 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=800&auto=format&fit=crop', 'DL Polo Pro Team', 0, 1, NULL),
+(18, 18, 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=800&auto=format&fit=crop', 'DL T-shirt Basic', 0, 1, NULL),
+(19, 19, 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=800&auto=format&fit=crop', 'UA HeatGear Nam', 0, 1, NULL),
+(20, 20, 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop', 'Nike Dri-FIT Training', 0, 1, NULL),
+(21, 21, 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?q=80&w=800&auto=format&fit=crop', 'DL Sport Lite Nữ', 0, 1, NULL),
+(22, 22, 'https://images.unsplash.com/photo-1536766820879-059fec98ec0a?q=80&w=800&auto=format&fit=crop', 'UA HeatGear Nữ', 0, 1, NULL),
+(23, 23, 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=800&auto=format&fit=crop', 'Adidas Sport Bra', 0, 1, NULL),
+(24, 24, 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=800&auto=format&fit=crop', 'Nike Indy Bra', 0, 1, NULL),
+(26, 26, 'https://images.unsplash.com/photo-1622279457486-69d73ce365fb?q=80&w=800&auto=format&fit=crop', 'Yonex Nanoflare 700', 0, 1, NULL),
+(27, 27, 'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=800&auto=format&fit=crop', 'Lining Windstorm 72', 0, 1, NULL),
+(28, 28, 'https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?q=80&w=800&auto=format&fit=crop', 'DL Pro 500', 0, 1, NULL),
+(29, 29, 'https://images.unsplash.com/photo-1622279457486-69d73ce365fb?q=80&w=800&auto=format&fit=crop', 'DL Fighter 200', 0, 1, NULL),
+(30, 30, 'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=800&auto=format&fit=crop', 'Head Zephyr Pro', 0, 1, NULL),
+(31, 31, 'https://images.unsplash.com/photo-1589333900693-e45f949c5eb4?q=80&w=800&auto=format&fit=crop', 'Yonex AS-05', 0, 1, NULL),
+(32, 32, 'https://images.unsplash.com/photo-1522851179040-e2229590eecf?q=80&w=800&auto=format&fit=crop', 'Yonex AS-30', 0, 1, NULL),
+(33, 33, 'https://images.unsplash.com/photo-1589333900693-e45f949c5eb4?q=80&w=800&auto=format&fit=crop', 'DL Training Cầu', 0, 1, NULL),
+(34, 34, 'https://images.unsplash.com/photo-1522851179040-e2229590eecf?q=80&w=800&auto=format&fit=crop', 'Lining A+90D', 0, 1, NULL),
+(35, 35, 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop', 'DL Short Training Nam', 0, 1, NULL),
+(36, 36, 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=800&auto=format&fit=crop', 'Nike Short Dri-FIT', 0, 1, NULL),
+(37, 37, 'https://images.unsplash.com/photo-1584865288642-42078afe6942?q=80&w=800&auto=format&fit=crop', 'DL Active Short Nữ', 0, 1, NULL),
+(38, 38, 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=800&auto=format&fit=crop', 'UA Legging HeatGear', 0, 1, NULL),
+(39, 39, 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop', 'Adidas Legging Optime', 0, 1, NULL),
+(40, 40, 'https://images.unsplash.com/photo-1614632537190-23e4146777db?q=80&w=800&auto=format&fit=crop', 'Bóng đá Adidas Al Rihla', 0, 1, NULL),
+(41, 41, 'https://images.unsplash.com/photo-1552667466-07770ae110d0?q=80&w=800&auto=format&fit=crop', 'DL Bóng đá Classic 5', 0, 1, NULL),
+(42, 42, 'https://images.unsplash.com/photo-1614232389104-58a36ff8d5db?q=80&w=800&auto=format&fit=crop', 'DL Bóng Futsal', 0, 1, NULL),
+(43, 43, 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop', 'Bóng Pickleball DL', 0, 1, NULL),
+(44, 44, 'https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?q=80&w=800&auto=format&fit=crop', 'Tạ tay DL Vinyl', 0, 1, NULL),
+(45, 45, 'https://images.unsplash.com/photo-1586326622839-84d4b3eb4f3e?q=80&w=800&auto=format&fit=crop', 'Mũ thể thao DL', 0, 1, NULL),
+(46, 46, 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop', 'Balo DL Sport', 0, 1, NULL),
+(47, 47, 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?q=80&w=800&auto=format&fit=crop', 'Tất Yonex', 0, 1, NULL),
+(48, 48, 'https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?q=80&w=800&auto=format&fit=crop', 'Tất DL Sport', 0, 1, NULL),
+(49, 49, 'https://images.unsplash.com/photo-1586326622839-84d4b3eb4f3e?q=80&w=800&auto=format&fit=crop', 'Mũ nữ DL Lily', 0, 1, NULL),
+(50, 50, 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop', 'Balo nữ Adidas', 0, 1, NULL),
+(55, 56, 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?q=80&w=800&auto=format&fit=crop', 'sản phẩm test ẩn hiện', 0, 1, NULL),
 (58, 25, '/uploads/products/vot-cl-yonex-astrox-99-pro/img_6a25663abb956_1780835898.webp', 'vot-cau-long-yonex-astrox-99-pro-do-khong-bao-hanh-ma-sp_1727208715.webp', 1, 0, 'Do (4U)'),
-(59, 25, '/uploads/products/vot-cl-yonex-astrox-99-pro/img_6a2566416b5e4_1780835905.webp', 'vot-cau-long-yonex-astrox-99-pro-trang-ma-jp-3_1695687409.webp', 2, 1, 'Trang (4U)');
+(59, 25, '/uploads/products/vot-cl-yonex-astrox-99-pro/img_6a2566416b5e4_1780835905.webp', 'vot-cau-long-yonex-astrox-99-pro-trang-ma-jp-3_1695687409.webp', 2, 1, 'Trang (4U)'),
+(60, 58, 'https://images.unsplash.com/photo-1584735174965-c6c4c0b5c1ab?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(61, 59, 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(62, 60, 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(63, 61, 'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(64, 62, 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(65, 63, 'https://images.unsplash.com/photo-1584735174965-c6c4c0b5c1ab?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(66, 64, 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(67, 65, 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(68, 66, 'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(69, 67, 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(70, 68, 'https://images.unsplash.com/photo-1628891435222-06592ce293c4?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(71, 69, 'https://images.unsplash.com/photo-1608139556277-2b7de02af46e?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(72, 70, 'https://images.unsplash.com/photo-1614232389104-58a36ff8d5db?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(73, 71, 'https://images.unsplash.com/photo-1628891435222-06592ce293c4?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(74, 72, 'https://images.unsplash.com/photo-1608139556277-2b7de02af46e?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(75, 73, 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(76, 74, 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(77, 75, 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(78, 76, 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(79, 77, 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(80, 78, 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(81, 79, 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(82, 80, 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(83, 81, 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(84, 82, 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(85, 83, 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(86, 84, 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(87, 85, 'https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(88, 86, 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(89, 87, 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(90, 88, 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(91, 89, 'https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(92, 90, 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(93, 91, 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(94, 92, 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -653,7 +783,7 @@ CREATE TABLE `product_variants` (
 -- Đang đổ dữ liệu cho bảng `product_variants`
 --
 
-REPLACE INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `size`, `extra_price`, `stock_quantity`, `is_active`, `is_deleted`) VALUES
+INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `size`, `extra_price`, `stock_quantity`, `is_active`, `is_deleted`) VALUES
 (1, 1, 'DL-SPX1-DEN-39', 'Đen', '39', 0.00, 8, 1, 0),
 (2, 1, 'DL-SPX1-DEN-40', 'Đen', '40', 0.00, 10, 1, 0),
 (3, 1, 'DL-SPX1-DEN-41', 'Đen', '41', 0.00, 10, 1, 0),
@@ -683,7 +813,7 @@ REPLACE INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `si
 (27, 5, 'AS-GN26-XANH-41', 'Xanh', '41', 100000.00, 4, 1, 0),
 (28, 5, 'AS-GN26-XANH-42', 'Xanh', '42', 100000.00, 3, 1, 0),
 (29, 5, 'AS-GN26-TRANG-40', 'Trắng', '40', 100000.00, 3, 1, 0),
-(30, 5, 'AS-GN26-TRANG-41', 'Trắng', '41', 100000.00, 3, 1, 0),
+(30, 5, 'AS-GN26-TRANG-41', 'Trắng', '41', 100000.00, 2, 1, 0),
 (31, 6, 'DL-STR-VANG-38', 'Vàng', '38', 0.00, 12, 1, 0),
 (32, 6, 'DL-STR-VANG-39', 'Vàng', '39', 0.00, 15, 1, 0),
 (33, 6, 'DL-STR-VANG-40', 'Vàng', '40', 0.00, 15, 1, 0),
@@ -881,7 +1011,7 @@ REPLACE INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `si
 (226, 45, 'DL-MU-TRANG-FS', 'Trắng', 'Free size', 0.00, 15, 1, 0),
 (227, 46, 'DL-BALO-DEN', 'Đen', '20L', 0.00, 15, 1, 0),
 (228, 46, 'DL-BALO-XANH', 'Xanh navy', '20L', 0.00, 15, 1, 0),
-(229, 46, 'DL-BALO-TRANG', 'Trắng', '20L', 0.00, 10, 1, 0),
+(229, 46, 'DL-BALO-TRANG', 'Trắng', '20L', 0.00, 9, 1, 0),
 (230, 47, 'YNX-TAT-TRANG-SS', 'Trắng', 'S/M', 0.00, 40, 1, 0),
 (231, 47, 'YNX-TAT-TRANG-ML', 'Trắng', 'M/L', 0.00, 40, 1, 0),
 (232, 47, 'YNX-TAT-DEN-SS', 'Đen', 'S/M', 0.00, 10, 1, 0),
@@ -913,7 +1043,7 @@ CREATE TABLE `product_view_logs` (
 -- Đang đổ dữ liệu cho bảng `product_view_logs`
 --
 
-REPLACE INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`) VALUES
+INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`) VALUES
 (1, 3, 1, '2026-05-29 19:17:55'),
 (2, 3, 3, '2026-05-29 19:17:55'),
 (3, 3, 5, '2026-05-29 19:17:55'),
@@ -979,7 +1109,32 @@ REPLACE INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at
 (74, 1, 25, '2026-06-07 19:44:52'),
 (75, 1, 25, '2026-06-07 19:49:38'),
 (76, 1, 25, '2026-06-07 19:53:58'),
-(77, 1, 31, '2026-06-08 19:22:39');
+(77, 1, 31, '2026-06-08 19:22:39'),
+(78, 27, 3, '2026-06-09 19:53:02'),
+(79, 27, 3, '2026-06-09 20:13:41'),
+(80, 27, 3, '2026-06-09 20:13:42'),
+(81, 27, 3, '2026-06-09 20:13:42'),
+(82, 27, 3, '2026-06-09 20:13:42'),
+(83, 27, 3, '2026-06-09 20:13:42'),
+(84, 27, 3, '2026-06-09 20:13:42'),
+(85, 27, 3, '2026-06-09 20:13:43'),
+(86, 27, 3, '2026-06-09 20:13:43'),
+(87, 27, 3, '2026-06-09 20:13:43'),
+(88, 27, 3, '2026-06-09 20:13:43'),
+(89, 27, 3, '2026-06-09 20:13:44'),
+(90, 27, 3, '2026-06-09 20:13:44'),
+(91, 27, 3, '2026-06-09 20:13:44'),
+(92, 27, 3, '2026-06-09 20:13:44'),
+(93, 27, 56, '2026-06-09 20:13:56'),
+(94, 27, 56, '2026-06-09 20:15:44'),
+(95, 27, 46, '2026-06-09 20:49:47'),
+(96, 27, 40, '2026-06-09 21:35:29'),
+(97, 27, 40, '2026-06-09 21:35:33'),
+(98, 27, 5, '2026-06-09 23:45:44'),
+(99, 27, 49, '2026-06-10 00:47:22'),
+(100, 27, 31, '2026-06-10 00:51:15'),
+(101, 27, 31, '2026-06-10 00:51:18'),
+(102, 27, 31, '2026-06-10 00:51:23');
 
 -- --------------------------------------------------------
 
@@ -1009,7 +1164,7 @@ CREATE TABLE `promotions` (
 -- Đang đổ dữ liệu cho bảng `promotions`
 --
 
-REPLACE INTO `promotions` (`promo_id`, `promo_code`, `promo_name`, `description`, `discount_type`, `discount_value`, `min_order_value`, `max_discount`, `usage_limit`, `used_count`, `start_date`, `end_date`, `is_active`, `created_at`, `updated_at`) VALUES
+INSERT INTO `promotions` (`promo_id`, `promo_code`, `promo_name`, `description`, `discount_type`, `discount_value`, `min_order_value`, `max_discount`, `usage_limit`, `used_count`, `start_date`, `end_date`, `is_active`, `created_at`, `updated_at`) VALUES
 (1, 'WELCOME10', 'Chào mừng thành viên mới', NULL, 'fixed', 100000.00, 200000.00, 50000.00, 1000, 0, '2026-01-01 00:00:00', '2026-12-31 00:00:00', 1, '2026-05-29 19:17:55', '2026-06-05 13:11:49'),
 (2, 'SALE20', 'Khuyến mãi 20%', NULL, 'percent', 20.00, 500000.00, 100000.00, 500, 0, '2025-06-01 00:00:00', '2025-12-31 23:59:59', 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (3, 'FREESHIP', 'Miễn phí vận chuyển', NULL, 'fixed', 50000.00, 300000.00, NULL, 300, 0, '2025-07-01 00:00:00', '2025-09-30 23:59:59', 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
@@ -1038,7 +1193,7 @@ CREATE TABLE `reviews` (
 -- Đang đổ dữ liệu cho bảng `reviews`
 --
 
-REPLACE INTO `reviews` (`review_id`, `product_id`, `user_id`, `rating`, `comment`, `status`, `created_at`, `updated_at`) VALUES
+INSERT INTO `reviews` (`review_id`, `product_id`, `user_id`, `rating`, `comment`, `status`, `created_at`, `updated_at`) VALUES
 (1, 1, 3, 5, 'Sản phẩm rất xịn, đế giày êm ái, đi chạy 10km không thấy mỏi chân. Hàng thật chất lượng tốt lắm!', 'approved', '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (2, 1, 4, 4, 'Giày đẹp, đủ size, giao hàng nhanh. Chỉ trừ là hộp quá chút.', 'approved', '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (3, 1, 5, 5, 'Đã mua lần 2 vì quá xài lần đầu thích lắm. Điều kiện giao hàng tốt.', 'approved', '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
@@ -1083,7 +1238,7 @@ CREATE TABLE `roles` (
 -- Đang đổ dữ liệu cho bảng `roles`
 --
 
-REPLACE INTO `roles` (`role_id`, `role_name`, `description`) VALUES
+INSERT INTO `roles` (`role_id`, `role_name`, `description`) VALUES
 (1, 'admin', 'Quản trị viên toàn quyền'),
 (2, 'staff', 'Nhân viên xử lý đơn hàng'),
 (3, 'customer', 'Khách hàng thông thường'),
@@ -1111,7 +1266,7 @@ CREATE TABLE `search_logs` (
 -- Đang đổ dữ liệu cho bảng `search_logs`
 --
 
-REPLACE INTO `search_logs` (`log_id`, `user_id`, `keyword`, `result_count`, `searched_at`) VALUES
+INSERT INTO `search_logs` (`log_id`, `user_id`, `keyword`, `result_count`, `searched_at`) VALUES
 (1, 3, 'giay chay bo', 5, '2026-05-29 19:17:55'),
 (2, 3, 'yonex', 8, '2026-05-29 19:17:55'),
 (3, 3, 'cau long', 12, '2026-05-29 19:17:55'),
@@ -1147,7 +1302,7 @@ CREATE TABLE `shipping_methods` (
 -- Đang đổ dữ liệu cho bảng `shipping_methods`
 --
 
-REPLACE INTO `shipping_methods` (`shipping_id`, `method_name`, `description`, `base_fee`, `free_threshold`, `estimated_days`, `is_active`) VALUES
+INSERT INTO `shipping_methods` (`shipping_id`, `method_name`, `description`, `base_fee`, `free_threshold`, `estimated_days`, `is_active`) VALUES
 (1, 'Giao hàng tiêu chuẩn', 'Giao trong 3-5 ngày làm việc', 30000.00, 500000.00, '3-5 ngày làm việc', 1),
 (2, 'Giao hàng nhanh', 'Giao trong 1-2 ngày làm việc', 50000.00, 800000.00, '1-2 ngày làm việc', 1),
 (3, 'Giao hàng hoả tốc', 'Giao trong ngày (nội thành)', 80000.00, NULL, 'Trong ngày', 1),
@@ -1172,7 +1327,7 @@ CREATE TABLE `shipping_prices` (
 -- Đang đổ dữ liệu cho bảng `shipping_prices`
 --
 
-REPLACE INTO `shipping_prices` (`shipping_id`, `province_city`, `base_price`, `estimated_days`, `created_at`, `updated_at`) VALUES
+INSERT INTO `shipping_prices` (`shipping_id`, `province_city`, `base_price`, `estimated_days`, `created_at`, `updated_at`) VALUES
 (1, 'TP. Hồ Chí Minh', 20000.00, 2, '2026-06-05 16:13:22', '2026-06-05 16:13:22'),
 (2, 'Hà Nội', 20000.00, 2, '2026-06-05 16:13:22', '2026-06-05 16:13:22'),
 (3, 'Đà Nẵng', 20000.00, 2, '2026-06-05 16:13:22', '2026-06-05 16:13:22'),
@@ -1261,7 +1416,7 @@ CREATE TABLE `site_settings` (
 -- Đang đổ dữ liệu cho bảng `site_settings`
 --
 
-REPLACE INTO `site_settings` (`setting_id`, `setting_key`, `setting_value`, `setting_type`, `group_name`, `display_name`, `description`, `sort_order`, `is_public`, `updated_by`, `updated_at`) VALUES
+INSERT INTO `site_settings` (`setting_id`, `setting_key`, `setting_value`, `setting_type`, `group_name`, `display_name`, `description`, `sort_order`, `is_public`, `updated_by`, `updated_at`) VALUES
 (1, 'site_name', 'Axeron Sport', 'text', 'general', 'Tên Website', 'Tên website hiển thị trên trình duyệt và logo', 1, 1, NULL, '2026-06-05 12:54:12'),
 (2, 'site_tagline', 'Thể Thao Đỉnh Cao - Phong Cách Thượng Lưu', 'text', 'general', 'Tagline', 'Khẩu hiệu ngắn của website', 2, 1, NULL, '2026-06-05 12:54:12'),
 (3, 'site_logo', '', 'image', 'general', 'Logo Website', 'Logo chính của website (khuyến nghị: 200x60px)', 3, 1, NULL, '2026-06-05 12:54:12'),
@@ -1311,8 +1466,8 @@ CREATE TABLE `users` (
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-REPLACE INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Quản Trị Viên', 'admin@sportsshop.vn', '0901000001', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-06 01:21:33'),
+INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Quản Trị Viên', 'admin@sportsshop.vn', '0901000001', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, NULL, 0, '$2y$10$ggzXpsKfm4lKV1TzbN9xT.WxPzGXDBll4ft2eMTw3c0/HDaZgC3EO', 1, '2026-05-29 19:17:55', '2026-06-09 22:11:23'),
 (3, 3, 'Nguyễn Văn An', 'user@sportsshop.vn', '0912345678', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (4, 3, 'Trần Thị Bích', 'bich.tran@gmail.com', '0923456789', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (5, 3, 'Lê Minh Cường', 'cuong.le@gmail.com', '0934567890', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
@@ -1323,7 +1478,8 @@ REPLACE INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `phone`, `pass
 (22, 5, 'Staff Sản Phẩm', 'nvsp@sportsshop.vn', '0901000005', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-06 03:44:17'),
 (23, 6, 'Staff Đơn Hàng', 'nvorder@sportsshop.vn', '0901000006', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-06 03:42:11'),
 (24, 7, 'Staff Thống Kê', 'nvtk@sportsshop.vn', '0901000007', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-06 03:42:24'),
-(25, 8, 'Staff CMS', 'nvcms@sportsshop.vn', '0901000008', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-06 03:16:46', '2026-06-06 03:41:27');
+(25, 8, 'Staff CMS', 'nvcms@sportsshop.vn', '0901000008', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-06 03:16:46', '2026-06-06 03:41:27'),
+(27, 3, 'Lợi Lê Hữu', 'loiledelta0@gmail.com', '0772130908', '$2y$10$u5UldnQWjhzgwHiyHzGuAu.6exg5lUOfNUf8g7l/3Xm8W7XBRY8ha', '/assets/uploads/avatars/avatar_27_1781012205.png', 'male', '2004-10-21', 1, NULL, 0, '$2y$10$LVEDN0FGhtg8TeVADx11ZO04N5S7pR2NfnQmBRGFT5fo08/VzkPB.', 1, '2026-06-09 19:32:29', '2026-06-09 23:32:35');
 
 -- --------------------------------------------------------
 
@@ -1348,13 +1504,14 @@ CREATE TABLE `user_addresses` (
 -- Đang đổ dữ liệu cho bảng `user_addresses`
 --
 
-REPLACE INTO `user_addresses` (`address_id`, `user_id`, `recipient_name`, `phone`, `province`, `district`, `ward`, `street_address`, `is_default`, `created_at`) VALUES
+INSERT INTO `user_addresses` (`address_id`, `user_id`, `recipient_name`, `phone`, `province`, `district`, `ward`, `street_address`, `is_default`, `created_at`) VALUES
 (1, 3, 'Nguyễn Văn An', '0912345678', 'TP Hồ Chí Minh', 'Quận 1', 'Phường Bến Nghé', '12 Nguyễn Huệ', 1, '2026-05-29 19:17:55'),
 (2, 4, 'Trần Thị Bích', '0923456789', 'TP Hồ Chí Minh', 'Quận Bình Thạnh', 'Phường 25', '45 Xô Viết Nghệ Tĩnh', 1, '2026-05-29 19:17:55'),
 (3, 5, 'Lê Minh Cường', '0934567890', 'Hà Nội', 'Cầu Giấy', 'Phường Dịch Vọng', '88 Trần Thái Tông', 1, '2026-05-29 19:17:55'),
 (4, 6, 'Phạm Thị Dung', '0945678901', 'Đà Nẵng', 'Hải Châu', 'Phường Hải Châu 1', '23 Trần Phú', 1, '2026-05-29 19:17:55'),
 (5, 7, 'Hoàng Văn Em', '0956789012', 'TP Hồ Chí Minh', 'Quận 7', 'Phường Tân Phong', '5 Nguyễn Văn Linh', 1, '2026-05-29 19:17:55'),
-(6, 8, 'Nguyễn Thị Phương', '0967890123', 'TP Hồ Chí Minh', 'Thủ Đức', 'Phường Linh Trung', '100 Võ Văn Ngân', 1, '2026-05-29 19:17:55');
+(6, 8, 'Nguyễn Thị Phương', '0967890123', 'TP Hồ Chí Minh', 'Thủ Đức', 'Phường Linh Trung', '100 Võ Văn Ngân', 1, '2026-05-29 19:17:55'),
+(12, 27, 'Lợi Lê Hữu', '0772130908', 'Vĩnh Long', 'tp Vĩnh Long', 'phường Tân Hạnh', '6/71, Nguyễn Văn Lâu', 1, '2026-06-09 21:44:04');
 
 -- --------------------------------------------------------
 
@@ -1492,6 +1649,12 @@ ALTER TABLE `chat_messages`
 ALTER TABLE `chat_sessions`
   ADD PRIMARY KEY (`session_id`),
   ADD KEY `fk_chat_user` (`user_id`);
+
+--
+-- Chỉ mục cho bảng `contact_messages`
+--
+ALTER TABLE `contact_messages`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `orders`
@@ -1646,76 +1809,79 @@ ALTER TABLE `user_addresses`
 -- AUTO_INCREMENT cho bảng `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `article_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `article_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `banners`
 --
 ALTER TABLE `banners`
-  MODIFY `banner_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `banner_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `brand_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `brand_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=315;
+  MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=319;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_messages`
 --
 ALTER TABLE `chat_messages`
-  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_sessions`
 --
 ALTER TABLE `chat_sessions`
-  MODIFY `session_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `session_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT cho bảng `contact_messages`
+--
+ALTER TABLE `contact_messages`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
+  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
+  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT cho bảng `order_status_logs`
 --
 ALTER TABLE `order_status_logs`
-  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT cho bảng `password_resets`
 --
 ALTER TABLE `password_resets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `payment_transactions`
@@ -1727,15 +1893,13 @@ ALTER TABLE `payment_transactions`
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
-
+  MODIFY `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT cho bảng `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `image_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
-
+  MODIFY `image_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT cho bảng `product_variants`
@@ -1743,13 +1907,11 @@ ALTER TABLE `product_images`
 ALTER TABLE `product_variants`
   MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=246;
 
-
 --
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
-
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
@@ -1797,13 +1959,13 @@ ALTER TABLE `site_settings`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT cho bảng `user_addresses`
 --
 ALTER TABLE `user_addresses`
-  MODIFY `address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

@@ -268,7 +268,7 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
 
 <!-- TopAppBar Component -->
 <header class="bg-surface dark:bg-on-background sticky top-0 z-50 border-b border-outline-variant dark:border-outline" id="main-header">
-    <div class="flex justify-between items-center w-full px-margin-desktop py-3 max-w-container-max mx-auto">
+    <div class="flex justify-between items-center w-[80%] max-w-none px-margin-desktop py-5 mx-auto">
         <!-- Mobile Menu Toggle -->
         <button class="md:hidden p-2 -ml-2 hover:bg-surface-container rounded-lg transition-colors" onclick="toggleMobileMenu()" aria-label="Menu">
             <span class="material-symbols-outlined text-2xl text-on-surface">menu</span>
@@ -281,13 +281,13 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
         </a>
 
         <!-- Navigation Links (Desktop) - Mega Menu -->
-        <nav class="hidden md:flex items-center gap-1 flex-1 justify-center" id="mega-nav">
+        <nav class="hidden lg:flex items-center gap-6 xl:gap-8 flex-1 justify-center" id="mega-nav">
             <?php foreach ($_navLevel1 as $_l1):
                 $_isActive = ($_activeRootId === $_l1['category_id']);
                 $_hasLevel2 = isset($_navLevel2Map[$_l1['category_id']]);
             ?>
             <div class="mega-nav-item">
-                <a class="mega-nav-link font-label-lg text-label-lg uppercase whitespace-nowrap px-3
+                <a class="mega-nav-link font-label-lg text-label-lg uppercase whitespace-nowrap px-4
                           <?= $_isActive ? 'active text-axeron-red font-bold' : 'text-on-surface hover:text-axeron-red' ?> transition-colors duration-200"
                    href="<?= BASE_URL ?>/shop/product-catalog.php?category=<?= htmlspecialchars($_l1['slug']) ?>"
                    title="<?= htmlspecialchars($_l1['category_name']) ?>">
@@ -360,13 +360,13 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
             <!-- User Account -->
             <?php if (isLoggedIn()): ?>
                 <div class="relative group">
-                    <button aria-label="Account" class="hover:text-axeron-red transition-colors duration-200 flex items-center gap-1">
+                    <button aria-label="Account" class="hover:text-axeron-red transition-colors duration-200 flex items-center gap-1.5">
                         <?php if (!empty($_SESSION['avatar_url'])): ?>
-                            <img src="<?= BASE_URL . htmlspecialchars($_SESSION['avatar_url']) ?>" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-outline-variant">
+                            <img src="<?= BASE_URL . htmlspecialchars($_SESSION['avatar_url']) ?>" alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-outline-variant">
                         <?php else: ?>
-                            <span class="material-symbols-outlined text-2xl">account_circle</span>
+                            <span class="material-symbols-outlined text-[28px]">account_circle</span>
                         <?php endif; ?>
-                        <span class="hidden xl:inline text-sm max-w-[100px] truncate"><?= htmlspecialchars($_SESSION['full_name'] ?? 'Tài khoản') ?></span>
+                        <span class="hidden xl:inline text-base font-medium max-w-[120px] truncate"><?= htmlspecialchars($_SESSION['full_name'] ?? 'Tài khoản') ?></span>
                     </button>
                     <!-- Dropdown Menu -->
                     <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-outline-variant opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
@@ -387,19 +387,19 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
                 </div>
             <?php else: ?>
                 <a href="<?= BASE_URL ?>/auth/login.php" aria-label="Account" class="hover:text-axeron-red transition-colors duration-200">
-                    <span class="material-symbols-outlined text-2xl">person</span>
+                    <span class="material-symbols-outlined text-[28px]">person</span>
                 </a>
             <?php endif; ?>
 
             <!-- Shopping Cart -->
-            <a href="<?= BASE_URL ?>/shop/cart.php" aria-label="Shopping Cart" class="hover:text-axeron-red transition-colors relative">
-                <span class="material-symbols-outlined text-2xl" data-icon="shopping_cart">shopping_cart</span>
+            <a href="<?= BASE_URL ?>/shop/cart.php" aria-label="Shopping Cart" class="hover:text-axeron-red transition-colors relative mt-1">
+                <span class="material-symbols-outlined text-[28px]" data-icon="shopping_cart">shopping_cart</span>
                 <?php if ($cartCount > 0): ?>
-                    <span class="absolute -top-1 -right-1 bg-axeron-red text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center cart-badge">
+                    <span class="absolute -top-1.5 -right-1.5 bg-axeron-red text-white text-xs font-bold h-5 w-5 rounded-full flex items-center justify-center cart-badge">
                         <?= $cartCount > 99 ? '99+' : $cartCount ?>
                     </span>
                 <?php else: ?>
-                    <span class="absolute -top-1 -right-1 bg-axeron-red text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center cart-badge" style="display: none;">
+                    <span class="absolute -top-1.5 -right-1.5 bg-axeron-red text-white text-xs font-bold h-5 w-5 rounded-full flex items-center justify-center cart-badge" style="display: none;">
                         0
                     </span>
                 <?php endif; ?>
