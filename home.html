@@ -1,0 +1,1374 @@
+<!doctype html>
+
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Axeron - Dụng cụ thể thao chuyên nghiệp</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-background": "#1b1c1c",
+              "inverse-surface": "#303030",
+              "text-dark": "#212121",
+              "tertiary-container": "#006a85",
+              background: "#fcf9f8",
+              "on-primary-fixed-variant": "#930019",
+              "inverse-primary": "#ffb3b0",
+              "secondary-fixed-dim": "#b0c6ff",
+              "error-container": "#ffdad6",
+              "outline-variant": "#e3bebb",
+              "tertiary-fixed": "#baeaff",
+              "on-secondary": "#ffffff",
+              "secondary-fixed": "#d9e2ff",
+              "on-primary-fixed": "#410006",
+              "surface-container": "#f0eded",
+              error: "#ba1a1a",
+              "axeron-red": "#BE1E2D",
+              "on-tertiary": "#ffffff",
+              "surface-dim": "#dcd9d9",
+              "on-primary-container": "#ffd3d1",
+              "secondary-container": "#0f6df3",
+              "surface-tint": "#b91a2a",
+              primary: "#98001b",
+              "surface-gray": "#F5F5F5",
+              "surface-bright": "#fcf9f8",
+              "surface-container-highest": "#e5e2e1",
+              "on-surface": "#1b1c1c",
+              white: "#FFFFFF",
+              tertiary: "#005066",
+              "surface-container-high": "#eae7e7",
+              "on-error-container": "#93000a",
+              "primary-container": "#be1e2d",
+              "primary-fixed": "#ffdad8",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#f3f0ef",
+              "on-tertiary-container": "#abe6ff",
+              "surface-variant": "#e5e2e1",
+              "on-secondary-container": "#fefcff",
+              secondary: "#0056c5",
+              outline: "#8f6f6e",
+              "axeron-blue": "#2979FF",
+              "tertiary-fixed-dim": "#85d1ef",
+              surface: "#fcf9f8",
+              "on-secondary-fixed-variant": "#00429b",
+              "on-tertiary-fixed": "#001f29",
+              "on-tertiary-fixed-variant": "#004d62",
+              "surface-container-low": "#f6f3f2",
+              "on-secondary-fixed": "#001945",
+              "primary-fixed-dim": "#ffb3b0",
+              "on-surface-variant": "#5b403f",
+              "on-primary": "#ffffff",
+              "on-error": "#ffffff",
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            spacing: {
+              "margin-desktop": "24px",
+              gutter: "16px",
+              "container-max": "1200px",
+              base: "8px",
+              "margin-mobile": "16px",
+            },
+            fontFamily: {
+              "body-lg": ["Noto Sans", "sans-serif"],
+              "headline-lg-mobile": ["Montserrat", "sans-serif"],
+              "label-sm": ["Noto Sans", "sans-serif"],
+              "display-lg": ["Montserrat", "sans-serif"],
+              "body-md": ["Noto Sans", "sans-serif"],
+              "headline-md": ["Montserrat", "sans-serif"],
+              "headline-lg": ["Montserrat", "sans-serif"],
+              "label-lg": ["Noto Sans", "sans-serif"],
+            },
+            fontSize: {
+              "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+              "headline-lg-mobile": [
+                "24px",
+                { lineHeight: "32px", fontWeight: "700" },
+              ],
+              "label-sm": ["12px", { lineHeight: "16px", fontWeight: "500" }],
+              "display-lg": [
+                "48px",
+                {
+                  lineHeight: "56px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "800",
+                },
+              ],
+              "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "headline-md": [
+                "24px",
+                { lineHeight: "32px", fontWeight: "600" },
+              ],
+              "headline-lg": [
+                "32px",
+                { lineHeight: "40px", fontWeight: "700" },
+              ],
+              "label-lg": ["14px", { lineHeight: "20px", fontWeight: "700" }],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .text-truncate-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-background font-body-md antialiased">
+    <!-- TopAppBar Component -->
+    <header
+      class="bg-surface dark:bg-on-background sticky top-0 z-50 border-b border-outline-variant dark:border-outline flat no shadows docked full-width top-0"
+    >
+      <div
+        class="flex justify-between items-center w-full px-margin-desktop py-4 max-w-container-max mx-auto"
+      >
+        <a
+          class="font-display-lg text-axeron-red uppercase tracking-tight"
+          href="/"
+          >Axeron</a
+        >
+        <nav class="hidden md:flex items-center gap-8">
+          <a
+            class="text-on-surface dark:text-on-surface-variant hover:text-axeron-red transition-colors duration-200 font-label-lg text-label-lg"
+            href="#"
+            >NAM</a
+          >
+          <a
+            class="text-on-surface dark:text-on-surface-variant hover:text-axeron-red transition-colors duration-200 font-label-lg text-label-lg"
+            href="#"
+            >NỮ</a
+          >
+          <a
+            class="text-on-surface dark:text-on-surface-variant hover:text-axeron-red transition-colors duration-200 font-label-lg text-label-lg"
+            href="#"
+            >THỂ THAO</a
+          >
+          <a
+            class="text-on-surface dark:text-on-surface-variant hover:text-axeron-red transition-colors duration-200 font-label-lg text-label-lg"
+            href="#"
+            >ĐỘI TUYỂN</a
+          >
+          <a
+            class="text-on-surface dark:text-on-surface-variant hover:text-axeron-red transition-colors duration-200 font-label-lg text-label-lg"
+            href="#"
+            >NHÃN HIỆU</a
+          >
+          <a
+            class="text-axeron-red font-bold border-b-2 border-axeron-red pb-1 font-label-lg text-label-lg"
+            href="#"
+            >SALE SỐC</a
+          >
+        </nav>
+        <div
+          class="flex items-center gap-4 text-axeron-red dark:text-primary-fixed"
+        >
+          <div class="relative hidden lg:block">
+            <input
+              class="bg-surface-container rounded-full py-2 pl-4 pr-10 border border-outline-variant focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue outline-none text-body-md font-body-md w-64 transition-all"
+              placeholder="Tìm kiếm sản phẩm..."
+              type="text"
+            />
+            <span
+              class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant cursor-pointer"
+              >search</span
+            >
+          </div>
+          <button
+            aria-label="User Profile"
+            class="p-2 hover:bg-surface-variant rounded-full transition-colors"
+          >
+            <span class="material-symbols-outlined text-2xl" data-icon="person"
+              >person</span
+            >
+          </button>
+          <button
+            aria-label="Shopping Cart"
+            class="p-2 hover:bg-surface-variant rounded-full transition-colors relative"
+          >
+            <span
+              class="material-symbols-outlined text-2xl"
+              data-icon="shopping_cart"
+              >shopping_cart</span
+            >
+            <span
+              class="absolute top-1 right-1 bg-axeron-red text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center"
+              >3</span
+            >
+          </button>
+        </div>
+      </div>
+    </header>
+    <div
+      class="w-full bg-black text-white text-center py-2 text-label-sm font-label-sm tracking-wide"
+    >
+      Freeship với hóa đơn trên 500k |
+      <a class="underline hover:text-axeron-red" href="#">ĐĂNG KÝ NGAY</a>
+    </div>
+    <!-- Main Content -->
+    <main>
+      <!-- Banner Hero Slider -->
+      <section
+        class="relative w-full h-[600px] md:h-[700px] overflow-hidden group"
+      >
+        <div
+          class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-100"
+          id="slide-1"
+        >
+          <img
+            alt="Axeron Vortex Collection featuring athletes posing with sports shoes on a blue technical background."
+            class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida/ADBb0uh4vDBL5VCYAUWM_zi2WHtMcReinLB9KdRsn2UBbyXZuHEbnPNSrimb_PiQgRlaIj6frtD6rsXlPbeDudWnWmgtq6AtgbBTssBfQKYD4LcQ1uJNe6MipMP-NbDyzfI83vrIKCEdtmXda-6TtBfkj5vu6oKLfmzfwaHA-bLj0AV4753OqyqlX2VmvhlP-1SaeCNGpK7yLc3MAe4_lrMAVPT2C_A6NzLP_oIgbsvad7_XQn3AMlIJ6UFk4K8"
+          />
+        </div>
+        <div
+          class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0"
+          id="slide-2"
+        >
+          <img
+            alt="Axeron Hitek collection featuring athletes posing confidently on a football field in dynamic red and blue jerseys."
+            class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida/ADBb0uiU8IdLJSx4KfxuJ7rUGImE1GQEPEHYAv3JVjqtac08xnwG-pMHwYWxnsrvxhUEtUPKSwIFbR3muV79hkfI6dVweGw7U6s0f7k2P1Dhb53NZUQDkJ9X7CJB0UUuuLJLYBFxoG8kRI4BUeQ15HqVwZKz81arj_wA4xrMRMVgzQML6DkLDQ-4cJmIFHPhSf6eLQwWnBEDlQOnY1xkf27z4hoR1uKiBSD3ATnzypWdG96Ws1vz60fmXmKgKceT"
+          />
+        </div>
+        <button
+          class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 hover:bg-white/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity z-10"
+          onclick="prevSlide()"
+        >
+          <span class="material-symbols-outlined text-3xl">chevron_left</span>
+        </button>
+        <button
+          class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 hover:bg-white/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity z-10"
+          onclick="nextSlide()"
+        >
+          <span class="material-symbols-outlined text-3xl">chevron_right</span>
+        </button>
+        <div
+          class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10"
+        >
+          <button
+            class="w-3 h-3 rounded-full bg-white transition-all w-8"
+            id="dot-1"
+            onclick="goToSlide(1)"
+          ></button>
+          <button
+            class="w-3 h-3 rounded-full bg-white/50 transition-all hover:bg-white/80"
+            id="dot-2"
+            onclick="goToSlide(2)"
+          ></button>
+        </div>
+      </section>
+      <!-- Product Categories Bento Grid -->
+      <section
+        class="max-w-container-max mx-auto px-margin-desktop py-12 md:py-16"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+          <a
+            class="relative h-[250px] md:h-[300px] rounded-xl overflow-hidden group"
+            href="#"
+          >
+            <img
+              alt="Axeron Polo Shirt Collection banner showing a smiling couple wearing stylish activewear against a soft blue background."
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              src="https://lh3.googleusercontent.com/aida/ADBb0ujuRrW5g32r9sw8f5z2wAVDWrCiPpNsJt5pvZivUVOvnVnS-9zBhh9CHA_1JNdJ7j8wmH8hGFPQdgdZ4yKBr6xRW3x7RbZuevOmNa7peEz1Jd7RiMX44nC0oRWYSplrreUKzzI4X2NKzrUH3emUg_qU3eiVLxXYvgDOW_g-kRtXfN4951IB2cqWrEYCmvtSnjHIspHgsRONHfgziMUY39rYQOd7GgTX_wInD-8LK0fNnovBRMyYcIlrIEo4"
+            />
+          </a>
+          <a
+            class="relative h-[250px] md:h-[300px] rounded-xl overflow-hidden group"
+            href="#"
+          >
+            <img
+              alt="Axeron Pickleball Shoes Collection featuring various models displayed dynamically against a dark textured background."
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              src="https://lh3.googleusercontent.com/aida/ADBb0ui6G5OTndCGIG-FMQxRAvW-YT4W_YJhsNr8QoYtC5rKSuRBdndhDqM9KAgbCXA6h32GMwVqBBfhhlqE1HWNkktZG585n1YDv45hkgFzqwt7dpDlAqMRw-UI5grIIUEY6OtPEToaMWeaIygVEKOCrPEwCR5womaFhyND6eSgCU9EtfoOMPwq4tKo_amzf7IUwXQwF30pI0mfwbI1Amp7PyNImqV5lGYDzfWAxh3FF5grwWaZwD84OMhh0kSM"
+            />
+          </a>
+        </div>
+      </section>
+      <!-- Section: BÓNG (Balls) -->
+      <section class="max-w-container-max mx-auto px-margin-desktop py-12">
+        <div
+          class="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-surface-dim pb-4"
+        >
+          <h2
+            class="font-headline-lg text-headline-lg text-on-background uppercase relative"
+          >
+            Bóng
+            <span
+              class="absolute -bottom-4 left-0 w-1/2 h-1 bg-axeron-red"
+            ></span>
+          </h2>
+          <div class="flex flex-wrap gap-2 mt-4 md:mt-0">
+            <button
+              class="px-6 py-2 border border-outline-variant rounded-full text-label-lg font-label-lg hover:border-axeron-red hover:text-axeron-red transition-colors bg-white text-axeron-red border-axeron-red"
+            >
+              Bóng đá
+            </button>
+            <button
+              class="px-6 py-2 border border-outline-variant rounded-full text-label-lg font-label-lg hover:border-axeron-red hover:text-axeron-red transition-colors bg-surface-container"
+            >
+              Bóng chuyền
+            </button>
+            <button
+              class="px-6 py-2 border border-outline-variant rounded-full text-label-lg font-label-lg hover:border-axeron-red hover:text-axeron-red transition-colors bg-surface-container"
+            >
+              Bóng rổ
+            </button>
+            <button
+              class="px-6 py-2 border border-outline-variant rounded-full text-label-lg font-label-lg hover:border-axeron-red hover:text-axeron-red transition-colors bg-surface-container"
+            >
+              Bóng Futsal
+            </button>
+          </div>
+          <a
+            class="hidden md:flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-red transition-colors"
+            href="#"
+          >
+            Xem tất cả
+            <span class="material-symbols-outlined text-lg">chevron_right</span>
+          </a>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-gutter">
+          <!-- Product Card 1 -->
+          <div
+            class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col relative"
+          >
+            <div
+              class="aspect-square bg-surface-container-low p-4 relative overflow-hidden flex items-center justify-center"
+            >
+              <img
+                alt="Axeron U23 UHV 2.150 Football, primarily white with red and blue graphic patterns, size 4."
+                class="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida/ADBb0ujYIWGbx1UtFwcRp8vr5nxNBW_n1hT2IMLaF6zvQOm4kJPHXTSNJuwUpzzTEn-1-_B7_VanRjvkJUnY4fiq-kiibLKWqBWx7-VkIWbRj7mOOxYEmXRqgJjMH7wMud5RvPItvh5UcD_5J7aV3PaAzvaFtWCwhkqe80wVAkIr8HXJ62uzMcWREHA_rprLHaqXwJm-E9qSt8eIyCSGM9O-YDxXDNUvd8Y2gC1J1OfAuF1D5aEnuJOHWiVSUOgy"
+              />
+            </div>
+            <div class="p-4 flex flex-col flex-grow">
+              <h3
+                class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors"
+              >
+                BÓNG ĐÁ SỐ 4 U23 UHV 2.150
+              </h3>
+              <div class="mt-auto">
+                <p
+                  class="font-headline-md text-body-lg text-axeron-red font-bold"
+                >
+                  598,000₫
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Product Card 2 -->
+          <div
+            class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col relative"
+          >
+            <div
+              class="aspect-square bg-surface-container-low p-4 relative overflow-hidden flex items-center justify-center"
+            >
+              <img
+                alt="Axeron VLeague 24/25 UVI 2.07 Terra Match Football, size 5, featuring white base with dynamic blue and green swoosh graphics."
+                class="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida/ADBb0uifGGWwjjNq0o5L6Vr44nvFwl9smprZ8ispdf-FlDLGpntJeLsoJLZQ8ifkF2rvZVCWFO6bUuEX3VggiNbVgRjTDA8hjDfm0Wn7hPRwgKDUf85fbSlZIpglRe3uduUItVRpkFIdw6iC4t547S_A_g0ewAhPTRm5L4IQnkFBZT5HRl0nX1vtaE_xiiFnKR-VLcjNFcMARvgfg6j2Gk7TlgFLECTF-PFWipaOO22KW-YNOvricoM--MTi7z65"
+              />
+            </div>
+            <div class="p-4 flex flex-col flex-grow">
+              <h3
+                class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors"
+              >
+                BÓNG THI ĐẤU VLEAGUE 24/25 UVI 2.07 TERRA
+              </h3>
+              <div class="mt-auto">
+                <p
+                  class="font-headline-md text-body-lg text-axeron-red font-bold"
+                >
+                  2,880,000₫
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Product Card 3 -->
+          <div
+            class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col relative"
+          >
+            <div
+              class="aspect-square bg-surface-container-low p-4 relative overflow-hidden flex items-center justify-center"
+            >
+              <img
+                alt="Axeron FIFA Basic UBG 2.142 Victory Football, primarily white with pink, purple, and blue geometric accents."
+                class="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida/ADBb0uhx1rb2x0sieEv3RmXsGgjrOZBuwcZbirj-Zvn8pDV1aJdbWoIMaTWJr8lLX_OFISoGokugn6usdp_JDCbOIKNFksNuEukCJfxZrowqCRr2ZAK5IopNwSEK9m28oC5HOkBS9qWnDAwQFDiRm63STVYo8mQVi30OhuCXktX2RG931xl2qCCMqPdSa5iCK2YQcAvy-kxhCOJ3gUn2qSQwcSqLkC6Gqj8ON13e2gFYEIhfJY8X4tvgHurOz0e2"
+              />
+            </div>
+            <div class="p-4 flex flex-col flex-grow">
+              <h3
+                class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors"
+              >
+                BÓNG ĐÁ FIFA BASIC UBG 2.142 VICTORY
+              </h3>
+              <div class="mt-auto">
+                <p
+                  class="font-headline-md text-body-lg text-axeron-red font-bold"
+                >
+                  998,000₫
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Product Card 4 -->
+          <div
+            class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col relative"
+          >
+            <div
+              class="aspect-square bg-surface-container-low p-4 relative overflow-hidden flex items-center justify-center"
+            >
+              <img
+                alt="Axeron FIFA Quality UHV 2.05 Galaxy Football, size 5, mostly white with distinct dark grey and green hexagonal patterns."
+                class="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida/ADBb0uhl-7A6re2F8iHT3fPRDf8ZyQatvT_ilmscpxZa19h14vR9IlPQ-iUIF_RTNpEqHfXEZaZm1yvBprEbghCRV3GINlHWzC25UmxyJ-yFracRlmN2cALJa9m-x_ozorz0JIemcvt9uUK1JRANrTH-6qMzdpYPBHfTgr3P6O4o9PrN7yWHKYZI_a9-y-9PvrDDJ5bE_Jse5YyJ8F-XwLl5AGzxmPWH_54eBWn_gG_k_wrTiOCtCX7DW0sOimZv"
+              />
+            </div>
+            <div class="p-4 flex flex-col flex-grow">
+              <h3
+                class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors"
+              >
+                BÓNG ĐÁ FIFA QUALITY UHV 2.05 GALAXY SỐ 5
+              </h3>
+              <div class="mt-auto">
+                <p
+                  class="font-headline-md text-body-lg text-axeron-red font-bold"
+                >
+                  1,250,000₫
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Product Card 5 -->
+          <div
+            class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col relative"
+          >
+            <span
+              class="absolute top-2 left-2 bg-axeron-red text-white text-[10px] font-bold px-2 py-1 rounded z-10"
+              >Mới</span
+            >
+            <div
+              class="aspect-square bg-surface-container-low p-4 relative overflow-hidden flex items-center justify-center"
+            >
+              <img
+                alt="Axeron FIFA Quality Pro UHV 2.07 Football, size 5, white with sophisticated blue line art and orange accents."
+                class="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida/ADBb0uhGFOh2Q0EXk80GiqzqU9Z1nP_8yMAkzk6zltzmx4TnxmA6KLrft04UP4VONdDnMDhCHyLDGQWr822RdCbJNzPfgW-sirvbFGNQ6HTAR3utqtgyNImteEv0tt-aIDnjSh1P9osL6CvkAi1JZjCtn9aLDwSNQcSMz8Ob68jE6s26W0bz0dIk4E71qtAuwlUrU6F0LV1LkUt1Rs8yVX4-RS0DgVZxtYAKyXrV0tDQO69zG232gm5Dr-JxyY82"
+              />
+            </div>
+            <div class="p-4 flex flex-col flex-grow">
+              <h3
+                class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors"
+              >
+                BÓNG ĐÁ FIFA QUALITY PRO UHV 2.07 SỐ 5
+              </h3>
+              <div class="mt-auto">
+                <p
+                  class="font-headline-md text-body-lg text-axeron-red font-bold"
+                >
+                  2,550,000₫
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-6 flex justify-center md:hidden">
+          <a
+            class="px-6 py-2 border border-outline-variant rounded-full text-label-lg font-label-lg text-on-surface hover:border-axeron-red hover:text-axeron-red transition-colors inline-flex items-center gap-1"
+            href="#"
+          >
+            Xem tất cả
+            <span class="material-symbols-outlined text-sm">chevron_right</span>
+          </a>
+        </div>
+      </section>
+      <!-- Section: GIÀY THỂ THAO (Sports Shoes) -->
+      <section
+        class="max-w-container-max mx-auto px-margin-desktop py-12 bg-surface-container-low rounded-3xl my-8"
+      >
+        <div
+          class="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-surface-dim pb-4"
+        >
+          <h2
+            class="font-headline-lg text-headline-lg text-on-background uppercase relative"
+          >
+            Giày Thể Thao
+            <span
+              class="absolute -bottom-4 left-0 w-1/2 h-1 bg-axeron-blue"
+            ></span>
+          </h2>
+          <div class="flex flex-wrap gap-2 mt-4 md:mt-0">
+            <button
+              class="px-6 py-2 border border-outline-variant rounded-full text-label-lg font-label-lg transition-colors bg-white text-axeron-blue border-axeron-blue"
+            >
+              Giày pickleball
+            </button>
+            <button
+              class="px-6 py-2 border border-outline-variant rounded-full text-label-lg font-label-lg bg-surface hover:border-axeron-blue hover:text-axeron-blue transition-colors"
+            >
+              Giày đá bóng
+            </button>
+            <button
+              class="px-6 py-2 border border-outline-variant rounded-full text-label-lg font-label-lg bg-surface hover:border-axeron-blue hover:text-axeron-blue transition-colors"
+            >
+              Giày cầu lông
+            </button>
+            <button
+              class="px-6 py-2 border border-outline-variant rounded-full text-label-lg font-label-lg bg-surface hover:border-axeron-blue hover:text-axeron-blue transition-colors"
+            >
+              Giày chạy bộ
+            </button>
+          </div>
+          <a
+            class="hidden md:flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-blue transition-colors"
+            href="#"
+          >
+            Xem tất cả
+            <span class="material-symbols-outlined text-lg">chevron_right</span>
+          </a>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-gutter">
+          <!-- Product Card 1 -->
+          <div
+            class="group border border-transparent hover:border-outline-variant rounded-xl overflow-hidden bg-surface hover:bg-white transition-all duration-300 flex flex-col relative shadow-sm hover:shadow-md"
+          >
+            <span
+              class="absolute top-2 left-2 bg-axeron-red text-white text-[10px] font-bold px-2 py-1 rounded z-10"
+              >-15%</span
+            >
+            <div
+              class="aspect-square p-4 relative overflow-hidden flex items-center justify-center bg-white rounded-t-xl"
+            >
+              <img
+                alt="Axeron Vortex Women's Pickleball Shoe, light pink and white design with a sporty profile."
+                class="w-full h-full object-contain mix-blend-multiply group-hover:-translate-y-2 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida/ADBb0ugkFvpn0ivbKvJiOcp8cPUpfaK4xxraeFPYurgDdbbgiq2KIy6TSqVHHduGC9M8WavG20NW78dxXVNPpvRUu-Idg3gmKb4VtHYunKovmyQAi5zNcl6EEwMGPXwhxy78hjk3-IaEF86LcxQ06IMZ3lLDn0k-b1_I6mhjILvc_-N7OM3CM0CCuJmfKYbX9rjYwimCtLCKtN95MHVXNNMipD5itg39wm0Y0LxFCzlPZCjjoMCsf7xpplZXGfnn"
+              />
+            </div>
+            <div class="p-4 flex flex-col flex-grow">
+              <h3
+                class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-blue transition-colors"
+              >
+                GIÀY PICKLEBALL NỮ AXERON VORTEX
+              </h3>
+              <div class="mt-auto flex flex-col">
+                <p
+                  class="text-[12px] text-on-surface-variant line-through decoration-axeron-red"
+                >
+                  1,250,000₫
+                </p>
+                <p
+                  class="font-headline-md text-body-lg text-on-background font-bold"
+                >
+                  1,050,000₫
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Product Card 2 -->
+          <div
+            class="group border border-transparent hover:border-outline-variant rounded-xl overflow-hidden bg-surface hover:bg-white transition-all duration-300 flex flex-col relative shadow-sm hover:shadow-md"
+          >
+            <span
+              class="absolute top-2 left-2 bg-axeron-red text-white text-[10px] font-bold px-2 py-1 rounded z-10"
+              >-15%</span
+            >
+            <div
+              class="aspect-square p-4 relative overflow-hidden flex items-center justify-center bg-white rounded-t-xl"
+            >
+              <img
+                alt="Axeron Vortex Men's Pickleball Shoe, off-white with dark red and maroon accents."
+                class="w-full h-full object-contain mix-blend-multiply group-hover:-translate-y-2 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida/ADBb0ujZHa_XVhXfZVtoOg0TITKO0h_Z_vtRBBw13MLzakzA9nEz7ni7PJCY46-FOtiZ3iDU1vV4l9JdioZoa9iF7lHKn4qWMoR0qH9kX0F6p5GhwTpdvZ52BXeuz80d2N6LuKkgHkd-Z_McRJSk7gh31lgcbY8DgLb9t0_SjZsWM8idkdp89G5ZVIM8HEhz5P7qUSEGYs7uf7CCTx55lWsB7ucvixkfMX1t1-hhPl4rpYufkscCn7rL5ehthi5x"
+              />
+            </div>
+            <div class="p-4 flex flex-col flex-grow">
+              <h3
+                class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-blue transition-colors"
+              >
+                GIÀY PICKLEBALL NAM AXERON VORTEX
+              </h3>
+              <div class="mt-auto flex flex-col">
+                <p
+                  class="text-[12px] text-on-surface-variant line-through decoration-axeron-red"
+                >
+                  1,250,000₫
+                </p>
+                <p
+                  class="font-headline-md text-body-lg text-on-background font-bold"
+                >
+                  1,050,000₫
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Product Card 3 -->
+          <div
+            class="group border border-transparent hover:border-outline-variant rounded-xl overflow-hidden bg-surface hover:bg-white transition-all duration-300 flex flex-col relative shadow-sm hover:shadow-md"
+          >
+            <div
+              class="aspect-square p-4 relative overflow-hidden flex items-center justify-center bg-white rounded-t-xl"
+            >
+              <img
+                alt="Axeron Bubble Men's Pickleball Shoe, clean white design with subtle grey detailing."
+                class="w-full h-full object-contain mix-blend-multiply group-hover:-translate-y-2 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida/ADBb0uisC36Z_MT1hSRVARp8_w2uQKAcV6npg0LtSNV2wiKFy98Y-FubRM0hYeOC5I9Ak2PsI_vO2mPljdogc3RfjuGNlXvT28wq23pTY-isWJlLC7y0_4ZZMmTLjStVrKk-H8vCpO3pqHFiNujcnzpcf895b1aCjYhwmyi9WRUUQIZu0hEfCezW_bWQlRF2e9oKnSPeahJnGBszMLgsa25fSNzIoi7QOrBJe7TVyDjc_z_GrhwYrwwDeyYhejRX"
+              />
+            </div>
+            <div class="p-4 flex flex-col flex-grow">
+              <h3
+                class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-blue transition-colors"
+              >
+                GIÀY PICKLEBALL NAM AXERON BUBBLE J
+              </h3>
+              <div class="mt-auto">
+                <p
+                  class="font-headline-md text-body-lg text-on-background font-bold"
+                >
+                  1,150,000₫
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Product Card 4 -->
+          <div
+            class="group border border-transparent hover:border-outline-variant rounded-xl overflow-hidden bg-surface hover:bg-white transition-all duration-300 flex flex-col relative shadow-sm hover:shadow-md"
+          >
+            <div
+              class="aspect-square p-4 relative overflow-hidden flex items-center justify-center bg-white rounded-t-xl"
+            >
+              <img
+                alt="Axeron Bubble Women's Pickleball Shoe, deep navy blue upper with white midsole and gum accents."
+                class="w-full h-full object-contain mix-blend-multiply group-hover:-translate-y-2 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida/ADBb0ugXz9gduN0sltyY9OKmtwbDpzkG2NpIRbTHN-VKK9cQqJqqfiyS7ZrlD8MPN0-sA1POFbcDmVCtoZS9eK4Gdb_y8oF0qd-Mi6TzR6a6DqLMUUoN7p-2o8eoklfEAaEOQ7z338IpxxnlYL8RnpPYY26cG3j91uS62Hn6SFg0hnKVk4jKDmiL_FqSzAtOK9Kcb5RWHu3P1O19rlTQcAKWaw_ef5WEXJ8mJtcnCz5TEcY4n0AWvvlUOhGndwvx"
+              />
+            </div>
+            <div class="p-4 flex flex-col flex-grow">
+              <h3
+                class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-blue transition-colors"
+              >
+                GIÀY PICKLEBALL NỮ AXERON BUBBLE J
+              </h3>
+              <div class="mt-auto">
+                <p
+                  class="font-headline-md text-body-lg text-on-background font-bold"
+                >
+                  1,150,000₫
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Product Card 5 -->
+          <div
+            class="group border border-transparent hover:border-outline-variant rounded-xl overflow-hidden bg-surface hover:bg-white transition-all duration-300 flex flex-col relative shadow-sm hover:shadow-md hidden lg:flex"
+          >
+            <span
+              class="absolute top-2 left-2 bg-axeron-red text-white text-[10px] font-bold px-2 py-1 rounded z-10"
+              >Mới</span
+            >
+            <div
+              class="aspect-square p-4 relative overflow-hidden flex items-center justify-center bg-white rounded-t-xl"
+            >
+              <img
+                alt="Axeron Promax P186 Men's Pickleball Shoe, white base with sleek black and red stripe elements."
+                class="w-full h-full object-contain mix-blend-multiply group-hover:-translate-y-2 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida/ADBb0ui0PY8Uq5FGyqWPRdH7pklXuA39sJs-QtFngFdrkIHc5dxPpVxw_92MhatQHE4eTNVzyHiIB6vYczRA0_MwOGrovFHzsRsqfms9YAHWzzCQIh6vDNXQecWfNupvXT9NGusClI6xBClDIhq_GwTkoYk1JSslr9CRQgmk-UPFcDMRxHpDt6pGcdJ_F17Vp0J9Dm0DJ3rwV8XvDdSV-EtMhmJ7oXKxB8Wr-B6ttW8f8vQiP76QmbfXa4rIShc"
+              />
+            </div>
+            <div class="p-4 flex flex-col flex-grow">
+              <h3
+                class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-blue transition-colors"
+              >
+                GIÀY PICKLEBALL NAM AXERON PROMAX P186
+              </h3>
+              <div class="mt-auto">
+                <p
+                  class="font-headline-md text-body-lg text-on-background font-bold"
+                >
+                  788,000₫
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Thiết bị tập Section -->
+      <section class="bg-surface-container-low py-16 md:py-20">
+        <div
+          class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop"
+        >
+          <!-- Heading -->
+          <div class="text-center mb-12">
+            <span
+              class="text-axeron-red uppercase tracking-[4px] text-label-sm font-bold"
+            >
+              Fitness Equipment
+            </span>
+
+            <h2
+              class="mt-3 text-headline-lg md:text-display-lg font-headline-lg text-on-background uppercase"
+            >
+              Thiết Bị Tập
+            </h2>
+
+            <div class="w-24 h-1 bg-axeron-red mx-auto mt-4 rounded-full"></div>
+          </div>
+
+          <!-- Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Card 1-->
+            <div
+              class="bg-white rounded-2xl overflow-hidden border border-outline-variant hover:shadow-xl transition-all duration-300 group flex flex-col"
+            >
+              <div class="aspect-[4/3] overflow-hidden">
+                <img
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEqeXSsnqffMLhin1r5SpCuKb8eD9UPr9eabAL1GrO7igsVscLsvHb60b-xKRzZZKXkCrZ5W7BJiEMQ7IZk-l212TYJiMtGVPrwjpUgZF1qKN3ppI3IM1JJGuAadw0CGf-ilTL9ZJua0Yn6LZvHCJ-1piFo0D5Fn8JdNJ-4AlxMza0lZ8ZFAoGU5ZsQk82VFQIup75gQe2dYxbxTGd7x_-bINmSqoogv-SPqqLYlNdeew86WJPXekx9GtCblLW9nOqJ3UT2d-Z8S3R"
+                  alt="Máy chạy bộ"
+                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+              </div>
+
+              <div class="p-6 flex flex-col flex-grow">
+                <h3 class="text-xl font-bold text-on-background mb-3">
+                  MÁY CHẠY BỘ
+                </h3>
+
+                <p
+                  class="text-body-md text-on-surface-variant leading-relaxed flex-grow"
+                >
+                  Máy chạy bộ chuyên dùng cho phòng tập thể hình, phòng Gym
+                  chuyên nghiệp với thiết kế mạnh mẽ và độ bền cao.
+                </p>
+
+                <button
+                  class="mt-6 bg-axeron-red hover:bg-red-700 text-white font-bold py-3 px-5 rounded-lg transition-colors w-fit"
+                >
+                  XEM THÊM
+                </button>
+              </div>
+            </div>
+            <!-- Card 2-->
+            <div
+              class="bg-white rounded-2xl overflow-hidden border border-outline-variant hover:shadow-xl transition-all duration-300 group flex flex-col"
+            >
+              <div class="aspect-[4/3] overflow-hidden">
+                <img
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEqeXSsnqffMLhin1r5SpCuKb8eD9UPr9eabAL1GrO7igsVscLsvHb60b-xKRzZZKXkCrZ5W7BJiEMQ7IZk-l212TYJiMtGVPrwjpUgZF1qKN3ppI3IM1JJGuAadw0CGf-ilTL9ZJua0Yn6LZvHCJ-1piFo0D5Fn8JdNJ-4AlxMza0lZ8ZFAoGU5ZsQk82VFQIup75gQe2dYxbxTGd7x_-bINmSqoogv-SPqqLYlNdeew86WJPXekx9GtCblLW9nOqJ3UT2d-Z8S3R"
+                  alt="Máy chạy bộ"
+                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+              </div>
+
+              <div class="p-6 flex flex-col flex-grow">
+                <h3 class="text-xl font-bold text-on-background mb-3">
+                  MÁY CHẠY BỘ
+                </h3>
+
+                <p
+                  class="text-body-md text-on-surface-variant leading-relaxed flex-grow"
+                >
+                  Máy chạy bộ chuyên dùng cho phòng tập thể hình, phòng Gym
+                  chuyên nghiệp với thiết kế mạnh mẽ và độ bền cao.
+                </p>
+
+                <button
+                  class="mt-6 bg-axeron-red hover:bg-red-700 text-white font-bold py-3 px-5 rounded-lg transition-colors w-fit"
+                >
+                  XEM THÊM
+                </button>
+              </div>
+            </div>
+            <!-- Card 3-->
+            <div
+              class="bg-white rounded-2xl overflow-hidden border border-outline-variant hover:shadow-xl transition-all duration-300 group flex flex-col"
+            >
+              <div class="aspect-[4/3] overflow-hidden">
+                <img
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEqeXSsnqffMLhin1r5SpCuKb8eD9UPr9eabAL1GrO7igsVscLsvHb60b-xKRzZZKXkCrZ5W7BJiEMQ7IZk-l212TYJiMtGVPrwjpUgZF1qKN3ppI3IM1JJGuAadw0CGf-ilTL9ZJua0Yn6LZvHCJ-1piFo0D5Fn8JdNJ-4AlxMza0lZ8ZFAoGU5ZsQk82VFQIup75gQe2dYxbxTGd7x_-bINmSqoogv-SPqqLYlNdeew86WJPXekx9GtCblLW9nOqJ3UT2d-Z8S3R"
+                  alt="Máy chạy bộ"
+                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+              </div>
+
+              <div class="p-6 flex flex-col flex-grow">
+                <h3 class="text-xl font-bold text-on-background mb-3">
+                  MÁY CHẠY BỘ
+                </h3>
+
+                <p
+                  class="text-body-md text-on-surface-variant leading-relaxed flex-grow"
+                >
+                  Máy chạy bộ chuyên dùng cho phòng tập thể hình, phòng Gym
+                  chuyên nghiệp với thiết kế mạnh mẽ và độ bền cao.
+                </p>
+
+                <button
+                  class="mt-6 bg-axeron-red hover:bg-red-700 text-white font-bold py-3 px-5 rounded-lg transition-colors w-fit"
+                >
+                  XEM THÊM
+                </button>
+              </div>
+            </div>
+            <!-- Card 4-->
+            <div
+              class="bg-white rounded-2xl overflow-hidden border border-outline-variant hover:shadow-xl transition-all duration-300 group flex flex-col"
+            >
+              <div class="aspect-[4/3] overflow-hidden">
+                <img
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEqeXSsnqffMLhin1r5SpCuKb8eD9UPr9eabAL1GrO7igsVscLsvHb60b-xKRzZZKXkCrZ5W7BJiEMQ7IZk-l212TYJiMtGVPrwjpUgZF1qKN3ppI3IM1JJGuAadw0CGf-ilTL9ZJua0Yn6LZvHCJ-1piFo0D5Fn8JdNJ-4AlxMza0lZ8ZFAoGU5ZsQk82VFQIup75gQe2dYxbxTGd7x_-bINmSqoogv-SPqqLYlNdeew86WJPXekx9GtCblLW9nOqJ3UT2d-Z8S3R"
+                  alt="Máy chạy bộ"
+                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+              </div>
+
+              <div class="p-6 flex flex-col flex-grow">
+                <h3 class="text-xl font-bold text-on-background mb-3">
+                  MÁY CHẠY BỘ
+                </h3>
+
+                <p
+                  class="text-body-md text-on-surface-variant leading-relaxed flex-grow"
+                >
+                  Máy chạy bộ chuyên dùng cho phòng tập thể hình, phòng Gym
+                  chuyên nghiệp với thiết kế mạnh mẽ và độ bền cao.
+                </p>
+
+                <button
+                  class="mt-6 bg-axeron-red hover:bg-red-700 text-white font-bold py-3 px-5 rounded-lg transition-colors w-fit"
+                >
+                  XEM THÊM
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Latest News -->
+      <section
+        class="max-w-container-max mx-auto px-margin-desktop py-16 md:py-24"
+      >
+        <div class="flex justify-between items-end mb-12">
+          <div class="flex flex-col">
+            <span
+              class="text-axeron-red font-label-lg uppercase tracking-widest mb-2"
+              >Cập nhật xu hướng</span
+            >
+            <h2 class="font-headline-lg text-headline-lg uppercase">
+              Tin Tức Mới Nhất
+            </h2>
+          </div>
+          <a
+            class="font-label-lg text-on-surface-variant hover:text-axeron-red flex items-center gap-1"
+            href="#"
+            >Xem toàn bộ tin
+            <span class="material-symbols-outlined text-lg"
+              >arrow_forward</span
+            ></a
+          >
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- News Card 1 -->
+          <article class="group">
+            <div
+              class="aspect-[16/10] overflow-hidden rounded-xl mb-6 bg-surface-container"
+            >
+              <img
+                alt="News 1"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                src="https://lh3.googleusercontent.com/aida/ADBb0uh4vDBL5VCYAUWM_zi2WHtMcReinLB9KdRsn2UBbyXZuHEbnPNSrimb_PiQgRlaIj6frtD6rsXlPbeDudWnWmgtq6AtgbBTssBfQKYD4LcQ1uJNe6MipMP-NbDyzfI83vrIKCEdtmXda-6TtBfkj5vu6oKLfmzfwaHA-bLj0AV4753OqyqlX2VmvhlP-1SaeCNGpK7yLc3MAe4_lrMAVPT2C_A6NzLP_oIgbsvad7_XQn3AMlIJ6UFk4K8"
+              />
+            </div>
+            <div
+              class="flex items-center gap-3 mb-3 text-label-sm text-on-surface-variant uppercase tracking-wider"
+            >
+              <span>CÔNG NGHỆ</span>
+              <span class="w-1 h-1 bg-surface-dim rounded-full"></span>
+              <span>12 THÁNG 5, 2024</span>
+            </div>
+            <h3
+              class="font-headline-md text-xl mb-4 group-hover:text-axeron-red transition-colors cursor-pointer"
+            >
+              Công nghệ Vortex v3.0: Cuộc cách mạng trong đệm khí thể thao
+            </h3>
+            <p class="text-on-surface-variant line-clamp-3 text-sm">
+              Khám phá cách Axeron đã thay đổi trải nghiệm chạy bộ với hệ thống
+              đệm khí đa điểm mới nhất...
+            </p>
+          </article>
+          <!-- News Card 2 -->
+          <article class="group">
+            <div
+              class="aspect-[16/10] overflow-hidden rounded-xl mb-6 bg-surface-container"
+            >
+              <img
+                alt="News 2"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                src="https://lh3.googleusercontent.com/aida/ADBb0uiU8IdLJSx4KfxuJ7rUGImE1GQEPEHYAv3JVjqtac08xnwG-pMHwYWxnsrvxhUEtUPKSwIFbR3muV79hkfI6dVweGw7U6s0f7k2P1Dhb53NZUQDkJ9X7CJB0UUuuLJLYBFxoG8kRI4BUeQ15HqVwZKz81arj_wA4xrMRMVgzQML6DkLDQ-4cJmIFHPhSf6eLQwWnBEDlQOnY1xkf27z4hoR1uKiBSD3ATnzypWdG96Ws1vz60fmXmKgKceT"
+              />
+            </div>
+            <div
+              class="flex items-center gap-3 mb-3 text-label-sm text-on-surface-variant uppercase tracking-wider"
+            >
+              <span>ĐỘI TUYỂN</span>
+              <span class="w-1 h-1 bg-surface-dim rounded-full"></span>
+              <span>08 THÁNG 5, 2024</span>
+            </div>
+            <h3
+              class="font-headline-md text-xl mb-4 group-hover:text-axeron-red transition-colors cursor-pointer"
+            >
+              Axeron đồng hành cùng tuyển quốc gia tại giải vô địch Đông Nam Á
+            </h3>
+            <p class="text-on-surface-variant line-clamp-3 text-sm">
+              Lễ ký kết hợp tác chiến lược giữa Axeron và Liên đoàn bóng đá đã
+              diễn ra tốt đẹp, đánh dấu chặng đường mới...
+            </p>
+          </article>
+          <!-- News Card 3 -->
+          <article class="group">
+            <div
+              class="aspect-[16/10] overflow-hidden rounded-xl mb-6 bg-surface-container"
+            >
+              <img
+                alt="News 3"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                src="https://lh3.googleusercontent.com/aida/ADBb0ujuRrW5g32r9sw8f5z2wAVDWrCiPpNsJt5pvZivUVOvnVnS-9zBhh9CHA_1JNdJ7j8wmH8hGFPQdgdZ4yKBr6xRW3x7RbZuevOmNa7peEz1Jd7RiMX44nC0oRWYSplrreUKzzI4X2NKzrUH3emUg_qU3eiVLxXYvgDOW_g-kRtXfN4951IB2cqWrEYCmvtSnjHIspHgsRONHfgziMUY39rYQOd7GgTX_wInD-8LK0fNnovBRMyYcIlrIEo4"
+              />
+            </div>
+            <div
+              class="flex items-center gap-3 mb-3 text-label-sm text-on-surface-variant uppercase tracking-wider"
+            >
+              <span>PHONG CÁCH</span>
+              <span class="w-1 h-1 bg-surface-dim rounded-full"></span>
+              <span>02 THÁNG 5, 2024</span>
+            </div>
+            <h3
+              class="font-headline-md text-xl mb-4 group-hover:text-axeron-red transition-colors cursor-pointer"
+            >
+              Ra mắt BST "Urban Pulse" - Thể thao giao thoa cùng đường phố
+            </h3>
+            <p class="text-on-surface-variant line-clamp-3 text-sm">
+              Sự kết hợp hoàn hảo giữa tính năng kỹ thuật và thiết kế thời
+              thượng phù hợp cho cả tập luyện và đi làm hàng ngày...
+            </p>
+          </article>
+        </div>
+      </section>
+      <!-- Info Sections -->
+      <section class="bg-white py-16 md:py-20">
+        <div
+          class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop"
+        >
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <!-- Giới thiệu -->
+            <div>
+              <span
+                class="text-axeron-red uppercase tracking-[4px] text-label-sm font-bold"
+              >
+                About Axeron
+              </span>
+
+              <h2
+                class="text-headline-lg md:text-display-lg font-headline-lg mt-3 mb-6 uppercase text-on-background"
+              >
+                GIỚI THIỆU
+              </h2>
+
+              <p
+                class="text-on-surface-variant leading-relaxed mb-5 text-body-lg"
+              >
+                Công ty Cổ phần Axeron tự hào là tập đoàn hàng đầu Việt Nam với
+                hơn 32 năm kinh nghiệm trong lĩnh vực sản xuất, phân phối và
+                xuất nhập khẩu trang phục thể thao.
+              </p>
+
+              <p
+                class="text-on-surface-variant leading-relaxed mb-5 text-body-lg"
+              >
+                Axeron hiện có chi nhánh tại Hà Nội, Vinh và TP.HCM với hệ thống
+                phân phối hơn 800 đại lý trên toàn quốc.
+              </p>
+
+              <button
+                class="bg-axeron-red hover:bg-red-700 text-white px-6 py-3 rounded-lg font-bold transition-colors"
+              >
+                XEM THÊM
+              </button>
+            </div>
+
+            <!-- Dự án -->
+            <div>
+              <span
+                class="text-axeron-blue uppercase tracking-[4px] text-label-sm font-bold"
+              >
+                Projects
+              </span>
+
+              <h2
+                class="text-headline-lg md:text-display-lg font-headline-lg mt-3 mb-6 uppercase text-on-background"
+              >
+                CÁC DỰ ÁN
+              </h2>
+
+              <div class="grid grid-cols-2 gap-4">
+                <!-- Project Card -->
+                <div
+                  class="relative rounded-2xl overflow-hidden group cursor-pointer aspect-video"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+
+                  <div
+                    class="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors"
+                  ></div>
+
+                  <div class="absolute bottom-4 left-4 z-10">
+                    <h3 class="text-lg font-bold text-white">SÂN VẬN ĐỘNG</h3>
+                  </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div
+                  class="relative rounded-2xl overflow-hidden group cursor-pointer aspect-video"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=1200&auto=format&fit=crop"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+
+                  <div
+                    class="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors"
+                  ></div>
+
+                  <div class="absolute bottom-4 left-4 z-10">
+                    <h3 class="text-lg font-bold text-white">NHÀ THI ĐẤU</h3>
+                  </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div
+                  class="relative rounded-2xl overflow-hidden group cursor-pointer aspect-video"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+
+                  <div
+                    class="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors"
+                  ></div>
+
+                  <div class="absolute bottom-4 left-4 z-10">
+                    <h3 class="text-lg font-bold text-white">
+                      ĐỒNG PHỤC HỌC SINH
+                    </h3>
+                  </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div
+                  class="relative rounded-2xl overflow-hidden group cursor-pointer aspect-video"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+
+                  <div
+                    class="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors"
+                  ></div>
+
+                  <div class="absolute bottom-4 left-4 z-10">
+                    <h3 class="text-lg font-bold text-white">
+                      THIẾT BỊ PHÒNG TẬP
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Footer Component -->
+      <footer
+        class="w-full py-12 px-margin-desktop bg-inverse-surface text-white dark:bg-black full-width flat border-t border-inverse-surface"
+      >
+        <div
+          class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+        >
+          <div class="flex flex-col gap-4">
+            <a
+              class="text-headline-md font-headline-lg text-white font-black tracking-tight"
+              href="#"
+              >AXERON SPORT</a
+            >
+            <p
+              class="font-body-md text-body-md text-surface-variant text-sm mt-4"
+            >
+              Hệ thống cung cấp dụng cụ và thời trang thể thao chuyên nghiệp
+              hàng đầu. Axeron đồng hành cùng mọi đam mê.
+            </p>
+            <div class="flex gap-4 mt-4">
+              <a
+                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-axeron-red transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-lg">public</span>
+              </a>
+              <a
+                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-axeron-red transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-lg"
+                  >play_arrow</span
+                >
+              </a>
+              <a
+                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-axeron-red transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-lg">mail</span>
+              </a>
+            </div>
+          </div>
+          <div class="flex flex-col gap-3">
+            <h4
+              class="font-headline-md text-label-lg text-white mb-2 uppercase"
+            >
+              VỀ CHÚNG TÔI
+            </h4>
+            <a
+              class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1"
+              href="#"
+              >Giới thiệu Axeron</a
+            >
+            <a
+              class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1"
+              href="#"
+              >Tin tức &amp; Sự kiện</a
+            >
+            <a
+              class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1"
+              href="#"
+              >Tuyển dụng</a
+            >
+            <a
+              class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1"
+              href="#"
+              >Liên hệ</a
+            >
+          </div>
+          <div class="flex flex-col gap-3">
+            <h4
+              class="font-headline-md text-label-lg text-white mb-2 uppercase"
+            >
+              HỖ TRỢ KHÁCH HÀNG
+            </h4>
+            <a
+              class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1"
+              href="#"
+              >HỆ THỐNG CỬA HÀNG</a
+            >
+            <a
+              class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1"
+              href="#"
+              >CHÍNH SÁCH BẢO HÀNH</a
+            >
+            <a
+              class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1"
+              href="#"
+              >ĐIỀU KHOẢN DỊCH VỤ</a
+            >
+            <a
+              class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1"
+              href="#"
+              >BẢO MẬT THÔNG TIN</a
+            >
+          </div>
+          <div class="flex flex-col gap-4">
+            <h4
+              class="font-headline-md text-label-lg text-white mb-2 uppercase"
+            >
+              GỌI MUA HÀNG (08:30 - 21:30)
+            </h4>
+            <div
+              class="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/10"
+            >
+              <span class="material-symbols-outlined text-axeron-red text-3xl"
+                >call</span
+              >
+              <div>
+                <p
+                  class="font-headline-md text-headline-md text-white font-bold leading-none"
+                >
+                  1800 0021
+                </p>
+                <p class="font-body-md text-[11px] text-surface-variant mt-1">
+                  Tất cả các ngày trong tuần
+                </p>
+              </div>
+            </div>
+            <p class="font-body-md text-sm text-surface-variant mt-2">
+              Liên hệ sỉ/Đơn hàng đồng phục:<br />
+              <a
+                class="text-white hover:text-axeron-red transition-colors"
+                href="mailto:dongphuc@axeron.com"
+                >dongphuc@axeron.com</a
+              >
+            </p>
+          </div>
+        </div>
+        <div
+          class="max-w-container-max mx-auto mt-12 pt-6 border-t border-white/10 text-center"
+        >
+          <p class="font-body-md text-body-md text-surface-variant text-sm">
+            Copyright © 2024 Axeron Sport. All rights reserved.
+          </p>
+        </div>
+      </footer>
+      <!-- SideNavBar Component (FAB Group for Support) -->
+      <div
+        class="bg-transparent text-white fixed right-4 bottom-24 flex flex-col gap-2 shadow-md none fixed right-4 bottom-24 z-50 flex flex-col space-y-3"
+      >
+        <a
+          aria-label="Zalo"
+          class="bg-inverse-surface rounded-full p-3 text-white hover:scale-110 transition-transform flex items-center justify-center w-12 h-12 relative group"
+          href="#"
+        >
+          <span class="material-symbols-outlined text-2xl" data-icon="chat"
+            >chat</span
+          >
+          <span
+            class="absolute right-full mr-4 bg-black/80 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none font-label-sm text-label-sm"
+            >Zalo</span
+          >
+        </a>
+        <a
+          aria-label="Hotline"
+          class="bg-axeron-blue rounded-full p-3 hover:scale-110 transition-transform flex items-center justify-center w-12 h-12 shadow-lg relative group"
+          href="#"
+        >
+          <span class="material-symbols-outlined text-2xl" data-icon="call"
+            >call</span
+          >
+          <span
+            class="absolute right-full mr-4 bg-black/80 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none font-label-sm text-label-sm"
+            >Hotline</span
+          >
+        </a>
+        <a
+          aria-label="Messenger"
+          class="bg-inverse-surface rounded-full p-3 text-white hover:scale-110 transition-transform flex items-center justify-center w-12 h-12 relative group"
+          href="#"
+        >
+          <span class="material-symbols-outlined text-2xl" data-icon="forum"
+            >forum</span
+          >
+          <span
+            class="absolute right-full mr-4 bg-black/80 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none font-label-sm text-label-sm"
+            >Messenger</span
+          >
+        </a>
+        <a
+          aria-label="Lên đầu trang"
+          class="bg-inverse-surface rounded-full p-3 text-white hover:scale-110 transition-transform flex items-center justify-center w-12 h-12 relative group mt-4"
+          href="#"
+          onclick="
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return false;
+          "
+        >
+          <span
+            class="material-symbols-outlined text-2xl"
+            data-icon="arrow_upward"
+            >arrow_upward</span
+          >
+        </a>
+      </div>
+    </main>
+    <script>
+      // Simple slider logic for visual purposes
+      let currentSlide = 1;
+      const totalSlides = 2;
+
+      function updateSlider() {
+        document
+          .getElementById("slide-1")
+          .classList.toggle("opacity-0", currentSlide !== 1);
+        document
+          .getElementById("slide-1")
+          .classList.toggle("opacity-100", currentSlide === 1);
+
+        document
+          .getElementById("slide-2")
+          .classList.toggle("opacity-0", currentSlide !== 2);
+        document
+          .getElementById("slide-2")
+          .classList.toggle("opacity-100", currentSlide === 2);
+
+        document.getElementById("dot-1").className =
+          currentSlide === 1
+            ? "w-8 h-3 rounded-full bg-white transition-all"
+            : "w-3 h-3 rounded-full bg-white/50 transition-all hover:bg-white/80";
+        document.getElementById("dot-2").className =
+          currentSlide === 2
+            ? "w-8 h-3 rounded-full bg-white transition-all"
+            : "w-3 h-3 rounded-full bg-white/50 transition-all hover:bg-white/80";
+      }
+
+      function nextSlide() {
+        currentSlide = currentSlide === totalSlides ? 1 : currentSlide + 1;
+        updateSlider();
+      }
+
+      function prevSlide() {
+        currentSlide = currentSlide === 1 ? totalSlides : currentSlide - 1;
+        updateSlider();
+      }
+
+      function goToSlide(slideIndex) {
+        currentSlide = slideIndex;
+        updateSlider();
+      }
+
+      // Auto advance slide every 5 seconds
+      setInterval(nextSlide, 5000);
+    </script>
+  </body>
+</html>

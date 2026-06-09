@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"c:\\\\xampp\\\\htdocs\\\\axeron-sport-website-main\\\\vendor\\\\PHPMailer\\\\PHPMailer\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"c:\\\\xampp\\\\htdocs\\\\axeron-sport-website-main\\\\vendor\\\\PHPMailer\\\\SMTP\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"c:\\\\xampp\\\\htdocs\\\\axeron-sport-website-main\\\\vendor\\\\PHPMailer\\\\Exception\")",
+      "PowerShell(Invoke-WebRequest -Uri \"https://raw.githubusercontent.com/PHPMailer/PHPMailer/master/src/PHPMailer.php\" -OutFile \"c:\\\\xampp\\\\htdocs\\\\axeron-sport-website-main\\\\vendor\\\\PHPMailer\\\\PHPMailer\\\\PHPMailer.php\" -UseBasicParsing)",
+      "PowerShell(Invoke-WebRequest -Uri \"https://raw.githubusercontent.com/PHPMailer/PHPMailer/master/src/SMTP.php\" -OutFile \"c:\\\\xampp\\\\htdocs\\\\axeron-sport-website-main\\\\vendor\\\\PHPMailer\\\\SMTP\\\\SMTP.php\" -UseBasicParsing)",
+      "PowerShell(Invoke-WebRequest -Uri \"https://raw.githubusercontent.com/PHPMailer/PHPMailer/master/src/Exception.php\" -OutFile \"c:\\\\xampp\\\\htdocs\\\\axeron-sport-website-main\\\\vendor\\\\PHPMailer\\\\Exception\\\\Exception.php\" -UseBasicParsing)"
+    ]
+  }
+}

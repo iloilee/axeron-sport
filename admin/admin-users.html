@@ -1,0 +1,891 @@
+<!doctype html>
+
+<html class="light" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Axeron Sport - Quản trị người dùng</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "axeron-red": "#BE1E2D",
+              "on-error-container": "#93000a",
+              "on-background": "#1b1c1c",
+              "on-tertiary-container": "#abe6ff",
+              "tertiary-container": "#006a85",
+              "on-primary": "#ffffff",
+              "primary-fixed": "#ffdad8",
+              "inverse-on-surface": "#f3f0ef",
+              "on-tertiary-fixed-variant": "#004d62",
+              primary: "#98001b",
+              "tertiary-fixed-dim": "#85d1ef",
+              outline: "#8f6f6e",
+              "on-secondary-fixed-variant": "#00429b",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed": "#410006",
+              "primary-container": "#be1e2d",
+              "surface-container": "#f0eded",
+              "error-container": "#ffdad6",
+              "on-surface": "#1b1c1c",
+              background: "#fcf9f8",
+              "on-primary-fixed-variant": "#930019",
+              "tertiary-fixed": "#baeaff",
+              "surface-gray": "#F5F5F5",
+              "primary-fixed-dim": "#ffb3b0",
+              "surface-variant": "#e5e2e1",
+              "secondary-fixed-dim": "#b0c6ff",
+              secondary: "#0056c5",
+              tertiary: "#005066",
+              "on-primary-container": "#ffd3d1",
+              "text-dark": "#212121",
+              "on-secondary-container": "#fefcff",
+              "outline-variant": "#e3bebb",
+              "inverse-surface": "#303030",
+              "on-tertiary": "#ffffff",
+              "surface-container-highest": "#e5e2e1",
+              "surface-tint": "#b91a2a",
+              "inverse-primary": "#ffb3b0",
+              "surface-bright": "#fcf9f8",
+              error: "#ba1a1a",
+              "surface-dim": "#dcd9d9",
+              "secondary-fixed": "#d9e2ff",
+              "on-tertiary-fixed": "#001f29",
+              "on-error": "#ffffff",
+              surface: "#fcf9f8",
+              "secondary-container": "#0f6df3",
+              "surface-container-low": "#f6f3f2",
+              "on-secondary": "#ffffff",
+              "on-secondary-fixed": "#001945",
+              white: "#FFFFFF",
+              "surface-container-high": "#eae7e7",
+              "axeron-blue": "#2979FF",
+              "on-surface-variant": "#5b403f",
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            spacing: {
+              "margin-mobile": "16px",
+              "margin-desktop": "24px",
+              base: "8px",
+              gutter: "16px",
+              "container-max": "1200px",
+            },
+            fontFamily: {
+              "headline-lg-mobile": ["montserrat"],
+              "label-sm": ["notoSans"],
+              "headline-lg": ["montserrat"],
+              "body-lg": ["notoSans"],
+              "label-lg": ["notoSans"],
+              "display-lg": ["montserrat"],
+              "body-md": ["notoSans"],
+              "headline-md": ["montserrat"],
+            },
+            fontSize: {
+              "headline-lg-mobile": [
+                "24px",
+                { lineHeight: "32px", fontWeight: "700" },
+              ],
+              "label-sm": ["12px", { lineHeight: "16px", fontWeight: "500" }],
+              "headline-lg": [
+                "32px",
+                { lineHeight: "40px", fontWeight: "700" },
+              ],
+              "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+              "label-lg": ["14px", { lineHeight: "20px", fontWeight: "700" }],
+              "display-lg": [
+                "48px",
+                {
+                  lineHeight: "56px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "800",
+                },
+              ],
+              "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "headline-md": [
+                "24px",
+                { lineHeight: "32px", fontWeight: "600" },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .material-symbols-outlined[data-weight="fill"] {
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-surface font-body-md min-h-screen">
+    <!-- SideNavBar -->
+    <nav
+      class="h-screen w-72 flex flex-col fixed left-0 top-0 bg-surface dark:bg-inverse-surface border-r border-outline-variant dark:border-outline z-40"
+    >
+      <div class="h-full flex flex-col p-4 overflow-y-auto">
+        <!-- Header -->
+        <div class="flex items-center gap-4 mb-8 px-4">
+          <div
+            class="w-10 h-10 rounded-full bg-axeron-red flex items-center justify-center text-white font-bold"
+          >
+            A
+          </div>
+          <div>
+            <h1
+              class="font-montserrat text-headline-md font-bold text-axeron-red dark:text-inverse-primary"
+            >
+              AXERON SPORT
+            </h1>
+            <p class="font-notoSans text-label-sm text-on-surface-variant">
+              Hệ thống quản trị
+            </p>
+          </div>
+        </div>
+        <!-- Tabs -->
+        <div class="flex flex-col gap-2 flex-grow">
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high transition-colors font-notoSans text-label-lg rounded-lg"
+            href="/admin/admin-dashboard.html"
+          >
+            <span class="material-symbols-outlined" data-icon="dashboard"
+              >dashboard</span
+            >
+            Bảng điều khiển
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-bold font-notoSans text-label-lg opacity-90 transition-all duration-200"
+            href="/admin/admin-users.html"
+          >
+            <span
+              class="material-symbols-outlined"
+              data-icon="group"
+              data-weight="fill"
+              >group</span
+            >
+            Quản trị người dùng
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high transition-colors font-notoSans text-label-lg rounded-lg"
+            href="/admin/admin-categories.html"
+          >
+            <span class="material-symbols-outlined" data-icon="category"
+              >category</span
+            >
+            Quản trị danh mục SP
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high transition-colors font-notoSans text-label-lg rounded-lg"
+            href="/admin/admin-products.html"
+          >
+            <span class="material-symbols-outlined" data-icon="inventory_2"
+              >inventory_2</span
+            >
+            Quản trị sản phẩm
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high transition-colors font-notoSans text-label-lg rounded-lg"
+            href="/admin/admin-orders.html"
+          >
+            <span class="material-symbols-outlined" data-icon="shopping_cart"
+              >shopping_cart</span
+            >
+            Quản trị đơn hàng
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high transition-colors font-notoSans text-label-lg rounded-lg"
+            href="/admin/admin-reviews.html"
+          >
+            <span class="material-symbols-outlined" data-icon="comment"
+              >comment</span
+            >
+            Quản lý bình luận
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high transition-colors font-notoSans text-label-lg rounded-lg"
+            href="/admin/admin-promotions.html"
+          >
+            <span class="material-symbols-outlined" data-icon="local_offer"
+              >local_offer</span
+            >
+            Quản lý chương trình KM
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high transition-colors font-notoSans text-label-lg rounded-lg"
+            href="/admin/admin-shipping-fees.html"
+          >
+            <span class="material-symbols-outlined" data-icon="local_shipping"
+              >local_shipping</span
+            >
+            Quản lý phí vận chuyển
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high transition-colors font-notoSans text-label-lg rounded-lg"
+            href="/admin/admin-reports.html"
+          >
+            <span class="material-symbols-outlined" data-icon="leaderboard"
+              >leaderboard</span
+            >
+            Thống kê báo cáo
+          </a>
+        </div>
+        <!-- CTA -->
+        <button
+          class="mt-auto flex items-center justify-center gap-2 w-full py-3 bg-surface-container-highest text-on-surface rounded-lg hover:bg-surface-variant transition-colors font-notoSans text-label-lg font-bold"
+        >
+          <span class="material-symbols-outlined" data-icon="add">add</span>
+          Tạo báo cáo mới
+        </button>
+      </div>
+    </nav>
+    <!-- Main Content Area -->
+    <div class="ml-72 flex flex-col min-h-screen">
+      <!-- TopNavBar -->
+      <header
+        class="bg-white dark:bg-on-background font-notoSans text-body-md docked full-width top-0 sticky z-50 border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none flex justify-between items-center h-16 px-margin-desktop"
+      >
+        <div class="flex items-center flex-1 max-w-md">
+          <div
+            class="relative w-full focus-within:ring-2 focus-within:ring-axeron-blue rounded-full"
+          >
+            <span
+              class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant"
+              data-icon="search"
+              >search</span
+            >
+            <input
+              class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-body-md focus:ring-0 focus:outline-none"
+              placeholder="Tìm kiếm..."
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <button
+            class="p-2 text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors rounded-full hover:bg-surface-container-high"
+          >
+            <span class="material-symbols-outlined" data-icon="notifications"
+              >notifications</span
+            >
+          </button>
+          <button
+            class="p-2 text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors rounded-full hover:bg-surface-container-high"
+          >
+            <span class="material-symbols-outlined" data-icon="help">help</span>
+          </button>
+          <button
+            class="p-2 text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors rounded-full hover:bg-surface-container-high"
+          >
+            <span class="material-symbols-outlined" data-icon="dark_mode"
+              >dark_mode</span
+            >
+          </button>
+          <div
+            class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant ml-2 cursor-pointer"
+          >
+            <img
+              alt="Admin Avatar"
+              class="w-full h-full object-cover"
+              data-alt="A clean, professional headshot avatar placeholder for an admin user, featuring a simple geometric design or stylized initial on a solid background, adhering to a modern corporate UI aesthetic with high contrast and clear legibility."
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbwGLvRnxWltp_ucEmJOCgVy5nvT48jQBPjzgDIpb37L7nw007qen7ZeG3mv7yOXP-NKc9CgSnh94xaeBEjGOIch6_tZCx5kpi9UM0ruVucTrGmB7GDntjLcgBGVI5I4x_wKXQboL66HuvCnnO5PPcA-FtgUKziaVJiKtqmvZiHU9DSCbY5Se3nHlaahSoNcRSpf8nokna_YAPjEMwS0ASxmjtOLLIizSpg0a0X8Rbj1NeaEwXnVr-3RXkixhoF4eexxAa21k8mWnC"
+            />
+          </div>
+        </div>
+      </header>
+      <!-- Page Content -->
+      <main class="flex-1 p-margin-desktop bg-surface-container-lowest">
+        <!-- Page Header -->
+        <div
+          class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
+        >
+          <div>
+            <h2
+              class="font-montserrat font-headline-lg text-headline-lg text-on-surface"
+            >
+              Quản trị người dùng
+            </h2>
+            <p class="text-on-surface-variant mt-1">
+              Quản lý tài khoản, vai trò và phân quyền hệ thống
+            </p>
+          </div>
+          <button
+            class="bg-axeron-red text-white font-notoSans font-label-lg text-label-lg uppercase px-6 py-3 rounded-lg hover:bg-primary transition-colors flex items-center gap-2 shadow-sm"
+          >
+            <span class="material-symbols-outlined" data-icon="add">add</span>
+            Thêm người dùng mới
+          </button>
+        </div>
+        <!-- Filters & Actions Bar -->
+        <div
+          class="bg-white p-4 rounded-xl border border-outline-variant shadow-sm mb-6 flex flex-col md:flex-row gap-4 items-center justify-between"
+        >
+          <div class="flex flex-1 w-full gap-4">
+            <div
+              class="relative w-full max-w-xs focus-within:ring-2 focus-within:ring-axeron-blue rounded-lg"
+            >
+              <span
+                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant"
+                data-icon="search"
+                >search</span
+              >
+              <input
+                class="w-full bg-surface-container border border-outline-variant rounded-lg py-2 pl-10 pr-4 text-body-md focus:border-axeron-blue focus:ring-0"
+                placeholder="Tìm tên, email..."
+                type="text"
+              />
+            </div>
+            <select
+              class="bg-surface-container border border-outline-variant rounded-lg py-2 px-4 text-body-md focus:border-axeron-blue focus:ring-0 cursor-pointer min-w-[150px]"
+            >
+              <option value="">Tất cả vai trò</option>
+              <option value="admin">Admin</option>
+              <option value="manager">Manager</option>
+              <option value="user">User</option>
+            </select>
+            <select
+              class="bg-surface-container border border-outline-variant rounded-lg py-2 px-4 text-body-md focus:border-axeron-blue focus:ring-0 cursor-pointer min-w-[150px]"
+            >
+              <option value="">Trạng thái</option>
+              <option value="active">Hoạt động</option>
+              <option value="locked">Đã khóa</option>
+            </select>
+          </div>
+          <div class="flex gap-2">
+            <button
+              class="p-2 border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"
+            >
+              <span class="material-symbols-outlined" data-icon="filter_list"
+                >filter_list</span
+              >
+            </button>
+            <button
+              class="p-2 border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"
+            >
+              <span class="material-symbols-outlined" data-icon="download"
+                >download</span
+              >
+            </button>
+          </div>
+        </div>
+        <!-- Data Table -->
+        <div
+          class="bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden"
+        >
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr
+                  class="bg-surface-container-low border-b border-outline-variant"
+                >
+                  <th
+                    class="py-3 px-4 font-notoSans font-label-lg text-label-lg text-on-surface-variant whitespace-nowrap"
+                  >
+                    ID
+                  </th>
+                  <th
+                    class="py-3 px-4 font-notoSans font-label-lg text-label-lg text-on-surface-variant"
+                  >
+                    Người dùng
+                  </th>
+                  <th
+                    class="py-3 px-4 font-notoSans font-label-lg text-label-lg text-on-surface-variant"
+                  >
+                    Vai trò
+                  </th>
+                  <th
+                    class="py-3 px-4 font-notoSans font-label-lg text-label-lg text-on-surface-variant"
+                  >
+                    Trạng thái
+                  </th>
+                  <th
+                    class="py-3 px-4 font-notoSans font-label-lg text-label-lg text-on-surface-variant"
+                  >
+                    Ngày tham gia
+                  </th>
+                  <th
+                    class="py-3 px-4 font-notoSans font-label-lg text-label-lg text-on-surface-variant text-right"
+                  >
+                    Hành động
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-outline-variant">
+                <!-- Row 1 -->
+                <tr
+                  class="hover:bg-surface-container-lowest transition-colors group"
+                >
+                  <td class="py-4 px-4 text-on-surface-variant font-medium">
+                    #USR-001
+                  </td>
+                  <td class="py-4 px-4">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-10 h-10 rounded-full overflow-hidden bg-surface-container"
+                      >
+                        <img
+                          alt="Avatar"
+                          class="w-full h-full object-cover"
+                          data-alt="A simple, colorful placeholder avatar image generated for a user named Nguyen Van A, reflecting a clean and modern corporate UI aesthetic with distinct colors for easy identification."
+                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkOAhNryGWjvQdwL4X14yxbii1lV9pfsq7gduBKfrVpoeW5zdGY4OZEP-HYpFkFQCWUrYmyb3JsiwZ1wN9AEo2eZia6BUpBNsca6qfVe-xf5ma8tngrGFWqUASZTn56z9lQBeX51ZJp8fivahJM6LNaXzYRU0SNawP3NTvsA7i4E37hT_46BJouDV5UxZEb8ZP2VkG7HsY9VbFLAeRjn2CHcMfasxmC4shvmMfsyhehJv_Hs_jrl4WGkn5D8ZhvgLeEhIsbkldUEMq"
+                        />
+                      </div>
+                      <div>
+                        <div class="font-bold text-on-surface">
+                          Nguyễn Văn A
+                        </div>
+                        <div class="text-sm text-on-surface-variant">
+                          nguyenvana@example.com
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-4 px-4">
+                    <span
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-tertiary-container text-on-tertiary-container"
+                    >
+                      Admin
+                    </span>
+                  </td>
+                  <td class="py-4 px-4">
+                    <span
+                      class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+                    >
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-green-500"
+                      ></span>
+                      Hoạt động
+                    </span>
+                  </td>
+                  <td class="py-4 px-4 text-on-surface-variant">12/10/2023</td>
+                  <td class="py-4 px-4 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-axeron-blue hover:bg-blue-50 rounded-lg transition-colors border border-axeron-blue/20"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="edit"
+                          >edit</span
+                        >
+                        Sửa
+                      </button>
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors border border-outline-variant"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="admin_panel_settings"
+                          >admin_panel_settings</span
+                        >
+                        Cấp quyền
+                      </button>
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-error hover:bg-error-container rounded-lg transition-colors border border-error/20"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="lock"
+                          >lock</span
+                        >
+                        Khóa
+                      </button>
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-error hover:bg-error-container rounded-lg transition-colors border border-error/20"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="delete"
+                          >delete</span
+                        >
+                        Xóa
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Row 2 -->
+                <tr
+                  class="hover:bg-surface-container-lowest transition-colors group"
+                >
+                  <td class="py-4 px-4 text-on-surface-variant font-medium">
+                    #USR-002
+                  </td>
+                  <td class="py-4 px-4">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-10 h-10 rounded-full overflow-hidden bg-surface-container"
+                      >
+                        <img
+                          alt="Avatar"
+                          class="w-full h-full object-cover"
+                          data-alt="A simple, colorful placeholder avatar image generated for a user named Tran Thi B, reflecting a clean and modern corporate UI aesthetic with distinct colors for easy identification."
+                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPBHtaT8pbcN02NbXb0hpSHepMSlNvuzTnYWW7_m4My7-Q_4fc1L8fiVkWmdxUi5e6t_41ipBttLBX3n7ZmL5t5yFWFGwqv58qqewMOUxaSRuzE4oRIUFVcemsLCWg1Q7PeCU8FepmZFx6jUHj7HyW6sPWC_EBvU7nnRAsmT997Gok9oKi0IaQBR4P3BvE_hxEYI7q1_Wb91-h9ZvlY_1nEyckkpBMkTjKSAKjoZtnDuJHMJ7zGczgMkNQxT2z5OCvDrRJGQImZLnZ"
+                        />
+                      </div>
+                      <div>
+                        <div class="font-bold text-on-surface">Trần Thị B</div>
+                        <div class="text-sm text-on-surface-variant">
+                          tranthib@example.com
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-4 px-4">
+                    <span
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-container text-on-secondary-container"
+                    >
+                      Manager
+                    </span>
+                  </td>
+                  <td class="py-4 px-4">
+                    <span
+                      class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+                    >
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-green-500"
+                      ></span>
+                      Hoạt động
+                    </span>
+                  </td>
+                  <td class="py-4 px-4 text-on-surface-variant">15/10/2023</td>
+                  <td class="py-4 px-4 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-axeron-blue hover:bg-blue-50 rounded-lg transition-colors border border-axeron-blue/20"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="edit"
+                          >edit</span
+                        >
+                        Sửa
+                      </button>
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors border border-outline-variant"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="admin_panel_settings"
+                          >admin_panel_settings</span
+                        >
+                        Cấp quyền
+                      </button>
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-error hover:bg-error-container rounded-lg transition-colors border border-error/20"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="lock"
+                          >lock</span
+                        >
+                        Khóa
+                      </button>
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-error hover:bg-error-container rounded-lg transition-colors border border-error/20"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="delete"
+                          >delete</span
+                        >
+                        Xóa
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Row 3 -->
+                <tr
+                  class="hover:bg-surface-container-lowest transition-colors group bg-surface-container-low"
+                >
+                  <td class="py-4 px-4 text-on-surface-variant font-medium">
+                    #USR-003
+                  </td>
+                  <td class="py-4 px-4">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-10 h-10 rounded-full overflow-hidden bg-surface-container opacity-50"
+                      >
+                        <img
+                          alt="Avatar"
+                          class="w-full h-full object-cover grayscale"
+                          data-alt="A simple, grayscale placeholder avatar image generated for a locked user named Le Van C, reflecting a disabled state in a clean corporate UI aesthetic."
+                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1hUSeXbtsTQb4NZgQhNwCbvEJCodDdkOQSlMhv1BAzWzpRlHa3iNTxPBPRnb9apQgUPr38aTPX4OeNI1ijdWrOegPyE39b0Z7_2_Kl0Xz-TODG-Q0WVTd1RewZiIT5iERSvD5lnMBLt1o_ijfjWKGPMMaHdn3L70MgU73eVRT1GcRdZ4Sq1-qtKxZaQLludCdQ61V5Os_WturQUrpEiEcBOnTVUAt5qW1wbzVyskfm7SNdcWNukF98MLTLKSNtG7YdAuZNzYYsLla"
+                        />
+                      </div>
+                      <div>
+                        <div class="font-bold text-on-surface opacity-75">
+                          Lê Văn C
+                        </div>
+                        <div class="text-sm text-on-surface-variant opacity-75">
+                          levanc@example.com
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-4 px-4">
+                    <span
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-surface-variant text-on-surface-variant"
+                    >
+                      User
+                    </span>
+                  </td>
+                  <td class="py-4 px-4">
+                    <span
+                      class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-error-container text-on-error-container"
+                    >
+                      <span
+                        class="material-symbols-outlined text-[14px]"
+                        data-icon="lock"
+                        >lock</span
+                      >
+                      Đã khóa
+                    </span>
+                  </td>
+                  <td class="py-4 px-4 text-on-surface-variant">20/10/2023</td>
+                  <td class="py-4 px-4 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-axeron-blue hover:bg-blue-50 rounded-lg transition-colors border border-axeron-blue/20"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="edit"
+                          >edit</span
+                        >
+                        Sửa
+                      </button>
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors border border-outline-variant"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="admin_panel_settings"
+                          >admin_panel_settings</span
+                        >
+                        Cấp quyền
+                      </button>
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-green-600 hover:bg-green-50 rounded-lg transition-colors border border-green-600/20"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="lock_open"
+                          >lock_open</span
+                        >
+                        Mở khóa
+                      </button>
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-error hover:bg-error-container rounded-lg transition-colors border border-error/20"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="delete"
+                          >delete</span
+                        >
+                        Xóa
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Row 4 -->
+                <tr
+                  class="hover:bg-surface-container-lowest transition-colors group"
+                >
+                  <td class="py-4 px-4 text-on-surface-variant font-medium">
+                    #USR-004
+                  </td>
+                  <td class="py-4 px-4">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-10 h-10 rounded-full overflow-hidden bg-surface-container"
+                      >
+                        <img
+                          alt="Avatar"
+                          class="w-full h-full object-cover"
+                          data-alt="A simple, colorful placeholder avatar image generated for a user named Pham Thi D, reflecting a clean and modern corporate UI aesthetic with distinct colors for easy identification."
+                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtw3LwqLdkDe-AwwvrnsfOZU_uBV7V2ANloDjHl9OPWXqKNVFZnFkbTxM960iyPyLObHQrw4wuy_6IOTGrjCLmwY9grbyEgjuhOVsF4tEtwhPhCX7ez8Si4iqyt3EmNklNPlvxAdaWLq3H2pn5pSHyww2mL7722g9ZLtMGY0WnnlFhQdDmn9JcRXc1hK4DSk87hhjecCXiTtCthIs00IGRM-x7SXQr763e8ksx-8Oicx0-NP94t_Jo71l34zPw6LTxACTo4LMoO9iy"
+                        />
+                      </div>
+                      <div>
+                        <div class="font-bold text-on-surface">Phạm Thị D</div>
+                        <div class="text-sm text-on-surface-variant">
+                          phamthid@example.com
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-4 px-4">
+                    <span
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-surface-variant text-on-surface-variant"
+                    >
+                      User
+                    </span>
+                  </td>
+                  <td class="py-4 px-4">
+                    <span
+                      class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+                    >
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-green-500"
+                      ></span>
+                      Hoạt động
+                    </span>
+                  </td>
+                  <td class="py-4 px-4 text-on-surface-variant">22/10/2023</td>
+                  <td class="py-4 px-4 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-axeron-blue hover:bg-blue-50 rounded-lg transition-colors border border-axeron-blue/20"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="edit"
+                          >edit</span
+                        >
+                        Sửa
+                      </button>
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors border border-outline-variant"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="admin_panel_settings"
+                          >admin_panel_settings</span
+                        >
+                        Cấp quyền
+                      </button>
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-error hover:bg-error-container rounded-lg transition-colors border border-error/20"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="lock"
+                          >lock</span
+                        >
+                        Khóa
+                      </button>
+                      <button
+                        class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-error hover:bg-error-container rounded-lg transition-colors border border-error/20"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[18px]"
+                          data-icon="delete"
+                          >delete</span
+                        >
+                        Xóa
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Pagination -->
+          <div
+            class="px-4 py-3 border-t border-outline-variant bg-white flex items-center justify-between sm:px-6"
+          >
+            <div
+              class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between"
+            >
+              <div>
+                <p class="text-sm text-on-surface-variant">
+                  Hiển thị
+                  <span class="font-medium text-on-surface">1</span> đến
+                  <span class="font-medium text-on-surface">4</span> trong
+                  <span class="font-medium text-on-surface">97</span> kết quả
+                </p>
+              </div>
+              <div>
+                <nav
+                  aria-label="Pagination"
+                  class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+                >
+                  <a
+                    class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-outline-variant bg-white text-sm font-medium text-on-surface-variant hover:bg-surface-container-high"
+                    href="#"
+                  >
+                    <span class="sr-only">Previous</span>
+                    <span
+                      class="material-symbols-outlined text-[20px]"
+                      data-icon="chevron_left"
+                      >chevron_left</span
+                    >
+                  </a>
+                  <a
+                    aria-current="page"
+                    class="z-10 bg-primary-container text-on-primary-container relative inline-flex items-center px-4 py-2 border border-primary text-sm font-bold"
+                    href="#"
+                  >
+                    1
+                  </a>
+                  <a
+                    class="bg-white border-outline-variant text-on-surface-variant hover:bg-surface-container-high relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                    href="#"
+                  >
+                    2
+                  </a>
+                  <a
+                    class="bg-white border-outline-variant text-on-surface-variant hover:bg-surface-container-high relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                    href="#"
+                  >
+                    3
+                  </a>
+                  <span
+                    class="relative inline-flex items-center px-4 py-2 border border-outline-variant bg-white text-sm font-medium text-on-surface-variant"
+                  >
+                    ...
+                  </span>
+                  <a
+                    class="bg-white border-outline-variant text-on-surface-variant hover:bg-surface-container-high relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                    href="#"
+                  >
+                    10
+                  </a>
+                  <a
+                    class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-outline-variant bg-white text-sm font-medium text-on-surface-variant hover:bg-surface-container-high"
+                    href="#"
+                  >
+                    <span class="sr-only">Next</span>
+                    <span
+                      class="material-symbols-outlined text-[20px]"
+                      data-icon="chevron_right"
+                      >chevron_right</span
+                    >
+                  </a>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

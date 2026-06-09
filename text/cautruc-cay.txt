@@ -1,0 +1,44 @@
+/project-root
+├── about.html
+├── contact.html
+├── home.html
+├── store-locator.html
+│
+├── /admin
+│   ├── admin-categories.html
+│   ├── admin-dashboard.html
+│   ├── admin-orders.html
+│   ├── admin-products.html
+│   ├── admin-promotions.html
+│   ├── admin-reports.html
+│   ├── admin-reviews.html
+│   ├── admin-shipping-fees.html
+│   └── admin-users.html
+│
+├── /auth
+│   ├── account.html
+│   ├── change-password.html
+│   ├── forgot-password.html
+│   ├── login.html
+│   └── register.html
+│
+├── /blog
+│   ├── article-detail.html
+│   └── news.html
+│
+├── /policies
+│   ├── privacy-policy.html
+│   ├── purchase-policy.html
+│   ├── shipping-policy.html
+│   ├── size-guide.html
+│   └── warranty-policy.html
+│
+├── /shop
+│   ├── cart.html
+│   ├── checkout.html
+│   ├── order-confirmation.html
+│   ├── product-catalog.html
+│   └── product-detail.html
+│
+└── /staff
+    └── staff-dashboard.html
