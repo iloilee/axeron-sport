@@ -28,6 +28,22 @@ $featuredProducts = $db->select("
     LIMIT 10
 ");
 
+// Load shoes for new section
+$shoesProducts = $db->select("
+    SELECT
+        p.product_id,
+        p.product_name,
+        p.slug,
+        p.base_price,
+        c.slug as category_slug,
+        pi.image_url
+    FROM products p
+    JOIN categories c ON p.category_id = c.category_id
+    LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
+    WHERE p.is_visible = 1 AND c.slug IN ('giay-pickleball', 'giay-da-bong', 'giay-cau-long', 'giay-chay-bo')
+    ORDER BY p.updated_at DESC
+");
+
 // Load banners dynamically
 $banners = $db->select("
     SELECT banner_id, title, subtitle, image_url, image_url_mobile, link_url, link_type, button_text
@@ -45,7 +61,7 @@ $articles = $db->select("
     FROM articles
     WHERE is_published = 1
     ORDER BY is_featured DESC, published_at DESC
-    LIMIT 3
+    LIMIT 10
 ");
 
 // Load site settings for dynamic content
@@ -169,6 +185,52 @@ $categories = $db->select("
             </div>
         </section>
 
+        <!-- Section: Giày Thể Thao -->
+        <section class="max-w-container-max mx-auto px-margin-desktop py-12 bg-surface-container-low md:bg-transparent rounded-2xl md:rounded-none">
+            <div class="flex flex-row justify-between items-center mb-6 border-b border-surface-dim pb-4">
+                <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative shrink-0">
+                    Giày Thể Thao
+                    <span class="absolute -bottom-4 left-0 w-1/2 h-1 bg-axeron-red"></span>
+                </h2>
+                
+                <a class="flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-red transition-colors shrink-0 whitespace-nowrap" href="<?= BASE_URL ?>/shop/product-catalog.php?category=giay-the-thao" id="shoes-view-all">
+                    Xem tất cả <span class="material-symbols-outlined text-lg">chevron_right</span>
+                </a>
+            </div>
+            
+            <!-- Category Tabs -->
+            <div class="flex gap-4 md:gap-6 mb-8 overflow-x-auto w-full no-scrollbar">
+                <button class="shoe-tab-btn active text-axeron-red font-bold border-b-2 border-axeron-red pb-1 whitespace-nowrap" data-target="giay-pickleball">Giày Pickleball</button>
+                <button class="shoe-tab-btn text-on-surface-variant hover:text-axeron-red font-medium whitespace-nowrap" data-target="giay-da-bong">Giày đá bóng</button>
+                <button class="shoe-tab-btn text-on-surface-variant hover:text-axeron-red font-medium whitespace-nowrap" data-target="giay-cau-long">Giày cầu lông</button>
+                <button class="shoe-tab-btn text-on-surface-variant hover:text-axeron-red font-medium whitespace-nowrap" data-target="giay-chay-bo">Giày chạy bộ</button>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-gutter" id="shoes-container">
+                <?php foreach ($shoesProducts as $product): ?>
+                <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
+                    class="shoe-item <?= htmlspecialchars($product['category_slug']) ?> hidden group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex-col relative">
+                    <div class="aspect-square bg-surface-container-low p-4 relative overflow-hidden flex items-center justify-center">
+                        <img alt="<?= htmlspecialchars($product['product_name']) ?>"
+                            class="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500"
+                            src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
+                    </div>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors">
+                            <?= htmlspecialchars($product['product_name']) ?>
+                        </h3>
+                        <div class="mt-auto">
+                            <p class="font-headline-md text-body-lg text-axeron-red font-bold">
+                                <?= formatPrice($product['base_price']) ?>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                <?php endforeach; ?>
+                <div class="col-span-full text-center text-on-surface-variant py-8 hidden" id="empty-shoes-msg">Chưa có sản phẩm nào trong danh mục này.</div>
+            </div>
+        </section>
+
         <!-- Latest News / Articles -->
         <section class="max-w-container-max mx-auto px-margin-desktop py-16 md:py-24">
             <div class="flex justify-between items-end mb-12">
@@ -180,36 +242,45 @@ $categories = $db->select("
                     Xem toàn bộ tin <span class="material-symbols-outlined text-lg">arrow_forward</span>
                 </a>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <?php foreach ($articles as $article): ?>
-                <article class="group cursor-pointer" onclick="window.location.href='<?= BASE_URL ?>/blog/news.php?slug=<?= htmlspecialchars($article['slug']) ?>'">
-                    <div class="aspect-[16/10] overflow-hidden rounded-xl mb-6 bg-surface-container">
-                        <img alt="<?= htmlspecialchars($article['title']) ?>"
-                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                             src="<?= htmlspecialchars(getImageUrl($article['featured_image'], 'https://placehold.co/800x500/e5e2e1/5b403f?text=Tin+Tuc')) ?>"/>
-                    </div>
-                    <div class="flex items-center gap-3 mb-3 text-label-sm text-on-surface-variant uppercase tracking-wider">
-                        <span><?= htmlspecialchars(ucfirst($article['category'])) ?></span>
-                        <span class="w-1 h-1 bg-surface-dim rounded-full"></span>
-                        <span><?= $article['published_at'] ? date('d THÁNG m, Y', strtotime($article['published_at'])) : '' ?></span>
-                    </div>
-                    <h3 class="font-headline-md text-xl mb-4 group-hover:text-axeron-red transition-colors">
-                        <?= htmlspecialchars($article['title']) ?>
-                    </h3>
-                    <p class="text-on-surface-variant line-clamp-3 text-sm"><?= htmlspecialchars($article['excerpt'] ?: '') ?></p>
-                </article>
-                <?php endforeach; ?>
-                <?php if (empty($articles)): ?>
-                <!-- Fallback if no articles -->
-                <article class="group">
-                    <div class="aspect-[16/10] overflow-hidden rounded-xl mb-6 bg-surface-container flex items-center justify-center">
-                        <span class="material-symbols-outlined text-5xl text-gray-400">article</span>
-                    </div>
-                    <div class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-3">Blog</div>
-                    <h3 class="font-headline-md text-xl mb-4 text-gray-400">Chưa có bài viết nào</h3>
-                    <p class="text-on-surface-variant text-sm">Hãy thêm bài viết từ Admin Panel</p>
-                </article>
-                <?php endif; ?>
+            <div class="relative overflow-hidden w-full group" id="news-slider-wrapper">
+                <div class="flex gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-4 transition-transform duration-300 ease-out" id="news-slider">
+                    <?php foreach ($articles as $article): ?>
+                    <a href="<?= BASE_URL ?>/blog/news.php?slug=<?= htmlspecialchars($article['slug']) ?>"
+                        class="flex-shrink-0 w-[85vw] sm:w-[350px] snap-center group/card border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col">
+                        <div class="aspect-[16/10] bg-surface-container-low overflow-hidden">
+                            <img alt="<?= htmlspecialchars($article['title']) ?>"
+                                class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500"
+                                src="<?= htmlspecialchars(getImageUrl($article['featured_image'], 'https://placehold.co/800x500/e5e2e1/5b403f?text=Tin+Tuc')) ?>" />
+                        </div>
+                        <div class="p-5 flex flex-col flex-grow">
+                            <div class="flex items-center gap-2 mb-3">
+                                <?php if (!empty($article['category'])): ?>
+                                    <span class="bg-surface-container px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">
+                                        <?= htmlspecialchars($article['category']) ?>
+                                    </span>
+                                <?php endif; ?>
+                                <span class="text-label-sm text-outline">
+                                    <?= date('d/m/Y', strtotime($article['published_at'])) ?>
+                                </span>
+                            </div>
+                            <h3 class="font-headline-sm text-headline-sm text-on-background mb-3 text-truncate-2 group-hover/card:text-axeron-red transition-colors">
+                                <?= htmlspecialchars($article['title']) ?>
+                            </h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant text-truncate-3 mt-auto">
+                                <?= htmlspecialchars($article['excerpt']) ?>
+                            </p>
+                        </div>
+                    </a>
+                    <?php endforeach; ?>
+                </div>
+                
+                <!-- Nút điều hướng thủ công -->
+                <button class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-axeron-red p-2 rounded-full shadow-md z-10 hidden md:block opacity-0 group-hover:opacity-100 transition-opacity" id="news-prev-btn">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-axeron-red p-2 rounded-full shadow-md z-10 hidden md:block opacity-0 group-hover:opacity-100 transition-opacity" id="news-next-btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
             </div>
         </section>
 
@@ -319,6 +390,96 @@ $categories = $db->select("
         <?php if (count($banners) > 1): ?>
         setInterval(nextSlide, 5000);
         <?php endif; ?>
+
+        // Tab logic for Giày thể thao
+        document.addEventListener('DOMContentLoaded', function() {
+            const shoeTabs = document.querySelectorAll('.shoe-tab-btn');
+            const shoeItems = document.querySelectorAll('.shoe-item');
+            const emptyMsg = document.getElementById('empty-shoes-msg');
+
+            function showShoes(category) {
+                let count = 0;
+                shoeItems.forEach(item => {
+                    if (item.classList.contains(category) && count < 10) {
+                        item.classList.remove('hidden');
+                        item.classList.add('flex');
+                        count++;
+                    } else {
+                        item.classList.add('hidden');
+                        item.classList.remove('flex');
+                    }
+                });
+                
+                if (count === 0 && emptyMsg) {
+                    emptyMsg.classList.remove('hidden');
+                } else if (emptyMsg) {
+                    emptyMsg.classList.add('hidden');
+                }
+            }
+
+            shoeTabs.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    shoeTabs.forEach(b => {
+                        b.classList.remove('active', 'text-axeron-red', 'font-bold', 'border-b-2', 'border-axeron-red', 'pb-1');
+                        b.classList.add('text-on-surface-variant', 'font-medium');
+                    });
+                    this.classList.remove('text-on-surface-variant', 'font-medium');
+                    this.classList.add('active', 'text-axeron-red', 'font-bold', 'border-b-2', 'border-axeron-red', 'pb-1');
+                    
+                    showShoes(this.dataset.target);
+                });
+            });
+
+            if(shoeTabs.length > 0) {
+                showShoes('giay-pickleball');
+            }
+        });
+
+        // Auto Slider for News
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.getElementById('news-slider');
+            const prevBtn = document.getElementById('news-prev-btn');
+            const nextBtn = document.getElementById('news-next-btn');
+            if (!slider) return;
+
+            let scrollAmount = 0;
+            const scrollStep = 300; // Cuộn mỗi lần 300px
+            const autoScrollInterval = 3000; // 3 giây trượt 1 lần
+            let autoScrollTimer;
+
+            function startAutoScroll() {
+                autoScrollTimer = setInterval(() => {
+                    if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 10) {
+                        slider.scrollTo({ left: 0, behavior: 'smooth' }); // Reset
+                    } else {
+                        slider.scrollBy({ left: scrollStep, behavior: 'smooth' });
+                    }
+                }, autoScrollInterval);
+            }
+
+            function stopAutoScroll() {
+                clearInterval(autoScrollTimer);
+            }
+
+            startAutoScroll();
+
+            // Dừng cuộn khi hover
+            slider.addEventListener('mouseenter', stopAutoScroll);
+            slider.addEventListener('mouseleave', startAutoScroll);
+
+            if (prevBtn && nextBtn) {
+                prevBtn.addEventListener('click', () => {
+                    slider.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+                });
+                nextBtn.addEventListener('click', () => {
+                    slider.scrollBy({ left: scrollStep, behavior: 'smooth' });
+                });
+                prevBtn.addEventListener('mouseenter', stopAutoScroll);
+                nextBtn.addEventListener('mouseenter', stopAutoScroll);
+                prevBtn.addEventListener('mouseleave', startAutoScroll);
+                nextBtn.addEventListener('mouseleave', startAutoScroll);
+            }
+        });
     </script>
 </body>
 </html>
