@@ -1,1 +1,3 @@
 [01-Jun-2026 17:47:30 Europe/Berlin] PHP Fatal error:  Cannot redeclare jsonResponse() (previously declared in C:\xampp\htdocs\axeron-sport-website-main\api\analytics-api.php:464) in C:\xampp\htdocs\axeron-sport-website-main\config\database.php on line 159
+[09-Jun-2026 20:11:08 Europe/Berlin] Analytics API Error: Unknown column 'total_orders' in 'having clause' in C:\xampp\htdocs\axeron-sport-website-master\config\database.php:47
+[09-Jun-2026 20:11:19 Europe/Berlin] Analytics API Error: Unknown column 'total_orders' in 'having clause' in C:\xampp\htdocs\axeron-sport-website-master\config\database.php:47

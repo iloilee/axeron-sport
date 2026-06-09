@@ -251,5 +251,41 @@ function axRedirect($url) {
     exit;
 }
 
+// --- Guest Product View Tracking (hỗ trợ Recommendation Engine) ---
+
+/**
+ * Lưu lịch sử xem sản phẩm cho khách vãng lai (chưa đăng nhập)
+ * Giới hạn 20 sản phẩm gần nhất, không trùng lặp
+ * @param int $productId
+ */
+function trackGuestProductView(int $productId): void
+{
+    if (!isset($_SESSION['guest_view_logs'])) {
+        $_SESSION['guest_view_logs'] = [];
+    }
+
+    // Xóa nếu đã có (để đẩy lên đầu danh sách - gần nhất)
+    $key = array_search($productId, $_SESSION['guest_view_logs']);
+    if ($key !== false) {
+        unset($_SESSION['guest_view_logs'][$key]);
+    }
+
+    // Thêm vào đầu danh sách
+    array_unshift($_SESSION['guest_view_logs'], $productId);
+
+    // Giới hạn 20 sản phẩm gần nhất
+    $_SESSION['guest_view_logs'] = array_slice($_SESSION['guest_view_logs'], 0, 20);
+}
+
+/**
+ * Lấy danh sách product_id mà khách vãng lai đã xem
+ * @return array Mảng product_id
+ */
+function getGuestViewLogs(): array
+{
+    return $_SESSION['guest_view_logs'] ?? [];
+}
+
 // Tự động kiểm tra cookie "Ghi nhớ đăng nhập" khi load trang
 checkRememberCookie();
+

@@ -69,6 +69,9 @@ if (isLoggedIn()) {
     if ($exists) {
         $db->insert("INSERT INTO product_view_logs (user_id, product_id) VALUES (?, ?)", [$userId, $product['product_id']]);
     }
+} else {
+    // Khách vãng lai: lưu vào session cho recommendation engine
+    trackGuestProductView((int)$product['product_id']);
 }
 
 // Tính tổng stock - Ưu tiên stock từ variants, nếu không có thì dùng stock_quantity từ bảng products

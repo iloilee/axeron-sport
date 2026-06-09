@@ -4,6 +4,7 @@
  */
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/config/session.php';
+require_once __DIR__ . '/config/recommendation.php';
 
 $db = db();
 
@@ -79,6 +80,14 @@ $categories = $db->select("
     ORDER BY sort_order
     LIMIT 4
 ");
+
+// Load personalized recommendations
+$recoEngine = getRecommendationEngine();
+$recommendedProducts = $recoEngine->getRecommendations(10);
+$recoSourceType = $recoEngine->getSourceType();
+$recoTitle = $recoSourceType === 'personalized' 
+    ? (isLoggedIn() ? 'Dành Riêng Cho Bạn' : 'Có Thể Bạn Quan Tâm')
+    : 'Có Thể Bạn Quan Tâm';
 ?>
 <?php $pageTitle = 'Axeron - Dụng cụ thể thao chuyên nghiệp'; require_once __DIR__ . '/includes/head.php'; ?>
     <?php include __DIR__ . '/includes/header.php'; ?>
@@ -231,6 +240,52 @@ $categories = $db->select("
                 <div class="col-span-full text-center text-on-surface-variant py-8 hidden" id="empty-shoes-msg">Chưa có sản phẩm nào trong danh mục này.</div>
             </div>
         </section>
+
+        <!-- Section: Gợi ý cá nhân hóa -->
+        <?php if (!empty($recommendedProducts)): ?>
+        <section class="max-w-container-max mx-auto px-margin-desktop py-12">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-surface-dim pb-4">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-axeron-red text-3xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                    <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative">
+                        <?= htmlspecialchars($recoTitle) ?>
+                        <span class="absolute -bottom-4 left-0 w-1/2 h-1 bg-gradient-to-r from-axeron-red to-axeron-blue"></span>
+                    </h2>
+                </div>
+                <a class="hidden md:flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-red transition-colors" href="<?= BASE_URL ?>/shop/product-catalog.php">
+                    Xem tất cả <span class="material-symbols-outlined text-lg">chevron_right</span>
+                </a>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-gutter" id="recommended-products">
+                <?php foreach ($recommendedProducts as $rProduct): ?>
+                <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($rProduct['slug']) ?>"
+                    class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col relative">
+                    <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
+                        <img alt="<?= htmlspecialchars($rProduct['product_name']) ?>"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            src="<?= htmlspecialchars(getImageUrl($rProduct['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($rProduct['product_name'], 0, 20)))) ?>"/>
+                    </div>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors">
+                            <?= htmlspecialchars($rProduct['product_name']) ?>
+                        </h3>
+                        <div class="mt-auto flex items-center justify-between">
+                            <p class="font-headline-md text-body-lg text-axeron-red font-bold">
+                                <?= formatPrice($rProduct['base_price']) ?>
+                            </p>
+                            <?php if (!empty($rProduct['avg_rating'])): ?>
+                            <div class="flex items-center gap-1 text-sm text-on-surface-variant">
+                                <span class="material-symbols-outlined text-[16px] text-[#FFD700]" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <?= number_format($rProduct['avg_rating'], 1) ?>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </a>
+                <?php endforeach; ?>
+            </div>
+        </section>
+        <?php endif; ?>
 
         <!-- Latest News / Articles -->
         <section class="max-w-container-max mx-auto px-margin-desktop py-16 md:py-24">
