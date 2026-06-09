@@ -63,8 +63,9 @@ $flash = getFlash();
 <body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col">
     <!-- Header -->
     <header class="w-full py-4 px-margin-mobile md:px-margin-desktop border-b border-surface-variant bg-surface flex justify-center items-center absolute top-0 z-10">
-        <a class="font-display-lg text-headline-lg font-black text-axeron-red tracking-tight" href="<?= BASE_URL ?>/">
-            AXERON
+                        <a class="flex items-center gap-2 flex-shrink-0" href="<?= BASE_URL ?>/">
+            <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover">
+            <span class="font-display-lg text-[#BE1E2D] uppercase tracking-tight text-xl md:text-2xl" style="font-family: 'Montserrat', sans-serif;">Axeron</span>
         </a>
     </header>
 

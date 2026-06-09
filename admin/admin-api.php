@@ -38,11 +38,11 @@ set_exception_handler('apiExceptionHandler');
 // Bắt đầu output buffer
 ob_start();
 
-require_once __DIR__ . /../config/database.php';
-require_once __DIR__ . /../config/session.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/session.php';
 
 // Load upload configurations (Cloudinary hoặc Local) - Ép buộc dùng local upload
-require_once __DIR__ . /../config/upload_config.php';
+require_once __DIR__ . '/../config/upload_config.php';
 define('USE_CLOUDINARY', false);
 
 // Lấy output buffer và discard (loại bỏ whitespace BOM)
@@ -85,10 +85,7 @@ if (!empty($requestAction)) {
         'delete_product_image' => 'products',
         'set_primary_image' => 'products',
         'get_product_images' => 'products',
-<<<<<<< HEAD
-=======
         'update_image_color' => 'products',
->>>>>>> 4528578 (Push code)
         
         // categories
         'get_category' => 'categories',

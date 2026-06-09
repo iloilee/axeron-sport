@@ -43,8 +43,9 @@ $user = $db->selectOne("SELECT full_name, email FROM users WHERE user_id = ?", [
 <body class="bg-[#fcf9f8] text-[#1b1c1c] antialiased min-h-screen flex flex-col" style="font-family: 'Noto Sans', sans-serif;">
     <!-- Header -->
     <header class="w-full py-4 px-4 md:px-6 border-b border-[#e5e2e1] bg-[#fcf9f8] flex justify-center items-center absolute top-0 z-10">
-        <a class="text-2xl font-black text-[#BE1E2D] tracking-tight" href="<?= BASE_URL ?>/" style="font-family: 'Montserrat', sans-serif; font-weight: 800;">
-            AXERON
+                        <a class="flex items-center gap-2 flex-shrink-0" href="<?= BASE_URL ?>/">
+            <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover">
+            <span class="font-display-lg text-[#BE1E2D] uppercase tracking-tight text-xl md:text-2xl" style="font-family: 'Montserrat', sans-serif;">Axeron</span>
         </a>
     </header>
 

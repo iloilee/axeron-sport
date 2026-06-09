@@ -275,8 +275,9 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
         </button>
 
         <!-- Brand Logo -->
-        <a class="font-display-lg text-axeron-red uppercase tracking-tight flex-shrink-0 text-2xl" href="<?= BASE_URL ?>/">
-            Axeron
+        <a class="flex items-center gap-2 flex-shrink-0" href="<?= BASE_URL ?>/">
+            <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover">
+            <span class="font-display-lg text-axeron-red uppercase tracking-tight text-xl md:text-2xl">Axeron</span>
         </a>
 
         <!-- Navigation Links (Desktop) - Mega Menu -->
@@ -417,7 +418,10 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
 <div class="mobile-menu-backdrop" id="mobile-menu-backdrop" onclick="toggleMobileMenu()"></div>
 <div class="mobile-menu-panel" id="mobile-menu-panel">
     <div class="flex items-center justify-between p-4 border-b border-gray-200">
-        <span class="font-bold text-xl text-axeron-red uppercase tracking-tight">Axeron</span>
+        <a class="flex items-center gap-2 flex-shrink-0" href="<?= BASE_URL ?>/">
+            <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-8 h-8 rounded-lg object-cover">
+            <span class="font-bold text-xl text-axeron-red uppercase tracking-tight">Axeron</span>
+        </a>
         <button onclick="toggleMobileMenu()" class="p-2 hover:bg-gray-100 rounded-lg">
             <span class="material-symbols-outlined">close</span>
         </button>

@@ -3,8 +3,8 @@
  * Admin Dashboard - Axeron Sports Shop
  * Trang quản trị chính
  */
-require_once __DIR__ . /../config/database.php';
-require_once __DIR__ . /../config/session.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/session.php';
 
 // Kiểm tra đăng nhập và quyền admin
 if (!isLoggedIn()) {
@@ -36,7 +36,7 @@ if (!hasPermission($action)) {
     $allActions = ['dashboard', 'products', 'categories', 'brands', 'orders', 'users', 'shipping_price', 'reviews', 'promotions', 'analytics', 'banners', 'articles', 'featured', 'settings'];
     foreach ($allActions as $act) {
         if (hasPermission($act)) {
-            header('Location: ' . BASE_URL . '/admin.php?action=' . $act);
+            header('Location: ' . BASE_URL . '/admin/admin.php?action=' . $act);
             exit;
         }
     }
@@ -49,6 +49,23 @@ if (!hasPermission($action)) {
 // Load dữ liệu dựa trên action
 $db = db();
 $stats = [];
+
+// Cập nhật thông tin avatar mới nhất từ DB
+$adminUser = $db->selectOne("SELECT avatar_url FROM users WHERE user_id = ?", [$currentUser['user_id']]);
+if ($adminUser) {
+    $currentUser['avatar_url'] = $adminUser['avatar_url'];
+}
+
+$avatarSrc = '';
+if (!empty($currentUser['avatar_url'])) {
+    if (strpos($currentUser['avatar_url'], 'http') === 0) {
+        $avatarSrc = htmlspecialchars($currentUser['avatar_url']);
+    } else {
+        $path = $currentUser['avatar_url'];
+        if (strpos($path, '/') !== 0) $path = '/' . $path;
+        $avatarSrc = BASE_URL . htmlspecialchars($path);
+    }
+}
 
 $pageTitle = match($action) {
     'dashboard' => 'Tổng Quan',
@@ -181,10 +198,10 @@ if ($action === 'dashboard') {
         <aside class="w-64 bg-dark text-white flex-shrink-0">
             <!-- Logo -->
             <div class="p-4 border-b border-gray-700">
-                <a href="<?= BASE_URL ?>/admin.php" class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-axeron-red rounded-lg flex items-center justify-center font-bold text-xl">A</div>
+                <a href="<?= BASE_URL ?>/admin/admin.php" class="flex items-center gap-3">
+                    <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-10 h-10 rounded-lg object-cover">
                     <div>
-                        <div class="font-bold text-lg">Axeron</div>
+                        <div class="font-bold text-lg">Axeron Sports</div>
                         <div class="text-xs text-gray-400">Admin Panel</div>
                     </div>
                 </a>
@@ -193,35 +210,35 @@ if ($action === 'dashboard') {
             <!-- Navigation -->
             <nav class="p-4 space-y-1">
                 <?php if (hasPermission('dashboard')): ?>
-                <a href="<?= BASE_URL ?>/admin.php" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'dashboard' ? 'active' : '' ?>">
+                <a href="<?= BASE_URL ?>/admin/admin.php" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'dashboard' ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">dashboard</span>
                     <span>Tổng Quan</span>
                 </a>
                 <?php endif; ?>
 
                 <?php if (hasPermission('products')): ?>
-                <a href="<?= BASE_URL ?>/admin.php?action=products" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'products' ? 'active' : '' ?>">
+                <a href="<?= BASE_URL ?>/admin/admin.php?action=products" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'products' ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">inventory_2</span>
                     <span>Sản Phẩm</span>
                 </a>
                 <?php endif; ?>
 
                 <?php if (hasPermission('categories')): ?>
-                <a href="<?= BASE_URL ?>/admin.php?action=categories" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'categories' ? 'active' : '' ?>">
+                <a href="<?= BASE_URL ?>/admin/admin.php?action=categories" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'categories' ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">category</span>
                     <span>Danh Mục</span>
                 </a>
                 <?php endif; ?>
 
                 <?php if (hasPermission('brands')): ?>
-                <a href="<?= BASE_URL ?>/admin.php?action=brands" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'brands' ? 'active' : '' ?>">
+                <a href="<?= BASE_URL ?>/admin/admin.php?action=brands" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'brands' ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">branding_watermark</span>
                     <span>Thương Hiệu</span>
                 </a>
                 <?php endif; ?>
 
                 <?php if (hasPermission('orders')): ?>
-                <a href="<?= BASE_URL ?>/admin.php?action=orders" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'orders' ? 'active' : '' ?>">
+                <a href="<?= BASE_URL ?>/admin/admin.php?action=orders" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'orders' ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">receipt_long</span>
                     <span>Đơn Hàng</span>
                     <?php if (($stats['pendingOrders'] ?? 0) > 0): ?>
@@ -231,21 +248,21 @@ if ($action === 'dashboard') {
                 <?php endif; ?>
 
                 <?php if (hasPermission('users')): ?>
-                <a href="<?= BASE_URL ?>/admin.php?action=users" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'users' ? 'active' : '' ?>">
+                <a href="<?= BASE_URL ?>/admin/admin.php?action=users" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'users' ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">people</span>
                     <span>Người Dùng</span>
                 </a>
                 <?php endif; ?>
 
                 <?php if (hasPermission('shipping_price')): ?>
-                <a href="<?= BASE_URL ?>/admin.php?action=shipping_price" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'shipping_price' ? 'active' : '' ?>">
+                <a href="<?= BASE_URL ?>/admin/admin.php?action=shipping_price" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'shipping_price' ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">local_shipping</span>
                     <span>Phí Vận Chuyển</span>
                 </a>
                 <?php endif; ?>
 
                 <?php if (hasPermission('reviews')): ?>
-                <a href="<?= BASE_URL ?>/admin.php?action=reviews" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'reviews' ? 'active' : '' ?>">
+                <a href="<?= BASE_URL ?>/admin/admin.php?action=reviews" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'reviews' ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">reviews</span>
                     <span>Đánh Giá</span>
                     <?php if (($stats['pendingReviews'] ?? 0) > 0): ?>
@@ -255,14 +272,14 @@ if ($action === 'dashboard') {
                 <?php endif; ?>
 
                 <?php if (hasPermission('promotions')): ?>
-                <a href="<?= BASE_URL ?>/admin.php?action=promotions" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'promotions' ? 'active' : '' ?>">
+                <a href="<?= BASE_URL ?>/admin/admin.php?action=promotions" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'promotions' ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">sell</span>
                     <span>Khuyến Mãi</span>
                 </a>
                 <?php endif; ?>
 
                 <?php if (hasPermission('analytics')): ?>
-                <a href="<?= BASE_URL ?>/admin.php?action=analytics" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'analytics' ? 'active' : '' ?>">
+                <a href="<?= BASE_URL ?>/admin/admin.php?action=analytics" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'analytics' ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">analytics</span>
                     <span>Thống Kê</span>
                 </a>
@@ -274,28 +291,28 @@ if ($action === 'dashboard') {
                 <p class="px-4 text-xs text-gray-500 uppercase tracking-wider mb-2">Nội dung CMS</p>
 
                 <?php if (hasPermission('banners')): ?>
-                <a href="<?= BASE_URL ?>/admin.php?action=banners" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'banners' ? 'active' : '' ?>">
+                <a href="<?= BASE_URL ?>/admin/admin.php?action=banners" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'banners' ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">image</span>
                     <span>Banner/Slider</span>
                 </a>
                 <?php endif; ?>
 
                 <?php if (hasPermission('articles')): ?>
-                <a href="<?= BASE_URL ?>/admin.php?action=articles" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'articles' ? 'active' : '' ?>">
+                <a href="<?= BASE_URL ?>/admin/admin.php?action=articles" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'articles' ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">article</span>
                     <span>Bài Viết</span>
                 </a>
                 <?php endif; ?>
 
                 <?php if (hasPermission('featured')): ?>
-                <a href="<?= BASE_URL ?>/admin.php?action=featured" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'featured' ? 'active' : '' ?>">
+                <a href="<?= BASE_URL ?>/admin/admin.php?action=featured" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'featured' ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">star</span>
                     <span>SP Nổi Bật</span>
                 </a>
                 <?php endif; ?>
 
                 <?php if (hasPermission('settings')): ?>
-                <a href="<?= BASE_URL ?>/admin.php?action=settings" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'settings' ? 'active' : '' ?>">
+                <a href="<?= BASE_URL ?>/admin/admin.php?action=settings" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'settings' ? 'active' : '' ?>">
                     <span class="material-symbols-outlined">settings</span>
                     <span>Cài Đặt</span>
                 </a>
@@ -326,10 +343,18 @@ if ($action === 'dashboard') {
                     <a href="<?= BASE_URL ?>/shop/product-catalog.php" target="_blank" class="text-gray-500 hover:text-axeron-red">
                         <span class="material-symbols-outlined">open_in_new</span>
                     </a>
-                    <div class="relative">
-                        <div class="w-10 h-10 bg-axeron-red rounded-full flex items-center justify-center text-white font-bold">
-                            <?= strtoupper(substr($currentUser['full_name'], 0, 1)) ?>
+                    <div class="flex items-center gap-2">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-sm font-bold text-gray-800"><?= htmlspecialchars($currentUser['full_name']) ?></p>
+                            <p class="text-xs text-gray-500 text-right">Admin</p>
                         </div>
+                        <?php if (!empty($avatarSrc)): ?>
+                            <img src="<?= $avatarSrc ?>" alt="Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-axeron-red">
+                        <?php else: ?>
+                            <div class="w-10 h-10 bg-axeron-red rounded-full flex items-center justify-center text-white font-bold">
+                                <?= strtoupper(substr($currentUser['full_name'], 0, 1)) ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </header>
@@ -369,7 +394,7 @@ if ($action === 'dashboard') {
                                 <span class="material-symbols-outlined text-yellow-600">pending_actions</span>
                             </div>
                         </div>
-                        <a href="<?= BASE_URL ?>/admin.php?action=orders" class="text-axeron-red text-sm hover:underline mt-2 inline-block">Xem ngay →</a>
+                        <a href="<?= BASE_URL ?>/admin/admin.php?action=orders" class="text-axeron-red text-sm hover:underline mt-2 inline-block">Xem ngay →</a>
                     </div>
 
                     <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
@@ -394,7 +419,7 @@ if ($action === 'dashboard') {
                                 <span class="material-symbols-outlined text-purple-600">people</span>
                             </div>
                         </div>
-                        <a href="<?= BASE_URL ?>/admin.php?action=users" class="text-axeron-red text-sm hover:underline mt-2 inline-block">Quản lý →</a>
+                        <a href="<?= BASE_URL ?>/admin/admin.php?action=users" class="text-axeron-red text-sm hover:underline mt-2 inline-block">Quản lý →</a>
                     </div>
                 </div>
 
@@ -404,7 +429,7 @@ if ($action === 'dashboard') {
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100">
                         <div class="p-4 border-b border-gray-100 flex justify-between items-center">
                             <h2 class="font-bold text-lg">Đơn hàng gần đây</h2>
-                            <a href="<?= BASE_URL ?>/admin.php?action=orders" class="text-axeron-red text-sm hover:underline">Xem tất cả</a>
+                            <a href="<?= BASE_URL ?>/admin/admin.php?action=orders" class="text-axeron-red text-sm hover:underline">Xem tất cả</a>
                         </div>
                         <div class="overflow-x-auto">
                             <table class="w-full">
@@ -461,7 +486,7 @@ if ($action === 'dashboard') {
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100">
                         <div class="p-4 border-b border-gray-100 flex justify-between items-center">
                             <h2 class="font-bold text-lg">Sản phẩm bán chạy</h2>
-                            <a href="<?= BASE_URL ?>/admin.php?action=products" class="text-axeron-red text-sm hover:underline">Xem tất cả</a>
+                            <a href="<?= BASE_URL ?>/admin/admin.php?action=products" class="text-axeron-red text-sm hover:underline">Xem tất cả</a>
                         </div>
                         <div class="divide-y divide-gray-100">
                             <?php foreach ($stats['topProducts'] as $product): ?>
