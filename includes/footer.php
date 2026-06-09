@@ -115,6 +115,12 @@ $socialZalo = $footerData['social_zalo'] ?? '#';
             <h4 class="font-headline-md text-label-lg text-white mb-2 uppercase">
                 Hỗ Trợ Khách Hàng
             </h4>
+            <a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1" href="<?= BASE_URL ?>/policies/purchase-policy.php">
+                Chính sách mua hàng
+            </a>
+            <a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1" href="<?= BASE_URL ?>/policies/return-exchange-policy.php">
+                Chính sách đổi và trả hàng
+            </a>
             <a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1" href="<?= BASE_URL ?>/policies/shipping-policy.php">
                 Chính sách giao hàng
             </a>
