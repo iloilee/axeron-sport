@@ -281,13 +281,13 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
         </a>
 
         <!-- Navigation Links (Desktop) - Mega Menu -->
-        <nav class="hidden lg:flex items-center gap-6 xl:gap-8 flex-1 justify-center" id="mega-nav">
+        <nav class="hidden lg:flex items-center gap-2 xl:gap-4 flex-1 justify-center" id="mega-nav">
             <?php foreach ($_navLevel1 as $_l1):
                 $_isActive = ($_activeRootId === $_l1['category_id']);
                 $_hasLevel2 = isset($_navLevel2Map[$_l1['category_id']]);
             ?>
             <div class="mega-nav-item">
-                <a class="mega-nav-link font-label-lg text-label-lg uppercase whitespace-nowrap px-4
+                <a class="mega-nav-link font-label-lg text-label-lg uppercase whitespace-nowrap px-2
                           <?= $_isActive ? 'active text-axeron-red font-bold' : 'text-on-surface hover:text-axeron-red' ?> transition-colors duration-200"
                    href="<?= BASE_URL ?>/shop/product-catalog.php?category=<?= htmlspecialchars($_l1['slug']) ?>"
                    title="<?= htmlspecialchars($_l1['category_name']) ?>">

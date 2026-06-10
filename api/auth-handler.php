@@ -21,23 +21,19 @@ if ($action === 'login') {
 
     // Tìm user
     $user = $db->selectOne("
-        SELECT u.user_id, u.full_name, u.email, u.password_hash, u.role_id, r.role_name, u.avatar_url, u.login_attempts, u.locked_until
+        SELECT u.user_id, u.full_name, u.email, u.password_hash, u.role_id, r.role_name, u.avatar_url, u.login_attempts, u.locked_until, u.is_active
         FROM users u
         JOIN roles r ON u.role_id = r.role_id
-        WHERE u.email = ? AND u.is_active = 1
-    ", [$email]);
-
-    if (!$user) {
-        $user = $db->selectOne("
-            SELECT u.user_id, u.full_name, u.email, u.password_hash, u.role_id, r.role_name, u.avatar_url, u.login_attempts, u.locked_until
-            FROM users u
-            JOIN roles r ON u.role_id = r.role_id
-            WHERE u.phone = ? AND u.is_active = 1
-        ", [$email]);
-    }
+        WHERE u.email = ? OR u.phone = ?
+    ", [$email, $email]);
 
     if (!$user) {
         setFlash('error', 'Email hoặc mật khẩu không đúng');
+        axRedirect(BASE_URL . '/auth/login.php');
+    }
+
+    if ($user['is_active'] == 0) {
+        setFlash('error', 'Tài khoản của bạn đã bị khóa, vui lòng liên hệ Quản Trị Viên');
         axRedirect(BASE_URL . '/auth/login.php');
     }
 

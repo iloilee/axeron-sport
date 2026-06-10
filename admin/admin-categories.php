@@ -266,9 +266,9 @@ function openCategoryModal(categoryId = null) {
             const result = await response.json();
 
             if (result.success) {
-                showToast(result.message || 'Thao tác thành công!');
+                showToast(result.message || 'Thao tác thành công!', 'success');
                 closeModal();
-                location.reload();
+                setTimeout(() => location.reload(), 1000);
             } else {
                 showToast(result.message || 'Có lỗi xảy ra!', 'error');
             }
@@ -278,28 +278,28 @@ function openCategoryModal(categoryId = null) {
     };
 }
 
-async function deleteCategory(categoryId) {
-    if (!confirm('Bạn có chắc muốn xóa danh mục này?')) return;
+function deleteCategory(categoryId) {
+    showConfirm('Bạn có chắc muốn xóa danh mục này?', async () => {
+        try {
+            const formData = new FormData();
+            formData.append('ajax_action', 'delete_category');
+            formData.append('category_id', categoryId);
 
-    try {
-        const formData = new FormData();
-        formData.append('ajax_action', 'delete_category');
-        formData.append('category_id', categoryId);
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
 
-        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
-            method: 'POST',
-            body: formData
-        });
-        const result = await response.json();
-
-        if (result.success) {
-            showToast(result.message || 'Danh mục đã được xóa!', 'success');
-            setTimeout(() => location.reload(), 500);
-        } else {
-            showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            if (result.success) {
+                showToast(result.message || 'Danh mục đã được xóa!', 'success');
+                setTimeout(() => location.reload(), 500);
+            } else {
+                showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            }
+        } catch (err) {
+            showToast('Có lỗi xảy ra khi xóa danh mục!', 'error');
         }
-    } catch (err) {
-        showToast('Có lỗi xảy ra khi xóa danh mục!', 'error');
-    }
+    });
 }
 </script>

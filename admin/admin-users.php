@@ -42,7 +42,7 @@ $currentUserId = getUserId();
         <input type="hidden" name="action" value="users">
         <input type="text" name="search" placeholder="Tìm theo tên, email, SĐT..." value="<?= htmlspecialchars($search) ?>"
                class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent outline-none">
-        <select name="role" class="px-4 py-2 border border-gray-300 rounded-lg">
+        <select name="role" class="px-4 py-2 border border-gray-300 rounded-lg" onchange="this.form.submit()">
             <option value="">Tất cả vai trò</option>
             <?php foreach ($roles as $role): ?>
             <?php
@@ -63,7 +63,6 @@ $currentUserId = getUserId();
             </option>
             <?php endforeach; ?>
         </select>
-        <button type="submit" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Lọc</button>
     </form>
     <a href="javascript:void(0)" onclick="openUserModal()"
        class="px-4 py-2 bg-axeron-red text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2">
@@ -91,9 +90,16 @@ $currentUserId = getUserId();
                 <tr class="hover:bg-gray-50">
                     <td class="px-4 py-3">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-axeron-red rounded-full flex items-center justify-center text-white font-bold">
-                                <?= strtoupper(substr($user['full_name'], 0, 1)) ?>
-                            </div>
+                            <?php if (!empty($user['avatar_url'])): ?>
+                                <?php 
+                                    $avatarPath = strpos($user['avatar_url'], 'http') === 0 ? htmlspecialchars($user['avatar_url']) : BASE_URL . '/' . ltrim(htmlspecialchars($user['avatar_url']), '/');
+                                ?>
+                                <img src="<?= $avatarPath ?>" alt="<?= htmlspecialchars($user['full_name']) ?>" class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                            <?php else: ?>
+                                <div class="w-10 h-10 bg-axeron-red rounded-full flex items-center justify-center text-white font-bold">
+                                    <?= strtoupper(substr($user['full_name'], 0, 1)) ?>
+                                </div>
+                            <?php endif; ?>
                             <div>
                                 <p class="font-medium text-gray-800"><?= htmlspecialchars($user['full_name']) ?></p>
                                 <p class="text-xs text-gray-500">ID: <?= $user['user_id'] ?></p>
@@ -125,10 +131,12 @@ $currentUserId = getUserId();
                         <span class="px-2.5 py-0.5 rounded-full text-xs font-medium inline-block whitespace-nowrap <?= $roleClass ?>"><?= $roleText ?></span>
                     </td>
                     <td class="px-4 py-3">
-                        <?php if ($user['is_active']): ?>
-                        <span class="px-2.5 py-0.5 bg-green-100 text-green-800 rounded-full text-xs font-medium inline-block whitespace-nowrap">Hoạt động</span>
-                        <?php else: ?>
+                        <?php if (!$user['is_active']): ?>
                         <span class="px-2.5 py-0.5 bg-red-100 text-red-800 rounded-full text-xs font-medium inline-block whitespace-nowrap">Bị khóa</span>
+                        <?php elseif (!empty($user['locked_until']) && strtotime($user['locked_until']) > time()): ?>
+                        <span class="px-2.5 py-0.5 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium inline-block whitespace-nowrap">Khóa tạm (<?= date('H:i', strtotime($user['locked_until'])) ?>)</span>
+                        <?php else: ?>
+                        <span class="px-2.5 py-0.5 bg-green-100 text-green-800 rounded-full text-xs font-medium inline-block whitespace-nowrap">Hoạt động</span>
                         <?php endif; ?>
                     </td>
                     <td class="px-4 py-3 text-sm text-gray-500"><?= date('d/m/Y', strtotime($user['created_at'])) ?></td>
@@ -139,15 +147,15 @@ $currentUserId = getUserId();
                                 <span class="material-symbols-outlined text-gray-600">edit</span>
                             </a>
                             <?php if ($user['user_id'] != $currentUserId): ?>
-                            <?php if ($user['is_active']): ?>
-                            <a href="javascript:void(0)" onclick="toggleUserStatus(<?= $user['user_id'] ?>, 0)"
-                               class="p-2 hover:bg-red-50 rounded-lg transition-colors" title="Khóa tài khoản">
-                                <span class="material-symbols-outlined text-red-500">lock</span>
-                            </a>
-                            <?php else: ?>
+                            <?php if (!$user['is_active'] || (!empty($user['locked_until']) && strtotime($user['locked_until']) > time())): ?>
                             <a href="javascript:void(0)" onclick="toggleUserStatus(<?= $user['user_id'] ?>, 1)"
                                class="p-2 hover:bg-green-50 rounded-lg transition-colors" title="Mở khóa">
                                 <span class="material-symbols-outlined text-green-600">lock_open</span>
+                            </a>
+                            <?php else: ?>
+                            <a href="javascript:void(0)" onclick="toggleUserStatus(<?= $user['user_id'] ?>, 0)"
+                               class="p-2 hover:bg-red-50 rounded-lg transition-colors" title="Khóa tài khoản">
+                                <span class="material-symbols-outlined text-red-500">lock</span>
                             </a>
                             <?php endif; ?>
                             <a href="javascript:void(0)" onclick="deleteUser(<?= $user['user_id'] ?>)"
@@ -192,7 +200,8 @@ function openUserModal(userId = null) {
             case 'staff_analytics': label = 'Nhân viên QL thống kê'; break;
             case 'staff_cms': label = 'Nhân viên QL trang chủ'; break;
         }
-        roleSelect += `<option value="${r.role_id}">${label}</option>`;
+        let selectedAttr = (!isEdit && r.role_name === 'customer') ? 'selected' : '';
+        roleSelect += `<option value="${r.role_id}" ${selectedAttr}>${label}</option>`;
     });
     roleSelect += '</select>';
 
@@ -266,14 +275,12 @@ function openUserModal(userId = null) {
                     ${roleSelect}
                 </div>
 
-                ${isEdit ? `
                 <div class="flex items-center gap-4">
                     <label class="flex items-center gap-2">
                         <input type="checkbox" name="is_active" value="1" checked class="w-5 h-5 rounded">
                         <span class="text-sm">Hoạt động</span>
                     </label>
                 </div>
-                ` : ''}
                 ` : ''}
 
                 <div class="flex justify-end gap-3 pt-4 border-t">
@@ -327,9 +334,9 @@ function openUserModal(userId = null) {
             const result = await response.json();
 
             if (result.success) {
-                showToast(result.message || 'Thao tác thành công!');
+                showToast(result.message || 'Thao tác thành công!', 'success');
                 closeModal();
-                location.reload();
+                setTimeout(() => location.reload(), 1000);
             } else {
                 showToast(result.message || 'Có lỗi xảy ra!', 'error');
             }
@@ -353,7 +360,7 @@ function toggleUserStatus(userId, newStatus) {
             });
             const result = await response.json();
             showToast(result.message, result.success ? 'success' : 'error');
-            if (result.success) location.reload();
+            if (result.success) { showToast("Thao tác thành công!", "success"); setTimeout(() => location.reload(), 1000); }
         } catch (err) {
             showToast('Có lỗi xảy ra!', 'error');
         }
@@ -373,7 +380,7 @@ function deleteUser(userId) {
             });
             const result = await response.json();
             showToast(result.message, result.success ? 'success' : 'error');
-            if (result.success) location.reload();
+            if (result.success) { showToast("Thao tác thành công!", "success"); setTimeout(() => location.reload(), 1000); }
         } catch (err) {
             showToast('Có lỗi xảy ra!', 'error');
         }

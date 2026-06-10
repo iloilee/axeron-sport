@@ -86,11 +86,30 @@ $flash = getFlash();
         <!-- Right Side: Login Form -->
         <div class="w-full md:w-1/2 flex items-center justify-center p-margin-mobile md:p-12 lg:p-24 bg-surface mt-16 md:mt-0">
             <div class="w-full max-w-md">
-                <!-- Flash Message -->
+                <!-- Flash Message is displayed as floating toast below -->
                 <?php if ($flash): ?>
-                <div class="mb-6 p-4 rounded-lg <?= $flash['type'] === 'error' ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-green-50 border border-green-200 text-green-700' ?>">
-                    <?= htmlspecialchars($flash['message']) ?>
+                <div id="auth-backdrop" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[90] transition-opacity duration-300"></div>
+                <div id="auth-toast" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100] px-8 py-5 rounded-2xl shadow-2xl flex items-center gap-4 transition-all duration-300 <?= $flash['type'] === 'error' ? 'bg-red-50 border-2 border-red-200 text-red-800' : 'bg-green-50 border-2 border-green-200 text-green-800' ?> max-w-sm w-full text-center flex-col">
+                    <span class="material-symbols-outlined text-5xl <?= $flash['type'] === 'error' ? 'text-red-500' : 'text-green-500' ?>">
+                        <?= $flash['type'] === 'error' ? 'error' : 'check_circle' ?>
+                    </span>
+                    <span class="font-bold text-lg leading-relaxed"><?= htmlspecialchars($flash['message']) ?></span>
                 </div>
+                <script>
+                    setTimeout(() => {
+                        const toast = document.getElementById('auth-toast');
+                        const backdrop = document.getElementById('auth-backdrop');
+                        if (toast) {
+                            toast.style.opacity = '0';
+                            toast.style.transform = 'translate(-50%, -40%) scale(0.95)';
+                        }
+                        if (backdrop) backdrop.style.opacity = '0';
+                        setTimeout(() => {
+                            if (toast) toast.remove();
+                            if (backdrop) backdrop.remove();
+                        }, 300);
+                    }, 1200);
+                </script>
                 <?php endif; ?>
 
                 <div class="mb-8 text-center md:text-left">

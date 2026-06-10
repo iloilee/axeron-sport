@@ -189,9 +189,9 @@ function openShippingPriceModal(shippingId = null) {
             const result = await response.json();
 
             if (result.success) {
-                showToast(result.message || 'Thao tác thành công!');
+                showToast(result.message || 'Thao tác thành công!', 'success');
                 closeModal();
-                location.reload();
+                setTimeout(() => location.reload(), 1000);
             } else {
                 showToast(result.message || 'Có lỗi xảy ra!', 'error');
             }
@@ -201,23 +201,27 @@ function openShippingPriceModal(shippingId = null) {
     };
 }
 
-async function deleteShippingPrice(shippingId) {
-    if (!confirm('Bạn có chắc muốn xóa cấu hình phí vận chuyển này? Các đơn hàng cũ đã giao/hủy áp dụng cấu hình này sẽ tự động được chuyển về mức mặc định.')) return;
+function deleteShippingPrice(shippingId) {
+    showConfirm('Bạn có chắc muốn xóa cấu hình phí vận chuyển này?', async () => {
+        const formData = new FormData();
+        formData.append('ajax_action', 'delete_shipping_price');
+        formData.append('shipping_id', shippingId);
 
-    const formData = new FormData();
-    formData.append('ajax_action', 'delete_shipping_price');
-    formData.append('shipping_id', shippingId);
-
-    try {
-        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
-            method: 'POST',
-            body: formData
-        });
-        const result = await response.json();
-        showToast(result.message, result.success ? 'success' : 'error');
-        if (result.success) location.reload();
-    } catch (err) {
-        showToast('Có lỗi xảy ra!', 'error');
-    }
+        try {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            if (result.success) { 
+                showToast(result.message || "Thao tác thành công!", "success"); 
+                setTimeout(() => location.reload(), 1000); 
+            } else {
+                showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            }
+        } catch (err) {
+            showToast('Có lỗi xảy ra!', 'error');
+        }
+    });
 }
 </script>

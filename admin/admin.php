@@ -577,6 +577,10 @@ if ($action === 'dashboard') {
         // Toast notification (Centered Modal Style)
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
+            
+            // Xóa các thông báo cũ để không bị lặp hiển thị nhiều lần
+            container.innerHTML = '';
+
             const toast = document.createElement('div');
 
             const icon = type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info';

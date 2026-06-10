@@ -90,13 +90,9 @@ $promotions = $db->select("
                                class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                                 <span class="material-symbols-outlined text-gray-600">edit</span>
                             </a>
-                            <form method="POST" class="inline" id="delete-promo-<?= $promo['id'] ?>">
-                                <input type="hidden" name="ajax_action" value="delete_promotion">
-                                <input type="hidden" name="promo_id" value="<?= $promo['promo_id'] ?>">
-                                <button type="submit" class="p-2 hover:bg-red-50 rounded-lg">
-                                    <span class="material-symbols-outlined text-red-500">delete</span>
-                                </button>
-                            </form>
+                            <button type="button" onclick="deletePromotion(<?= $promo['promo_id'] ?>)" class="p-2 hover:bg-red-50 rounded-lg">
+                                <span class="material-symbols-outlined text-red-500">delete</span>
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -262,9 +258,9 @@ function openPromotionModal(promoId = null) {
             const result = await response.json();
 
             if (result.success) {
-                showToast(result.message || 'Thao tác thành công!');
+                showToast(result.message || 'Thao tác thành công!', 'success');
                 closeModal();
-                location.reload();
+                setTimeout(() => location.reload(), 1000);
             } else {
                 showToast(result.message || 'Có lỗi xảy ra!', 'error');
             }
@@ -272,5 +268,29 @@ function openPromotionModal(promoId = null) {
             showToast('Có lỗi xảy ra!', 'error');
         }
     };
+}
+
+function deletePromotion(promoId) {
+    showConfirm('Bạn có chắc muốn xóa khuyến mãi này?', async () => {
+        const formData = new FormData();
+        formData.append('ajax_action', 'delete_promotion');
+        formData.append('promo_id', promoId);
+
+        try {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            if (result.success) {
+                showToast(result.message || 'Thao tác thành công!', 'success');
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            }
+        } catch (err) {
+            showToast('Có lỗi xảy ra!', 'error');
+        }
+    });
 }
 </script>

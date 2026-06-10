@@ -276,8 +276,7 @@ document.getElementById('banner-form').addEventListener('submit', async function
 });
 
 // Delete banner
-async function deleteBanner(bannerId) {
-    if (!confirm('Bạn có chắc muốn xóa banner này?')) return;
+async function deleteBanner(bannerId) { showConfirm('Bạn có chắc muốn xóa banner này?', async () => { 
 
     try {
         const formData = new FormData();
@@ -287,7 +286,7 @@ async function deleteBanner(bannerId) {
         const response = await fetch('<?= BASE_URL ?>/api/cms-api.php', {
             method: 'POST',
             body: formData
-        });
+         }); });
         const result = await response.json();
 
         if (result.success) {

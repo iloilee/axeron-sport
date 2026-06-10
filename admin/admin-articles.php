@@ -413,8 +413,7 @@ document.getElementById('article-form').addEventListener('submit', async functio
 });
 
 // Delete article
-async function deleteArticle(articleId) {
-    if (!confirm('Bạn có chắc muốn xóa bài viết này?')) return;
+async function deleteArticle(articleId) { showConfirm('Bạn có chắc muốn xóa bài viết này?', async () => { 
 
     try {
         const formData = new FormData();
@@ -424,7 +423,7 @@ async function deleteArticle(articleId) {
         const response = await fetch('<?= BASE_URL ?>/api/cms-api.php', {
             method: 'POST',
             body: formData
-        });
+         }); });
         const result = await response.json();
 
         if (result.success) {

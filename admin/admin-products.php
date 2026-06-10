@@ -435,7 +435,7 @@ function openProductModal(productId = null) {
             if (result.success) {
                 showToast(result.message || 'Thao tác thành công!', 'success');
                 closeModal();
-                location.reload();
+                setTimeout(() => location.reload(), 1000);
             } else {
                 showToast(result.message || 'Có lỗi xảy ra!', 'error');
             }

@@ -219,6 +219,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             }
             break;
 
+        case 'get_shipping_price':
+            if ($id > 0) {
+                $shipping = $db->selectOne("SELECT * FROM shipping_prices WHERE shipping_id = ?", [$id]);
+                if ($shipping) {
+                    $response = ['success' => true, 'shipping' => $shipping];
+                } else {
+                    $response = ['success' => false, 'message' => 'Không tìm thấy cấu hình!'];
+                }
+            }
+            break;
+
         case 'get_promotion':
             if ($id > 0) {
                 $promo = $db->selectOne("SELECT * FROM promotions WHERE promo_id = ?", [$id]);
@@ -336,6 +347,148 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $response = ['success' => true, 'data' => $data, 'count' => count($data)];
+            break;
+
+        // ==================== SHIPPING PRICES ====================
+        case 'add_shipping_price':
+            $province_city = trim($_POST['province_city'] ?? '');
+            $base_price = (float)($_POST['base_price'] ?? 0);
+            $estimated_days = (int)($_POST['estimated_days'] ?? 0);
+
+            if (empty($province_city) || $base_price < 0 || $estimated_days < 0) {
+                $response = ['success' => false, 'message' => 'Dữ liệu không hợp lệ!'];
+                break;
+            }
+
+            // check if exists
+            $exists = $db->selectOne("SELECT shipping_id FROM shipping_prices WHERE province_city = ?", [$province_city]);
+            if ($exists) {
+                $response = ['success' => false, 'message' => 'Tỉnh/Thành phố này đã được cấu hình!'];
+                break;
+            }
+
+            try {
+                $db->insert("INSERT INTO shipping_prices (province_city, base_price, estimated_days) VALUES (?, ?, ?)",
+                    [$province_city, $base_price, $estimated_days]);
+                $response = ['success' => true, 'message' => 'Thêm cấu hình phí vận chuyển thành công!'];
+            } catch (Exception $e) {
+                $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
+            }
+            break;
+
+        case 'update_shipping_price':
+            $shipping_id = (int)($_POST['shipping_id'] ?? 0);
+            $base_price = (float)($_POST['base_price'] ?? 0);
+            $estimated_days = (int)($_POST['estimated_days'] ?? 0);
+
+            if ($shipping_id <= 0 || $base_price < 0 || $estimated_days < 0) {
+                $response = ['success' => false, 'message' => 'Dữ liệu không hợp lệ!'];
+                break;
+            }
+
+            try {
+                $db->update("UPDATE shipping_prices SET base_price = ?, estimated_days = ? WHERE shipping_id = ?",
+                    [$base_price, $estimated_days, $shipping_id]);
+                $response = ['success' => true, 'message' => 'Cập nhật cấu hình phí vận chuyển thành công!'];
+            } catch (Exception $e) {
+                $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
+            }
+            break;
+
+        case 'delete_shipping_price':
+            $shipping_id = (int)($_POST['shipping_id'] ?? 0);
+            if ($shipping_id <= 0) {
+                $response = ['success' => false, 'message' => 'ID cấu hình không hợp lệ!'];
+                break;
+            }
+
+            try {
+                $db->delete("DELETE FROM shipping_prices WHERE shipping_id = ?", [$shipping_id]);
+                $response = ['success' => true, 'message' => 'Đã xóa cấu hình phí vận chuyển!'];
+            } catch (Exception $e) {
+                $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
+            }
+            break;
+
+        // ==================== BRANDS ====================
+        case 'create_brand':
+            $brand_name = trim($_POST['brand_name'] ?? '');
+            $logo_url = trim($_POST['logo_url'] ?? '');
+            $description = trim($_POST['description'] ?? '');
+            $is_active = isset($_POST['is_active']) ? 1 : 0;
+
+            if (empty($brand_name)) {
+                $response = ['success' => false, 'message' => 'Tên thương hiệu không được để trống!'];
+                break;
+            }
+
+            try {
+                $db->insert("INSERT INTO brands (brand_name, logo_url, description, is_active) VALUES (?, ?, ?, ?)",
+                    [$brand_name, $logo_url, $description, $is_active]);
+                $response = ['success' => true, 'message' => 'Thương hiệu đã được tạo thành công!'];
+            } catch (Exception $e) {
+                $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
+            }
+            break;
+
+        case 'update_brand':
+            $brand_id = (int)($_POST['brand_id'] ?? 0);
+            $brand_name = trim($_POST['brand_name'] ?? '');
+            $logo_url = trim($_POST['logo_url'] ?? '');
+            $description = trim($_POST['description'] ?? '');
+            $is_active = isset($_POST['is_active']) ? 1 : 0;
+
+            if ($brand_id <= 0 || empty($brand_name)) {
+                $response = ['success' => false, 'message' => 'Dữ liệu không hợp lệ!'];
+                break;
+            }
+
+            try {
+                $db->update("UPDATE brands SET brand_name = ?, logo_url = ?, description = ?, is_active = ? WHERE brand_id = ?",
+                    [$brand_name, $logo_url, $description, $is_active, $brand_id]);
+                $response = ['success' => true, 'message' => 'Thương hiệu đã được cập nhật!'];
+            } catch (Exception $e) {
+                $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
+            }
+            break;
+
+        case 'toggle_brand_status':
+            $brand_id = (int)($_POST['brand_id'] ?? 0);
+            $new_status = (int)($_POST['new_status'] ?? 0);
+
+            if ($brand_id <= 0) {
+                $response = ['success' => false, 'message' => 'ID thương hiệu không hợp lệ!'];
+                break;
+            }
+
+            try {
+                $db->update("UPDATE brands SET is_active = ? WHERE brand_id = ?", [$new_status, $brand_id]);
+                $response = ['success' => true, 'message' => $new_status ? 'Thương hiệu đã được kích hoạt!' : 'Thương hiệu đã tạm ngưng!'];
+            } catch (Exception $e) {
+                $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
+            }
+            break;
+
+        case 'delete_brand':
+            $brand_id = (int)($_POST['brand_id'] ?? 0);
+            if ($brand_id <= 0) {
+                $response = ['success' => false, 'message' => 'ID thương hiệu không hợp lệ!'];
+                break;
+            }
+
+            // Kiểm tra xem thương hiệu có sản phẩm nào không
+            $products = $db->selectOne("SELECT product_id FROM products WHERE brand_id = ? LIMIT 1", [$brand_id]);
+            if ($products) {
+                $response = ['success' => false, 'message' => 'Không thể xóa thương hiệu đang có sản phẩm! Hãy xóa hoặc chuyển các sản phẩm này sang thương hiệu khác trước.'];
+                break;
+            }
+
+            try {
+                $db->delete("DELETE FROM brands WHERE brand_id = ?", [$brand_id]);
+                $response = ['success' => true, 'message' => 'Thương hiệu đã được xóa thành công!'];
+            } catch (Exception $e) {
+                $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
+            }
             break;
 
         // ==================== PRODUCTS ====================
@@ -740,7 +893,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             try {
-                $db->update("UPDATE users SET is_active = ? WHERE user_id = ?", [$new_status, $user_id]);
+                if ($new_status == 1) {
+                    $db->update("UPDATE users SET is_active = 1, locked_until = NULL, login_attempts = 0 WHERE user_id = ?", [$user_id]);
+                } else {
+                    $db->update("UPDATE users SET is_active = 0 WHERE user_id = ?", [$user_id]);
+                }
                 $response = ['success' => true, 'message' => $new_status ? 'Tài khoản đã được mở khóa!' : 'Tài khoản đã bị khóa!'];
             } catch (Exception $e) {
                 $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];

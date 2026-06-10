@@ -155,50 +155,53 @@ $reviews = $db->select("
 </div>
 
 <script>
-async function updateReviewStatus(reviewId, newStatus) {
-    const statusLabels = {
-        'approved': 'duyệt',
-        'rejected': 'từ chối',
-        'hidden': 'ẩn'
-    };
+function updateReviewStatus(reviewId, newStatus) {
+    const actionText = newStatus === 'approved' ? 'Duyệt' : newStatus === 'rejected' ? 'Từ chối' : 'Ẩn';
+    showConfirm(actionText + ' đánh giá này?', async () => {
+        const formData = new FormData();
+        formData.append('ajax_action', 'update_review_status');
+        formData.append('review_id', reviewId);
+        formData.append('new_status', newStatus);
 
-    if (!confirm(`${newStatus === 'approved' ? 'Duyệt' : newStatus === 'rejected' ? 'Từ chối' : 'Ẩn'} đánh giá này?`)) return;
-
-    const formData = new FormData();
-    formData.append('ajax_action', 'update_review_status');
-    formData.append('review_id', reviewId);
-    formData.append('new_status', newStatus);
-
-    try {
-        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
-            method: 'POST',
-            body: formData
-        });
-        const result = await response.json();
-        showToast(result.message, result.success ? 'success' : 'error');
-        if (result.success) location.reload();
-    } catch (err) {
-        showToast('Có lỗi xảy ra!', 'error');
-    }
+        try {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            if (result.success) { 
+                showToast(result.message || "Thao tác thành công!", "success"); 
+                setTimeout(() => location.reload(), 1000); 
+            } else {
+                showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            }
+        } catch (err) {
+            showToast('Có lỗi xảy ra!', 'error');
+        }
+    });
 }
 
-async function deleteReview(reviewId) {
-    if (!confirm('Bạn có chắc chắn muốn xóa đánh giá này không? Hành động này không thể hoàn tác.')) return;
+function deleteReview(reviewId) {
+    showConfirm('Bạn có chắc chắn muốn xóa đánh giá này không? Hành động này không thể hoàn tác.', async () => { 
+        const formData = new FormData();
+        formData.append('ajax_action', 'delete_review');
+        formData.append('review_id', reviewId);
 
-    const formData = new FormData();
-    formData.append('ajax_action', 'delete_review');
-    formData.append('review_id', reviewId);
-
-    try {
-        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
-            method: 'POST',
-            body: formData
-        });
-        const result = await response.json();
-        showToast(result.message, result.success ? 'success' : 'error');
-        if (result.success) location.reload();
-    } catch (err) {
-        showToast('Có lỗi xảy ra!', 'error');
-    }
+        try {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            if (result.success) { 
+                showToast(result.message || "Thao tác thành công!", "success"); 
+                setTimeout(() => location.reload(), 1000); 
+            } else {
+                showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            }
+        } catch (err) {
+            showToast('Có lỗi xảy ra!', 'error');
+        }
+    });
 }
 </script>

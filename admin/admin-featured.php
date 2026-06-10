@@ -250,30 +250,28 @@ async function addFeaturedProduct(productId) {
 }
 
 // AJAX to remove featured product
-async function removeFeaturedProduct(productId, productName) {
-    if (!confirm(`Bạn có chắc muốn bỏ sản phẩm "${productName}" khỏi danh sách nổi bật không?`)) {
-        return;
-    }
+function removeFeaturedProduct(productId, productName) {
+    showConfirm(`Bạn có chắc muốn bỏ sản phẩm "${productName}" khỏi danh sách nổi bật không?`, async () => {
+        const formData = new FormData();
+        formData.append('ajax_action', 'remove_featured_product');
+        formData.append('product_id', productId);
 
-    const formData = new FormData();
-    formData.append('ajax_action', 'remove_featured_product');
-    formData.append('product_id', productId);
+        try {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
 
-    try {
-        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
-            method: 'POST',
-            body: formData
-        });
-        const result = await response.json();
-
-        if (result.success) {
-            showToast(result.message, 'success');
-            setTimeout(() => location.reload(), 800);
-        } else {
-            showToast(result.message || 'Lỗi khi xóa!', 'error');
+            if (result.success) {
+                showToast(result.message, 'success');
+                setTimeout(() => location.reload(), 800);
+            } else {
+                showToast(result.message || 'Lỗi khi xóa!', 'error');
+            }
+        } catch (err) {
+            showToast('Có lỗi xảy ra!', 'error');
         }
-    } catch (err) {
-        showToast('Có lỗi xảy ra!', 'error');
-    }
+    });
 }
 </script>

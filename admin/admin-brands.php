@@ -31,13 +31,9 @@ $brands = $db->select("SELECT * FROM brands ORDER BY brand_name");
                    class="p-2 hover:bg-gray-100 rounded-lg">
                     <span class="material-symbols-outlined text-gray-600">edit</span>
                 </a>
-                <form method="POST" class="inline" id="delete-brand-<?= $brand['brand_id'] ?>">
-                    <input type="hidden" name="ajax_action" value="delete_brand">
-                    <input type="hidden" name="brand_id" value="<?= $brand['brand_id'] ?>">
-                    <button type="submit" class="p-2 hover:bg-red-50 rounded-lg">
-                        <span class="material-symbols-outlined text-red-500">delete</span>
-                    </button>
-                </form>
+                <button type="button" onclick="deleteBrand(<?= $brand['brand_id'] ?>)" class="p-2 hover:bg-red-50 rounded-lg">
+                    <span class="material-symbols-outlined text-red-500">delete</span>
+                </button>
             </div>
         </div>
         <h3 class="font-bold text-lg text-gray-800"><?= htmlspecialchars($brand['brand_name']) ?></h3>
@@ -48,14 +44,9 @@ $brands = $db->select("SELECT * FROM brands ORDER BY brand_name");
             <?php else: ?>
             <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-full text-xs">Tạm ngưng</span>
             <?php endif; ?>
-            <form method="POST" class="inline">
-                <input type="hidden" name="ajax_action" value="toggle_brand_status">
-                <input type="hidden" name="brand_id" value="<?= $brand['brand_id'] ?>">
-                <input type="hidden" name="new_status" value="<?= $brand['is_active'] ? '0' : '1' ?>">
-                <button type="submit" class="text-sm text-axeron-blue hover:underline">
-                    <?= $brand['is_active'] ? 'Tạm ngưng' : 'Kích hoạt' ?>
-                </button>
-            </form>
+            <button type="button" onclick="toggleBrandStatus(<?= $brand['brand_id'] ?>, <?= $brand['is_active'] ? '0' : '1' ?>)" class="text-sm text-axeron-blue hover:underline">
+                <?= $brand['is_active'] ? 'Tạm ngưng' : 'Kích hoạt' ?>
+            </button>
         </div>
     </div>
     <?php endforeach; ?>
@@ -138,9 +129,9 @@ function openBrandModal(brandId = null) {
             const result = await response.json();
 
             if (result.success) {
-                showToast(result.message || 'Thao tác thành công!');
+                showToast(result.message || 'Thao tác thành công!', 'success');
                 closeModal();
-                location.reload();
+                setTimeout(() => location.reload(), 1000);
             } else {
                 showToast(result.message || 'Có lỗi xảy ra!', 'error');
             }
@@ -148,5 +139,54 @@ function openBrandModal(brandId = null) {
             showToast('Có lỗi xảy ra!', 'error');
         }
     };
+}
+
+function deleteBrand(brandId) {
+    showConfirm('Bạn có chắc muốn xóa thương hiệu này?', async () => {
+        const formData = new FormData();
+        formData.append('ajax_action', 'delete_brand');
+        formData.append('brand_id', brandId);
+
+        try {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            if (result.success) {
+                showToast(result.message || 'Thao tác thành công!', 'success');
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            }
+        } catch (err) {
+            showToast('Có lỗi xảy ra!', 'error');
+        }
+    });
+}
+
+function toggleBrandStatus(brandId, newStatus) {
+    showConfirm('Bạn có chắc muốn thay đổi trạng thái?', async () => {
+        const formData = new FormData();
+        formData.append('ajax_action', 'toggle_brand_status');
+        formData.append('brand_id', brandId);
+        formData.append('new_status', newStatus);
+
+        try {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            if (result.success) {
+                showToast(result.message || 'Thao tác thành công!', 'success');
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            }
+        } catch (err) {
+            showToast('Có lỗi xảy ra!', 'error');
+        }
+    });
 }
 </script>

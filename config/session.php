@@ -289,3 +289,37 @@ function getGuestViewLogs(): array
 // Tự động kiểm tra cookie "Ghi nhớ đăng nhập" khi load trang
 checkRememberCookie();
 
+/**
+ * Kiểm tra trạng thái tài khoản đang đăng nhập
+ * Nếu bị khóa (is_active = 0) hoặc bị xóa khỏi DB -> Đăng xuất ngay lập tức
+ */
+function checkAccountStatus() {
+    if (!isLoggedIn()) return;
+    
+    try {
+        $db = Database::getInstance();
+        $userId = getUserId();
+        
+        $user = $db->selectOne("SELECT is_active FROM users WHERE user_id = ?", [$userId]);
+        
+        if (!$user || $user['is_active'] == 0) {
+            logoutUser();
+            setFlash('error', 'Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.');
+            
+            // Bỏ qua redirect nếu đang ở trang auth hoặc request AJAX (để frontend tự handle nếu là API JSON)
+            $isAjax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') 
+                      || isset($_POST['ajax_action']) || strpos($_SERVER['REQUEST_URI'], '/api/') !== false;
+                      
+            if (!$isAjax && strpos($_SERVER['REQUEST_URI'], '/auth/') === false) {
+                header('Location: ' . BASE_URL . '/auth/login.php');
+                exit;
+            }
+        }
+    } catch (Exception $e) {
+        // Bỏ qua
+    }
+}
+
+// Kiểm tra trạng thái tài khoản đang đăng nhập (hoạt động/khóa)
+checkAccountStatus();
+
