@@ -137,6 +137,7 @@ $flash = getFlash();
 
             <form action="<?= BASE_URL ?>/api/account-handler.php" method="POST" enctype="multipart/form-data" class="space-y-8">
                 <input type="hidden" name="action" value="update_profile">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generateCsrfToken()) ?>">
 
                 <!-- Phần hiển thị và Upload Avatar -->
                 <div class="flex items-center gap-6 border-b border-surface-variant pb-6">

@@ -378,6 +378,10 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
                             <span class="material-symbols-outlined text-lg align-middle mr-2">receipt_long</span>
                             Đơn hàng
                         </a>
+                        <a href="<?= BASE_URL ?>/shop/wishlist.php" class="block px-4 py-3 text-sm text-on-surface hover:bg-surface-container transition-colors">
+                            <span class="material-symbols-outlined text-lg align-middle mr-2">favorite</span>
+                            Yêu thích
+                        </a>
                         <?php if (isAdmin()): ?>
                         <hr class="border-outline-variant my-1">
                         <a href="<?= BASE_URL ?>/admin/admin.php" class="block px-4 py-3 text-sm text-on-surface hover:bg-surface-container transition-colors">
@@ -396,6 +400,13 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
                 <a href="<?= BASE_URL ?>/auth/login.php" aria-label="Account" class="hover:text-axeron-red transition-colors duration-200">
                     <span class="material-symbols-outlined text-[28px]">person</span>
                 </a>
+            <?php endif; ?>
+
+            <!-- Wishlist -->
+            <?php if (isLoggedIn()): ?>
+            <a href="<?= BASE_URL ?>/shop/wishlist.php" aria-label="Wishlist" class="hover:text-axeron-red transition-colors relative mt-1">
+                <span class="material-symbols-outlined text-[28px]" data-icon="favorite">favorite</span>
+            </a>
             <?php endif; ?>
 
             <!-- Shopping Cart -->
@@ -507,6 +518,9 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
             </a>
             <a href="<?= BASE_URL ?>/shop/order-history.php" class="flex items-center gap-3 py-2.5 text-sm text-gray-700 hover:text-axeron-red">
                 <span class="material-symbols-outlined text-lg">receipt_long</span> Đơn hàng
+            </a>
+            <a href="<?= BASE_URL ?>/shop/wishlist.php" class="flex items-center gap-3 py-2.5 text-sm text-gray-700 hover:text-axeron-red">
+                <span class="material-symbols-outlined text-lg">favorite</span> Yêu thích
             </a>
             <?php if (isAdmin()): ?>
             <a href="<?= BASE_URL ?>/admin/admin.php" class="flex items-center gap-3 py-2.5 text-sm text-gray-700 hover:text-axeron-red">

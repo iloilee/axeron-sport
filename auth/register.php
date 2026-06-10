@@ -97,6 +97,7 @@ $flash = getFlash();
 
             <form method="POST" action="<?= BASE_URL ?>/api/auth-handler.php" class="space-y-5">
                 <input type="hidden" name="action" value="register">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generateCsrfToken()) ?>">
                 
                 <!-- Full Name -->
                 <div>

@@ -13,6 +13,11 @@ $userId = getUserId();
 $action = $_POST['action'] ?? '';
 
 if ($action === 'update_profile') {
+    if (!verifyCsrfToken($_POST['csrf_token'] ?? '')) {
+        setFlash('error', 'Yêu cầu không hợp lệ. Vui lòng thử lại.');
+        axRedirect(BASE_URL . '/auth/account.php');
+    }
+
     $fullName = sanitize($_POST['full_name'] ?? '');
     $phone = sanitize($_POST['phone'] ?? '');
     $dateOfBirth = sanitize($_POST['date_of_birth'] ?? '');
@@ -52,9 +57,14 @@ if ($action === 'update_profile') {
         $fileType = $_FILES['avatar']['type'];
         
         $allowedExts = ['jpg', 'jpeg', 'png', 'webp'];
-        $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        $allowedMimes = ['image/jpeg', 'image/png', 'image/webp'];
         
-        if (in_array($fileExt, $allowedExts)) {
+        $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime = finfo_file($finfo, $fileTmpPath);
+        finfo_close($finfo);
+        
+        if (in_array($fileExt, $allowedExts) && in_array($mime, $allowedMimes)) {
             if ($fileSize < 2 * 1024 * 1024) { // Tối đa 2MB
                 $uploadDir = __DIR__ . '/../assets/uploads/avatars/';
                 // Tạo thư mục nếu chưa có

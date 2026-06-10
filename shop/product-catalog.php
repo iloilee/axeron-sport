@@ -117,13 +117,21 @@ $products = $db->select("
 
 // Get promotions for discount display
 $promotions = $db->select("SELECT * FROM promotions WHERE is_active = 1 AND start_date <= NOW() AND end_date >= NOW()");
+
+// Lấy danh sách sản phẩm yêu thích nếu đã đăng nhập
+$wishlistIds = [];
+if (isLoggedIn()) {
+    $wl = $db->select("SELECT product_id FROM user_wishlists WHERE user_id = ?", [getUserId()]);
+    $wishlistIds = array_column($wl, 'product_id');
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title><?= $currentCategory ? $currentCategory['category_name'] . ' - ' : '' ?>Danh mục sản phẩm - Axeron</title>
+    <meta name="csrf-token" content="<?= htmlspecialchars(generateCsrfToken()) ?>">
+    <title><?= htmlspecialchars($currentCategory['category_name'] ?? 'Danh mục sản phẩm') ?> - Axeron</title>
     <link rel="icon" type="image/jpeg" href="<?= defined('BASE_URL') ? BASE_URL : '' ?>/assets/images/logo-axeron.jpg" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
@@ -293,9 +301,15 @@ $promotions = $db->select("SELECT * FROM promotions WHERE is_active = 1 AND star
                              <img alt="<?= htmlspecialchars($product['product_name']) ?>"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 15)))) ?>"/>
-                            <button class="absolute top-2 right-2 p-2 bg-white/80 rounded-full text-on-surface-variant hover:text-axeron-red hover:bg-white transition-colors opacity-0 group-hover:opacity-100 z-10"
-                                onclick="event.preventDefault(); addToWishlist(<?= $product['product_id'] ?>)">
-                                <span class="material-symbols-outlined">favorite</span>
+                            <?php
+                            $isFav = in_array($product['product_id'], $wishlistIds);
+                            $favFill = $isFav ? "'FILL' 1" : "'FILL' 0";
+                            $favColor = $isFav ? "text-axeron-red" : "text-on-surface-variant";
+                            $favOpacity = $isFav ? "opacity-100" : "opacity-0 group-hover:opacity-100";
+                            ?>
+                            <button class="absolute top-2 right-2 p-2 bg-white/80 rounded-full hover:text-axeron-red hover:bg-white transition-colors <?= $favOpacity ?> z-10"
+                                onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(<?= $product['product_id'] ?>, this)">
+                                <span class="material-symbols-outlined <?= $favColor ?>" style="font-variation-settings: <?= $favFill ?>;">favorite</span>
                             </button>
                         </div>
                         <div class="p-4 flex flex-col flex-grow">
@@ -346,7 +360,7 @@ $promotions = $db->select("SELECT * FROM promotions WHERE is_active = 1 AND star
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
-    <script src="<?= BASE_URL ?>/js/main.js"></script>
+    <script src="<?= BASE_URL ?>/js/main.js?v=<?= time() ?>"></script>
     <script>
         // Chuyển đổi price_range thành min_price và max_price trước khi submit form
         document.getElementById('filter-form').addEventListener('submit', function(e) {

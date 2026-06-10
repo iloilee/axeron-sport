@@ -14,12 +14,25 @@ require_once __DIR__ . '/database.php';
 if (!defined('REMEMBER_COOKIE_NAME')) define('REMEMBER_COOKIE_NAME', 'axeron_remember');
 if (!defined('REMEMBER_COOKIE_DAYS')) define('REMEMBER_COOKIE_DAYS', 30); // Ghi nhớ 30 ngày
 
-// Define BASE_URL - Cố định cho môi trường local với folder axeron-sport-website-main
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+// Define BASE_URL
+$protocol = 'http://';
+if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || 
+    (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) {
+    $protocol = 'https://';
+}
+
 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-// Thêm folder gốc của website tự động theo tên thư mục
-$projectDir = basename(dirname(__DIR__));
-define('BASE_URL', $protocol . $host . '/' . $projectDir);
+
+// Tự động nhận diện thư mục nếu chạy ở localhost, hoặc gỡ bỏ nếu chạy trên domain chính
+if ($host === 'localhost' || $host === '127.0.0.1') {
+    $projectDir = '/' . basename(dirname(__DIR__));
+} else {
+    $projectDir = '';
+    // Ép kiểu https cho domain thật để tránh lỗi Mixed Content (ảnh không tải được do http)
+    $protocol = 'https://';
+}
+
+define('BASE_URL', rtrim($protocol . $host . $projectDir, '/'));
 define('SITE_NAME', 'Axeron Sport');
 
 // Flash messages
@@ -57,6 +70,7 @@ function getUserData() {
 }
 
 function loginUser($user) {
+    session_regenerate_id(true); // Ngăn chặn Session Fixation (OWASP A07)
     $_SESSION['user_id'] = $user['user_id'];
     $_SESSION['full_name'] = $user['full_name'];
     $_SESSION['email'] = $user['email'];
@@ -323,3 +337,22 @@ function checkAccountStatus() {
 // Kiểm tra trạng thái tài khoản đang đăng nhập (hoạt động/khóa)
 checkAccountStatus();
 
+/**
+ * CSRF Protection - Tạo token
+ */
+function generateCsrfToken() {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+/**
+ * CSRF Protection - Xác thực token
+ */
+function verifyCsrfToken($token) {
+    if (empty($_SESSION['csrf_token']) || empty($token)) {
+        return false;
+    }
+    return hash_equals($_SESSION['csrf_token'], $token);
+}

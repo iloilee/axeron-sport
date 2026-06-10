@@ -5,7 +5,7 @@
 
 // Define BASE_URL if not already defined
 if (typeof BASE_URL === 'undefined') {
-    var BASE_URL = window.location.origin + '/axeron-sport-website-main';
+    var BASE_URL = window.location.origin + '/axeron-sport-website-master';
 }
 
 // ==========================================
@@ -427,6 +427,60 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// ==========================================
+// WISHLIST MANAGEMENT
+// ==========================================
+
+async function addToWishlist(productId, btnElement) {
+    try {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+        const formData = new FormData();
+        formData.append('action', 'toggle');
+        formData.append('product_id', productId);
+        formData.append('csrf_token', csrfToken);
+
+        const response = await fetch(`${BASE_URL}/api/wishlist-handler.php`, {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.redirect) {
+            window.location.href = `${BASE_URL}/auth/login.php?redirect=${encodeURIComponent(window.location.href)}`;
+            return;
+        }
+
+        if (data.success) {
+            if (btnElement) {
+                const icon = btnElement.querySelector('.material-symbols-outlined');
+                if (data.status === 'added') {
+                    icon.style.fontVariationSettings = "'FILL' 1";
+                    icon.classList.add('text-axeron-red');
+                    icon.classList.remove('text-on-surface-variant', 'hover:text-axeron-red');
+                    showToast('Đã thêm vào danh sách yêu thích!', 'success');
+                } else {
+                    icon.style.fontVariationSettings = "'FILL' 0";
+                    icon.classList.remove('text-axeron-red');
+                    icon.classList.add('text-on-surface-variant', 'hover:text-axeron-red');
+                    showToast('Đã xóa khỏi danh sách yêu thích!', 'success');
+                }
+            } else {
+                showToast(data.status === 'added' ? 'Đã thêm vào yêu thích!' : 'Đã xóa khỏi yêu thích!', 'success');
+                // Nếu đang ở trang wishlist, tự reload
+                if (window.location.href.includes('wishlist.php') && data.status === 'removed') {
+                    setTimeout(() => window.location.reload(), 1000);
+                }
+            }
+        } else {
+            showToast(data.message || 'Có lỗi xảy ra', 'error');
+        }
+    } catch (error) {
+        console.error('Wishlist error:', error);
+        showToast('Không thể thực hiện tác vụ này', 'error');
+    }
+}
+
 // Export functions globally
 window.addToCart = addToCart;
 window.updateCartItem = updateCartItem;
@@ -439,3 +493,4 @@ window.validateForm = validateForm;
 window.goToPage = goToPage;
 window.applyFilters = applyFilters;
 window.clearFilters = clearFilters;
+window.addToWishlist = addToWishlist;

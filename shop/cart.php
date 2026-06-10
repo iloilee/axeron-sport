@@ -279,7 +279,7 @@ $totalAmount = $cartSubtotal + $shippingFee;
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
     <!-- Load main.js TRƯỚC inline script -->
-    <script src="<?= BASE_URL ?>/js/main.js"></script>
+    <script src="<?= BASE_URL ?>/js/main.js?v=<?= time() ?>"></script>
 
     <script>
         let currentSubtotal = <?= $cartSubtotal ?>;

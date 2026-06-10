@@ -88,6 +88,13 @@ $recoSourceType = $recoEngine->getSourceType();
 $recoTitle = $recoSourceType === 'personalized' 
     ? (isLoggedIn() ? 'Dành Riêng Cho Bạn' : 'Có Thể Bạn Quan Tâm')
     : 'Có Thể Bạn Quan Tâm';
+
+// Lấy danh sách wishlist của user nếu đã đăng nhập
+$userWishlistIds = [];
+if (isLoggedIn()) {
+    $wl = $db->select("SELECT product_id FROM user_wishlists WHERE user_id = ?", [getUserId()]);
+    $userWishlistIds = array_column($wl, 'product_id');
+}
 ?>
 <?php $pageTitle = 'Axeron - Dụng cụ thể thao chuyên nghiệp'; require_once __DIR__ . '/includes/head.php'; ?>
     <?php include __DIR__ . '/includes/header.php'; ?>
@@ -176,6 +183,16 @@ $recoTitle = $recoSourceType === 'personalized'
                 <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
                     class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col relative">
                     <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
+                        <?php
+                        $isFav = isLoggedIn() && in_array($product['product_id'], $userWishlistIds);
+                        $favColor = $isFav ? 'text-axeron-red' : 'text-on-surface-variant hover:text-axeron-red';
+                        $favFill = $isFav ? 1 : 0;
+                        $favOpacity = $isFav ? 'opacity-100' : 'opacity-0 group-hover:opacity-100';
+                        ?>
+                        <button class="absolute top-2 right-2 p-2 bg-white/80 rounded-full hover:text-axeron-red hover:bg-white transition-colors <?= $favOpacity ?> z-10"
+                            onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(<?= $product['product_id'] ?>, this)">
+                            <span class="material-symbols-outlined text-[20px] <?= $favColor ?>" style="font-variation-settings: 'FILL' <?= $favFill ?>;">favorite</span>
+                        </button>
                         <img alt="<?= htmlspecialchars($product['product_name']) ?>"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
@@ -221,6 +238,16 @@ $recoTitle = $recoSourceType === 'personalized'
                 <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
                     class="shoe-item <?= htmlspecialchars($product['category_slug']) ?> hidden group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex-col relative">
                     <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
+                        <?php
+                        $isFav = isLoggedIn() && in_array($product['product_id'], $userWishlistIds);
+                        $favColor = $isFav ? 'text-axeron-red' : 'text-on-surface-variant hover:text-axeron-red';
+                        $favFill = $isFav ? 1 : 0;
+                        $favOpacity = $isFav ? 'opacity-100' : 'opacity-0 group-hover:opacity-100';
+                        ?>
+                        <button class="absolute top-2 right-2 p-2 bg-white/80 rounded-full hover:text-axeron-red hover:bg-white transition-colors <?= $favOpacity ?> z-10"
+                            onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(<?= $product['product_id'] ?>, this)">
+                            <span class="material-symbols-outlined text-[20px] <?= $favColor ?>" style="font-variation-settings: 'FILL' <?= $favFill ?>;">favorite</span>
+                        </button>
                         <img alt="<?= htmlspecialchars($product['product_name']) ?>"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
@@ -261,6 +288,16 @@ $recoTitle = $recoSourceType === 'personalized'
                 <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($rProduct['slug']) ?>"
                     class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col relative">
                     <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
+                        <?php
+                        $isFav = isLoggedIn() && in_array($rProduct['product_id'], $userWishlistIds);
+                        $favColor = $isFav ? 'text-axeron-red' : 'text-on-surface-variant hover:text-axeron-red';
+                        $favFill = $isFav ? 1 : 0;
+                        $favOpacity = $isFav ? 'opacity-100' : 'opacity-0 group-hover:opacity-100';
+                        ?>
+                        <button class="absolute top-2 right-2 p-2 bg-white/80 rounded-full hover:text-axeron-red hover:bg-white transition-colors <?= $favOpacity ?> z-10"
+                            onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(<?= $rProduct['product_id'] ?>, this)">
+                            <span class="material-symbols-outlined text-[20px] <?= $favColor ?>" style="font-variation-settings: 'FILL' <?= $favFill ?>;">favorite</span>
+                        </button>
                         <img alt="<?= htmlspecialchars($rProduct['product_name']) ?>"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             src="<?= htmlspecialchars(getImageUrl($rProduct['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($rProduct['product_name'], 0, 20)))) ?>"/>
@@ -401,6 +438,8 @@ $recoTitle = $recoSourceType === 'personalized'
     </main>
 
     <?php include __DIR__ . '/includes/footer.php'; ?>
+
+    <script src="<?= BASE_URL ?>/js/main.js?v=<?= time() ?>"></script>
 
     <script>
         // Dynamic slider logic

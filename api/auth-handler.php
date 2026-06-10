@@ -14,6 +14,11 @@ $action = $input['action'] ?? '';
 
 // Xử lý LOGIN
 if ($action === 'login') {
+    if (!verifyCsrfToken($input['csrf_token'] ?? '')) {
+        setFlash('error', 'Yêu cầu không hợp lệ. Vui lòng thử lại.');
+        axRedirect(BASE_URL . '/auth/login.php');
+    }
+
     if (empty($email) || empty($password)) {
         setFlash('error', 'Vui lòng nhập email và mật khẩu');
         axRedirect(BASE_URL . '/auth/login.php');
@@ -116,6 +121,11 @@ if ($action === 'login') {
 
 // Xử lý REGISTER
 if ($action === 'register') {
+    if (!verifyCsrfToken($input['csrf_token'] ?? '')) {
+        setFlash('error', 'Yêu cầu không hợp lệ. Vui lòng thử lại.');
+        axRedirect(BASE_URL . '/auth/register.php');
+    }
+
     $fullName = sanitize($input['full_name'] ?? '');
     $phone = sanitize($input['phone'] ?? '');
     $confirmPassword = $input['confirm_password'] ?? '';

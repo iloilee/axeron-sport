@@ -84,12 +84,20 @@ if ($totalStock <= 0 && $product['stock_quantity'] > 0) {
 
 $hasStock = $totalStock > 0;
 $firstColor = array_key_first($colorGroups) ?? 'default';
+
+// Lấy danh sách wishlist của user nếu đã đăng nhập
+$userWishlistIds = [];
+if (isLoggedIn()) {
+    $wl = $db->select("SELECT product_id FROM user_wishlists WHERE user_id = ?", [getUserId()]);
+    $userWishlistIds = array_column($wl, 'product_id');
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta name="csrf-token" content="<?= htmlspecialchars(generateCsrfToken()) ?>">
     <title><?= htmlspecialchars($product['product_name']) ?> - Axeron</title>
     <link rel="icon" type="image/jpeg" href="<?= defined('BASE_URL') ? BASE_URL : '' ?>/assets/images/logo-axeron.jpg" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -511,6 +519,16 @@ $firstColor = array_key_first($colorGroups) ?? 'default';
                 <?php foreach ($relatedProducts as $rel): ?>
                 <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($rel['slug']) ?>" class="group bg-white rounded-xl overflow-hidden border border-outline-variant hover:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] transition-all duration-300">
                     <div class="relative aspect-square overflow-hidden bg-surface-container">
+                        <?php
+                        $isFav = isLoggedIn() && in_array($rel['product_id'], $userWishlistIds);
+                        $favColor = $isFav ? 'text-axeron-red' : 'text-on-surface-variant hover:text-axeron-red';
+                        $favFill = $isFav ? 1 : 0;
+                        $favOpacity = $isFav ? 'opacity-100' : 'opacity-0 group-hover:opacity-100';
+                        ?>
+                        <button class="absolute top-2 right-2 p-2 bg-white/80 rounded-full hover:text-axeron-red hover:bg-white transition-colors <?= $favOpacity ?> z-10"
+                            onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(<?= $rel['product_id'] ?>, this)">
+                            <span class="material-symbols-outlined text-[20px] <?= $favColor ?>" style="font-variation-settings: 'FILL' <?= $favFill ?>;">favorite</span>
+                        </button>
                         <img alt="<?= htmlspecialchars($rel['product_name']) ?>"
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                              src="<?= htmlspecialchars(getImageUrl($rel['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($rel['product_name'], 0, 15)))) ?>"/>
@@ -528,7 +546,7 @@ $firstColor = array_key_first($colorGroups) ?? 'default';
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
-    <script src="<?= BASE_URL ?>/js/main.js"></script>
+    <script src="<?= BASE_URL ?>/js/main.js?v=<?= time() ?>"></script>
 
     <script>
         const productId = <?= $product['product_id'] ?>;

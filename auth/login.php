@@ -119,6 +119,7 @@ $flash = getFlash();
 
                 <form method="POST" action="<?= BASE_URL ?>/api/auth-handler.php" class="space-y-6">
                     <input type="hidden" name="action" value="login">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generateCsrfToken()) ?>">
                     <input type="hidden" name="redirect" value="<?= htmlspecialchars($_GET['redirect'] ?? BASE_URL . '/') ?>">
 
                     <!-- Email / Phone Input -->
@@ -217,46 +218,6 @@ $flash = getFlash();
                 icon.textContent = 'visibility_off';
             }
         }
-
-        // === Ghi nhớ đăng nhập (localStorage) ===
-        const STORAGE_KEY = 'axeron_saved_credentials';
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const rememberCheckbox = document.getElementById('remember-me');
-
-        // Khôi phục thông tin đã lưu khi load trang
-        (function restoreSavedCredentials() {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (!saved) return;
-            try {
-                const data = JSON.parse(atob(saved));
-                if (data.e) emailInput.value = data.e;
-                if (data.p) passwordInput.value = data.p;
-                rememberCheckbox.checked = true;
-            } catch (err) {
-                localStorage.removeItem(STORAGE_KEY);
-            }
-        })();
-
-        // Lưu hoặc xoá thông tin khi submit form
-        document.querySelector('form').addEventListener('submit', function() {
-            if (rememberCheckbox.checked) {
-                const data = btoa(JSON.stringify({
-                    e: emailInput.value,
-                    p: passwordInput.value
-                }));
-                localStorage.setItem(STORAGE_KEY, data);
-            } else {
-                localStorage.removeItem(STORAGE_KEY);
-            }
-        });
-
-        // Xoá thông tin lưu khi bỏ tick checkbox
-        rememberCheckbox.addEventListener('change', function() {
-            if (!this.checked) {
-                localStorage.removeItem(STORAGE_KEY);
-            }
-        });
     </script>
 </body>
 </html>
