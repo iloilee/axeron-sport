@@ -49,8 +49,10 @@ if ($currentCategory) {
 }
 
 if ($search) {
-    $where[] = "(p.product_name LIKE ? OR p.description LIKE ?)";
+    $where[] = "(p.product_name LIKE ? OR p.description LIKE ? OR b.brand_name LIKE ? OR c.category_name LIKE ?)";
     $searchTerm = '%' . $search . '%';
+    $params[] = $searchTerm;
+    $params[] = $searchTerm;
     $params[] = $searchTerm;
     $params[] = $searchTerm;
 }
@@ -77,12 +79,21 @@ $totalResult = $db->selectOne("
     SELECT COUNT(DISTINCT p.product_id) as total
     FROM products p
     LEFT JOIN brands b ON p.brand_id = b.brand_id
+    LEFT JOIN categories c ON p.category_id = c.category_id
     WHERE $whereClause
 ", $params);
 
 $totalProducts = (int)$totalResult['total'];
 $totalPages = ceil($totalProducts / $perPage);
 $offset = ($page - 1) * $perPage;
+
+// Ghi log tìm kiếm (nếu đang ở page 1 và có tìm kiếm)
+if ($search && $page === 1 && isLoggedIn()) {
+    $db->insert("
+        INSERT INTO search_logs (user_id, keyword, result_count)
+        VALUES (?, ?, ?)
+    ", [getUserId(), $search, $totalProducts]);
+}
 
 // Sort options
 $orderBy = match($sortBy) {
@@ -284,10 +295,30 @@ if (isLoggedIn()) {
 
             <!-- Product Grid -->
             <?php if (empty($products)): ?>
-                <div class="text-center py-16">
-                    <span class="material-symbols-outlined text-6xl text-on-surface-variant mb-4">search_off</span>
-                    <h3 class="font-headline-md text-xl text-on-surface mb-2">Không tìm thấy sản phẩm</h3>
-                    <p class="text-on-surface-variant">Hãy thử thay đổi bộ lọc hoặc từ khóa tìm kiếm</p>
+                <div class="text-center py-16 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm mb-12">
+                    <span class="material-symbols-outlined text-7xl text-on-surface-variant opacity-50 mb-6 block">search_off</span>
+                    <h3 class="font-headline-md text-2xl text-on-surface mb-3">Không tìm thấy kết quả phù hợp</h3>
+                    <p class="text-on-surface-variant text-base max-w-md mx-auto mb-6">
+                        Rất tiếc, chúng tôi không thể tìm thấy sản phẩm nào khớp với 
+                        <?= $search ? 'từ khóa "<strong>' . htmlspecialchars($search) . '</strong>"' : 'bộ lọc của bạn' ?>.
+                    </p>
+                    <div class="bg-surface-container rounded-lg p-6 max-w-md mx-auto text-left">
+                        <h4 class="font-bold text-on-surface mb-3 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-axeron-red">lightbulb</span>
+                            Gợi ý cho bạn:
+                        </h4>
+                        <ul class="list-disc pl-5 text-on-surface-variant space-y-2 text-sm">
+                            <li>Kiểm tra lại lỗi chính tả của từ khóa.</li>
+                            <li>Sử dụng các từ khóa ngắn gọn hoặc chung chung hơn.</li>
+                            <li>Bỏ bớt các bộ lọc (giá, danh mục, thương hiệu) để xem nhiều kết quả hơn.</li>
+                        </ul>
+                    </div>
+                    <div class="mt-8">
+                        <a href="<?= BASE_URL ?>/shop/product-catalog.php" class="inline-flex items-center gap-2 px-6 py-3 bg-axeron-red text-white font-bold rounded-lg hover:bg-primary transition-colors">
+                            <span class="material-symbols-outlined">restart_alt</span>
+                            Xóa bộ lọc & Tìm lại
+                        </a>
+                    </div>
                 </div>
             <?php else: ?>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter mb-12">

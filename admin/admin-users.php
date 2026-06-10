@@ -27,7 +27,7 @@ $users = $db->select("
     FROM users u
     LEFT JOIN roles r ON u.role_id = r.role_id
     $where
-    ORDER BY u.created_at DESC
+    ORDER BY u.user_id ASC
 ", $params);
 
 // Roles for filter
@@ -38,34 +38,39 @@ $currentUserId = getUserId();
 ?>
 
 <div class="mb-6 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
-    <form method="GET" class="flex gap-3 flex-wrap">
-        <input type="hidden" name="action" value="users">
-        <input type="text" name="search" placeholder="Tìm theo tên, email, SĐT..." value="<?= htmlspecialchars($search) ?>"
-               class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent outline-none">
-        <select name="role" class="px-4 py-2 border border-gray-300 rounded-lg" onchange="this.form.submit()">
-            <option value="">Tất cả vai trò</option>
-            <?php foreach ($roles as $role): ?>
-            <?php
-            $rFriendly = match($role['role_name']) {
-                'admin' => 'Admin',
-                'staff' => 'Nhân viên',
-                'customer' => 'Khách hàng',
-                'staff_accounts' => 'Nhân viên QL tài khoản',
-                'staff_products' => 'Nhân viên QL sản phẩm',
-                'staff_orders' => 'Nhân viên QL đơn hàng',
-                'staff_analytics' => 'Nhân viên QL thống kê',
-                'staff_cms' => 'Nhân viên QL trang chủ',
-                default => ucfirst($role['role_name'])
-            };
-            ?>
-            <option value="<?= $role['role_id'] ?>" <?= $roleFilter == $role['role_id'] ? 'selected' : '' ?>>
-                <?= $rFriendly ?>
-            </option>
-            <?php endforeach; ?>
-        </select>
-    </form>
+    <div class="flex flex-col xl:flex-row gap-3 items-start xl:items-center">
+        <form method="GET" class="flex gap-3 flex-wrap">
+            <input type="hidden" name="action" value="users">
+            <input type="text" name="search" placeholder="Tìm theo tên, email, SĐT..." value="<?= htmlspecialchars($search) ?>"
+                   class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent outline-none">
+            <select name="role" class="px-4 py-2 border border-gray-300 rounded-lg" onchange="this.form.submit()">
+                <option value="">Tất cả vai trò</option>
+                <?php foreach ($roles as $role): ?>
+                <?php
+                $rFriendly = match($role['role_name']) {
+                    'admin' => 'Admin',
+                    'staff' => 'Nhân viên',
+                    'customer' => 'Khách hàng',
+                    'staff_accounts' => 'Nhân viên QL tài khoản',
+                    'staff_products' => 'Nhân viên QL sản phẩm',
+                    'staff_orders' => 'Nhân viên QL đơn hàng',
+                    'staff_analytics' => 'Nhân viên QL thống kê',
+                    'staff_cms' => 'Nhân viên QL trang chủ',
+                    default => ucfirst($role['role_name'])
+                };
+                ?>
+                <option value="<?= $role['role_id'] ?>" <?= $roleFilter == $role['role_id'] ? 'selected' : '' ?>>
+                    <?= $rFriendly ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </form>
+        <div class="px-4 py-2 bg-red-50 border border-red-100 rounded-lg text-sm font-medium text-axeron-red whitespace-nowrap">
+            Tổng số: <strong class="text-base"><?= count($users) ?></strong> người dùng
+        </div>
+    </div>
     <a href="javascript:void(0)" onclick="openUserModal()"
-       class="px-4 py-2 bg-axeron-red text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2">
+       class="px-4 py-2 bg-axeron-red text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2 whitespace-nowrap">
         <span class="material-symbols-outlined text-xl">person_add</span>
         Thêm Người Dùng
     </a>

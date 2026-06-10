@@ -36,6 +36,10 @@ if ($method === 'GET') {
             searchProducts($db);
             break;
 
+        case 'autocomplete':
+            autocompleteProducts($db);
+            break;
+
         case 'detail':
             getProductDetail($db);
             break;
@@ -205,9 +209,10 @@ function searchProducts($db) {
         SELECT COUNT(DISTINCT p.product_id) as total
         FROM products p
         LEFT JOIN brands b ON p.brand_id = b.brand_id
+        LEFT JOIN categories c ON p.category_id = c.category_id
         WHERE p.is_visible = 1
-        AND (p.product_name LIKE ? OR p.description LIKE ? OR b.brand_name LIKE ?)
-    ", [$searchTerm, $searchTerm, $searchTerm]);
+        AND (p.product_name LIKE ? OR p.description LIKE ? OR b.brand_name LIKE ? OR c.category_name LIKE ?)
+    ", [$searchTerm, $searchTerm, $searchTerm, $searchTerm]);
 
     $products = $db->select("
         SELECT
@@ -225,11 +230,11 @@ function searchProducts($db) {
         LEFT JOIN brands b ON p.brand_id = b.brand_id
         LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
         WHERE p.is_visible = 1
-        AND (p.product_name LIKE ? OR p.description LIKE ? OR b.brand_name LIKE ?)
+        AND (p.product_name LIKE ? OR p.description LIKE ? OR b.brand_name LIKE ? OR c.category_name LIKE ?)
         GROUP BY p.product_id
         ORDER BY p.total_reviews DESC, p.avg_rating DESC
         LIMIT ? OFFSET ?
-    ", array_merge([$searchTerm, $searchTerm, $searchTerm], [$perPage, $offset]));
+    ", array_merge([$searchTerm, $searchTerm, $searchTerm, $searchTerm], [$perPage, $offset]));
 
     foreach ($products as &$p) {
         $p['price_formatted'] = formatPrice($p['base_price']);
@@ -250,6 +255,57 @@ function searchProducts($db) {
         'page' => $page,
         'per_page' => $perPage,
         'total_pages' => ceil($total['total'] / $perPage)
+    ]);
+}
+
+/**
+ * Autocomplete tìm kiếm (gợi ý nhanh)
+ */
+function autocompleteProducts($db) {
+    $keyword = sanitize($_GET['keyword'] ?? '');
+    
+    if (strlen($keyword) < 2) {
+        jsonResponse(true, 'Success', ['products' => [], 'categories' => []]);
+    }
+
+    $searchTerm = '%' . $keyword . '%';
+
+    // Tìm danh mục khớp
+    $categories = $db->select("
+        SELECT category_id, category_name, slug
+        FROM categories 
+        WHERE is_visible = 1 AND category_name LIKE ?
+        LIMIT 3
+    ", [$searchTerm]);
+
+    // Tìm sản phẩm khớp
+    $products = $db->select("
+        SELECT 
+            p.product_id, 
+            p.product_name, 
+            p.slug, 
+            p.base_price, 
+            c.category_name,
+            pi.image_url
+        FROM products p
+        LEFT JOIN categories c ON p.category_id = c.category_id
+        LEFT JOIN brands b ON p.brand_id = b.brand_id
+        LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
+        WHERE p.is_visible = 1 
+        AND (p.product_name LIKE ? OR c.category_name LIKE ? OR b.brand_name LIKE ? OR p.description LIKE ?)
+        GROUP BY p.product_id
+        ORDER BY p.is_featured DESC, p.total_reviews DESC, p.avg_rating DESC
+        LIMIT 5
+    ", [$searchTerm, $searchTerm, $searchTerm, $searchTerm]);
+
+    foreach ($products as &$p) {
+        $p['price_formatted'] = formatPrice($p['base_price']);
+        $p['image_url'] = getImageUrl($p['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($p['product_name'], 0, 15)));
+    }
+
+    jsonResponse(true, 'Success', [
+        'categories' => $categories,
+        'products' => $products
     ]);
 }
 

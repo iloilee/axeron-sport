@@ -339,21 +339,23 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
         <!-- Trailing Actions -->
         <div class="flex items-center gap-3 text-axeron-red dark:text-primary-fixed flex-shrink-0">
             <!-- Search -->
-            <div class="relative hidden lg:block">
+            <form action="<?= BASE_URL ?>/shop/product-catalog.php" method="GET" class="relative hidden lg:block" id="desktop-search-form" autocomplete="off">
                 <input
-                    class="bg-surface-container rounded-full py-2 pl-4 pr-10 border border-outline-variant focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue outline-none text-body-md font-body-md w-80 transition-all"
+                    class="bg-surface-container rounded-full py-2 pl-4 pr-10 border border-outline-variant focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue outline-none text-body-md text-on-surface font-body-md w-80 transition-all"
                     placeholder="Tìm kiếm..."
                     type="text"
                     id="search-input"
                     name="search"
                 />
-                <a href="<?= BASE_URL ?>/shop/product-catalog.php" id="search-btn" class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant cursor-pointer text-xl">
+                <button type="submit" id="search-btn" class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-axeron-red cursor-pointer text-xl bg-transparent border-none p-0">
                     search
-                </a>
-            </div>
+                </button>
+                <!-- Autocomplete Dropdown -->
+                <div id="desktop-search-dropdown" class="absolute left-0 right-0 top-full mt-2 bg-white border border-outline-variant rounded-xl shadow-lg z-50 hidden max-h-[400px] overflow-y-auto custom-scrollbar"></div>
+            </form>
 
             <!-- Mobile Search -->
-            <a href="<?= BASE_URL ?>/shop/product-catalog.php" class="lg:hidden p-1 hover:text-axeron-red transition-colors">
+            <a href="javascript:void(0)" onclick="toggleMobileMenu(); setTimeout(() => document.querySelector('.mobile-menu-panel input[name=\'search\']').focus(), 300);" class="lg:hidden p-1 hover:text-axeron-red transition-colors">
                 <span class="material-symbols-outlined text-2xl">search</span>
             </a>
 
@@ -447,12 +449,14 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
 
     <!-- Mobile Search -->
     <div class="p-4 border-b border-gray-100">
-        <form action="<?= BASE_URL ?>/shop/product-catalog.php" method="GET" class="relative">
-            <input type="text" name="search" placeholder="Tìm kiếm sản phẩm..."
-                   class="w-full pl-4 pr-10 py-2.5 border border-gray-200 rounded-full text-sm focus:ring-2 focus:ring-axeron-red outline-none">
-            <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2">
+        <form action="<?= BASE_URL ?>/shop/product-catalog.php" method="GET" class="relative" autocomplete="off">
+            <input type="text" name="search" id="mobile-search-input" placeholder="Tìm kiếm sản phẩm..."
+                   class="w-full pl-4 pr-10 py-2.5 border border-gray-200 rounded-full text-sm text-on-surface focus:ring-2 focus:ring-axeron-red outline-none">
+            <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-none p-0">
                 <span class="material-symbols-outlined text-gray-400 text-xl">search</span>
             </button>
+            <!-- Mobile Autocomplete Dropdown -->
+            <div id="mobile-search-dropdown" class="absolute left-0 right-0 top-full mt-1 bg-white border border-outline-variant rounded-xl shadow-lg z-50 hidden max-h-[300px] overflow-y-auto custom-scrollbar"></div>
         </form>
     </div>
 
@@ -640,4 +644,87 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
             }
         }
     }
+
+    // ========== Autocomplete Search ==========
+    function setupAutocomplete(inputId, dropdownId) {
+        const input = document.getElementById(inputId);
+        const dropdown = document.getElementById(dropdownId);
+        let timeout = null;
+
+        if (!input || !dropdown) return;
+
+        input.addEventListener('input', function() {
+            clearTimeout(timeout);
+            const keyword = this.value.trim();
+            
+            if (keyword.length < 2) {
+                dropdown.classList.add('hidden');
+                return;
+            }
+
+            timeout = setTimeout(async () => {
+                try {
+                    const res = await fetch(`<?= BASE_URL ?>/api/products.php?action=autocomplete&keyword=${encodeURIComponent(keyword)}`);
+                    const data = await res.json();
+                    
+                    if (data.success && (data.data.categories.length > 0 || data.data.products.length > 0)) {
+                        let html = '';
+                        
+                        // Categories
+                        if (data.data.categories.length > 0) {
+                            html += `<div class="px-4 py-2 bg-gray-50 text-xs font-bold text-gray-500 uppercase tracking-wider rounded-t-xl">Danh mục</div>`;
+                            data.data.categories.forEach(c => {
+                                html += `<a href="<?= BASE_URL ?>/shop/product-catalog.php?category=${c.slug}" class="block px-4 py-2 hover:bg-red-50 hover:text-axeron-red transition-colors text-sm text-gray-700">
+                                            <span class="material-symbols-outlined text-[16px] align-middle mr-2">category</span>
+                                            ${c.category_name}
+                                         </a>`;
+                            });
+                        }
+                        
+                        // Products
+                        if (data.data.products.length > 0) {
+                            html += `<div class="px-4 py-2 bg-gray-50 text-xs font-bold text-gray-500 uppercase tracking-wider border-t">Sản phẩm gợi ý</div>`;
+                            data.data.products.forEach(p => {
+                                html += `<a href="<?= BASE_URL ?>/shop/product-detail.php?slug=${p.slug}" class="flex items-center gap-3 px-4 py-2 hover:bg-red-50 transition-colors">
+                                            <img src="${p.image_url}" class="w-10 h-10 rounded object-cover border border-gray-100 flex-shrink-0">
+                                            <div class="overflow-hidden">
+                                                <div class="text-sm font-medium text-gray-800 truncate">${p.product_name}</div>
+                                                <div class="text-xs text-axeron-red font-bold">${p.price_formatted}</div>
+                                            </div>
+                                         </a>`;
+                            });
+                        }
+                        
+                        dropdown.innerHTML = html;
+                        dropdown.classList.remove('hidden');
+                    } else {
+                        dropdown.innerHTML = `<div class="px-4 py-3 text-sm text-gray-500 text-center">Không tìm thấy "${keyword}"</div>`;
+                        dropdown.classList.remove('hidden');
+                    }
+                } catch (e) {
+                    console.error('Autocomplete Error:', e);
+                }
+            }, 300);
+        });
+
+        // Hide on click outside
+        document.addEventListener('click', (e) => {
+            if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+        
+        // Show again on focus
+        input.addEventListener('focus', () => {
+            if (input.value.trim().length >= 2 && !dropdown.classList.contains('hidden') === false && dropdown.innerHTML.trim() !== '') {
+                dropdown.classList.remove('hidden');
+            }
+        });
+    }
+
+    // Khởi tạo cho cả Desktop và Mobile
+    document.addEventListener('DOMContentLoaded', () => {
+        setupAutocomplete('search-input', 'desktop-search-dropdown');
+        setupAutocomplete('mobile-search-input', 'mobile-search-dropdown');
+    });
 </script>
