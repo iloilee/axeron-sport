@@ -31,7 +31,7 @@ $brands = $db->select("SELECT * FROM brands ORDER BY brand_name");
                    class="p-2 hover:bg-gray-100 rounded-lg">
                     <span class="material-symbols-outlined text-gray-600">edit</span>
                 </a>
-                <form method="POST" class="inline" onsubmit="return confirm('Xóa thương hiệu này?');">
+                <form method="POST" class="inline" id="delete-brand-<?= $brand['brand_id'] ?>">
                     <input type="hidden" name="ajax_action" value="delete_brand">
                     <input type="hidden" name="brand_id" value="<?= $brand['brand_id'] ?>">
                     <button type="submit" class="p-2 hover:bg-red-50 rounded-lg">
@@ -112,7 +112,7 @@ function openBrandModal(brandId = null) {
 
     // If editing, load brand data
     if (isEdit) {
-        fetch('<?= BASE_URL ?>/admin-api.php?action=get_brand&id=' + brandId)
+        fetch('<?= BASE_URL ?>/admin/admin-api.php?action=get_brand&id=' + brandId)
             .then(r => r.json())
             .then(data => {
                 if (data.success && data.brand) {
@@ -131,7 +131,7 @@ function openBrandModal(brandId = null) {
         const formData = new FormData(this);
 
         try {
-            const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
                 method: 'POST',
                 body: formData
             });

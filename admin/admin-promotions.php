@@ -90,7 +90,7 @@ $promotions = $db->select("
                                class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                                 <span class="material-symbols-outlined text-gray-600">edit</span>
                             </a>
-                            <form method="POST" class="inline" onsubmit="return confirm('Xóa khuyến mãi này?');">
+                            <form method="POST" class="inline" id="delete-promo-<?= $promo['id'] ?>">
                                 <input type="hidden" name="ajax_action" value="delete_promotion">
                                 <input type="hidden" name="promo_id" value="<?= $promo['promo_id'] ?>">
                                 <button type="submit" class="p-2 hover:bg-red-50 rounded-lg">
@@ -229,7 +229,7 @@ function openPromotionModal(promoId = null) {
 
     // If editing, load promotion data
     if (isEdit) {
-        fetch('<?= BASE_URL ?>/admin-api.php?action=get_promotion&id=' + promoId)
+        fetch('<?= BASE_URL ?>/admin/admin-api.php?action=get_promotion&id=' + promoId)
             .then(r => r.json())
             .then(data => {
                 if (data.success && data.promotion) {
@@ -255,7 +255,7 @@ function openPromotionModal(promoId = null) {
         const formData = new FormData(this);
 
         try {
-            const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
                 method: 'POST',
                 body: formData
             });

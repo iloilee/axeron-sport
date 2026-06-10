@@ -39,7 +39,7 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
         <input type="hidden" name="action" value="orders">
         <input type="text" name="search" placeholder="Tìm mã đơn, tên, SĐT..." value="<?= htmlspecialchars($search) ?>"
                class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent outline-none">
-        <select name="status" class="px-4 py-2 border border-gray-300 rounded-lg">
+        <select name="status" onchange="this.form.submit()" class="px-4 py-2 border border-gray-300 rounded-lg">
             <option value="">Tất cả trạng thái</option>
             <?php foreach ($statuses as $status): ?>
             <option value="<?= $status ?>" <?= $statusFilter === $status ? 'selected' : '' ?>>
@@ -56,7 +56,6 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
             </option>
             <?php endforeach; ?>
         </select>
-        <button type="submit" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Lọc</button>
     </form>
     <button onclick="exportSelectedOrders()"
        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2">
@@ -243,7 +242,7 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
 <script>
 async function viewOrder(orderId) {
     try {
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php?action=get_order&id=' + orderId);
+        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php?action=get_order&id=' + orderId);
         const result = await response.json();
 
         if (result.success && result.order) {
@@ -371,46 +370,45 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Export selected orders to Excel
-async function exportSelectedOrders() {
+function exportSelectedOrders() {
     const checked = document.querySelectorAll('.order-checkbox:checked');
     if (checked.length === 0) {
-        showToast('Vui long chon it nhat mot don hang de xuat!', 'error');
+        showToast('Vui lòng chọn ít nhất một đơn hàng để xuất!', 'error');
         return;
     }
 
-    const orderIds = Array.from(checked).map(cb => cb.value);
-    showToast('Dang xuat ' + orderIds.length + ' don hang...');
-    console.log('Exporting orders:', orderIds);
+    showConfirm(`Bạn có chắc muốn xuất ${checked.length} đơn hàng đã chọn ra file Excel?`, async () => {
+        const orderIds = Array.from(checked).map(cb => cb.value);
+        showToast(`Đang chuẩn bị xuất ${orderIds.length} đơn hàng...`);
+        console.log('Exporting orders:', orderIds);
 
-    try {
-        const formData = new FormData();
-        formData.append('ajax_action', 'export_orders');
-        formData.append('order_ids', JSON.stringify(orderIds));
-        console.log('Sending POST to admin-api.php');
+        try {
+            const formData = new FormData();
+            formData.append('ajax_action', 'export_orders');
+            formData.append('order_ids', JSON.stringify(orderIds));
 
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
-            method: 'POST',
-            body: formData
-        });
-        console.log('Response status:', response.status);
-        const result = await response.json();
-        console.log('Response data:', result);
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
 
-        if (result.success && result.data) {
-            // Use SheetJS to create Excel file
-            if (typeof XLSX !== 'undefined') {
-                exportToExcelWithSheetJS(result.data);
+            if (result.success && result.data) {
+                // Use SheetJS to create Excel file
+                if (typeof XLSX !== 'undefined') {
+                    exportToExcelWithSheetJS(result.data);
+                } else {
+                    // Fallback to CSV
+                    exportToCSV(result.data);
+                }
             } else {
-                // Fallback to CSV
-                exportToCSV(result.data);
+                showToast(result.message || 'Có lỗi xảy ra!', 'error');
             }
-        } else {
-            showToast(result.message || 'Co loi xay ra!', 'error');
+        } catch (err) {
+            console.error('Export error:', err);
+            showToast('Có lỗi xảy ra khi xuất dữ liệu!', 'error');
         }
-    } catch (err) {
-        console.error('Export error:', err);
-        showToast('Co loi xay ra khi xuat du lieu!', 'error');
-    }
+    });
 }
 
 // Export using SheetJS library
@@ -484,7 +482,7 @@ function exportToCSV(orders) {
 async function printInvoice(orderId) {
     console.log('printInvoice called with orderId:', orderId);
     try {
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php?action=get_order&id=' + orderId);
+        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php?action=get_order&id=' + orderId);
         console.log('Response status:', response.status);
         const result = await response.json();
         console.log('Order result:', result);
@@ -535,7 +533,11 @@ function generateAndPrintInvoice(o, items) {
 
     var invoiceHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Hóa đơn #' + o.order_id + '</title></head><body style="font-family:Arial,sans-serif;padding:20px;max-width:800px;margin:0 auto;"><style>@media print{body{margin:0;padding:0;}@page{margin:10mm;}}</style><div style="text-align:center;margin-bottom:30px;border-bottom:2px solid #dc2626;padding-bottom:20px;"><h1 style="color:#dc2626;margin:0;">AXERON SPORTS</h1><p style="margin:5px 0;">Địa chỉ: 123 Đường Thể thao, Quận 1, TP.HCM</p><p style="margin:5px 0;">Hotline: 0901 234 567</p></div><h2 style="text-align:center;margin:20px 0;color:#333;">HÓA ĐƠN BÁN HÀNG</h2><p style="text-align:center;margin-bottom:20px;">Mã đơn: <strong>#' + o.order_id + '</strong> | Ngày: ' + dateStr + '</p><div style="margin-bottom:20px;"><p><strong>Khách hàng:</strong> ' + o.recipient_name + '</p><p><strong>SĐT:</strong> ' + o.recipient_phone + '</p><p><strong>Địa chỉ giao hàng:</strong> ' + o.shipping_address + '</p></div><table style="width:100%;border-collapse:collapse;margin-bottom:20px;"><thead><tr style="background:#f3f4f6;"><th style="padding:8px;border:1px solid #ddd;text-align:left;">STT</th><th style="padding:8px;border:1px solid #ddd;text-align:left;">Sản phẩm</th><th style="padding:8px;border:1px solid #ddd;text-align:left;">Phân loại</th><th style="padding:8px;border:1px solid #ddd;text-align:center;">SL</th><th style="padding:8px;border:1px solid #ddd;text-align:right;">Đơn giá</th><th style="padding:8px;border:1px solid #ddd;text-align:right;">Thành tiền</th></tr></thead><tbody>' + itemsHtml + '</tbody></table><div style="text-align:right;"><p>Tạm tính: <strong>' + fc(o.subtotal) + '</strong></p>' + discountLine + '<p>Phí ship: ' + fc(o.shipping_fee) + '</p><p style="font-size:18px;"><strong>TỔNG CỘNG: ' + fc(o.total_amount) + '</strong></p></div><div style="margin-top:30px;text-align:center;"><button onclick="window.print()" style="padding:10px 30px;font-size:16px;background:#dc2626;color:white;border:none;border-radius:5px;cursor:pointer;">In hóa đơn</button> <button onclick="window.close()" style="padding:10px 30px;font-size:16px;background:#6b7280;color:white;border:none;border-radius:5px;cursor:pointer;">Đóng</button></div></body></html>';
 
-    var printWindow = window.open('', '_blank', 'width=800,height=600');
+    const w = 800;
+    const h = 600;
+    const left = (window.screen.width / 2) - (w / 2);
+    const top = (window.screen.height / 2) - (h / 2);
+    var printWindow = window.open('', '_blank', `width=${w},height=${h},top=${top},left=${left}`);
     if (!printWindow) {
         showToast('Vui lòng cho phép popup để in hóa đơn!', 'error');
         return;
@@ -575,7 +577,7 @@ document.addEventListener('click', function(e) {
     }
 });
 
-async function updateOrderStatusFromDropdown(orderId, newStatus) {
+function updateOrderStatusFromDropdown(orderId, newStatus) {
     const statusLabels = {
         'pending': 'Chờ xử lý',
         'confirmed': 'Đã xác nhận',
@@ -589,81 +591,69 @@ async function updateOrderStatusFromDropdown(orderId, newStatus) {
     // Close dropdown first
     document.getElementById('status-dropdown-' + orderId)?.classList.add('hidden');
 
-    if (!confirm(`Cập nhật đơn hàng #${orderId} sang trạng thái "${statusLabels[newStatus]}"?`)) {
-        return;
-    }
+    showConfirm(`Cập nhật đơn hàng #${orderId} sang trạng thái "${statusLabels[newStatus]}"?`, async () => {
+        const formData = new FormData();
+        formData.append('ajax_action', 'update_order_status');
+        formData.append('order_id', orderId);
+        formData.append('new_status', newStatus);
 
-    const formData = new FormData();
-    formData.append('ajax_action', 'update_order_status');
-    formData.append('order_id', orderId);
-    formData.append('new_status', newStatus);
+        try {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            showToast(result.message, result.success ? 'success' : 'error');
 
-    try {
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
-            method: 'POST',
-            body: formData
-        });
-        const result = await response.json();
-        showToast(result.message, result.success ? 'success' : 'error');
+            if (result.success) {
+                const btn = document.querySelector(`.status-dropdown-btn[data-order-id="${orderId}"]`);
+                const dropdown = document.getElementById('status-dropdown-' + orderId);
 
-        if (result.success) {
-            // Find the button by data attribute
-            const btn = document.querySelector(`.status-dropdown-btn[data-order-id="${orderId}"]`);
-            const dropdown = document.getElementById('status-dropdown-' + orderId);
+                if (btn && dropdown) {
+                    const statusClasses = {
+                        'pending': 'bg-yellow-100 text-yellow-800',
+                        'confirmed': 'bg-blue-100 text-blue-800',
+                        'processing': 'bg-purple-100 text-purple-800',
+                        'shipped': 'bg-indigo-100 text-indigo-800',
+                        'delivered': 'bg-green-100 text-green-800',
+                        'cancelled': 'bg-red-100 text-red-800',
+                        'returned': 'bg-gray-100 text-gray-800'
+                    };
 
-            if (btn && dropdown) {
-                // Update badge color and text
-                const statusClasses = {
-                    'pending': 'bg-yellow-100 text-yellow-800',
-                    'confirmed': 'bg-blue-100 text-blue-800',
-                    'processing': 'bg-purple-100 text-purple-800',
-                    'shipped': 'bg-indigo-100 text-indigo-800',
-                    'delivered': 'bg-green-100 text-green-800',
-                    'cancelled': 'bg-red-100 text-red-800',
-                    'returned': 'bg-gray-100 text-gray-800'
-                };
+                    const statusDots = {
+                        'pending': 'bg-yellow-500',
+                        'confirmed': 'bg-blue-500',
+                        'processing': 'bg-purple-500',
+                        'shipped': 'bg-indigo-500',
+                        'delivered': 'bg-green-500',
+                        'cancelled': 'bg-red-500',
+                        'returned': 'bg-gray-500'
+                    };
 
-                const statusDots = {
-                    'pending': 'bg-yellow-500',
-                    'confirmed': 'bg-blue-500',
-                    'processing': 'bg-purple-500',
-                    'shipped': 'bg-indigo-500',
-                    'delivered': 'bg-green-500',
-                    'cancelled': 'bg-red-500',
-                    'returned': 'bg-gray-500'
-                };
+                    btn.className = `status-dropdown-btn px-2.5 py-0.5 rounded-full text-xs font-medium ${statusClasses[newStatus]} hover:opacity-80 transition-opacity flex items-center gap-1 cursor-pointer whitespace-nowrap`;
 
-                // Update button classes
-                btn.className = `status-dropdown-btn px-2.5 py-0.5 rounded-full text-xs font-medium ${statusClasses[newStatus]} hover:opacity-80 transition-opacity flex items-center gap-1 cursor-pointer whitespace-nowrap`;
+                    const dot = btn.querySelector('.status-dot');
+                    if (dot) dot.className = `status-dot w-2 h-2 rounded-full ${statusDots[newStatus]}`;
 
-                // Update dot color
-                const dot = btn.querySelector('.status-dot');
-                if (dot) {
-                    dot.className = `status-dot w-2 h-2 rounded-full ${statusDots[newStatus]}`;
-                }
+                    const textSpan = btn.querySelector('.status-text');
+                    if (textSpan) textSpan.textContent = statusLabels[newStatus];
 
-                // Update text
-                const textSpan = btn.querySelector('.status-text');
-                if (textSpan) {
-                    textSpan.textContent = statusLabels[newStatus];
-                }
-
-                // Update dropdown check marks - remove all highlights
-                dropdown.querySelectorAll('button').forEach(b => {
-                    b.classList.remove('bg-gray-50', 'font-medium');
-                });
-                // Add highlight to current selection
-                const statusOrder = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled', 'returned'];
-                const currentIndex = statusOrder.indexOf(newStatus);
-                const buttons = dropdown.querySelectorAll('button');
-                if (buttons[currentIndex]) {
-                    buttons[currentIndex].classList.add('bg-gray-50', 'font-medium');
+                    dropdown.querySelectorAll('button').forEach(b => {
+                        b.classList.remove('bg-gray-50', 'font-medium');
+                    });
+                    
+                    const statusOrder = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled', 'returned'];
+                    const currentIndex = statusOrder.indexOf(newStatus);
+                    const buttons = dropdown.querySelectorAll('button');
+                    if (buttons[currentIndex]) {
+                        buttons[currentIndex].classList.add('bg-gray-50', 'font-medium');
+                    }
                 }
             }
+        } catch (err) {
+            showToast('Có lỗi xảy ra!', 'error');
         }
-    } catch (err) {
-        showToast('Có lỗi xảy ra!', 'error');
-    }
+    });
 }
 
 // Payment status dropdown functions
@@ -692,7 +682,7 @@ document.addEventListener('click', function(e) {
     }
 });
 
-async function updatePaymentStatus(orderId, newStatus) {
+function updatePaymentStatus(orderId, newStatus) {
     const statusLabels = {
         'paid': 'Đã thanh toán',
         'unpaid': 'Chưa thanh toán',
@@ -702,59 +692,50 @@ async function updatePaymentStatus(orderId, newStatus) {
     // Close dropdown first
     document.getElementById('payment-dropdown-' + orderId)?.classList.add('hidden');
 
-    if (!confirm(`Cập nhật trạng thái thanh toán đơn hàng #${orderId} sang "${statusLabels[newStatus]}"?`)) {
-        return;
-    }
+    showConfirm(`Cập nhật trạng thái thanh toán đơn hàng #${orderId} sang "${statusLabels[newStatus]}"?`, async () => {
+        const formData = new FormData();
+        formData.append('ajax_action', 'update_payment_status');
+        formData.append('order_id', orderId);
+        formData.append('new_payment_status', newStatus);
 
-    const formData = new FormData();
-    formData.append('ajax_action', 'update_payment_status');
-    formData.append('order_id', orderId);
-    formData.append('new_payment_status', newStatus);
+        try {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            showToast(result.message, result.success ? 'success' : 'error');
 
-    try {
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
-            method: 'POST',
-            body: formData
-        });
-        const result = await response.json();
-        showToast(result.message, result.success ? 'success' : 'error');
+            if (result.success && result.new_status) {
+                const btn = document.querySelector(`.payment-dropdown-btn[data-order-id="${orderId}"]`);
+                const dropdown = document.getElementById('payment-dropdown-' + orderId);
 
-        if (result.success && result.new_status) {
-            // Find the button by data attribute
-            const btn = document.querySelector(`.payment-dropdown-btn[data-order-id="${orderId}"]`);
-            const dropdown = document.getElementById('payment-dropdown-' + orderId);
+                if (btn && dropdown) {
+                    const statusClasses = {
+                        'paid': 'bg-green-100 text-green-800',
+                        'unpaid': 'bg-yellow-100 text-yellow-800',
+                        'refunded': 'bg-gray-100 text-gray-800'
+                    };
 
-            if (btn && dropdown) {
-                // Update badge color and text
-                const statusClasses = {
-                    'paid': 'bg-green-100 text-green-800',
-                    'unpaid': 'bg-yellow-100 text-yellow-800',
-                    'refunded': 'bg-gray-100 text-gray-800'
-                };
+                    btn.className = `payment-dropdown-btn px-2.5 py-0.5 rounded-full text-xs font-medium ${statusClasses[newStatus]} hover:opacity-80 transition-opacity flex items-center gap-1 cursor-pointer whitespace-nowrap`;
 
-                // Update button classes
-                btn.className = `payment-dropdown-btn px-2.5 py-0.5 rounded-full text-xs font-medium ${statusClasses[newStatus]} hover:opacity-80 transition-opacity flex items-center gap-1 cursor-pointer whitespace-nowrap`;
+                    const textSpan = btn.querySelector('.payment-text');
+                    if (textSpan) textSpan.textContent = statusLabels[newStatus];
 
-                // Update text
-                const textSpan = btn.querySelector('.payment-text');
-                if (textSpan) {
-                    textSpan.textContent = statusLabels[newStatus];
-                }
-
-                // Update dropdown check marks - remove all highlights
-                dropdown.querySelectorAll('button').forEach(b => {
-                    b.classList.remove('bg-gray-50', 'font-medium');
-                });
-                // Add highlight to current selection
-                const buttons = dropdown.querySelectorAll('button');
-                const statusIndex = { 'unpaid': 0, 'paid': 1, 'refunded': 2 };
-                if (buttons[statusIndex[newStatus]]) {
-                    buttons[statusIndex[newStatus]].classList.add('bg-gray-50', 'font-medium');
+                    dropdown.querySelectorAll('button').forEach(b => {
+                        b.classList.remove('bg-gray-50', 'font-medium');
+                    });
+                    
+                    const buttons = dropdown.querySelectorAll('button');
+                    const statusIndex = { 'unpaid': 0, 'paid': 1, 'refunded': 2 };
+                    if (buttons[statusIndex[newStatus]]) {
+                        buttons[statusIndex[newStatus]].classList.add('bg-gray-50', 'font-medium');
+                    }
                 }
             }
+        } catch (err) {
+            showToast('Có lỗi xảy ra!', 'error');
         }
-    } catch (err) {
-        showToast('Có lỗi xảy ra!', 'error');
-    }
+    });
 }
 </script>

@@ -571,23 +571,34 @@ if ($action === 'dashboard') {
     <div id="modal-container"></div>
 
     <!-- Toast Container -->
-    <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2"></div>
+    <div id="toast-container" class="fixed inset-0 pointer-events-none z-[9999] flex flex-col items-center justify-center gap-4"></div>
 
     <script>
-        // Toast notification
+        // Toast notification (Centered Modal Style)
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
 
-            const bgColor = type === 'success' ? 'bg-green-600' : type === 'error' ? 'bg-red-600' : 'bg-axeron-blue';
-            toast.className = `${bgColor} text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3`;
-            toast.innerHTML = `<span>${message}</span>`;
+            const icon = type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info';
+            const iconColor = type === 'success' ? 'text-green-500' : type === 'error' ? 'text-red-500' : 'text-blue-500';
+            const bgColor = 'bg-white';
+
+            toast.className = `${bgColor} border border-gray-100 pointer-events-auto px-8 py-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] flex flex-col items-center gap-3 transform transition-all duration-300 scale-95 opacity-0 min-w-[320px] text-center`;
+            toast.innerHTML = `
+                <span class="material-symbols-outlined text-[48px] ${iconColor}">${icon}</span>
+                <span class="text-gray-800 font-semibold text-lg leading-tight">${message}</span>
+            `;
 
             container.appendChild(toast);
 
+            requestAnimationFrame(() => {
+                toast.classList.remove('scale-95', 'opacity-0');
+                toast.classList.add('scale-100', 'opacity-100');
+            });
+
             setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transition = 'opacity 0.3s';
+                toast.classList.remove('scale-100', 'opacity-100');
+                toast.classList.add('scale-95', 'opacity-0');
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
@@ -596,23 +607,56 @@ if ($action === 'dashboard') {
         function openModal(content) {
             const container = document.getElementById('modal-container');
             container.innerHTML = `
-                <div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onclick="closeModal()">
-                    <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-auto" onclick="event.stopPropagation()">
+                <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9000] flex items-center justify-center p-4 transition-opacity duration-300" onclick="closeModal()">
+                    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto transform transition-transform duration-300 scale-95" onclick="event.stopPropagation()" id="modal-content-wrapper">
                         ${content}
                     </div>
                 </div>
             `;
+            requestAnimationFrame(() => {
+                const wrapper = document.getElementById('modal-content-wrapper');
+                if (wrapper) {
+                    wrapper.classList.remove('scale-95');
+                    wrapper.classList.add('scale-100');
+                }
+            });
         }
 
         function closeModal() {
             document.getElementById('modal-container').innerHTML = '';
         }
 
+        // Global Confirm Modal
+        function showConfirm(message, onConfirm) {
+            const content = `
+                <div class="p-8 text-center">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-yellow-50 text-yellow-500 mb-5 border border-yellow-100 shadow-sm">
+                        <span class="material-symbols-outlined text-[40px]">warning</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3" style="font-family: 'Montserrat', sans-serif;">Xác nhận thao tác</h3>
+                    <p class="text-gray-500 mb-8 text-base px-4">${message}</p>
+                    <div class="flex justify-center gap-4">
+                        <button onclick="closeModal()" class="px-6 py-3 border border-gray-200 rounded-xl text-gray-600 hover:bg-gray-50 font-semibold transition-colors w-32">
+                            Hủy bỏ
+                        </button>
+                        <button id="confirm-ok-btn" class="px-6 py-3 bg-axeron-red text-white rounded-xl hover:bg-red-700 font-semibold transition-colors shadow-md w-32">
+                            Đồng ý
+                        </button>
+                    </div>
+                </div>
+            `;
+            openModal(content);
+            document.getElementById('confirm-ok-btn').addEventListener('click', () => {
+                closeModal();
+                if (typeof onConfirm === 'function') onConfirm();
+            });
+        }
+
         // Confirm delete
         function confirmDelete(url, message = 'Bạn có chắc chắn muốn xóa?') {
-            if (confirm(message)) {
+            showConfirm(message, () => {
                 window.location.href = url;
-            }
+            });
         }
     </script>
 </body>

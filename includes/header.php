@@ -378,6 +378,13 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
                             <span class="material-symbols-outlined text-lg align-middle mr-2">receipt_long</span>
                             Đơn hàng
                         </a>
+                        <?php if (isAdmin()): ?>
+                        <hr class="border-outline-variant my-1">
+                        <a href="<?= BASE_URL ?>/admin/admin.php" class="block px-4 py-3 text-sm text-on-surface hover:bg-surface-container transition-colors">
+                            <span class="material-symbols-outlined text-lg align-middle mr-2">admin_panel_settings</span>
+                            Trang quản trị
+                        </a>
+                        <?php endif; ?>
                         <hr class="border-outline-variant my-1">
                         <a href="<?= BASE_URL ?>/auth/logout.php" class="block px-4 py-3 text-sm text-error hover:bg-error-container transition-colors rounded-b-lg">
                             <span class="material-symbols-outlined text-lg align-middle mr-2">logout</span>
@@ -501,6 +508,11 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
             <a href="<?= BASE_URL ?>/shop/order-history.php" class="flex items-center gap-3 py-2.5 text-sm text-gray-700 hover:text-axeron-red">
                 <span class="material-symbols-outlined text-lg">receipt_long</span> Đơn hàng
             </a>
+            <?php if (isAdmin()): ?>
+            <a href="<?= BASE_URL ?>/admin/admin.php" class="flex items-center gap-3 py-2.5 text-sm text-gray-700 hover:text-axeron-red">
+                <span class="material-symbols-outlined text-lg">admin_panel_settings</span> Trang quản trị
+            </a>
+            <?php endif; ?>
             <a href="<?= BASE_URL ?>/auth/logout.php" class="flex items-center gap-3 py-2.5 text-sm text-red-500 hover:text-red-700">
                 <span class="material-symbols-outlined text-lg">logout</span> Đăng xuất
             </a>

@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             try {
-                const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+                const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
                     method: 'POST',
                     body: formData
                 });
@@ -169,7 +169,7 @@ document.getElementById('searchProductInput').addEventListener('input', function
     }
 
     searchTimeout = setTimeout(() => {
-        fetch('<?= BASE_URL ?>/admin-api.php?action=search_products_to_feature&q=' + encodeURIComponent(query))
+        fetch('<?= BASE_URL ?>/admin/admin-api.php?action=search_products_to_feature&q=' + encodeURIComponent(query))
             .then(r => r.json())
             .then(data => {
                 if (data.success) {
@@ -231,7 +231,7 @@ async function addFeaturedProduct(productId) {
     formData.append('product_id', productId);
 
     try {
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
             method: 'POST',
             body: formData
         });
@@ -260,7 +260,7 @@ async function removeFeaturedProduct(productId, productName) {
     formData.append('product_id', productId);
 
     try {
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
             method: 'POST',
             body: formData
         });

@@ -1178,7 +1178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     default => $new_status
                 };
 
-                $response = ['success' => true, 'message' => "Don hang #$order_id da cap nhat sang trang thai: $statusText"];
+                $response = ['success' => true, 'message' => "Đơn hàng #$order_id đã cập nhật sang trạng thái: $statusText"];
             } catch (Exception $e) {
                 $response = ['success' => false, 'message' => 'Loi: ' . $e->getMessage()];
             }

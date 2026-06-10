@@ -288,7 +288,7 @@ function openUserModal(userId = null) {
 
     // If editing, load user data
     if (isEdit) {
-        fetch('<?= BASE_URL ?>/admin-api.php?action=get_user&id=' + userId)
+        fetch('<?= BASE_URL ?>/admin/admin-api.php?action=get_user&id=' + userId)
             .then(r => r.json())
             .then(data => {
                 if (data.success && data.user) {
@@ -320,7 +320,7 @@ function openUserModal(userId = null) {
         }
 
         try {
-            const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
                 method: 'POST',
                 body: formData
             });
@@ -339,44 +339,44 @@ function openUserModal(userId = null) {
     };
 }
 
-async function toggleUserStatus(userId, newStatus) {
-    if (!confirm(newStatus ? 'Mở khóa tài khoản này?' : 'Khóa tài khoản này?')) return;
+function toggleUserStatus(userId, newStatus) {
+    showConfirm(newStatus ? 'Mở khóa tài khoản này?' : 'Khóa tài khoản này?', async () => {
+        const formData = new FormData();
+        formData.append('ajax_action', 'toggle_user_status');
+        formData.append('user_id', userId);
+        formData.append('new_status', newStatus);
 
-    const formData = new FormData();
-    formData.append('ajax_action', 'toggle_user_status');
-    formData.append('user_id', userId);
-    formData.append('new_status', newStatus);
-
-    try {
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
-            method: 'POST',
-            body: formData
-        });
-        const result = await response.json();
-        showToast(result.message, result.success ? 'success' : 'error');
-        if (result.success) location.reload();
-    } catch (err) {
-        showToast('Có lỗi xảy ra!', 'error');
-    }
+        try {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            showToast(result.message, result.success ? 'success' : 'error');
+            if (result.success) location.reload();
+        } catch (err) {
+            showToast('Có lỗi xảy ra!', 'error');
+        }
+    });
 }
 
-async function deleteUser(userId) {
-    if (!confirm('Bạn có chắc muốn xóa người dùng này?')) return;
+function deleteUser(userId) {
+    showConfirm('Bạn có chắc muốn xóa người dùng này?', async () => {
+        const formData = new FormData();
+        formData.append('ajax_action', 'delete_user');
+        formData.append('user_id', userId);
 
-    const formData = new FormData();
-    formData.append('ajax_action', 'delete_user');
-    formData.append('user_id', userId);
-
-    try {
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
-            method: 'POST',
-            body: formData
-        });
-        const result = await response.json();
-        showToast(result.message, result.success ? 'success' : 'error');
-        if (result.success) location.reload();
-    } catch (err) {
-        showToast('Có lỗi xảy ra!', 'error');
-    }
+        try {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            showToast(result.message, result.success ? 'success' : 'error');
+            if (result.success) location.reload();
+        } catch (err) {
+            showToast('Có lỗi xảy ra!', 'error');
+        }
+    });
 }
 </script>

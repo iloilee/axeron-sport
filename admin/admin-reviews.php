@@ -170,7 +170,7 @@ async function updateReviewStatus(reviewId, newStatus) {
     formData.append('new_status', newStatus);
 
     try {
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
             method: 'POST',
             body: formData
         });
@@ -190,7 +190,7 @@ async function deleteReview(reviewId) {
     formData.append('review_id', reviewId);
 
     try {
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
             method: 'POST',
             body: formData
         });

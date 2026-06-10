@@ -157,7 +157,7 @@ function openShippingPriceModal(shippingId = null) {
 
     // If editing, load shipping price data
     if (isEdit) {
-        fetch('<?= BASE_URL ?>/admin-api.php?action=get_shipping_price&id=' + shippingId)
+        fetch('<?= BASE_URL ?>/admin/admin-api.php?action=get_shipping_price&id=' + shippingId)
             .then(r => r.json())
             .then(data => {
                 if (data.success && data.shipping) {
@@ -182,7 +182,7 @@ function openShippingPriceModal(shippingId = null) {
         const formData = new FormData(this);
 
         try {
-            const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
                 method: 'POST',
                 body: formData
             });
@@ -209,7 +209,7 @@ async function deleteShippingPrice(shippingId) {
     formData.append('shipping_id', shippingId);
 
     try {
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
             method: 'POST',
             body: formData
         });

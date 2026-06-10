@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_action'])) {
         <input type="hidden" name="action" value="products">
         <input type="text" name="search" placeholder="Tìm sản phẩm..." value="<?= htmlspecialchars($search) ?>"
                class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent outline-none">
-        <select name="category" class="px-4 py-2 border border-gray-300 rounded-lg">
+        <select name="category" onchange="this.form.submit()" class="px-4 py-2 border border-gray-300 rounded-lg">
             <option value="">Tất cả danh mục</option>
             <?php foreach ($categories as $cat): ?>
             <option value="<?= $cat['category_id'] ?>" <?= $categoryFilter == $cat['category_id'] ? 'selected' : '' ?>>
@@ -54,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_action'])) {
             </option>
             <?php endforeach; ?>
         </select>
-        <button type="submit" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Tìm kiếm</button>
     </form>
     <a href="javascript:void(0)" onclick="openProductModal()"
        class="px-4 py-2 bg-axeron-red text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2">
@@ -311,7 +310,7 @@ function openProductModal(productId = null) {
     if (isEdit) {
         // Wait for modal to fully render, then fetch data
         setTimeout(function() {
-            const apiUrl = '<?= BASE_URL ?>/admin-api.php?action=get_product&id=' + productId;
+            const apiUrl = '<?= BASE_URL ?>/admin/admin-api.php?action=get_product&id=' + productId;
 
             fetch(apiUrl)
                 .then(response => response.json())
@@ -427,7 +426,7 @@ function openProductModal(productId = null) {
                 }
             }
 
-            const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
                 method: 'POST',
                 body: formData
             });
@@ -607,7 +606,7 @@ async function uploadSingleImage(file) {
     formData.append('is_primary', currentProductImages.length === 0 ? '1' : '0');
 
     try {
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
             method: 'POST',
             body: formData
         });
@@ -678,7 +677,7 @@ async function setPrimaryImage(imageId) {
     formData.append('image_id', imageId);
 
     try {
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
             method: 'POST',
             body: formData
         });
@@ -700,57 +699,57 @@ async function setPrimaryImage(imageId) {
 }
 
 // Delete image
-async function deleteImage(imageId) {
-    if (!confirm('Bạn có chắc muốn xóa ảnh này?')) return;
+function deleteImage(imageId) {
+    showConfirm('Bạn có chắc muốn xóa ảnh này?', async () => {
+        const formData = new FormData();
+        formData.append('ajax_action', 'delete_product_image');
+        formData.append('image_id', imageId);
 
-    const formData = new FormData();
-    formData.append('ajax_action', 'delete_product_image');
-    formData.append('image_id', imageId);
+        try {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
 
-    try {
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
-            method: 'POST',
-            body: formData
-        });
-        const result = await response.json();
-
-        if (result.success) {
-            currentProductImages = currentProductImages.filter(img => img.image_id !== imageId);
-            renderProductImages();
-            showToast('Ảnh đã được xóa!');
-        } else {
-            showToast(result.message || 'Lỗi!', 'error');
+            if (result.success) {
+                currentProductImages = currentProductImages.filter(img => img.image_id !== imageId);
+                renderProductImages();
+                showToast('Ảnh đã được xóa!');
+            } else {
+                showToast(result.message || 'Lỗi!', 'error');
+            }
+        } catch (err) {
+            showToast('Lỗi!', 'error');
         }
-    } catch (err) {
-        showToast('Lỗi!', 'error');
-    }
+    });
 }
 
 // Delete product with AJAX (no page reload, shows toast notification)
-async function deleteProduct(productId) {
-    if (!confirm('Bạn có chắc muốn xóa sản phẩm này?')) return;
+function deleteProduct(productId) {
+    showConfirm('Bạn có chắc muốn xóa sản phẩm này?', async () => {
+        try {
+            const formData = new FormData();
+            formData.append('ajax_action', 'delete_product');
+            formData.append('product_id', productId);
 
-    try {
-        const formData = new FormData();
-        formData.append('ajax_action', 'delete_product');
-        formData.append('product_id', productId);
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
 
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
-            method: 'POST',
-            body: formData
-        });
-        const result = await response.json();
-
-        if (result.success) {
-            showToast(result.message || 'Sản phẩm đã được xóa!', 'success');
-            // Reload after short delay to show toast
-            setTimeout(() => location.reload(), 1000);
-        } else {
-            showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            if (result.success) {
+                showToast(result.message || 'Sản phẩm đã được xóa!', 'success');
+                // Reload after short delay to show toast
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            }
+        } catch (err) {
+            showToast('Có lỗi xảy ra!', 'error');
         }
-    } catch (err) {
-        showToast('Có lỗi xảy ra!', 'error');
-    }
+    });
 }
 // Populate datalist with color suggestions
 function populateColorDatalist() {
@@ -775,7 +774,7 @@ async function updateImageColor(imageId, color) {
     formData.append('color', color);
 
     try {
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
             method: 'POST',
             body: formData
         });

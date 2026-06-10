@@ -238,7 +238,7 @@ function openCategoryModal(categoryId = null) {
             if (selfOption) selfOption.remove();
         }
 
-        fetch('<?= BASE_URL ?>/admin-api.php?action=get_category&id=' + categoryId)
+        fetch('<?= BASE_URL ?>/admin/admin-api.php?action=get_category&id=' + categoryId)
             .then(r => r.json())
             .then(data => {
                 if (data.success && data.category) {
@@ -259,7 +259,7 @@ function openCategoryModal(categoryId = null) {
         const formData = new FormData(this);
 
         try {
-            const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
                 method: 'POST',
                 body: formData
             });
@@ -286,7 +286,7 @@ async function deleteCategory(categoryId) {
         formData.append('ajax_action', 'delete_category');
         formData.append('category_id', categoryId);
 
-        const response = await fetch('<?= BASE_URL ?>/admin-api.php', {
+        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
             method: 'POST',
             body: formData
         });
