@@ -221,11 +221,20 @@ function openUserModal(userId = null) {
                     <div class="space-y-3">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu mới</label>
-                            <input type="password" name="new_password" minlength="6" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none" placeholder="Để trống nếu không đổi">
+                            <input type="password" id="admin_password" name="new_password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none" placeholder="Để trống nếu không đổi">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Xác nhận mật khẩu mới</label>
-                            <input type="password" name="confirm_password" minlength="6" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none" placeholder="Nhập lại mật khẩu mới">
+                            <input type="password" name="confirm_password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none" placeholder="Nhập lại mật khẩu mới">
+                        </div>
+                        <div id="password-requirements" class="mt-2 p-3 bg-gray-50 rounded-xl border border-gray-200 text-sm" style="display:none;">
+                            <p class="font-semibold text-sm text-gray-700 mb-1.5">Mật khẩu phải có:</p>
+                            <ul class="space-y-1">
+                                <li id="req-length" class="flex items-center gap-1.5 text-gray-500"><span class="material-symbols-outlined text-base" id="icon-length">circle</span><span>Ít nhất 8 ký tự</span></li>
+                                <li id="req-uppercase" class="flex items-center gap-1.5 text-gray-500"><span class="material-symbols-outlined text-base" id="icon-uppercase">circle</span><span>Ít nhất 1 chữ hoa (A-Z)</span></li>
+                                <li id="req-number" class="flex items-center gap-1.5 text-gray-500"><span class="material-symbols-outlined text-base" id="icon-number">circle</span><span>Ít nhất 1 chữ số (0-9)</span></li>
+                                <li id="req-special" class="flex items-center gap-1.5 text-gray-500"><span class="material-symbols-outlined text-base" id="icon-special">circle</span><span>Ít nhất 1 ký tự đặc biệt (!@#$%...)</span></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -239,8 +248,16 @@ function openUserModal(userId = null) {
         passwordSection = `
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu *</label>
-                <input type="password" name="password" required minlength="6" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none">
-                <p class="text-xs text-gray-500 mt-1">Tối thiểu 6 ký tự</p>
+                <input type="password" id="admin_password" name="password" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none">
+                <div id="password-requirements" class="mt-2 p-3 bg-gray-50 rounded-xl border border-gray-200 text-sm" style="display:none;">
+                    <p class="font-semibold text-sm text-gray-700 mb-1.5">Mật khẩu phải có:</p>
+                    <ul class="space-y-1">
+                        <li id="req-length" class="flex items-center gap-1.5 text-gray-500"><span class="material-symbols-outlined text-base" id="icon-length">circle</span><span>Ít nhất 8 ký tự</span></li>
+                        <li id="req-uppercase" class="flex items-center gap-1.5 text-gray-500"><span class="material-symbols-outlined text-base" id="icon-uppercase">circle</span><span>Ít nhất 1 chữ hoa (A-Z)</span></li>
+                        <li id="req-number" class="flex items-center gap-1.5 text-gray-500"><span class="material-symbols-outlined text-base" id="icon-number">circle</span><span>Ít nhất 1 chữ số (0-9)</span></li>
+                        <li id="req-special" class="flex items-center gap-1.5 text-gray-500"><span class="material-symbols-outlined text-base" id="icon-special">circle</span><span>Ít nhất 1 ký tự đặc biệt (!@#$%...)</span></li>
+                    </ul>
+                </div>
             </div>
         `;
     }
@@ -298,6 +315,44 @@ function openUserModal(userId = null) {
 
     openModal(modalContent);
 
+    // Bật hiệu ứng realtime cho phần yêu cầu mật khẩu
+    setTimeout(() => {
+        const passwordInput = document.getElementById('admin_password');
+        const reqBox = document.getElementById('password-requirements');
+        if (passwordInput && reqBox) {
+            const requirements = [
+                { id: 'length',    test: v => v.length >= 8 },
+                { id: 'uppercase', test: v => /[A-Z]/.test(v) },
+                { id: 'number',    test: v => /[0-9]/.test(v) },
+                { id: 'special',   test: v => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(v) }
+            ];
+
+            passwordInput.addEventListener('focus', () => reqBox.style.display = 'block');
+            passwordInput.addEventListener('blur', () => {
+                if (passwordInput.value === '') reqBox.style.display = 'none';
+            });
+
+            passwordInput.addEventListener('input', function() {
+                const val = this.value;
+                requirements.forEach(req => {
+                    const li   = document.getElementById('req-' + req.id);
+                    const icon = document.getElementById('icon-' + req.id);
+                    if (req.test(val)) {
+                        li.classList.remove('text-gray-500', 'text-red-500');
+                        li.classList.add('text-green-600');
+                        icon.textContent = 'check_circle';
+                        icon.style.fontVariationSettings = "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24";
+                    } else {
+                        li.classList.remove('text-green-600');
+                        li.classList.add('text-gray-500');
+                        icon.textContent = 'circle';
+                        icon.style.fontVariationSettings = "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24";
+                    }
+                });
+            });
+        }
+    }, 100);
+
     // If editing, load user data
     if (isEdit) {
         fetch('<?= BASE_URL ?>/admin/admin-api.php?action=get_user&id=' + userId)
@@ -323,11 +378,34 @@ function openUserModal(userId = null) {
         e.preventDefault();
         const formData = new FormData(this);
 
-        // Validate password match if changing password
+        // Frontend validations
+        const fullName = formData.get('full_name').trim();
+        const phone = (formData.get('phone') || '').trim();
+        const errors = [];
+        
+        if (fullName.length < 2 || fullName.length > 100) errors.push('Họ tên phải từ 2 đến 100 ký tự');
+        if (/\d/.test(fullName)) errors.push('Họ tên không được chứa số');
+        if (!/^[\p{L}\s'-]+$/u.test(fullName)) errors.push('Họ tên chứa ký tự không hợp lệ');
+        
+        if (phone && !/^0[0-9]{9,10}$/.test(phone.replace(/\s/g, ''))) errors.push('Số điện thoại không hợp lệ');
+
+        const passwordInput = document.getElementById('admin_password');
+        if (passwordInput && passwordInput.value) {
+            const val = passwordInput.value;
+            if (val.length < 8) errors.push('Mật khẩu phải có ít nhất 8 ký tự');
+            if (!/[A-Z]/.test(val)) errors.push('Mật khẩu phải có ít nhất 1 chữ hoa');
+            if (!/[0-9]/.test(val)) errors.push('Mật khẩu phải có ít nhất 1 chữ số');
+            if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(val)) errors.push('Mật khẩu phải có ít nhất 1 ký tự đặc biệt');
+        }
+
         const newPassword = formData.get('new_password');
         const confirmPassword = formData.get('confirm_password');
         if (newPassword && newPassword !== confirmPassword) {
-            showToast('Mật khẩu xác nhận không khớp!', 'error');
+            errors.push('Mật khẩu xác nhận không khớp');
+        }
+
+        if (errors.length > 0) {
+            showToast(errors[0], 'error'); // Hiện lỗi đầu tiên
             return;
         }
 

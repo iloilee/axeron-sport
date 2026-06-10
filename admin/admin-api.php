@@ -804,8 +804,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $role_id = (int)($_POST['role_id'] ?? 3);
             $is_active = isset($_POST['is_active']) ? 1 : 0;
 
-            if (empty($full_name) || empty($email) || empty($password)) {
-                $response = ['success' => false, 'message' => 'Vui lòng điền đầy đủ thông tin!'];
+            $errors = [];
+            if (empty(trim($full_name))) {
+                $errors[] = 'Vui lòng nhập họ tên';
+            } elseif (mb_strlen(trim($full_name)) < 2 || mb_strlen(trim($full_name)) > 100) {
+                $errors[] = 'Họ tên phải từ 2 đến 100 ký tự';
+            } elseif (preg_match('/\d/', $full_name)) {
+                $errors[] = 'Họ tên không được chứa số';
+            } elseif (!preg_match("/^[\p{L}\s'-]+$/u", $full_name)) {
+                $errors[] = 'Họ tên chứa ký tự không hợp lệ';
+            }
+            if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Email không hợp lệ';
+            if (!empty($phone) && !preg_match('/^0[0-9]{9,10}$/', str_replace(' ', '', $phone))) $errors[] = 'Số điện thoại không hợp lệ';
+            
+            if (empty($password)) {
+                $errors[] = 'Vui lòng nhập mật khẩu';
+            } else {
+                if (strlen($password) < 8) $errors[] = 'Mật khẩu phải có ít nhất 8 ký tự';
+                if (!preg_match('/[A-Z]/', $password)) $errors[] = 'Mật khẩu phải có ít nhất 1 chữ hoa';
+                if (!preg_match('/[0-9]/', $password)) $errors[] = 'Mật khẩu phải có ít nhất 1 chữ số';
+                if (!preg_match('/[!@#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/?`~]/', $password)) $errors[] = 'Mật khẩu phải có ít nhất 1 ký tự đặc biệt';
+            }
+
+            if ($errors) {
+                $response = ['success' => false, 'message' => implode('. ', $errors)];
                 break;
             }
 
@@ -838,27 +860,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $new_password = $_POST['new_password'] ?? '';
             $confirm_password = $_POST['confirm_password'] ?? '';
 
-            if ($user_id <= 0 || empty($full_name) || empty($email)) {
-                $response = ['success' => false, 'message' => 'Dữ liệu không hợp lệ!'];
-                break;
+            $errors = [];
+            if (empty(trim($full_name))) {
+                $errors[] = 'Vui lòng nhập họ tên';
+            } elseif (mb_strlen(trim($full_name)) < 2 || mb_strlen(trim($full_name)) > 100) {
+                $errors[] = 'Họ tên phải từ 2 đến 100 ký tự';
+            } elseif (preg_match('/\d/', $full_name)) {
+                $errors[] = 'Họ tên không được chứa số';
+            } elseif (!preg_match("/^[\p{L}\s'-]+$/u", $full_name)) {
+                $errors[] = 'Họ tên chứa ký tự không hợp lệ';
             }
+            if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Email không hợp lệ';
+            if (!empty($phone) && !preg_match('/^0[0-9]{9,10}$/', str_replace(' ', '', $phone))) $errors[] = 'Số điện thoại không hợp lệ';
 
-            // Không cho phép thay đổi role của chính mình thành non-admin
-            if ($user_id == getUserId() && $role_id != 1) {
-                $response = ['success' => false, 'message' => 'Bạn không thể thay đổi vai trò của chính mình!'];
-                break;
-            }
-
-            // Validate password change
             if (!empty($new_password)) {
                 if ($new_password !== $confirm_password) {
-                    $response = ['success' => false, 'message' => 'Mật khẩu xác nhận không khớp!'];
-                    break;
+                    $errors[] = 'Mật khẩu xác nhận không khớp!';
                 }
-                if (strlen($new_password) < 6) {
-                    $response = ['success' => false, 'message' => 'Mật khẩu phải có ít nhất 6 ký tự!'];
-                    break;
-                }
+                if (strlen($new_password) < 8) $errors[] = 'Mật khẩu phải có ít nhất 8 ký tự';
+                if (!preg_match('/[A-Z]/', $new_password)) $errors[] = 'Mật khẩu phải có ít nhất 1 chữ hoa';
+                if (!preg_match('/[0-9]/', $new_password)) $errors[] = 'Mật khẩu phải có ít nhất 1 chữ số';
+                if (!preg_match('/[!@#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/?`~]/', $new_password)) $errors[] = 'Mật khẩu phải có ít nhất 1 ký tự đặc biệt';
+            }
+
+            if ($errors) {
+                $response = ['success' => false, 'message' => implode('. ', $errors)];
+                break;
             }
 
             try {
