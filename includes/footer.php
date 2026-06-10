@@ -96,16 +96,16 @@ $socialZalo = $footerData['social_zalo'] ?? '#';
             <h4 class="font-headline-md text-label-lg text-white mb-2 uppercase">
                 Về Chúng Tôi
             </h4>
-            <a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1" href="<?= BASE_URL ?>/about.php">
+            <a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1" href="<?= BASE_URL ?>/pages/about.php">
                 Giới thiệu Axeron
             </a>
             <a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1" href="<?= BASE_URL ?>/blog/news.php">
                 Tin tức & Sự kiện
             </a>
-            <a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1" href="<?= BASE_URL ?>/store-locator.php">
+            <a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1" href="<?= BASE_URL ?>/pages/store-locator.php">
                 Hệ thống cửa hàng
             </a>
-            <a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1" href="<?= BASE_URL ?>/contact.php">
+            <a class="text-surface-variant hover:text-white transition-colors font-body-md text-body-md text-sm py-1" href="<?= BASE_URL ?>/pages/contact.php">
                 Liên hệ
             </a>
         </div>

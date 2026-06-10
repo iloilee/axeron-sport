@@ -1,8 +1,8 @@
-﻿<?php
+<?php
 $pages = [
-    'about.php' => 'Về Axeron',
-    'contact.php' => 'Liên hệ',
-    'store-locator.php' => 'Hệ thống cửa hàng'
+    'pages/about.php' => 'V? Axeron',
+    'pages/contact.php' => 'Li�n h?',
+    'pages/store-locator.php' => 'H? th?ng c?a h�ng'
 ];
 
 foreach ($pages as $file => $title) {

@@ -357,7 +357,7 @@ $recoTitle = $recoSourceType === 'personalized'
                         <p class="text-[#4a4a4a] leading-[1.8] mb-8 text-[15px] md:text-base">
                             Axeron hiện có chi nhánh tại Hà Nội, Vinh và TP.HCM với hệ thống phân phối hơn 800 đại lý trên toàn quốc.
                         </p>
-                        <a href="<?= BASE_URL ?>/about.php" class="bg-[#222222] hover:bg-axeron-red text-white px-8 py-3 rounded-sm font-semibold transition-colors duration-300 inline-block shadow-sm">
+                        <a href="<?= BASE_URL ?>/pages/about.php" class="bg-[#222222] hover:bg-axeron-red text-white px-8 py-3 rounded-sm font-semibold transition-colors duration-300 inline-block shadow-sm">
                             Xem thêm
                         </a>
                     </div>

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/config/session.php';
+require_once dirname(__DIR__) . '/config/session.php';
 $pageTitle = 'Liên hệ - Axeron Sport';
 
 $successMessage = '';
@@ -17,8 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-require_once __DIR__ . '/includes/head.php';
-require_once __DIR__ . '/includes/header.php';
+require_once dirname(__DIR__) . '/includes/head.php';
+require_once dirname(__DIR__) . '/includes/header.php';
 ?>
 
 <main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12">
@@ -162,6 +162,6 @@ require_once __DIR__ . '/includes/header.php';
         </div>
     </main>
 
-<?php require_once __DIR__ . '/includes/footer.php'; ?>
+<?php require_once dirname(__DIR__) . '/includes/footer.php'; ?>
 </body>
 </html>

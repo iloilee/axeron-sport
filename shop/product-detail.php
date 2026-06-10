@@ -589,6 +589,11 @@ $firstColor = array_key_first($colorGroups) ?? 'default';
                 selector.appendChild(btn);
             });
 
+            var firstAvailableSizeBtn = selector.querySelector('button:not([disabled])');
+            if (firstAvailableSizeBtn) {
+                firstAvailableSizeBtn.click();
+            }
+
             var stockInfo = document.getElementById('stock-info');
             if (stockInfo) stockInfo.textContent = 'Còn ' + totalColorStock + ' sản phẩm';
         }
@@ -604,9 +609,14 @@ $firstColor = array_key_first($colorGroups) ?? 'default';
             });
 
             // Handle when no variants exist
-            if (hasVariants && event && event.target) {
-                event.target.classList.add('border-2', 'border-axeron-red', 'bg-axeron-red/5', 'text-axeron-red', 'font-bold');
-                event.target.classList.remove('border', 'border-outline-variant', 'text-on-surface-variant');
+            if (hasVariants) {
+                var buttonsList = document.querySelectorAll('#size-selector button');
+                buttonsList.forEach(function(b) {
+                    if (b.textContent.trim() === size) {
+                        b.classList.add('border-2', 'border-axeron-red', 'bg-axeron-red/5', 'text-axeron-red', 'font-bold');
+                        b.classList.remove('border', 'border-outline-variant', 'text-on-surface-variant');
+                    }
+                });
             }
 
             document.getElementById('product-price').textContent = new Intl.NumberFormat('vi-VN').format(price).replace(/,/g, '.') + 'đ';
@@ -657,6 +667,13 @@ $firstColor = array_key_first($colorGroups) ?? 'default';
             var result = await addToCart(productId, selectedVariantId, parseInt(document.getElementById('qty-input').value) || 1);
             if (result) window.location.href = BASE_URL + '/shop/checkout.php';
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (hasVariants) {
+                var firstBtn = document.querySelector('#size-selector button:not([disabled])');
+                if (firstBtn) firstBtn.click();
+            }
+        });
 
         // ==================== REVIEWS FUNCTIONS ====================
         let currentReviewPage = 1;

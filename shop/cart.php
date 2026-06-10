@@ -256,6 +256,24 @@ $totalAmount = $cartSubtotal + $shippingFee;
                 </div>
             </div>
         <?php endif; ?>
+
+        <!-- Confirm Delete Modal -->
+        <div id="delete-confirm-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+            <!-- Backdrop -->
+            <div class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="closeDeleteModal()"></div>
+            <!-- Modal content -->
+            <div class="relative bg-surface rounded-xl shadow-xl w-[90%] max-w-md overflow-hidden transform transition-all scale-100 p-6 flex flex-col items-center">
+                <div class="w-16 h-16 rounded-full bg-error-container text-error flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-3xl">delete</span>
+                </div>
+                <h3 class="font-headline-md text-headline-md text-on-surface mb-2">Xóa sản phẩm</h3>
+                <p class="font-body-md text-on-surface-variant text-center mb-6">Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?</p>
+                <div class="flex gap-4 w-full">
+                    <button onclick="closeDeleteModal()" class="flex-1 py-3 px-4 rounded-lg border border-outline-variant text-on-surface font-label-lg text-label-lg hover:bg-surface-container transition-colors">Hủy</button>
+                    <button onclick="confirmRemoveItem()" class="flex-1 py-3 px-4 rounded-lg bg-error text-on-error font-label-lg text-label-lg hover:bg-[#93000a] transition-colors shadow-sm">Xóa</button>
+                </div>
+            </div>
+        </div>
     </main>
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
@@ -371,8 +389,22 @@ $totalAmount = $cartSubtotal + $shippingFee;
             }
         }
 
-        async function removeItem(cartItemId) {
-            if (!confirm('Ban muon xoa san pham nay?')) return;
+        let itemToDelete = null;
+
+        function closeDeleteModal() {
+            document.getElementById('delete-confirm-modal').classList.add('hidden');
+            itemToDelete = null;
+        }
+
+        function removeItem(cartItemId) {
+            itemToDelete = cartItemId;
+            document.getElementById('delete-confirm-modal').classList.remove('hidden');
+        }
+
+        async function confirmRemoveItem() {
+            if (!itemToDelete) return;
+            const cartItemId = itemToDelete;
+            closeDeleteModal();
 
             const result = await removeFromCart(cartItemId);
 

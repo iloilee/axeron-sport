@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__ . '/config/session.php';
+require_once dirname(__DIR__) . '/config/session.php';
 $pageTitle = 'Hệ thống cửa hàng - Axeron Sport';
-require_once __DIR__ . '/includes/head.php';
-require_once __DIR__ . '/includes/header.php';
+require_once dirname(__DIR__) . '/includes/head.php';
+require_once dirname(__DIR__) . '/includes/header.php';
 
 $storesData = [
     [
@@ -176,6 +176,6 @@ $storesData = [
     renderStores();
 </script>
 
-<?php require_once __DIR__ . '/includes/footer.php'; ?>
+<?php require_once dirname(__DIR__) . '/includes/footer.php'; ?>
 </body>
 </html>
