@@ -27,7 +27,7 @@ if ($action === 'update_profile') {
     // Address info
     $province = sanitize($_POST['province'] ?? '');
     $district = sanitize($_POST['district'] ?? '');
-    $ward = sanitize($_POST['ward'] ?? '');
+    $ward = ''; // Đã gộp vào trường địa chỉ
     $streetAddress = sanitize($_POST['street_address'] ?? '');
 
     // Validate thông tin cơ bản

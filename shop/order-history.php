@@ -17,6 +17,7 @@ $orders = $db->select("
         o.order_id,
         o.total_amount,
         o.order_status,
+        o.payment_method,
         o.payment_status,
         o.created_at,
         COUNT(oi.order_item_id) as item_count
@@ -134,6 +135,7 @@ $orders = $db->select("
                             <th class="text-left px-6 py-4 font-label-lg text-label-lg">Ngày Đặt</th>
                             <th class="text-left px-6 py-4 font-label-lg text-label-lg">Sản Phẩm</th>
                             <th class="text-left px-6 py-4 font-label-lg text-label-lg">Tổng Tiền</th>
+                            <th class="text-left px-6 py-4 font-label-lg text-label-lg">Phương thức thanh toán</th>
                             <th class="text-left px-6 py-4 font-label-lg text-label-lg">Trạng Thái</th>
                             <th class="text-left px-6 py-4 font-label-lg text-label-lg">Thao Tác</th>
                         </tr>
@@ -149,6 +151,9 @@ $orders = $db->select("
                             <td class="px-6 py-4 font-body-md text-on-surface-variant"><?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></td>
                             <td class="px-6 py-4 font-body-md text-on-surface"><?= $order['item_count'] ?> sản phẩm</td>
                             <td class="px-6 py-4 font-label-lg text-label-lg font-bold text-axeron-red"><?= formatPrice($order['total_amount']) ?></td>
+                            <td class="px-6 py-4 font-body-md text-on-surface font-semibold uppercase">
+                                <?= $order['payment_method'] === 'cod' ? 'COD' : strtoupper($order['payment_method']) ?>
+                            </td>
                             <td class="px-6 py-4">
                                 <?php
                                 $statusClass = match($order['order_status']) {

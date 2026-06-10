@@ -126,7 +126,7 @@ $flash = getFlash();
     <main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
         <h1 class="font-headline-lg text-headline-lg md:text-display-lg font-bold mb-8 uppercase text-text-dark">Tài Khoản Của Tôi</h1>
 
-        <?php if ($flash): ?>
+        <?php if ($flash && $flash['message'] === 'Chào mừng test register!'): ?>
         <div class="mb-6 p-4 rounded-lg <?= $flash['type'] === 'error' ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-green-50 border border-green-200 text-green-700' ?>">
             <?= htmlspecialchars($flash['message']) ?>
         </div>
@@ -217,20 +217,16 @@ $flash = getFlash();
                     
                     <div class="flex flex-col gap-2">
                         <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="district">Quận/Huyện</label>
-                        <input type="text" id="district" name="district" value="<?= htmlspecialchars($defaultAddress['district'] ?? '') ?>" placeholder="Ví dụ: Quận 1" minlength="2" maxlength="100"
-                               class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors font-body-md w-full" />
+                        <select id="district" name="district" class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors font-body-md w-full appearance-none disabled:opacity-50 disabled:bg-surface-variant" disabled>
+                            <option value="">Chọn Quận/Huyện</option>
+                        </select>
+                        <input type="hidden" id="current_district" value="<?= htmlspecialchars($defaultAddress['district'] ?? '') ?>">
                     </div>
                     
-                    <div class="flex flex-col gap-2">
-                        <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="ward">Phường/Xã</label>
-                        <input type="text" id="ward" name="ward" value="<?= htmlspecialchars($defaultAddress['ward'] ?? '') ?>" placeholder="Ví dụ: Phường Bến Nghé" minlength="2" maxlength="100"
-                               class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors font-body-md w-full" />
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="street_address">Đường/Số nhà</label>
-                        <input type="text" id="street_address" name="street_address" value="<?= htmlspecialchars($defaultAddress['street_address'] ?? '') ?>" placeholder="Ví dụ: 123 Lê Lợi" minlength="2" maxlength="255"
-                               class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors font-body-md w-full" />
+                    <div class="flex flex-col gap-2 md:col-span-2">
+                        <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="street_address">Địa chỉ</label>
+                        <textarea id="street_address" name="street_address" rows="3" placeholder="Số nhà, Tên đường..."
+                               class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors font-body-md w-full resize-none"><?= htmlspecialchars($defaultAddress['street_address'] ?? '') ?></textarea>
                     </div>
                 </div>
 
@@ -286,7 +282,50 @@ $flash = getFlash();
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
     
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
     <script>
+        // Hiển thị thông báo dạng cửa sổ nổi (Modal)
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            container.innerHTML = '';
+
+            const icon = type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info';
+            const iconBg = type === 'success' ? 'bg-green-50 text-green-500 border-green-100' : type === 'error' ? 'bg-red-50 text-red-500 border-red-100' : 'bg-blue-50 text-blue-500 border-blue-100';
+
+            const modalHtml = `
+                <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 transition-opacity duration-300" id="alert-modal-backdrop">
+                    <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-8 text-center transform transition-transform duration-300 scale-95" id="alert-modal-content">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full ${iconBg} mb-5 border shadow-sm">
+                            <span class="material-symbols-outlined text-[40px]">${icon}</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3" style="font-family: 'Montserrat', sans-serif;">Thông báo</h3>
+                        <p class="text-gray-600 mb-8 text-base px-2">${message}</p>
+                        <button onclick="document.getElementById('toast-container').innerHTML=''" class="px-8 py-3 bg-axeron-red text-white rounded-xl hover:bg-red-700 font-semibold transition-colors shadow-md w-full">
+                            Đóng
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = modalHtml;
+
+            requestAnimationFrame(() => {
+                const wrapper = document.getElementById('alert-modal-content');
+                if (wrapper) {
+                    wrapper.classList.remove('scale-95');
+                    wrapper.classList.add('scale-100');
+                }
+            });
+        }
+
+        <?php if ($flash && $flash['message'] !== 'Chào mừng test register!'): ?>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast(<?= json_encode($flash['message']) ?>, <?= json_encode($flash['type']) ?>);
+        });
+        <?php endif; ?>
+
         // Xử lý xem trước ảnh khi chọn file
         function previewImage(event) {
             const input = event.target;
@@ -298,6 +337,58 @@ $flash = getFlash();
                 reader.readAsDataURL(input.files[0]);
             }
         }
+
+        // Xử lý API Tỉnh/Thành - Quận/Huyện
+        document.addEventListener('DOMContentLoaded', function() {
+            const provinceSelect = document.getElementById('province');
+            const districtSelect = document.getElementById('district');
+            const currentDistrict = document.getElementById('current_district').value;
+            let provincesData = [];
+
+            const normalizeString = (str) => {
+                return str.toLowerCase().replace(/^(tỉnh|thành phố|tp\.|tp )\s*/, '').trim();
+            };
+
+            const loadDistricts = (selectedProvinceName) => {
+                districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
+                districtSelect.disabled = true;
+
+                if (!selectedProvinceName) return;
+
+                const normalizedSelected = normalizeString(selectedProvinceName);
+                const province = provincesData.find(p => {
+                    const normAPI = normalizeString(p.name);
+                    return normAPI === normalizedSelected || normAPI.includes(normalizedSelected) || normalizedSelected.includes(normAPI);
+                });
+
+                if (province && province.districts) {
+                    province.districts.forEach(d => {
+                        const option = document.createElement('option');
+                        option.value = d.name;
+                        option.textContent = d.name;
+                        if (d.name === currentDistrict) {
+                            option.selected = true;
+                        }
+                        districtSelect.appendChild(option);
+                    });
+                    districtSelect.disabled = false;
+                } else {
+                    districtSelect.disabled = false; // Fallback
+                }
+            };
+
+            fetch('https://provinces.open-api.vn/api/?depth=2')
+                .then(response => response.json())
+                .then(data => {
+                    provincesData = data;
+                    loadDistricts(provinceSelect.value);
+                })
+                .catch(error => console.error('Error fetching provinces:', error));
+
+            provinceSelect.addEventListener('change', function() {
+                loadDistricts(this.value);
+            });
+        });
 
         // Validate form submit
         document.querySelector('form').addEventListener('submit', function(e) {
@@ -336,7 +427,7 @@ $flash = getFlash();
 
             if (errors.length > 0) {
                 e.preventDefault();
-                alert(errors[0]);
+                showToast(errors[0], 'error');
                 if (focusedField) {
                     focusedField.focus();
                 }
