@@ -14,9 +14,10 @@ if (!$orderId) {
 
 // Get order
 $order = $db->selectOne("
-    SELECT o.*, s.province_city, s.base_price, s.estimated_days
+    SELECT o.*, s.province_city, s.base_price, s.estimated_days, sm.method_name as shipping_method_name
     FROM orders o
     LEFT JOIN shipping_prices s ON o.shipping_id = s.shipping_id
+    LEFT JOIN shipping_methods sm ON o.shipping_method_id = sm.method_id
     WHERE o.order_id = ? AND o.user_id = ?
 ", [$orderId, getUserId()]);
 
@@ -139,7 +140,7 @@ $currentStatus = $statusLabels[$order['order_status']] ?? ['text' => $order['ord
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-[58%_42%] gap-6">
                 <div>
                     <p class="text-on-surface-variant text-sm mb-2">Ngày đặt</p>
                     <p class="font-body-md text-on-surface"><?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></p>
@@ -148,9 +149,13 @@ $currentStatus = $statusLabels[$order['order_status']] ?? ['text' => $order['ord
                     <p class="text-on-surface-variant text-sm mb-2">Phương thức thanh toán</p>
                     <p class="font-body-md text-on-surface"><?= $paymentLabels[$order['payment_method']] ?? $order['payment_method'] ?></p>
                 </div>
-                <div class="md:col-span-2">
+                <div>
                     <p class="text-on-surface-variant text-sm mb-2">Địa chỉ giao hàng</p>
                     <p class="font-body-md text-on-surface"><?= htmlspecialchars($order['recipient_name']) ?> - <?= htmlspecialchars($order['recipient_phone']) ?><br><?= htmlspecialchars($order['shipping_address']) ?></p>
+                </div>
+                <div>
+                    <p class="text-on-surface-variant text-sm mb-2">Phương thức vận chuyển</p>
+                    <p class="font-body-md text-on-surface"><?= htmlspecialchars($order['shipping_method_name'] ?? 'Tiêu chuẩn') ?></p>
                 </div>
             </div>
         </div>

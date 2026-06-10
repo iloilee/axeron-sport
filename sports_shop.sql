@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 10, 2026 lúc 09:01 PM
+-- Thời gian đã tạo: Th6 10, 2026 lúc 09:18 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -184,8 +184,7 @@ INSERT INTO `cart_items` (`cart_item_id`, `cart_id`, `variant_id`, `quantity`, `
 (20, 13, 173, 1, '2026-06-08 19:22:41'),
 (21, 13, 147, 1, '2026-06-08 19:22:46'),
 (26, 1, 249, 2, '2026-06-11 00:44:13'),
-(27, 17, 6, 1, '2026-06-11 01:10:12'),
-(30, 16, 29, 1, '2026-06-11 01:56:52');
+(27, 17, 6, 1, '2026-06-11 01:10:12');
 
 -- --------------------------------------------------------
 
@@ -211,7 +210,7 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`category_id`, `parent_id`, `category_name`, `slug`, `description`, `image_url`, `sort_order`, `is_visible`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'Nam', 'nam', NULL, NULL, 10, 1, '2026-05-29 19:17:55', '2026-06-10 00:18:05'),
+(1, NULL, 'Nam', 'nam', '', NULL, 10, 1, '2026-05-29 19:17:55', '2026-06-11 02:16:54'),
 (2, NULL, 'Nữ', 'nu', NULL, NULL, 20, 1, '2026-05-29 19:17:55', '2026-06-10 00:18:05'),
 (3, NULL, 'Thể Thao', 'the-thao', NULL, NULL, 30, 1, '2026-05-29 19:17:55', '2026-06-10 00:18:05'),
 (10, 1, 'Giày Nam', 'giay-nam', NULL, NULL, 1, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
@@ -409,7 +408,9 @@ INSERT INTO `orders` (`order_id`, `user_id`, `shipping_id`, `shipping_method_id`
 (17, 1, 14, 1, 6, 'Quản Trị Viên', '0123456789', '77/5a phường 4 tpvl, , , Bình Dương', 4500000.00, 225000.00, 25000.00, 4300000.00, 'delivered', 'bank_transfer', 'paid', '', '2026-06-05 16:33:17', '2026-06-11 01:04:10'),
 (18, 2, 61, 1, NULL, 'Lợi Lê Hữu', '0772130908', '6/71, Nguyễn Văn Lâu, , tp Vĩnh Long, Vĩnh Long', 420000.00, 0.00, 25000.00, 445000.00, 'pending', 'cod', 'unpaid', '', '2026-06-09 21:45:12', '2026-06-11 01:04:10'),
 (19, 2, 61, 1, NULL, 'Lợi Lê Hữu', '0772130908', '6/71, Nguyễn Văn Lâu, , tp Vĩnh Long, Vĩnh Long', 3300000.00, 0.00, 25000.00, 3325000.00, 'pending', 'bank_transfer', 'unpaid', '', '2026-06-10 00:36:05', '2026-06-11 01:04:10'),
-(20, 3, 1, 3, 1, 'Tester User', '0987654321', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 1680000.00, 100000.00, 0.00, 1580000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 01:56:28', '2026-06-11 01:56:28');
+(20, 3, 1, 3, 1, 'Tester User', '0987654321', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 1680000.00, 100000.00, 0.00, 1580000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 01:56:28', '2026-06-11 01:56:28'),
+(21, 3, 1, 1, NULL, 'Tester User', '0987654321', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3300000.00, 0.00, 0.00, 3300000.00, 'pending', 'bank_transfer', 'unpaid', '', '2026-06-11 02:02:11', '2026-06-11 02:02:11'),
+(22, 3, 1, 2, NULL, 'Tester User', '0987654321', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 1170000.00, 0.00, 35000.00, 1205000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 02:10:46', '2026-06-11 02:10:46');
 
 -- --------------------------------------------------------
 
@@ -447,7 +448,10 @@ INSERT INTO `order_items` (`order_item_id`, `order_id`, `variant_id`, `product_n
 (17, 17, 148, 'Vợt cầu lông Yonex Astrox 99 Pro', 'Do (3U) - Size 3U/G4', 4500000.00, 1, 4500000.00),
 (18, 18, 229, 'Balo thể thao DL Sport 20L', 'Trắng - Size 20L', 420000.00, 1, 420000.00),
 (19, 19, 30, 'Giày ASICS Gel-Nimbus 26', 'Trắng - Size 41', 3300000.00, 1, 3300000.00),
-(20, 20, 95, 'Áo polo thể thao DL Classic 2024', 'Trắng - Size L', 280000.00, 6, 1680000.00);
+(20, 20, 95, 'Áo polo thể thao DL Classic 2024', 'Trắng - Size L', 280000.00, 6, 1680000.00),
+(21, 21, 29, 'Giày ASICS Gel-Nimbus 26', 'Trắng - Size 40', 3300000.00, 1, 3300000.00),
+(22, 22, 6, 'Giày chạy bộ DL Speed Pro X1', 'Trắng - Size 40', 890000.00, 1, 890000.00),
+(23, 22, 95, 'Áo polo thể thao DL Classic 2024', 'Trắng - Size L', 280000.00, 1, 280000.00);
 
 -- --------------------------------------------------------
 
@@ -500,7 +504,9 @@ INSERT INTO `order_status_logs` (`log_id`, `order_id`, `changed_by`, `old_status
 (32, 17, 1, 'pending', 'delivered', NULL, '2026-06-05 16:33:49'),
 (33, 18, NULL, NULL, 'pending', NULL, '2026-06-09 21:45:12'),
 (34, 19, NULL, NULL, 'pending', NULL, '2026-06-10 00:36:05'),
-(35, 20, NULL, NULL, 'pending', NULL, '2026-06-11 01:56:28');
+(35, 20, NULL, NULL, 'pending', NULL, '2026-06-11 01:56:28'),
+(36, 21, NULL, NULL, 'pending', NULL, '2026-06-11 02:02:11'),
+(37, 22, NULL, NULL, 'pending', NULL, '2026-06-11 02:10:46');
 
 -- --------------------------------------------------------
 
@@ -961,7 +967,7 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (3, 1, 'DL-SPX1-DEN-41', 'Đen', '41', 0.00, 10, 1, 0),
 (4, 1, 'DL-SPX1-DEN-42', 'Đen', '42', 0.00, 8, 1, 0),
 (5, 1, 'DL-SPX1-DEN-43', 'Đen', '43', 0.00, 7, 1, 0),
-(6, 1, 'DL-SPX1-TRANG-40', 'Trắng', '40', 0.00, 7, 1, 0),
+(6, 1, 'DL-SPX1-TRANG-40', 'Trắng', '40', 0.00, 6, 1, 0),
 (7, 2, 'DL-RAR-XANH-39', 'Xanh navy', '39', 0.00, 8, 1, 0),
 (8, 2, 'DL-RAR-XANH-40', 'Xanh navy', '40', 0.00, 10, 1, 0),
 (9, 2, 'DL-RAR-XANH-41', 'Xanh navy', '41', 0.00, 10, 1, 0),
@@ -984,7 +990,7 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (26, 5, 'AS-GN26-XANH-40', 'Xanh', '40', 100000.00, 4, 1, 0),
 (27, 5, 'AS-GN26-XANH-41', 'Xanh', '41', 100000.00, 4, 1, 0),
 (28, 5, 'AS-GN26-XANH-42', 'Xanh', '42', 100000.00, 3, 1, 0),
-(29, 5, 'AS-GN26-TRANG-40', 'Trắng', '40', 100000.00, 3, 1, 0),
+(29, 5, 'AS-GN26-TRANG-40', 'Trắng', '40', 100000.00, 2, 1, 0),
 (30, 5, 'AS-GN26-TRANG-41', 'Trắng', '41', 100000.00, 2, 1, 0),
 (31, 6, 'DL-STR-VANG-38', 'Vàng', '38', 0.00, 12, 1, 0),
 (32, 6, 'DL-STR-VANG-39', 'Vàng', '39', 0.00, 15, 1, 0),
@@ -1050,7 +1056,7 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (92, 15, 'DL-WL-TRANG-38', 'Trắng', '38', 0.00, 7, 1, 0),
 (93, 16, 'DL-POLO-TRANG-S', 'Trắng', 'S', 0.00, 20, 1, 0),
 (94, 16, 'DL-POLO-TRANG-M', 'Trắng', 'M', 0.00, 25, 1, 0),
-(95, 16, 'DL-POLO-TRANG-L', 'Trắng', 'L', 0.00, 19, 1, 0),
+(95, 16, 'DL-POLO-TRANG-L', 'Trắng', 'L', 0.00, 18, 1, 0),
 (96, 16, 'DL-POLO-TRANG-XL', 'Trắng', 'XL', 0.00, 20, 1, 0),
 (97, 16, 'DL-POLO-XANH-M', 'Xanh navy', 'M', 0.00, 15, 1, 0),
 (98, 16, 'DL-POLO-XANH-L', 'Xanh navy', 'L', 0.00, 15, 1, 0),
@@ -1414,7 +1420,9 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (203, 3, 1, '2026-06-11 01:24:21'),
 (204, 3, 5, '2026-06-11 01:47:39'),
 (205, 3, 16, '2026-06-11 01:47:43'),
-(206, 3, 5, '2026-06-11 01:56:51');
+(206, 3, 5, '2026-06-11 01:56:51'),
+(207, 3, 1, '2026-06-11 02:05:28'),
+(208, 3, 16, '2026-06-11 02:10:42');
 
 -- --------------------------------------------------------
 
@@ -2134,7 +2142,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -2164,19 +2172,19 @@ ALTER TABLE `contact_messages`
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT cho bảng `order_status_logs`
 --
 ALTER TABLE `order_status_logs`
-  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT cho bảng `password_resets`
@@ -2212,7 +2220,7 @@ ALTER TABLE `product_variants`
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`

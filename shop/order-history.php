@@ -20,9 +20,11 @@ $orders = $db->select("
         o.payment_method,
         o.payment_status,
         o.created_at,
+        sm.method_name as shipping_method_name,
         COUNT(oi.order_item_id) as item_count
     FROM orders o
     LEFT JOIN order_items oi ON o.order_id = oi.order_id
+    LEFT JOIN shipping_methods sm ON o.shipping_method_id = sm.method_id
     WHERE o.user_id = ?
     GROUP BY o.order_id
     ORDER BY o.created_at DESC
@@ -112,7 +114,7 @@ $orders = $db->select("
 <body class="bg-surface text-on-surface font-body-md antialiased flex flex-col min-h-screen">
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
-    <main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
+    <main class="flex-grow w-full max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-12">
         <h1 class="font-headline-lg text-headline-lg md:text-display-lg font-bold mb-8 uppercase text-text-dark">Lịch Sử Đơn Hàng</h1>
 
         <?php if (empty($orders)): ?>
@@ -131,30 +133,42 @@ $orders = $db->select("
                 <table class="w-full">
                     <thead class="bg-surface-container">
                         <tr>
-                            <th class="text-left px-6 py-4 font-label-lg text-label-lg">Mã Đơn Hàng</th>
-                            <th class="text-left px-6 py-4 font-label-lg text-label-lg">Ngày Đặt</th>
-                            <th class="text-left px-6 py-4 font-label-lg text-label-lg">Sản Phẩm</th>
-                            <th class="text-left px-6 py-4 font-label-lg text-label-lg">Tổng Tiền</th>
-                            <th class="text-left px-6 py-4 font-label-lg text-label-lg">Phương thức thanh toán</th>
-                            <th class="text-left px-6 py-4 font-label-lg text-label-lg">Trạng Thái</th>
-                            <th class="text-left px-6 py-4 font-label-lg text-label-lg">Thao Tác</th>
+                            <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Mã Đơn Hàng</th>
+                            <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Ngày Đặt</th>
+                            <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Sản Phẩm</th>
+                            <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Tổng Tiền</th>
+                            <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Phương thức vận chuyển</th>
+                            <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Thanh toán</th>
+                            <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Trạng Thái</th>
+                            <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Thao Tác</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-outline-variant">
                         <?php foreach ($orders as $order): ?>
                         <tr class="hover:bg-surface-container-low transition-colors">
-                            <td class="px-6 py-4 font-label-lg text-label-lg font-medium text-on-surface">
+                            <td class="px-4 py-4 font-label-lg text-label-lg font-medium text-on-surface whitespace-nowrap">
                                 <a href="<?= BASE_URL ?>/shop/order-confirmation.php?id=<?= $order['order_id'] ?>" class="text-axeron-blue hover:underline font-bold">
                                     #<?= str_pad($order['order_id'], 6, '0', STR_PAD_LEFT) ?>
                                 </a>
                             </td>
-                            <td class="px-6 py-4 font-body-md text-on-surface-variant"><?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></td>
-                            <td class="px-6 py-4 font-body-md text-on-surface"><?= $order['item_count'] ?> sản phẩm</td>
-                            <td class="px-6 py-4 font-label-lg text-label-lg font-bold text-axeron-red"><?= formatPrice($order['total_amount']) ?></td>
-                            <td class="px-6 py-4 font-body-md text-on-surface font-semibold uppercase">
-                                <?= $order['payment_method'] === 'cod' ? 'COD' : strtoupper($order['payment_method']) ?>
+                            <td class="px-4 py-4 font-body-md text-on-surface-variant whitespace-nowrap"><?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></td>
+                            <td class="px-4 py-4 font-body-md text-on-surface whitespace-nowrap"><?= $order['item_count'] ?> sản phẩm</td>
+                            <td class="px-4 py-4 font-label-lg text-label-lg font-bold text-axeron-red whitespace-nowrap"><?= formatPrice($order['total_amount']) ?></td>
+                            <td class="px-4 py-4 font-body-md text-on-surface whitespace-nowrap"><?= htmlspecialchars($order['shipping_method_name'] ?? 'Tiêu chuẩn') ?></td>
+                            <td class="px-4 py-4 font-body-md text-on-surface font-semibold whitespace-nowrap">
+                                <?php
+                                $paymentText = match($order['payment_method']) {
+                                    'cod' => 'Thanh toán khi nhận hàng (COD)',
+                                    'bank_transfer' => 'Chuyển khoản ngân hàng',
+                                    'momo' => 'Ví MoMo',
+                                    'vnpay' => 'VNPay',
+                                    'zalopay' => 'ZaloPay',
+                                    default => strtoupper($order['payment_method'])
+                                };
+                                echo $paymentText;
+                                ?>
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-4 py-4 whitespace-nowrap">
                                 <?php
                                 $statusClass = match($order['order_status']) {
                                     'pending' => 'bg-yellow-100 text-yellow-800',
@@ -179,7 +193,7 @@ $orders = $db->select("
                                 ?>
                                 <span class="px-3 py-1 rounded-full text-sm <?= $statusClass ?>"><?= $statusText ?></span>
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-4 py-4 whitespace-nowrap">
                                 <a href="<?= BASE_URL ?>/shop/order-confirmation.php?id=<?= $order['order_id'] ?>" 
                                    class="text-axeron-blue hover:underline font-semibold text-sm inline-flex items-center gap-1">
                                     Chi tiết <span class="material-symbols-outlined text-sm">arrow_forward</span>
