@@ -18,6 +18,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $currentPassword = $_POST['current_password'] ?? '';
     $newPassword = $_POST['new_password'] ?? '';
     $confirmPassword = $_POST['confirm_password'] ?? '';
+<?php
+/**
+ * Change Password Page
+ */
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/session.php';
+
+// Require login to access
+requireLogin();
+
+$db = db();
+$userId = getUserId();
+$error = '';
+$success = '';
+
+// Xử lý form đổi mật khẩu
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $currentPassword = $_POST['current_password'] ?? '';
+    $newPassword = $_POST['new_password'] ?? '';
+    $confirmPassword = $_POST['confirm_password'] ?? '';
 
     // Validate
     if (empty($currentPassword)) {
@@ -25,7 +45,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (empty($newPassword)) {
         $error = 'Vui lòng nhập mật khẩu mới';
     } elseif (strlen($newPassword) < 8) {
-        $error = 'Mật khẩu mới phải dài ít nhất 8 ký tự';
+        $error = 'Mật khẩu mới phải có ít nhất 8 ký tự';
+    } elseif (!preg_match('/[A-Z]/', $newPassword)) {
+        $error = 'Mật khẩu mới phải có ít nhất 1 chữ hoa';
+    } elseif (!preg_match('/[0-9]/', $newPassword)) {
+        $error = 'Mật khẩu mới phải có ít nhất 1 chữ số';
+    } elseif (!preg_match('/[!@#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/?`~]/', $newPassword)) {
+        $error = 'Mật khẩu mới phải có ít nhất 1 ký tự đặc biệt';
     } elseif ($newPassword !== $confirmPassword) {
         $error = 'Mật khẩu xác nhận không khớp';
     } else {
@@ -230,7 +256,7 @@ h1, h2, h3, h4, h5, h6, .font-headline-lg, .font-display-lg, .font-headline-md, 
                 </div>
                 <p class="mt-2 font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
                     <span class="material-symbols-outlined text-[16px]">info</span>
-                    Mật khẩu phải dài ít nhất 8 ký tự.
+                    Mật khẩu phải dài ít nhất 8 ký tự, có chữ hoa, số và ký tự đặc biệt.
                 </p>
             </div>
 
@@ -367,6 +393,28 @@ confirmInput.addEventListener('input', function() {
         this.setCustomValidity('Mật khẩu xác nhận không khớp');
     } else {
         this.setCustomValidity('');
+    }
+});
+
+// Form submit validation
+document.querySelector('form').addEventListener('submit', function(e) {
+    const newPass = document.getElementById('new_password').value;
+    const confirmPass = document.getElementById('confirm_password').value;
+    const errors = [];
+    let focusedField = null;
+
+    if (newPass.length < 8) { errors.push('Mật khẩu phải có ít nhất 8 ký tự'); if (!focusedField) focusedField = document.getElementById('new_password'); }
+    if (!/[A-Z]/.test(newPass)) { errors.push('Mật khẩu phải có ít nhất 1 chữ hoa'); if (!focusedField) focusedField = document.getElementById('new_password'); }
+    if (!/[0-9]/.test(newPass)) { errors.push('Mật khẩu phải có ít nhất 1 chữ số'); if (!focusedField) focusedField = document.getElementById('new_password'); }
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(newPass)) { errors.push('Mật khẩu phải có ít nhất 1 ký tự đặc biệt'); if (!focusedField) focusedField = document.getElementById('new_password'); }
+    if (newPass !== confirmPass) { errors.push('Mật khẩu xác nhận không khớp'); if (!focusedField) focusedField = document.getElementById('confirm_password'); }
+
+    if (errors.length > 0) {
+        e.preventDefault();
+        alert(errors[0]);
+        if (focusedField) {
+            focusedField.focus();
+        }
     }
 });
 </script>

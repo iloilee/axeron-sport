@@ -29,10 +29,11 @@ if ($action === 'login') {
         SELECT u.user_id, u.full_name, u.email, u.password_hash, u.role_id, r.role_name, u.avatar_url, u.login_attempts, u.locked_until, u.is_active
         FROM users u
         JOIN roles r ON u.role_id = r.role_id
-        WHERE u.email = ? OR u.phone = ?
-    ", [$email, $email]);
+        WHERE u.email = ?
+    ", [$email]);
 
     if (!$user) {
+        $_SESSION['old_input'] = $input;
         setFlash('error', 'Email hoặc mật khẩu không đúng');
         axRedirect(BASE_URL . '/auth/login.php');
     }
@@ -51,6 +52,7 @@ if ($action === 'login') {
     // Kiểm tra mật khẩu
     if (!password_verify($password, $user['password_hash'])) {
         $attempts = $user['login_attempts'] + 1;
+        $_SESSION['old_input'] = $input;
         if ($attempts >= 5) {
             $db->update(
                 "UPDATE users SET login_attempts = ?, locked_until = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE user_id = ?",
@@ -131,7 +133,15 @@ if ($action === 'register') {
     $confirmPassword = $input['confirm_password'] ?? '';
 
     $errors = [];
-    if (empty($fullName)) $errors[] = 'Nhập họ tên';
+    if (empty(trim($fullName))) {
+        $errors[] = 'Vui lòng nhập họ tên';
+    } elseif (mb_strlen(trim($fullName)) < 2 || mb_strlen(trim($fullName)) > 100) {
+        $errors[] = 'Họ tên phải từ 2 đến 100 ký tự';
+    } elseif (preg_match('/\d/', $fullName)) {
+        $errors[] = 'Họ tên không được chứa số';
+    } elseif (!preg_match("/^[\p{L}\s'-]+$/u", $fullName)) {
+        $errors[] = 'Họ tên chứa ký tự không hợp lệ';
+    }
     if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Email không hợp lệ';
     if (empty($phone) || !preg_match('/^0[0-9]{9,10}$/', str_replace(' ', '', $phone))) $errors[] = 'Số điện thoại không hợp lệ';
     if (strlen($password) < 8) $errors[] = 'Mật khẩu phải có ít nhất 8 ký tự';
@@ -141,16 +151,19 @@ if ($action === 'register') {
     if ($password !== $confirmPassword) $errors[] = 'Mật khẩu xác nhận không khớp';
 
     if ($errors) {
+        $_SESSION['old_input'] = $input;
         setFlash('error', implode('. ', $errors));
         axRedirect(BASE_URL . '/auth/register.php');
     }
 
     if ($db->selectOne("SELECT user_id FROM users WHERE email = ?", [$email])) {
+        $_SESSION['old_input'] = $input;
         setFlash('error', 'Email đã được sử dụng');
         axRedirect(BASE_URL . '/auth/register.php');
     }
 
     if ($db->selectOne("SELECT user_id FROM users WHERE phone = ?", [$phone])) {
+        $_SESSION['old_input'] = $input;
         setFlash('error', 'Số điện thoại đã được sử dụng');
         axRedirect(BASE_URL . '/auth/register.php');
     }

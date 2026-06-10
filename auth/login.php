@@ -12,6 +12,8 @@ if (isLoggedIn()) {
 
 // Check for flash messages
 $flash = getFlash();
+$old = $_SESSION['old_input'] ?? [];
+unset($_SESSION['old_input']);
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -124,12 +126,12 @@ $flash = getFlash();
 
                     <!-- Email / Phone Input -->
                     <div>
-                        <label class="block font-label-lg text-label-lg text-on-surface mb-2" for="email">Email hoặc Số điện thoại</label>
+                        <label class="block font-label-lg text-label-lg text-on-surface mb-2" for="email">Email</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <span class="material-symbols-outlined text-outline">person</span>
                             </div>
-                            <input class="w-full pl-10 pr-4 py-3 border border-outline-variant rounded bg-surface-container-lowest text-on-surface focus:outline-none focus:ring-2 focus:ring-axeron-blue focus:border-transparent transition-shadow" id="email" name="email" placeholder="Nhập email hoặc số điện thoại" required type="text" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"/>
+                            <input class="w-full pl-10 pr-4 py-3 border border-outline-variant rounded bg-surface-container-lowest text-on-surface focus:outline-none focus:ring-2 focus:ring-axeron-blue focus:border-transparent transition-shadow" id="email" name="email" placeholder="Nhập email" required type="email" value="<?= htmlspecialchars($old['email'] ?? $_POST['email'] ?? '') ?>"/>
                         </div>
                     </div>
 
@@ -140,7 +142,7 @@ $flash = getFlash();
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <span class="material-symbols-outlined text-outline">lock</span>
                             </div>
-                            <input class="w-full pl-10 pr-10 py-3 border border-outline-variant rounded bg-surface-container-lowest text-on-surface focus:outline-none focus:ring-2 focus:ring-axeron-blue focus:border-transparent transition-shadow" id="password" name="password" placeholder="Nhập mật khẩu" required type="password"/>
+                            <input class="w-full pl-10 pr-10 py-3 border border-outline-variant rounded bg-surface-container-lowest text-on-surface focus:outline-none focus:ring-2 focus:ring-axeron-blue focus:border-transparent transition-shadow" id="password" name="password" placeholder="Nhập mật khẩu" required type="password" value="<?= htmlspecialchars($old['password'] ?? '') ?>"/>
                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-outline hover:text-on-surface transition-colors" onclick="togglePasswordVisibility()">
                                 <span class="material-symbols-outlined" id="visibility-icon">visibility_off</span>
                             </div>

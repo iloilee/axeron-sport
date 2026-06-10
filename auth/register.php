@@ -12,6 +12,8 @@ if (isLoggedIn()) {
 
 // Check for flash messages
 $flash = getFlash();
+$old = $_SESSION['old_input'] ?? [];
+unset($_SESSION['old_input']);
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -83,12 +85,7 @@ $flash = getFlash();
 
         <!-- Form Container -->
         <div class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 w-full border border-[#e5e2e1]">
-            <!-- Flash Message -->
-            <?php if ($flash): ?>
-            <div class="mb-6 p-4 rounded-xl <?= $flash['type'] === 'error' ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-green-50 border border-green-200 text-green-700' ?>">
-                <?= htmlspecialchars($flash['message']) ?>
-            </div>
-            <?php endif; ?>
+            <!-- Flash Message (Hiển thị qua Toast Modal) -->
 
             <div class="mb-6 text-center">
                 <h2 class="text-2xl font-bold text-[#1b1c1c] mb-2" style="font-family: 'Montserrat', sans-serif;">Tạo Tài Khoản</h2>
@@ -106,7 +103,7 @@ $flash = getFlash();
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                             <span class="material-symbols-outlined text-[#8f6f6e] text-[20px]">badge</span>
                         </div>
-                        <input class="w-full pl-11 pr-4 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="full_name" name="full_name" placeholder="Nhập họ và tên" required type="text" value="<?= htmlspecialchars($_POST['full_name'] ?? '') ?>"/>
+                        <input class="w-full pl-11 pr-4 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="full_name" name="full_name" placeholder="Nhập họ và tên" required type="text" value="<?= htmlspecialchars($old['full_name'] ?? $_POST['full_name'] ?? '') ?>"/>
                     </div>
                 </div>
 
@@ -117,7 +114,7 @@ $flash = getFlash();
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                             <span class="material-symbols-outlined text-[#8f6f6e] text-[20px]">mail</span>
                         </div>
-                        <input class="w-full pl-11 pr-4 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="email" name="email" placeholder="Nhập email" required type="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"/>
+                        <input class="w-full pl-11 pr-4 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="email" name="email" placeholder="Nhập email" required type="email" value="<?= htmlspecialchars($old['email'] ?? $_POST['email'] ?? '') ?>"/>
                     </div>
                 </div>
 
@@ -128,7 +125,7 @@ $flash = getFlash();
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                             <span class="material-symbols-outlined text-[#8f6f6e] text-[20px]">phone</span>
                         </div>
-                        <input class="w-full pl-11 pr-4 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="phone" name="phone" placeholder="Nhập số điện thoại" required type="tel" value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>"/>
+                        <input class="w-full pl-11 pr-4 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="phone" name="phone" placeholder="Nhập số điện thoại" required type="tel" value="<?= htmlspecialchars($old['phone'] ?? $_POST['phone'] ?? '') ?>"/>
                     </div>
                 </div>
 
@@ -176,6 +173,9 @@ $flash = getFlash();
                             <span class="material-symbols-outlined text-[#8f6f6e] text-[20px]">lock</span>
                         </div>
                         <input class="w-full pl-11 pr-10 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="confirm_password" name="confirm_password" placeholder="Nhập lại mật khẩu" required type="password"/>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-[#8f6f6e] hover:text-[#1b1c1c] transition-colors" onclick="toggleConfirmPasswordVisibility()">
+                            <span class="material-symbols-outlined" id="confirm-visibility-icon">visibility_off</span>
+                        </div>
                     </div>
                 </div>
 
@@ -203,10 +203,63 @@ $flash = getFlash();
         </div>
     </main>
 
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed inset-0 pointer-events-none z-[9999] flex flex-col items-center justify-center gap-4"></div>
+
     <script>
+        // Toast notification (Centered Modal Style)
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            
+            // Xóa các thông báo cũ để không bị lặp hiển thị nhiều lần
+            container.innerHTML = '';
+
+            const toast = document.createElement('div');
+
+            const icon = type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info';
+            const iconColor = type === 'success' ? 'text-green-500' : type === 'error' ? 'text-red-500' : 'text-blue-500';
+            const bgColor = 'bg-white';
+
+            toast.className = `${bgColor} border border-gray-100 pointer-events-auto px-8 py-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] flex flex-col items-center gap-3 transform transition-all duration-300 scale-95 opacity-0 min-w-[320px] text-center`;
+            toast.innerHTML = `
+                <span class="material-symbols-outlined text-[48px] ${iconColor}">${icon}</span>
+                <span class="text-gray-800 font-semibold text-lg leading-tight">${message}</span>
+            `;
+
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('scale-95', 'opacity-0');
+                toast.classList.add('scale-100', 'opacity-100');
+            });
+
+            setTimeout(() => {
+                toast.classList.remove('scale-100', 'opacity-100');
+                toast.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        <?php if ($flash): ?>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast(<?= json_encode($flash['message']) ?>, <?= json_encode($flash['type']) ?>);
+        });
+        <?php endif; ?>
         function togglePasswordVisibility() {
             const passwordInput = document.getElementById('password');
             const icon = document.getElementById('visibility-icon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.textContent = 'visibility';
+            } else {
+                passwordInput.type = 'password';
+                icon.textContent = 'visibility_off';
+            }
+        }
+
+        function toggleConfirmPasswordVisibility() {
+            const passwordInput = document.getElementById('confirm_password');
+            const icon = document.getElementById('confirm-visibility-icon');
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 icon.textContent = 'visibility';
@@ -253,15 +306,39 @@ $flash = getFlash();
 
         // Form submit validation
         document.querySelector('form').addEventListener('submit', function(e) {
+            const fullNameInput = document.getElementById('full_name');
+            const phoneInput = document.getElementById('phone');
             const password = passwordInput.value;
             const confirmPassword = document.getElementById('confirm_password').value;
             const errors = [];
+            let focusedField = null;
 
-            if (password.length < 8) errors.push('Mật khẩu phải có ít nhất 8 ký tự');
-            if (!/[A-Z]/.test(password)) errors.push('Mật khẩu phải có ít nhất 1 chữ hoa');
-            if (!/[0-9]/.test(password)) errors.push('Mật khẩu phải có ít nhất 1 chữ số');
-            if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(password)) errors.push('Mật khẩu phải có ít nhất 1 ký tự đặc biệt');
-            if (password !== confirmPassword) errors.push('Mật khẩu xác nhận không khớp');
+            const fullNameVal = fullNameInput.value.trim();
+            if (fullNameVal.length === 0) {
+                errors.push('Vui lòng nhập họ tên');
+                if (!focusedField) focusedField = fullNameInput;
+            } else if (fullNameVal.length < 2 || fullNameVal.length > 100) {
+                errors.push('Họ tên phải từ 2 đến 100 ký tự');
+                if (!focusedField) focusedField = fullNameInput;
+            } else if (/\d/.test(fullNameVal)) {
+                errors.push('Họ tên không được chứa số');
+                if (!focusedField) focusedField = fullNameInput;
+            } else if (!/^[\p{L}\s'-]+$/u.test(fullNameVal)) {
+                errors.push('Họ tên chứa ký tự không hợp lệ');
+                if (!focusedField) focusedField = fullNameInput;
+            }
+
+            const phoneVal = phoneInput.value.replace(/\s/g, '');
+            if (phoneVal.length === 0 || !/^0[0-9]{9,10}$/.test(phoneVal)) {
+                errors.push('Số điện thoại không hợp lệ');
+                if (!focusedField) focusedField = phoneInput;
+            }
+
+            if (password.length < 8) { errors.push('Mật khẩu phải có ít nhất 8 ký tự'); if (!focusedField) focusedField = passwordInput; }
+            if (!/[A-Z]/.test(password)) { errors.push('Mật khẩu phải có ít nhất 1 chữ hoa'); if (!focusedField) focusedField = passwordInput; }
+            if (!/[0-9]/.test(password)) { errors.push('Mật khẩu phải có ít nhất 1 chữ số'); if (!focusedField) focusedField = passwordInput; }
+            if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(password)) { errors.push('Mật khẩu phải có ít nhất 1 ký tự đặc biệt'); if (!focusedField) focusedField = passwordInput; }
+            if (password !== confirmPassword) { errors.push('Mật khẩu xác nhận không khớp'); if (!focusedField) focusedField = document.getElementById('confirm_password'); }
 
             if (errors.length > 0) {
                 e.preventDefault();
@@ -277,8 +354,10 @@ $flash = getFlash();
                     }
                 });
                 reqBox.style.display = 'block';
-                if (password !== confirmPassword && errors.length === 1) {
-                    alert('Mật khẩu xác nhận không khớp!');
+                
+                showToast(errors[0], 'error'); // Show the first error message as a centered toast
+                if (focusedField) {
+                    focusedField.focus(); // Focus on the first invalid field
                 }
             }
         });

@@ -63,14 +63,6 @@ function ajaxLogin($input) {
         WHERE u.email = ? AND u.is_active = 1
     ", [$email]);
 
-    if (!$user) {
-        $user = $db->selectOne("
-            SELECT u.*, r.role_name
-            FROM users u
-            JOIN roles r ON u.role_id = r.role_id
-            WHERE u.phone = ? AND u.is_active = 1
-        ", [$email]);
-    }
 
     if (!$user) {
         echo json_encode(['success' => false, 'message' => 'Email hoặc mật khẩu không đúng']);
@@ -131,7 +123,15 @@ function ajaxRegister($input) {
 
     $errors = [];
 
-    if (empty($fullName)) $errors[] = 'Vui lòng nhập họ tên';
+    if (empty(trim($fullName))) {
+        $errors[] = 'Vui lòng nhập họ tên';
+    } elseif (mb_strlen(trim($fullName)) < 2 || mb_strlen(trim($fullName)) > 100) {
+        $errors[] = 'Họ tên phải từ 2 đến 100 ký tự';
+    } elseif (preg_match('/\d/', $fullName)) {
+        $errors[] = 'Họ tên không được chứa số';
+    } elseif (!preg_match("/^[\p{L}\s'-]+$/u", $fullName)) {
+        $errors[] = 'Họ tên chứa ký tự không hợp lệ';
+    }
     if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Email không hợp lệ';
 
     $phoneClean = str_replace(' ', '', $phone);

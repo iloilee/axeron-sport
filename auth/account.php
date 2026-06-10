@@ -167,11 +167,11 @@ $flash = getFlash();
                                class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors font-body-md w-full" />
                     </div>
 
-                    <!-- Email (Readonly) -->
+                    <!-- Email -->
                     <div class="flex flex-col gap-2">
                         <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="email">Email <span class="text-xs lowercase text-outline">(Dùng để đăng nhập)</span></label>
-                        <input type="email" id="email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" disabled readonly
-                               class="px-4 py-3 bg-surface-variant text-on-surface-variant border border-outline-variant rounded cursor-not-allowed font-body-md w-full" />
+                        <input type="email" id="email" name="email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" required
+                               class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors font-body-md w-full" />
                     </div>
 
                     <!-- Số điện thoại -->
@@ -244,6 +244,44 @@ $flash = getFlash();
                 </div>
             </form>
         </div>
+
+        <?php if (!empty($_SESSION['show_email_otp_modal'])): ?>
+        <!-- OTP Modal -->
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-opacity">
+            <div class="bg-surface rounded-xl shadow-2xl p-6 w-full max-w-md border border-outline-variant transform transition-transform scale-100">
+                <div class="mb-6 text-center">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-error-container text-on-error-container mb-4">
+                        <span class="material-symbols-outlined text-3xl">mark_email_read</span>
+                    </div>
+                    <h3 class="font-headline-md text-headline-md text-on-surface mb-2">Xác Thực Email Mới</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant">
+                        Mã xác thực (6 số) đã được gửi đến <strong><?= htmlspecialchars($_SESSION['email_change_new_email'] ?? '') ?></strong>. 
+                        Vui lòng kiểm tra hộp thư của bạn.
+                    </p>
+                </div>
+                
+                <form action="<?= BASE_URL ?>/api/account-handler.php" method="POST" class="space-y-6">
+                    <input type="hidden" name="action" value="verify_email_otp">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generateCsrfToken()) ?>">
+                    
+                    <div>
+                        <label class="block font-label-lg text-label-lg text-on-surface mb-2" for="otp">Mã Xác Thực (OTP)</label>
+                        <input type="text" id="otp" name="otp" required pattern="[0-9]{6}" placeholder="Nhập 6 số" maxlength="6" autofocus
+                               class="text-center tracking-[0.5em] text-2xl px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors font-body-md w-full" />
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <a href="<?= BASE_URL ?>/api/account-handler.php?action=cancel_email_change" class="flex-1 text-center bg-surface-container-high text-on-surface px-4 py-3 rounded-lg font-label-lg hover:bg-surface-dim transition-colors uppercase py-3">
+                            Hủy
+                        </a>
+                        <button type="submit" class="flex-1 bg-axeron-red text-white px-4 py-3 rounded-lg font-label-lg hover:bg-primary transition-colors uppercase shadow-sm">
+                            Xác nhận
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <?php endif; ?>
     </main>
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
@@ -260,6 +298,50 @@ $flash = getFlash();
                 reader.readAsDataURL(input.files[0]);
             }
         }
+
+        // Validate form submit
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const fullNameInput = document.getElementById('full_name');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const errors = [];
+            let focusedField = null;
+
+            const fullNameVal = fullNameInput.value.trim();
+            if (fullNameVal.length === 0) {
+                errors.push('Vui lòng nhập họ tên');
+                if (!focusedField) focusedField = fullNameInput;
+            } else if (fullNameVal.length < 2 || fullNameVal.length > 100) {
+                errors.push('Họ tên phải từ 2 đến 100 ký tự');
+                if (!focusedField) focusedField = fullNameInput;
+            } else if (/\d/.test(fullNameVal)) {
+                errors.push('Họ tên không được chứa số');
+                if (!focusedField) focusedField = fullNameInput;
+            } else if (!/^[\p{L}\s'-]+$/u.test(fullNameVal)) {
+                errors.push('Họ tên chứa ký tự không hợp lệ');
+                if (!focusedField) focusedField = fullNameInput;
+            }
+
+            const emailVal = emailInput.value.trim();
+            if (emailVal.length === 0 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+                errors.push('Email không hợp lệ');
+                if (!focusedField) focusedField = emailInput;
+            }
+
+            const phoneVal = phoneInput.value.replace(/\s/g, '');
+            if (phoneVal.length === 0 || !/^0[0-9]{9,10}$/.test(phoneVal)) {
+                errors.push('Số điện thoại không hợp lệ');
+                if (!focusedField) focusedField = phoneInput;
+            }
+
+            if (errors.length > 0) {
+                e.preventDefault();
+                alert(errors[0]);
+                if (focusedField) {
+                    focusedField.focus();
+                }
+            }
+        });
     </script>
 </body>
 </html>
