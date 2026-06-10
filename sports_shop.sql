@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 10, 2026 lúc 07:20 AM
+-- Thời gian đã tạo: Th6 10, 2026 lúc 07:33 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -255,13 +255,25 @@ INSERT INTO `categories` (`category_id`, `parent_id`, `category_name`, `slug`, `
 (306, 35, 'Máy Chạy Bộ', 'may-chay-bo', NULL, NULL, 1, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (307, 35, 'Tạ Tay Và Ghế', 'ta-tay-va-giai', NULL, NULL, 2, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (308, 35, 'Giàn Tập', 'gian-tap', NULL, NULL, 3, 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
-(312, NULL, 'bóng đá', 'bong-a', '', NULL, 40, 1, '2026-06-06 01:44:00', '2026-06-10 00:18:05'),
-(313, 312, 'bóng đá đơn', 'bong-a-n', '', NULL, 1, 1, '2026-06-06 01:44:26', '2026-06-06 01:44:26'),
-(314, 313, 'bóng đá đơn đôi', 'bong-a-n-i', '', NULL, 1, 1, '2026-06-06 01:44:39', '2026-06-06 01:44:39'),
 (315, 318, 'Giày Pickleball', 'giay-pickleball', NULL, NULL, 0, 1, '2026-06-10 00:10:10', '2026-06-10 00:15:37'),
 (316, 318, 'Giày cầu lông', 'giay-cau-long', NULL, NULL, 0, 1, '2026-06-10 00:10:10', '2026-06-10 00:15:37'),
 (317, 318, 'Giày chạy bộ', 'giay-chay-bo', NULL, NULL, 0, 1, '2026-06-10 00:10:10', '2026-06-10 00:15:37'),
-(318, NULL, 'Giày Thể Thao', 'giay-the-thao', NULL, NULL, 45, 1, '2026-06-10 00:15:37', '2026-06-10 00:18:48');
+(318, NULL, 'Giày Thể Thao', 'giay-the-thao', NULL, NULL, 45, 1, '2026-06-10 00:15:37', '2026-06-10 00:18:48'),
+(319, 12, 'Bộ Suvec Nam', 'bo-suvec-nam', NULL, NULL, 1, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(320, 12, 'Bộ Bóng Đá Nam', 'bo-bong-da-nam', NULL, NULL, 2, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(321, 12, 'Bộ Cầu Lông Nam', 'bo-cau-long-nam', NULL, NULL, 3, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(322, 12, 'Bộ Bóng Chuyền Nam', 'bo-bong-chuyen-nam', NULL, NULL, 4, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(323, 12, 'Bộ Pickleball Nam', 'bo-pickleball-nam', NULL, NULL, 5, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(324, 13, 'Mũ Nam', 'mu-nam', NULL, NULL, 6, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(325, 13, 'Balo Nam', 'balo-nam', NULL, NULL, 7, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(326, 13, 'Tất Nam', 'tat-nam', NULL, NULL, 8, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(327, 22, 'Bộ Suvec Nữ', 'bo-suvec-nu', NULL, NULL, 9, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(328, 22, 'Bộ Cầu Lông Nữ', 'bo-cau-long-nu', NULL, NULL, 10, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(329, 22, 'Bộ Bóng Chuyền Nữ', 'bo-bong-chuyen-nu', NULL, NULL, 11, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(330, 22, 'Bộ Pickleball Nữ', 'bo-pickleball-nu', NULL, NULL, 12, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(331, 23, 'Mũ Nữ', 'mu-nu', NULL, NULL, 13, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(332, 23, 'Balo Nữ', 'balo-nu', NULL, NULL, 14, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(333, 23, 'Tất Nữ', 'tat-nu', NULL, NULL, 15, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08');
 
 -- --------------------------------------------------------
 
@@ -617,7 +629,7 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (48, 13, 1, 'Tất thể thao DL Sport (5 doi)', 'tat-the-thao-dl-sport-5doi', '5 đôi tất thể thao DL, chất liệu cotton pha.', 95000.00, 150, 1, 0, 999, 4.20, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
 (49, 23, 1, 'Mũ thể thao nữ DL Lily', 'mu-the-thao-nu-dl-lily', 'Mũ nữ kiểu bucket hat thời trang.', 155000.00, 60, 1, 0, 999, 4.30, 5, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
 (50, 23, 3, 'Balo nữ Adidas Classic BOS', 'balo-nu-adidas-classic', 'Balo nữ Adidas Classic BOS dung tích 22L.', 650000.00, 30, 1, 0, 999, 4.60, 9, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(56, 314, 4, 'sản phẩm test ẩn hiện', 'san-phm-test-n-hin', '', 1000000.00, 10, 1, 1, 2, NULL, 0, '2026-06-06 02:20:00', '2026-06-06 02:53:39'),
+(56, 34, 4, 'sản phẩm test ẩn hiện', 'san-phm-test-n-hin', '', 1000000.00, 12, 1, 1, 2, NULL, 0, '2026-06-06 02:20:00', '2026-06-11 00:18:35'),
 (58, 315, 11, 'Giày Pickleball Axeron Pro V1-C439', 'giay-pickleball-v1-c439', '<p>Sản phẩm Giày Pickleball Axeron Pro V1-C439 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 835000.00, 42, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
 (59, 315, 11, 'Giày Pickleball Axeron Pro V2-D06C', 'giay-pickleball-v2-d06c', '<p>Sản phẩm Giày Pickleball Axeron Pro V2-D06C với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1459000.00, 75, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
 (60, 315, 11, 'Giày Pickleball Axeron Pro V3-0BD7', 'giay-pickleball-v3-0bd7', '<p>Sản phẩm Giày Pickleball Axeron Pro V3-0BD7 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 926000.00, 79, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
@@ -652,7 +664,83 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (89, 317, 11, 'Giày Chạy Bộ Axeron Run V7-EBB9', 'giay-chay-bo-v7-ebb9', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V7-EBB9 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1488000.00, 83, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
 (90, 317, 11, 'Giày Chạy Bộ Axeron Run V8-2DEA', 'giay-chay-bo-v8-2dea', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V8-2DEA với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1261000.00, 98, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
 (91, 317, 11, 'Giày Chạy Bộ Axeron Run V9-2FED', 'giay-chay-bo-v9-2fed', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V9-2FED với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1152000.00, 77, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(92, 317, 11, 'Giày Chạy Bộ Axeron Run V10-82E4', 'giay-chay-bo-v10-82e4', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V10-82E4 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 617000.00, 19, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43');
+(92, 317, 11, 'Giày Chạy Bộ Axeron Run V10-82E4', 'giay-chay-bo-v10-82e4', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V10-82E4 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 617000.00, 19, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(93, 319, 10, 'Bộ Suvec Nam Thể Thao 4046', 'bo-suvec-nam-the-thao-4046-1781112128-1', 'Đây là sản phẩm Bộ Suvec Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 900000.00, 90, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(94, 319, 4, 'Bộ Suvec Nam Thể Thao E1F4', 'bo-suvec-nam-the-thao-e1f4-1781112128-2', 'Đây là sản phẩm Bộ Suvec Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 600000.00, 22, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(95, 320, 5, 'Bộ Bóng Đá Nam Thể Thao C853', 'bo-bong-da-nam-the-thao-c853-1781112128-1', 'Đây là sản phẩm Bộ Bóng Đá Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 1000000.00, 88, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(96, 320, 6, 'Bộ Bóng Đá Nam Thể Thao 790B', 'bo-bong-da-nam-the-thao-790b-1781112128-2', 'Đây là sản phẩm Bộ Bóng Đá Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 500000.00, 61, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(97, 321, 9, 'Bộ Cầu Lông Nam Thể Thao D4D2', 'bo-cau-long-nam-the-thao-d4d2-1781112128-1', 'Đây là sản phẩm Bộ Cầu Lông Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 850000.00, 68, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(98, 321, 10, 'Bộ Cầu Lông Nam Thể Thao C815', 'bo-cau-long-nam-the-thao-c815-1781112128-2', 'Đây là sản phẩm Bộ Cầu Lông Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 550000.00, 73, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(99, 322, 6, 'Bộ Bóng Chuyền Nam Thể Thao F2AD', 'bo-bong-chuyen-nam-the-thao-f2ad-1781112128-1', 'Đây là sản phẩm Bộ Bóng Chuyền Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 250000.00, 54, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(100, 322, 1, 'Bộ Bóng Chuyền Nam Thể Thao 3CB9', 'bo-bong-chuyen-nam-the-thao-3cb9-1781112128-2', 'Đây là sản phẩm Bộ Bóng Chuyền Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 250000.00, 88, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(101, 323, 9, 'Bộ Pickleball Nam Thể Thao 8D6C', 'bo-pickleball-nam-the-thao-8d6c-1781112128-1', 'Đây là sản phẩm Bộ Pickleball Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 100000.00, 49, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(102, 323, 8, 'Bộ Pickleball Nam Thể Thao 5BB5', 'bo-pickleball-nam-the-thao-5bb5-1781112128-2', 'Đây là sản phẩm Bộ Pickleball Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 550000.00, 69, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(103, 324, 4, 'Mũ Nam Thể Thao D313', 'mu-nam-the-thao-d313-1781112128-1', 'Đây là sản phẩm Mũ Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 200000.00, 56, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(104, 324, 9, 'Mũ Nam Thể Thao D59B', 'mu-nam-the-thao-d59b-1781112128-2', 'Đây là sản phẩm Mũ Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 250000.00, 66, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(105, 325, 10, 'Balo Nam Thể Thao 9033', 'balo-nam-the-thao-9033-1781112128-1', 'Đây là sản phẩm Balo Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 800000.00, 13, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(106, 325, 4, 'Balo Nam Thể Thao 0FBC', 'balo-nam-the-thao-0fbc-1781112128-2', 'Đây là sản phẩm Balo Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 600000.00, 60, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(107, 326, 6, 'Tất Nam Thể Thao 1655', 'tat-nam-the-thao-1655-1781112128-1', 'Đây là sản phẩm Tất Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 500000.00, 48, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(108, 326, 2, 'Tất Nam Thể Thao 5B0E', 'tat-nam-the-thao-5b0e-1781112128-2', 'Đây là sản phẩm Tất Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 350000.00, 64, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(109, 327, 4, 'Bộ Suvec Nữ Thể Thao 09BF', 'bo-suvec-nu-the-thao-09bf-1781112128-1', 'Đây là sản phẩm Bộ Suvec Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 100000.00, 63, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(110, 327, 3, 'Bộ Suvec Nữ Thể Thao 5F29', 'bo-suvec-nu-the-thao-5f29-1781112128-2', 'Đây là sản phẩm Bộ Suvec Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 950000.00, 89, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(111, 328, 4, 'Bộ Cầu Lông Nữ Thể Thao 2C19', 'bo-cau-long-nu-the-thao-2c19-1781112128-1', 'Đây là sản phẩm Bộ Cầu Lông Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 350000.00, 45, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(112, 328, 2, 'Bộ Cầu Lông Nữ Thể Thao 0143', 'bo-cau-long-nu-the-thao-0143-1781112128-2', 'Đây là sản phẩm Bộ Cầu Lông Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 800000.00, 27, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(113, 329, 1, 'Bộ Bóng Chuyền Nữ Thể Thao A42C', 'bo-bong-chuyen-nu-the-thao-a42c-1781112128-1', 'Đây là sản phẩm Bộ Bóng Chuyền Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 500000.00, 90, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(114, 329, 9, 'Bộ Bóng Chuyền Nữ Thể Thao 8123', 'bo-bong-chuyen-nu-the-thao-8123-1781112128-2', 'Đây là sản phẩm Bộ Bóng Chuyền Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 850000.00, 39, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(115, 330, 11, 'Bộ Pickleball Nữ Thể Thao 073F', 'bo-pickleball-nu-the-thao-073f-1781112128-1', 'Đây là sản phẩm Bộ Pickleball Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 100000.00, 37, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(116, 330, 11, 'Bộ Pickleball Nữ Thể Thao 49AC', 'bo-pickleball-nu-the-thao-49ac-1781112128-2', 'Đây là sản phẩm Bộ Pickleball Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 500000.00, 35, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(117, 331, 9, 'Mũ Nữ Thể Thao 0D73', 'mu-nu-the-thao-0d73-1781112128-1', 'Đây là sản phẩm Mũ Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 100000.00, 88, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(118, 331, 2, 'Mũ Nữ Thể Thao D20A', 'mu-nu-the-thao-d20a-1781112128-2', 'Đây là sản phẩm Mũ Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 150000.00, 88, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(119, 332, 6, 'Balo Nữ Thể Thao 972D', 'balo-nu-the-thao-972d-1781112128-1', 'Đây là sản phẩm Balo Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 950000.00, 49, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(120, 332, 5, 'Balo Nữ Thể Thao 113B', 'balo-nu-the-thao-113b-1781112128-2', 'Đây là sản phẩm Balo Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 200000.00, 61, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(121, 333, 11, 'Tất Nữ Thể Thao 7C88', 'tat-nu-the-thao-7c88-1781112128-1', 'Đây là sản phẩm Tất Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 600000.00, 49, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(122, 333, 5, 'Tất Nữ Thể Thao 28A6', 'tat-nu-the-thao-28a6-1781112128-2', 'Đây là sản phẩm Tất Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 600000.00, 100, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(123, 103, 1, 'Giày Bóng Rổ Signature 4201', 'giay-bong-ro-signature-4201-1781112536-1', 'Đây là sản phẩm Giày Bóng Rổ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1300000.00, 66, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(124, 103, 8, 'Giày Bóng Rổ Signature 5636', 'giay-bong-ro-signature-5636-1781112536-2', 'Đây là sản phẩm Giày Bóng Rổ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1450000.00, 21, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(125, 104, 2, 'Giày Thể Thao Nam Signature D354', 'giay-the-thao-nam-signature-d354-1781112536-1', 'Đây là sản phẩm Giày Thể Thao Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1150000.00, 75, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(126, 104, 9, 'Giày Thể Thao Nam Signature ED8C', 'giay-the-thao-nam-signature-ed8c-1781112536-2', 'Đây là sản phẩm Giày Thể Thao Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 250000.00, 85, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(127, 105, 10, 'Dép Nam Signature 8580', 'dep-nam-signature-8580-1781112536-1', 'Đây là sản phẩm Dép Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 550000.00, 14, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(128, 105, 3, 'Dép Nam Signature C888', 'dep-nam-signature-c888-1781112536-2', 'Đây là sản phẩm Dép Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 500000.00, 75, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(129, 112, 9, 'Áo Khoác Nam Signature 7846', 'ao-khoac-nam-signature-7846-1781112536-1', 'Đây là sản phẩm Áo Khoác Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 250000.00, 41, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(130, 112, 8, 'Áo Khoác Nam Signature 05C4', 'ao-khoac-nam-signature-05c4-1781112536-2', 'Đây là sản phẩm Áo Khoác Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 800000.00, 35, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(131, 114, 9, 'Quần Dài Nam Signature 8E6D', 'quan-dai-nam-signature-8e6d-1781112536-1', 'Đây là sản phẩm Quần Dài Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 350000.00, 12, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(132, 114, 5, 'Quần Dài Nam Signature DAF8', 'quan-dai-nam-signature-daf8-1781112536-2', 'Đây là sản phẩm Quần Dài Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 850000.00, 57, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(133, 200, 4, 'Giày Chạy Bộ Nữ Signature 6DE3', 'giay-chay-bo-nu-signature-6de3-1781112536-1', 'Đây là sản phẩm Giày Chạy Bộ Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1100000.00, 88, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(134, 200, 6, 'Giày Chạy Bộ Nữ Signature 5F21', 'giay-chay-bo-nu-signature-5f21-1781112536-2', 'Đây là sản phẩm Giày Chạy Bộ Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1500000.00, 100, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(135, 202, 1, 'Giày Thể Thao Nữ Signature 97E1', 'giay-the-thao-nu-signature-97e1-1781112536-1', 'Đây là sản phẩm Giày Thể Thao Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 350000.00, 48, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(136, 202, 5, 'Giày Thể Thao Nữ Signature 5703', 'giay-the-thao-nu-signature-5703-1781112536-2', 'Đây là sản phẩm Giày Thể Thao Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 650000.00, 31, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(137, 203, 10, 'Dép Nữ Signature 7247', 'dep-nu-signature-7247-1781112536-1', 'Đây là sản phẩm Dép Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 950000.00, 43, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(138, 203, 1, 'Dép Nữ Signature 3EBA', 'dep-nu-signature-3eba-1781112536-2', 'Đây là sản phẩm Dép Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 500000.00, 56, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(139, 214, 10, 'Chân Váy Signature 58EC', 'chan-vay-signature-58ec-1781112536-1', 'Đây là sản phẩm Chân Váy có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1450000.00, 25, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(140, 214, 1, 'Chân Váy Signature 8256', 'chan-vay-signature-8256-1781112536-2', 'Đây là sản phẩm Chân Váy có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1400000.00, 75, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(141, 33, 11, 'Bóng Rổ 6FC2', 'bong-ro-6fc2-1781112741-1', 'Đây là sản phẩm Bóng Rổ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1350000.00, 91, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(142, 33, 1, 'Bóng Rổ 237A', 'bong-ro-237a-1781112741-2', 'Đây là sản phẩm Bóng Rổ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2500000.00, 37, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(143, 33, 11, 'Bóng Rổ 4F74', 'bong-ro-4f74-1781112741-3', 'Đây là sản phẩm Bóng Rổ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1750000.00, 92, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(144, 33, 10, 'Bóng Rổ 003E', 'bong-ro-003e-1781112741-4', 'Đây là sản phẩm Bóng Rổ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2050000.00, 21, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(145, 33, 10, 'Bóng Rổ 74E2', 'bong-ro-74e2-1781112741-5', 'Đây là sản phẩm Bóng Rổ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1050000.00, 35, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(146, 34, 10, 'Bóng Chuyền 12DA', 'bong-chuyen-12da-1781112741-1', 'Đây là sản phẩm Bóng Chuyền chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2000000.00, 15, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(147, 34, 9, 'Bóng Chuyền 83FA', 'bong-chuyen-83fa-1781112741-2', 'Đây là sản phẩm Bóng Chuyền chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1000000.00, 33, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(148, 34, 10, 'Bóng Chuyền 6607', 'bong-chuyen-6607-1781112741-3', 'Đây là sản phẩm Bóng Chuyền chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2250000.00, 58, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(149, 34, 4, 'Bóng Chuyền D1F0', 'bong-chuyen-d1f0-1781112741-4', 'Đây là sản phẩm Bóng Chuyền chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1900000.00, 57, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(150, 304, 10, 'Vợt Pickleball 784A', 'vot-pickleball-784a-1781112741-1', 'Đây là sản phẩm Vợt Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 950000.00, 92, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(151, 304, 11, 'Vợt Pickleball 0CC4', 'vot-pickleball-0cc4-1781112741-2', 'Đây là sản phẩm Vợt Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2350000.00, 51, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(152, 304, 1, 'Vợt Pickleball 345C', 'vot-pickleball-345c-1781112741-3', 'Đây là sản phẩm Vợt Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1850000.00, 50, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(153, 304, 5, 'Vợt Pickleball 38FF', 'vot-pickleball-38ff-1781112741-4', 'Đây là sản phẩm Vợt Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 700000.00, 73, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(154, 304, 2, 'Vợt Pickleball 13D4', 'vot-pickleball-13d4-1781112741-5', 'Đây là sản phẩm Vợt Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 550000.00, 57, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(155, 305, 6, 'Bóng Pickleball 21CE', 'bong-pickleball-21ce-1781112741-1', 'Đây là sản phẩm Bóng Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1300000.00, 93, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(156, 305, 1, 'Bóng Pickleball 3A12', 'bong-pickleball-3a12-1781112741-2', 'Đây là sản phẩm Bóng Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2350000.00, 95, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(157, 305, 10, 'Bóng Pickleball 11C4', 'bong-pickleball-11c4-1781112741-3', 'Đây là sản phẩm Bóng Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2300000.00, 22, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(158, 305, 6, 'Bóng Pickleball BEAE', 'bong-pickleball-beae-1781112741-4', 'Đây là sản phẩm Bóng Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 850000.00, 82, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(159, 306, 6, 'Máy Chạy Bộ 1719', 'may-chay-bo-1719-1781112741-1', 'Đây là sản phẩm Máy Chạy Bộ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1900000.00, 35, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(160, 306, 11, 'Máy Chạy Bộ D499', 'may-chay-bo-d499-1781112741-2', 'Đây là sản phẩm Máy Chạy Bộ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1000000.00, 41, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(161, 306, 6, 'Máy Chạy Bộ F865', 'may-chay-bo-f865-1781112741-3', 'Đây là sản phẩm Máy Chạy Bộ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 650000.00, 49, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(162, 306, 10, 'Máy Chạy Bộ 2C9F', 'may-chay-bo-2c9f-1781112741-4', 'Đây là sản phẩm Máy Chạy Bộ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1550000.00, 78, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(163, 306, 3, 'Máy Chạy Bộ 74F4', 'may-chay-bo-74f4-1781112741-5', 'Đây là sản phẩm Máy Chạy Bộ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2200000.00, 86, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(164, 308, 6, 'Giàn Tập 6E3A', 'gian-tap-6e3a-1781112741-1', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1450000.00, 84, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(165, 308, 10, 'Giàn Tập AF69', 'gian-tap-af69-1781112741-2', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1750000.00, 11, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(166, 308, 9, 'Giàn Tập 2798', 'gian-tap-2798-1781112741-3', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 600000.00, 17, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(167, 308, 9, 'Giàn Tập BBDF', 'gian-tap-bbdf-1781112741-4', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2000000.00, 47, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(168, 308, 1, 'Giàn Tập 2AD4', 'gian-tap-2ad4-1781112741-5', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1400000.00, 87, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21');
 
 -- --------------------------------------------------------
 
@@ -761,7 +849,83 @@ INSERT INTO `product_images` (`image_id`, `product_id`, `image_url`, `alt_text`,
 (91, 89, 'https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
 (92, 90, 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
 (93, 91, 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
-(94, 92, 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL);
+(94, 92, 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
+(95, 93, 'https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(96, 94, 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(97, 95, 'https://images.unsplash.com/photo-1521369909029-2afed882baee?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(98, 96, 'https://product.hstatic.net/200000427585/product/cau_long_yonex_as_05__2__77680a4cba344fdf8fb4f8ba321b9b65_master.jpg', NULL, 1, 1, NULL),
+(99, 97, 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(100, 98, 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(101, 99, 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(102, 100, 'https://cdn.hstatic.net/products/1000061481/anh_sp_add_web_1-01-02-02-_2-2-2-2_3e4939d7306744d78811f350981dea04_large.jpg', NULL, 1, 1, NULL),
+(103, 101, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5taz02Lz4bDFjnYj2hPSs-w61NLcnw0rP8A&s', NULL, 1, 1, NULL),
+(104, 102, 'https://vn-live-01.slatic.net/p/a1c2a1f58b8f3fa51d06b44f3a63a986.jpg', NULL, 1, 1, NULL),
+(105, 103, 'https://cdn.hstatic.net/products/1000362402/z7860280356451_be1588c0dc1bb59103dabf454e32729d_32fda64cb2944735aa726df6e6e3a4b2_master.jpg', NULL, 1, 1, NULL),
+(106, 104, 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(107, 105, 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(108, 106, 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(109, 107, 'https://cdn.shopvnb.com/uploads/san_pham/vo-cau-long-yonex-75th-trang-1.webp', NULL, 1, 1, NULL),
+(110, 108, 'https://cdn.shopvnb.com/uploads/san_pham/vo-cau-long-yonex-75th-trang-1.webp', NULL, 1, 1, NULL),
+(111, 109, 'https://sumstore.vn/wp-content/uploads/2024/10/Lefus-Z001-FG-den.jpg', NULL, 1, 1, NULL),
+(112, 110, 'https://cdn.shopvnb.com/uploads/san_pham/ong-cau-long-yonex-as30-1.webp', NULL, 1, 1, NULL),
+(113, 111, 'https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-lining-windstorm-72-blk-1.webp', NULL, 1, 1, NULL),
+(114, 112, 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(115, 113, 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(116, 114, 'https://images.unsplash.com/photo-1521369909029-2afed882baee?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(117, 115, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5taz02Lz4bDFjnYj2hPSs-w61NLcnw0rP8A&s', NULL, 1, 1, NULL),
+(118, 116, 'https://bissport.com/uploads/webps/product/2026/03/votcaulonglininghalbertec7000timchinhhangnoibattocdolinhhoatchongrungbenbitoan.webp', NULL, 1, 1, NULL),
+(119, 117, 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(120, 118, 'https://cdn.shopvnb.com/img/300x300/uploads/san_pham/giay-cau-long-yonex-strider-flow_1733432842.webp', NULL, 1, 1, NULL),
+(121, 119, 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(122, 120, 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(123, 121, 'https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?q=80&w=800&auto=format&fit=crop', NULL, 1, 1, NULL),
+(124, 122, 'https://cdn.shopvnb.com/uploads/san_pham/vo-cau-long-yonex-75th-trang-1.webp', NULL, 1, 1, NULL),
+(125, 123, 'https://placehold.co/400x400/800000/ffffff?text=Gi%C3%A0y+B%C3%B3ng+R%E1%BB%95+Signatu...', NULL, 1, 1, NULL),
+(126, 124, 'https://placehold.co/400x400/483d8b/ffffff?text=Gi%C3%A0y+B%C3%B3ng+R%E1%BB%95+Signatu...', NULL, 1, 1, NULL),
+(127, 125, 'https://placehold.co/400x400/2e8b57/ffffff?text=Gi%C3%A0y+Th%E1%BB%83+Thao+Nam+Si...', NULL, 1, 1, NULL),
+(128, 126, 'https://placehold.co/400x400/8b4513/ffffff?text=Gi%C3%A0y+Th%E1%BB%83+Thao+Nam+Si...', NULL, 1, 1, NULL),
+(129, 127, 'https://placehold.co/400x400/4b0082/ffffff?text=D%C3%A9p+Nam+Signature+85...', NULL, 1, 1, NULL),
+(130, 128, 'https://placehold.co/400x400/2f4f4f/ffffff?text=D%C3%A9p+Nam+Signature+C8...', NULL, 1, 1, NULL),
+(131, 129, 'https://placehold.co/400x400/1a1a1a/ffffff?text=%C3%81o+Kho%C3%A1c+Nam+Signatu...', NULL, 1, 1, NULL),
+(132, 130, 'https://placehold.co/400x400/4b0082/ffffff?text=%C3%81o+Kho%C3%A1c+Nam+Signatu...', NULL, 1, 1, NULL),
+(133, 131, 'https://placehold.co/400x400/8b4513/ffffff?text=Qu%E1%BA%A7n+D%C3%A0i+Nam+Signatu...', NULL, 1, 1, NULL),
+(134, 132, 'https://placehold.co/400x400/2e8b57/ffffff?text=Qu%E1%BA%A7n+D%C3%A0i+Nam+Signatu...', NULL, 1, 1, NULL),
+(135, 133, 'https://placehold.co/400x400/2f4f4f/ffffff?text=Gi%C3%A0y+Ch%E1%BA%A1y+B%E1%BB%99+N%E1%BB%AF+Sign...', NULL, 1, 1, NULL),
+(136, 134, 'https://placehold.co/400x400/2e8b57/ffffff?text=Gi%C3%A0y+Ch%E1%BA%A1y+B%E1%BB%99+N%E1%BB%AF+Sign...', NULL, 1, 1, NULL),
+(137, 135, 'https://placehold.co/400x400/003366/ffffff?text=Gi%C3%A0y+Th%E1%BB%83+Thao+N%E1%BB%AF+Sig...', NULL, 1, 1, NULL),
+(138, 136, 'https://placehold.co/400x400/800000/ffffff?text=Gi%C3%A0y+Th%E1%BB%83+Thao+N%E1%BB%AF+Sig...', NULL, 1, 1, NULL),
+(139, 137, 'https://placehold.co/400x400/1a1a1a/ffffff?text=D%C3%A9p+N%E1%BB%AF+Signature+724...', NULL, 1, 1, NULL),
+(140, 138, 'https://placehold.co/400x400/2e8b57/ffffff?text=D%C3%A9p+N%E1%BB%AF+Signature+3EB...', NULL, 1, 1, NULL),
+(141, 139, 'https://placehold.co/400x400/4b0082/ffffff?text=Ch%C3%A2n+V%C3%A1y+Signature+5...', NULL, 1, 1, NULL),
+(142, 140, 'https://placehold.co/400x400/8b4513/ffffff?text=Ch%C3%A2n+V%C3%A1y+Signature+8...', NULL, 1, 1, NULL),
+(143, 141, 'https://placehold.co/400x400/2f4f4f/ffffff?text=B%C3%B3ng+R%E1%BB%95+6FC2', NULL, 1, 1, NULL),
+(144, 142, 'https://placehold.co/400x400/4b0082/ffffff?text=B%C3%B3ng+R%E1%BB%95+237A', NULL, 1, 1, NULL),
+(145, 143, 'https://placehold.co/400x400/006400/ffffff?text=B%C3%B3ng+R%E1%BB%95+4F74', NULL, 1, 1, NULL),
+(146, 144, 'https://placehold.co/400x400/006400/ffffff?text=B%C3%B3ng+R%E1%BB%95+003E', NULL, 1, 1, NULL),
+(147, 145, 'https://placehold.co/400x400/2e8b57/ffffff?text=B%C3%B3ng+R%E1%BB%95+74E2', NULL, 1, 1, NULL),
+(148, 146, 'https://placehold.co/400x400/4682b4/ffffff?text=B%C3%B3ng+Chuy%E1%BB%81n+12DA', NULL, 1, 1, NULL),
+(149, 147, 'https://placehold.co/400x400/006400/ffffff?text=B%C3%B3ng+Chuy%E1%BB%81n+83FA', NULL, 1, 1, NULL),
+(150, 148, 'https://placehold.co/400x400/2e8b57/ffffff?text=B%C3%B3ng+Chuy%E1%BB%81n+6607', NULL, 1, 1, NULL),
+(151, 149, 'https://placehold.co/400x400/483d8b/ffffff?text=B%C3%B3ng+Chuy%E1%BB%81n+D1F0', NULL, 1, 1, NULL),
+(152, 150, 'https://placehold.co/400x400/800000/ffffff?text=V%E1%BB%A3t+Pickleball+784A', NULL, 1, 1, NULL),
+(153, 151, 'https://placehold.co/400x400/4682b4/ffffff?text=V%E1%BB%A3t+Pickleball+0CC4', NULL, 1, 1, NULL),
+(154, 152, 'https://placehold.co/400x400/2f4f4f/ffffff?text=V%E1%BB%A3t+Pickleball+345C', NULL, 1, 1, NULL),
+(155, 153, 'https://placehold.co/400x400/8b4513/ffffff?text=V%E1%BB%A3t+Pickleball+38FF', NULL, 1, 1, NULL),
+(156, 154, 'https://placehold.co/400x400/8b4513/ffffff?text=V%E1%BB%A3t+Pickleball+13D4', NULL, 1, 1, NULL),
+(157, 155, 'https://placehold.co/400x400/8b4513/ffffff?text=B%C3%B3ng+Pickleball+21CE', NULL, 1, 1, NULL),
+(158, 156, 'https://placehold.co/400x400/4b0082/ffffff?text=B%C3%B3ng+Pickleball+3A12', NULL, 1, 1, NULL),
+(159, 157, 'https://placehold.co/400x400/4b0082/ffffff?text=B%C3%B3ng+Pickleball+11C4', NULL, 1, 1, NULL),
+(160, 158, 'https://placehold.co/400x400/003366/ffffff?text=B%C3%B3ng+Pickleball+BEAE', NULL, 1, 1, NULL),
+(161, 159, 'https://placehold.co/400x400/003366/ffffff?text=M%C3%A1y+Ch%E1%BA%A1y+B%E1%BB%99+1719', NULL, 1, 1, NULL),
+(162, 160, 'https://placehold.co/400x400/1a1a1a/ffffff?text=M%C3%A1y+Ch%E1%BA%A1y+B%E1%BB%99+D499', NULL, 1, 1, NULL),
+(163, 161, 'https://placehold.co/400x400/2e8b57/ffffff?text=M%C3%A1y+Ch%E1%BA%A1y+B%E1%BB%99+F865', NULL, 1, 1, NULL),
+(164, 162, 'https://placehold.co/400x400/2e8b57/ffffff?text=M%C3%A1y+Ch%E1%BA%A1y+B%E1%BB%99+2C9F', NULL, 1, 1, NULL),
+(165, 163, 'https://placehold.co/400x400/2f4f4f/ffffff?text=M%C3%A1y+Ch%E1%BA%A1y+B%E1%BB%99+74F4', NULL, 1, 1, NULL),
+(166, 164, 'https://placehold.co/400x400/d2691e/ffffff?text=Gi%C3%A0n+T%E1%BA%ADp+6E3A', NULL, 1, 1, NULL),
+(167, 165, 'https://placehold.co/400x400/800000/ffffff?text=Gi%C3%A0n+T%E1%BA%ADp+AF69', NULL, 1, 1, NULL),
+(168, 166, 'https://placehold.co/400x400/2e8b57/ffffff?text=Gi%C3%A0n+T%E1%BA%ADp+2798', NULL, 1, 1, NULL),
+(169, 167, 'https://placehold.co/400x400/8b4513/ffffff?text=Gi%C3%A0n+T%E1%BA%ADp+BBDF', NULL, 1, 1, NULL),
+(170, 168, 'https://placehold.co/400x400/2e8b57/ffffff?text=Gi%C3%A0n+T%E1%BA%ADp+2AD4', NULL, 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -1026,7 +1190,8 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (239, 49, 'DL-MUN-DEN-FS', 'Đen', 'Free size', 0.00, 15, 1, 0),
 (240, 50, 'AD-BN-DEN', 'Đen', '22L', 0.00, 10, 1, 0),
 (241, 50, 'AD-BN-TRANG', 'Trắng', '22L', 0.00, 10, 1, 0),
-(242, 50, 'AD-BN-HONG', 'Hồng', '22L', 0.00, 10, 1, 0);
+(242, 50, 'AD-BN-HONG', 'Hồng', '22L', 0.00, 10, 1, 0),
+(246, 56, '21', 'Xanh lá', '21', 0.00, 12, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1228,7 +1393,9 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (191, 27, 10, '2026-06-10 12:15:23'),
 (192, 27, 69, '2026-06-10 12:15:30'),
 (193, 27, 74, '2026-06-10 12:15:30'),
-(194, 27, 79, '2026-06-10 12:15:32');
+(194, 27, 79, '2026-06-10 12:15:32'),
+(195, 3, 56, '2026-06-11 00:17:48'),
+(196, 3, 56, '2026-06-11 00:19:08');
 
 -- --------------------------------------------------------
 
@@ -1610,6 +1777,19 @@ INSERT INTO `user_addresses` (`address_id`, `user_id`, `recipient_name`, `phone`
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `user_wishlists`
+--
+
+CREATE TABLE `user_wishlists` (
+  `wishlist_id` int(11) NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `product_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc đóng vai cho view `v_customer_stats`
 -- (See below for the actual view)
 --
@@ -1896,6 +2076,13 @@ ALTER TABLE `user_addresses`
   ADD KEY `idx_user` (`user_id`);
 
 --
+-- Chỉ mục cho bảng `user_wishlists`
+--
+ALTER TABLE `user_wishlists`
+  ADD PRIMARY KEY (`wishlist_id`),
+  ADD UNIQUE KEY `user_product` (`user_id`,`product_id`);
+
+--
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
 
@@ -1933,7 +2120,7 @@ ALTER TABLE `cart_items`
 -- AUTO_INCREMENT cho bảng `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=319;
+  MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=334;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_messages`
@@ -1987,25 +2174,25 @@ ALTER TABLE `payment_transactions`
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
 
 --
 -- AUTO_INCREMENT cho bảng `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `image_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `image_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
 
 --
 -- AUTO_INCREMENT cho bảng `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=246;
+  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
 
 --
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
@@ -2060,6 +2247,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `user_addresses`
   MODIFY `address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT cho bảng `user_wishlists`
+--
+ALTER TABLE `user_wishlists`
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
