@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 10, 2026 lúc 08:23 PM
+-- Thời gian đã tạo: Th6 10, 2026 lúc 09:01 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -184,7 +184,8 @@ INSERT INTO `cart_items` (`cart_item_id`, `cart_id`, `variant_id`, `quantity`, `
 (20, 13, 173, 1, '2026-06-08 19:22:41'),
 (21, 13, 147, 1, '2026-06-08 19:22:46'),
 (26, 1, 249, 2, '2026-06-11 00:44:13'),
-(27, 17, 6, 1, '2026-06-11 01:10:12');
+(27, 17, 6, 1, '2026-06-11 01:10:12'),
+(30, 16, 29, 1, '2026-06-11 01:56:52');
 
 -- --------------------------------------------------------
 
@@ -374,6 +375,7 @@ CREATE TABLE `orders` (
   `order_id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `shipping_id` int(10) UNSIGNED DEFAULT NULL,
+  `shipping_method_id` int(11) DEFAULT 1,
   `promo_id` int(10) UNSIGNED DEFAULT NULL,
   `recipient_name` varchar(100) NOT NULL COMMENT 'Snapshot ten nguoi nhan',
   `recipient_phone` varchar(15) NOT NULL COMMENT 'Snapshot so dien thoai',
@@ -394,19 +396,20 @@ CREATE TABLE `orders` (
 -- Đang đổ dữ liệu cho bảng `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `user_id`, `shipping_id`, `promo_id`, `recipient_name`, `recipient_phone`, `shipping_address`, `subtotal`, `discount_amount`, `shipping_fee`, `total_amount`, `order_status`, `payment_method`, `payment_status`, `note`, `created_at`, `updated_at`) VALUES
-(1, 8, 1, 1, 'Nguyễn Văn An', '0912345678', '12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP HCM', 890000.00, 50000.00, 0.00, 840000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(2, 4, 2, NULL, 'Trần Thị Bích', '0923456789', '45 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP HCM', 4500000.00, 0.00, 50000.00, 4550000.00, 'shipped', 'vnpay', 'paid', 'Giao hàng giờ hành chính', '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(3, 5, 1, 2, 'Lê Minh Cường', '0934567890', '88 Trần Thái Tông, Phường Dịch Vọng, Cầu Giấy, Hà Nội', 2900000.00, 100000.00, 0.00, 2800000.00, 'confirmed', 'bank_transfer', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(4, 6, 3, NULL, 'Phạm Thị Dung', '0945678901', '23 Trần Phú, Phường Hải Châu 1, Hải Châu, Đà Nẵng', 1200000.00, 0.00, 80000.00, 1280000.00, 'delivered', 'cod', 'unpaid', NULL, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(5, 7, 2, 3, 'Hoàng Văn Em', '0956789012', '5 Nguyễn Văn Linh, Phường Tân Phong, Quận 7, TP HCM', 680000.00, 50000.00, 0.00, 630000.00, 'delivered', 'momo', 'paid', 'Giao trước 18h', '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(6, 8, 1, NULL, 'Nguyễn Văn An', '0912345678', '12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP HCM', 3200000.00, 0.00, 0.00, 3200000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(7, 9, 2, NULL, 'Nguyễn Thị Phương', '0967890123', '100 Võ Văn Ngân, Phường Linh Trung, Thủ Đức, TP HCM', 1570000.00, 0.00, 50000.00, 1620000.00, 'processing', 'vnpay', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(8, 4, 1, 1, 'Trần Thị Bích', '0923456789', '45 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP HCM', 750000.00, 50000.00, 0.00, 700000.00, 'cancelled', 'cod', 'unpaid', 'Khách hủy vì sai size', '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(16, 1, 2, 6, 'Quản Trị Viên', '0123456789', '77/5a phường 4 tpvl, , , Vĩnh Long', 4500000.00, 225000.00, 0.00, 4275000.00, 'cancelled', 'cod', 'refunded', '', '2026-06-05 16:08:26', '2026-06-11 01:04:10'),
-(17, 1, 14, 6, 'Quản Trị Viên', '0123456789', '77/5a phường 4 tpvl, , , Bình Dương', 4500000.00, 225000.00, 25000.00, 4300000.00, 'delivered', 'bank_transfer', 'paid', '', '2026-06-05 16:33:17', '2026-06-11 01:04:10'),
-(18, 2, 61, NULL, 'Lợi Lê Hữu', '0772130908', '6/71, Nguyễn Văn Lâu, , tp Vĩnh Long, Vĩnh Long', 420000.00, 0.00, 25000.00, 445000.00, 'pending', 'cod', 'unpaid', '', '2026-06-09 21:45:12', '2026-06-11 01:04:10'),
-(19, 2, 61, NULL, 'Lợi Lê Hữu', '0772130908', '6/71, Nguyễn Văn Lâu, , tp Vĩnh Long, Vĩnh Long', 3300000.00, 0.00, 25000.00, 3325000.00, 'pending', 'bank_transfer', 'unpaid', '', '2026-06-10 00:36:05', '2026-06-11 01:04:10');
+INSERT INTO `orders` (`order_id`, `user_id`, `shipping_id`, `shipping_method_id`, `promo_id`, `recipient_name`, `recipient_phone`, `shipping_address`, `subtotal`, `discount_amount`, `shipping_fee`, `total_amount`, `order_status`, `payment_method`, `payment_status`, `note`, `created_at`, `updated_at`) VALUES
+(1, 8, 1, 1, 1, 'Nguyễn Văn An', '0912345678', '12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP HCM', 890000.00, 50000.00, 0.00, 840000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
+(2, 4, 2, 1, NULL, 'Trần Thị Bích', '0923456789', '45 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP HCM', 4500000.00, 0.00, 50000.00, 4550000.00, 'shipped', 'vnpay', 'paid', 'Giao hàng giờ hành chính', '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
+(3, 5, 1, 1, 2, 'Lê Minh Cường', '0934567890', '88 Trần Thái Tông, Phường Dịch Vọng, Cầu Giấy, Hà Nội', 2900000.00, 100000.00, 0.00, 2800000.00, 'confirmed', 'bank_transfer', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
+(4, 6, 3, 1, NULL, 'Phạm Thị Dung', '0945678901', '23 Trần Phú, Phường Hải Châu 1, Hải Châu, Đà Nẵng', 1200000.00, 0.00, 80000.00, 1280000.00, 'delivered', 'cod', 'unpaid', NULL, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
+(5, 7, 2, 1, 3, 'Hoàng Văn Em', '0956789012', '5 Nguyễn Văn Linh, Phường Tân Phong, Quận 7, TP HCM', 680000.00, 50000.00, 0.00, 630000.00, 'delivered', 'momo', 'paid', 'Giao trước 18h', '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
+(6, 8, 1, 1, NULL, 'Nguyễn Văn An', '0912345678', '12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP HCM', 3200000.00, 0.00, 0.00, 3200000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
+(7, 9, 2, 1, NULL, 'Nguyễn Thị Phương', '0967890123', '100 Võ Văn Ngân, Phường Linh Trung, Thủ Đức, TP HCM', 1570000.00, 0.00, 50000.00, 1620000.00, 'processing', 'vnpay', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
+(8, 4, 1, 1, 1, 'Trần Thị Bích', '0923456789', '45 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP HCM', 750000.00, 50000.00, 0.00, 700000.00, 'cancelled', 'cod', 'unpaid', 'Khách hủy vì sai size', '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
+(16, 1, 2, 1, 6, 'Quản Trị Viên', '0123456789', '77/5a phường 4 tpvl, , , Vĩnh Long', 4500000.00, 225000.00, 0.00, 4275000.00, 'cancelled', 'cod', 'refunded', '', '2026-06-05 16:08:26', '2026-06-11 01:04:10'),
+(17, 1, 14, 1, 6, 'Quản Trị Viên', '0123456789', '77/5a phường 4 tpvl, , , Bình Dương', 4500000.00, 225000.00, 25000.00, 4300000.00, 'delivered', 'bank_transfer', 'paid', '', '2026-06-05 16:33:17', '2026-06-11 01:04:10'),
+(18, 2, 61, 1, NULL, 'Lợi Lê Hữu', '0772130908', '6/71, Nguyễn Văn Lâu, , tp Vĩnh Long, Vĩnh Long', 420000.00, 0.00, 25000.00, 445000.00, 'pending', 'cod', 'unpaid', '', '2026-06-09 21:45:12', '2026-06-11 01:04:10'),
+(19, 2, 61, 1, NULL, 'Lợi Lê Hữu', '0772130908', '6/71, Nguyễn Văn Lâu, , tp Vĩnh Long, Vĩnh Long', 3300000.00, 0.00, 25000.00, 3325000.00, 'pending', 'bank_transfer', 'unpaid', '', '2026-06-10 00:36:05', '2026-06-11 01:04:10'),
+(20, 3, 1, 3, 1, 'Tester User', '0987654321', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 1680000.00, 100000.00, 0.00, 1580000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 01:56:28', '2026-06-11 01:56:28');
 
 -- --------------------------------------------------------
 
@@ -443,7 +446,8 @@ INSERT INTO `order_items` (`order_item_id`, `order_id`, `variant_id`, `product_n
 (16, 16, 148, 'Vợt cầu lông Yonex Astrox 99 Pro', 'Do (3U) - Size 3U/G4', 4500000.00, 1, 4500000.00),
 (17, 17, 148, 'Vợt cầu lông Yonex Astrox 99 Pro', 'Do (3U) - Size 3U/G4', 4500000.00, 1, 4500000.00),
 (18, 18, 229, 'Balo thể thao DL Sport 20L', 'Trắng - Size 20L', 420000.00, 1, 420000.00),
-(19, 19, 30, 'Giày ASICS Gel-Nimbus 26', 'Trắng - Size 41', 3300000.00, 1, 3300000.00);
+(19, 19, 30, 'Giày ASICS Gel-Nimbus 26', 'Trắng - Size 41', 3300000.00, 1, 3300000.00),
+(20, 20, 95, 'Áo polo thể thao DL Classic 2024', 'Trắng - Size L', 280000.00, 6, 1680000.00);
 
 -- --------------------------------------------------------
 
@@ -495,7 +499,8 @@ INSERT INTO `order_status_logs` (`log_id`, `order_id`, `changed_by`, `old_status
 (31, 17, 1, 'unpaid', 'paid', 'Cập nhật thanh toán bởi admin', '2026-06-05 16:33:46'),
 (32, 17, 1, 'pending', 'delivered', NULL, '2026-06-05 16:33:49'),
 (33, 18, NULL, NULL, 'pending', NULL, '2026-06-09 21:45:12'),
-(34, 19, NULL, NULL, 'pending', NULL, '2026-06-10 00:36:05');
+(34, 19, NULL, NULL, 'pending', NULL, '2026-06-10 00:36:05'),
+(35, 20, NULL, NULL, 'pending', NULL, '2026-06-11 01:56:28');
 
 -- --------------------------------------------------------
 
@@ -1045,7 +1050,7 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (92, 15, 'DL-WL-TRANG-38', 'Trắng', '38', 0.00, 7, 1, 0),
 (93, 16, 'DL-POLO-TRANG-S', 'Trắng', 'S', 0.00, 20, 1, 0),
 (94, 16, 'DL-POLO-TRANG-M', 'Trắng', 'M', 0.00, 25, 1, 0),
-(95, 16, 'DL-POLO-TRANG-L', 'Trắng', 'L', 0.00, 25, 1, 0),
+(95, 16, 'DL-POLO-TRANG-L', 'Trắng', 'L', 0.00, 19, 1, 0),
 (96, 16, 'DL-POLO-TRANG-XL', 'Trắng', 'XL', 0.00, 20, 1, 0),
 (97, 16, 'DL-POLO-XANH-M', 'Xanh navy', 'M', 0.00, 15, 1, 0),
 (98, 16, 'DL-POLO-XANH-L', 'Xanh navy', 'L', 0.00, 15, 1, 0),
@@ -1405,7 +1410,11 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (199, 8, 144, '2026-06-11 00:42:29'),
 (200, 8, 165, '2026-06-11 00:44:09'),
 (201, 8, 165, '2026-06-11 00:47:09'),
-(202, 14, 1, '2026-06-11 01:10:09');
+(202, 14, 1, '2026-06-11 01:10:09'),
+(203, 3, 1, '2026-06-11 01:24:21'),
+(204, 3, 5, '2026-06-11 01:47:39'),
+(205, 3, 16, '2026-06-11 01:47:43'),
+(206, 3, 5, '2026-06-11 01:56:51');
 
 -- --------------------------------------------------------
 
@@ -1436,7 +1445,7 @@ CREATE TABLE `promotions` (
 --
 
 INSERT INTO `promotions` (`promo_id`, `promo_code`, `promo_name`, `description`, `discount_type`, `discount_value`, `min_order_value`, `max_discount`, `usage_limit`, `used_count`, `start_date`, `end_date`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'WELCOME10', 'Chào mừng thành viên mới', NULL, 'fixed', 100000.00, 200000.00, 50000.00, 1000, 0, '2026-01-01 00:00:00', '2026-12-31 00:00:00', 1, '2026-05-29 19:17:55', '2026-06-05 13:11:49'),
+(1, 'WELCOME10', 'Chào mừng thành viên mới', NULL, 'fixed', 100000.00, 200000.00, 50000.00, 1000, 1, '2026-01-01 00:00:00', '2026-12-31 00:00:00', 1, '2026-05-29 19:17:55', '2026-06-11 01:56:28'),
 (2, 'SALE20', 'Khuyến mãi 20%', NULL, 'percent', 20.00, 500000.00, 100000.00, 500, 0, '2025-06-01 00:00:00', '2025-12-31 23:59:59', 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (3, 'FREESHIP', 'Miễn phí vận chuyển', NULL, 'fixed', 50000.00, 300000.00, NULL, 300, 0, '2025-07-01 00:00:00', '2025-09-30 23:59:59', 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (4, 'SUMMER100K', 'Hè nóng giảm 100K', NULL, 'fixed', 100000.00, 800000.00, NULL, 200, 0, '2025-06-01 00:00:00', '2025-08-31 23:59:59', 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
@@ -1561,24 +1570,21 @@ INSERT INTO `search_logs` (`log_id`, `user_id`, `keyword`, `result_count`, `sear
 --
 
 CREATE TABLE `shipping_methods` (
-  `shipping_id` int(10) UNSIGNED NOT NULL,
-  `method_name` varchar(100) NOT NULL COMMENT 'VD: Giao hang tieu chuan, Giao nhanh',
-  `description` varchar(255) DEFAULT NULL,
-  `base_fee` decimal(10,2) NOT NULL DEFAULT 0.00 COMMENT 'Phi co ban',
-  `free_threshold` decimal(12,2) DEFAULT NULL COMMENT 'Mien phi ship khi don >= gia tri nay',
-  `estimated_days` varchar(50) DEFAULT NULL COMMENT 'VD: 2-3 ngay lam viec',
-  `is_active` tinyint(1) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `method_id` int(11) NOT NULL,
+  `method_name` varchar(100) NOT NULL,
+  `additional_fee` decimal(10,2) DEFAULT 0.00,
+  `fee_type` varchar(50) DEFAULT 'standard',
+  `is_active` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `shipping_methods`
 --
 
-INSERT INTO `shipping_methods` (`shipping_id`, `method_name`, `description`, `base_fee`, `free_threshold`, `estimated_days`, `is_active`) VALUES
-(1, 'Giao hàng tiêu chuẩn', 'Giao trong 3-5 ngày làm việc', 30000.00, 500000.00, '3-5 ngày làm việc', 1),
-(2, 'Giao hàng nhanh', 'Giao trong 1-2 ngày làm việc', 50000.00, 800000.00, '1-2 ngày làm việc', 1),
-(3, 'Giao hàng hoả tốc', 'Giao trong ngày (nội thành)', 80000.00, NULL, 'Trong ngày', 1),
-(4, 'Nhận tại cửa hàng', 'Nhận trực tiếp tại cửa hàng', 0.00, NULL, 'Ngay lập tức', 1);
+INSERT INTO `shipping_methods` (`method_id`, `method_name`, `additional_fee`, `fee_type`, `is_active`) VALUES
+(1, 'Giao hàng tiêu chuẩn', 0.00, 'standard', 1),
+(2, 'Giao nhanh (Express)', 15000.00, 'express', 1),
+(3, 'Nhận tại cửa hàng', 0.00, 'store_pickup', 1);
 
 -- --------------------------------------------------------
 
@@ -1952,7 +1958,8 @@ ALTER TABLE `orders`
   ADD KEY `idx_order_status` (`order_status`),
   ADD KEY `idx_order_date` (`created_at`),
   ADD KEY `fk_order_shipping` (`shipping_id`),
-  ADD KEY `fk_order_promo` (`promo_id`);
+  ADD KEY `fk_order_promo` (`promo_id`),
+  ADD KEY `fk_order_shipping_method` (`shipping_method_id`);
 
 --
 -- Chỉ mục cho bảng `order_items`
@@ -2055,7 +2062,7 @@ ALTER TABLE `search_logs`
 -- Chỉ mục cho bảng `shipping_methods`
 --
 ALTER TABLE `shipping_methods`
-  ADD PRIMARY KEY (`shipping_id`);
+  ADD PRIMARY KEY (`method_id`);
 
 --
 -- Chỉ mục cho bảng `shipping_prices`
@@ -2127,7 +2134,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -2157,19 +2164,19 @@ ALTER TABLE `contact_messages`
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT cho bảng `order_status_logs`
 --
 ALTER TABLE `order_status_logs`
-  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT cho bảng `password_resets`
@@ -2205,7 +2212,7 @@ ALTER TABLE `product_variants`
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=203;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
@@ -2235,7 +2242,7 @@ ALTER TABLE `search_logs`
 -- AUTO_INCREMENT cho bảng `shipping_methods`
 --
 ALTER TABLE `shipping_methods`
-  MODIFY `shipping_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `method_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `shipping_prices`
@@ -2308,6 +2315,7 @@ ALTER TABLE `chat_sessions`
 ALTER TABLE `orders`
   ADD CONSTRAINT `fk_order_promo` FOREIGN KEY (`promo_id`) REFERENCES `promotions` (`promo_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_order_shipping` FOREIGN KEY (`shipping_id`) REFERENCES `shipping_prices` (`shipping_id`),
+  ADD CONSTRAINT `fk_order_shipping_method` FOREIGN KEY (`shipping_method_id`) REFERENCES `shipping_methods` (`method_id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_order_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE;
 
 --

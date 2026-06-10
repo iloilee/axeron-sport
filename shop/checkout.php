@@ -68,11 +68,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Get shipping rate
+    $shippingMethodId = (int)($_POST['shipping_method'] ?? 1);
     $shipping = $db->selectOne("SELECT * FROM shipping_prices WHERE shipping_id = ?", [$shippingId]);
-    if ($shipping) {
-        $shippingFee = (float)$shipping['base_price'];
+    $baseShippingFee = $shipping ? (float)$shipping['base_price'] : 30000;
+    
+    $shippingMethod = $db->selectOne("SELECT * FROM shipping_methods WHERE method_id = ?", [$shippingMethodId]);
+    
+    if ($subtotal >= 2000000) {
+        $shippingFee = 0; // Miễn phí giao hàng đơn > 2000k
     } else {
-        $shippingFee = 30000;
+        if ($shippingMethod) {
+            if ($shippingMethod['fee_type'] === 'store_pickup') {
+                $shippingFee = 0;
+            } else {
+                $shippingFee = $baseShippingFee + (float)$shippingMethod['additional_fee'];
+            }
+        } else {
+            $shippingFee = $baseShippingFee;
+        }
     }
 
     // Apply promo if exists
@@ -124,10 +137,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Create order
         $orderId = $db->insert("
-            INSERT INTO orders (user_id, shipping_id, promo_id, recipient_name, recipient_phone, shipping_address,
+            INSERT INTO orders (user_id, shipping_id, shipping_method_id, promo_id, recipient_name, recipient_phone, shipping_address,
                 subtotal, discount_amount, shipping_fee, total_amount, order_status, payment_method, note, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, NOW())
-        ", [$userId, $shippingId, $promoId, $recipientName, $recipientPhone, $shippingAddress,
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, NOW())
+        ", [$userId, $shippingId, $shippingMethodId, $promoId, $recipientName, $recipientPhone, $shippingAddress,
             $subtotal, $discountAmount, $shippingFee, $totalAmount, $paymentMethod, $note]);
 
         // Create order items
@@ -209,6 +222,23 @@ $userValid = false;
 if (isLoggedIn() && $userId) {
     $userCheck = $db->selectOne("SELECT user_id FROM users WHERE user_id = ?", [$userId]);
     $userValid = !empty($userCheck);
+}
+
+// Tự động áp dụng mã giảm giá WELCOME10 nếu là tài khoản mới
+if ($userValid && !isset($_SESSION['checkout_promo'])) {
+    $hasOrders = $db->selectOne("SELECT order_id FROM orders WHERE user_id = ?", [$userId]);
+    if (!$hasOrders) {
+        $welcomePromo = $db->selectOne("SELECT * FROM promotions WHERE promo_code = 'WELCOME10' AND is_active = 1 AND start_date <= NOW() AND end_date >= NOW()");
+        if ($welcomePromo) {
+            $used = false;
+            if ($welcomePromo['usage_limit'] && $welcomePromo['used_count'] >= $welcomePromo['usage_limit']) {
+                $used = true;
+            }
+            if (!$used) {
+                $_SESSION['checkout_promo'] = $welcomePromo;
+            }
+        }
+    }
 }
 
 if (isLoggedIn() && $userValid) {
@@ -298,6 +328,7 @@ if (isLoggedIn() && $userValid) {
 
 // Get all shipping rates
 $shippingPrices = $db->select("SELECT * FROM shipping_prices ORDER BY province_city ASC");
+$shippingMethods = $db->select("SELECT * FROM shipping_methods WHERE is_active = 1 ORDER BY method_id ASC");
 
 // Get user data if logged in
 $userData = getUserData();
@@ -345,6 +376,11 @@ if (!empty($defaultProvince)) {
         $selectedShippingId = $sp['shipping_id'];
     }
 }
+
+if ($subtotal >= 2000000) {
+    $shippingFee = 0;
+}
+
 $totalAmount = $subtotal + $shippingFee - $discountAmount;
 ?>
 <!DOCTYPE html>
@@ -468,12 +504,26 @@ $totalAmount = $subtotal + $shippingFee - $discountAmount;
                                     Vận chuyển
                                 </h2>
                                 <div class="flex flex-col gap-3 flex-grow justify-center" id="shipping-method-info">
-                                    <div class="p-4 border border-axeron-blue bg-secondary-fixed/20 rounded-lg flex items-center justify-between">
-                                        <div class="flex flex-col">
-                                            <span class="font-label-lg text-label-lg" id="shipping-display-name">Phí vận chuyển</span>
-                                            <span class="font-body-md text-body-md text-on-surface-variant text-sm" id="shipping-display-days">Đang tính toán...</span>
-                                        </div>
-                                        <span class="font-label-lg text-label-lg text-axeron-red" id="shipping-display-fee">0₫</span>
+                                    <div class="space-y-3">
+                                        <?php foreach ($shippingMethods as $index => $sm): ?>
+                                        <label class="flex items-center gap-3 p-4 border rounded cursor-pointer transition-colors relative overflow-hidden group 
+                                            <?= $index === 0 ? 'border-axeron-blue bg-secondary-fixed/20' : 'border-outline-variant hover:border-axeron-blue' ?>">
+                                            <input class="text-axeron-blue focus:ring-axeron-blue w-5 h-5 shipping-method-radio" name="shipping_method" type="radio" value="<?= $sm['method_id'] ?>" <?= $index === 0 ? 'checked' : '' ?> data-additional-fee="<?= $sm['additional_fee'] ?>" data-fee-type="<?= $sm['fee_type'] ?>" onchange="updateShippingFee()"/>
+                                            <div class="flex items-center justify-between w-full relative z-10">
+                                                <div class="flex items-center gap-3">
+                                                    <span class="material-symbols-outlined text-on-surface-variant">
+                                                        <?= $sm['fee_type'] === 'express' ? 'bolt' : ($sm['fee_type'] === 'store_pickup' ? 'storefront' : 'local_shipping') ?>
+                                                    </span>
+                                                    <div class="flex flex-col">
+                                                        <span class="font-label-lg text-label-lg"><?= htmlspecialchars($sm['method_name']) ?></span>
+                                                        <span class="text-xs text-on-surface-variant shipping-days-display" id="sm-desc-<?= $sm['method_id'] ?>"></span>
+                                                    </div>
+                                                </div>
+                                                <span class="font-label-sm text-label-sm text-axeron-red sm-fee-display whitespace-nowrap flex-shrink-0" id="sm-fee-<?= $sm['method_id'] ?>">...</span>
+                                            </div>
+                                            <div class="absolute inset-0 bg-axeron-blue opacity-0 group-hover:opacity-5 transition-opacity"></div>
+                                        </label>
+                                        <?php endforeach; ?>
                                     </div>
                                     <input type="hidden" name="shipping" id="selected_shipping_id" value="<?= $selectedShippingId ?>">
                                 </div>
@@ -546,12 +596,12 @@ $totalAmount = $subtotal + $shippingFee - $discountAmount;
                                 <?php endif; ?>
                                 <div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
                                     <span>Phí vận chuyển</span>
-                                    <span id="checkout-shipping"><?= $shippingFee > 0 ? formatPrice($shippingFee) : 'Miễn phí' ?></span>
+                                    <span id="checkout-shipping" class="<?= $shippingFee == 0 ? 'text-green-600 font-semibold' : '' ?>"><?= $shippingFee > 0 ? formatPrice($shippingFee) : 'Miễn phí' ?></span>
                                 </div>
-                                <div class="flex justify-between items-end mt-4 pt-4 border-t border-outline-variant">
-                                    <span class="font-headline-md text-headline-md uppercase">Tổng cộng</span>
+                                <div class="flex justify-between items-center mt-4 pt-4 border-t border-outline-variant">
+                                    <span class="font-title-lg text-title-lg font-bold uppercase text-on-surface-variant">Tổng cộng</span>
                                     <div class="flex flex-col items-end">
-                                        <span class="font-headline-lg text-headline-lg text-axeron-red font-bold" id="checkout-total"><?= formatPrice($totalAmount) ?></span>
+                                        <span class="font-headline-md text-headline-md text-axeron-red font-bold" id="checkout-total"><?= formatPrice($totalAmount) ?></span>
                                         <span class="text-xs text-on-surface-variant">Đã bao gồm VAT</span>
                                     </div>
                                 </div>
@@ -585,23 +635,91 @@ $totalAmount = $subtotal + $shippingFee - $discountAmount;
             const subtotal = <?= $subtotal ?>;
             const discount = <?= $discountAmount ?>;
             
-            // Tìm cấu hình phí vận chuyển cho tỉnh/thành tương ứng, nếu không tìm thấy thì dùng dòng đầu tiên hoặc mặc định (ID 1)
+            // Tìm cấu hình phí vận chuyển cho tỉnh/thành tương ứng
             const rate = shippingPrices.find(sp => sp.province_city === province) || shippingPrices.find(sp => sp.shipping_id == 1);
             
             if (rate) {
-                const shippingFee = parseFloat(rate.base_price);
+                const baseShippingFee = parseFloat(rate.base_price);
                 shippingIdInput.value = rate.shipping_id;
                 
-                // Cập nhật thông tin block Vận chuyển
-                document.getElementById('shipping-display-name').textContent = 'Giao hàng đến ' + rate.province_city;
-                document.getElementById('shipping-display-days').textContent = 'Dự kiến: ' + rate.estimated_days + ' ngày làm việc';
-                document.getElementById('shipping-display-fee').textContent = shippingFee > 0 ? new Intl.NumberFormat('vi-VN').format(shippingFee) + '₫' : 'Miễn phí';
+                // Cập nhật text cho các label radio
+                document.querySelectorAll('.shipping-method-radio').forEach(radio => {
+                    const methodId = radio.value;
+                    const feeType = radio.getAttribute('data-fee-type');
+                    const addFee = parseFloat(radio.getAttribute('data-additional-fee'));
+                    
+                    const descEl = document.getElementById('sm-desc-' + methodId);
+                    const feeEl = document.getElementById('sm-fee-' + methodId);
+                    
+                    let feeForMethod = 0;
+                    if (feeType === 'store_pickup') {
+                        descEl.textContent = 'Nhận tại cửa hàng Axeron';
+                        feeForMethod = 0;
+                    } else if (feeType === 'express') {
+                        descEl.textContent = 'Dự kiến: ' + (Math.max(1, parseInt(rate.estimated_days) - 1)) + ' ngày làm việc';
+                        feeForMethod = baseShippingFee + addFee;
+                    } else {
+                        descEl.textContent = 'Dự kiến: ' + rate.estimated_days + ' ngày làm việc';
+                        feeForMethod = baseShippingFee;
+                    }
+
+                    if (subtotal >= 2000000) {
+                        feeForMethod = 0;
+                    }
+
+                    if (feeForMethod > 0) {
+                        feeEl.textContent = new Intl.NumberFormat('vi-VN').format(feeForMethod) + 'đ';
+                        feeEl.className = 'font-label-sm text-label-sm text-axeron-red sm-fee-display whitespace-nowrap flex-shrink-0';
+                    } else {
+                        feeEl.textContent = 'Miễn phí';
+                        feeEl.className = 'font-label-sm text-label-sm text-green-600 font-semibold sm-fee-display whitespace-nowrap flex-shrink-0';
+                    }
+                });
+
+                // Lấy phương thức đang được chọn
+                const selectedRadio = document.querySelector('.shipping-method-radio:checked');
+                let finalShippingFee = 0;
                 
+                if (selectedRadio) {
+                    const feeType = selectedRadio.getAttribute('data-fee-type');
+                    const addFee = parseFloat(selectedRadio.getAttribute('data-additional-fee'));
+                    
+                    if (feeType === 'store_pickup') {
+                        finalShippingFee = 0;
+                    } else {
+                        finalShippingFee = baseShippingFee + addFee;
+                    }
+                }
+
+                // Áp dụng Freeship nếu đơn > 2.000.000đ
+                if (subtotal >= 2000000) {
+                    finalShippingFee = 0;
+                }
+                
+                // Cập nhật style cho radio được chọn
+                document.querySelectorAll('.shipping-method-radio').forEach(r => {
+                    const label = r.closest('label');
+                    if (r.checked) {
+                        label.classList.add('border-axeron-blue', 'bg-secondary-fixed/20');
+                        label.classList.remove('border-outline-variant');
+                    } else {
+                        label.classList.remove('border-axeron-blue', 'bg-secondary-fixed/20');
+                        label.classList.add('border-outline-variant');
+                    }
+                });
+
                 // Cập nhật ở sidebar tóm tắt đơn hàng
-                document.getElementById('checkout-shipping').textContent = shippingFee > 0 ? new Intl.NumberFormat('vi-VN').format(shippingFee) + '₫' : 'Miễn phí';
+                const shippingEl = document.getElementById('checkout-shipping');
+                if (finalShippingFee > 0) {
+                    shippingEl.textContent = new Intl.NumberFormat('vi-VN').format(finalShippingFee) + 'đ';
+                    shippingEl.className = '';
+                } else {
+                    shippingEl.textContent = 'Miễn phí';
+                    shippingEl.className = 'text-green-600 font-semibold';
+                }
                 
-                const total = subtotal + shippingFee - discount;
-                document.getElementById('checkout-total').textContent = new Intl.NumberFormat('vi-VN').format(total) + '₫';
+                const total = subtotal + finalShippingFee - discount;
+                document.getElementById('checkout-total').textContent = new Intl.NumberFormat('vi-VN').format(total) + 'đ';
             }
         }
 

@@ -226,13 +226,15 @@ $flash = getFlash();
                                 <?= $shippingFee > 0 ? formatPrice($shippingFee) : 'Miễn phí' ?>
                             </span>
                         </div>
-                        <?php if ($cartSubtotal < 500000): ?>
-                        <div class="bg-green-50 border border-green-200 rounded-lg p-3 mb-6">
-                            <p class="text-sm text-green-700">
-                                <span class="font-semibold">Mua thêm <?= formatPrice(500000 - $cartSubtotal) ?></span> để được freeship!
+                        <div id="freeship-notice-container" class="bg-green-50 border border-green-200 rounded-lg p-3 mb-6">
+                            <p class="text-sm text-green-700" id="freeship-notice-text">
+                                <?php if ($cartSubtotal < 2000000): ?>
+                                    <span class="font-semibold">Mua thêm <span id="freeship-amount"><?= formatPrice(2000000 - $cartSubtotal) ?></span></span> để được freeship!
+                                <?php else: ?>
+                                    <span class="font-semibold">Tuyệt vời! Đơn hàng của bạn đã được freeship!</span>
+                                <?php endif; ?>
                             </p>
                         </div>
-                        <?php endif; ?>
                         <div class="border-t border-outline-variant pt-4 mb-6">
                             <div class="flex justify-between items-center mb-2">
                                 <span class="font-label-lg text-label-lg font-bold text-text-dark">Tổng tiền:</span>
@@ -449,8 +451,19 @@ $flash = getFlash();
             currentSubtotal = subtotal;
             document.getElementById('subtotal').textContent = new Intl.NumberFormat('vi-VN').format(subtotal) + 'đ';
 
-            const shippingFee = subtotal >= 500000 ? 0 : 30000;
-            document.getElementById('shipping-fee').textContent = shippingFee > 0 ? new Intl.NumberFormat('vi-VN').format(shippingFee) + 'đ' : 'Mien phi';
+            const shippingFee = subtotal >= 2000000 ? 0 : 30000;
+            document.getElementById('shipping-fee').textContent = shippingFee > 0 ? new Intl.NumberFormat('vi-VN').format(shippingFee) + 'đ' : 'Miễn Phí';
+
+            // Cập nhật thông báo freeship
+            const freeshipText = document.getElementById('freeship-notice-text');
+            if (freeshipText) {
+                if (subtotal < 2000000) {
+                    const remaining = 2000000 - subtotal;
+                    freeshipText.innerHTML = `<span class="font-semibold">Mua thêm <span id="freeship-amount">${new Intl.NumberFormat('vi-VN').format(remaining)}đ</span></span> để được freeship!`;
+                } else {
+                    freeshipText.innerHTML = `<span class="font-semibold">Tuyệt vời! Đơn hàng của bạn đã được freeship!</span>`;
+                }
+            }
 
             let total = subtotal + shippingFee;
             if (appliedPromo) {
