@@ -502,14 +502,6 @@ $totalAmount = $subtotal + $shippingFee - $discountAmount;
                                         </div>
                                         <div class="absolute inset-0 bg-axeron-blue opacity-0 group-hover:opacity-5 transition-opacity"></div>
                                     </label>
-                                    <label class="flex items-center gap-3 p-4 border border-outline-variant rounded cursor-pointer hover:border-axeron-blue transition-colors relative overflow-hidden group">
-                                        <input class="text-axeron-blue focus:ring-axeron-blue w-5 h-5" name="payment" type="radio" value="momo"/>
-                                        <div class="flex items-center gap-3 relative z-10">
-                                            <span class="material-symbols-outlined text-on-surface-variant">phone_iphone</span>
-                                            <span class="font-label-lg text-label-lg">Ví MoMo</span>
-                                        </div>
-                                        <div class="absolute inset-0 bg-axeron-blue opacity-0 group-hover:opacity-5 transition-opacity"></div>
-                                    </label>
                                 </div>
                             </section>
                         </div>

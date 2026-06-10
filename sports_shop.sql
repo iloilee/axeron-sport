@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 10, 2026 lúc 08:09 PM
+-- Thời gian đã tạo: Th6 10, 2026 lúc 08:23 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -155,7 +155,8 @@ INSERT INTO `carts` (`cart_id`, `user_id`, `created_at`, `updated_at`) VALUES
 (3, 5, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
 (13, 1, '2026-06-05 15:51:29', '2026-06-11 01:04:10'),
 (15, 2, '2026-06-09 19:32:29', '2026-06-11 01:04:10'),
-(16, 3, '2026-06-11 01:07:17', '2026-06-11 01:07:17');
+(16, 3, '2026-06-11 01:07:17', '2026-06-11 01:07:17'),
+(17, 14, '2026-06-11 01:10:11', '2026-06-11 01:10:11');
 
 -- --------------------------------------------------------
 
@@ -182,7 +183,8 @@ INSERT INTO `cart_items` (`cart_item_id`, `cart_id`, `variant_id`, `quantity`, `
 (7, 3, 95, 2, '2026-05-29 19:17:55'),
 (20, 13, 173, 1, '2026-06-08 19:22:41'),
 (21, 13, 147, 1, '2026-06-08 19:22:46'),
-(26, 1, 249, 2, '2026-06-11 00:44:13');
+(26, 1, 249, 2, '2026-06-11 00:44:13'),
+(27, 17, 6, 1, '2026-06-11 01:10:12');
 
 -- --------------------------------------------------------
 
@@ -1402,7 +1404,8 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (198, 8, 144, '2026-06-11 00:41:46'),
 (199, 8, 144, '2026-06-11 00:42:29'),
 (200, 8, 165, '2026-06-11 00:44:09'),
-(201, 8, 165, '2026-06-11 00:47:09');
+(201, 8, 165, '2026-06-11 00:47:09'),
+(202, 14, 1, '2026-06-11 01:10:09');
 
 -- --------------------------------------------------------
 
@@ -1738,7 +1741,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Quản Trị Viên', 'admin@gmail.com', '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, NULL, 0, '$2y$10$a1MvPTVvNYuyN6qocOI9v.CWffPA.P2CFaNSJSLwnEQb17dr/kLZW', 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
 (2, 3, 'Lợi Lê Hữu', 'loiledelta0@gmail.com', '0772130908', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_27_1781012205.png', 'male', '2004-10-21', 1, NULL, 0, '$2y$10$tlWRp7c6FvBZ1Glr..3fIeatQJ01NsHQAl0v/klVHTe/ymWS/FEU2', 1, '2026-06-09 19:32:29', '2026-06-11 01:04:10'),
-(3, 3, 'Tester User', 'vancedloile@gmail.com', '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-11 01:07:59'),
+(3, 3, 'Tester User', 'vancedloile@gmail.com', '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, NULL, 0, '$2y$10$pD9.gIbGoMcnvBCqAfqPfOrzf9VmERD8SAzQzD8D9Yp4Ya1mopfhG', 1, '2026-06-11 01:07:16', '2026-06-11 01:23:24'),
 (4, 3, 'Trần Thị Bích', 'bich.tran@gmail.com', '0923456789', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
 (5, 3, 'Lê Minh Cường', 'cuong.le@gmail.com', '0934567890', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
 (6, 3, 'Phạm Thị Dung', 'dung.pham@gmail.com', '0945678901', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
@@ -1781,7 +1784,8 @@ INSERT INTO `user_addresses` (`address_id`, `user_id`, `recipient_name`, `phone`
 (4, 6, 'Phạm Thị Dung', '0945678901', 'Đà Nẵng', 'Hải Châu', 'Phường Hải Châu 1', '23 Trần Phú', 1, '2026-05-29 19:17:55'),
 (5, 7, 'Hoàng Văn Em', '0956789012', 'TP Hồ Chí Minh', 'Quận 7', 'Phường Tân Phong', '5 Nguyễn Văn Linh', 1, '2026-05-29 19:17:55'),
 (6, 9, 'Nguyễn Thị Phương', '0967890123', 'TP Hồ Chí Minh', 'Thủ Đức', 'Phường Linh Trung', '100 Võ Văn Ngân', 1, '2026-05-29 19:17:55'),
-(12, 2, 'Lợi Lê Hữu', '0772130908', 'Vĩnh Long', 'tp Vĩnh Long', 'phường Tân Hạnh', '6/71, Nguyễn Văn Lâu', 1, '2026-06-09 21:44:04');
+(12, 2, 'Lợi Lê Hữu', '0772130908', 'Vĩnh Long', 'tp Vĩnh Long', 'phường Tân Hạnh', '6/71, Nguyễn Văn Lâu', 1, '2026-06-09 21:44:04'),
+(13, 3, 'Tester User', '0987654321', 'TP. Hồ Chí Minh', 'Huyện Nhà Bè', '', '6/21 Huỳnh Tấn Phát', 1, '2026-06-11 01:23:24');
 
 -- --------------------------------------------------------
 
@@ -2117,13 +2121,13 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT cho bảng `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -2201,7 +2205,7 @@ ALTER TABLE `product_variants`
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=203;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
@@ -2255,7 +2259,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `user_addresses`
 --
 ALTER TABLE `user_addresses`
-  MODIFY `address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `user_wishlists`

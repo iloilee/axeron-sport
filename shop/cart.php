@@ -477,7 +477,7 @@ $flash = getFlash();
         async function applyPromo() {
             const code = document.getElementById('discount-code').value.trim();
             if (!code) {
-                showToast('Vui long nhap ma giam gia', 'error');
+                showToast('Vui lòng nhập mã giảm giá', 'error');
                 return;
             }
 
@@ -492,19 +492,19 @@ $flash = getFlash();
 
                 if (data.success) {
                     appliedPromo = data.data.promo;
-                    document.getElementById('promo-message').textContent = 'Ap dung thanh cong: ' + appliedPromo.promo_name;
+                    document.getElementById('promo-message').textContent = 'Áp dụng thành công: ' + appliedPromo.promo_name;
                     document.getElementById('promo-message').className = 'text-sm mt-2 text-green-600';
                     document.getElementById('promo-message').classList.remove('hidden');
-                    showToast('Ap dung ma giam gia thanh cong!', 'success');
+                    showToast('Áp dụng mã giảm giá thành công!', 'success');
                     recalculateTotals();
                 } else {
                     document.getElementById('promo-message').textContent = data.message;
                     document.getElementById('promo-message').className = 'text-sm mt-2 text-red-600';
                     document.getElementById('promo-message').classList.remove('hidden');
-                    showToast(data.message || 'Co loi xay ra', 'error');
+                    showToast(data.message || 'Có lỗi xảy ra', 'error');
                 }
             } catch (error) {
-                showToast('Co loi xay ra', 'error');
+                showToast('Có lỗi xảy ra', 'error');
             }
         }
 
