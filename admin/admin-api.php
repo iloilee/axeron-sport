@@ -498,29 +498,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $product_name = trim($_POST['product_name'] ?? '');
             $category_id = (int)($_POST['category_id'] ?? 0);
             $brand_id = (int)($_POST['brand_id'] ?? 0) ?: null;
-            $base_price = (float)($_POST['base_price'] ?? 0);
-            $stock_quantity = (int)($_POST['stock_quantity'] ?? 0);
             $description = trim($_POST['description'] ?? '');
             $is_featured = isset($_POST['is_featured']) ? 1 : 0;
             $is_visible = isset($_POST['is_visible']) ? 1 : 0;
 
-            if (empty($product_name) || $category_id <= 0 || $base_price <= 0) {
-                $response = ['success' => false, 'message' => 'Vui lòng điền đầy đủ thông tin bắt buộc!'];
+            if (empty($product_name) || $category_id <= 0) {
+                $response = ['success' => false, 'message' => 'Vui lòng điền đầy đủ Tên sản phẩm và Danh mục!'];
                 break;
             }
 
             // Tạo slug
             $slug = createSlug($product_name);
-            // Kiểm tra slug trùng
+            // Kiểm tra slug trùng (hoặc tên trùng)
             $exists = $db->selectOne("SELECT product_id FROM products WHERE slug = ?", [$slug]);
             if ($exists) {
                 $slug .= '-' . time();
             }
 
+            // Validate Variants first
+            $variants_json = $_POST['variants_json'] ?? '';
+            $variants = json_decode($variants_json, true) ?: [];
+            
+            $min_price = null;
+            $total_stock = 0;
+            $has_valid_variant = false;
+            
+            foreach ($variants as $v) {
+                if (empty(trim($v['sku'] ?? ''))) continue;
+                $v_active = (int)($v['is_active'] ?? 1);
+                $v_price = (float)($v['extra_price'] ?? 0); // extra_price is the actual price from frontend
+                $v_stock = (int)($v['stock_quantity'] ?? 0);
+                
+                if ($v_active) {
+                    if ($v_price <= 0) {
+                        $response = ['success' => false, 'message' => 'Giá bán của biến thể phải lớn hơn 0!'];
+                        echo json_encode($response);
+                        exit;
+                    }
+                    if ($v_stock < 0) {
+                        $response = ['success' => false, 'message' => 'Tồn kho không được âm!'];
+                        echo json_encode($response);
+                        exit;
+                    }
+                    if ($min_price === null || $v_price < $min_price) {
+                        $min_price = $v_price;
+                    }
+                    $total_stock += $v_stock;
+                    $has_valid_variant = true;
+                }
+            }
+            
+            if (!$has_valid_variant) {
+                $response = ['success' => false, 'message' => 'Vui lòng thêm ít nhất một biến thể hoạt động hợp lệ!'];
+                break;
+            }
+            if ($min_price === null) $min_price = 0;
+
             try {
                 $db->insert("INSERT INTO products (category_id, brand_id, product_name, slug, description, base_price, stock_quantity, is_featured, is_visible)
                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [$category_id, $brand_id, $product_name, $slug, $description, $base_price, $stock_quantity, $is_featured, $is_visible]);
+                    [$category_id, $brand_id, $product_name, $slug, $description, $min_price, $total_stock, $is_featured, $is_visible]);
 
                 $product_id = $db->lastInsertId();
 
@@ -644,8 +681,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $product_name = trim($_POST['product_name'] ?? '');
             $category_id = (int)($_POST['category_id'] ?? 0);
             $brand_id = (int)($_POST['brand_id'] ?? 0) ?: null;
-            $base_price = (float)($_POST['base_price'] ?? 0);
-            $stock_quantity = (int)($_POST['stock_quantity'] ?? 0);
             $description = trim($_POST['description'] ?? '');
             $is_featured = isset($_POST['is_featured']) ? 1 : 0;
             $is_visible = isset($_POST['is_visible']) ? 1 : 0;
@@ -655,34 +690,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
             }
 
-            try {
-                // Xử lý tính toán giá cơ bản (base_price) dựa trên giá biến thể nhỏ nhất
-                $variants_json = $_POST['variants_json'] ?? '';
-                $min_price = null;
-                $variants = [];
-                if (!empty($variants_json)) {
-                    $variants = json_decode($variants_json, true) ?: [];
-                    foreach ($variants as $v) {
-                        $v_sku = trim($v['sku'] ?? '');
-                        if (empty($v_sku)) continue;
-                        $v_active = (int)($v['is_active'] ?? 1);
-                        if ($v_active) {
-                            $price = (float)($v['extra_price'] ?? 0);
-                            if ($min_price === null || $price < $min_price) {
-                                $min_price = $price;
-                            }
-                        }
+            // Validate Variants first
+            $variants_json = $_POST['variants_json'] ?? '';
+            $variants = json_decode($variants_json, true) ?: [];
+            
+            $min_price = null;
+            $total_stock = 0;
+            
+            foreach ($variants as $v) {
+                if (empty(trim($v['sku'] ?? ''))) continue;
+                $v_active = (int)($v['is_active'] ?? 1);
+                $v_price = (float)($v['extra_price'] ?? 0);
+                $v_stock = (int)($v['stock_quantity'] ?? 0);
+                
+                if ($v_active) {
+                    if ($v_price <= 0) {
+                        $response = ['success' => false, 'message' => 'Giá bán của biến thể phải lớn hơn 0!'];
+                        echo json_encode($response);
+                        exit;
                     }
+                    if ($v_stock < 0) {
+                        $response = ['success' => false, 'message' => 'Tồn kho không được âm!'];
+                        echo json_encode($response);
+                        exit;
+                    }
+                    if ($min_price === null || $v_price < $min_price) {
+                        $min_price = $v_price;
+                    }
+                    $total_stock += $v_stock;
                 }
-                if ($min_price === null) {
-                    $min_price = $base_price; // Fallback to current if no active variants
-                }
-                $base_price = $min_price;
+            }
+            if ($min_price === null) {
+                $min_price = 0;
+            }
+            $base_price = $min_price;
 
+            try {
                 $db->update("UPDATE products SET category_id = ?, brand_id = ?, product_name = ?, description = ?,
                              base_price = ?, stock_quantity = ?, is_featured = ?, is_visible = ?, updated_at = NOW()
                              WHERE product_id = ?",
-                    [$category_id, $brand_id, $product_name, $description, $base_price, $stock_quantity, $is_featured, $is_visible, $product_id]);
+                    [$category_id, $brand_id, $product_name, $description, $base_price, $total_stock, $is_featured, $is_visible, $product_id]);
 
                 // Xử lý các biến thể sản phẩm (product_variants)
                 $existing_variants = $db->select("SELECT variant_id FROM product_variants WHERE product_id = ?", [$product_id]);
@@ -786,42 +833,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
             }
 
-            // Kiểm tra xem sản phẩm có trong đơn hàng nào không
-            $orders = $db->select("
-                SELECT oi.order_id 
-                FROM order_items oi
-                JOIN product_variants pv ON oi.variant_id = pv.variant_id
-                WHERE pv.product_id = ?
-            ", [$product_id]);
-
-            if (!empty($orders)) {
-                $response = ['success' => false, 'message' => 'Không thể xóa sản phẩm đã có trong đơn hàng! Bạn hãy chọn ẩn sản phẩm này thay vì xóa.'];
-                break;
-            }
-
             try {
                 $db->beginTransaction();
 
-                // 1. Xóa các sản phẩm trong giỏ hàng (cart_items)
+                // 1. Xóa mềm sản phẩm (Soft delete)
+                $db->update("UPDATE products SET is_deleted = 1 WHERE product_id = ?", [$product_id]);
+                
+                // 2. Vô hiệu hóa và xóa mềm các biến thể
+                $db->update("UPDATE product_variants SET is_active = 0, is_deleted = 1 WHERE product_id = ?", [$product_id]);
+                
+                // 3. Xóa các sản phẩm này khỏi giỏ hàng hiện tại của khách
                 $db->delete("
                     DELETE FROM cart_items 
                     WHERE variant_id IN (SELECT variant_id FROM product_variants WHERE product_id = ?)
                 ", [$product_id]);
-
-                // 2. Xóa các hình ảnh (product_images)
-                $db->delete("DELETE FROM product_images WHERE product_id = ?", [$product_id]);
-
-                // 3. Xóa lịch sử xem sản phẩm (product_view_logs)
-                $db->delete("DELETE FROM product_view_logs WHERE product_id = ?", [$product_id]);
-
-                // 4. Xóa đánh giá (reviews)
-                $db->delete("DELETE FROM reviews WHERE product_id = ?", [$product_id]);
-
-                // 5. Xóa các biến thể sản phẩm (product_variants)
-                $db->delete("DELETE FROM product_variants WHERE product_id = ?", [$product_id]);
-
-                // 6. Cuối cùng, xóa sản phẩm khỏi bảng products
-                $db->delete("DELETE FROM products WHERE product_id = ?", [$product_id]);
 
                 $db->commit();
                 $response = ['success' => true, 'message' => 'Sản phẩm đã được xóa thành công!'];

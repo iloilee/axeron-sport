@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 10, 2026 lúc 09:18 PM
+-- Thời gian đã tạo: Th6 10, 2026 lúc 10:08 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -184,7 +184,8 @@ INSERT INTO `cart_items` (`cart_item_id`, `cart_id`, `variant_id`, `quantity`, `
 (20, 13, 173, 1, '2026-06-08 19:22:41'),
 (21, 13, 147, 1, '2026-06-08 19:22:46'),
 (26, 1, 249, 2, '2026-06-11 00:44:13'),
-(27, 17, 6, 1, '2026-06-11 01:10:12');
+(27, 17, 6, 1, '2026-06-11 01:10:12'),
+(33, 13, 250, 1, '2026-06-11 03:03:11');
 
 -- --------------------------------------------------------
 
@@ -578,6 +579,7 @@ CREATE TABLE `products` (
   `base_price` decimal(12,2) NOT NULL DEFAULT 0.00 COMMENT 'Gia co so',
   `stock_quantity` int(11) NOT NULL DEFAULT 0 COMMENT 'Ton kho tong hop',
   `is_visible` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'An/hien san pham',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
   `is_featured` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'Noi bat tren trang chu',
   `featured_sort_order` int(11) DEFAULT 999,
   `avg_rating` decimal(3,2) DEFAULT NULL COMMENT 'Diem danh gia trung binh (1-5)',
@@ -590,169 +592,170 @@ CREATE TABLE `products` (
 -- Đang đổ dữ liệu cho bảng `products`
 --
 
-INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`, `slug`, `description`, `base_price`, `stock_quantity`, `is_visible`, `is_featured`, `featured_sort_order`, `avg_rating`, `total_reviews`, `created_at`, `updated_at`) VALUES
-(1, 101, 1, 'Giày chạy bộ DL Speed Pro X1', 'giay-chay-bo-dl-speed-pro-x1', 'Giày chạy bộ chuyên nghiệp với đế giày EVA siêu nhẹ.', 890000.00, 50, 1, 1, 4, 4.60, 12, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
-(2, 101, 1, 'Giày chạy bộ DL Runner Air 2024', 'giay-chay-bo-dl-runner-air-2024', 'Thiết kế khí động học giúp tăng tốc độ.', 750000.00, 60, 1, 0, 999, 4.40, 8, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(3, 101, 2, 'Giày Nike Revolution 7', 'giay-nike-revolution-7', 'Giày chạy bộ phổ biến của Nike với đế giữa foam đen.', 1950000.00, 30, 1, 1, 3, 4.50, 15, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
-(4, 101, 3, 'Giày Adidas Runfalcon 3.0', 'giay-adidas-runfalcon-3', 'Dòng giày chạy bộ giá tốt của Adidas.', 1650000.00, 40, 1, 0, 999, 4.30, 10, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(5, 101, 9, 'Giày ASICS Gel-Nimbus 26', 'giay-asics-gel-nimbus-26', 'Dòng giày cao cấp của ASICS, công nghệ đệm Gel.', 3200000.00, 20, 1, 1, 5, 4.80, 18, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
-(6, 100, 1, 'Giày đá bóng DL Striker FG 2024', 'giay-da-bong-dl-striker-fg-2024', 'Giày đá bóng sân cỏ, đế cao su tự nhiên.', 650000.00, 80, 1, 1, 6, 4.50, 9, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
-(7, 100, 1, 'Giày đá bóng DL Futsal Pro F10', 'giay-da-bong-dl-futsal-pro-f10', 'Thiết kế dành riêng cho futsal, đế bám sân nhà tốt.', 550000.00, 70, 1, 0, 999, 4.30, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(8, 100, 3, 'Giày đá bóng Adidas Predator 24 FG', 'giay-da-bong-adidas-predator-24', 'Vật liệu Zone Skin giúp kiểm soát bóng chính xác hơn.', 2800000.00, 25, 1, 1, 7, 4.70, 11, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
-(9, 100, 2, 'Giày đá bóng Nike Phantom GX2', 'giay-da-bong-nike-phantom-gx2', 'Công nghệ Aerotrak giúp bóng bay chính xác.', 3100000.00, 20, 1, 0, 999, 4.60, 13, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(10, 100, 1, 'Giày đá bóng DL Speed FG Jr', 'giay-da-bong-dl-speed-fg-jr', 'Dành cho cầu thủ trẻ em và thiếu niên.', 420000.00, 100, 1, 0, 999, 4.20, 5, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(11, 102, 4, 'Giày cầu lông Yonex Power Cushion 65Z3', 'giay-cl-yonex-65z3', 'Đế giày Power Cushion hấp thụ chấn động.', 2900000.00, 30, 1, 1, 9, 4.80, 16, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
-(12, 102, 1, 'Giày cầu lông DL Wing Pro 2024', 'giay-cl-dl-wing-pro', 'Giày cầu lông thương hiệu Đồng Lực, đế EVA nhẹ.', 680000.00, 60, 1, 0, 999, 4.40, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(13, 102, 5, 'Giày cầu lông Lining Ranger TD', 'giay-cl-lining-ranger', 'Thương hiệu Lining nổi tiếng, đế giữa Light Foam.', 1200000.00, 40, 1, 0, 999, 4.50, 9, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(14, 201, 4, 'Giày cầu lông nữ Yonex SHB-01MXLX', 'giay-cl-nu-yonex-01mx', 'Thiết kế dành cho nữ, trọng lượng siêu nhẹ 70g.', 3100000.00, 20, 1, 1, 10, 4.90, 14, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
-(15, 201, 1, 'Giày cầu lông nữ DL Wing Lite', 'giay-cl-nu-dl-wing-lite', 'Phiên bản nhẹ hơn cho nữ, màu sắc nữ tính.', 620000.00, 50, 1, 0, 999, 4.30, 6, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(16, 110, 1, 'Áo polo thể thao DL Classic 2024', 'ao-polo-dl-classic-2024', 'Vải Polyester 100%, thoáng khí, thoáng mát.', 280000.00, 120, 1, 1, 8, 4.50, 10, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
-(17, 110, 1, 'Áo polo DL Pro Team 2024', 'ao-polo-dl-pro-team-2024', 'Phiên bản chuyên nghiệp cho các đội thể thao.', 320000.00, 100, 1, 0, 999, 4.30, 6, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(18, 111, 1, 'Áo T-shirt DL Training Basic', 'ao-tshirt-dl-training-basic', 'Áo tập thể thao co tròn, vải Polyester thoáng mát.', 220000.00, 150, 1, 0, 999, 4.40, 8, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(19, 111, 7, 'Áo Under Armour HeatGear Nam', 'ao-ua-heatgear-nam', 'Công nghệ HeatGear hút ẩm và làm mát nhanh.', 650000.00, 60, 1, 1, 11, 4.60, 12, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
-(20, 111, 2, 'Áo Nike Dri-FIT Training', 'ao-nike-dri-fit-training', 'Công nghệ Dri-FIT thoát mồ hôi siêu nhanh.', 580000.00, 70, 1, 0, 999, 4.50, 9, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(21, 210, 1, 'Áo phông nữ DL Sport Lite', 'ao-phong-nu-dl-sport-lite', 'Áo phông thể thao nữ, chất liệu co giãn 4 chiều.', 230000.00, 100, 1, 0, 999, 4.40, 8, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(22, 210, 7, 'Áo Under Armour HeatGear Nữ', 'ao-ua-heatgear-nu', 'Phiên bản nữ của HeatGear, chất liệu siêu nhẹ.', 620000.00, 50, 1, 1, 12, 4.60, 10, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
-(23, 211, 3, 'Áo sport bra Adidas Powerreact', 'ao-sport-bra-adidas', 'Áo lót thể thao nữ Adidas, dây vai lưới thông gió.', 680000.00, 45, 1, 1, 14, 4.50, 11, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
-(24, 211, 2, 'Áo sport bra Nike Indy', 'ao-sport-bra-nike-indy', 'Nike Indy Medium-Support, chất liệu Dri-FIT.', 750000.00, 40, 1, 0, 999, 4.70, 9, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(25, 302, 4, 'Vợt cầu lông Yonex Astrox 99 Pro', 'vot-cl-yonex-astrox-99-pro', 'Vợt tấn công hàng đầu Yonex, khung carbon cao cấp.', 4500000.00, 9, 1, 1, 1, 4.90, 22, '2026-05-29 19:17:55', '2026-06-07 19:54:05'),
-(26, 302, 4, 'Vợt cầu lông Yonex Nanoflare 700', 'vot-cl-yonex-nanoflare-700', 'Vợt phản công nhanh, khung Tungsten Mesh.', 3200000.00, 25, 1, 1, 15, 4.80, 18, '2026-05-29 19:17:55', '2026-06-06 02:51:23'),
-(27, 302, 5, 'Vợt cầu lông Lining Windstorm 72', 'vot-cl-lining-windstorm-72', 'Vợt phản công siêu nhẹ 72g, khung carbon tổ hợp.', 1800000.00, 35, 1, 0, 999, 4.50, 10, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(28, 302, 1, 'Vợt cầu lông DL Pro 500', 'vot-cl-dl-pro-500', 'Vợt cầu lông thương hiệu Đồng Lực dành cho người chơi phổ thông.', 480000.00, 60, 1, 0, 999, 4.20, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(29, 302, 1, 'Vợt cầu lông DL Fighter 200', 'vot-cl-dl-fighter-200', 'Vợt dành cho người mới bắt đầu, dễ cầm tay.', 280000.00, 80, 1, 0, 999, 4.10, 5, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(30, 302, 10, 'Vợt cầu lông Head Zephyr Pro', 'vot-cl-head-zephyr-pro', 'Head Zephyr Pro trọng lượng 78g, phù hợp trung-cao cấp.', 2100000.00, 28, 1, 0, 999, 4.60, 12, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(31, 303, 4, 'Cầu lông Yonex AS-05 (hop 12 qua)', 'cau-long-yonex-as05-12', 'Cầu lông lưới ngắn Yonex AS-05.', 160000.00, 200, 1, 1, 16, 4.70, 20, '2026-05-29 19:17:55', '2026-06-06 02:51:23'),
-(32, 303, 4, 'Cầu lông Yonex AS-30 (hop 12 qua)', 'cau-long-yonex-as30-12', 'Cầu lông lưới vit cấp cao Yonex AS-30.', 280000.00, 150, 1, 0, 999, 4.80, 15, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(33, 303, 1, 'Cầu lông DL Training (hop 12 qua)', 'cau-long-dl-training-12', 'Cầu lông Đồng Lực dùng tập luyện hàng ngày.', 85000.00, 300, 1, 0, 999, 4.20, 8, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(34, 303, 5, 'Cầu lông Lining A+90D (hop 12 qua)', 'cau-long-lining-a90d', 'Cầu lông lưới vit Lining A+90D, lớp 76 - 78.', 210000.00, 180, 1, 0, 999, 4.60, 11, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(35, 113, 1, 'Quần short thể thao DL Training 2024', 'quan-short-dl-training-2024', 'Quần short thể thao nam chất liệu Polyester khô nhanh.', 220000.00, 100, 1, 0, 999, 4.40, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(36, 113, 2, 'Quần short Nike Dri-FIT 5 inch', 'quan-short-nike-dri-fit-5', 'Quần short chạy bộ Nike 5 inch, Dri-FIT thoát mồ hôi.', 580000.00, 60, 1, 1, 17, 4.60, 9, '2026-05-29 19:17:55', '2026-06-06 02:51:23'),
-(37, 212, 1, 'Quần short nữ DL Active', 'quan-short-nu-dl-active', 'Quần short nữ với dây lưng co giãn.', 200000.00, 90, 1, 0, 999, 4.30, 6, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(38, 213, 7, 'Quần legging Under Armour HeatGear', 'quan-legging-ua-heatgear', 'Quần legging nữ 7/8, chất liệu HeatGear co giãn 4 chiều.', 750000.00, 45, 1, 1, 18, 4.70, 14, '2026-05-29 19:17:55', '2026-06-06 02:51:23'),
-(39, 213, 3, 'Quần legging Adidas Optime 7/8', 'quan-legging-adidas-optime', 'Quần legging nữ Adidas, AEROREADY thoát ẩm.', 680000.00, 50, 1, 0, 999, 4.50, 10, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(40, 300, 3, 'Bóng đá sân cỏ Adidas Al Rihla', 'bong-da-adidas-al-rihla', 'Bóng đá chính thức FIFA Quality Pro.', 1200000.00, 30, 1, 1, 13, 4.70, 12, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
-(41, 300, 1, 'Bóng đá sân cỏ DL Classic 5', 'bong-da-dl-classic-5', 'Bóng đá số 5 chất liệu PVC cao cấp.', 180000.00, 80, 1, 0, 999, 4.20, 6, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(42, 301, 1, 'Bóng Futsal DL Super', 'bong-futsal-dl-super', 'Bóng futsal số 4, chất liệu PU 4 lớp.', 250000.00, 60, 1, 0, 999, 4.40, 8, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(43, 305, 1, 'Bóng Pickleball DL Outdoor', 'bong-pickleball-dl-outdoor', 'Bóng pickleball 40 lỗ, chất liệu HDPE.', 120000.00, 100, 1, 0, 999, 4.30, 5, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(44, 307, 1, 'Tạ tay DL Vinyl 1kg - 10kg', 'ta-tay-dl-vinyl', 'Tạ tay phủ cao su vinyl kháng trọt.', 85000.00, 200, 1, 0, 999, 4.50, 9, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(45, 13, 1, 'Mũ thể thao DL DryCool', 'mu-the-thao-dl-drycool', 'Mũ thể thao kiểu snapback, chất liệu thoáng khí.', 165000.00, 80, 1, 0, 999, 4.30, 6, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(46, 13, 1, 'Balo thể thao DL Sport 20L', 'balo-dl-sport-20l', 'Balo thể thao dung tích 20L.', 420000.00, 40, 1, 0, 999, 4.50, 8, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(47, 13, 4, 'Tất cầu lông Yonex 75th (3 doi)', 'tat-cau-long-yonex-75th', '3 đôi tất cầu lông Yonex, chất liệu bông cao cấp.', 180000.00, 100, 1, 0, 999, 4.60, 10, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(48, 13, 1, 'Tất thể thao DL Sport (5 doi)', 'tat-the-thao-dl-sport-5doi', '5 đôi tất thể thao DL, chất liệu cotton pha.', 95000.00, 150, 1, 0, 999, 4.20, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(49, 23, 1, 'Mũ thể thao nữ DL Lily', 'mu-the-thao-nu-dl-lily', 'Mũ nữ kiểu bucket hat thời trang.', 155000.00, 60, 1, 0, 999, 4.30, 5, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(50, 23, 3, 'Balo nữ Adidas Classic BOS', 'balo-nu-adidas-classic', 'Balo nữ Adidas Classic BOS dung tích 22L.', 650000.00, 30, 1, 0, 999, 4.60, 9, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(56, 34, 4, 'sản phẩm test ẩn hiện', 'san-phm-test-n-hin', '', 1000000.00, 12, 1, 1, 2, NULL, 0, '2026-06-06 02:20:00', '2026-06-11 00:18:35'),
-(58, 315, 11, 'Giày Pickleball Axeron Pro V1-C439', 'giay-pickleball-v1-c439', '<p>Sản phẩm Giày Pickleball Axeron Pro V1-C439 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 835000.00, 42, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(59, 315, 11, 'Giày Pickleball Axeron Pro V2-D06C', 'giay-pickleball-v2-d06c', '<p>Sản phẩm Giày Pickleball Axeron Pro V2-D06C với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1459000.00, 75, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(60, 315, 11, 'Giày Pickleball Axeron Pro V3-0BD7', 'giay-pickleball-v3-0bd7', '<p>Sản phẩm Giày Pickleball Axeron Pro V3-0BD7 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 926000.00, 79, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(61, 315, 11, 'Giày Pickleball Axeron Pro V4-0A99', 'giay-pickleball-v4-0a99', '<p>Sản phẩm Giày Pickleball Axeron Pro V4-0A99 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1095000.00, 22, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(62, 315, 11, 'Giày Pickleball Axeron Pro V5-F316', 'giay-pickleball-v5-f316', '<p>Sản phẩm Giày Pickleball Axeron Pro V5-F316 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 854000.00, 63, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(63, 315, 11, 'Giày Pickleball Axeron Pro V6-CD61', 'giay-pickleball-v6-cd61', '<p>Sản phẩm Giày Pickleball Axeron Pro V6-CD61 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1289000.00, 67, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(64, 315, 11, 'Giày Pickleball Axeron Pro V7-076E', 'giay-pickleball-v7-076e', '<p>Sản phẩm Giày Pickleball Axeron Pro V7-076E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 936000.00, 26, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(65, 315, 11, 'Giày Pickleball Axeron Pro V8-972E', 'giay-pickleball-v8-972e', '<p>Sản phẩm Giày Pickleball Axeron Pro V8-972E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1251000.00, 58, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(66, 315, 11, 'Giày Pickleball Axeron Pro V9-CBAB', 'giay-pickleball-v9-cbab', '<p>Sản phẩm Giày Pickleball Axeron Pro V9-CBAB với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1343000.00, 55, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(67, 315, 11, 'Giày Pickleball Axeron Pro V10-77AD', 'giay-pickleball-v10-77ad', '<p>Sản phẩm Giày Pickleball Axeron Pro V10-77AD với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 938000.00, 40, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(68, 100, 11, 'Giày Bóng Đá Axeron V1-FF6F', 'giay-da-bong-v1-ff6f', '<p>Sản phẩm Giày Bóng Đá Axeron V1-FF6F với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1677000.00, 19, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(69, 100, 11, 'Giày Bóng Đá Axeron V2-0429', 'giay-da-bong-v2-0429', '<p>Sản phẩm Giày Bóng Đá Axeron V2-0429 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1284000.00, 20, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(70, 100, 11, 'Giày Bóng Đá Axeron V3-8DBF', 'giay-da-bong-v3-8dbf', '<p>Sản phẩm Giày Bóng Đá Axeron V3-8DBF với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1760000.00, 12, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(71, 100, 11, 'Giày Bóng Đá Axeron V4-7620', 'giay-da-bong-v4-7620', '<p>Sản phẩm Giày Bóng Đá Axeron V4-7620 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1204000.00, 25, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(72, 100, 11, 'Giày Bóng Đá Axeron V5-C9CD', 'giay-da-bong-v5-c9cd', '<p>Sản phẩm Giày Bóng Đá Axeron V5-C9CD với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1591000.00, 82, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(73, 316, 11, 'Giày Cầu Lông Axeron Smash V1-5FD8', 'giay-cau-long-v1-5fd8', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V1-5FD8 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1040000.00, 66, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(74, 316, 11, 'Giày Cầu Lông Axeron Smash V2-28A4', 'giay-cau-long-v2-28a4', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V2-28A4 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 921000.00, 79, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(75, 316, 11, 'Giày Cầu Lông Axeron Smash V3-231E', 'giay-cau-long-v3-231e', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V3-231E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 896000.00, 35, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(76, 316, 11, 'Giày Cầu Lông Axeron Smash V4-215C', 'giay-cau-long-v4-215c', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V4-215C với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1029000.00, 10, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(77, 316, 11, 'Giày Cầu Lông Axeron Smash V5-3B23', 'giay-cau-long-v5-3b23', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V5-3B23 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1073000.00, 16, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(78, 316, 11, 'Giày Cầu Lông Axeron Smash V6-2124', 'giay-cau-long-v6-2124', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V6-2124 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 803000.00, 93, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(79, 316, 11, 'Giày Cầu Lông Axeron Smash V7-C6A6', 'giay-cau-long-v7-c6a6', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V7-C6A6 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 846000.00, 98, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(80, 316, 11, 'Giày Cầu Lông Axeron Smash V8-AC76', 'giay-cau-long-v8-ac76', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V8-AC76 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1072000.00, 52, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(81, 316, 11, 'Giày Cầu Lông Axeron Smash V9-C744', 'giay-cau-long-v9-c744', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V9-C744 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 687000.00, 45, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(82, 316, 11, 'Giày Cầu Lông Axeron Smash V10-79F1', 'giay-cau-long-v10-79f1', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V10-79F1 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 675000.00, 31, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(83, 317, 11, 'Giày Chạy Bộ Axeron Run V1-DA7E', 'giay-chay-bo-v1-da7e', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V1-DA7E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 570000.00, 12, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(84, 317, 11, 'Giày Chạy Bộ Axeron Run V2-9BCA', 'giay-chay-bo-v2-9bca', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V2-9BCA với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1447000.00, 34, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(85, 317, 11, 'Giày Chạy Bộ Axeron Run V3-F9B5', 'giay-chay-bo-v3-f9b5', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V3-F9B5 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 950000.00, 86, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(86, 317, 11, 'Giày Chạy Bộ Axeron Run V4-455D', 'giay-chay-bo-v4-455d', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V4-455D với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 980000.00, 50, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(87, 317, 11, 'Giày Chạy Bộ Axeron Run V5-B9B5', 'giay-chay-bo-v5-b9b5', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V5-B9B5 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 568000.00, 64, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(88, 317, 11, 'Giày Chạy Bộ Axeron Run V6-D657', 'giay-chay-bo-v6-d657', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V6-D657 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 843000.00, 84, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(89, 317, 11, 'Giày Chạy Bộ Axeron Run V7-EBB9', 'giay-chay-bo-v7-ebb9', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V7-EBB9 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1488000.00, 83, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(90, 317, 11, 'Giày Chạy Bộ Axeron Run V8-2DEA', 'giay-chay-bo-v8-2dea', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V8-2DEA với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1261000.00, 98, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(91, 317, 11, 'Giày Chạy Bộ Axeron Run V9-2FED', 'giay-chay-bo-v9-2fed', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V9-2FED với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1152000.00, 77, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(92, 317, 11, 'Giày Chạy Bộ Axeron Run V10-82E4', 'giay-chay-bo-v10-82e4', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V10-82E4 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 617000.00, 19, 1, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(93, 319, 10, 'Bộ Suvec Nam Thể Thao 4046', 'bo-suvec-nam-the-thao-4046-1781112128-1', 'Đây là sản phẩm Bộ Suvec Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 900000.00, 90, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(94, 319, 4, 'Bộ Suvec Nam Thể Thao E1F4', 'bo-suvec-nam-the-thao-e1f4-1781112128-2', 'Đây là sản phẩm Bộ Suvec Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 600000.00, 22, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(95, 320, 5, 'Bộ Bóng Đá Nam Thể Thao C853', 'bo-bong-da-nam-the-thao-c853-1781112128-1', 'Đây là sản phẩm Bộ Bóng Đá Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 1000000.00, 88, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(96, 320, 6, 'Bộ Bóng Đá Nam Thể Thao 790B', 'bo-bong-da-nam-the-thao-790b-1781112128-2', 'Đây là sản phẩm Bộ Bóng Đá Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 500000.00, 61, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(97, 321, 9, 'Bộ Cầu Lông Nam Thể Thao D4D2', 'bo-cau-long-nam-the-thao-d4d2-1781112128-1', 'Đây là sản phẩm Bộ Cầu Lông Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 850000.00, 68, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(98, 321, 10, 'Bộ Cầu Lông Nam Thể Thao C815', 'bo-cau-long-nam-the-thao-c815-1781112128-2', 'Đây là sản phẩm Bộ Cầu Lông Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 550000.00, 73, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(99, 322, 6, 'Bộ Bóng Chuyền Nam Thể Thao F2AD', 'bo-bong-chuyen-nam-the-thao-f2ad-1781112128-1', 'Đây là sản phẩm Bộ Bóng Chuyền Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 250000.00, 54, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(100, 322, 1, 'Bộ Bóng Chuyền Nam Thể Thao 3CB9', 'bo-bong-chuyen-nam-the-thao-3cb9-1781112128-2', 'Đây là sản phẩm Bộ Bóng Chuyền Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 250000.00, 88, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(101, 323, 9, 'Bộ Pickleball Nam Thể Thao 8D6C', 'bo-pickleball-nam-the-thao-8d6c-1781112128-1', 'Đây là sản phẩm Bộ Pickleball Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 100000.00, 49, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(102, 323, 8, 'Bộ Pickleball Nam Thể Thao 5BB5', 'bo-pickleball-nam-the-thao-5bb5-1781112128-2', 'Đây là sản phẩm Bộ Pickleball Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 550000.00, 69, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(103, 324, 4, 'Mũ Nam Thể Thao D313', 'mu-nam-the-thao-d313-1781112128-1', 'Đây là sản phẩm Mũ Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 200000.00, 56, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(104, 324, 9, 'Mũ Nam Thể Thao D59B', 'mu-nam-the-thao-d59b-1781112128-2', 'Đây là sản phẩm Mũ Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 250000.00, 66, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(105, 325, 10, 'Balo Nam Thể Thao 9033', 'balo-nam-the-thao-9033-1781112128-1', 'Đây là sản phẩm Balo Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 800000.00, 13, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(106, 325, 4, 'Balo Nam Thể Thao 0FBC', 'balo-nam-the-thao-0fbc-1781112128-2', 'Đây là sản phẩm Balo Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 600000.00, 60, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(107, 326, 6, 'Tất Nam Thể Thao 1655', 'tat-nam-the-thao-1655-1781112128-1', 'Đây là sản phẩm Tất Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 500000.00, 48, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(108, 326, 2, 'Tất Nam Thể Thao 5B0E', 'tat-nam-the-thao-5b0e-1781112128-2', 'Đây là sản phẩm Tất Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 350000.00, 64, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(109, 327, 4, 'Bộ Suvec Nữ Thể Thao 09BF', 'bo-suvec-nu-the-thao-09bf-1781112128-1', 'Đây là sản phẩm Bộ Suvec Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 100000.00, 63, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(110, 327, 3, 'Bộ Suvec Nữ Thể Thao 5F29', 'bo-suvec-nu-the-thao-5f29-1781112128-2', 'Đây là sản phẩm Bộ Suvec Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 950000.00, 89, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(111, 328, 4, 'Bộ Cầu Lông Nữ Thể Thao 2C19', 'bo-cau-long-nu-the-thao-2c19-1781112128-1', 'Đây là sản phẩm Bộ Cầu Lông Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 350000.00, 45, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(112, 328, 2, 'Bộ Cầu Lông Nữ Thể Thao 0143', 'bo-cau-long-nu-the-thao-0143-1781112128-2', 'Đây là sản phẩm Bộ Cầu Lông Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 800000.00, 27, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(113, 329, 1, 'Bộ Bóng Chuyền Nữ Thể Thao A42C', 'bo-bong-chuyen-nu-the-thao-a42c-1781112128-1', 'Đây là sản phẩm Bộ Bóng Chuyền Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 500000.00, 90, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(114, 329, 9, 'Bộ Bóng Chuyền Nữ Thể Thao 8123', 'bo-bong-chuyen-nu-the-thao-8123-1781112128-2', 'Đây là sản phẩm Bộ Bóng Chuyền Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 850000.00, 39, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(115, 330, 11, 'Bộ Pickleball Nữ Thể Thao 073F', 'bo-pickleball-nu-the-thao-073f-1781112128-1', 'Đây là sản phẩm Bộ Pickleball Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 100000.00, 37, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(116, 330, 11, 'Bộ Pickleball Nữ Thể Thao 49AC', 'bo-pickleball-nu-the-thao-49ac-1781112128-2', 'Đây là sản phẩm Bộ Pickleball Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 500000.00, 35, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(117, 331, 9, 'Mũ Nữ Thể Thao 0D73', 'mu-nu-the-thao-0d73-1781112128-1', 'Đây là sản phẩm Mũ Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 100000.00, 88, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(118, 331, 2, 'Mũ Nữ Thể Thao D20A', 'mu-nu-the-thao-d20a-1781112128-2', 'Đây là sản phẩm Mũ Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 150000.00, 88, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(119, 332, 6, 'Balo Nữ Thể Thao 972D', 'balo-nu-the-thao-972d-1781112128-1', 'Đây là sản phẩm Balo Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 950000.00, 49, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(120, 332, 5, 'Balo Nữ Thể Thao 113B', 'balo-nu-the-thao-113b-1781112128-2', 'Đây là sản phẩm Balo Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 200000.00, 61, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(121, 333, 11, 'Tất Nữ Thể Thao 7C88', 'tat-nu-the-thao-7c88-1781112128-1', 'Đây là sản phẩm Tất Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 600000.00, 49, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(122, 333, 5, 'Tất Nữ Thể Thao 28A6', 'tat-nu-the-thao-28a6-1781112128-2', 'Đây là sản phẩm Tất Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 600000.00, 100, 1, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(123, 103, 1, 'Giày Bóng Rổ Signature 4201', 'giay-bong-ro-signature-4201-1781112536-1', 'Đây là sản phẩm Giày Bóng Rổ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1300000.00, 66, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(124, 103, 8, 'Giày Bóng Rổ Signature 5636', 'giay-bong-ro-signature-5636-1781112536-2', 'Đây là sản phẩm Giày Bóng Rổ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1450000.00, 21, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(125, 104, 2, 'Giày Thể Thao Nam Signature D354', 'giay-the-thao-nam-signature-d354-1781112536-1', 'Đây là sản phẩm Giày Thể Thao Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1150000.00, 75, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(126, 104, 9, 'Giày Thể Thao Nam Signature ED8C', 'giay-the-thao-nam-signature-ed8c-1781112536-2', 'Đây là sản phẩm Giày Thể Thao Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 250000.00, 85, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(127, 105, 10, 'Dép Nam Signature 8580', 'dep-nam-signature-8580-1781112536-1', 'Đây là sản phẩm Dép Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 550000.00, 14, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(128, 105, 3, 'Dép Nam Signature C888', 'dep-nam-signature-c888-1781112536-2', 'Đây là sản phẩm Dép Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 500000.00, 75, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(129, 112, 9, 'Áo Khoác Nam Signature 7846', 'ao-khoac-nam-signature-7846-1781112536-1', 'Đây là sản phẩm Áo Khoác Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 250000.00, 41, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(130, 112, 8, 'Áo Khoác Nam Signature 05C4', 'ao-khoac-nam-signature-05c4-1781112536-2', 'Đây là sản phẩm Áo Khoác Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 800000.00, 35, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(131, 114, 9, 'Quần Dài Nam Signature 8E6D', 'quan-dai-nam-signature-8e6d-1781112536-1', 'Đây là sản phẩm Quần Dài Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 350000.00, 12, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(132, 114, 5, 'Quần Dài Nam Signature DAF8', 'quan-dai-nam-signature-daf8-1781112536-2', 'Đây là sản phẩm Quần Dài Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 850000.00, 57, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(133, 200, 4, 'Giày Chạy Bộ Nữ Signature 6DE3', 'giay-chay-bo-nu-signature-6de3-1781112536-1', 'Đây là sản phẩm Giày Chạy Bộ Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1100000.00, 88, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(134, 200, 6, 'Giày Chạy Bộ Nữ Signature 5F21', 'giay-chay-bo-nu-signature-5f21-1781112536-2', 'Đây là sản phẩm Giày Chạy Bộ Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1500000.00, 100, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(135, 202, 1, 'Giày Thể Thao Nữ Signature 97E1', 'giay-the-thao-nu-signature-97e1-1781112536-1', 'Đây là sản phẩm Giày Thể Thao Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 350000.00, 48, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(136, 202, 5, 'Giày Thể Thao Nữ Signature 5703', 'giay-the-thao-nu-signature-5703-1781112536-2', 'Đây là sản phẩm Giày Thể Thao Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 650000.00, 31, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(137, 203, 10, 'Dép Nữ Signature 7247', 'dep-nu-signature-7247-1781112536-1', 'Đây là sản phẩm Dép Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 950000.00, 43, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(138, 203, 1, 'Dép Nữ Signature 3EBA', 'dep-nu-signature-3eba-1781112536-2', 'Đây là sản phẩm Dép Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 500000.00, 56, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(139, 214, 10, 'Chân Váy Signature 58EC', 'chan-vay-signature-58ec-1781112536-1', 'Đây là sản phẩm Chân Váy có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1450000.00, 25, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(140, 214, 1, 'Chân Váy Signature 8256', 'chan-vay-signature-8256-1781112536-2', 'Đây là sản phẩm Chân Váy có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1400000.00, 75, 1, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
-(141, 33, 11, 'Bóng Rổ 6FC2', 'bong-ro-6fc2-1781112741-1', 'Đây là sản phẩm Bóng Rổ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1350000.00, 91, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(142, 33, 1, 'Bóng Rổ 237A', 'bong-ro-237a-1781112741-2', 'Đây là sản phẩm Bóng Rổ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2500000.00, 37, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(143, 33, 11, 'Bóng Rổ 4F74', 'bong-ro-4f74-1781112741-3', 'Đây là sản phẩm Bóng Rổ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1750000.00, 92, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(144, 33, 10, 'Bóng Rổ 003E', 'bong-ro-003e-1781112741-4', 'Đây là sản phẩm Bóng Rổ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2050000.00, 21, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(145, 33, 10, 'Bóng Rổ 74E2', 'bong-ro-74e2-1781112741-5', 'Đây là sản phẩm Bóng Rổ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1050000.00, 35, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(146, 34, 10, 'Bóng Chuyền 12DA', 'bong-chuyen-12da-1781112741-1', 'Đây là sản phẩm Bóng Chuyền chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2000000.00, 15, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(147, 34, 9, 'Bóng Chuyền 83FA', 'bong-chuyen-83fa-1781112741-2', 'Đây là sản phẩm Bóng Chuyền chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1000000.00, 33, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(148, 34, 10, 'Bóng Chuyền 6607', 'bong-chuyen-6607-1781112741-3', 'Đây là sản phẩm Bóng Chuyền chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2250000.00, 58, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(149, 34, 4, 'Bóng Chuyền D1F0', 'bong-chuyen-d1f0-1781112741-4', 'Đây là sản phẩm Bóng Chuyền chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1900000.00, 57, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(150, 304, 10, 'Vợt Pickleball 784A', 'vot-pickleball-784a-1781112741-1', 'Đây là sản phẩm Vợt Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 950000.00, 92, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(151, 304, 11, 'Vợt Pickleball 0CC4', 'vot-pickleball-0cc4-1781112741-2', 'Đây là sản phẩm Vợt Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2350000.00, 51, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(152, 304, 1, 'Vợt Pickleball 345C', 'vot-pickleball-345c-1781112741-3', 'Đây là sản phẩm Vợt Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1850000.00, 50, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(153, 304, 5, 'Vợt Pickleball 38FF', 'vot-pickleball-38ff-1781112741-4', 'Đây là sản phẩm Vợt Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 700000.00, 73, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(154, 304, 2, 'Vợt Pickleball 13D4', 'vot-pickleball-13d4-1781112741-5', 'Đây là sản phẩm Vợt Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 550000.00, 57, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(155, 305, 6, 'Bóng Pickleball 21CE', 'bong-pickleball-21ce-1781112741-1', 'Đây là sản phẩm Bóng Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1300000.00, 93, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(156, 305, 1, 'Bóng Pickleball 3A12', 'bong-pickleball-3a12-1781112741-2', 'Đây là sản phẩm Bóng Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2350000.00, 95, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(157, 305, 10, 'Bóng Pickleball 11C4', 'bong-pickleball-11c4-1781112741-3', 'Đây là sản phẩm Bóng Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2300000.00, 22, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(158, 305, 6, 'Bóng Pickleball BEAE', 'bong-pickleball-beae-1781112741-4', 'Đây là sản phẩm Bóng Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 850000.00, 82, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(159, 306, 6, 'Máy Chạy Bộ 1719', 'may-chay-bo-1719-1781112741-1', 'Đây là sản phẩm Máy Chạy Bộ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1900000.00, 35, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(160, 306, 11, 'Máy Chạy Bộ D499', 'may-chay-bo-d499-1781112741-2', 'Đây là sản phẩm Máy Chạy Bộ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1000000.00, 41, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(161, 306, 6, 'Máy Chạy Bộ F865', 'may-chay-bo-f865-1781112741-3', 'Đây là sản phẩm Máy Chạy Bộ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 650000.00, 49, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(162, 306, 10, 'Máy Chạy Bộ 2C9F', 'may-chay-bo-2c9f-1781112741-4', 'Đây là sản phẩm Máy Chạy Bộ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1550000.00, 78, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(163, 306, 3, 'Máy Chạy Bộ 74F4', 'may-chay-bo-74f4-1781112741-5', 'Đây là sản phẩm Máy Chạy Bộ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2200000.00, 86, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(164, 308, 6, 'Giàn Tập 6E3A', 'gian-tap-6e3a-1781112741-1', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1450000.00, 84, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(165, 308, 10, 'Giàn Tập AF69', 'gian-tap-af69-1781112741-2', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1750000.00, 10, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:45:08'),
-(166, 308, 9, 'Giàn Tập 2798', 'gian-tap-2798-1781112741-3', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 600000.00, 17, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(167, 308, 9, 'Giàn Tập BBDF', 'gian-tap-bbdf-1781112741-4', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2000000.00, 47, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
-(168, 308, 1, 'Giàn Tập 2AD4', 'gian-tap-2ad4-1781112741-5', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1400000.00, 87, 1, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21');
+INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`, `slug`, `description`, `base_price`, `stock_quantity`, `is_visible`, `is_deleted`, `is_featured`, `featured_sort_order`, `avg_rating`, `total_reviews`, `created_at`, `updated_at`) VALUES
+(1, 101, 1, 'Giày chạy bộ DL Speed Pro X1', 'giay-chay-bo-dl-speed-pro-x1', 'Giày chạy bộ chuyên nghiệp với đế giày EVA siêu nhẹ.', 890000.00, 50, 1, 0, 1, 4, 4.60, 12, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
+(2, 101, 1, 'Giày chạy bộ DL Runner Air 2024', 'giay-chay-bo-dl-runner-air-2024', 'Thiết kế khí động học giúp tăng tốc độ.', 750000.00, 60, 1, 0, 0, 999, 4.40, 8, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(3, 101, 2, 'Giày Nike Revolution 7', 'giay-nike-revolution-7', 'Giày chạy bộ phổ biến của Nike với đế giữa foam đen.', 1950000.00, 30, 1, 0, 1, 3, 4.50, 15, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
+(4, 101, 3, 'Giày Adidas Runfalcon 3.0', 'giay-adidas-runfalcon-3', 'Dòng giày chạy bộ giá tốt của Adidas.', 1650000.00, 40, 1, 0, 0, 999, 4.30, 10, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(5, 101, 9, 'Giày ASICS Gel-Nimbus 26', 'giay-asics-gel-nimbus-26', 'Dòng giày cao cấp của ASICS, công nghệ đệm Gel.', 3200000.00, 20, 1, 0, 1, 5, 4.80, 18, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
+(6, 100, 1, 'Giày đá bóng DL Striker FG 2024', 'giay-da-bong-dl-striker-fg-2024', 'Giày đá bóng sân cỏ, đế cao su tự nhiên.', 650000.00, 80, 1, 0, 1, 6, 4.50, 9, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
+(7, 100, 1, 'Giày đá bóng DL Futsal Pro F10', 'giay-da-bong-dl-futsal-pro-f10', 'Thiết kế dành riêng cho futsal, đế bám sân nhà tốt.', 550000.00, 70, 1, 0, 0, 999, 4.30, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(8, 100, 3, 'Giày đá bóng Adidas Predator 24 FG', 'giay-da-bong-adidas-predator-24', 'Vật liệu Zone Skin giúp kiểm soát bóng chính xác hơn.', 2800000.00, 25, 1, 0, 1, 7, 4.70, 11, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
+(9, 100, 2, 'Giày đá bóng Nike Phantom GX2', 'giay-da-bong-nike-phantom-gx2', 'Công nghệ Aerotrak giúp bóng bay chính xác.', 3100000.00, 20, 1, 0, 0, 999, 4.60, 13, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(10, 100, 1, 'Giày đá bóng DL Speed FG Jr', 'giay-da-bong-dl-speed-fg-jr', 'Dành cho cầu thủ trẻ em và thiếu niên.', 420000.00, 100, 1, 0, 0, 999, 4.20, 5, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(11, 102, 4, 'Giày cầu lông Yonex Power Cushion 65Z3', 'giay-cl-yonex-65z3', 'Đế giày Power Cushion hấp thụ chấn động.', 2900000.00, 30, 1, 0, 1, 9, 4.80, 16, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
+(12, 102, 1, 'Giày cầu lông DL Wing Pro 2024', 'giay-cl-dl-wing-pro', 'Giày cầu lông thương hiệu Đồng Lực, đế EVA nhẹ.', 680000.00, 60, 1, 0, 0, 999, 4.40, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(13, 102, 5, 'Giày cầu lông Lining Ranger TD', 'giay-cl-lining-ranger', 'Thương hiệu Lining nổi tiếng, đế giữa Light Foam.', 1200000.00, 40, 1, 0, 0, 999, 4.50, 9, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(14, 201, 4, 'Giày cầu lông nữ Yonex SHB-01MXLX', 'giay-cl-nu-yonex-01mx', 'Thiết kế dành cho nữ, trọng lượng siêu nhẹ 70g.', 3100000.00, 20, 1, 0, 1, 10, 4.90, 14, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
+(15, 201, 1, 'Giày cầu lông nữ DL Wing Lite', 'giay-cl-nu-dl-wing-lite', 'Phiên bản nhẹ hơn cho nữ, màu sắc nữ tính.', 620000.00, 50, 1, 0, 0, 999, 4.30, 6, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(16, 110, 1, 'Áo polo thể thao DL Classic 2024', 'ao-polo-dl-classic-2024', 'Vải Polyester 100%, thoáng khí, thoáng mát.', 280000.00, 120, 1, 0, 1, 8, 4.50, 10, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
+(17, 110, 1, 'Áo polo DL Pro Team 2024', 'ao-polo-dl-pro-team-2024', 'Phiên bản chuyên nghiệp cho các đội thể thao.', 320000.00, 100, 1, 0, 0, 999, 4.30, 6, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(18, 111, 1, 'Áo T-shirt DL Training Basic', 'ao-tshirt-dl-training-basic', 'Áo tập thể thao co tròn, vải Polyester thoáng mát.', 220000.00, 150, 1, 0, 0, 999, 4.40, 8, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(19, 111, 7, 'Áo Under Armour HeatGear Nam', 'ao-ua-heatgear-nam', 'Công nghệ HeatGear hút ẩm và làm mát nhanh.', 650000.00, 60, 1, 0, 1, 11, 4.60, 12, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
+(20, 111, 2, 'Áo Nike Dri-FIT Training', 'ao-nike-dri-fit-training', 'Công nghệ Dri-FIT thoát mồ hôi siêu nhanh.', 580000.00, 70, 1, 0, 0, 999, 4.50, 9, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(21, 210, 1, 'Áo phông nữ DL Sport Lite', 'ao-phong-nu-dl-sport-lite', 'Áo phông thể thao nữ, chất liệu co giãn 4 chiều.', 230000.00, 100, 1, 0, 0, 999, 4.40, 8, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(22, 210, 7, 'Áo Under Armour HeatGear Nữ', 'ao-ua-heatgear-nu', 'Phiên bản nữ của HeatGear, chất liệu siêu nhẹ.', 620000.00, 50, 1, 0, 1, 12, 4.60, 10, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
+(23, 211, 3, 'Áo sport bra Adidas Powerreact', 'ao-sport-bra-adidas', 'Áo lót thể thao nữ Adidas, dây vai lưới thông gió.', 680000.00, 45, 1, 0, 1, 14, 4.50, 11, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
+(24, 211, 2, 'Áo sport bra Nike Indy', 'ao-sport-bra-nike-indy', 'Nike Indy Medium-Support, chất liệu Dri-FIT.', 750000.00, 40, 1, 0, 0, 999, 4.70, 9, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(25, 302, 4, 'Vợt cầu lông Yonex Astrox 99 Pro', 'vot-cl-yonex-astrox-99-pro', 'Vợt tấn công hàng đầu Yonex, khung carbon cao cấp.', 4500000.00, 9, 1, 0, 1, 1, 4.90, 22, '2026-05-29 19:17:55', '2026-06-07 19:54:05'),
+(26, 302, 4, 'Vợt cầu lông Yonex Nanoflare 700', 'vot-cl-yonex-nanoflare-700', 'Vợt phản công nhanh, khung Tungsten Mesh.', 3200000.00, 25, 1, 0, 1, 15, 4.80, 18, '2026-05-29 19:17:55', '2026-06-06 02:51:23'),
+(27, 302, 5, 'Vợt cầu lông Lining Windstorm 72', 'vot-cl-lining-windstorm-72', 'Vợt phản công siêu nhẹ 72g, khung carbon tổ hợp.', 1800000.00, 35, 1, 0, 0, 999, 4.50, 10, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(28, 302, 1, 'Vợt cầu lông DL Pro 500', 'vot-cl-dl-pro-500', 'Vợt cầu lông thương hiệu Đồng Lực dành cho người chơi phổ thông.', 480000.00, 60, 1, 0, 0, 999, 4.20, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(29, 302, 1, 'Vợt cầu lông DL Fighter 200', 'vot-cl-dl-fighter-200', 'Vợt dành cho người mới bắt đầu, dễ cầm tay.', 280000.00, 80, 1, 0, 0, 999, 4.10, 5, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(30, 302, 10, 'Vợt cầu lông Head Zephyr Pro', 'vot-cl-head-zephyr-pro', 'Head Zephyr Pro trọng lượng 78g, phù hợp trung-cao cấp.', 2100000.00, 28, 1, 0, 0, 999, 4.60, 12, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(31, 303, 4, 'Cầu lông Yonex AS-05 (hop 12 qua)', 'cau-long-yonex-as05-12', 'Cầu lông lưới ngắn Yonex AS-05.', 160000.00, 200, 1, 0, 1, 16, 4.70, 20, '2026-05-29 19:17:55', '2026-06-06 02:51:23'),
+(32, 303, 4, 'Cầu lông Yonex AS-30 (hop 12 qua)', 'cau-long-yonex-as30-12', 'Cầu lông lưới vit cấp cao Yonex AS-30.', 280000.00, 150, 1, 0, 0, 999, 4.80, 15, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(33, 303, 1, 'Cầu lông DL Training (hop 12 qua)', 'cau-long-dl-training-12', 'Cầu lông Đồng Lực dùng tập luyện hàng ngày.', 85000.00, 300, 1, 0, 0, 999, 4.20, 8, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(34, 303, 5, 'Cầu lông Lining A+90D (hop 12 qua)', 'cau-long-lining-a90d', 'Cầu lông lưới vit Lining A+90D, lớp 76 - 78.', 210000.00, 180, 1, 0, 0, 999, 4.60, 11, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(35, 113, 1, 'Quần short thể thao DL Training 2024', 'quan-short-dl-training-2024', 'Quần short thể thao nam chất liệu Polyester khô nhanh.', 220000.00, 100, 1, 0, 0, 999, 4.40, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(36, 113, 2, 'Quần short Nike Dri-FIT 5 inch', 'quan-short-nike-dri-fit-5', 'Quần short chạy bộ Nike 5 inch, Dri-FIT thoát mồ hôi.', 580000.00, 60, 1, 0, 1, 17, 4.60, 9, '2026-05-29 19:17:55', '2026-06-06 02:51:23'),
+(37, 212, 1, 'Quần short nữ DL Active', 'quan-short-nu-dl-active', 'Quần short nữ với dây lưng co giãn.', 200000.00, 90, 1, 0, 0, 999, 4.30, 6, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(38, 213, 7, 'Quần legging Under Armour HeatGear', 'quan-legging-ua-heatgear', 'Quần legging nữ 7/8, chất liệu HeatGear co giãn 4 chiều.', 750000.00, 45, 1, 0, 1, 18, 4.70, 14, '2026-05-29 19:17:55', '2026-06-06 02:51:23'),
+(39, 213, 3, 'Quần legging Adidas Optime 7/8', 'quan-legging-adidas-optime', 'Quần legging nữ Adidas, AEROREADY thoát ẩm.', 680000.00, 50, 1, 0, 0, 999, 4.50, 10, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(40, 300, 3, 'Bóng đá sân cỏ Adidas Al Rihla', 'bong-da-adidas-al-rihla', 'Bóng đá chính thức FIFA Quality Pro.', 1200000.00, 30, 1, 0, 1, 13, 4.70, 12, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
+(41, 300, 1, 'Bóng đá sân cỏ DL Classic 5', 'bong-da-dl-classic-5', 'Bóng đá số 5 chất liệu PVC cao cấp.', 180000.00, 80, 1, 0, 0, 999, 4.20, 6, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(42, 301, 1, 'Bóng Futsal DL Super', 'bong-futsal-dl-super', 'Bóng futsal số 4, chất liệu PU 4 lớp.', 250000.00, 60, 1, 0, 0, 999, 4.40, 8, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(43, 305, 1, 'Bóng Pickleball DL Outdoor', 'bong-pickleball-dl-outdoor', 'Bóng pickleball 40 lỗ, chất liệu HDPE.', 120000.00, 100, 1, 0, 0, 999, 4.30, 5, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(44, 307, 1, 'Tạ tay DL Vinyl 1kg - 10kg', 'ta-tay-dl-vinyl', 'Tạ tay phủ cao su vinyl kháng trọt.', 85000.00, 200, 1, 0, 0, 999, 4.50, 9, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(45, 13, 1, 'Mũ thể thao DL DryCool', 'mu-the-thao-dl-drycool', 'Mũ thể thao kiểu snapback, chất liệu thoáng khí.', 165000.00, 80, 1, 0, 0, 999, 4.30, 6, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(46, 13, 1, 'Balo thể thao DL Sport 20L', 'balo-dl-sport-20l', 'Balo thể thao dung tích 20L.', 420000.00, 40, 1, 0, 0, 999, 4.50, 8, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(47, 13, 4, 'Tất cầu lông Yonex 75th (3 doi)', 'tat-cau-long-yonex-75th', '3 đôi tất cầu lông Yonex, chất liệu bông cao cấp.', 180000.00, 100, 1, 0, 0, 999, 4.60, 10, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(48, 13, 1, 'Tất thể thao DL Sport (5 doi)', 'tat-the-thao-dl-sport-5doi', '5 đôi tất thể thao DL, chất liệu cotton pha.', 95000.00, 150, 1, 0, 0, 999, 4.20, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(49, 23, 1, 'Mũ thể thao nữ DL Lily', 'mu-the-thao-nu-dl-lily', 'Mũ nữ kiểu bucket hat thời trang.', 155000.00, 60, 1, 0, 0, 999, 4.30, 5, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(50, 23, 3, 'Balo nữ Adidas Classic BOS', 'balo-nu-adidas-classic', 'Balo nữ Adidas Classic BOS dung tích 22L.', 650000.00, 30, 1, 0, 0, 999, 4.60, 9, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(56, 34, 4, 'sản phẩm test ẩn hiện', 'san-phm-test-n-hin', '', 1000000.00, 12, 1, 0, 1, 2, NULL, 0, '2026-06-06 02:20:00', '2026-06-11 00:18:35'),
+(58, 315, 11, 'Giày Pickleball Axeron Pro V1-C439', 'giay-pickleball-v1-c439', '<p>Sản phẩm Giày Pickleball Axeron Pro V1-C439 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 835000.00, 42, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(59, 315, 11, 'Giày Pickleball Axeron Pro V2-D06C', 'giay-pickleball-v2-d06c', '<p>Sản phẩm Giày Pickleball Axeron Pro V2-D06C với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1459000.00, 75, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(60, 315, 11, 'Giày Pickleball Axeron Pro V3-0BD7', 'giay-pickleball-v3-0bd7', '<p>Sản phẩm Giày Pickleball Axeron Pro V3-0BD7 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 926000.00, 79, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(61, 315, 11, 'Giày Pickleball Axeron Pro V4-0A99', 'giay-pickleball-v4-0a99', '<p>Sản phẩm Giày Pickleball Axeron Pro V4-0A99 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1095000.00, 22, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(62, 315, 11, 'Giày Pickleball Axeron Pro V5-F316', 'giay-pickleball-v5-f316', '<p>Sản phẩm Giày Pickleball Axeron Pro V5-F316 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 854000.00, 63, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(63, 315, 11, 'Giày Pickleball Axeron Pro V6-CD61', 'giay-pickleball-v6-cd61', '<p>Sản phẩm Giày Pickleball Axeron Pro V6-CD61 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1289000.00, 67, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(64, 315, 11, 'Giày Pickleball Axeron Pro V7-076E', 'giay-pickleball-v7-076e', '<p>Sản phẩm Giày Pickleball Axeron Pro V7-076E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 936000.00, 26, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(65, 315, 11, 'Giày Pickleball Axeron Pro V8-972E', 'giay-pickleball-v8-972e', '<p>Sản phẩm Giày Pickleball Axeron Pro V8-972E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1251000.00, 58, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(66, 315, 11, 'Giày Pickleball Axeron Pro V9-CBAB', 'giay-pickleball-v9-cbab', '<p>Sản phẩm Giày Pickleball Axeron Pro V9-CBAB với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1343000.00, 55, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(67, 315, 11, 'Giày Pickleball Axeron Pro V10-77AD', 'giay-pickleball-v10-77ad', '<p>Sản phẩm Giày Pickleball Axeron Pro V10-77AD với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 938000.00, 40, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(68, 100, 11, 'Giày Bóng Đá Axeron V1-FF6F', 'giay-da-bong-v1-ff6f', '<p>Sản phẩm Giày Bóng Đá Axeron V1-FF6F với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1677000.00, 19, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(69, 100, 11, 'Giày Bóng Đá Axeron V2-0429', 'giay-da-bong-v2-0429', '<p>Sản phẩm Giày Bóng Đá Axeron V2-0429 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1284000.00, 20, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(70, 100, 11, 'Giày Bóng Đá Axeron V3-8DBF', 'giay-da-bong-v3-8dbf', '<p>Sản phẩm Giày Bóng Đá Axeron V3-8DBF với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1760000.00, 12, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(71, 100, 11, 'Giày Bóng Đá Axeron V4-7620', 'giay-da-bong-v4-7620', '<p>Sản phẩm Giày Bóng Đá Axeron V4-7620 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1204000.00, 25, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(72, 100, 11, 'Giày Bóng Đá Axeron V5-C9CD', 'giay-da-bong-v5-c9cd', '<p>Sản phẩm Giày Bóng Đá Axeron V5-C9CD với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1591000.00, 82, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(73, 316, 11, 'Giày Cầu Lông Axeron Smash V1-5FD8', 'giay-cau-long-v1-5fd8', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V1-5FD8 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1040000.00, 66, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(74, 316, 11, 'Giày Cầu Lông Axeron Smash V2-28A4', 'giay-cau-long-v2-28a4', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V2-28A4 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 921000.00, 79, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(75, 316, 11, 'Giày Cầu Lông Axeron Smash V3-231E', 'giay-cau-long-v3-231e', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V3-231E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 896000.00, 35, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(76, 316, 11, 'Giày Cầu Lông Axeron Smash V4-215C', 'giay-cau-long-v4-215c', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V4-215C với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1029000.00, 10, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(77, 316, 11, 'Giày Cầu Lông Axeron Smash V5-3B23', 'giay-cau-long-v5-3b23', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V5-3B23 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1073000.00, 16, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(78, 316, 11, 'Giày Cầu Lông Axeron Smash V6-2124', 'giay-cau-long-v6-2124', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V6-2124 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 803000.00, 93, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(79, 316, 11, 'Giày Cầu Lông Axeron Smash V7-C6A6', 'giay-cau-long-v7-c6a6', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V7-C6A6 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 846000.00, 98, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(80, 316, 11, 'Giày Cầu Lông Axeron Smash V8-AC76', 'giay-cau-long-v8-ac76', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V8-AC76 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1072000.00, 52, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(81, 316, 11, 'Giày Cầu Lông Axeron Smash V9-C744', 'giay-cau-long-v9-c744', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V9-C744 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 687000.00, 45, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(82, 316, 11, 'Giày Cầu Lông Axeron Smash V10-79F1', 'giay-cau-long-v10-79f1', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V10-79F1 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 675000.00, 31, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(83, 317, 11, 'Giày Chạy Bộ Axeron Run V1-DA7E', 'giay-chay-bo-v1-da7e', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V1-DA7E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 570000.00, 12, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(84, 317, 11, 'Giày Chạy Bộ Axeron Run V2-9BCA', 'giay-chay-bo-v2-9bca', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V2-9BCA với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1447000.00, 34, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(85, 317, 11, 'Giày Chạy Bộ Axeron Run V3-F9B5', 'giay-chay-bo-v3-f9b5', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V3-F9B5 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 950000.00, 86, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(86, 317, 11, 'Giày Chạy Bộ Axeron Run V4-455D', 'giay-chay-bo-v4-455d', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V4-455D với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 980000.00, 50, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(87, 317, 11, 'Giày Chạy Bộ Axeron Run V5-B9B5', 'giay-chay-bo-v5-b9b5', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V5-B9B5 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 568000.00, 64, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(88, 317, 11, 'Giày Chạy Bộ Axeron Run V6-D657', 'giay-chay-bo-v6-d657', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V6-D657 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 843000.00, 84, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(89, 317, 11, 'Giày Chạy Bộ Axeron Run V7-EBB9', 'giay-chay-bo-v7-ebb9', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V7-EBB9 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1488000.00, 83, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(90, 317, 11, 'Giày Chạy Bộ Axeron Run V8-2DEA', 'giay-chay-bo-v8-2dea', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V8-2DEA với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1261000.00, 98, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(91, 317, 11, 'Giày Chạy Bộ Axeron Run V9-2FED', 'giay-chay-bo-v9-2fed', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V9-2FED với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1152000.00, 77, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(92, 317, 11, 'Giày Chạy Bộ Axeron Run V10-82E4', 'giay-chay-bo-v10-82e4', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V10-82E4 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 617000.00, 19, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(93, 319, 10, 'Bộ Suvec Nam Thể Thao 4046', 'bo-suvec-nam-the-thao-4046-1781112128-1', 'Đây là sản phẩm Bộ Suvec Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 900000.00, 90, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(94, 319, 4, 'Bộ Suvec Nam Thể Thao E1F4', 'bo-suvec-nam-the-thao-e1f4-1781112128-2', 'Đây là sản phẩm Bộ Suvec Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 600000.00, 22, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(95, 320, 5, 'Bộ Bóng Đá Nam Thể Thao C853', 'bo-bong-da-nam-the-thao-c853-1781112128-1', 'Đây là sản phẩm Bộ Bóng Đá Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 1000000.00, 88, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(96, 320, 6, 'Bộ Bóng Đá Nam Thể Thao 790B', 'bo-bong-da-nam-the-thao-790b-1781112128-2', 'Đây là sản phẩm Bộ Bóng Đá Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 500000.00, 61, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(97, 321, 9, 'Bộ Cầu Lông Nam Thể Thao D4D2', 'bo-cau-long-nam-the-thao-d4d2-1781112128-1', 'Đây là sản phẩm Bộ Cầu Lông Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 850000.00, 68, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(98, 321, 10, 'Bộ Cầu Lông Nam Thể Thao C815', 'bo-cau-long-nam-the-thao-c815-1781112128-2', 'Đây là sản phẩm Bộ Cầu Lông Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 550000.00, 73, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(99, 322, 6, 'Bộ Bóng Chuyền Nam Thể Thao F2AD', 'bo-bong-chuyen-nam-the-thao-f2ad-1781112128-1', 'Đây là sản phẩm Bộ Bóng Chuyền Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 250000.00, 54, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(100, 322, 1, 'Bộ Bóng Chuyền Nam Thể Thao 3CB9', 'bo-bong-chuyen-nam-the-thao-3cb9-1781112128-2', 'Đây là sản phẩm Bộ Bóng Chuyền Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 250000.00, 88, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(101, 323, 9, 'Bộ Pickleball Nam Thể Thao 8D6C', 'bo-pickleball-nam-the-thao-8d6c-1781112128-1', 'Đây là sản phẩm Bộ Pickleball Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 100000.00, 49, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(102, 323, 8, 'Bộ Pickleball Nam Thể Thao 5BB5', 'bo-pickleball-nam-the-thao-5bb5-1781112128-2', 'Đây là sản phẩm Bộ Pickleball Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 550000.00, 69, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(103, 324, 4, 'Mũ Nam Thể Thao D313', 'mu-nam-the-thao-d313-1781112128-1', 'Đây là sản phẩm Mũ Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 200000.00, 56, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(104, 324, 9, 'Mũ Nam Thể Thao D59B', 'mu-nam-the-thao-d59b-1781112128-2', 'Đây là sản phẩm Mũ Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 250000.00, 66, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(105, 325, 10, 'Balo Nam Thể Thao 9033', 'balo-nam-the-thao-9033-1781112128-1', 'Đây là sản phẩm Balo Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 800000.00, 13, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(106, 325, 4, 'Balo Nam Thể Thao 0FBC', 'balo-nam-the-thao-0fbc-1781112128-2', 'Đây là sản phẩm Balo Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 600000.00, 60, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(107, 326, 6, 'Tất Nam Thể Thao 1655', 'tat-nam-the-thao-1655-1781112128-1', 'Đây là sản phẩm Tất Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 500000.00, 48, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(108, 326, 2, 'Tất Nam Thể Thao 5B0E', 'tat-nam-the-thao-5b0e-1781112128-2', 'Đây là sản phẩm Tất Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 350000.00, 64, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(109, 327, 4, 'Bộ Suvec Nữ Thể Thao 09BF', 'bo-suvec-nu-the-thao-09bf-1781112128-1', 'Đây là sản phẩm Bộ Suvec Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 100000.00, 63, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(110, 327, 3, 'Bộ Suvec Nữ Thể Thao 5F29', 'bo-suvec-nu-the-thao-5f29-1781112128-2', 'Đây là sản phẩm Bộ Suvec Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 950000.00, 89, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(111, 328, 4, 'Bộ Cầu Lông Nữ Thể Thao 2C19', 'bo-cau-long-nu-the-thao-2c19-1781112128-1', 'Đây là sản phẩm Bộ Cầu Lông Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 350000.00, 45, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(112, 328, 2, 'Bộ Cầu Lông Nữ Thể Thao 0143', 'bo-cau-long-nu-the-thao-0143-1781112128-2', 'Đây là sản phẩm Bộ Cầu Lông Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 800000.00, 27, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(113, 329, 1, 'Bộ Bóng Chuyền Nữ Thể Thao A42C', 'bo-bong-chuyen-nu-the-thao-a42c-1781112128-1', 'Đây là sản phẩm Bộ Bóng Chuyền Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 500000.00, 90, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(114, 329, 9, 'Bộ Bóng Chuyền Nữ Thể Thao 8123', 'bo-bong-chuyen-nu-the-thao-8123-1781112128-2', 'Đây là sản phẩm Bộ Bóng Chuyền Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 850000.00, 39, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(115, 330, 11, 'Bộ Pickleball Nữ Thể Thao 073F', 'bo-pickleball-nu-the-thao-073f-1781112128-1', 'Đây là sản phẩm Bộ Pickleball Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 100000.00, 37, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(116, 330, 11, 'Bộ Pickleball Nữ Thể Thao 49AC', 'bo-pickleball-nu-the-thao-49ac-1781112128-2', 'Đây là sản phẩm Bộ Pickleball Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 500000.00, 35, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(117, 331, 9, 'Mũ Nữ Thể Thao 0D73', 'mu-nu-the-thao-0d73-1781112128-1', 'Đây là sản phẩm Mũ Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 100000.00, 88, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(118, 331, 2, 'Mũ Nữ Thể Thao D20A', 'mu-nu-the-thao-d20a-1781112128-2', 'Đây là sản phẩm Mũ Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 150000.00, 88, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(119, 332, 6, 'Balo Nữ Thể Thao 972D', 'balo-nu-the-thao-972d-1781112128-1', 'Đây là sản phẩm Balo Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 950000.00, 49, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(120, 332, 5, 'Balo Nữ Thể Thao 113B', 'balo-nu-the-thao-113b-1781112128-2', 'Đây là sản phẩm Balo Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 200000.00, 61, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(121, 333, 11, 'Tất Nữ Thể Thao 7C88', 'tat-nu-the-thao-7c88-1781112128-1', 'Đây là sản phẩm Tất Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 600000.00, 49, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(122, 333, 5, 'Tất Nữ Thể Thao 28A6', 'tat-nu-the-thao-28a6-1781112128-2', 'Đây là sản phẩm Tất Nữ cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 600000.00, 100, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(123, 103, 1, 'Giày Bóng Rổ Signature 4201', 'giay-bong-ro-signature-4201-1781112536-1', 'Đây là sản phẩm Giày Bóng Rổ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1300000.00, 66, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(124, 103, 8, 'Giày Bóng Rổ Signature 5636', 'giay-bong-ro-signature-5636-1781112536-2', 'Đây là sản phẩm Giày Bóng Rổ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1450000.00, 21, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(125, 104, 2, 'Giày Thể Thao Nam Signature D354', 'giay-the-thao-nam-signature-d354-1781112536-1', 'Đây là sản phẩm Giày Thể Thao Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1150000.00, 75, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(126, 104, 9, 'Giày Thể Thao Nam Signature ED8C', 'giay-the-thao-nam-signature-ed8c-1781112536-2', 'Đây là sản phẩm Giày Thể Thao Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 250000.00, 85, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(127, 105, 10, 'Dép Nam Signature 8580', 'dep-nam-signature-8580-1781112536-1', 'Đây là sản phẩm Dép Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 550000.00, 14, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(128, 105, 3, 'Dép Nam Signature C888', 'dep-nam-signature-c888-1781112536-2', 'Đây là sản phẩm Dép Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 500000.00, 75, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(129, 112, 9, 'Áo Khoác Nam Signature 7846', 'ao-khoac-nam-signature-7846-1781112536-1', 'Đây là sản phẩm Áo Khoác Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 250000.00, 41, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(130, 112, 8, 'Áo Khoác Nam Signature 05C4', 'ao-khoac-nam-signature-05c4-1781112536-2', 'Đây là sản phẩm Áo Khoác Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 800000.00, 35, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(131, 114, 9, 'Quần Dài Nam Signature 8E6D', 'quan-dai-nam-signature-8e6d-1781112536-1', 'Đây là sản phẩm Quần Dài Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 350000.00, 12, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(132, 114, 5, 'Quần Dài Nam Signature DAF8', 'quan-dai-nam-signature-daf8-1781112536-2', 'Đây là sản phẩm Quần Dài Nam có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 850000.00, 57, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(133, 200, 4, 'Giày Chạy Bộ Nữ Signature 6DE3', 'giay-chay-bo-nu-signature-6de3-1781112536-1', 'Đây là sản phẩm Giày Chạy Bộ Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1100000.00, 88, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(134, 200, 6, 'Giày Chạy Bộ Nữ Signature 5F21', 'giay-chay-bo-nu-signature-5f21-1781112536-2', 'Đây là sản phẩm Giày Chạy Bộ Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1500000.00, 100, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(135, 202, 1, 'Giày Thể Thao Nữ Signature 97E1', 'giay-the-thao-nu-signature-97e1-1781112536-1', 'Đây là sản phẩm Giày Thể Thao Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 350000.00, 48, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(136, 202, 5, 'Giày Thể Thao Nữ Signature 5703', 'giay-the-thao-nu-signature-5703-1781112536-2', 'Đây là sản phẩm Giày Thể Thao Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 650000.00, 31, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(137, 203, 10, 'Dép Nữ Signature 7247', 'dep-nu-signature-7247-1781112536-1', 'Đây là sản phẩm Dép Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 950000.00, 43, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(138, 203, 1, 'Dép Nữ Signature 3EBA', 'dep-nu-signature-3eba-1781112536-2', 'Đây là sản phẩm Dép Nữ có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 500000.00, 56, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(139, 214, 10, 'Chân Váy Signature 58EC', 'chan-vay-signature-58ec-1781112536-1', 'Đây là sản phẩm Chân Váy có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1450000.00, 25, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(140, 214, 1, 'Chân Váy Signature 8256', 'chan-vay-signature-8256-1781112536-2', 'Đây là sản phẩm Chân Váy có thiết kế nổi bật, phù hợp cho nhiều hoạt động thể thao.', 1400000.00, 75, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:28:56', '2026-06-11 00:28:56'),
+(141, 33, 11, 'Bóng Rổ 6FC2', 'bong-ro-6fc2-1781112741-1', 'Đây là sản phẩm Bóng Rổ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1350000.00, 91, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(142, 33, 1, 'Bóng Rổ 237A', 'bong-ro-237a-1781112741-2', 'Đây là sản phẩm Bóng Rổ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2500000.00, 37, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(143, 33, 11, 'Bóng Rổ 4F74', 'bong-ro-4f74-1781112741-3', 'Đây là sản phẩm Bóng Rổ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1750000.00, 92, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(144, 33, 10, 'Bóng Rổ 003E', 'bong-ro-003e-1781112741-4', 'Đây là sản phẩm Bóng Rổ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2050000.00, 21, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(145, 33, 10, 'Bóng Rổ 74E2', 'bong-ro-74e2-1781112741-5', 'Đây là sản phẩm Bóng Rổ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1050000.00, 35, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(146, 34, 10, 'Bóng Chuyền 12DA', 'bong-chuyen-12da-1781112741-1', 'Đây là sản phẩm Bóng Chuyền chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2000000.00, 15, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(147, 34, 9, 'Bóng Chuyền 83FA', 'bong-chuyen-83fa-1781112741-2', 'Đây là sản phẩm Bóng Chuyền chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1000000.00, 33, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(148, 34, 10, 'Bóng Chuyền 6607', 'bong-chuyen-6607-1781112741-3', 'Đây là sản phẩm Bóng Chuyền chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2250000.00, 58, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(149, 34, 4, 'Bóng Chuyền D1F0', 'bong-chuyen-d1f0-1781112741-4', 'Đây là sản phẩm Bóng Chuyền chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1900000.00, 57, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(150, 304, 10, 'Vợt Pickleball 784A', 'vot-pickleball-784a-1781112741-1', 'Đây là sản phẩm Vợt Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 950000.00, 92, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(151, 304, 11, 'Vợt Pickleball 0CC4', 'vot-pickleball-0cc4-1781112741-2', 'Đây là sản phẩm Vợt Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2350000.00, 51, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(152, 304, 1, 'Vợt Pickleball 345C', 'vot-pickleball-345c-1781112741-3', 'Đây là sản phẩm Vợt Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1850000.00, 50, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(153, 304, 5, 'Vợt Pickleball 38FF', 'vot-pickleball-38ff-1781112741-4', 'Đây là sản phẩm Vợt Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 700000.00, 73, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(154, 304, 2, 'Vợt Pickleball 13D4', 'vot-pickleball-13d4-1781112741-5', 'Đây là sản phẩm Vợt Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 550000.00, 57, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(155, 305, 6, 'Bóng Pickleball 21CE', 'bong-pickleball-21ce-1781112741-1', 'Đây là sản phẩm Bóng Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1300000.00, 93, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(156, 305, 1, 'Bóng Pickleball 3A12', 'bong-pickleball-3a12-1781112741-2', 'Đây là sản phẩm Bóng Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2350000.00, 95, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(157, 305, 10, 'Bóng Pickleball 11C4', 'bong-pickleball-11c4-1781112741-3', 'Đây là sản phẩm Bóng Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2300000.00, 22, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(158, 305, 6, 'Bóng Pickleball BEAE', 'bong-pickleball-beae-1781112741-4', 'Đây là sản phẩm Bóng Pickleball chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 850000.00, 82, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(159, 306, 6, 'Máy Chạy Bộ 1719', 'may-chay-bo-1719-1781112741-1', 'Đây là sản phẩm Máy Chạy Bộ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1900000.00, 35, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(160, 306, 11, 'Máy Chạy Bộ D499', 'may-chay-bo-d499-1781112741-2', 'Đây là sản phẩm Máy Chạy Bộ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1000000.00, 41, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(161, 306, 6, 'Máy Chạy Bộ F865', 'may-chay-bo-f865-1781112741-3', 'Đây là sản phẩm Máy Chạy Bộ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 650000.00, 49, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(162, 306, 10, 'Máy Chạy Bộ 2C9F', 'may-chay-bo-2c9f-1781112741-4', 'Đây là sản phẩm Máy Chạy Bộ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1550000.00, 78, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(163, 306, 3, 'Máy Chạy Bộ 74F4', 'may-chay-bo-74f4-1781112741-5', 'Đây là sản phẩm Máy Chạy Bộ chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2200000.00, 86, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(164, 308, 6, 'Giàn Tập 6E3A', 'gian-tap-6e3a-1781112741-1', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1450000.00, 84, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(165, 308, 10, 'Giàn Tập AF69', 'gian-tap-af69-1781112741-2', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1750000.00, 10, 1, 0, 1, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 02:26:02'),
+(166, 308, 9, 'Giàn Tập 2798', 'gian-tap-2798-1781112741-3', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 600000.00, 17, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(167, 308, 9, 'Giàn Tập BBDF', 'gian-tap-bbdf-1781112741-4', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2000000.00, 47, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(168, 308, 1, 'Giàn Tập 2AD4', 'gian-tap-2ad4-1781112741-5', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1400000.00, 87, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
+(169, 112, 11, 'San pham test QA live', 'san-pham-test-qa-live', '', 250000.00, 10, 1, 1, 0, 999, NULL, 0, '2026-06-11 03:00:42', '2026-06-11 03:04:42');
 
 -- --------------------------------------------------------
 
@@ -937,7 +940,8 @@ INSERT INTO `product_images` (`image_id`, `product_id`, `image_url`, `alt_text`,
 (167, 165, 'https://placehold.co/400x400/800000/ffffff?text=Gi%C3%A0n+T%E1%BA%ADp+AF69', NULL, 1, 1, NULL),
 (168, 166, 'https://placehold.co/400x400/2e8b57/ffffff?text=Gi%C3%A0n+T%E1%BA%ADp+2798', NULL, 1, 1, NULL),
 (169, 167, 'https://placehold.co/400x400/8b4513/ffffff?text=Gi%C3%A0n+T%E1%BA%ADp+BBDF', NULL, 1, 1, NULL),
-(170, 168, 'https://placehold.co/400x400/2e8b57/ffffff?text=Gi%C3%A0n+T%E1%BA%ADp+2AD4', NULL, 1, 1, NULL);
+(170, 168, 'https://placehold.co/400x400/2e8b57/ffffff?text=Gi%C3%A0n+T%E1%BA%ADp+2AD4', NULL, 1, 1, NULL),
+(171, 169, 'https://placehold.co/600x600/111827/ffffff?text=San+pham+test+QA+liv', 'San pham test QA live', 0, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -1206,7 +1210,8 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (246, 56, '21', 'Xanh lá', '21', 0.00, 12, 1, 0),
 (247, 141, 'DEFAULT-141-1781113277', 'default', 'default', 0.00, 91, 1, 0),
 (248, 144, 'DEFAULT-144-1781113313', 'default', 'default', 0.00, 21, 1, 0),
-(249, 165, 'DEFAULT-165-1781113453', 'default', 'default', 0.00, 10, 1, 0);
+(249, 165, 'DEFAULT-165-1781113453', 'default', 'default', 0.00, 10, 1, 0),
+(250, 169, 'SP-TEST-01', 'Xanh', 'XL', 0.00, 10, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1422,7 +1427,13 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (205, 3, 16, '2026-06-11 01:47:43'),
 (206, 3, 5, '2026-06-11 01:56:51'),
 (207, 3, 1, '2026-06-11 02:05:28'),
-(208, 3, 16, '2026-06-11 02:10:42');
+(208, 3, 16, '2026-06-11 02:10:42'),
+(209, 3, 165, '2026-06-11 02:20:01'),
+(210, 1, 165, '2026-06-11 02:20:04'),
+(211, 3, 165, '2026-06-11 02:21:18'),
+(212, 3, 1, '2026-06-11 02:24:39'),
+(213, 1, 165, '2026-06-11 02:25:53'),
+(214, 1, 169, '2026-06-11 03:02:04');
 
 -- --------------------------------------------------------
 
@@ -1569,7 +1580,9 @@ INSERT INTO `search_logs` (`log_id`, `user_id`, `keyword`, `result_count`, `sear
 (12, NULL, 'giay chay bo', 5, '2026-05-29 19:17:55'),
 (13, NULL, 'vot cau long', 6, '2026-05-29 19:17:55'),
 (14, NULL, 'ao the thao', 9, '2026-05-29 19:17:55'),
-(15, 8, 'Giàn Tập AF69', 1, '2026-06-11 00:44:08');
+(15, 8, 'Giàn Tập AF69', 1, '2026-06-11 00:44:08'),
+(16, 1, 'San pham test QA live', 1, '2026-06-11 03:01:44'),
+(17, 1, 'San pham test QA live', 1, '2026-06-11 03:01:44');
 
 -- --------------------------------------------------------
 
@@ -1753,7 +1766,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Quản Trị Viên', 'admin@gmail.com', '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, NULL, 0, '$2y$10$a1MvPTVvNYuyN6qocOI9v.CWffPA.P2CFaNSJSLwnEQb17dr/kLZW', 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
+(1, 1, 'Quản Trị Viên', 'admin@gmail.com', '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, NULL, 0, '$2y$10$8iDvzRC8Fc8IZYY/3EQLku1eMvHYviZZydjUeC5EBwth8R0XErNHC', 1, '2026-05-29 19:17:55', '2026-06-11 02:42:12'),
 (2, 3, 'Lợi Lê Hữu', 'loiledelta0@gmail.com', '0772130908', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_27_1781012205.png', 'male', '2004-10-21', 1, NULL, 0, '$2y$10$tlWRp7c6FvBZ1Glr..3fIeatQJ01NsHQAl0v/klVHTe/ymWS/FEU2', 1, '2026-06-09 19:32:29', '2026-06-11 01:04:10'),
 (3, 3, 'Tester User', 'vancedloile@gmail.com', '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, NULL, 0, '$2y$10$pD9.gIbGoMcnvBCqAfqPfOrzf9VmERD8SAzQzD8D9Yp4Ya1mopfhG', 1, '2026-06-11 01:07:16', '2026-06-11 01:23:24'),
 (4, 3, 'Trần Thị Bích', 'bich.tran@gmail.com', '0923456789', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
@@ -2142,7 +2155,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -2202,25 +2215,25 @@ ALTER TABLE `payment_transactions`
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
+  MODIFY `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
 
 --
 -- AUTO_INCREMENT cho bảng `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `image_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
+  MODIFY `image_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
 
 --
 -- AUTO_INCREMENT cho bảng `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=250;
+  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
 
 --
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
@@ -2244,7 +2257,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT cho bảng `search_logs`
 --
 ALTER TABLE `search_logs`
-  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `shipping_methods`

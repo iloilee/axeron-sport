@@ -73,7 +73,7 @@ function handleAddToCart($input, $userId) {
         SELECT p.*, pv.stock_quantity, pv.is_active
         FROM products p
         JOIN product_variants pv ON p.product_id = pv.product_id
-        WHERE p.product_id = ? AND pv.variant_id = ? AND p.is_visible = 1 AND pv.is_deleted = 0
+        WHERE p.product_id = ? AND pv.variant_id = ? AND p.is_visible = 1 AND p.is_deleted = 0 AND pv.is_deleted = 0
     ", [$productId, $variantId]);
 
     if (!$product) {
@@ -198,7 +198,8 @@ function handleUpdateCart($input, $userId) {
             SELECT ci.*, pv.stock_quantity
             FROM cart_items ci
             JOIN product_variants pv ON ci.variant_id = pv.variant_id
-            WHERE ci.cart_item_id = ? AND ci.cart_id IN (SELECT cart_id FROM carts WHERE user_id = ?) AND pv.is_deleted = 0
+            JOIN products p ON pv.product_id = p.product_id
+            WHERE ci.cart_item_id = ? AND ci.cart_id IN (SELECT cart_id FROM carts WHERE user_id = ?) AND pv.is_deleted = 0 AND p.is_deleted = 0
         ", [$cartItemId, $userId]);
 
         if (!$item) {
@@ -227,7 +228,7 @@ function handleUpdateCart($input, $userId) {
             FROM cart_items ci
             JOIN product_variants pv ON ci.variant_id = pv.variant_id
             JOIN products p ON pv.product_id = p.product_id
-            WHERE ci.cart_id = ? AND pv.is_deleted = 0
+            WHERE ci.cart_id = ? AND pv.is_deleted = 0 AND p.is_deleted = 0
         ", [$cart['cart_id']]);
 
         jsonResponse(true, 'Đã cập nhật', [
@@ -366,7 +367,7 @@ function handleGetCart($userId) {
             JOIN product_variants pv ON ci.variant_id = pv.variant_id
             JOIN products p ON pv.product_id = p.product_id
             LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
-            WHERE ci.cart_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0
+            WHERE ci.cart_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0 AND p.is_deleted = 0
             ORDER BY ci.added_at DESC
         ", [$cart['cart_id']]);
 
@@ -409,7 +410,7 @@ function handleGetCart($userId) {
                 FROM product_variants pv
                 JOIN products p ON pv.product_id = p.product_id
                 LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
-                WHERE pv.variant_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0
+                WHERE pv.variant_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0 AND p.is_deleted = 0
             ", [$cartItem['variant_id'], $cartItem['quantity'], $cartItem['variant_id']]);
 
             if ($item) {

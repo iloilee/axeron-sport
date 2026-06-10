@@ -90,7 +90,8 @@ function getFeaturedProducts($db) {
         LEFT JOIN categories c ON p.category_id = c.category_id
         LEFT JOIN brands b ON p.brand_id = b.brand_id
         LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
-        WHERE p.is_visible = 1
+        LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
+        WHERE p.is_visible = 1 AND p.is_deleted = 0
         ORDER BY p.is_featured DESC, p.total_reviews DESC
         LIMIT ?
     ", [$limit]);
@@ -145,7 +146,7 @@ function getProductsByCategory($db) {
     $total = $db->selectOne("
         SELECT COUNT(*) as total
         FROM products
-        WHERE category_id IN ($placeholders) AND is_visible = 1
+        WHERE category_id IN ($placeholders) AND is_visible = 1 AND is_deleted = 0
     ", $categoryIds);
 
     // Lấy sản phẩm
@@ -168,7 +169,7 @@ function getProductsByCategory($db) {
         LEFT JOIN brands b ON p.brand_id = b.brand_id
         LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
         LEFT JOIN product_variants pv ON p.product_id = pv.product_id AND pv.is_active = 1 AND pv.is_deleted = 0
-        WHERE p.category_id IN ($placeholders) AND p.is_visible = 1
+        WHERE p.category_id IN ($placeholders) AND p.is_visible = 1 AND p.is_deleted = 0
         GROUP BY p.product_id
         ORDER BY p.is_featured DESC, p.updated_at DESC
         LIMIT ? OFFSET ?
@@ -210,7 +211,7 @@ function searchProducts($db) {
         FROM products p
         LEFT JOIN brands b ON p.brand_id = b.brand_id
         LEFT JOIN categories c ON p.category_id = c.category_id
-        WHERE p.is_visible = 1
+        WHERE p.is_visible = 1 AND p.is_deleted = 0
         AND (p.product_name LIKE ? OR p.description LIKE ? OR b.brand_name LIKE ? OR c.category_name LIKE ?)
     ", [$searchTerm, $searchTerm, $searchTerm, $searchTerm]);
 
@@ -229,7 +230,7 @@ function searchProducts($db) {
         LEFT JOIN categories c ON p.category_id = c.category_id
         LEFT JOIN brands b ON p.brand_id = b.brand_id
         LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
-        WHERE p.is_visible = 1
+        WHERE p.is_visible = 1 AND p.is_deleted = 0
         AND (p.product_name LIKE ? OR p.description LIKE ? OR b.brand_name LIKE ? OR c.category_name LIKE ?)
         GROUP BY p.product_id
         ORDER BY p.total_reviews DESC, p.avg_rating DESC
@@ -291,7 +292,7 @@ function autocompleteProducts($db) {
         LEFT JOIN categories c ON p.category_id = c.category_id
         LEFT JOIN brands b ON p.brand_id = b.brand_id
         LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
-        WHERE p.is_visible = 1 
+        WHERE p.is_visible = 1 AND p.is_deleted = 0
         AND (p.product_name LIKE ? OR c.category_name LIKE ? OR b.brand_name LIKE ? OR p.description LIKE ?)
         GROUP BY p.product_id
         ORDER BY p.is_featured DESC, p.total_reviews DESC, p.avg_rating DESC
@@ -328,7 +329,7 @@ function getProductDetail($db) {
         FROM products p
         LEFT JOIN categories c ON p.category_id = c.category_id
         LEFT JOIN brands b ON p.brand_id = b.brand_id
-        WHERE $where AND p.is_visible = 1
+        WHERE $where AND p.is_visible = 1 AND p.is_deleted = 0
     ", $param);
 
     if (!$product) {
@@ -410,7 +411,7 @@ function getRelatedProducts($db) {
             pi.image_url
         FROM products p
         LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
-        WHERE p.category_id = ? AND p.product_id != ? AND p.is_visible = 1
+        WHERE p.category_id = ? AND p.product_id != ? AND p.is_visible = 1 AND p.is_deleted = 0
         ORDER BY p.is_featured DESC, p.avg_rating DESC
         LIMIT ?
     ", [$product['category_id'], $productId, $limit]);
@@ -488,7 +489,7 @@ function submitReview($db) {
     }
 
     // Kiểm tra sản phẩm tồn tại
-    $product = $db->selectOne("SELECT product_id FROM products WHERE product_id = ? AND is_visible = 1", [$productId]);
+    $product = $db->selectOne("SELECT product_id FROM products WHERE product_id = ? AND is_visible = 1 AND is_deleted = 0", [$productId]);
     if (!$product) {
         jsonResponse(false, 'Sản phẩm không tồn tại');
     }

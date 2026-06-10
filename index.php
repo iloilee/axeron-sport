@@ -24,7 +24,7 @@ $featuredProducts = $db->select("
     LEFT JOIN categories c ON p.category_id = c.category_id
     LEFT JOIN brands b ON p.brand_id = b.brand_id
     LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
-    WHERE p.is_visible = 1 AND p.is_featured = 1
+    WHERE p.is_visible = 1 AND p.is_deleted = 0 AND p.is_featured = 1
     ORDER BY p.featured_sort_order ASC, p.updated_at DESC, p.created_at DESC
     LIMIT 10
 ");
@@ -41,7 +41,7 @@ $shoesProducts = $db->select("
     FROM products p
     JOIN categories c ON p.category_id = c.category_id
     LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
-    WHERE p.is_visible = 1 AND c.slug IN ('giay-pickleball', 'giay-da-bong', 'giay-cau-long', 'giay-chay-bo')
+    WHERE p.is_visible = 1 AND p.is_deleted = 0 AND c.slug IN ('giay-pickleball', 'giay-da-bong', 'giay-cau-long', 'giay-chay-bo')
     ORDER BY p.updated_at DESC
 ");
 

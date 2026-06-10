@@ -18,7 +18,7 @@ $product = $db->selectOne("
     FROM products p
     LEFT JOIN categories c ON p.category_id = c.category_id
     LEFT JOIN brands b ON p.brand_id = b.brand_id
-    WHERE $where AND p.is_visible = 1
+    WHERE $where AND p.is_visible = 1 AND p.is_deleted = 0
 ", $param);
 
 if (!$product) {
@@ -58,7 +58,7 @@ $relatedProducts = $db->select("
     SELECT p.product_id, p.product_name, p.slug, p.base_price, pi.image_url
     FROM products p
     LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
-    WHERE p.category_id = ? AND p.product_id != ? AND p.is_visible = 1
+    WHERE p.category_id = ? AND p.product_id != ? AND p.is_visible = 1 AND p.is_deleted = 0
     ORDER BY p.is_featured DESC LIMIT 4
 ", [$product['category_id'], $product['product_id']]);
 

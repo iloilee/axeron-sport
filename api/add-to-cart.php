@@ -44,7 +44,7 @@ if ($variantId === 0) {
     $product = $db->selectOne("
         SELECT p.product_id, p.product_name, p.stock_quantity, p.is_visible
         FROM products p
-        WHERE p.product_id = ? AND p.is_visible = 1
+        WHERE p.product_id = ? AND p.is_visible = 1 AND p.is_deleted = 0
     ", [$productId]);
 
     if (!$product) {
@@ -77,7 +77,7 @@ if ($variantId === 0) {
         SELECT p.product_id, p.product_name, pv.stock_quantity, pv.is_active
         FROM products p
         JOIN product_variants pv ON p.product_id = pv.product_id
-        WHERE p.product_id = ? AND pv.variant_id = ? AND p.is_visible = 1 AND pv.is_deleted = 0
+        WHERE p.product_id = ? AND pv.variant_id = ? AND p.is_visible = 1 AND p.is_deleted = 0 AND pv.is_deleted = 0
     ", [$productId, $variantId]);
 
     if (!$product) {

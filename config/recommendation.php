@@ -88,7 +88,7 @@ class RecommendationEngine
                 SELECT DISTINCT pvl.product_id, p.category_id, p.brand_id
                 FROM product_view_logs pvl
                 JOIN products p ON pvl.product_id = p.product_id
-                WHERE pvl.user_id = ? AND p.is_visible = 1
+                WHERE pvl.user_id = ? AND p.is_visible = 1 AND p.is_deleted = 0
                 ORDER BY pvl.viewed_at DESC
                 LIMIT 20
             ", [$this->userId]);
@@ -134,7 +134,7 @@ class RecommendationEngine
                 $viewed = $this->db->select("
                     SELECT p.product_id, p.category_id, p.brand_id
                     FROM products p
-                    WHERE p.product_id IN ($placeholders) AND p.is_visible = 1
+                    WHERE p.product_id IN ($placeholders) AND p.is_visible = 1 AND p.is_deleted = 0
                 ", $guestLogs);
 
                 $data['viewed_products'] = $viewed;
@@ -171,7 +171,7 @@ class RecommendationEngine
             $placeholders = implode(',', array_fill(0, count($data['cart_product_ids']), '?'));
             $cartInfo = $this->db->select("
                 SELECT category_id, brand_id FROM products 
-                WHERE product_id IN ($placeholders) AND is_visible = 1
+                WHERE product_id IN ($placeholders) AND is_visible = 1 AND is_deleted = 0
             ", $data['cart_product_ids']);
 
             foreach ($cartInfo as $p) {
@@ -247,7 +247,7 @@ class RecommendationEngine
         $excludeIds = array_unique(array_filter($excludeIds));
 
         // Xây dựng điều kiện WHERE
-        $conditions = ["p.is_visible = 1"];
+        $conditions = ["p.is_visible = 1", "p.is_deleted = 0"];
         $params = [];
 
         // Điều kiện loại trừ
@@ -327,7 +327,7 @@ class RecommendationEngine
      */
     private function getFallbackProducts(int $limit, array $excludeIds = []): array
     {
-        $conditions = ["p.is_visible = 1"];
+        $conditions = ["p.is_visible = 1", "p.is_deleted = 0"];
         $params = [];
 
         if (!empty($excludeIds)) {

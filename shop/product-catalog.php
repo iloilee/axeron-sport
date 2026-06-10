@@ -34,7 +34,7 @@ $categories = $db->select("
 $brands = $db->select("SELECT * FROM brands WHERE is_active = 1 ORDER BY brand_name");
 
 // Build query
-$where = ["p.is_visible = 1"];
+$where = ["p.is_visible = 1", "p.is_deleted = 0"];
 $params = [];
 
 if ($currentCategory) {

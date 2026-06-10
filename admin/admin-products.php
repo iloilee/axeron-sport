@@ -7,7 +7,7 @@
 $search = $_GET['search'] ?? '';
 $categoryFilter = $_GET['category'] ?? '';
 
-$where = "WHERE 1=1";
+$where = "WHERE p.is_deleted = 0";
 $params = [];
 
 if ($search) {
