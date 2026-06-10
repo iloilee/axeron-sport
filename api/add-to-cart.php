@@ -123,7 +123,7 @@ if ($userId && $validUser) {
     if ($existing) {
         $newQuantity = $existing['quantity'] + $quantity;
         if ($newQuantity > $product['stock_quantity']) {
-            echo json_encode(['success' => false, 'message' => 'So luong vuot qua ton kho']);
+            echo json_encode(['success' => false, 'message' => 'Số lượng sản phẩm vượt quá tồn kho hiện có.']);
             exit;
         }
         $db->update("UPDATE cart_items SET quantity = ? WHERE cart_item_id = ?", [$newQuantity, $existing['cart_item_id']]);
@@ -153,7 +153,7 @@ if ($userId && $validUser) {
         if ($item['variant_id'] == $variantId) {
             $newQty = $item['quantity'] + $quantity;
             if ($newQty > $product['stock_quantity']) {
-                echo json_encode(['success' => false, 'message' => 'So luong vuot qua ton kho']);
+                echo json_encode(['success' => false, 'message' => 'Số lượng sản phẩm vượt quá tồn kho hiện có.']);
                 exit;
             }
             $item['quantity'] = $newQty;

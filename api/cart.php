@@ -113,7 +113,7 @@ function handleAddToCart($input, $userId) {
             // Cập nhật số lượng
             $newQuantity = $existing['quantity'] + $quantity;
             if ($newQuantity > $product['stock_quantity']) {
-                jsonResponse(false, 'Số lượng vượt quá tồn kho');
+                jsonResponse(false, 'Số lượng sản phẩm vượt quá tồn kho hiện có.');
             }
             $db->update("UPDATE cart_items SET quantity = ? WHERE cart_item_id = ?", [$newQuantity, $existing['cart_item_id']]);
         } else {
@@ -143,7 +143,7 @@ function handleAddToCart($input, $userId) {
             if ($item['variant_id'] == $variantId) {
                 $newQty = $item['quantity'] + $quantity;
                 if ($newQty > $product['stock_quantity']) {
-                    jsonResponse(false, 'Số lượng vượt quá tồn kho');
+                    jsonResponse(false, 'Số lượng sản phẩm vượt quá tồn kho hiện có.');
                 }
                 $item['quantity'] = $newQty;
                 $found = true;
@@ -206,7 +206,7 @@ function handleUpdateCart($input, $userId) {
         }
 
         if ($quantity > $item['stock_quantity']) {
-            jsonResponse(false, 'Số lượng vượt quá tồn kho');
+            jsonResponse(false, 'Số lượng sản phẩm vượt quá tồn kho hiện có.');
         }
 
         $db->update("UPDATE cart_items SET quantity = ? WHERE cart_item_id = ?", [$quantity, $cartItemId]);

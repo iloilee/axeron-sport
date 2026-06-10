@@ -114,6 +114,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $db->beginTransaction();
 
+        // Kiểm tra tồn kho lần cuối ngay trước khi tạo đơn hàng
+        foreach ($cartItems as $item) {
+            $currentStock = $db->selectOne("SELECT stock_quantity FROM product_variants WHERE variant_id = ? FOR UPDATE", [$item['variant_id']]);
+            if (!$currentStock || $currentStock['stock_quantity'] < $item['quantity']) {
+                throw new Exception("Sản phẩm hiện không đủ số lượng trong kho.");
+            }
+        }
+
         // Create order
         $orderId = $db->insert("
             INSERT INTO orders (user_id, shipping_id, promo_id, recipient_name, recipient_phone, shipping_address,
@@ -174,7 +182,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (Exception $e) {
         $db->rollback();
         error_log('Checkout Error: ' . $e->getMessage());
-        setFlash('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
+        
+        if ($e->getMessage() === "Sản phẩm hiện không đủ số lượng trong kho.") {
+            setFlash('error', $e->getMessage());
+            redirect(BASE_URL . '/shop/cart.php');
+        } else {
+            setFlash('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
+        }
     }
 }
 
