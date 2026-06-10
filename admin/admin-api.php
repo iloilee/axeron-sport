@@ -81,6 +81,8 @@ if (!empty($requestAction)) {
         'create_product' => 'products',
         'update_product' => 'products',
         'delete_product' => 'products',
+        'toggle_product_visibility' => 'products',
+        'toggle_product_featured' => 'products',
         'upload_product_image' => 'products',
         'delete_product_image' => 'products',
         'set_primary_image' => 'products',
@@ -738,6 +740,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 $response = ['success' => true, 'message' => 'Sản phẩm đã được cập nhật!'];
+            } catch (Exception $e) {
+                $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
+            }
+            break;
+
+        case 'toggle_product_visibility':
+            $product_id = (int)($_POST['product_id'] ?? 0);
+            $is_visible = (int)($_POST['is_visible'] ?? 0);
+            
+            if ($product_id <= 0) {
+                $response = ['success' => false, 'message' => 'ID sản phẩm không hợp lệ!'];
+                break;
+            }
+            
+            try {
+                $db->update("UPDATE products SET is_visible = ? WHERE product_id = ?", [$is_visible, $product_id]);
+                $response = ['success' => true, 'message' => 'Trạng thái sản phẩm đã được cập nhật!'];
+            } catch (Exception $e) {
+                $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
+            }
+            break;
+
+        case 'toggle_product_featured':
+            $product_id = (int)($_POST['product_id'] ?? 0);
+            $is_featured = (int)($_POST['is_featured'] ?? 0);
+            
+            if ($product_id <= 0) {
+                $response = ['success' => false, 'message' => 'ID sản phẩm không hợp lệ!'];
+                break;
+            }
+            
+            try {
+                $db->update("UPDATE products SET is_featured = ? WHERE product_id = ?", [$is_featured, $product_id]);
+                $response = ['success' => true, 'message' => 'Trạng thái nổi bật đã được cập nhật!'];
             } catch (Exception $e) {
                 $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
             }

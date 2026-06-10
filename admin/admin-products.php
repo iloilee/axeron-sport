@@ -95,18 +95,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_action'])) {
                     <td class="px-4 py-3 text-sm font-medium text-axeron-red"><?= formatPrice($product['base_price']) ?></td>
                     <td class="px-4 py-3 text-sm"><?= number_format($product['stock_quantity']) ?></td>
                     <td class="px-4 py-3">
-                        <?php if ($product['is_featured']): ?>
-                        <span class="px-2.5 py-0.5 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium inline-block whitespace-nowrap">Nổi bật</span>
-                        <?php else: ?>
-                        <span class="px-2.5 py-0.5 bg-gray-100 text-gray-600 rounded-full text-xs font-medium inline-block whitespace-nowrap">-</span>
-                        <?php endif; ?>
+                        <label class="relative inline-flex items-center cursor-pointer" title="Nhấn để bật/tắt nổi bật">
+                            <input type="checkbox" class="sr-only peer" onchange="toggleProductFeatured(<?= $product['product_id'] ?>, this)" <?= $product['is_featured'] ? 'checked' : '' ?>>
+                            <div class="w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-yellow-500"></div>
+                            <span class="ml-2 text-xs font-medium text-gray-700 featured-label"><?= $product['is_featured'] ? 'Nổi bật' : '-' ?></span>
+                        </label>
                     </td>
                     <td class="px-4 py-3">
-                        <?php if ($product['is_visible']): ?>
-                        <span class="px-2.5 py-0.5 bg-green-100 text-green-800 rounded-full text-xs font-medium inline-block whitespace-nowrap">Hiển thị</span>
-                        <?php else: ?>
-                        <span class="px-2.5 py-0.5 bg-gray-100 text-gray-600 rounded-full text-xs font-medium inline-block whitespace-nowrap">Đang ẩn</span>
-                        <?php endif; ?>
+                        <label class="relative inline-flex items-center cursor-pointer" title="Nhấn để ẩn/hiện sản phẩm">
+                            <input type="checkbox" class="sr-only peer" onchange="toggleProductVisibility(<?= $product['product_id'] ?>, this)" <?= $product['is_visible'] ? 'checked' : '' ?>>
+                            <div class="w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-green-500"></div>
+                            <span class="ml-2 text-xs font-medium text-gray-700 visibility-label"><?= $product['is_visible'] ? 'Hiển thị' : 'Đang ẩn' ?></span>
+                        </label>
                     </td>
                     <td class="px-4 py-3">
                         <div class="flex gap-2">
@@ -751,6 +751,82 @@ function deleteProduct(productId) {
         }
     });
 }
+// Toggle product visibility
+async function toggleProductVisibility(productId, checkbox) {
+    const isVisible = checkbox.checked ? 1 : 0;
+    const label = checkbox.parentNode.querySelector('.visibility-label');
+    
+    // Update label text temporarily
+    if (label) {
+        label.textContent = isVisible ? 'Hiển thị' : 'Đang ẩn';
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('ajax_action', 'toggle_product_visibility');
+        formData.append('product_id', productId);
+        formData.append('is_visible', isVisible);
+
+        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
+
+        if (result.success) {
+            showToast('Đã cập nhật trạng thái hiển thị!', 'success');
+        } else {
+            showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            // Revert
+            checkbox.checked = !isVisible;
+            if (label) label.textContent = !isVisible ? 'Hiển thị' : 'Đang ẩn';
+        }
+    } catch (err) {
+        showToast('Có lỗi xảy ra!', 'error');
+        // Revert
+        checkbox.checked = !isVisible;
+        if (label) label.textContent = !isVisible ? 'Hiển thị' : 'Đang ẩn';
+    }
+}
+
+// Toggle product featured
+async function toggleProductFeatured(productId, checkbox) {
+    const isFeatured = checkbox.checked ? 1 : 0;
+    const label = checkbox.parentNode.querySelector('.featured-label');
+    
+    // Update label text temporarily
+    if (label) {
+        label.textContent = isFeatured ? 'Nổi bật' : '-';
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('ajax_action', 'toggle_product_featured');
+        formData.append('product_id', productId);
+        formData.append('is_featured', isFeatured);
+
+        const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
+
+        if (result.success) {
+            showToast('Đã cập nhật trạng thái nổi bật!', 'success');
+        } else {
+            showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            // Revert
+            checkbox.checked = !isFeatured;
+            if (label) label.textContent = !isFeatured ? 'Nổi bật' : '-';
+        }
+    } catch (err) {
+        showToast('Có lỗi xảy ra!', 'error');
+        // Revert
+        checkbox.checked = !isFeatured;
+        if (label) label.textContent = !isFeatured ? 'Nổi bật' : '-';
+    }
+}
+
 // Populate datalist with color suggestions
 function populateColorDatalist() {
     const datalist = document.getElementById('color-options');
