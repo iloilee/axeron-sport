@@ -60,145 +60,143 @@ $flash = getFlash();
         .material-symbols-outlined { font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; }
     </style>
 </head>
-<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col">
-    <!-- Header -->
-    <header class="w-full py-4 px-margin-mobile md:px-margin-desktop border-b border-surface-variant bg-surface flex justify-center items-center absolute top-0 z-10">
-                        <a class="flex items-center gap-2 flex-shrink-0" href="<?= BASE_URL ?>/">
-            <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover">
-            <span class="font-display-lg text-[#BE1E2D] uppercase tracking-tight text-xl md:text-2xl" style="font-family: 'Montserrat', sans-serif;">Axeron</span>
-        </a>
-    </header>
+<body class="bg-[#fcf9f8] text-[#1b1c1c] antialiased min-h-screen flex flex-col items-center justify-center relative bg-cover bg-center py-12" style="font-family: 'Noto Sans', sans-serif; background-image: url('<?= BASE_URL ?>/assets/images/auth-banner.png');">
+    <!-- Background Overlays -->
+    <div class="absolute inset-0 bg-axeron-red/40 mix-blend-multiply"></div>
+    <div class="absolute inset-0 bg-black/60"></div>
+
+    <!-- Navigation to Homepage -->
+    <a href="<?= BASE_URL ?>/" class="absolute top-6 left-6 z-20 flex items-center gap-2 text-white hover:text-[#ffb3b0] transition-colors bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm border border-white/20">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+        <span class="font-medium text-sm">Quay lại trang chủ</span>
+    </a>
 
     <!-- Main Content -->
-    <main class="flex-1 flex flex-col md:flex-row w-full min-h-screen">
-        <!-- Left Side: Branding -->
-        <div class="hidden md:flex md:w-1/2 relative bg-surface-gray items-center justify-center overflow-hidden">
-            <div class="absolute inset-0 bg-black/40"></div>
-            <div class="relative z-10 p-12 text-center text-white">
-                <h1 class="font-display-lg text-display-lg text-white mb-4 uppercase drop-shadow-md">Khám Phá<br/>Thế Giới Thể Thao</h1>
-                <p class="font-body-lg text-body-lg text-surface-container-highest max-w-md mx-auto">
-                    Đăng ký ngay hôm nay để nhận ưu đãi 10% cho đơn hàng đầu tiên và cập nhật những sản phẩm mới nhất từ Axeron.
-                </p>
-            </div>
+    <main class="relative z-10 w-full max-w-lg px-4 py-8">
+        <!-- Logo -->
+        <div class="flex justify-center mb-6">
+            <a class="flex items-center gap-3 flex-shrink-0 bg-white/10 p-3 px-5 rounded-2xl backdrop-blur-md border border-white/20 hover:bg-white/20 transition-colors" href="<?= BASE_URL ?>/">
+                <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-10 h-10 rounded-lg object-cover shadow-sm">
+                <span class="font-display-lg text-white uppercase tracking-tight text-2xl font-black drop-shadow-sm" style="font-family: 'Montserrat', sans-serif;">Axeron</span>
+            </a>
         </div>
 
-        <!-- Right Side: Register Form -->
-        <div class="w-full md:w-1/2 flex items-center justify-center p-margin-mobile md:p-12 lg:p-24 bg-surface mt-16 md:mt-0">
-            <div class="w-full max-w-md">
-                <!-- Flash Message -->
-                <?php if ($flash): ?>
-                <div class="mb-6 p-4 rounded-lg <?= $flash['type'] === 'error' ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-green-50 border border-green-200 text-green-700' ?>">
-                    <?= htmlspecialchars($flash['message']) ?>
+        <!-- Form Container -->
+        <div class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 w-full border border-[#e5e2e1]">
+            <!-- Flash Message -->
+            <?php if ($flash): ?>
+            <div class="mb-6 p-4 rounded-xl <?= $flash['type'] === 'error' ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-green-50 border border-green-200 text-green-700' ?>">
+                <?= htmlspecialchars($flash['message']) ?>
+            </div>
+            <?php endif; ?>
+
+            <div class="mb-6 text-center">
+                <h2 class="text-2xl font-bold text-[#1b1c1c] mb-2" style="font-family: 'Montserrat', sans-serif;">Tạo Tài Khoản</h2>
+                <p class="text-sm text-[#5b403f]">Điền thông tin bên dưới để tạo tài khoản mới.</p>
+            </div>
+
+            <form method="POST" action="<?= BASE_URL ?>/api/auth-handler.php" class="space-y-5">
+                <input type="hidden" name="action" value="register">
+                
+                <!-- Full Name -->
+                <div>
+                    <label class="block text-sm font-semibold text-[#1b1c1c] mb-2" for="full_name">Họ và tên *</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-[#8f6f6e] text-[20px]">badge</span>
+                        </div>
+                        <input class="w-full pl-11 pr-4 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="full_name" name="full_name" placeholder="Nhập họ và tên" required type="text" value="<?= htmlspecialchars($_POST['full_name'] ?? '') ?>"/>
+                    </div>
                 </div>
-                <?php endif; ?>
 
-                <div class="mb-8 text-center md:text-left">
-                    <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Tạo Tài Khoản</h2>
-                    <p class="font-body-md text-body-md text-on-surface-variant">Điền thông tin bên dưới để tạo tài khoản mới.</p>
+                <!-- Email -->
+                <div>
+                    <label class="block text-sm font-semibold text-[#1b1c1c] mb-2" for="email">Email *</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-[#8f6f6e] text-[20px]">mail</span>
+                        </div>
+                        <input class="w-full pl-11 pr-4 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="email" name="email" placeholder="Nhập email" required type="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"/>
+                    </div>
                 </div>
 
-                <form method="POST" action="<?= BASE_URL ?>/api/auth-handler.php" class="space-y-5">
-                    <input type="hidden" name="action" value="register">
-                    <!-- Full Name -->
-                    <div>
-                        <label class="block font-label-lg text-label-lg text-on-surface mb-2" for="full_name">Họ và tên *</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="material-symbols-outlined text-outline">badge</span>
-                            </div>
-                            <input class="w-full pl-10 pr-4 py-3 border border-outline-variant rounded bg-surface-container-lowest text-on-surface focus:outline-none focus:ring-2 focus:ring-axeron-blue focus:border-transparent transition-shadow" id="full_name" name="full_name" placeholder="Nhập họ và tên" required type="text" value="<?= htmlspecialchars($_POST['full_name'] ?? '') ?>"/>
+                <!-- Phone -->
+                <div>
+                    <label class="block text-sm font-semibold text-[#1b1c1c] mb-2" for="phone">Số điện thoại *</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-[#8f6f6e] text-[20px]">phone</span>
+                        </div>
+                        <input class="w-full pl-11 pr-4 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="phone" name="phone" placeholder="Nhập số điện thoại" required type="tel" value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>"/>
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label class="block text-sm font-semibold text-[#1b1c1c] mb-2" for="password">Mật khẩu *</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-[#8f6f6e] text-[20px]">lock</span>
+                        </div>
+                        <input class="w-full pl-11 pr-10 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="password" name="password" placeholder="Ít nhất 8 ký tự" required type="password" minlength="8"/>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-[#8f6f6e] hover:text-[#1b1c1c] transition-colors" onclick="togglePasswordVisibility()">
+                            <span class="material-symbols-outlined" id="visibility-icon">visibility_off</span>
                         </div>
                     </div>
+                    <!-- Password Requirements -->
+                    <div id="password-requirements" class="mt-2 p-3 bg-[#fcf9f8] rounded-xl border border-[#e3bebb] text-sm" style="display:none;">
+                        <p class="font-semibold text-sm text-[#5b403f] mb-1.5">Mật khẩu phải có:</p>
+                        <ul class="space-y-1">
+                            <li id="req-length" class="flex items-center gap-1.5 text-[#5b403f]">
+                                <span class="material-symbols-outlined text-base" id="icon-length">circle</span>
+                                <span>Ít nhất 8 ký tự</span>
+                            </li>
+                            <li id="req-uppercase" class="flex items-center gap-1.5 text-[#5b403f]">
+                                <span class="material-symbols-outlined text-base" id="icon-uppercase">circle</span>
+                                <span>Ít nhất 1 chữ hoa (A-Z)</span>
+                            </li>
+                            <li id="req-number" class="flex items-center gap-1.5 text-[#5b403f]">
+                                <span class="material-symbols-outlined text-base" id="icon-number">circle</span>
+                                <span>Ít nhất 1 chữ số (0-9)</span>
+                            </li>
+                            <li id="req-special" class="flex items-center gap-1.5 text-[#5b403f]">
+                                <span class="material-symbols-outlined text-base" id="icon-special">circle</span>
+                                <span>Ít nhất 1 ký tự đặc biệt (!@#$%...)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
-                    <!-- Email -->
-                    <div>
-                        <label class="block font-label-lg text-label-lg text-on-surface mb-2" for="email">Email *</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="material-symbols-outlined text-outline">mail</span>
-                            </div>
-                            <input class="w-full pl-10 pr-4 py-3 border border-outline-variant rounded bg-surface-container-lowest text-on-surface focus:outline-none focus:ring-2 focus:ring-axeron-blue focus:border-transparent transition-shadow" id="email" name="email" placeholder="Nhập email" required type="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"/>
+                <!-- Confirm Password -->
+                <div>
+                    <label class="block text-sm font-semibold text-[#1b1c1c] mb-2" for="confirm_password">Xác nhận mật khẩu *</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-[#8f6f6e] text-[20px]">lock</span>
                         </div>
+                        <input class="w-full pl-11 pr-10 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="confirm_password" name="confirm_password" placeholder="Nhập lại mật khẩu" required type="password"/>
                     </div>
+                </div>
 
-                    <!-- Phone -->
-                    <div>
-                        <label class="block font-label-lg text-label-lg text-on-surface mb-2" for="phone">Số điện thoại *</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="material-symbols-outlined text-outline">phone</span>
-                            </div>
-                            <input class="w-full pl-10 pr-4 py-3 border border-outline-variant rounded bg-surface-container-lowest text-on-surface focus:outline-none focus:ring-2 focus:ring-axeron-blue focus:border-transparent transition-shadow" id="phone" name="phone" placeholder="Nhập số điện thoại" required type="tel" value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>"/>
-                        </div>
-                    </div>
+                <!-- Terms -->
+                <div class="flex items-start gap-3">
+                    <input class="h-5 w-5 mt-0.5 text-[#BE1E2D] focus:ring-[#BE1E2D] border-[#e3bebb] rounded cursor-pointer" id="agree-terms" name="agree_terms" required type="checkbox"/>
+                    <label class="text-sm text-[#5b403f]" for="agree-terms">
+                        Tôi đồng ý với <a class="text-[#2979FF] hover:underline font-medium" href="<?= BASE_URL ?>/policies/privacy-policy.php">Chính sách bảo mật</a> và <a class="text-[#2979FF] hover:underline font-medium" href="<?= BASE_URL ?>/policies/purchase-policy.php">Điều khoản dịch vụ</a> của Axeron.
+                    </label>
+                </div>
 
-                    <!-- Password -->
-                    <div>
-                        <label class="block font-label-lg text-label-lg text-on-surface mb-2" for="password">Mật khẩu *</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="material-symbols-outlined text-outline">lock</span>
-                            </div>
-                            <input class="w-full pl-10 pr-10 py-3 border border-outline-variant rounded bg-surface-container-lowest text-on-surface focus:outline-none focus:ring-2 focus:ring-axeron-blue focus:border-transparent transition-shadow" id="password" name="password" placeholder="Ít nhất 8 ký tự" required type="password" minlength="8"/>
-                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-outline hover:text-on-surface transition-colors" onclick="togglePasswordVisibility()">
-                                <span class="material-symbols-outlined" id="visibility-icon">visibility_off</span>
-                            </div>
-                        </div>
-                        <!-- Password Requirements -->
-                        <div id="password-requirements" class="mt-2 p-3 bg-surface-container-low rounded border border-outline-variant text-sm" style="display:none;">
-                            <p class="font-label-lg text-label-sm text-on-surface-variant mb-1.5">Mật khẩu phải có:</p>
-                            <ul class="space-y-1">
-                                <li id="req-length" class="flex items-center gap-1.5 text-on-surface-variant">
-                                    <span class="material-symbols-outlined text-base" id="icon-length">circle</span>
-                                    <span>Ít nhất 8 ký tự</span>
-                                </li>
-                                <li id="req-uppercase" class="flex items-center gap-1.5 text-on-surface-variant">
-                                    <span class="material-symbols-outlined text-base" id="icon-uppercase">circle</span>
-                                    <span>Ít nhất 1 chữ hoa (A-Z)</span>
-                                </li>
-                                <li id="req-number" class="flex items-center gap-1.5 text-on-surface-variant">
-                                    <span class="material-symbols-outlined text-base" id="icon-number">circle</span>
-                                    <span>Ít nhất 1 chữ số (0-9)</span>
-                                </li>
-                                <li id="req-special" class="flex items-center gap-1.5 text-on-surface-variant">
-                                    <span class="material-symbols-outlined text-base" id="icon-special">circle</span>
-                                    <span>Ít nhất 1 ký tự đặc biệt (!@#$%...)</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                <!-- Submit Button -->
+                <button class="w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-xl shadow-md text-sm font-bold uppercase tracking-wide text-white bg-[#BE1E2D] hover:bg-[#98001b] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#BE1E2D] transition-colors duration-200 group" type="submit" style="font-family: 'Montserrat', sans-serif;">
+                    Đăng ký
+                    <span class="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform text-[20px]">arrow_forward</span>
+                </button>
+            </form>
 
-                    <!-- Confirm Password -->
-                    <div>
-                        <label class="block font-label-lg text-label-lg text-on-surface mb-2" for="confirm_password">Xác nhận mật khẩu *</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="material-symbols-outlined text-outline">lock</span>
-                            </div>
-                            <input class="w-full pl-10 pr-10 py-3 border border-outline-variant rounded bg-surface-container-lowest text-on-surface focus:outline-none focus:ring-2 focus:ring-axeron-blue focus:border-transparent transition-shadow" id="confirm_password" name="confirm_password" placeholder="Nhập lại mật khẩu" required type="password"/>
-                        </div>
-                    </div>
-
-                    <!-- Terms -->
-                    <div class="flex items-start gap-3">
-                        <input class="h-5 w-5 mt-0.5 text-axeron-red focus:ring-axeron-blue border-outline rounded cursor-pointer" id="agree-terms" name="agree_terms" required type="checkbox"/>
-                        <label class="text-sm text-on-surface-variant" for="agree-terms">
-                            Tôi đồng ý với <a class="text-axeron-blue hover:underline" href="<?= BASE_URL ?>/policies/privacy-policy.php">Chính sách bảo mật</a> và <a class="text-axeron-blue hover:underline" href="<?= BASE_URL ?>/policies/purchase-policy.php">Điều khoản dịch vụ</a> của Axeron.
-                        </label>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div>
-                        <button class="w-full flex justify-center py-3 px-4 border border-transparent rounded shadow-sm font-label-lg text-label-lg uppercase text-white bg-axeron-red hover:bg-primary-container focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-axeron-red transition-colors duration-200" type="submit">
-                            Đăng ký
-                        </button>
-                    </div>
-                </form>
-
-                <!-- Sign in prompt -->
-                <p class="mt-8 text-center font-body-md text-body-md text-on-surface-variant">
+            <div class="mt-8 text-center pt-6 border-t border-[#f0eded]">
+                <p class="text-sm text-[#5b403f]">
                     Đã có tài khoản?
-                    <a class="font-label-lg text-label-lg text-axeron-red hover:text-primary transition-colors" href="<?= BASE_URL ?>/auth/login.php">Đăng nhập ngay</a>
+                    <a class="font-semibold text-[#BE1E2D] hover:text-[#98001b] transition-colors ml-1" href="<?= BASE_URL ?>/auth/login.php">Đăng nhập ngay</a>
                 </p>
             </div>
         </div>

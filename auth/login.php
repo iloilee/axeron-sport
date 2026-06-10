@@ -73,8 +73,8 @@ $flash = getFlash();
     <!-- Main Content -->
     <main class="flex-1 flex flex-col md:flex-row w-full min-h-screen">
         <!-- Left Side: Branding -->
-        <div class="hidden md:flex md:w-1/2 relative bg-surface-gray items-center justify-center overflow-hidden">
-            <div class="absolute inset-0 bg-black/40"></div>
+        <div class="hidden md:flex md:w-1/2 relative bg-surface-gray items-center justify-center overflow-hidden bg-cover bg-center" style="background-image: url('<?= BASE_URL ?>/assets/images/auth-banner.png');">
+            <div class="absolute inset-0 bg-axeron-red/40 mix-blend-multiply"></div><div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
             <div class="relative z-10 p-12 text-center text-white">
                 <h1 class="font-display-lg text-display-lg text-white mb-4 uppercase drop-shadow-md">Vượt Mọi<br/>Giới Hạn</h1>
                 <p class="font-body-lg text-body-lg text-surface-container-highest max-w-md mx-auto">
