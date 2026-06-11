@@ -222,6 +222,73 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         updateCartCount();
 
         // Redirect to confirmation
+        if ($paymentMethod === 'payos') {
+            $payosClientId = getenv('PAYOS_CLIENT_ID') ?: $_ENV['PAYOS_CLIENT_ID'] ?? '';
+            $payosApiKey = getenv('PAYOS_API_KEY') ?: $_ENV['PAYOS_API_KEY'] ?? '';
+            $payosChecksumKey = getenv('PAYOS_CHECKSUM_KEY') ?: $_ENV['PAYOS_CHECKSUM_KEY'] ?? '';
+
+            if (!$payosClientId || !$payosApiKey || !$payosChecksumKey) {
+                throw new Exception("Chưa cấu hình API PayOS. Vui lòng liên hệ Admin.");
+            }
+
+            $returnUrl = BASE_URL . "/shop/payos_return.php?id=$orderId&token=$guestToken";
+            $cancelUrl = BASE_URL . "/shop/payos_return.php?id=$orderId&token=$guestToken&cancel=true";
+            
+            // Xây dựng dữ liệu gửi PayOS
+            $payosData = [
+                'orderCode' => (int)$orderId, // PayOS yêu cầu mã là số nguyên
+                'amount' => (int)$totalAmount,
+                'description' => "Thanh toan don $orderCode",
+                'returnUrl' => $returnUrl,
+                'cancelUrl' => $cancelUrl
+            ];
+
+            // Tạo chữ ký (Signature)
+            $signData = [
+                'amount' => $payosData['amount'],
+                'cancelUrl' => $payosData['cancelUrl'],
+                'description' => $payosData['description'],
+                'orderCode' => $payosData['orderCode'],
+                'returnUrl' => $payosData['returnUrl']
+            ];
+            ksort($signData);
+            $queryArr = [];
+            foreach($signData as $k => $v) {
+                $queryArr[] = $k . '=' . $v;
+            }
+            $queryString = implode('&', $queryArr);
+            $payosData['signature'] = hash_hmac('sha256', $queryString, $payosChecksumKey);
+
+            // Gọi API bằng cURL
+            $ch = curl_init('https://api-merchant.payos.vn/v2/payment-requests');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payosData));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'x-client-id: ' . $payosClientId,
+                'x-api-key: ' . $payosApiKey
+            ]);
+            
+            $result = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($result) {
+                $payosResponse = json_decode($result, true);
+                if ($httpCode == 200 && isset($payosResponse['code']) && $payosResponse['code'] == '00') {
+                    $checkoutUrl = $payosResponse['data']['checkoutUrl'];
+                    redirect($checkoutUrl);
+                } else {
+                    $errorMsg = $payosResponse['desc'] ?? 'Lỗi không xác định từ PayOS';
+                    throw new Exception("Lỗi tạo link thanh toán PayOS: " . $errorMsg);
+                }
+            } else {
+                throw new Exception("Không thể kết nối đến PayOS.");
+            }
+        }
+
+        // Chuyển hướng mặc định (COD)
         redirect(BASE_URL . '/shop/order-confirmation.php?id=' . $orderId . '&token=' . $guestToken);
 
     } catch (Exception $e) {
@@ -581,10 +648,10 @@ $totalAmount = $subtotal + $shippingFee - $discountAmount;
                                         <div class="absolute inset-0 bg-axeron-blue opacity-0 group-hover:opacity-5 transition-opacity"></div>
                                     </label>
                                     <label class="flex items-center gap-3 p-4 border border-outline-variant rounded cursor-pointer hover:border-axeron-blue transition-colors relative overflow-hidden group">
-                                        <input class="text-axeron-blue focus:ring-axeron-blue w-5 h-5" name="payment" type="radio" value="bank_transfer"/>
+                                        <input class="text-axeron-blue focus:ring-axeron-blue w-5 h-5" name="payment" type="radio" value="payos"/>
                                         <div class="flex items-center gap-3 relative z-10">
-                                            <span class="material-symbols-outlined text-on-surface-variant">account_balance</span>
-                                            <span class="font-label-lg text-label-lg">Chuyển khoản ngân hàng</span>
+                                            <span class="material-symbols-outlined text-on-surface-variant">qr_code_scanner</span>
+                                            <span class="font-label-lg text-label-lg">Thanh toán bằng mã QR / Chuyển khoản (PayOS)</span>
                                         </div>
                                         <div class="absolute inset-0 bg-axeron-blue opacity-0 group-hover:opacity-5 transition-opacity"></div>
                                     </label>
