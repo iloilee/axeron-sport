@@ -359,6 +359,7 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
                 <span class="material-symbols-outlined text-2xl">search</span>
             </a>
 
+
             <!-- User Account -->
             <?php if (isLoggedIn()): ?>
                 <div class="relative group">
@@ -378,7 +379,11 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
                         </a>
                         <a href="<?= BASE_URL ?>/shop/order-history.php" class="block px-4 py-3 text-sm text-on-surface hover:bg-surface-container transition-colors">
                             <span class="material-symbols-outlined text-lg align-middle mr-2">receipt_long</span>
-                            Đơn hàng
+                            Đơn hàng của tôi
+                        </a>
+                        <a href="<?= BASE_URL ?>/shop/order-tracking.php" class="block px-4 py-3 text-sm text-on-surface hover:bg-surface-container transition-colors">
+                            <span class="material-symbols-outlined text-lg align-middle mr-2">manage_search</span>
+                            Tra cứu đơn hàng
                         </a>
                         <a href="<?= BASE_URL ?>/shop/wishlist.php" class="block px-4 py-3 text-sm text-on-surface hover:bg-surface-container transition-colors">
                             <span class="material-symbols-outlined text-lg align-middle mr-2">favorite</span>
@@ -521,7 +526,10 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
                 <span class="material-symbols-outlined text-lg">person</span> Tài khoản
             </a>
             <a href="<?= BASE_URL ?>/shop/order-history.php" class="flex items-center gap-3 py-2.5 text-sm text-gray-700 hover:text-axeron-red">
-                <span class="material-symbols-outlined text-lg">receipt_long</span> Đơn hàng
+                <span class="material-symbols-outlined text-lg">receipt_long</span> Đơn hàng của tôi
+            </a>
+            <a href="<?= BASE_URL ?>/shop/order-tracking.php" class="flex items-center gap-3 py-2.5 text-sm text-gray-700 hover:text-axeron-red">
+                <span class="material-symbols-outlined text-lg">manage_search</span> Tra cứu đơn hàng
             </a>
             <a href="<?= BASE_URL ?>/shop/wishlist.php" class="flex items-center gap-3 py-2.5 text-sm text-gray-700 hover:text-axeron-red">
                 <span class="material-symbols-outlined text-lg">favorite</span> Yêu thích

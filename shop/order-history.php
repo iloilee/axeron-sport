@@ -11,10 +11,28 @@ requireLogin();
 $userId = getUserId();
 $db = db();
 
+// Handle Search & Filter
+$statusFilter = $_GET['status'] ?? '';
+$searchCode = $_GET['code'] ?? '';
+
+$whereParams = [$userId];
+$whereClause = "WHERE o.user_id = ?";
+
+if ($statusFilter) {
+    $whereClause .= " AND o.order_status = ?";
+    $whereParams[] = $statusFilter;
+}
+
+if ($searchCode) {
+    $whereClause .= " AND o.order_code LIKE ?";
+    $whereParams[] = '%' . $searchCode . '%';
+}
+
 // Get user orders
 $orders = $db->select("
     SELECT
         o.order_id,
+        o.order_code,
         o.total_amount,
         o.order_status,
         o.payment_method,
@@ -25,10 +43,10 @@ $orders = $db->select("
     FROM orders o
     LEFT JOIN order_items oi ON o.order_id = oi.order_id
     LEFT JOIN shipping_methods sm ON o.shipping_method_id = sm.method_id
-    WHERE o.user_id = ?
+    $whereClause
     GROUP BY o.order_id
     ORDER BY o.created_at DESC
-", [$userId]);
+", $whereParams);
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -115,7 +133,26 @@ $orders = $db->select("
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="flex-grow w-full max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-12">
-        <h1 class="font-headline-lg text-headline-lg md:text-display-lg font-bold mb-8 uppercase text-text-dark">Lịch Sử Đơn Hàng</h1>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <h1 class="font-headline-lg text-headline-lg md:text-display-lg font-bold uppercase text-text-dark m-0">Lịch Sử Đơn Hàng</h1>
+            
+            <form action="" method="GET" class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                <input type="text" name="code" value="<?= htmlspecialchars($searchCode) ?>" placeholder="Mã đơn hàng..." class="border border-outline-variant rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-axeron-red outline-none min-w-[200px]">
+                <select name="status" class="border border-outline-variant rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-axeron-red outline-none min-w-[165px]">
+                    <option value="">Tất cả trạng thái</option>
+                    <option value="pending" <?= $statusFilter == 'pending' ? 'selected' : '' ?>>Chờ xử lý</option>
+                    <option value="confirmed" <?= $statusFilter == 'confirmed' ? 'selected' : '' ?>>Đã xác nhận</option>
+                    <option value="processing" <?= $statusFilter == 'processing' ? 'selected' : '' ?>>Đang xử lý</option>
+                    <option value="shipped" <?= $statusFilter == 'shipped' ? 'selected' : '' ?>>Đang giao</option>
+                    <option value="delivered" <?= $statusFilter == 'delivered' ? 'selected' : '' ?>>Đã giao</option>
+                    <option value="cancelled" <?= $statusFilter == 'cancelled' ? 'selected' : '' ?>>Đã hủy</option>
+                    <option value="returned" <?= $statusFilter == 'returned' ? 'selected' : '' ?>>Trả hàng</option>
+                </select>
+                <button type="submit" class="bg-axeron-red text-white px-4 py-2 rounded-lg font-medium hover:bg-primary transition-colors whitespace-nowrap">
+                    Tìm kiếm
+                </button>
+            </form>
+        </div>
 
         <?php if (empty($orders)): ?>
         <div class="bg-surface-container-lowest rounded-xl border border-surface-container-high p-8 md:p-12 text-center">
@@ -148,7 +185,7 @@ $orders = $db->select("
                         <tr class="hover:bg-surface-container-low transition-colors">
                             <td class="px-4 py-4 font-label-lg text-label-lg font-medium text-on-surface whitespace-nowrap">
                                 <a href="<?= BASE_URL ?>/shop/order-confirmation.php?id=<?= $order['order_id'] ?>" class="text-axeron-blue hover:underline font-bold">
-                                    #<?= str_pad($order['order_id'], 6, '0', STR_PAD_LEFT) ?>
+                                    <?= htmlspecialchars($order['order_code']) ?>
                                 </a>
                             </td>
                             <td class="px-4 py-4 font-body-md text-on-surface-variant whitespace-nowrap"><?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></td>

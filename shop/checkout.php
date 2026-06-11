@@ -9,21 +9,22 @@ $db = db();
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    requireLogin();
-
-    // Kiểm tra user có tồn tại không
-    $userId = getUserId();
-    $userCheck = $db->selectOne("SELECT user_id FROM users WHERE user_id = ?", [$userId]);
-    if (!$userCheck) {
-        // User không tồn tại - đăng xuất và chuyển về login
-        logoutUser();
-        setFlash('error', 'Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại.');
-        header('Location: ' . BASE_URL . '/auth/login.php');
-        exit;
+    $userId = isLoggedIn() ? getUserId() : null;
+    $userValid = false;
+    
+    if ($userId) {
+        $userCheck = $db->selectOne("SELECT user_id FROM users WHERE user_id = ?", [$userId]);
+        if (!$userCheck) {
+            logoutUser();
+            $userId = null;
+        } else {
+            $userValid = true;
+        }
     }
 
     $recipientName = sanitize($_POST['fullname'] ?? '');
     $recipientPhone = sanitize($_POST['phone'] ?? '');
+    $recipientEmail = sanitize($_POST['email'] ?? '');
     $province = sanitize($_POST['province'] ?? '');
     $district = sanitize($_POST['district'] ?? '');
     $ward = sanitize($_POST['ward'] ?? '');
@@ -33,25 +34,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $note = sanitize($_POST['note'] ?? '');
 
     // Validate
-    if (empty($recipientName) || empty($recipientPhone) || empty($streetAddress) || empty($province)) {
+    if (empty($recipientName) || empty($recipientPhone) || empty($streetAddress) || empty($province) || (!$userId && empty($recipientEmail))) {
         setFlash('error', 'Vui lòng điền đầy đủ thông tin giao hàng');
         redirect(BASE_URL . '/shop/checkout.php');
     }
 
     // Get cart items
-    $cart = $db->selectOne("SELECT cart_id FROM carts WHERE user_id = ?", [$userId]);
-    if (!$cart) {
-        setFlash('error', 'Giỏ hàng trống');
-        redirect(BASE_URL . '/shop/cart.php');
-    }
+    $cartItems = [];
+    $cart = null;
 
-    $cartItems = $db->select("
-        SELECT ci.*, pv.variant_id, pv.stock_quantity, p.product_name, p.base_price, pv.extra_price, pv.color, pv.size
-        FROM cart_items ci
-        JOIN product_variants pv ON ci.variant_id = pv.variant_id
-        JOIN products p ON pv.product_id = p.product_id
-        WHERE ci.cart_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0
-    ", [$cart['cart_id']]);
+    if ($userId) {
+        $cart = $db->selectOne("SELECT cart_id FROM carts WHERE user_id = ?", [$userId]);
+        if ($cart) {
+            $cartItems = $db->select("
+                SELECT ci.quantity, pv.variant_id, pv.stock_quantity, p.product_name, p.base_price, pv.extra_price, pv.color, pv.size
+                FROM cart_items ci
+                JOIN product_variants pv ON ci.variant_id = pv.variant_id
+                JOIN products p ON pv.product_id = p.product_id
+                WHERE ci.cart_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0
+            ", [$cart['cart_id']]);
+        }
+    } else {
+        if (!empty($_SESSION['cart'])) {
+            foreach ($_SESSION['cart'] as $sessionItem) {
+                $variant = $db->selectOne("
+                    SELECT pv.variant_id, pv.stock_quantity, p.product_name, p.base_price, pv.extra_price, pv.color, pv.size
+                    FROM product_variants pv
+                    JOIN products p ON pv.product_id = p.product_id
+                    WHERE pv.variant_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0
+                ", [$sessionItem['variant_id']]);
+                if ($variant) {
+                    $variant['quantity'] = $sessionItem['quantity'];
+                    $cartItems[] = $variant;
+                }
+            }
+        }
+    }
 
     if (empty($cartItems)) {
         setFlash('error', 'Giỏ hàng trống');
@@ -135,12 +153,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
+        // Create order code
+        $orderCode = 'ORD-' . strtoupper(bin2hex(random_bytes(3)));
+        while ($db->selectOne("SELECT order_id FROM orders WHERE order_code = ?", [$orderCode])) {
+            $orderCode = 'ORD-' . strtoupper(bin2hex(random_bytes(3)));
+        }
+        $guestToken = bin2hex(random_bytes(16));
+
         // Create order
         $orderId = $db->insert("
-            INSERT INTO orders (user_id, shipping_id, shipping_method_id, promo_id, recipient_name, recipient_phone, shipping_address,
+            INSERT INTO orders (user_id, order_code, recipient_email, guest_token, shipping_id, shipping_method_id, promo_id, recipient_name, recipient_phone, shipping_address,
                 subtotal, discount_amount, shipping_fee, total_amount, order_status, payment_method, note, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, NOW())
-        ", [$userId, $shippingId, $shippingMethodId, $promoId, $recipientName, $recipientPhone, $shippingAddress,
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, NOW())
+        ", [$userId, $orderCode, $recipientEmail, $guestToken, $shippingId, $shippingMethodId, $promoId, $recipientName, $recipientPhone, $shippingAddress,
             $subtotal, $discountAmount, $shippingFee, $totalAmount, $paymentMethod, $note]);
 
         // Create order items
@@ -170,7 +195,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Clear cart
-        $db->delete("DELETE FROM cart_items WHERE cart_id = ?", [$cart['cart_id']]);
+        if ($userId && $cart) {
+            $db->delete("DELETE FROM cart_items WHERE cart_id = ?", [$cart['cart_id']]);
+        } else {
+            unset($_SESSION['cart']);
+        }
+
+        // Set session
+        $_SESSION['recent_order_id'] = $orderId;
 
         // Update promo usage
         if ($promoId) {
@@ -190,7 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         updateCartCount();
 
         // Redirect to confirmation
-        redirect(BASE_URL . '/shop/order-confirmation.php?id=' . $orderId);
+        redirect(BASE_URL . '/shop/order-confirmation.php?id=' . $orderId . '&token=' . $guestToken);
 
     } catch (Exception $e) {
         $db->rollback();
@@ -209,12 +241,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $cartItems = [];
 $subtotal = 0;
 
-// Nếu chưa đăng nhập và có session cart, yêu cầu đăng nhập trước
-if (!isLoggedIn() && !empty($_SESSION['cart'])) {
-    setFlash('info', 'Vui lòng đăng nhập để tiến hành thanh toán');
-    header('Location: ' . BASE_URL . '/auth/login.php?redirect=' . urlencode(BASE_URL . '/shop/checkout.php'));
-    exit;
-}
+
 
 // Kiểm tra user có tồn tại không (tránh lỗi foreign key khi re-import database)
 $userId = getUserId();
@@ -303,7 +330,7 @@ if (isLoggedIn() && $userValid) {
         }
     }
 } else if (!empty($_SESSION['cart'])) {
-    // User không hợp lệ (do re-import database) nhưng có session cart - hiển thị từ session
+    // Guest checkout hoặc User không hợp lệ: hiển thị từ session
     foreach ($_SESSION['cart'] as $sessionItem) {
         $item = $db->selectOne("
             SELECT pv.variant_id, pv.color, pv.size, pv.extra_price, pv.stock_quantity,
@@ -467,6 +494,12 @@ $totalAmount = $subtotal + $shippingFee - $discountAmount;
                                     <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="address">Địa chỉ cụ thể *</label>
                                     <input class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors w-full font-body-md" id="address" name="address" placeholder="Số nhà, tên đường, phường/xã" type="text" value="<?= htmlspecialchars($defaultAddress['street_address'] ?? '') ?>" required/>
                                 </div>
+                                <?php if (!$userValid): ?>
+                                <div class="flex flex-col gap-1 md:col-span-2">
+                                    <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="email">Địa chỉ Email * <span class="text-xs normal-case text-gray-500 font-normal tracking-normal">(để nhận thông tin đơn hàng)</span></label>
+                                    <input class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors w-full font-body-md" id="email" name="email" placeholder="Nhập địa chỉ email" type="email" required/>
+                                </div>
+                                <?php endif; ?>
                                 <div class="flex flex-col gap-1">
                                     <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="province">Tỉnh/Thành phố *</label>
                                     <select class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors w-full font-body-md appearance-none" id="province" name="province" required>

@@ -12,14 +12,33 @@ if (!$orderId) {
     redirect(BASE_URL . '/');
 }
 
+$token = $_GET['token'] ?? '';
+$isRecent = (isset($_SESSION['recent_order_id']) && $_SESSION['recent_order_id'] == $orderId);
+$userId = getUserId();
+
+$whereClause = "o.order_id = ?";
+$queryParams = [$orderId];
+
+if ($token) {
+    $whereClause .= " AND o.guest_token = ?";
+    $queryParams[] = $token;
+} elseif ($userId) {
+    $whereClause .= " AND (o.user_id = ? OR ? = 1)";
+    $queryParams[] = $userId;
+    $queryParams[] = $isRecent ? 1 : 0;
+} else {
+    $whereClause .= " AND ? = 1";
+    $queryParams[] = $isRecent ? 1 : 0;
+}
+
 // Get order
 $order = $db->selectOne("
     SELECT o.*, s.province_city, s.base_price, s.estimated_days, sm.method_name as shipping_method_name
     FROM orders o
     LEFT JOIN shipping_prices s ON o.shipping_id = s.shipping_id
     LEFT JOIN shipping_methods sm ON o.shipping_method_id = sm.method_id
-    WHERE o.order_id = ? AND o.user_id = ?
-", [$orderId, getUserId()]);
+    WHERE $whereClause
+", $queryParams);
 
 if (!$order) {
     redirect(BASE_URL . '/');
@@ -131,7 +150,7 @@ $currentStatus = $statusLabels[$order['order_status']] ?? ['text' => $order['ord
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-6 border-b border-outline-variant">
                 <div>
                     <p class="text-on-surface-variant text-sm">Mã đơn hàng</p>
-                    <p class="font-headline-md text-headline-md text-on-surface font-bold">#<?= str_pad($order['order_id'], 6, '0', STR_PAD_LEFT) ?></p>
+                    <p class="font-headline-md text-headline-md text-on-surface font-bold"><?= htmlspecialchars($order['order_code']) ?></p>
                 </div>
                 <div class="mt-4 md:mt-0">
                     <span class="px-4 py-2 rounded-full text-sm font-label-lg <?= $currentStatus['color'] ?>">
@@ -230,9 +249,15 @@ $currentStatus = $statusLabels[$order['order_status']] ?? ['text' => $order['ord
             <a href="<?= BASE_URL ?>/shop/product-catalog.php" class="flex-1 sm:flex-none bg-axeron-red text-white px-8 py-4 rounded-lg font-bold text-center hover:bg-primary transition-colors">
                 Tiếp tục mua sắm
             </a>
+            <?php if ($userId): ?>
             <a href="<?= BASE_URL ?>/shop/order-history.php" class="flex-1 sm:flex-none border-2 border-axeron-red text-axeron-red px-8 py-4 rounded-lg font-bold text-center hover:bg-axeron-red hover:text-white transition-colors">
                 Xem lịch sử đơn hàng
             </a>
+            <?php else: ?>
+            <a href="<?= BASE_URL ?>/shop/order-tracking.php" class="flex-1 sm:flex-none border-2 border-axeron-red text-axeron-red px-8 py-4 rounded-lg font-bold text-center hover:bg-axeron-red hover:text-white transition-colors">
+                Tra cứu đơn hàng khác
+            </a>
+            <?php endif; ?>
         </div>
     </main>
 

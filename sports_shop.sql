@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 10, 2026 lúc 10:08 PM
+-- Thời gian đã tạo: Th6 11, 2026 lúc 05:05 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -61,7 +61,7 @@ INSERT INTO `articles` (`article_id`, `title`, `slug`, `excerpt`, `content`, `fe
 (4, 'Sân vận động', 'stadiums', 'Khám phá các dự án sân vận động tiêu chuẩn quốc tế mà Axeron đã tham gia thi công và cung cấp trang thiết bị.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 0, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-10 00:25:12'),
 (5, 'Nhà thi đấu', 'arenas', 'Các dự án nhà thi đấu đa năng được trang bị hệ thống ánh sáng, âm thanh và sàn gỗ thể thao cao cấp từ Axeron.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 0, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-10 00:25:12'),
 (6, 'Đồng phục học sinh - sinh viên', 'school-uniforms', 'Thiết kế và sản xuất đồng phục thể dục, đồng phục lớp cho các trường đại học và phổ thông trên toàn quốc.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 0, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-10 00:25:12'),
-(7, 'Thiết bị phòng tập', 'gym-equipment', 'Cung cấp và lắp đặt thiết bị gym chuyên nghiệp cho các trung tâm thể hình với công nghệ hiện đại nhất.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 0, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-10 00:25:12');
+(7, 'Thiết bị phòng tập', 'gym-equipment', 'Cung cấp và lắp đặt thiết bị gym chuyên nghiệp cho các trung tâm thể hình với công nghệ hiện đại nhất.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 1, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-11 10:18:18');
 
 -- --------------------------------------------------------
 
@@ -185,7 +185,8 @@ INSERT INTO `cart_items` (`cart_item_id`, `cart_id`, `variant_id`, `quantity`, `
 (21, 13, 147, 1, '2026-06-08 19:22:46'),
 (26, 1, 249, 2, '2026-06-11 00:44:13'),
 (27, 17, 6, 1, '2026-06-11 01:10:12'),
-(33, 13, 250, 1, '2026-06-11 03:03:11');
+(33, 13, 250, 1, '2026-06-11 03:03:11'),
+(34, 16, 17, 1, '2026-06-11 22:03:27');
 
 -- --------------------------------------------------------
 
@@ -321,7 +322,13 @@ INSERT INTO `chat_messages` (`message_id`, `session_id`, `sender_type`, `content
 (23, 6, 'user', 'tôi muốn mua giày', '2026-06-10 00:42:29'),
 (24, 6, 'bot', 'Dạ hiện tại Axeron Sport đang sẵn hàng rất nhiều mẫu giày thể thao chất lượng. Bạn có thể tham khảo các mẫu dưới đây:\n\n**Giày Chạy Bộ:**\n*   **Giày chạy bộ DL Speed Pro X1:** 890.000 VNĐ\n*   **Giày Nike Revolution 7:** 1.950.000 VNĐ\n*   **Giày ASICS Gel-Nimbus 26:** 3.200.000 VNĐ\n\n**Giày Đá Bóng:**\n*   **Giày đá bóng DL Striker FG 2024:** 650.000 VNĐ\n*   **Giày đá bóng Adidas Predator 24 FG:** 2.800.000 VNĐ\n\n**Giày Cầu Lông:**\n*   **Giày cầu lông Yonex Power Cushion 65Z3 (Nam):** 2.900.000 VNĐ\n*   **Giày cầu lông nữ Yonex SHB-01MXLX (Nữ):** 3.100.000 VNĐ\n\nTất cả các sản phẩm trên đều đang **còn hàng**. Bạn đang quan tâm đến dòng giày nào để em tư vấn chi tiết hơn ạ? Bạn cũng có thể liên hệ hotline **1900 1234** hoặc ghé cửa hàng tại **123 Nguyễn Trãi, Quận 1, TP.HCM** để thử giày trực tiếp nhé!', '2026-06-10 00:43:53'),
 (25, 6, 'user', 'tôi muốn mua giày dưới 1 triệu', '2026-06-10 01:12:34'),
-(26, 6, 'bot', 'Máy chủ AI của Google hiện đang bị quá tải (Service Unavailable). Vui lòng thử lại sau vài phút.', '2026-06-10 01:12:41');
+(26, 6, 'bot', 'Máy chủ AI của Google hiện đang bị quá tải (Service Unavailable). Vui lòng thử lại sau vài phút.', '2026-06-10 01:12:41'),
+(27, 7, 'user', 'tôi muốn mua giày', '2026-06-11 14:54:03'),
+(28, 7, 'bot', 'Chào anh/chị, Axeron Sport hiện đang có sẵn các mẫu giày thể thao chính hãng dưới đây để anh/chị lựa chọn:\n\n**Giày Chạy Bộ Nam:**\n*   **Giày chạy bộ DL Speed Pro X1**: 890.000 VNĐ\n*   **Giày Nike Revolution 7**: 1.950.000 VNĐ\n*   **Giày ASICS Gel-Nimbus 26**: 3.200.000 VNĐ\n\n**Giày Đá Bóng:**\n*   **Giày đá bóng DL Striker FG 2024**: 650.000 VNĐ\n*   **Giày đá bóng Adidas Predator 24 FG**: 2.800.000 VNĐ\n\n**Giày Cầu Lông:**\n*   **Giày cầu lông Yonex Power Cushion 65Z3** (Nam): 2.900.000 VNĐ\n*   **Giày cầu lông nữ Yonex SHB-01MXLX**: 3.100.000 VNĐ\n\nAnh/chị đang tìm kiếm giày cho bộ môn thể thao nào để em hỗ trợ tư vấn size và đặt hàng nhanh nhất ạ?', '2026-06-11 14:54:50'),
+(29, 8, 'user', 'tôi muốn mua giày chạy bộ', '2026-06-11 14:57:46'),
+(30, 8, 'bot', 'Chào bạn, Axeron Sport hiện đang có sẵn các mẫu giày chạy bộ nam chất lượng để bạn lựa chọn:\n\n1. **Giày chạy bộ DL Speed Pro X1** - Giá: **890.000 VNĐ** (Còn hàng)\n2. **Giày Nike Revolution 7** - Giá: **1.950.000 VNĐ** (Còn hàng)\n3. **Giày ASICS Gel-Nimbus 26** - Giá: **3.200.000 VNĐ** (Còn hàng)\n\nBạn quan tâm đến mẫu giày nào hoặc cần tư vấn thêm về size, hãy cho Axeron Sport biết nhé! Bạn cũng có thể liên hệ hotline **1900 1234** hoặc ghé trực tiếp cửa hàng tại **123 Nguyễn Trãi, Quận 1, TP.HCM** để thử giày trực tiếp.', '2026-06-11 14:57:55'),
+(31, 8, 'user', 'giày nike ổn không', '2026-06-11 14:58:15'),
+(32, 8, 'bot', 'Mẫu **Giày Nike Revolution 7** (giá **1.950.000 VNĐ**) là một dòng giày chạy bộ nam rất chất lượng và được ưa chuộng từ thương hiệu Nike nhờ thiết kế thể thao, năng động. \n\nĐể có cảm nhận thực tế nhất về độ êm và vừa vặn của giày, Axeron Sport khuyến khích bạn ghé trực tiếp cửa hàng tại **123 Nguyễn Trãi, Quận 1, TP.HCM** để thử giày. \n\nNếu cần tư vấn thêm về size, bạn cũng có thể liên hệ hotline **1900 1234** để nhân viên hỗ trợ nhanh nhất nhé!', '2026-06-11 14:58:28');
 
 -- --------------------------------------------------------
 
@@ -347,7 +354,9 @@ INSERT INTO `chat_sessions` (`session_id`, `user_id`, `status`, `started_at`, `e
 (3, 5, 'open', '2026-05-29 19:17:55', NULL),
 (4, NULL, 'open', '2026-06-09 11:56:08', NULL),
 (5, NULL, 'open', '2026-06-09 11:57:01', NULL),
-(6, NULL, 'open', '2026-06-09 11:59:34', NULL);
+(6, NULL, 'open', '2026-06-09 11:59:34', NULL),
+(7, 3, 'open', '2026-06-11 14:54:03', NULL),
+(8, NULL, 'open', '2026-06-11 14:57:46', NULL);
 
 -- --------------------------------------------------------
 
@@ -373,12 +382,15 @@ CREATE TABLE `contact_messages` (
 
 CREATE TABLE `orders` (
   `order_id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
+  `order_code` varchar(50) DEFAULT NULL,
+  `user_id` int(10) UNSIGNED DEFAULT NULL,
   `shipping_id` int(10) UNSIGNED DEFAULT NULL,
   `shipping_method_id` int(11) DEFAULT 1,
   `promo_id` int(10) UNSIGNED DEFAULT NULL,
   `recipient_name` varchar(100) NOT NULL COMMENT 'Snapshot ten nguoi nhan',
   `recipient_phone` varchar(15) NOT NULL COMMENT 'Snapshot so dien thoai',
+  `recipient_email` varchar(100) DEFAULT NULL,
+  `guest_token` varchar(64) DEFAULT NULL,
   `shipping_address` varchar(500) NOT NULL COMMENT 'Snapshot dia chi giao hang',
   `subtotal` decimal(14,2) NOT NULL DEFAULT 0.00 COMMENT 'Tong tien hang truoc giam gia',
   `discount_amount` decimal(14,2) NOT NULL DEFAULT 0.00 COMMENT 'So tien duoc giam',
@@ -396,22 +408,24 @@ CREATE TABLE `orders` (
 -- Đang đổ dữ liệu cho bảng `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `user_id`, `shipping_id`, `shipping_method_id`, `promo_id`, `recipient_name`, `recipient_phone`, `shipping_address`, `subtotal`, `discount_amount`, `shipping_fee`, `total_amount`, `order_status`, `payment_method`, `payment_status`, `note`, `created_at`, `updated_at`) VALUES
-(1, 8, 1, 1, 1, 'Nguyễn Văn An', '0912345678', '12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP HCM', 890000.00, 50000.00, 0.00, 840000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(2, 4, 2, 1, NULL, 'Trần Thị Bích', '0923456789', '45 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP HCM', 4500000.00, 0.00, 50000.00, 4550000.00, 'shipped', 'vnpay', 'paid', 'Giao hàng giờ hành chính', '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(3, 5, 1, 1, 2, 'Lê Minh Cường', '0934567890', '88 Trần Thái Tông, Phường Dịch Vọng, Cầu Giấy, Hà Nội', 2900000.00, 100000.00, 0.00, 2800000.00, 'confirmed', 'bank_transfer', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(4, 6, 3, 1, NULL, 'Phạm Thị Dung', '0945678901', '23 Trần Phú, Phường Hải Châu 1, Hải Châu, Đà Nẵng', 1200000.00, 0.00, 80000.00, 1280000.00, 'delivered', 'cod', 'unpaid', NULL, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(5, 7, 2, 1, 3, 'Hoàng Văn Em', '0956789012', '5 Nguyễn Văn Linh, Phường Tân Phong, Quận 7, TP HCM', 680000.00, 50000.00, 0.00, 630000.00, 'delivered', 'momo', 'paid', 'Giao trước 18h', '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(6, 8, 1, 1, NULL, 'Nguyễn Văn An', '0912345678', '12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP HCM', 3200000.00, 0.00, 0.00, 3200000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(7, 9, 2, 1, NULL, 'Nguyễn Thị Phương', '0967890123', '100 Võ Văn Ngân, Phường Linh Trung, Thủ Đức, TP HCM', 1570000.00, 0.00, 50000.00, 1620000.00, 'processing', 'vnpay', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(8, 4, 1, 1, 1, 'Trần Thị Bích', '0923456789', '45 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP HCM', 750000.00, 50000.00, 0.00, 700000.00, 'cancelled', 'cod', 'unpaid', 'Khách hủy vì sai size', '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(16, 1, 2, 1, 6, 'Quản Trị Viên', '0123456789', '77/5a phường 4 tpvl, , , Vĩnh Long', 4500000.00, 225000.00, 0.00, 4275000.00, 'cancelled', 'cod', 'refunded', '', '2026-06-05 16:08:26', '2026-06-11 01:04:10'),
-(17, 1, 14, 1, 6, 'Quản Trị Viên', '0123456789', '77/5a phường 4 tpvl, , , Bình Dương', 4500000.00, 225000.00, 25000.00, 4300000.00, 'delivered', 'bank_transfer', 'paid', '', '2026-06-05 16:33:17', '2026-06-11 01:04:10'),
-(18, 2, 61, 1, NULL, 'Lợi Lê Hữu', '0772130908', '6/71, Nguyễn Văn Lâu, , tp Vĩnh Long, Vĩnh Long', 420000.00, 0.00, 25000.00, 445000.00, 'pending', 'cod', 'unpaid', '', '2026-06-09 21:45:12', '2026-06-11 01:04:10'),
-(19, 2, 61, 1, NULL, 'Lợi Lê Hữu', '0772130908', '6/71, Nguyễn Văn Lâu, , tp Vĩnh Long, Vĩnh Long', 3300000.00, 0.00, 25000.00, 3325000.00, 'pending', 'bank_transfer', 'unpaid', '', '2026-06-10 00:36:05', '2026-06-11 01:04:10'),
-(20, 3, 1, 3, 1, 'Tester User', '0987654321', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 1680000.00, 100000.00, 0.00, 1580000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 01:56:28', '2026-06-11 01:56:28'),
-(21, 3, 1, 1, NULL, 'Tester User', '0987654321', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3300000.00, 0.00, 0.00, 3300000.00, 'pending', 'bank_transfer', 'unpaid', '', '2026-06-11 02:02:11', '2026-06-11 02:02:11'),
-(22, 3, 1, 2, NULL, 'Tester User', '0987654321', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 1170000.00, 0.00, 35000.00, 1205000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 02:10:46', '2026-06-11 02:10:46');
+INSERT INTO `orders` (`order_id`, `order_code`, `user_id`, `shipping_id`, `shipping_method_id`, `promo_id`, `recipient_name`, `recipient_phone`, `recipient_email`, `guest_token`, `shipping_address`, `subtotal`, `discount_amount`, `shipping_fee`, `total_amount`, `order_status`, `payment_method`, `payment_status`, `note`, `created_at`, `updated_at`) VALUES
+(1, 'ORD-000001', 8, 1, 1, 1, 'Nguyễn Văn An', '0912345678', NULL, NULL, '12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP HCM', 890000.00, 50000.00, 0.00, 840000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
+(2, 'ORD-000002', 4, 2, 1, NULL, 'Trần Thị Bích', '0923456789', NULL, NULL, '45 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP HCM', 4500000.00, 0.00, 50000.00, 4550000.00, 'shipped', 'vnpay', 'paid', 'Giao hàng giờ hành chính', '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
+(3, 'ORD-000003', 5, 1, 1, 2, 'Lê Minh Cường', '0934567890', NULL, NULL, '88 Trần Thái Tông, Phường Dịch Vọng, Cầu Giấy, Hà Nội', 2900000.00, 100000.00, 0.00, 2800000.00, 'confirmed', 'bank_transfer', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
+(4, 'ORD-000004', 6, 3, 1, NULL, 'Phạm Thị Dung', '0945678901', NULL, NULL, '23 Trần Phú, Phường Hải Châu 1, Hải Châu, Đà Nẵng', 1200000.00, 0.00, 80000.00, 1280000.00, 'delivered', 'cod', 'unpaid', NULL, '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
+(5, 'ORD-000005', 7, 2, 1, 3, 'Hoàng Văn Em', '0956789012', NULL, NULL, '5 Nguyễn Văn Linh, Phường Tân Phong, Quận 7, TP HCM', 680000.00, 50000.00, 0.00, 630000.00, 'delivered', 'momo', 'paid', 'Giao trước 18h', '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
+(6, 'ORD-000006', 8, 1, 1, NULL, 'Nguyễn Văn An', '0912345678', NULL, NULL, '12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP HCM', 3200000.00, 0.00, 0.00, 3200000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
+(7, 'ORD-000007', 9, 2, 1, NULL, 'Nguyễn Thị Phương', '0967890123', NULL, NULL, '100 Võ Văn Ngân, Phường Linh Trung, Thủ Đức, TP HCM', 1570000.00, 0.00, 50000.00, 1620000.00, 'processing', 'vnpay', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
+(8, 'ORD-000008', 4, 1, 1, 1, 'Trần Thị Bích', '0923456789', NULL, NULL, '45 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP HCM', 750000.00, 50000.00, 0.00, 700000.00, 'cancelled', 'cod', 'unpaid', 'Khách hủy vì sai size', '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
+(16, 'ORD-000016', 1, 2, 1, 6, 'Quản Trị Viên', '0123456789', NULL, NULL, '77/5a phường 4 tpvl, , , Vĩnh Long', 4500000.00, 225000.00, 0.00, 4275000.00, 'cancelled', 'cod', 'refunded', '', '2026-06-05 16:08:26', '2026-06-11 03:14:41'),
+(17, 'ORD-000017', 1, 14, 1, 6, 'Quản Trị Viên', '0123456789', NULL, NULL, '77/5a phường 4 tpvl, , , Bình Dương', 4500000.00, 225000.00, 25000.00, 4300000.00, 'delivered', 'bank_transfer', 'paid', '', '2026-06-05 16:33:17', '2026-06-11 03:14:41'),
+(18, 'ORD-000018', 2, 61, 1, NULL, 'Lợi Lê Hữu', '0772130908', NULL, NULL, '6/71, Nguyễn Văn Lâu, , tp Vĩnh Long, Vĩnh Long', 420000.00, 0.00, 25000.00, 445000.00, 'pending', 'cod', 'unpaid', '', '2026-06-09 21:45:12', '2026-06-11 03:14:41'),
+(19, 'ORD-000019', 2, 61, 1, NULL, 'Lợi Lê Hữu', '0772130908', NULL, NULL, '6/71, Nguyễn Văn Lâu, , tp Vĩnh Long, Vĩnh Long', 3300000.00, 0.00, 25000.00, 3325000.00, 'pending', 'bank_transfer', 'unpaid', '', '2026-06-10 00:36:05', '2026-06-11 03:14:41'),
+(20, 'ORD-000020', 3, 1, 3, 1, 'Tester User', '0987654321', NULL, NULL, '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 1680000.00, 100000.00, 0.00, 1580000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 01:56:28', '2026-06-11 03:14:41'),
+(21, 'ORD-000021', 3, 1, 1, NULL, 'Tester User', '0987654321', NULL, NULL, '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3300000.00, 0.00, 0.00, 3300000.00, 'pending', 'bank_transfer', 'unpaid', '', '2026-06-11 02:02:11', '2026-06-11 03:14:41'),
+(22, 'ORD-000022', 3, 1, 2, NULL, 'Tester User', '0987654321', NULL, NULL, '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 1170000.00, 0.00, 35000.00, 1205000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 02:10:46', '2026-06-11 03:14:41'),
+(23, 'ORD-2B5F71', NULL, 7, 1, NULL, 'Guest Tester', '0901234567', 'guest@example.com', '03b5c61831f9b657e798be62a1eca990', '123 Guest Street, , , Bà Rịa - Vũng Tàu', 160000.00, 0.00, 35000.00, 195000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 03:20:09', '2026-06-11 03:20:09'),
+(24, 'ORD-E81C83', NULL, 11, 1, NULL, 'khach vang lai', '0987912342', 'guest@gmail.com', 'a88b452293120863fce434c3cd11789e', 'Tam Bình, , , Bắc Ninh', 2000000.00, 0.00, 0.00, 2000000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 22:01:58', '2026-06-11 22:01:58');
 
 -- --------------------------------------------------------
 
@@ -452,7 +466,9 @@ INSERT INTO `order_items` (`order_item_id`, `order_id`, `variant_id`, `product_n
 (20, 20, 95, 'Áo polo thể thao DL Classic 2024', 'Trắng - Size L', 280000.00, 6, 1680000.00),
 (21, 21, 29, 'Giày ASICS Gel-Nimbus 26', 'Trắng - Size 40', 3300000.00, 1, 3300000.00),
 (22, 22, 6, 'Giày chạy bộ DL Speed Pro X1', 'Trắng - Size 40', 890000.00, 1, 890000.00),
-(23, 22, 95, 'Áo polo thể thao DL Classic 2024', 'Trắng - Size L', 280000.00, 1, 280000.00);
+(23, 22, 95, 'Áo polo thể thao DL Classic 2024', 'Trắng - Size L', 280000.00, 1, 280000.00),
+(24, 23, 171, 'Cầu lông Yonex AS-05 (hop 12 qua)', 'Vàng - Size Lop 76', 160000.00, 1, 160000.00),
+(25, 24, 17, 'Giày Nike Revolution 7', 'Xanh đường - Size 40', 2000000.00, 1, 2000000.00);
 
 -- --------------------------------------------------------
 
@@ -507,7 +523,9 @@ INSERT INTO `order_status_logs` (`log_id`, `order_id`, `changed_by`, `old_status
 (34, 19, NULL, NULL, 'pending', NULL, '2026-06-10 00:36:05'),
 (35, 20, NULL, NULL, 'pending', NULL, '2026-06-11 01:56:28'),
 (36, 21, NULL, NULL, 'pending', NULL, '2026-06-11 02:02:11'),
-(37, 22, NULL, NULL, 'pending', NULL, '2026-06-11 02:10:46');
+(37, 22, NULL, NULL, 'pending', NULL, '2026-06-11 02:10:46'),
+(38, 23, NULL, NULL, 'pending', NULL, '2026-06-11 03:20:09'),
+(39, 24, NULL, NULL, 'pending', NULL, '2026-06-11 22:01:58');
 
 -- --------------------------------------------------------
 
@@ -982,7 +1000,7 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (14, 3, 'NK-REV7-DEN-40', 'Đen', '40', 0.00, 6, 1, 0),
 (15, 3, 'NK-REV7-DEN-41', 'Đen', '41', 0.00, 6, 1, 0),
 (16, 3, 'NK-REV7-DEN-42', 'Đen', '42', 0.00, 5, 1, 0),
-(17, 3, 'NK-REV7-XANH-40', 'Xanh đường', '40', 50000.00, 4, 1, 0),
+(17, 3, 'NK-REV7-XANH-40', 'Xanh đường', '40', 50000.00, 3, 1, 0),
 (18, 3, 'NK-REV7-XANH-41', 'Xanh đường', '41', 50000.00, 4, 1, 0),
 (19, 4, 'AD-RF3-DEN-39', 'Đen', '39', 0.00, 7, 1, 0),
 (20, 4, 'AD-RF3-DEN-40', 'Đen', '40', 0.00, 8, 1, 0),
@@ -1135,7 +1153,7 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (168, 30, 'HE-ZP-TRANG-3U', 'Trắng', '3U', 0.00, 8, 1, 0),
 (169, 30, 'HE-ZP-DEN-4U', 'Đen', '4U', 0.00, 6, 1, 0),
 (170, 30, 'HE-ZP-DEN-3U', 'Đen', '3U', 0.00, 6, 1, 0),
-(171, 31, 'YNX-AS05-L76', 'Vàng', 'Lop 76', 0.00, 60, 1, 0),
+(171, 31, 'YNX-AS05-L76', 'Vàng', 'Lop 76', 0.00, 59, 1, 0),
 (172, 31, 'YNX-AS05-L77', 'Vàng', 'Lop 77', 0.00, 80, 1, 0),
 (173, 31, 'YNX-AS05-L78', 'Vàng', 'Lop 78', 0.00, 60, 1, 0),
 (174, 32, 'YNX-AS30-L76', 'Trắng', 'Lop 76', 0.00, 45, 1, 0),
@@ -1433,7 +1451,8 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (211, 3, 165, '2026-06-11 02:21:18'),
 (212, 3, 1, '2026-06-11 02:24:39'),
 (213, 1, 165, '2026-06-11 02:25:53'),
-(214, 1, 169, '2026-06-11 03:02:04');
+(214, 1, 169, '2026-06-11 03:02:04'),
+(215, 3, 3, '2026-06-11 22:03:24');
 
 -- --------------------------------------------------------
 
@@ -1766,9 +1785,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Quản Trị Viên', 'admin@gmail.com', '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, NULL, 0, '$2y$10$8iDvzRC8Fc8IZYY/3EQLku1eMvHYviZZydjUeC5EBwth8R0XErNHC', 1, '2026-05-29 19:17:55', '2026-06-11 02:42:12'),
+(1, 1, 'Quản Trị Viên', 'admin@gmail.com', '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, NULL, 0, '$2y$10$sOhJHYxSEZEkq/BHSxFzZe2XKjuySbeWhnc0ws8yF5iJSLiZlM.DC', 1, '2026-05-29 19:17:55', '2026-06-11 22:02:47'),
 (2, 3, 'Lợi Lê Hữu', 'loiledelta0@gmail.com', '0772130908', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_27_1781012205.png', 'male', '2004-10-21', 1, NULL, 0, '$2y$10$tlWRp7c6FvBZ1Glr..3fIeatQJ01NsHQAl0v/klVHTe/ymWS/FEU2', 1, '2026-06-09 19:32:29', '2026-06-11 01:04:10'),
-(3, 3, 'Tester User', 'vancedloile@gmail.com', '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, NULL, 0, '$2y$10$pD9.gIbGoMcnvBCqAfqPfOrzf9VmERD8SAzQzD8D9Yp4Ya1mopfhG', 1, '2026-06-11 01:07:16', '2026-06-11 01:23:24'),
+(3, 3, 'Tester User', 'vancedloile@gmail.com', '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, NULL, 0, '$2y$10$dvwaFFMcrbG2OjE9GILXhezV6AFG6.J7KfwqSvkI/CQxJGratIPNO', 1, '2026-06-11 01:07:16', '2026-06-11 22:03:13'),
 (4, 3, 'Trần Thị Bích', 'bich.tran@gmail.com', '0923456789', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
 (5, 3, 'Lê Minh Cường', 'cuong.le@gmail.com', '0934567890', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
 (6, 3, 'Phạm Thị Dung', 'dung.pham@gmail.com', '0945678901', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
@@ -1975,6 +1994,7 @@ ALTER TABLE `contact_messages`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`),
+  ADD UNIQUE KEY `order_code` (`order_code`),
   ADD KEY `idx_order_user` (`user_id`),
   ADD KEY `idx_order_status` (`order_status`),
   ADD KEY `idx_order_date` (`created_at`),
@@ -2155,7 +2175,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -2167,13 +2187,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `chat_messages`
 --
 ALTER TABLE `chat_messages`
-  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_sessions`
 --
 ALTER TABLE `chat_sessions`
-  MODIFY `session_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `session_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `contact_messages`
@@ -2185,19 +2205,19 @@ ALTER TABLE `contact_messages`
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT cho bảng `order_status_logs`
 --
 ALTER TABLE `order_status_logs`
-  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT cho bảng `password_resets`
@@ -2233,7 +2253,7 @@ ALTER TABLE `product_variants`
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
