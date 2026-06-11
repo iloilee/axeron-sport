@@ -183,7 +183,7 @@ if (isLoggedIn()) {
             <!-- Images Column (Left) -->
             <div class="md:col-span-7 flex flex-col gap-4">
                 <!-- Main Image -->
-                <div class="w-full bg-surface-container rounded-xl overflow-hidden relative group aspect-square md:aspect-[4/3]">
+                <div class="w-full bg-surface-container rounded-xl overflow-hidden relative group aspect-square md:aspect-auto flex-grow min-h-[400px]">
                     <img id="main-image" alt="<?= htmlspecialchars($product['product_name']) ?>"
                          class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                          src="<?= htmlspecialchars(getImageUrl(!empty($images) ? $images[0]['image_url'] : null, 'https://placehold.co/600x600/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
@@ -226,10 +226,7 @@ if (isLoggedIn()) {
                     <?php endif; ?>
                 </div>
 
-                <!-- Stock info -->
-                <p class="text-sm mb-4 <?= $hasStock ? 'text-green-600' : 'text-red-600' ?>">
-                    <?= $hasStock ? "Còn $totalStock sản phẩm" : 'Hết hàng' ?>
-                </p>
+
 
                 <div class="text-axeron-red font-headline-lg text-headline-lg font-bold mb-6" id="product-price">
                     <?php 
@@ -324,10 +321,18 @@ if (isLoggedIn()) {
                         <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
                         Mua Ngay
                     </button>
-                    <button onclick="addToCartFromDetail()" class="flex-1 border-2 border-axeron-blue text-axeron-blue font-label-lg text-label-lg uppercase font-bold py-4 rounded-lg hover:bg-axeron-blue hover:text-white transition-colors flex items-center justify-center gap-2">
-                        <span class="material-symbols-outlined">add_shopping_cart</span>
-                        Thêm Vào Giỏ
-                    </button>
+                    <div class="flex-1 flex gap-2">
+                        <button onclick="addToCartFromDetail()" class="flex-1 border-2 border-axeron-blue text-axeron-blue font-label-lg text-label-lg uppercase font-bold py-4 rounded-lg hover:bg-axeron-blue hover:text-white transition-colors flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined">add_shopping_cart</span>
+                            Thêm Vào Giỏ
+                        </button>
+                        <?php
+                        $isFavMain = isLoggedIn() && in_array($product['product_id'], $userWishlistIds);
+                        ?>
+                        <button onclick="addToWishlist(<?= $product['product_id'] ?>, this)" class="w-14 border-2 <?= $isFavMain ? 'border-axeron-red text-axeron-red' : 'border-outline-variant text-on-surface-variant hover:border-axeron-red hover:text-axeron-red' ?> rounded-lg transition-colors flex items-center justify-center" aria-label="Yêu thích">
+                            <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' <?= $isFavMain ? 1 : 0 ?>;">favorite</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Perks -->
