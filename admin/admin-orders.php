@@ -91,7 +91,7 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
                         <span class="font-medium">#<?= $order['order_id'] ?></span>
                     </td>
                     <td class="px-4 py-3">
-                        <p class="font-medium text-gray-800"><?= htmlspecialchars($order['recipient_name']) ?></p>
+                        <p class="font-medium text-gray-800"><?= htmlspecialchars($order['full_name'] ?? $order['recipient_name']) ?></p>
                         <p class="text-xs text-gray-500"><?= htmlspecialchars($order['recipient_phone']) ?></p>
                     </td>
                     <td class="px-4 py-3 text-sm font-medium text-axeron-red"><?= formatPrice($order['total_amount']) ?></td>

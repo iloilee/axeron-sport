@@ -245,7 +245,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         case 'get_order':
             if ($id > 0) {
-                $order = $db->selectOne("SELECT * FROM orders WHERE order_id = ?", [$id]);
+                $order = $db->selectOne("SELECT o.*, u.full_name, u.email FROM orders o LEFT JOIN users u ON o.user_id = u.user_id WHERE o.order_id = ?", [$id]);
                 if ($order) {
                     $items = $db->select("SELECT * FROM order_items WHERE order_id = ?", [$id]);
                     $response = ['success' => true, 'order' => $order, 'items' => $items];
@@ -299,7 +299,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $placeholders = str_repeat('?,', count($order_ids) - 1) . '?';
-            $orders = $db->select("SELECT * FROM orders WHERE order_id IN ($placeholders)", $order_ids);
+            $orders = $db->select("SELECT o.*, u.full_name FROM orders o LEFT JOIN users u ON o.user_id = u.user_id WHERE o.order_id IN ($placeholders)", $order_ids);
 
             $data = [];
             foreach ($orders as $order) {
@@ -324,7 +324,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $data[] = [
                     'order_id' => $order['order_id'],
-                    'recipient_name' => $order['recipient_name'],
+                    'recipient_name' => $order['full_name'] ?? $order['recipient_name'],
                     'recipient_phone' => $order['recipient_phone'],
                     'shipping_address' => $order['shipping_address'],
                     'total_amount' => $order['total_amount'],

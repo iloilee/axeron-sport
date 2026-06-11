@@ -512,8 +512,11 @@ $totalAmount = $subtotal + $shippingFee - $discountAmount;
                                     </select>
                                 </div>
                                 <div class="flex flex-col gap-1">
-                                    <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="district">Quận/Huyện</label>
-                                    <input class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors w-full font-body-md" id="district" name="district" placeholder="Quận/Huyện" type="text" value="<?= htmlspecialchars($defaultAddress['district'] ?? '') ?>"/>
+                                    <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="district">Quận/Huyện *</label>
+                                    <select id="district" name="district" required class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors font-body-md w-full appearance-none disabled:opacity-50 disabled:bg-surface-variant" disabled>
+                                        <option value="">Chọn Quận/Huyện</option>
+                                    </select>
+                                    <input type="hidden" id="current_district" value="<?= htmlspecialchars($defaultAddress['district'] ?? '') ?>">
                                 </div>
                                 <div class="flex flex-col gap-1 md:col-span-2">
                                     <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="note">Ghi chú đơn hàng</label>
@@ -761,6 +764,61 @@ $totalAmount = $subtotal + $shippingFee - $discountAmount;
             // Chạy ban đầu khi load trang
             updateShippingFee();
         }
+
+        // Xử lý API Tỉnh/Thành - Quận/Huyện
+        document.addEventListener('DOMContentLoaded', function() {
+            const districtSelect = document.getElementById('district');
+            const currentDistrict = document.getElementById('current_district').value;
+            let provincesData = [];
+
+            const normalizeString = (str) => {
+                return str.toLowerCase().replace(/^(tỉnh|thành phố|tp\.|tp )\s*/, '').trim();
+            };
+
+            const loadDistricts = (selectedProvinceName) => {
+                districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
+                districtSelect.disabled = true;
+
+                if (!selectedProvinceName) return;
+
+                const normalizedSelected = normalizeString(selectedProvinceName);
+                const province = provincesData.find(p => {
+                    const normAPI = normalizeString(p.name);
+                    return normAPI === normalizedSelected || normAPI.includes(normalizedSelected) || normalizedSelected.includes(normAPI);
+                });
+
+                if (province && province.districts) {
+                    province.districts.forEach(d => {
+                        const option = document.createElement('option');
+                        option.value = d.name;
+                        option.textContent = d.name;
+                        if (d.name === currentDistrict) {
+                            option.selected = true;
+                        }
+                        districtSelect.appendChild(option);
+                    });
+                    districtSelect.disabled = false;
+                } else {
+                    districtSelect.disabled = false; // Fallback
+                }
+            };
+
+            fetch('https://provinces.open-api.vn/api/?depth=2')
+                .then(response => response.json())
+                .then(data => {
+                    provincesData = data;
+                    if (provinceSelect) {
+                        loadDistricts(provinceSelect.value);
+                    }
+                })
+                .catch(error => console.error('Error fetching provinces:', error));
+
+            if (provinceSelect) {
+                provinceSelect.addEventListener('change', function() {
+                    loadDistricts(this.value);
+                });
+            }
+        });
     </script>
 </body>
 </html>
