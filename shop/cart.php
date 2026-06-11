@@ -310,19 +310,9 @@ $flash = getFlash();
             };
         }
 
-        // Kiểm tra đăng nhập và tiến hành thanh toán
+        // Tiến hành thanh toán
         function proceedToCheckout() {
-            if (isUserLoggedIn) {
-                // Đã đăng nhập - chuyển đến trang thanh toán
-                window.location.href = BASE_URL + '/shop/checkout.php';
-            } else {
-                // Chưa đăng nhập - hiển thị thông báo
-                if (confirm('Vui lòng đăng nhập tài khoản để tiến hành thanh toán và mua sắm!\n\nNhấn OK để đăng nhập.')) {
-                    // Lưu redirect URL để sau khi đăng nhập quay lại trang checkout
-                    sessionStorage.setItem('redirectAfterLogin', BASE_URL + '/shop/checkout.php');
-                    window.location.href = BASE_URL + '/auth/login.php?redirect=' + encodeURIComponent(BASE_URL + '/shop/checkout.php');
-                }
-            }
+            window.location.href = BASE_URL + '/shop/checkout.php';
         }
 
         // Theo dõi trạng thái đang cập nhật của từng item

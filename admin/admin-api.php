@@ -248,7 +248,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $order = $db->selectOne("SELECT o.*, u.full_name, u.email FROM orders o LEFT JOIN users u ON o.user_id = u.user_id WHERE o.order_id = ?", [$id]);
                 if ($order) {
                     $items = $db->select("SELECT * FROM order_items WHERE order_id = ?", [$id]);
-                    $response = ['success' => true, 'order' => $order, 'items' => $items];
+                    $logs = $db->select("
+                        SELECT l.*, u.full_name as changed_by_name 
+                        FROM order_status_logs l 
+                        LEFT JOIN users u ON l.changed_by = u.user_id 
+                        WHERE l.order_id = ? 
+                        ORDER BY l.changed_at DESC
+                    ", [$id]);
+                    $response = ['success' => true, 'order' => $order, 'items' => $items, 'logs' => $logs];
                 } else {
                     $response = ['success' => false, 'message' => 'Khong tim thay don hang!'];
                 }
@@ -324,6 +331,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $data[] = [
                     'order_id' => $order['order_id'],
+                    'order_code' => $order['order_code'] ?? 'N/A',
+                    'note' => $order['note'] ?? '',
                     'recipient_name' => $order['full_name'] ?? $order['recipient_name'],
                     'recipient_phone' => $order['recipient_phone'],
                     'shipping_address' => $order['shipping_address'],
@@ -1391,41 +1400,127 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $validStatuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled', 'returned'];
             if ($order_id <= 0 || !in_array($new_status, $validStatuses)) {
-                $response = ['success' => false, 'message' => 'Du lieu khong hop le!'];
+                $response = ['success' => false, 'message' => 'Dữ liệu không hợp lệ!'];
                 break;
             }
 
             try {
-                // Lay trang thai cu
-                $order = $db->selectOne("SELECT order_status FROM orders WHERE order_id = ?", [$order_id]);
+                // Lấy trạng thái cũ
+                $order = $db->selectOne("SELECT order_status, recipient_email FROM orders WHERE order_id = ?", [$order_id]);
                 if (!$order) {
-                    $response = ['success' => false, 'message' => 'Khong tim thay don hang!'];
+                    $response = ['success' => false, 'message' => 'Không tìm thấy đơn hàng!'];
                     break;
                 }
 
                 $old_status = $order['order_status'];
+                
+                // Tránh update nếu giống trạng thái cũ
+                if ($old_status === $new_status) {
+                    $response = ['success' => false, 'message' => 'Trạng thái không thay đổi!'];
+                    break;
+                }
+                
+                // State machine validation
+                $statusFlow = [
+                    'pending' => ['confirmed', 'processing', 'shipped', 'delivered', 'cancelled'],
+                    'confirmed' => ['processing', 'shipped', 'delivered', 'cancelled'],
+                    'processing' => ['shipped', 'delivered', 'cancelled'],
+                    'shipped' => ['delivered', 'returned', 'cancelled'],
+                    'delivered' => ['returned'],
+                    'cancelled' => ['pending'],
+                    'returned' => ['pending']
+                ];
+                
+                if (!in_array($new_status, $statusFlow[$old_status] ?? [])) {
+                    $response = ['success' => false, 'message' => 'Không thể chuyển từ trạng thái ' . $old_status . ' sang ' . $new_status];
+                    break;
+                }
 
-                // Cap nhat trang thai
+                $db->beginTransaction();
+
+                // Cập nhật trạng thái
                 $db->update("UPDATE orders SET order_status = ?, updated_at = NOW() WHERE order_id = ?", [$new_status, $order_id]);
 
                 // Ghi log
-                $db->insert("INSERT INTO order_status_logs (order_id, changed_by, old_status, new_status) VALUES (?, ?, ?, ?)",
+                $db->insert("INSERT INTO order_status_logs (order_id, changed_by, old_status, new_status, changed_at) VALUES (?, ?, ?, ?, NOW())",
                     [$order_id, getUserId(), $old_status, $new_status]);
 
+                // Hoàn tồn kho nếu hủy hoặc hoàn trả
+                if (
+                    ($old_status !== 'cancelled' && $old_status !== 'returned') && 
+                    ($new_status === 'cancelled' || $new_status === 'returned')
+                ) {
+                    $items = $db->select("SELECT variant_id, quantity FROM order_items WHERE order_id = ?", [$order_id]);
+                    foreach ($items as $item) {
+                        $db->update("UPDATE product_variants SET stock_quantity = stock_quantity + ? WHERE variant_id = ?", [$item['quantity'], $item['variant_id']]);
+                    }
+                }
+
+                // Trừ lại tồn kho nếu khôi phục đơn
+                if (
+                    ($old_status === 'cancelled' || $old_status === 'returned') && 
+                    ($new_status !== 'cancelled' && $new_status !== 'returned')
+                ) {
+                    $items = $db->select("SELECT variant_id, quantity FROM order_items WHERE order_id = ?", [$order_id]);
+                    foreach ($items as $item) {
+                        $db->update("UPDATE product_variants SET stock_quantity = stock_quantity - ? WHERE variant_id = ?", [$item['quantity'], $item['variant_id']]);
+                    }
+                }
+
+                $db->commit();
+
                 $statusText = match($new_status) {
-                    'pending' => 'Cho xu ly',
-                    'confirmed' => 'Da xac nhan',
-                    'processing' => 'Dang xu ly',
-                    'shipped' => 'Dang giao',
-                    'delivered' => 'Da giao',
-                    'cancelled' => 'Da huy',
-                    'returned' => 'Tra hang',
+                    'pending' => 'Chờ xử lý',
+                    'confirmed' => 'Đã xác nhận',
+                    'processing' => 'Đang đóng gói',
+                    'shipped' => 'Đang giao',
+                    'delivered' => 'Đã giao',
+                    'cancelled' => 'Đã hủy',
+                    'returned' => 'Trả hàng',
                     default => $new_status
                 };
+                
+                // Gửi email thông báo bằng PHPMailer
+                if (!empty($order['recipient_email'])) {
+                    $subject = "Cập nhật trạng thái đơn hàng #$order_id";
+                    $message = "Đơn hàng của bạn đã được chuyển sang trạng thái: $statusText";
+                    
+                    try {
+                        require_once __DIR__ . '/../vendor/PHPMailer/Exception/Exception.php';
+                        require_once __DIR__ . '/../vendor/PHPMailer/PHPMailer/PHPMailer.php';
+                        require_once __DIR__ . '/../vendor/PHPMailer/SMTP/SMTP.php';
+
+                        $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+                        
+                        // Cấu hình SMTP (Bỏ qua cấu hình thực để tránh lỗi gửi khi ở localhost)
+                        $mail->isSMTP();
+                        $mail->Host       = 'localhost'; // Giả lập để bỏ qua nhanh
+                        $mail->SMTPAuth   = false;
+                        $mail->Port       = 25;
+                        $mail->Timeout    = 1; // Timeout rất ngắn để không bị treo server
+                        
+                        $mail->setFrom('no-reply@axeronsport.xyz', 'Axeron Sports');
+                        $mail->addAddress($order['recipient_email']);
+                        
+                        $mail->isHTML(true);
+                        $mail->CharSet = 'UTF-8';
+                        $mail->Subject = $subject;
+                        $mail->Body    = $message;
+                        
+                        $mail->send();
+                    } catch (Exception $e) {
+                        // PHPMailer throws Exception if connection fails, catch it here
+                    } catch (Throwable $e) {
+                        // Catch anything else
+                    }
+                }
 
                 $response = ['success' => true, 'message' => "Đơn hàng #$order_id đã cập nhật sang trạng thái: $statusText"];
             } catch (Exception $e) {
-                $response = ['success' => false, 'message' => 'Loi: ' . $e->getMessage()];
+                if ($db->inTransaction()) {
+                    $db->rollback();
+                }
+                $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
             }
             break;
 

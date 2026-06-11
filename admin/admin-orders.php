@@ -6,12 +6,17 @@
 // Load orders
 $statusFilter = $_GET['status'] ?? '';
 $search = $_GET['search'] ?? '';
+$timeFilter = $_GET['time'] ?? '';
+$startDate = $_GET['start_date'] ?? '';
+$endDate = $_GET['end_date'] ?? '';
 
 $where = "WHERE 1=1";
 $params = [];
 
 if ($search) {
-    $where .= " AND (o.order_id LIKE ? OR o.recipient_name LIKE ? OR o.recipient_phone LIKE ?)";
+    $where .= " AND (o.order_id LIKE ? OR o.recipient_name LIKE ? OR o.recipient_phone LIKE ? OR u.email LIKE ? OR o.recipient_email LIKE ?)";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
     $params[] = "%$search%";
     $params[] = "%$search%";
     $params[] = "%$search%";
@@ -20,6 +25,20 @@ if ($search) {
 if ($statusFilter) {
     $where .= " AND o.order_status = ?";
     $params[] = $statusFilter;
+}
+
+if ($timeFilter) {
+    if ($timeFilter === 'today') {
+        $where .= " AND DATE(o.created_at) = CURDATE()";
+    } elseif ($timeFilter === '7days') {
+        $where .= " AND o.created_at >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";
+    } elseif ($timeFilter === 'month') {
+        $where .= " AND MONTH(o.created_at) = MONTH(CURDATE()) AND YEAR(o.created_at) = YEAR(CURDATE())";
+    } elseif ($timeFilter === 'custom' && $startDate && $endDate) {
+        $where .= " AND DATE(o.created_at) >= ? AND DATE(o.created_at) <= ?";
+        $params[] = $startDate;
+        $params[] = $endDate;
+    }
 }
 
 $orders = $db->select("
@@ -31,14 +50,66 @@ $orders = $db->select("
     LIMIT 100
 ", $params);
 
+// Lấy thống kê tổng quan
+$statusCounts = $db->selectOne("
+    SELECT 
+        SUM(CASE WHEN order_status = 'pending' THEN 1 ELSE 0 END) as pending_count,
+        SUM(CASE WHEN order_status IN ('shipped', 'processing') THEN 1 ELSE 0 END) as shipping_count,
+        SUM(CASE WHEN order_status = 'delivered' THEN 1 ELSE 0 END) as delivered_count,
+        SUM(CASE WHEN order_status = 'cancelled' THEN 1 ELSE 0 END) as cancelled_count
+    FROM orders
+");
+
 $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled', 'returned'];
 ?>
 
+<!-- Thống kê nhanh -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+        <div>
+            <p class="text-sm text-gray-500 font-medium">Chờ xác nhận</p>
+            <p class="text-2xl font-bold text-yellow-600"><?= number_format($statusCounts['pending_count'] ?? 0) ?></p>
+        </div>
+        <div class="w-10 h-10 rounded-full bg-yellow-50 flex items-center justify-center text-yellow-600">
+            <span class="material-symbols-outlined">pending_actions</span>
+        </div>
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+        <div>
+            <p class="text-sm text-gray-500 font-medium">Đang giao</p>
+            <p class="text-2xl font-bold text-indigo-600"><?= number_format($statusCounts['shipping_count'] ?? 0) ?></p>
+        </div>
+        <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
+            <span class="material-symbols-outlined">local_shipping</span>
+        </div>
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+        <div>
+            <p class="text-sm text-gray-500 font-medium">Hoàn thành</p>
+            <p class="text-2xl font-bold text-green-600"><?= number_format($statusCounts['delivered_count'] ?? 0) ?></p>
+        </div>
+        <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600">
+            <span class="material-symbols-outlined">check_circle</span>
+        </div>
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+        <div>
+            <p class="text-sm text-gray-500 font-medium">Đã hủy</p>
+            <p class="text-2xl font-bold text-red-600"><?= number_format($statusCounts['cancelled_count'] ?? 0) ?></p>
+        </div>
+        <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-600">
+            <span class="material-symbols-outlined">cancel</span>
+        </div>
+    </div>
+</div>
+
 <div class="mb-6 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
-    <form method="GET" class="flex gap-3 flex-wrap">
+    <form method="GET" class="flex gap-3 flex-wrap items-center" id="filter-form">
         <input type="hidden" name="action" value="orders">
-        <input type="text" name="search" placeholder="Tìm mã đơn, tên, SĐT..." value="<?= htmlspecialchars($search) ?>"
-               class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent outline-none">
+        
+        <input type="text" name="search" placeholder="Tìm mã đơn, tên, SĐT, Email..." value="<?= htmlspecialchars($search) ?>"
+               class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent outline-none w-full md:w-auto">
+               
         <select name="status" onchange="this.form.submit()" class="px-4 py-2 border border-gray-300 rounded-lg">
             <option value="">Tất cả trạng thái</option>
             <?php foreach ($statuses as $status): ?>
@@ -56,12 +127,46 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
             </option>
             <?php endforeach; ?>
         </select>
+
+        <select name="time" onchange="toggleCustomDate(this.value); if(this.value !== 'custom') this.form.submit();" class="px-4 py-2 border border-gray-300 rounded-lg">
+            <option value="">Toàn thời gian</option>
+            <option value="today" <?= $timeFilter === 'today' ? 'selected' : '' ?>>Hôm nay</option>
+            <option value="7days" <?= $timeFilter === '7days' ? 'selected' : '' ?>>7 ngày qua</option>
+            <option value="month" <?= $timeFilter === 'month' ? 'selected' : '' ?>>Tháng này</option>
+            <option value="custom" <?= $timeFilter === 'custom' ? 'selected' : '' ?>>Tùy chỉnh...</option>
+        </select>
+
+        <div id="custom-date-inputs" class="flex items-center gap-2 <?= $timeFilter === 'custom' ? '' : 'hidden' ?>">
+            <input type="date" name="start_date" value="<?= htmlspecialchars($startDate) ?>" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+            <span>-</span>
+            <input type="date" name="end_date" value="<?= htmlspecialchars($endDate) ?>" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+            <button type="submit" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium">Lọc</button>
+        </div>
     </form>
-    <button onclick="exportSelectedOrders()"
+    
+    <script>
+    function toggleCustomDate(val) {
+        const customDiv = document.getElementById('custom-date-inputs');
+        if(val === 'custom') {
+            customDiv.classList.remove('hidden');
+        } else {
+            customDiv.classList.add('hidden');
+        }
+    }
+    </script>
+    
+    <div class="flex gap-2 w-full md:w-auto mt-3 md:mt-0">
+        <button onclick="printSelectedPackingSlips()"
+       class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2">
+        <span class="material-symbols-outlined text-xl">local_shipping</span>
+        In Đơn Hàng (<span id="selected-print-count">0</span>)
+        </button>
+        <button onclick="exportSelectedOrders()"
        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2">
         <span class="material-symbols-outlined text-xl">download</span>
         Xuất Excel (<span id="selected-count">0</span>)
-    </button>
+        </button>
+    </div>
 </div>
 
 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -178,41 +283,25 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
                                 <span class="material-symbols-outlined text-xs">expand_more</span>
                             </button>
                             <div id="status-dropdown-<?= $order['order_id'] ?>" class="status-dropdown absolute left-0 mt-1 bg-white rounded-lg shadow-lg border z-50 hidden min-w-[180px]">
-                                <button onclick="updateOrderStatusFromDropdown(<?= $order['order_id'] ?>, 'pending')"
-                                        class="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 <?= $order['order_status'] === 'pending' ? 'bg-gray-50 font-medium' : '' ?>">
-                                    <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
-                                    Chờ xử lý
+                                <?php
+                                // Hiển thị tất cả trạng thái để Admin có toàn quyền thay đổi
+                                $allStatusOpts = [
+                                    'pending' => ['Chờ xử lý', 'bg-yellow-500'],
+                                    'confirmed' => ['Đã xác nhận', 'bg-blue-500'],
+                                    'processing' => ['Đang xử lý', 'bg-purple-500'],
+                                    'shipped' => ['Đang giao', 'bg-indigo-500'],
+                                    'delivered' => ['Đã giao', 'bg-green-500'],
+                                    'cancelled' => ['Đã hủy', 'bg-red-500'],
+                                    'returned' => ['Trả hàng', 'bg-gray-500']
+                                ];
+                                foreach ($allStatusOpts as $st => $info):
+                                ?>
+                                <button onclick="updateOrderStatusFromDropdown(<?= $order['order_id'] ?>, '<?= $st ?>')"
+                                        class="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 <?= $order['order_status'] === $st ? 'bg-gray-50 font-medium' : '' ?>">
+                                    <span class="w-2 h-2 rounded-full <?= $info[1] ?>"></span>
+                                    <?= $info[0] ?>
                                 </button>
-                                <button onclick="updateOrderStatusFromDropdown(<?= $order['order_id'] ?>, 'confirmed')"
-                                        class="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 <?= $order['order_status'] === 'confirmed' ? 'bg-gray-50 font-medium' : '' ?>">
-                                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                                    Đã xác nhận
-                                </button>
-                                <button onclick="updateOrderStatusFromDropdown(<?= $order['order_id'] ?>, 'processing')"
-                                        class="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 <?= $order['order_status'] === 'processing' ? 'bg-gray-50 font-medium' : '' ?>">
-                                    <span class="w-2 h-2 rounded-full bg-purple-500"></span>
-                                    Đang xử lý
-                                </button>
-                                <button onclick="updateOrderStatusFromDropdown(<?= $order['order_id'] ?>, 'shipped')"
-                                        class="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 <?= $order['order_status'] === 'shipped' ? 'bg-gray-50 font-medium' : '' ?>">
-                                    <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
-                                    Đang giao
-                                </button>
-                                <button onclick="updateOrderStatusFromDropdown(<?= $order['order_id'] ?>, 'delivered')"
-                                        class="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 <?= $order['order_status'] === 'delivered' ? 'bg-gray-50 font-medium' : '' ?>">
-                                    <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                                    Đã giao
-                                </button>
-                                <button onclick="updateOrderStatusFromDropdown(<?= $order['order_id'] ?>, 'cancelled')"
-                                        class="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 <?= $order['order_status'] === 'cancelled' ? 'bg-gray-50 font-medium' : '' ?>">
-                                    <span class="w-2 h-2 rounded-full bg-red-500"></span>
-                                    Đã hủy
-                                </button>
-                                <button onclick="updateOrderStatusFromDropdown(<?= $order['order_id'] ?>, 'returned')"
-                                        class="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 <?= $order['order_status'] === 'returned' ? 'bg-gray-50 font-medium' : '' ?>">
-                                    <span class="w-2 h-2 rounded-full bg-gray-500"></span>
-                                    Trả hàng
-                                </button>
+                                <?php endforeach; ?>
                             </div>
                         </div>
                     </td>
@@ -262,6 +351,33 @@ async function viewOrder(orderId) {
                 });
             }
 
+            let logsHtml = '';
+            if (result.logs && result.logs.length > 0) {
+                const statusMap = {
+                    'pending': 'Chờ xử lý', 'confirmed': 'Đã xác nhận', 'processing': 'Đang đóng gói',
+                    'shipped': 'Đang giao', 'delivered': 'Đã giao', 'cancelled': 'Đã hủy', 'returned': 'Trả hàng'
+                };
+                result.logs.forEach(log => {
+                    logsHtml += `
+                        <div class="flex gap-4 items-start mb-4 relative">
+                            <div class="w-2 h-2 mt-1.5 rounded-full bg-blue-500 z-10"></div>
+                            ${result.logs[result.logs.length-1] !== log ? '<div class="absolute left-1 top-3 bottom-[-20px] w-0.5 bg-gray-200"></div>' : ''}
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">${statusMap[log.new_status] || log.new_status}</p>
+                                <p class="text-xs text-gray-500">${new Date(log.changed_at).toLocaleString('vi-VN')} - Bởi: ${log.changed_by_name || 'Hệ thống'}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            const paymentMap = {
+                'cod': 'Thanh toán khi nhận hàng (COD)',
+                'vnpay': 'Thanh toán qua VNPay',
+                'momo': 'Thanh toán qua Momo',
+                'bank_transfer': 'Chuyển khoản ngân hàng'
+            };
+
             const modalContent = `
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-6">
@@ -275,16 +391,21 @@ async function viewOrder(orderId) {
                         <div>
                             <p class="text-sm text-gray-500">Khách hàng</p>
                             <p class="font-medium">${o.full_name || o.recipient_name}</p>
-                            <p class="text-sm text-gray-600">${o.email || ''}</p>
+                            <p class="text-sm text-gray-600">${o.email || o.recipient_email || ''}</p>
                         </div>
                         <div>
                             <p class="text-sm text-gray-500">Ngày đặt</p>
                             <p class="font-medium">${new Date(o.created_at).toLocaleString('vi-VN')}</p>
                         </div>
-                        <div class="col-span-2">
+                        <div>
                             <p class="text-sm text-gray-500">Địa chỉ giao hàng</p>
                             <p class="font-medium">${o.recipient_name} - ${o.recipient_phone}</p>
                             <p class="text-sm text-gray-600">${o.shipping_address}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Thanh toán & Ghi chú</p>
+                            <p class="text-sm text-gray-800">Phương thức: <span class="font-medium">${paymentMap[o.payment_method] || o.payment_method}</span></p>
+                            ${o.note ? `<p class="text-sm text-gray-600 mt-1 bg-yellow-50 p-2 rounded border border-yellow-100">Ghi chú: ${o.note}</p>` : ''}
                         </div>
                     </div>
 
@@ -325,9 +446,22 @@ async function viewOrder(orderId) {
                         </table>
                     </div>
 
+                    ${logsHtml ? `
+                    <div class="mb-6">
+                        <h3 class="text-base font-bold mb-4">Lịch sử cập nhật trạng thái</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                            ${logsHtml}
+                        </div>
+                    </div>
+                    ` : ''}
+
                     <div class="flex justify-end gap-3">
+                        <button onclick="printPackingSlipFromModal()" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center gap-2">
+                            <span class="material-symbols-outlined">local_shipping</span>
+                            In phiếu giao hàng
+                        </button>
                         <button onclick="printInvoiceFromModal()" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2">
-                            <span class="material-symbols-outlined">print</span>
+                            <span class="material-symbols-outlined">receipt_long</span>
                             In hóa đơn
                         </button>
                         <button onclick="closeModal()" class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Đóng</button>
@@ -360,6 +494,7 @@ function toggleSelectAllOrders() {
 function updateSelectedCount() {
     const checked = document.querySelectorAll('.order-checkbox:checked');
     document.getElementById('selected-count').textContent = checked.length;
+    if(document.getElementById('selected-print-count')) document.getElementById('selected-print-count').textContent = checked.length;
 }
 
 // Listen for checkbox changes
@@ -499,10 +634,99 @@ async function printInvoice(orderId) {
     }
 }
 
+// Print selected orders (Packing slips)
+function printSelectedPackingSlips() {
+    const checked = document.querySelectorAll('.order-checkbox:checked');
+    if (checked.length === 0) {
+        showToast('Vui lòng chọn ít nhất một đơn hàng để in!', 'error');
+        return;
+    }
+
+    showConfirm(`Bạn có chắc muốn in phiếu giao hàng cho ${checked.length} đơn hàng đã chọn?`, async () => {
+        const orderIds = Array.from(checked).map(cb => cb.value);
+        showToast(`Đang chuẩn bị in ${orderIds.length} phiếu...`);
+
+        try {
+            const formData = new FormData();
+            formData.append('ajax_action', 'export_orders');
+            formData.append('order_ids', JSON.stringify(orderIds));
+
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+
+            if (result.success && result.data) {
+                generateMultiplePackingSlips(result.data);
+            } else {
+                showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            }
+        } catch (err) {
+            console.error('Print error:', err);
+            showToast('Có lỗi xảy ra khi tải dữ liệu in!', 'error');
+        }
+    });
+}
+
+function generateMultiplePackingSlips(orders) {
+    let allSlipsHtml = '';
+    
+    orders.forEach((o, index) => {
+        let itemsHtml = '';
+        if (o.items && o.items.length > 0) {
+            for (var i = 0; i < o.items.length; i++) {
+                itemsHtml += '<tr><td style="padding:10px;border-bottom:1px solid #ddd;">' + (i + 1) + '</td><td style="padding:10px;border-bottom:1px solid #ddd;"><strong>' + (o.items[i].product_name || 'N/A') + '</strong><br><small>' + (o.items[i].variant_name || '') + '</small></td><td style="padding:10px;border-bottom:1px solid #ddd;text-align:center;"><strong>' + o.items[i].quantity + '</strong></td></tr>';
+            }
+        }
+
+        var paymentStatusText = o.payment_status === 'paid' ? 'Đã Thanh Toán' : 'Thu Hộ (COD)';
+        var totalAmountToCollect = o.payment_status === 'paid' ? '0đ' : new Intl.NumberFormat('vi-VN').format(o.total_amount) + 'đ';
+        var noteHtml = o.note ? `<div style="margin-top:20px;padding:15px;background:#f9f9f9;border:2px dashed #666;border-radius:5px;"><p style="margin:0;"><strong>Ghi chú:</strong> ${o.note}</p></div>` : '';
+        
+        let pageBreak = index < orders.length - 1 ? 'page-break-after: always;' : '';
+
+        allSlipsHtml += `<div style="border:2px solid #000;padding:20px;max-width:600px;margin:0 auto;border-radius:10px; ${pageBreak}"><div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed #ccc;padding-bottom:15px;margin-bottom:15px;"><div><h2 style="margin:0;font-size:24px;">AXERON SPORTS</h2><p style="margin:5px 0 0 0;color:#666;">Phiếu Giao Hàng</p></div><div style="text-align:right;"><img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=${o.order_code}" alt="QR" style="display:block;margin-left:auto;"><p style="margin:5px 0 0 0;font-weight:bold;font-size:18px;">#${o.order_id}</p></div></div><div style="display:flex;justify-content:space-between;margin-bottom:20px;"><div style="width:48%;"><h3>NGƯỜI GỬI:</h3><p style="margin:5px 0;"><strong>Axeron Sports</strong></p><p style="margin:5px 0;">123 Đường Thể thao, Quận 1, TP.HCM</p><p style="margin:5px 0;">ĐT: 0901 234 567</p></div><div style="width:48%;"><h3>NGƯỜI NHẬN:</h3><p style="margin:5px 0;font-size:18px;"><strong>${o.recipient_name}</strong></p><p style="margin:5px 0;font-size:16px;">ĐT: <strong>${o.recipient_phone}</strong></p><p style="margin:5px 0;">${o.shipping_address}</p></div></div><h3 style="background:#000;color:#fff;padding:8px 10px;margin-bottom:0;">CHI TIẾT ĐƠN HÀNG</h3><table style="width:100%;border-collapse:collapse;margin-bottom:10px;"><thead><tr style="border-bottom:2px solid #000;"><th style="padding:10px;text-align:left;">STT</th><th style="padding:10px;text-align:left;">Sản phẩm</th><th style="padding:10px;text-align:center;">SL</th></tr></thead><tbody>${itemsHtml}</tbody></table>${noteHtml}<div style="margin-top:20px;border-top:2px solid #000;padding-top:15px;"><div style="display:flex;justify-content:space-between;"><h2 style="margin:0;">TIỀN THU NGƯỜI NHẬN:</h2><h2 style="margin:0;font-size:28px;">${totalAmountToCollect}</h2></div><p style="text-align:center;margin-top:5px;font-size:14px;">(${paymentStatusText})</p></div></div>`;
+    });
+
+    var slipHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>In Hàng Loạt Phiếu Giao Hàng</title></head><body style="font-family:Arial,sans-serif;padding:0;margin:0;max-width:100%;"><style>@media print{body{margin:0;padding:10mm;width:100%;} @page{size: A5; margin:0;} .no-print{display:none;} }</style>${allSlipsHtml}<div class="no-print" style="margin-top:30px;text-align:center;padding:20px;"><button onclick="window.print()" style="padding:10px 30px;font-size:16px;background:#dc2626;color:white;border:none;border-radius:5px;cursor:pointer;">In toàn bộ phiếu</button> <button onclick="window.close()" style="padding:10px 30px;font-size:16px;background:#6b7280;color:white;border:none;border-radius:5px;cursor:pointer;">Đóng</button></div></body></html>`;
+
+    const w = 700;
+    const h = 900;
+    const left = (window.screen.width / 2) - (w / 2);
+    const top = (window.screen.height / 2) - (h / 2);
+    var printWindow = window.open('', '_blank', `width=${w},height=${h},top=${top},left=${left}`);
+    if (!printWindow) {
+        showToast('Vui lòng cho phép popup để in!', 'error');
+        return;
+    }
+    printWindow.document.write(slipHtml);
+    printWindow.document.close();
+}
+
 // Print invoice from modal (uses stored order ID)
 async function printInvoiceFromModal() {
     if (window.currentOrderId) {
         await printInvoice(window.currentOrderId);
+    } else {
+        showToast('Khong co thong tin don hang!', 'error');
+    }
+}
+
+// Print packing slip from modal (uses stored order ID)
+async function printPackingSlipFromModal() {
+    if (window.currentOrderId) {
+        try {
+            const response = await fetch('<?= BASE_URL ?>/admin/admin-api.php?action=get_order&id=' + window.currentOrderId);
+            const result = await response.json();
+            if (result.success && result.order) {
+                generateAndPrintPackingSlip(result.order, result.items);
+            } else {
+                showToast('Khong tim thay don hang!', 'error');
+            }
+        } catch (err) {
+            showToast('Co loi xay ra!', 'error');
+        }
     } else {
         showToast('Khong co thong tin don hang!', 'error');
     }
@@ -543,6 +767,34 @@ function generateAndPrintInvoice(o, items) {
         return;
     }
     printWindow.document.write(invoiceHtml);
+    printWindow.document.close();
+}
+
+// Generate and print packing slip HTML
+function generateAndPrintPackingSlip(o, items) {
+    let itemsHtml = '';
+    if (items && items.length > 0) {
+        for (var i = 0; i < items.length; i++) {
+            itemsHtml += '<tr><td style="padding:10px;border-bottom:1px solid #ddd;">' + (i + 1) + '</td><td style="padding:10px;border-bottom:1px solid #ddd;"><strong>' + (items[i].product_name || 'N/A') + '</strong><br><small>' + (items[i].variant_info || '') + '</small></td><td style="padding:10px;border-bottom:1px solid #ddd;text-align:center;"><strong>' + items[i].quantity + '</strong></td></tr>';
+        }
+    }
+
+    var paymentStatusText = o.payment_status === 'paid' ? 'Đã Thanh Toán' : 'Thu Hộ (COD)';
+    var totalAmountToCollect = o.payment_status === 'paid' ? '0đ' : new Intl.NumberFormat('vi-VN').format(o.total_amount) + 'đ';
+    var noteHtml = o.note ? `<div style="margin-top:20px;padding:15px;background:#f9f9f9;border:2px dashed #666;border-radius:5px;"><p style="margin:0;"><strong>Ghi chú:</strong> ${o.note}</p></div>` : '';
+
+    var slipHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Phiếu Giao Hàng #' + o.order_id + '</title></head><body style="font-family:Arial,sans-serif;padding:0;margin:0;max-width:100%;"><style>@media print{body{margin:0;padding:10mm;width:100%;} @page{size: A5; margin:0;} .no-print{display:none;} }</style><div style="border:2px solid #000;padding:20px;max-width:600px;margin:0 auto;border-radius:10px;"><div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed #ccc;padding-bottom:15px;margin-bottom:15px;"><div><h2 style="margin:0;font-size:24px;">AXERON SPORTS</h2><p style="margin:5px 0 0 0;color:#666;">Phiếu Giao Hàng</p></div><div style="text-align:right;"><img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=' + o.order_code + '" alt="QR" style="display:block;margin-left:auto;"><p style="margin:5px 0 0 0;font-weight:bold;font-size:18px;">#' + o.order_id + '</p></div></div><div style="display:flex;justify-content:space-between;margin-bottom:20px;"><div style="width:48%;"><h3>NGƯỜI GỬI:</h3><p style="margin:5px 0;"><strong>Axeron Sports</strong></p><p style="margin:5px 0;">123 Đường Thể thao, Quận 1, TP.HCM</p><p style="margin:5px 0;">ĐT: 0901 234 567</p></div><div style="width:48%;"><h3>NGƯỜI NHẬN:</h3><p style="margin:5px 0;font-size:18px;"><strong>' + o.recipient_name + '</strong></p><p style="margin:5px 0;font-size:16px;">ĐT: <strong>' + o.recipient_phone + '</strong></p><p style="margin:5px 0;">' + o.shipping_address + '</p></div></div><h3 style="background:#000;color:#fff;padding:8px 10px;margin-bottom:0;">CHI TIẾT ĐƠN HÀNG</h3><table style="width:100%;border-collapse:collapse;margin-bottom:10px;"><thead><tr style="border-bottom:2px solid #000;"><th style="padding:10px;text-align:left;">STT</th><th style="padding:10px;text-align:left;">Sản phẩm</th><th style="padding:10px;text-align:center;">SL</th></tr></thead><tbody>' + itemsHtml + '</tbody></table>' + noteHtml + '<div style="margin-top:20px;border-top:2px solid #000;padding-top:15px;"><div style="display:flex;justify-content:space-between;"><h2 style="margin:0;">TIỀN THU NGƯỜI NHẬN:</h2><h2 style="margin:0;font-size:28px;">' + totalAmountToCollect + '</h2></div><p style="text-align:center;margin-top:5px;font-size:14px;">(' + paymentStatusText + ')</p></div></div><div class="no-print" style="margin-top:30px;text-align:center;"><button onclick="window.print()" style="padding:10px 30px;font-size:16px;background:#dc2626;color:white;border:none;border-radius:5px;cursor:pointer;">In phiếu giao hàng</button> <button onclick="window.close()" style="padding:10px 30px;font-size:16px;background:#6b7280;color:white;border:none;border-radius:5px;cursor:pointer;">Đóng</button></div></body></html>';
+
+    const w = 700;
+    const h = 900;
+    const left = (window.screen.width / 2) - (w / 2);
+    const top = (window.screen.height / 2) - (h / 2);
+    var printWindow = window.open('', '_blank', `width=${w},height=${h},top=${top},left=${left}`);
+    if (!printWindow) {
+        showToast('Vui lòng cho phép popup để in!', 'error');
+        return;
+    }
+    printWindow.document.write(slipHtml);
     printWindow.document.close();
 }
 
