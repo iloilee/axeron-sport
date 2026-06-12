@@ -219,8 +219,23 @@ $orders = $db->select("
                                     'payos', 'bank_transfer' => 'text-[#2563EB]',
                                     default => 'text-on-surface'
                                 };
+                                
+                                $paymentStatusText = match($order['payment_status']) {
+                                    'paid' => 'Đã thanh toán',
+                                    'unpaid' => 'Chưa thanh toán',
+                                    'refunded' => 'Đã hoàn tiền',
+                                    default => 'Chưa thanh toán'
+                                };
+                                
+                                $paymentStatusClass = match($order['payment_status']) {
+                                    'paid' => 'bg-green-100 text-green-800',
+                                    'unpaid' => 'bg-yellow-100 text-yellow-800',
+                                    'refunded' => 'bg-gray-100 text-gray-800',
+                                    default => 'bg-yellow-100 text-yellow-800'
+                                };
                                 ?>
-                                <span class="<?= $paymentColor ?>"><?= $paymentText ?></span>
+                                <span class="<?= $paymentColor ?> block mb-1"><?= $paymentText ?></span>
+                                <span class="inline-block px-2 py-0.5 rounded text-xs font-semibold <?= $paymentStatusClass ?>"><?= $paymentStatusText ?></span>
                             </td>
                             <td class="px-4 py-4 whitespace-nowrap">
                                 <?php

@@ -148,7 +148,7 @@ $flash = getFlash();
                             $avatarImg = (strpos($user['avatar_url'], 'http') === 0) ? $user['avatar_url'] : BASE_URL . $user['avatar_url'];
                         }
                         ?>
-                        <img id="avatar-preview" src="<?= htmlspecialchars($avatarImg) ?>" alt="Avatar" class="w-full h-full object-cover">
+                        <img id="avatar-preview" src="<?= htmlspecialchars($avatarImg) ?>" alt="Avatar" class="w-full h-full object-cover" referrerpolicy="no-referrer">
                         
                         <label for="avatar-upload" class="avatar-upload-label absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 transition-opacity duration-200">
                             <span class="material-symbols-outlined text-white">photo_camera</span>

@@ -365,7 +365,7 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
                 <div class="relative group">
                     <button aria-label="Account" class="hover:text-axeron-red transition-colors duration-200 flex items-center gap-1.5">
                         <?php if (!empty($_SESSION['avatar_url'])): ?>
-                            <img src="<?= (strpos($_SESSION['avatar_url'], 'http') === 0) ? htmlspecialchars($_SESSION['avatar_url']) : BASE_URL . htmlspecialchars($_SESSION['avatar_url']) ?>" alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-outline-variant">
+                            <img src="<?= (strpos($_SESSION['avatar_url'], 'http') === 0) ? htmlspecialchars($_SESSION['avatar_url']) : BASE_URL . htmlspecialchars($_SESSION['avatar_url']) ?>" alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-outline-variant" referrerpolicy="no-referrer">
                         <?php else: ?>
                             <span class="material-symbols-outlined text-[28px]">account_circle</span>
                         <?php endif; ?>

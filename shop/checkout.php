@@ -196,39 +196,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ", [$item['quantity'], $item['variant_id']]);
         }
 
-        // Clear cart
-        if ($userId && $cart) {
-            $db->delete("DELETE FROM cart_items WHERE cart_id = ?", [$cart['cart_id']]);
-        } else {
-            unset($_SESSION['cart']);
-        }
-
-        // Set session
-        $_SESSION['recent_order_id'] = $orderId;
-
-        // Update promo usage
-        if ($promoId) {
-            $db->update("UPDATE promotions SET used_count = used_count + 1 WHERE promo_id = ?", [$promoId]);
-            // Do not unset session promo here yet in case PayOS fails
-        }
-
-        // Log status
-        $db->insert("
-            INSERT INTO order_status_logs (order_id, new_status, changed_at)
-            VALUES (?, 'pending', NOW())
-        ", [$orderId]);
-
-        $db->commit();
-
-        // Update cart count
-        updateCartCount();
-        
-        // Remove promo from session now that order is securely committed
-        if ($promoId && isset($_SESSION['checkout_promo'])) {
-            unset($_SESSION['checkout_promo']);
-        }
-
-        // Redirect to confirmation
+        // ============================================
+        // GỌI API PAYOS NẾU LÀ THANH TOÁN CHUYỂN KHOẢN
+        // ============================================
+        $checkoutUrl = '';
         if ($paymentMethod === 'payos' && $totalAmount > 0) {
             $payosClientId = getenv('PAYOS_CLIENT_ID') ?: $_ENV['PAYOS_CLIENT_ID'] ?? '';
             $payosApiKey = getenv('PAYOS_API_KEY') ?: $_ENV['PAYOS_API_KEY'] ?? '';
@@ -242,10 +213,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $cancelUrl = BASE_URL . "/shop/payos_return.php?id=$orderId&token=$guestToken&cancel=true";
             
             // Xây dựng dữ liệu gửi PayOS
+            // LƯU Ý: Description PayOS giới hạn tối đa 25 ký tự!
+            $payosDescription = "DH " . $orderCode;
+            if (mb_strlen($payosDescription) > 25) {
+                $payosDescription = mb_substr($payosDescription, 0, 25);
+            }
+
             $payosData = [
                 'orderCode' => (int)$orderId, // PayOS yêu cầu mã là số nguyên
                 'amount' => (int)$totalAmount,
-                'description' => "Thanh toan don $orderCode",
+                'description' => $payosDescription,
                 'returnUrl' => $returnUrl,
                 'cancelUrl' => $cancelUrl
             ];
@@ -285,37 +262,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $payosResponse = json_decode($result, true);
                 if ($httpCode == 200 && isset($payosResponse['code']) && $payosResponse['code'] == '00') {
                     $checkoutUrl = $payosResponse['data']['checkoutUrl'];
-                    redirect($checkoutUrl);
                 } else {
+                    file_put_contents(__DIR__ . '/payos_debug.txt', "HTTP CODE: $httpCode\nRESPONSE: " . print_r($payosResponse, true) . "\nPAYLOAD: " . print_r($payosData, true));
                     $errorMsg = $payosResponse['desc'] ?? 'Lỗi không xác định từ PayOS';
                     throw new Exception("Lỗi tạo link thanh toán PayOS: " . $errorMsg);
                 }
             } else {
+                $curlError = curl_error($ch);
+                file_put_contents(__DIR__ . '/payos_debug.txt', "CURL ERROR: $curlError\nPAYLOAD: " . print_r($payosData, true));
                 throw new Exception("Không thể kết nối đến PayOS.");
             }
         }
 
-        // Chuyển hướng mặc định (COD)
-        redirect(BASE_URL . '/shop/order-confirmation.php?id=' . $orderId . '&token=' . $guestToken);
+        // ============================================
+        // CHỈ XÓA GIỎ HÀNG & COMMIT KHI MỌI THỨ THÀNH CÔNG
+        // ============================================
+        if ($userId && $cart) {
+            $db->delete("DELETE FROM cart_items WHERE cart_id = ?", [$cart['cart_id']]);
+        } else {
+            unset($_SESSION['cart']);
+        }
+
+        // Set session
+        $_SESSION['recent_order_id'] = $orderId;
+
+        // Update promo usage
+        if ($promoId) {
+            $db->update("UPDATE promotions SET used_count = used_count + 1 WHERE promo_id = ?", [$promoId]);
+        }
+
+        // Log status
+        $db->insert("
+            INSERT INTO order_status_logs (order_id, new_status, changed_at)
+            VALUES (?, 'pending', NOW())
+        ", [$orderId]);
+
+        $db->commit();
+
+        // Update cart count
+        updateCartCount();
+        
+        // Remove promo from session now that order is securely committed
+        if ($promoId && isset($_SESSION['checkout_promo'])) {
+            unset($_SESSION['checkout_promo']);
+        }
+
+        // Redirect
+        if ($checkoutUrl) {
+            redirect($checkoutUrl);
+        } else {
+            redirect(BASE_URL . '/shop/order-confirmation.php?id=' . $orderId . '&token=' . $guestToken);
+        }
 
     } catch (Exception $e) {
         $db->rollback();
-        error_log('Checkout Error: ' . $e->getMessage());
-        
-        if ($e->getMessage() === "Sản phẩm hiện không đủ số lượng trong kho.") {
-            setFlash('error', $e->getMessage());
-            redirect(BASE_URL . '/shop/cart.php');
-        } else {
-            setFlash('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
-        }
+        file_put_contents(__DIR__ . '/error.log', date('Y-m-d H:i:s') . ' - ' . $e->getMessage() . "\n", FILE_APPEND);
+        setFlash('error', $e->getMessage());
+        redirect(BASE_URL . '/shop/checkout.php');
     }
 }
 
 // Get cart items
 $cartItems = [];
 $subtotal = 0;
-
-
+$flash = getFlash();
 
 // Kiểm tra user có tồn tại không (tránh lỗi foreign key khi re-import database)
 $userId = getUserId();
@@ -557,6 +567,12 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
 
     <main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12">
         <h1 class="font-headline-lg text-headline-lg mb-8 uppercase text-center md:text-left">Thanh Toán</h1>
+
+        <?php if ($flash): ?>
+            <div class="mb-6 p-4 rounded-xl <?= $flash['type'] === 'error' ? 'bg-error-container text-on-error-container' : 'bg-green-100 text-green-800' ?>">
+                <?= htmlspecialchars($flash['message']) ?>
+            </div>
+        <?php endif; ?>
 
         <?php if (empty($cartItems)): ?>
             <div class="text-center py-16">
