@@ -6,6 +6,7 @@
 // Load products
 $search = $_GET['search'] ?? '';
 $categoryFilter = $_GET['category'] ?? '';
+$brandFilter = $_GET['brand'] ?? '';
 
 $where = "WHERE p.is_deleted = 0";
 $params = [];
@@ -21,6 +22,11 @@ if ($categoryFilter) {
     $params[] = $categoryFilter;
 }
 
+if ($brandFilter) {
+    $where .= " AND p.brand_id = ?";
+    $params[] = $brandFilter;
+}
+
 $products = $db->select("
     SELECT p.*, c.category_name, b.brand_name,
            (SELECT image_url FROM product_images WHERE product_id = p.product_id AND is_primary = 1 LIMIT 1) as image_url
@@ -33,6 +39,9 @@ $products = $db->select("
 
 // Categories for filter
 $categories = $db->select("SELECT category_id, category_name FROM categories ORDER BY category_name");
+
+// Brands for filter
+$all_brands = $db->select("SELECT brand_id, brand_name FROM brands ORDER BY brand_name");
 
 // Handle POST actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_action'])) {
@@ -188,6 +197,14 @@ function renderProductStatCard($title, $value, $trendData, $icon, $colorClass, $
                 <?php foreach ($categories as $cat): ?>
                 <option value="<?= $cat['category_id'] ?>" <?= $categoryFilter == $cat['category_id'] ? 'selected' : '' ?>>
                     <?= htmlspecialchars($cat['category_name']) ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+            <select name="brand" onchange="this.form.submit()" class="px-4 py-2 border border-gray-300 rounded-lg">
+                <option value="">Tất cả thương hiệu</option>
+                <?php foreach ($all_brands as $brand): ?>
+                <option value="<?= $brand['brand_id'] ?>" <?= $brandFilter == $brand['brand_id'] ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($brand['brand_name']) ?>
                 </option>
                 <?php endforeach; ?>
             </select>

@@ -148,17 +148,15 @@ function getCustomerStats($db) {
 
     // Count total
     $countSql = "
-        SELECT COUNT(*) as total
+        SELECT COUNT(DISTINCT u.user_id) as total
         FROM users u
-        LEFT JOIN orders o ON u.user_id = o.user_id
-            AND o.created_at BETWEEN ? AND ?
+        JOIN orders o ON u.user_id = o.user_id
         WHERE $where
-        GROUP BY u.user_id
-        HAVING total_orders > 0
+        AND o.created_at BETWEEN ? AND ?
     ";
     $countParams = $params;
-    $totalResult = $db->select($countSql, $countParams);
-    $totalItems = count($totalResult);
+    $totalResult = $db->selectOne($countSql, $countParams);
+    $totalItems = (int)($totalResult['total'] ?? 0);
 
     // Get data
     $dataSql = "

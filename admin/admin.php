@@ -193,9 +193,12 @@ if ($action === 'dashboard') {
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
     <div class="flex min-h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 bg-dark text-white flex-shrink-0">
+        <aside id="sidebar" class="w-64 bg-dark text-white flex-shrink-0 fixed inset-y-0 left-0 z-50 transform -translate-x-full transition-transform duration-300 lg:relative lg:translate-x-0 h-screen overflow-y-auto">
             <!-- Logo -->
             <div class="p-4 border-b border-gray-700">
                 <a href="<?= BASE_URL ?>/admin/admin.php" class="flex items-center gap-3">
@@ -332,12 +335,17 @@ if ($action === 'dashboard') {
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-6">
+        <main class="flex-1 p-4 sm:p-6 w-full lg:w-auto overflow-hidden">
             <!-- Header -->
             <header class="flex justify-between items-center mb-6">
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-800"><?= $pageTitle ?></h1>
-                    <p class="text-gray-500 text-sm">Xin chào, <?= htmlspecialchars($currentUser['full_name']) ?>!</p>
+                <div class="flex items-center gap-3">
+                    <button class="lg:hidden p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-lg" onclick="toggleSidebar()">
+                        <span class="material-symbols-outlined text-2xl">menu</span>
+                    </button>
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-bold text-gray-800"><?= $pageTitle ?></h1>
+                        <p class="text-gray-500 text-sm hidden sm:block">Xin chào, <?= htmlspecialchars($currentUser['full_name']) ?>!</p>
+                    </div>
                 </div>
                 <div class="flex items-center gap-4">
                     <a href="<?= BASE_URL ?>/shop/product-catalog.php" target="_blank" class="text-gray-500 hover:text-axeron-red">
@@ -444,7 +452,7 @@ if ($action === 'dashboard') {
                                 <tbody class="divide-y divide-gray-100">
                                     <?php foreach ($stats['recentOrders'] as $order): ?>
                                     <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 text-sm font-medium">#<?= $order['order_id'] ?></td>
+                                        <td class="px-4 py-3 text-sm font-medium"><?= htmlspecialchars($order['order_code']) ?></td>
                                         <td class="px-4 py-3 text-sm"><?= htmlspecialchars($order['full_name'] ?? 'N/A') ?></td>
                                         <td class="px-4 py-3 text-sm font-medium text-axeron-red"><?= formatPrice($order['total_amount']) ?></td>
                                         <td class="px-4 py-3">
@@ -574,6 +582,14 @@ if ($action === 'dashboard') {
     <div id="toast-container" class="fixed inset-0 pointer-events-none z-[9999] flex flex-col items-center justify-center gap-4"></div>
 
     <script>
+        // Toggle Sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
         // Toast notification (Centered Modal Style)
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');

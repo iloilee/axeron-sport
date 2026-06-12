@@ -1367,7 +1367,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             try {
-                $db->update("DELETE FROM promotions WHERE promo_id = ?", [$promo_id]);
+                $db->delete("DELETE FROM promotions WHERE promo_id = ?", [$promo_id]);
                 $response = ['success' => true, 'message' => 'Khuyến mãi đã được xóa!'];
             } catch (Exception $e) {
                 $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
@@ -1387,7 +1387,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             try {
                 // Lấy trạng thái cũ
-                $order = $db->selectOne("SELECT payment_status FROM orders WHERE order_id = ?", [$order_id]);
+                $order = $db->selectOne("SELECT order_code, payment_status FROM orders WHERE order_id = ?", [$order_id]);
                 if (!$order) {
                     $response = ['success' => false, 'message' => 'Không tìm thấy đơn hàng!'];
                     break;
@@ -1411,7 +1411,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $response = [
                     'success' => true,
-                    'message' => "Đơn hàng #$order_id đã cập nhật: $statusText",
+                    'message' => "Đơn hàng {$order['order_code']} đã cập nhật: $statusText",
                     'new_status' => $new_payment_status
                 ];
             } catch (Exception $e) {
@@ -1431,7 +1431,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             try {
                 // Lấy trạng thái cũ
-                $order = $db->selectOne("SELECT order_status, recipient_email FROM orders WHERE order_id = ?", [$order_id]);
+                $order = $db->selectOne("SELECT order_code, order_status, recipient_email FROM orders WHERE order_id = ?", [$order_id]);
                 if (!$order) {
                     $response = ['success' => false, 'message' => 'Không tìm thấy đơn hàng!'];
                     break;
@@ -1507,7 +1507,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 // Gửi email thông báo bằng PHPMailer
                 if (!empty($order['recipient_email'])) {
-                    $subject = "Cập nhật trạng thái đơn hàng #$order_id";
+                    $subject = "Cập nhật trạng thái đơn hàng {$order['order_code']}";
                     $message = "Đơn hàng của bạn đã được chuyển sang trạng thái: $statusText";
                     
                     try {
@@ -1540,7 +1540,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
 
-                $response = ['success' => true, 'message' => "Đơn hàng #$order_id đã cập nhật sang trạng thái: $statusText"];
+                $response = ['success' => true, 'message' => "Đơn hàng {$order['order_code']} đã cập nhật sang trạng thái: $statusText"];
             } catch (Exception $e) {
                 if ($db->inTransaction()) {
                     $db->rollback();
