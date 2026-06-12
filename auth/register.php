@@ -5,15 +5,28 @@
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/session.php';
 
-// Redirect if already logged in
-if (isLoggedIn()) {
-    redirect(BASE_URL . '/');
-}
-
 // Check for flash messages
 $flash = getFlash();
+$showSuccessAndRedirect = false;
+
+// Redirect if already logged in
+if (isLoggedIn()) {
+    if ($flash && $flash['type'] === 'success') {
+        $showSuccessAndRedirect = true;
+    } else {
+        redirect(BASE_URL . '/');
+    }
+}
+
 $old = $_SESSION['old_input'] ?? [];
 unset($_SESSION['old_input']);
+
+// Lấy url redirect nếu có
+$targetRedirect = BASE_URL . '/';
+if (!empty($_SESSION['register_redirect'])) {
+    $targetRedirect = $_SESSION['register_redirect'];
+    unset($_SESSION['register_redirect']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -85,14 +98,29 @@ unset($_SESSION['old_input']);
 
         <!-- Form Container -->
         <div class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 w-full border border-[#e5e2e1]">
-            <!-- Flash Message (Hiển thị qua Toast Modal) -->
+            <?php if ($showSuccessAndRedirect): ?>
+                <div class="text-center py-10">
+                    <span class="material-symbols-outlined text-6xl text-green-500 mb-4 block mx-auto">check_circle</span>
+                    <h2 class="text-2xl font-bold text-[#1b1c1c] mb-2" style="font-family: 'Montserrat', sans-serif;">Đăng ký thành công!</h2>
+                    <p class="text-sm text-[#5b403f]">Hệ thống đang tự động chuyển hướng...</p>
+                    <div class="mt-8 flex justify-center">
+                        <div class="w-8 h-8 border-4 border-[#BE1E2D] border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        setTimeout(() => {
+                            window.location.href = <?= json_encode($targetRedirect) ?>;
+                        }, 3000);
+                    });
+                </script>
+            <?php else: ?>
+                <div class="mb-6 text-center">
+                    <h2 class="text-2xl font-bold text-[#1b1c1c] mb-2" style="font-family: 'Montserrat', sans-serif;">Tạo Tài Khoản</h2>
+                    <p class="text-sm text-[#5b403f]">Điền thông tin bên dưới để tạo tài khoản mới.</p>
+                </div>
 
-            <div class="mb-6 text-center">
-                <h2 class="text-2xl font-bold text-[#1b1c1c] mb-2" style="font-family: 'Montserrat', sans-serif;">Tạo Tài Khoản</h2>
-                <p class="text-sm text-[#5b403f]">Điền thông tin bên dưới để tạo tài khoản mới.</p>
-            </div>
-
-            <form method="POST" action="<?= BASE_URL ?>/api/auth-handler.php" class="space-y-5">
+                <form method="POST" action="<?= BASE_URL ?>/api/auth-handler.php" class="space-y-5">
                 <input type="hidden" name="action" value="register">
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generateCsrfToken()) ?>">
                 
@@ -223,6 +251,7 @@ unset($_SESSION['old_input']);
                     <a class="font-semibold text-[#BE1E2D] hover:text-[#98001b] transition-colors ml-1" href="<?= BASE_URL ?>/auth/login.php">Đăng nhập ngay</a>
                 </p>
             </div>
+            <?php endif; ?>
         </div>
     </main>
 
@@ -263,7 +292,7 @@ unset($_SESSION['old_input']);
             }, 3000);
         }
 
-        <?php if ($flash): ?>
+        <?php if ($flash && !$showSuccessAndRedirect): ?>
         document.addEventListener('DOMContentLoaded', () => {
             showToast(<?= json_encode($flash['message']) ?>, <?= json_encode($flash['type']) ?>);
         });

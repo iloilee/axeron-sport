@@ -219,9 +219,10 @@ if ($action === 'register') {
     // Xử lý redirect sau khi đăng ký
     $redirect = $input['redirect'] ?? '';
     if (!empty($redirect) && filter_var($redirect, FILTER_VALIDATE_URL)) {
-        axRedirect($redirect);
+        // Lưu redirect url vào session để register.php có thể dùng sau 3s
+        $_SESSION['register_redirect'] = $redirect;
     }
-    axRedirect(rtrim(BASE_URL, '/') . '/');
+    axRedirect(BASE_URL . '/auth/register.php');
 }
 
 // Xử lý FORGOT PASSWORD
