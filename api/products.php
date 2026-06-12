@@ -466,9 +466,14 @@ function getProductReviews($db) {
  * Gửi đánh giá sản phẩm (client-side)
  */
 function submitReview($db) {
-    // Kiểm tra đăng nhập
     if (!isLoggedIn()) {
         jsonResponse(false, 'Bạn cần đăng nhập để gửi đánh giá');
+    }
+
+    $userId = getUserId();
+    $user = $db->selectOne("SELECT review_banned FROM users WHERE user_id = ?", [$userId]);
+    if ($user && $user['review_banned'] == 1) {
+        jsonResponse(false, 'Tài khoản của bạn đã bị khóa quyền đánh giá sản phẩm.');
     }
 
     $productId = (int)($_POST['product_id'] ?? 0);
@@ -495,7 +500,6 @@ function submitReview($db) {
     }
 
     // Kiểm tra đã mua và nhận hàng thành công chưa
-    $userId = getUserId();
     $purchaseCheck = $db->selectOne("
         SELECT o.order_id 
         FROM orders o
@@ -519,9 +523,9 @@ function submitReview($db) {
 
     // Thêm đánh giá với trạng thái pending
     $reviewId = $db->insert("
-        INSERT INTO reviews (product_id, user_id, rating, comment, status, created_at)
-        VALUES (?, ?, ?, ?, 'pending', NOW())
-    ", [$productId, getUserId(), $rating, $comment]);
+        INSERT INTO reviews (product_id, user_id, order_id, rating, comment, status, created_at)
+        VALUES (?, ?, ?, ?, ?, 'pending', NOW())
+    ", [$productId, $userId, $purchaseCheck['order_id'], $rating, $comment]);
 
     jsonResponse(true, 'Đánh giá của bạn đã được gửi và đang chờ quản trị viên xét duyệt', [
         'review_id' => $reviewId,

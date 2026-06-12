@@ -75,6 +75,8 @@ if (!empty($requestAction)) {
         // reviews
         'update_review_status' => 'reviews',
         'delete_review' => 'reviews',
+        'get_review_detail' => 'reviews',
+        'ban_user_review' => 'reviews',
         
         // products
         'get_product' => 'products',
@@ -143,6 +145,11 @@ try {
     exit;
 }
 
+function recalculateProductRating($db, $productId) {
+    $stats = $db->selectOne("SELECT COUNT(*) as total, COALESCE(AVG(rating), 0) as avg_rating FROM reviews WHERE product_id = ? AND status = 'approved' AND is_deleted = 0", [$productId]);
+    $db->update("UPDATE products SET avg_rating = ?, total_reviews = ? WHERE product_id = ?", [$stats['avg_rating'], $stats['total'], $productId]);
+}
+
 $response = ['success' => false, 'message' => 'Thao tác không hợp lệ!'];
 
 // GET requests - Lấy dữ liệu
@@ -190,11 +197,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         case 'get_user':
             if ($id > 0) {
-                $user = $db->selectOne("SELECT user_id, full_name, email, phone, role_id, is_active FROM users WHERE user_id = ?", [$id]);
+                $user = $db->selectOne("SELECT user_id, full_name, email, phone, role_id, is_active, review_banned FROM users WHERE user_id = ?", [$id]);
                 if ($user) {
                     $response = ['success' => true, 'user' => $user];
                 } else {
                     $response = ['success' => false, 'message' => 'Không tìm thấy người dùng!'];
+                }
+            }
+            break;
+
+        case 'get_review_detail':
+            if ($id > 0) {
+                $review = $db->selectOne("
+                    SELECT r.*, p.product_name, u.full_name, u.email, u.review_banned, o.order_code
+                    FROM reviews r
+                    JOIN products p ON r.product_id = p.product_id
+                    JOIN users u ON r.user_id = u.user_id
+                    LEFT JOIN orders o ON r.order_id = o.order_id
+                    WHERE r.review_id = ?
+                ", [$id]);
+                if ($review) {
+                    $response = ['success' => true, 'review' => $review];
+                } else {
+                    $response = ['success' => false, 'message' => 'Không tìm thấy đánh giá!'];
                 }
             }
             break;
@@ -1536,17 +1561,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             try {
+                $review = $db->selectOne("SELECT product_id FROM reviews WHERE review_id = ?", [$review_id]);
                 $db->update("UPDATE reviews SET status = ?, updated_at = NOW() WHERE review_id = ?", [$new_status, $review_id]);
+                if ($review) {
+                    recalculateProductRating($db, $review['product_id']);
+                }
+                
                 $statusText = match($new_status) {
-                    'pending' => 'Cho duyet',
-                    'approved' => 'Da duyet',
-                    'rejected' => 'Tu choi',
-                    'hidden' => 'An',
+                    'pending' => 'Chờ duyệt',
+                    'approved' => 'Đã duyệt',
+                    'rejected' => 'Từ chối',
+                    'hidden' => 'Ẩn',
                     default => $new_status
                 };
-                $response = ['success' => true, 'message' => "Danh gia da duoc cap nhat: $statusText"];
+                $response = ['success' => true, 'message' => "Đánh giá đã được cập nhật: $statusText"];
             } catch (Exception $e) {
-                $response = ['success' => false, 'message' => 'Loi: ' . $e->getMessage()];
+                $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
             }
             break;
 
@@ -1560,13 +1590,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $db->beginTransaction();
 
-                // Cleanly delete the target row from reviews table
-                $db->delete("DELETE FROM reviews WHERE review_id = ?", [$review_id]);
+                $review = $db->selectOne("SELECT product_id FROM reviews WHERE review_id = ?", [$review_id]);
+                
+                // Soft delete
+                $db->update("UPDATE reviews SET is_deleted = 1 WHERE review_id = ?", [$review_id]);
+
+                if ($review) {
+                    recalculateProductRating($db, $review['product_id']);
+                }
 
                 $db->commit();
                 $response = ['success' => true, 'message' => 'Đã xóa đánh giá thành công!'];
             } catch (Exception $e) {
                 $db->rollback();
+                $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
+            }
+            break;
+
+        case 'ban_user_review':
+            $user_id = (int)($_POST['user_id'] ?? 0);
+            $action = (int)($_POST['action'] ?? 1); // 1 = ban, 0 = unban
+
+            if ($user_id <= 0) {
+                $response = ['success' => false, 'message' => 'ID người dùng không hợp lệ!'];
+                break;
+            }
+
+            try {
+                $db->update("UPDATE users SET review_banned = ? WHERE user_id = ?", [$action, $user_id]);
+                $msg = $action ? 'Đã khóa quyền đánh giá của tài khoản này!' : 'Đã mở khóa quyền đánh giá cho tài khoản này!';
+                $response = ['success' => true, 'message' => $msg];
+            } catch (Exception $e) {
                 $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
             }
             break;

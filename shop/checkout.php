@@ -108,20 +108,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Apply promo if exists
     $promoId = null;
+    $rawDiscount = 0;
     if (isset($_SESSION['checkout_promo'])) {
         $promoId = $_SESSION['checkout_promo']['promo_id'];
         $promo = $_SESSION['checkout_promo'];
 
         if ($subtotal >= $promo['min_order_value']) {
             if ($promo['discount_type'] === 'percent') {
-                $discountAmount = $subtotal * ($promo['discount_value'] / 100);
+                $rawDiscount = $subtotal * ($promo['discount_value'] / 100);
                 if ($promo['max_discount']) {
-                    $discountAmount = min($discountAmount, $promo['max_discount']);
+                    $rawDiscount = min($rawDiscount, $promo['max_discount']);
                 }
             } else {
-                $discountAmount = $promo['discount_value'];
+                $rawDiscount = $promo['discount_value'];
             }
-            $discountAmount = min($discountAmount, $subtotal + $shippingFee);
+            $discountAmount = min($rawDiscount, $subtotal + $shippingFee);
         }
     }
 
@@ -208,7 +209,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Update promo usage
         if ($promoId) {
             $db->update("UPDATE promotions SET used_count = used_count + 1 WHERE promo_id = ?", [$promoId]);
-            unset($_SESSION['checkout_promo']);
+            // Do not unset session promo here yet in case PayOS fails
         }
 
         // Log status
@@ -221,9 +222,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Update cart count
         updateCartCount();
+        
+        // Remove promo from session now that order is securely committed
+        if ($promoId && isset($_SESSION['checkout_promo'])) {
+            unset($_SESSION['checkout_promo']);
+        }
 
         // Redirect to confirmation
-        if ($paymentMethod === 'payos') {
+        if ($paymentMethod === 'payos' && $totalAmount > 0) {
             $payosClientId = getenv('PAYOS_CLIENT_ID') ?: $_ENV['PAYOS_CLIENT_ID'] ?? '';
             $payosApiKey = getenv('PAYOS_API_KEY') ?: $_ENV['PAYOS_API_KEY'] ?? '';
             $payosChecksumKey = getenv('PAYOS_CHECKSUM_KEY') ?: $_ENV['PAYOS_CHECKSUM_KEY'] ?? '';
@@ -438,18 +444,19 @@ $defaultProvince = $defaultAddress ? $defaultAddress['province'] : '';
 // Apply promo if exists in session
 $discountAmount = 0;
 $promoCode = '';
+$rawDiscount = 0;
 
 if (isset($_SESSION['checkout_promo'])) {
     $promo = $_SESSION['checkout_promo'];
     if ($subtotal >= $promo['min_order_value']) {
         $promoCode = $promo['promo_code'];
         if ($promo['discount_type'] === 'percent') {
-            $discountAmount = $subtotal * ($promo['discount_value'] / 100);
+            $rawDiscount = $subtotal * ($promo['discount_value'] / 100);
             if ($promo['max_discount']) {
-                $discountAmount = min($discountAmount, $promo['max_discount']);
+                $rawDiscount = min($rawDiscount, $promo['max_discount']);
             }
         } else {
-            $discountAmount = $promo['discount_value'];
+            $rawDiscount = $promo['discount_value'];
         }
     }
 }
@@ -472,12 +479,33 @@ if (!empty($defaultProvince)) {
     }
 }
 
+// Determine initial shipping method from GET if passed
+$initialShippingMethodId = isset($_GET['method']) ? (int)$_GET['method'] : ($shippingMethods[0]['method_id'] ?? 1);
+
+// Thêm phụ phí của phương thức vận chuyển
+$initSm = null;
+foreach ($shippingMethods as $sm) {
+    if ($sm['method_id'] == $initialShippingMethodId) {
+        $initSm = $sm;
+        break;
+    }
+}
+
+if ($initSm) {
+    if ($initSm['fee_type'] === 'store_pickup') {
+        $shippingFee = 0;
+    } else {
+        $shippingFee += (float)$initSm['additional_fee'];
+    }
+}
+
 if ($subtotal >= 2000000) {
     $shippingFee = 0;
 }
 
-$discountAmount = min($discountAmount, $subtotal + $shippingFee);
+$discountAmount = min($rawDiscount, $subtotal + $shippingFee);
 $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
+
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -610,10 +638,12 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
                                 </h2>
                                 <div class="flex flex-col gap-3 flex-grow justify-center" id="shipping-method-info">
                                     <div class="space-y-3">
-                                        <?php foreach ($shippingMethods as $index => $sm): ?>
+                                        <?php foreach ($shippingMethods as $index => $sm): 
+                                            $isChecked = ($sm['method_id'] == $initialShippingMethodId);
+                                        ?>
                                         <label class="flex items-center gap-3 p-4 border rounded cursor-pointer transition-colors relative overflow-hidden group 
-                                            <?= $index === 0 ? 'border-axeron-blue bg-secondary-fixed/20' : 'border-outline-variant hover:border-axeron-blue' ?>">
-                                            <input class="text-axeron-blue focus:ring-axeron-blue w-5 h-5 shipping-method-radio" name="shipping_method" type="radio" value="<?= $sm['method_id'] ?>" <?= $index === 0 ? 'checked' : '' ?> data-additional-fee="<?= $sm['additional_fee'] ?>" data-fee-type="<?= $sm['fee_type'] ?>" onchange="updateShippingFee()"/>
+                                            <?= $isChecked ? 'border-axeron-blue bg-secondary-fixed/20' : 'border-outline-variant hover:border-axeron-blue' ?>">
+                                            <input class="text-axeron-blue focus:ring-axeron-blue w-5 h-5 shipping-method-radio" name="shipping_method" type="radio" value="<?= $sm['method_id'] ?>" <?= $isChecked ? 'checked' : '' ?> data-additional-fee="<?= $sm['additional_fee'] ?>" data-fee-type="<?= $sm['fee_type'] ?>" onchange="updateShippingFee()"/>
                                             <div class="flex items-center justify-between w-full relative z-10">
                                                 <div class="flex items-center gap-3">
                                                     <span class="material-symbols-outlined text-on-surface-variant">
@@ -738,7 +768,7 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
         function updateShippingFee() {
             const province = provinceSelect.value;
             const subtotal = <?= $subtotal ?>;
-            const discount = <?= $discountAmount ?>;
+            const rawDiscount = <?= $rawDiscount ?>;
             
             // Tìm cấu hình phí vận chuyển cho tỉnh/thành tương ứng
             const rate = shippingPrices.find(sp => sp.province_city === province) || shippingPrices.find(sp => sp.shipping_id == 1);

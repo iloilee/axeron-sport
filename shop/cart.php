@@ -339,7 +339,9 @@ $flash = getFlash();
 
         // Tiến hành thanh toán
         function proceedToCheckout() {
-            window.location.href = BASE_URL + '/shop/checkout.php';
+            const methodEl = document.querySelector('input[name="shipping_method"]:checked');
+            const method = methodEl && methodEl.value === 'express' ? 2 : 1;
+            window.location.href = BASE_URL + '/shop/checkout.php?method=' + method;
         }
 
         // Theo dõi trạng thái đang cập nhật của từng item
