@@ -33,7 +33,7 @@ $action = $_GET['action'] ?? 'dashboard';
 
 // Kiểm tra quyền hạn của action được yêu cầu
 if (!hasPermission($action)) {
-    $allActions = ['dashboard', 'products', 'categories', 'brands', 'orders', 'users', 'shipping_price', 'reviews', 'promotions', 'analytics', 'banners', 'articles', 'featured', 'settings'];
+    $allActions = ['dashboard', 'products', 'categories', 'brands', 'orders', 'users', 'shipping_price', 'reviews', 'promotions', 'analytics', 'banners', 'articles', 'featured', 'settings', 'customer_detail'];
     foreach ($allActions as $act) {
         if (hasPermission($act)) {
             header('Location: ' . BASE_URL . '/admin/admin.php?action=' . $act);
@@ -82,6 +82,7 @@ $pageTitle = match($action) {
     'settings' => 'Cài Đặt',
     'analytics' => 'Thống Kê',
     'featured' => 'Sản Phẩm Nổi Bật',
+    'customer_detail' => 'Chi Tiết Khách Hàng',
     default => 'Dashboard'
 };
 
@@ -573,6 +574,10 @@ if ($action === 'dashboard') {
             <?php elseif ($action === 'analytics'): ?>
                 <!-- Analytics & Reports -->
                 <?php include __DIR__ . '/admin-analytics.php'; ?>
+
+            <?php elseif ($action === 'customer_detail'): ?>
+                <!-- Customer Detail -->
+                <?php include __DIR__ . '/admin-customer-detail.php'; ?>
 
             <?php else: ?>
                 <div class="bg-white rounded-xl p-12 text-center">

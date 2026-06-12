@@ -17,14 +17,24 @@
             <div class="flex flex-col gap-1">
                 <label class="text-xs text-gray-500 font-medium">Khoảng thời gian</label>
                 <select id="filter-period" class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent" onchange="handlePeriodChange()">
-                    <option value="month">Tháng này</option>
-                    <option value="quarter">Quý này</option>
-                    <option value="year">Năm nay</option>
+                    <option value="month">Theo tháng</option>
+                    <option value="quarter">Theo quý</option>
+                    <option value="year">Theo năm</option>
                     <option value="all">Tất cả thời gian</option>
                 </select>
             </div>
 
-            <!-- Year Selector (for quarter/year view) -->
+            <!-- Month Selector -->
+            <div class="flex flex-col gap-1" id="month-filter-container">
+                <label class="text-xs text-gray-500 font-medium">Tháng</label>
+                <select id="filter-month" class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent" onchange="loadData()">
+                    <?php for ($m = 1; $m <= 12; $m++): ?>
+                    <option value="<?= $m ?>" <?= $m == date('n') ? 'selected' : '' ?>>Tháng <?= $m ?></option>
+                    <?php endfor; ?>
+                </select>
+            </div>
+
+            <!-- Year Selector (for month/quarter/year view) -->
             <div class="flex flex-col gap-1" id="year-filter-container">
                 <label class="text-xs text-gray-500 font-medium">Năm</label>
                 <select id="filter-year" class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent" onchange="loadData()">
@@ -45,11 +55,7 @@
                 </select>
             </div>
 
-            <!-- Date Range Label -->
-            <div class="flex items-center px-4 py-2 bg-gray-50 rounded-lg text-sm text-gray-600">
-                <span class="material-symbols-outlined text-base mr-2">date_range</span>
-                <span id="date-range-label">Đang tải...</span>
-            </div>
+
 
             <!-- Tab Navigation (Moved) -->
             <div class="flex-1 flex justify-center">
@@ -83,8 +89,8 @@
         </div>
     </div>
 
-    <!-- Summary Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3" id="summary-cards">
+    <!-- Summary Cards Revenue -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3" id="summary-cards-revenue">
         <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
             <div class="flex items-center justify-between">
                 <div>
@@ -133,7 +139,6 @@
             </div>
         </div>
 
-        <!-- Conversion Rate Card -->
         <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
             <div class="flex items-center justify-between">
                 <div>
@@ -147,8 +152,71 @@
         </div>
     </div>
 
+    <!-- Summary Cards Customers -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 hidden" id="summary-cards-customers">
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Tổng khách hàng</p>
+                    <p class="text-2xl font-bold text-indigo-600 mt-1" id="customer-total">--</p>
+                </div>
+                <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-indigo-600">group</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">KH Mới (30 ngày)</p>
+                    <p class="text-2xl font-bold text-green-600 mt-1" id="customer-new">--</p>
+                </div>
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-green-600">person_add</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Khách VIP</p>
+                    <p class="text-2xl font-bold text-yellow-600 mt-1" id="customer-vip">--</p>
+                </div>
+                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-yellow-600">workspace_premium</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Khách quay lại</p>
+                    <p class="text-2xl font-bold text-blue-600 mt-1" id="customer-returning">--</p>
+                </div>
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-blue-600">repeat</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Khách rời bỏ</p>
+                    <p class="text-2xl font-bold text-red-600 mt-1" id="customer-churn">--</p>
+                </div>
+                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-red-600">person_remove</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Chart Area (Revenue Tab) -->
-    <div class="bg-white rounded-xl p-6 shadow-sm border" id="chart-container">
+    <div class="bg-white rounded-xl p-6 shadow-sm border" id="chart-container-revenue">
         <div class="flex justify-between items-center mb-6">
             <h3 class="font-bold text-lg">Xu Hướng Doanh Thu</h3>
             <div class="flex gap-2">
@@ -165,18 +233,44 @@
         </div>
     </div>
 
+    <!-- Chart Area (Customers Tab) -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 hidden" id="chart-container-customers">
+        <div class="bg-white rounded-xl p-6 shadow-sm border lg:col-span-2">
+            <h3 class="font-bold text-lg mb-4">Top 10 Khách Hàng Doanh Thu</h3>
+            <div class="h-64">
+                <canvas id="customerBarChart"></canvas>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border">
+            <h3 class="font-bold text-lg mb-4">Phân loại Khách hàng</h3>
+            <div class="h-64 flex justify-center">
+                <canvas id="customerPieChart"></canvas>
+            </div>
+        </div>
+    </div>
+
     <!-- Data Table -->
     <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
         <!-- Table Header with Search -->
-        <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+        <div class="p-4 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <h3 class="font-bold text-lg" id="table-title">Dữ liệu chi tiết</h3>
-            <div class="flex items-center gap-3">
-                <div class="relative">
-                    <input type="text" id="table-search" placeholder="Tìm kiếm..." class="pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent w-64" onkeyup="handleSearch()">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+                <div class="relative flex-1 sm:flex-none">
+                    <input type="text" id="table-search" placeholder="Tìm kiếm..." class="pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent w-full sm:w-64" onkeyup="handleSearch()">
                     <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
                 </div>
-                <select id="table-sort" class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-axeron-red" onchange="handleSort()">
-                    <option value="total_spent">Sắp xếp theo...</option>
+                
+                <!-- Rank Filter (Customers only) -->
+                <select id="filter-rank" class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-axeron-red hidden w-full sm:w-auto" onchange="loadData()">
+                    <option value="">Tất cả hạng</option>
+                    <option value="VIP">VIP</option>
+                    <option value="Tiềm năng">Tiềm năng</option>
+                    <option value="Mới">Khách mới</option>
+                    <option value="Bình thường">Bình thường</option>
+                    <option value="Rời bỏ">Khách rời bỏ</option>
+                </select>
+                <select id="table-sort" class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-axeron-red w-full sm:w-auto" onchange="handleSort()">
+                    <option value="total_spent">Sắp xếp theo</option>
                     <option value="total_spent">Chi tiêu</option>
                     <option value="total_orders">Số đơn</option>
                     <option value="full_name">Tên</option>
@@ -230,4 +324,4 @@
 <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
-<script src="<?= BASE_URL ?>/js/admin-analytics.js?v=<?= time() + 2 ?>"></script>
+<script src="<?= BASE_URL ?>/js/admin-analytics.js?v=<?= time() + 8 ?>"></script>

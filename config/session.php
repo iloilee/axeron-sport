@@ -233,7 +233,7 @@ function hasPermission($action) {
         'staff_accounts' => ['users', 'reviews'],
         'staff_products' => ['products', 'categories', 'brands', 'promotions'],
         'staff_orders' => ['orders', 'shipping_price'],
-        'staff_analytics' => ['dashboard', 'analytics'],
+        'staff_analytics' => ['dashboard', 'analytics', 'customer_detail'],
         'staff_cms' => ['banners', 'articles', 'featured', 'settings']
     ];
     

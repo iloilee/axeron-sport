@@ -6,6 +6,8 @@
 let currentTab = 'revenue';
 let currentData = [];
 let chartInstance = null;
+let customerBarChartInstance = null;
+let customerPieChartInstance = null;
 let chartType = 'line';
 
 // State
@@ -28,42 +30,87 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeChart() {
     const ctx = document.getElementById('revenueChart').getContext('2d');
 
+    // Create Gradient for fill area
+    let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(190, 30, 45, 0.4)'); // Axeron Red, more transparent
+    gradient.addColorStop(1, 'rgba(190, 30, 45, 0.0)');
+
     chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
             labels: [],
             datasets: [{
-                label: 'Doanh Thu (VNĐ)',
+                label: 'Doanh Thu',
                 data: [],
                 borderColor: '#BE1E2D',
-                backgroundColor: 'rgba(190, 30, 45, 0.1)',
+                borderWidth: 3,
+                backgroundColor: gradient,
                 fill: true,
                 tension: 0.4,
-                pointRadius: 4,
-                pointHoverRadius: 6
+                pointBackgroundColor: '#ffffff',
+                pointBorderColor: '#BE1E2D',
+                pointBorderWidth: 2,
+                pointRadius: 0,          // Hide points by default
+                pointHoverRadius: 6,     // Show on hover
+                pointHoverBackgroundColor: '#BE1E2D',
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBorderWidth: 2,
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
             plugins: {
                 legend: {
-                    display: true,
-                    position: 'top'
+                    display: false // Clean look without legend if single dataset
                 },
                 tooltip: {
+                    backgroundColor: 'rgba(26, 26, 26, 0.9)', // Dark background
+                    titleFont: { size: 13, family: "'Noto Sans', sans-serif" },
+                    bodyFont: { size: 14, weight: 'bold', family: "'Montserrat', sans-serif" },
+                    padding: 12,
+                    cornerRadius: 8,
+                    displayColors: false, // Don't show the color box
                     callbacks: {
                         label: function(context) {
-                            return formatCurrency(context.raw);
+                            return 'Doanh thu: ' + formatCurrency(context.raw);
                         }
                     }
                 }
             },
             scales: {
+                x: {
+                    grid: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        font: { family: "'Noto Sans', sans-serif" }
+                    }
+                },
                 y: {
                     beginAtZero: true,
+                    grid: {
+                        color: '#f3f4f6',
+                        drawBorder: false,
+                        borderDash: [5, 5] // Dashed grid lines
+                    },
                     ticks: {
+                        color: '#6b7280',
+                        font: { family: "'Noto Sans', sans-serif" },
+                        maxTicksLimit: 6,
                         callback: function(value) {
+                            if (value >= 1000000000) {
+                                return (value / 1000000000) + ' Tỷ';
+                            }
+                            if (value >= 1000000) {
+                                return (value / 1000000) + ' Tr';
+                            }
                             return formatCurrency(value);
                         }
                     }
@@ -71,6 +118,53 @@ function initializeChart() {
             }
         }
     });
+
+    // Initialize Customer Charts
+    const barCtx = document.getElementById('customerBarChart');
+    if (barCtx) {
+        customerBarChartInstance = new Chart(barCtx.getContext('2d'), {
+            type: 'bar',
+            data: { labels: [], datasets: [{ label: 'Doanh thu', data: [], backgroundColor: '#BE1E2D', borderRadius: 4 }] },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                if (value >= 1000000) return (value / 1000000) + ' Tr';
+                                return formatCurrency(value);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    const pieCtx = document.getElementById('customerPieChart');
+    if (pieCtx) {
+        customerPieChartInstance = new Chart(pieCtx.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['VIP', 'Tiềm năng', 'Mới', 'Bình thường', 'Rời bỏ'],
+                datasets: [{
+                    data: [0, 0, 0, 0, 0],
+                    backgroundColor: ['#eab308', '#3b82f6', '#22c55e', '#9ca3af', '#ef4444'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right' }
+                }
+            }
+        });
+    }
 }
 
 /**
@@ -93,15 +187,28 @@ function setupEventListeners() {
  */
 function handlePeriodChange() {
     const period = document.getElementById('filter-period').value;
+    const monthFilter = document.getElementById('month-filter-container');
     const yearFilter = document.getElementById('year-filter-container');
     const quarterFilter = document.getElementById('quarter-filter-container');
+    const sortSelect = document.getElementById('sort-select');
 
-    // Show/hide year and quarter filters based on period
-    if (period === 'quarter') {
-        quarterFilter.classList.remove('hidden');
-        document.getElementById('sort-select')?.classList.add('hidden');
-    } else {
-        quarterFilter.classList.add('hidden');
+    // Hide all first
+    if(monthFilter) monthFilter.classList.add('hidden');
+    if(quarterFilter) quarterFilter.classList.add('hidden');
+    if(yearFilter) yearFilter.classList.add('hidden');
+
+    // Show based on period
+    if (period === 'month') {
+        if(monthFilter) monthFilter.classList.remove('hidden');
+        if(yearFilter) yearFilter.classList.remove('hidden');
+    } else if (period === 'quarter') {
+        if(quarterFilter) quarterFilter.classList.remove('hidden');
+        if(yearFilter) yearFilter.classList.remove('hidden');
+        if(sortSelect) sortSelect.classList.add('hidden');
+    } else if (period === 'year') {
+        if(yearFilter) yearFilter.classList.remove('hidden');
+    } else if (period === 'all') {
+        // Hide everything for 'all'
     }
 
     currentPage = 1;
@@ -126,11 +233,18 @@ function switchTab(tab) {
         activeTab.classList.remove('border-transparent', 'text-gray-500', 'hover:bg-gray-50');
     }
 
-    // Show/hide chart container
-    const chartContainer = document.getElementById('chart-container');
-    if (chartContainer) {
-        chartContainer.style.display = tab === 'revenue' ? 'block' : 'none';
-    }
+    // Show/hide chart containers and summary cards
+    const chartContainerRev = document.getElementById('chart-container-revenue');
+    const chartContainerCus = document.getElementById('chart-container-customers');
+    const summaryRev = document.getElementById('summary-cards-revenue');
+    const summaryCus = document.getElementById('summary-cards-customers');
+    const rankFilter = document.getElementById('filter-rank');
+
+    if (chartContainerRev) chartContainerRev.classList.toggle('hidden', tab !== 'revenue');
+    if (chartContainerCus) chartContainerCus.classList.toggle('hidden', tab !== 'customers');
+    if (summaryRev) summaryRev.classList.toggle('hidden', tab === 'customers');
+    if (summaryCus) summaryCus.classList.toggle('hidden', tab !== 'customers');
+    if (rankFilter) rankFilter.classList.toggle('hidden', tab !== 'customers');
 
     // Update sort options based on tab
     updateSortOptions();
@@ -201,7 +315,9 @@ async function loadData() {
     const period = document.getElementById('filter-period').value;
     const year = document.getElementById('filter-year').value;
     const quarter = document.getElementById('filter-quarter').value;
+    const month = document.getElementById('filter-month') ? document.getElementById('filter-month').value : new Date().getMonth() + 1;
     const search = document.getElementById('table-search').value;
+    const rankFilter = document.getElementById('filter-rank') ? document.getElementById('filter-rank').value : '';
 
     // Determine correct base URL for API
     let apiBase = BASE_URL;
@@ -213,12 +329,15 @@ async function loadData() {
         case 'revenue':
             apiUrl += 'revenue&period=' + period + '&year=' + year;
             if (period === 'quarter') apiUrl += '&quarter=' + quarter;
+            if (period === 'month') apiUrl += '&month=' + month;
             break;
         case 'customers':
-            apiUrl += 'customers&period=' + period + '&year=' + year + '&sort=' + currentSort + '&order=' + currentOrder + '&page=' + currentPage + '&search=' + encodeURIComponent(search);
+            apiUrl += 'customers&period=' + period + '&year=' + year + '&sort=' + currentSort + '&order=' + currentOrder + '&page=' + currentPage + '&search=' + encodeURIComponent(search) + '&rank=' + encodeURIComponent(rankFilter);
+            if (period === 'month') apiUrl += '&month=' + month;
             break;
         case 'products':
             apiUrl += 'products&period=' + period + '&year=' + year + '&sort=' + currentSort + '&order=' + currentOrder + '&page=' + currentPage + '&search=' + encodeURIComponent(search);
+            if (period === 'month') apiUrl += '&month=' + month;
             break;
         default:
             apiUrl += 'summary&period=' + period;
@@ -247,7 +366,8 @@ async function loadData() {
             updateSummaryCards(result.data);
             updateTable(result.data);
             updateChart(result.data);
-            updateDateRangeLabel(result.data);
+            updateCustomerCharts(result.data);
+
         } else {
             showToast(result.message || 'Lỗi tải dữ liệu', 'error');
         }
@@ -261,10 +381,16 @@ async function loadData() {
  * Update summary cards
  */
 function updateSummaryCards(data) {
-    if (data.summary) {
+    if (currentTab === 'customers' && data.customer_summary) {
+        document.getElementById('customer-total').textContent = formatNumber(data.customer_summary.total_customers || 0);
+        document.getElementById('customer-new').textContent = formatNumber(data.customer_summary.new_customers || 0);
+        document.getElementById('customer-vip').textContent = formatNumber(data.customer_summary.vip_customers || 0);
+        document.getElementById('customer-returning').textContent = formatNumber(data.customer_summary.returning_customers || 0);
+        document.getElementById('customer-churn').textContent = formatNumber(data.customer_summary.churn_customers || 0);
+    } else if (data.summary) {
         document.getElementById('summary-revenue').textContent = data.summary.total_revenue_formatted || formatCurrency(data.summary.total_revenue || 0);
         document.getElementById('summary-orders').textContent = formatNumber(data.summary.total_orders || 0);
-        document.getElementById('summary-aov').textContent = formatCurrency(data.summary.avg_monthly_revenue || 0);
+        document.getElementById('summary-aov').textContent = formatCurrency(data.summary.aov !== undefined ? data.summary.aov : (data.summary.avg_monthly_revenue || 0));
         document.getElementById('summary-customers').textContent = formatNumber(data.summary.customers || 0);
         
         let convRate = data.summary.conversion_rate || 0;
@@ -298,13 +424,19 @@ function updateTable(data) {
                 <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:bg-gray-100" onclick="sortBy('full_name')">Khách Hàng</th>
                 <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:bg-gray-100" onclick="sortBy('total_orders')">Số Đơn</th>
                 <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:bg-gray-100" onclick="sortBy('total_spent')">Tổng Chi Tiêu</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Giá Trị TB</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Đơn Cuối</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Lần Mua Cuối</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Hạng</th>
+                <th class="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Hành Động</th>
             `;
 
             if (data.customers && data.customers.length > 0) {
                 data.customers.forEach((c, index) => {
-                    const rank = (currentPage - 1) * 20 + index + 1;
+                    let rankClass = 'bg-gray-100 text-gray-800';
+                    if (c.customer_rank === 'VIP') rankClass = 'bg-yellow-100 text-yellow-800';
+                    else if (c.customer_rank === 'Tiềm năng') rankClass = 'bg-blue-100 text-blue-800';
+                    else if (c.customer_rank === 'Mới') rankClass = 'bg-green-100 text-green-800';
+                    else if (c.customer_rank === 'Rời bỏ') rankClass = 'bg-red-100 text-red-800';
+
                     rows += `
                         <tr class="hover:bg-gray-50">
                             <td class="px-4 py-3">
@@ -320,8 +452,13 @@ function updateTable(data) {
                             </td>
                             <td class="px-4 py-3 text-center">${c.total_orders || 0}</td>
                             <td class="px-4 py-3 font-bold text-green-600">${c.total_spent_formatted || formatCurrency(c.total_spent || 0)}</td>
-                            <td class="px-4 py-3 text-gray-600">${c.avg_order_value_formatted || formatCurrency(c.avg_order_value || 0)}</td>
                             <td class="px-4 py-3 text-gray-500 text-sm">${c.last_order_date ? formatDate(c.last_order_date) : 'N/A'}</td>
+                            <td class="px-4 py-3">
+                                <span class="px-2 py-1 rounded-full text-xs ${rankClass}">${c.customer_rank || 'Bình thường'}</span>
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <a href="admin.php?action=customer_detail&id=${c.user_id}" class="text-blue-600 hover:text-blue-800 font-medium">Xem</a>
+                            </td>
                         </tr>
                     `;
                 });
@@ -393,6 +530,8 @@ function updateTable(data) {
                         timeLabel = 'Tháng ' + d.month;
                     } else if (periodType === 'quarter') {
                         timeLabel = 'Tháng ' + d.month;
+                    } else if (periodType === 'all') {
+                        timeLabel = 'Tháng ' + d.month + '/' + d.year;
                     } else {
                         timeLabel = 'Ngày ' + d.day;
                     }
@@ -465,6 +604,24 @@ function updateChart(data) {
             const item = chartData.find(d => d.month === m);
             values.push(item ? item.revenue : 0);
         });
+    } else if (periodType === 'month') {
+        // Days in month
+        labels = [];
+        values = [];
+        const daysInMonth = new Date(new Date().getFullYear(), data.month || new Date().getMonth() + 1, 0).getDate();
+        for (let i = 1; i <= daysInMonth; i++) {
+            labels.push(i.toString());
+            const item = chartData.find(d => d.day === i);
+            values.push(item ? item.revenue : 0);
+        }
+    } else if (periodType === 'all') {
+        // All time: Group by Year and Month from data
+        labels = [];
+        values = [];
+        chartData.forEach(d => {
+            labels.push(`T${d.month}/${d.year}`);
+            values.push(d.revenue || 0);
+        });
     }
 
     // Update chart
@@ -472,6 +629,39 @@ function updateChart(data) {
     chartInstance.data.datasets[0].data = values;
     chartInstance.data.datasets[0].type = chartType;
     chartInstance.update();
+}
+
+function updateCustomerCharts(data) {
+    if (currentTab !== 'customers') return;
+
+    // Bar chart: Top 10 customers by revenue
+    if (customerBarChartInstance && data.customers) {
+        // Sort by total spent desc
+        let top10 = [...data.customers].sort((a, b) => b.total_spent - a.total_spent).slice(0, 10);
+        customerBarChartInstance.data.labels = top10.map(c => c.full_name || 'N/A');
+        customerBarChartInstance.data.datasets[0].data = top10.map(c => c.total_spent || 0);
+        customerBarChartInstance.data.datasets[0].backgroundColor = top10.map(c => {
+            if (c.customer_rank === 'VIP') return '#eab308';
+            if (c.customer_rank === 'Tiềm năng') return '#3b82f6';
+            if (c.customer_rank === 'Mới') return '#22c55e';
+            if (c.customer_rank === 'Rời bỏ') return '#ef4444';
+            return '#9ca3af'; // Bình thường
+        });
+        customerBarChartInstance.update();
+    }
+
+    // Pie chart: Segmentation
+    if (customerPieChartInstance && data.charts && data.charts.segmentation) {
+        const seg = data.charts.segmentation;
+        customerPieChartInstance.data.datasets[0].data = [
+            seg['VIP'] || 0,
+            seg['Tiềm năng'] || 0,
+            seg['Mới'] || 0,
+            seg['Bình thường'] || 0,
+            seg['Rời bỏ'] || 0
+        ];
+        customerPieChartInstance.update();
+    }
 }
 
 /**
@@ -548,33 +738,7 @@ function sortBy(column) {
     loadData();
 }
 
-/**
- * Update date range label
- */
-function updateDateRangeLabel(data) {
-    const label = document.getElementById('date-range-label');
-    const period = document.getElementById('filter-period').value;
-    const year = document.getElementById('filter-year').value;
-    const quarter = document.getElementById('filter-quarter').value;
 
-    let text = '';
-    switch (period) {
-        case 'month':
-            text = 'Tháng ' + (new Date().getMonth() + 1) + ' / ' + year;
-            break;
-        case 'quarter':
-            text = 'Quý ' + quarter + ' / ' + year;
-            break;
-        case 'year':
-            text = 'Năm ' + year;
-            break;
-        case 'all':
-            text = 'Tất cả thời gian';
-            break;
-    }
-
-    label.textContent = text;
-}
 
 /**
  * Show loading state
@@ -712,7 +876,7 @@ function updateExportTable() {
  */
 function formatCurrency(amount) {
     if (amount === null || amount === undefined) return '0 ₫';
-    return new Intl.NumberFormat('vi-VN').format(amount) + ' ₫';
+    return new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 1 }).format(amount) + ' ₫';
 }
 
 /**
