@@ -89,8 +89,12 @@ if (isLoggedIn() && $userValid) {
     }
 }
 
-// Calculate shipping (free if over 500k)
-$shippingFee = $cartSubtotal >= 500000 ? 0 : 30000;
+// Lấy phí ship mặc định từ database
+$defaultShipping = $db->selectOne("SELECT base_price FROM shipping_prices WHERE shipping_id = 1");
+$baseShippingFee = $defaultShipping ? (float)$defaultShipping['base_price'] : 30000;
+
+// Calculate shipping (free if over 2000k)
+$shippingFee = $cartSubtotal >= 2000000 ? 0 : $baseShippingFee;
 $totalAmount = $cartSubtotal + $shippingFee;
 
 // Lấy flash message nếu có (từ trang checkout đá về)
@@ -220,8 +224,31 @@ $flash = getFlash();
                             <span class="text-on-surface-variant">Tạm tính:</span>
                             <span class="font-semibold text-text-dark" id="subtotal"><?= formatPrice($cartSubtotal) ?></span>
                         </div>
-                        <div class="flex justify-between mb-6 font-body-md">
-                            <span class="text-on-surface-variant">Phí giao hàng:</span>
+                        <div class="mb-4 font-body-md">
+                            <span class="text-on-surface-variant mb-2 block font-semibold">Phương thức vận chuyển:</span>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-2 cursor-pointer p-3 border border-outline-variant rounded-lg hover:bg-surface-variant transition-colors">
+                                    <input type="radio" name="shipping_method" value="standard" class="text-axeron-red focus:ring-axeron-red w-4 h-4" checked onchange="recalculateTotals()">
+                                    <div class="flex-1 flex justify-between text-sm">
+                                        <span>Giao hàng tiêu chuẩn</span>
+                                        <span class="font-semibold text-axeron-red" id="cart-standard-fee">
+                                            <?= $cartSubtotal >= 2000000 ? 'Miễn phí' : formatPrice($baseShippingFee) ?>
+                                        </span>
+                                    </div>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-3 border border-outline-variant rounded-lg hover:bg-surface-variant transition-colors">
+                                    <input type="radio" name="shipping_method" value="express" class="text-axeron-red focus:ring-axeron-red w-4 h-4" onchange="recalculateTotals()">
+                                    <div class="flex-1 flex justify-between text-sm">
+                                        <span>Giao nhanh (Express)</span>
+                                        <span class="font-semibold text-axeron-red" id="cart-express-fee">
+                                            <?= $cartSubtotal >= 2000000 ? 'Miễn phí' : formatPrice($baseShippingFee + 15000) ?>
+                                        </span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="flex justify-between mb-6 font-body-md border-t border-outline-variant pt-4">
+                            <span class="text-on-surface-variant">Phí vận chuyển:</span>
                             <span class="font-semibold text-text-dark" id="shipping-fee">
                                 <?= $shippingFee > 0 ? formatPrice($shippingFee) : 'Miễn phí' ?>
                             </span>
@@ -441,8 +468,31 @@ $flash = getFlash();
             currentSubtotal = subtotal;
             document.getElementById('subtotal').textContent = new Intl.NumberFormat('vi-VN').format(subtotal) + 'đ';
 
-            const shippingFee = subtotal >= 2000000 ? 0 : 30000;
-            document.getElementById('shipping-fee').textContent = shippingFee > 0 ? new Intl.NumberFormat('vi-VN').format(shippingFee) + 'đ' : 'Miễn Phí';
+            const methodEl = document.querySelector('input[name="shipping_method"]:checked');
+            const method = methodEl ? methodEl.value : 'standard';
+            const baseShippingFee = <?= $baseShippingFee ?>;
+            let finalShippingFee = method === 'express' ? baseShippingFee + 15000 : baseShippingFee;
+
+            if (subtotal >= 2000000) {
+                finalShippingFee = 0;
+                document.getElementById('cart-standard-fee').textContent = 'Miễn phí';
+                document.getElementById('cart-standard-fee').classList.remove('text-axeron-red');
+                document.getElementById('cart-standard-fee').classList.add('text-green-600');
+                
+                document.getElementById('cart-express-fee').textContent = 'Miễn phí';
+                document.getElementById('cart-express-fee').classList.remove('text-axeron-red');
+                document.getElementById('cart-express-fee').classList.add('text-green-600');
+            } else {
+                document.getElementById('cart-standard-fee').textContent = new Intl.NumberFormat('vi-VN').format(baseShippingFee) + 'đ';
+                document.getElementById('cart-standard-fee').classList.add('text-axeron-red');
+                document.getElementById('cart-standard-fee').classList.remove('text-green-600');
+                
+                document.getElementById('cart-express-fee').textContent = new Intl.NumberFormat('vi-VN').format(baseShippingFee + 15000) + 'đ';
+                document.getElementById('cart-express-fee').classList.add('text-axeron-red');
+                document.getElementById('cart-express-fee').classList.remove('text-green-600');
+            }
+
+            document.getElementById('shipping-fee').textContent = finalShippingFee > 0 ? new Intl.NumberFormat('vi-VN').format(finalShippingFee) + 'đ' : 'Miễn Phí';
 
             // Cập nhật thông báo freeship
             const freeshipText = document.getElementById('freeship-notice-text');
@@ -455,20 +505,22 @@ $flash = getFlash();
                 }
             }
 
-            let total = subtotal + shippingFee;
+            let finalTotal = subtotal + finalShippingFee;
             if (appliedPromo) {
+                let actualDiscount = 0;
                 if (appliedPromo.discount_type === 'percent') {
-                    let discount = subtotal * (appliedPromo.discount_value / 100);
+                    actualDiscount = subtotal * (appliedPromo.discount_value / 100);
                     if (appliedPromo.max_discount) {
-                        discount = Math.min(discount, parseInt(appliedPromo.max_discount));
+                        actualDiscount = Math.min(actualDiscount, parseInt(appliedPromo.max_discount));
                     }
-                    total -= discount;
                 } else {
-                    total -= parseInt(appliedPromo.discount_value);
+                    actualDiscount = parseInt(appliedPromo.discount_value);
                 }
+                actualDiscount = Math.min(actualDiscount, subtotal + finalShippingFee);
+                finalTotal -= actualDiscount;
             }
 
-            document.getElementById('total-amount').textContent = new Intl.NumberFormat('vi-VN').format(total) + 'đ';
+            document.getElementById('total-amount').textContent = new Intl.NumberFormat('vi-VN').format(finalTotal) + 'đ';
 
             let totalQty = 0;
             items.forEach(item => {

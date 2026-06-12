@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 11, 2026 lúc 06:53 PM
+-- Thời gian đã tạo: Th6 12, 2026 lúc 06:17 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -185,7 +185,8 @@ INSERT INTO `cart_items` (`cart_item_id`, `cart_id`, `variant_id`, `quantity`, `
 (21, 13, 147, 1, '2026-06-08 19:22:46'),
 (26, 1, 249, 2, '2026-06-11 00:44:13'),
 (27, 17, 6, 1, '2026-06-11 01:10:12'),
-(33, 13, 250, 1, '2026-06-11 03:03:11');
+(33, 13, 250, 1, '2026-06-11 03:03:11'),
+(43, 16, 254, 1, '2026-06-12 11:06:45');
 
 -- --------------------------------------------------------
 
@@ -396,7 +397,7 @@ CREATE TABLE `orders` (
   `shipping_fee` decimal(10,2) NOT NULL DEFAULT 0.00 COMMENT 'Phi van chuyen',
   `total_amount` decimal(14,2) NOT NULL DEFAULT 0.00 COMMENT 'Tong thanh toan cuoi cung',
   `order_status` enum('pending','confirmed','processing','shipped','delivered','cancelled','returned') NOT NULL DEFAULT 'pending' COMMENT 'Trang thai don hang',
-  `payment_method` enum('cod','bank_transfer','momo','vnpay','zalopay') NOT NULL DEFAULT 'cod' COMMENT 'Hinh thuc thanh toan',
+  `payment_method` enum('cod','bank_transfer','momo','vnpay','zalopay','payos') NOT NULL DEFAULT 'cod',
   `payment_status` enum('unpaid','paid','refunded') NOT NULL DEFAULT 'unpaid' COMMENT 'Trang thai thanh toan',
   `note` text DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
@@ -426,10 +427,11 @@ INSERT INTO `orders` (`order_id`, `order_code`, `user_id`, `shipping_id`, `shipp
 (23, 'ORD-2B5F71', NULL, 7, 1, NULL, 'Guest Tester', '0901234567', 'guest@example.com', '03b5c61831f9b657e798be62a1eca990', '123 Guest Street, , , Bà Rịa - Vũng Tàu', 160000.00, 0.00, 35000.00, 195000.00, 'cancelled', 'cod', 'unpaid', '', '2026-06-11 03:20:09', '2026-06-11 22:57:24'),
 (24, 'ORD-E81C83', NULL, 11, 1, NULL, 'khach vang lai', '0987912342', 'guest@gmail.com', 'a88b452293120863fce434c3cd11789e', 'Tam Bình, , , Bắc Ninh', 2000000.00, 0.00, 0.00, 2000000.00, 'confirmed', 'cod', 'unpaid', '', '2026-06-11 22:01:58', '2026-06-11 22:57:15'),
 (25, 'ORD-478360', NULL, 61, 2, NULL, 'khach van lai 2', '0987654333', 'vanglai2@gmail.com', '50aae7b27431865f8ce289ef3abefa7f', '6/71 Nguyễn Huệ, , Huyện Trà Ôn, Vĩnh Long', 890000.00, 0.00, 40000.00, 930000.00, 'processing', 'cod', 'refunded', '', '2026-06-11 22:53:18', '2026-06-11 22:59:46'),
-(26, 'ORD-F6D4D0', 3, 1, 1, NULL, 'Bug', '0987654321', '', '74c772bce67e10207be806715d4da1ad', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 2003000.00, 0.00, 0.00, 2003000.00, 'pending', '', 'unpaid', '', '2026-06-11 23:40:05', '2026-06-11 23:40:05'),
+(26, 'ORD-F6D4D0', 3, 1, 1, NULL, 'Bug', '0987654321', '', '74c772bce67e10207be806715d4da1ad', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 2003000.00, 0.00, 0.00, 2003000.00, 'pending', 'payos', 'unpaid', '', '2026-06-11 23:40:05', '2026-06-12 10:56:14'),
 (27, 'ORD-7A70FA', 3, 1, 2, 7, 'Bug', '0987654321', '', '56bdf4aeb8c3778bebb3791a8ea092ea', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 23:46:05', '2026-06-11 23:46:05'),
-(28, 'ORD-0BD226', 3, 1, 2, 7, 'Bug', '0987654321', '', 'afbcacfef26b531db7314cae38ba0e7d', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'pending', '', 'unpaid', '', '2026-06-11 23:47:45', '2026-06-11 23:47:45'),
-(29, 'ORD-037718', 3, 1, 2, 7, 'Bug', '0987654321', '', '4420568facd9fa393f9b1db5d8e54492', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'pending', '', 'unpaid', '', '2026-06-11 23:53:00', '2026-06-11 23:53:00');
+(28, 'ORD-0BD226', 3, 1, 2, 7, 'Bug', '0987654321', '', 'afbcacfef26b531db7314cae38ba0e7d', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'cancelled', 'payos', 'unpaid', '', '2026-06-11 23:47:45', '2026-06-12 10:56:14'),
+(29, 'ORD-037718', 3, 1, 2, 7, 'Bug', '0987654321', '', '4420568facd9fa393f9b1db5d8e54492', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'cancelled', 'payos', 'unpaid', '', '2026-06-11 23:53:00', '2026-06-12 10:56:14'),
+(30, 'ORD-39C77C', 3, 1, 1, 7, 'Bug', '0987654321', '', '5f9c1b2cdc890502e20fdfb1e0e55d5e', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 15000.00, 35000.00, 20000.00, 0.00, 'cancelled', 'cod', 'unpaid', '', '2026-06-12 10:29:03', '2026-06-12 10:29:37');
 
 -- --------------------------------------------------------
 
@@ -478,7 +480,8 @@ INSERT INTO `order_items` (`order_item_id`, `order_id`, `variant_id`, `product_n
 (28, 26, 254, 'BANKING Test 3K', 'Mặc định - Size Free Size', 3000.00, 1, 3000.00),
 (29, 27, 254, 'BANKING Test 3K', 'Mặc định - Size Free Size', 3000.00, 1, 3000.00),
 (30, 28, 254, 'BANKING Test 3K', 'Mặc định - Size Free Size', 3000.00, 1, 3000.00),
-(31, 29, 254, 'BANKING Test 3K', 'Mặc định - Size Free Size', 3000.00, 1, 3000.00);
+(31, 29, 254, 'BANKING Test 3K', 'Mặc định - Size Free Size', 3000.00, 1, 3000.00),
+(32, 30, 254, 'BANKING Test 3K', 'Mặc định - Size Free Size', 3000.00, 5, 15000.00);
 
 -- --------------------------------------------------------
 
@@ -553,7 +556,11 @@ INSERT INTO `order_status_logs` (`log_id`, `order_id`, `changed_by`, `old_status
 (54, 26, NULL, NULL, 'pending', NULL, '2026-06-11 23:40:05'),
 (55, 27, NULL, NULL, 'pending', NULL, '2026-06-11 23:46:05'),
 (56, 28, NULL, NULL, 'pending', NULL, '2026-06-11 23:47:45'),
-(57, 29, NULL, NULL, 'pending', NULL, '2026-06-11 23:53:00');
+(57, 29, NULL, NULL, 'pending', NULL, '2026-06-11 23:53:00'),
+(58, 29, 3, 'pending', 'cancelled', 'Lý do: Tìm được sản phẩm khác', '2026-06-12 10:25:24'),
+(59, 30, NULL, NULL, 'pending', NULL, '2026-06-12 10:29:03'),
+(60, 30, 3, 'pending', 'cancelled', 'Lý do: Tìm được sản phẩm khác', '2026-06-12 10:29:37'),
+(61, 28, 3, 'pending', 'cancelled', 'Lý do: Tìm được sản phẩm khác', '2026-06-12 10:38:27');
 
 -- --------------------------------------------------------
 
@@ -802,7 +809,7 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (167, 308, 9, 'Giàn Tập BBDF', 'gian-tap-bbdf-1781112741-4', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2000000.00, 47, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
 (168, 308, 1, 'Giàn Tập 2AD4', 'gian-tap-2ad4-1781112741-5', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1400000.00, 87, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
 (169, 112, 11, 'San pham test QA live', 'san-pham-test-qa-live', '', 250000.00, 10, 1, 1, 0, 999, NULL, 0, '2026-06-11 03:00:42', '2026-06-11 03:04:42'),
-(174, 1, 3, 'BANKING Test 3K', 'san-pham-test-3k', '<p>Đây là sản phẩm giả lập dùng để test hệ thống thanh toán qua cổng PayOS.</p>', 3000.00, 999, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-11 23:39:07'),
+(174, 1, 3, 'BANKING Test 3K', 'san-pham-test-3k', '<p>Đây là sản phẩm giả lập dùng để test hệ thống thanh toán qua cổng PayOS.</p>', 3000.00, 997, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-12 10:38:27'),
 (175, 1, 3, 'BANKING Test 5K', 'san-pham-test-5k', '<p>Đây là sản phẩm giả lập dùng để test hệ thống thanh toán qua cổng PayOS.</p>', 5000.00, 999, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-11 23:39:07'),
 (176, 1, 3, 'BANKING Test 10K', 'san-pham-test-10k', '<p>Đây là sản phẩm giả lập dùng để test hệ thống thanh toán qua cổng PayOS.</p>', 10000.00, 999, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-11 23:39:07');
 
@@ -1264,9 +1271,10 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (248, 144, 'DEFAULT-144-1781113313', 'default', 'default', 0.00, 21, 1, 0),
 (249, 165, 'DEFAULT-165-1781113453', 'default', 'default', 0.00, 10, 1, 0),
 (250, 169, 'SP-TEST-01', 'Xanh', 'XL', 0.00, 10, 1, 0),
-(254, 174, 'TEST-84B78D', 'Mặc định', 'Free Size', 0.00, 995, 1, 0),
+(254, 174, 'TEST-84B78D', 'Mặc định', 'Free Size', 0.00, 997, 1, 0),
 (255, 175, 'TEST-F66E00', 'Mặc định', 'Free Size', 0.00, 999, 1, 0),
-(256, 176, 'TEST-B404DD', 'Mặc định', 'Free Size', 0.00, 999, 1, 0);
+(256, 176, 'TEST-B404DD', 'Mặc định', 'Free Size', 0.00, 999, 1, 0),
+(257, 63, 'DEFAULT-63-1781233659', 'default', 'default', 0.00, 67, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1500,7 +1508,38 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (225, 3, 174, '2026-06-11 23:47:10'),
 (226, 3, 174, '2026-06-11 23:47:20'),
 (227, 3, 174, '2026-06-11 23:47:25'),
-(228, 3, 174, '2026-06-11 23:52:42');
+(228, 3, 174, '2026-06-11 23:52:42'),
+(229, 3, 1, '2026-06-12 00:03:30'),
+(230, 3, 1, '2026-06-12 00:05:12'),
+(231, 3, 1, '2026-06-12 00:05:26'),
+(232, 3, 1, '2026-06-12 00:05:33'),
+(233, 3, 1, '2026-06-12 00:05:41'),
+(234, 3, 11, '2026-06-12 00:05:46'),
+(235, 3, 3, '2026-06-12 00:05:46'),
+(236, 3, 11, '2026-06-12 00:06:32'),
+(237, 3, 3, '2026-06-12 00:07:01'),
+(238, 3, 11, '2026-06-12 00:07:04'),
+(239, 3, 8, '2026-06-12 00:07:16'),
+(240, 3, 6, '2026-06-12 00:07:17'),
+(241, 3, 6, '2026-06-12 00:08:17'),
+(242, 3, 25, '2026-06-12 00:09:28'),
+(243, 3, 27, '2026-06-12 00:09:31'),
+(244, 3, 28, '2026-06-12 00:09:33'),
+(245, 3, 27, '2026-06-12 00:09:34'),
+(246, 3, 29, '2026-06-12 00:09:51'),
+(247, 3, 30, '2026-06-12 00:09:55'),
+(248, 3, 16, '2026-06-12 10:07:22'),
+(249, 3, 11, '2026-06-12 10:07:29'),
+(250, 3, 16, '2026-06-12 10:07:31'),
+(251, 3, 63, '2026-06-12 10:07:37'),
+(252, 3, 25, '2026-06-12 10:28:34'),
+(253, 3, 174, '2026-06-12 10:28:44'),
+(254, 3, 174, '2026-06-12 10:31:09'),
+(255, 3, 6, '2026-06-12 10:39:02'),
+(256, 3, 6, '2026-06-12 10:39:52'),
+(257, 3, 6, '2026-06-12 10:43:43'),
+(258, 3, 6, '2026-06-12 10:44:18'),
+(259, 3, 174, '2026-06-12 11:06:43');
 
 -- --------------------------------------------------------
 
@@ -1537,7 +1576,7 @@ INSERT INTO `promotions` (`promo_id`, `promo_code`, `promo_name`, `description`,
 (4, 'SUMMER100K', 'Hè nóng giảm 100K', NULL, 'fixed', 100000.00, 800000.00, NULL, 200, 0, '2025-06-01 00:00:00', '2025-08-31 23:59:59', 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (5, 'VIP30', 'Ưu đãi khách hàng VIP', NULL, 'percent', 30.00, 1000000.00, 200000.00, 50, 0, '2025-01-01 00:00:00', '2025-12-31 23:59:59', 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
 (6, 'GIAM5', 'giảm 5%', NULL, 'percent', 5.00, 0.00, NULL, 10, 2, '2026-06-05 00:00:00', '2026-12-31 00:00:00', 1, '2026-06-05 16:03:27', '2026-06-05 16:33:17'),
-(7, 'TEST-BANK', 'test thanh toán online', NULL, 'fixed', 35000.00, 0.00, NULL, NULL, 3, '2026-06-11 00:00:00', '2026-12-30 00:00:00', 1, '2026-06-11 23:42:42', '2026-06-11 23:53:00');
+(7, 'TEST-BANK', 'test thanh toán online', NULL, 'fixed', 35000.00, 0.00, NULL, NULL, 4, '2026-06-11 00:00:00', '2026-12-30 00:00:00', 1, '2026-06-11 23:42:42', '2026-06-12 10:29:03');
 
 -- --------------------------------------------------------
 
@@ -1657,7 +1696,8 @@ INSERT INTO `search_logs` (`log_id`, `user_id`, `keyword`, `result_count`, `sear
 (21, 3, '10k', 2, '2026-06-11 23:37:08'),
 (22, 3, '5k', 1, '2026-06-11 23:39:26'),
 (23, 3, '10k', 2, '2026-06-11 23:39:32'),
-(24, 3, '3k', 1, '2026-06-11 23:39:36');
+(24, 3, '3k', 1, '2026-06-11 23:39:36'),
+(25, 3, 'vợt', 11, '2026-06-12 00:09:48');
 
 -- --------------------------------------------------------
 
@@ -1841,9 +1881,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Quản Trị Viên', 'admin@gmail.com', '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 22:52:28'),
+(1, 1, 'Quản Trị Viên', 'admin@gmail.com', '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, NULL, 0, '$2y$10$A.36OAoEOycKUHdFl3YLtO9XYYtz7gnjtPaNgW86Qb6rYdOco61NC', 1, '2026-05-29 19:17:55', '2026-06-12 10:24:52'),
 (2, 3, 'Lợi Lê Hữu', 'loiledelta0@gmail.com', '0772130908', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_27_1781012205.png', 'male', '2004-10-21', 1, NULL, 0, '$2y$10$tlWRp7c6FvBZ1Glr..3fIeatQJ01NsHQAl0v/klVHTe/ymWS/FEU2', 1, '2026-06-09 19:32:29', '2026-06-11 01:04:10'),
-(3, 3, 'Bug', 'vancedloile@gmail.com', '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, NULL, 0, '$2y$10$dvwaFFMcrbG2OjE9GILXhezV6AFG6.J7KfwqSvkI/CQxJGratIPNO', 1, '2026-06-11 01:07:16', '2026-06-11 22:24:08'),
+(3, 3, 'Bug', 'vancedloile@gmail.com', '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, NULL, 0, '$2y$10$Q2N6t7OsQEjhHIw2mn8vBeuKNrZbLNUYDXk4PSU8OV8fx.JviR4mK', 1, '2026-06-11 01:07:16', '2026-06-12 10:06:07'),
 (4, 3, 'Trần Thị Bích', 'bich.tran@gmail.com', '0923456789', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
 (5, 3, 'Lê Minh Cường', 'cuong.le@gmail.com', '0934567890', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
 (6, 3, 'Phạm Thị Dung', 'dung.pham@gmail.com', '0945678901', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
@@ -1912,7 +1952,8 @@ INSERT INTO `user_wishlists` (`wishlist_id`, `user_id`, `product_id`, `created_a
 (3, 3, 172, '2026-06-11 16:37:14'),
 (4, 3, 175, '2026-06-11 16:39:28'),
 (5, 3, 176, '2026-06-11 16:39:34'),
-(6, 3, 174, '2026-06-11 16:39:38');
+(6, 3, 174, '2026-06-11 16:39:38'),
+(8, 3, 1, '2026-06-11 17:05:38');
 
 -- --------------------------------------------------------
 
@@ -2243,7 +2284,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -2273,19 +2314,19 @@ ALTER TABLE `contact_messages`
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT cho bảng `order_status_logs`
 --
 ALTER TABLE `order_status_logs`
-  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT cho bảng `password_resets`
@@ -2315,13 +2356,13 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT cho bảng `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=257;
+  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=258;
 
 --
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=229;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=260;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
@@ -2345,7 +2386,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT cho bảng `search_logs`
 --
 ALTER TABLE `search_logs`
-  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT cho bảng `shipping_methods`
@@ -2381,7 +2422,7 @@ ALTER TABLE `user_addresses`
 -- AUTO_INCREMENT cho bảng `user_wishlists`
 --
 ALTER TABLE `user_wishlists`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

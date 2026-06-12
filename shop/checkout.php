@@ -121,10 +121,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $discountAmount = $promo['discount_value'];
             }
+            $discountAmount = min($discountAmount, $subtotal + $shippingFee);
         }
     }
 
-    $totalAmount = $subtotal + $shippingFee - $discountAmount;
+    $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
 
     // Create order
     $shippingAddress = "$streetAddress, $ward, $district, $province";
@@ -475,7 +476,8 @@ if ($subtotal >= 2000000) {
     $shippingFee = 0;
 }
 
-$totalAmount = $subtotal + $shippingFee - $discountAmount;
+$discountAmount = min($discountAmount, $subtotal + $shippingFee);
+$totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
 ?>
 <!DOCTYPE html>
 <html lang="vi">

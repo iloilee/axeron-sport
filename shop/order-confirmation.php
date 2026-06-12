@@ -136,13 +136,21 @@ $currentStatus = $statusLabels[$order['order_status']] ?? ['text' => $order['ord
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="max-w-4xl mx-auto px-margin-mobile md:px-margin-desktop py-12">
-        <!-- Success Message -->
+        <!-- Status Message -->
         <div class="text-center mb-12">
+            <?php if ($order['order_status'] === 'cancelled'): ?>
+            <div class="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="material-symbols-outlined text-6xl text-red-600">cancel</span>
+            </div>
+            <h1 class="font-headline-lg text-headline-lg text-on-surface mb-4">Đơn hàng đã bị hủy</h1>
+            <p class="text-on-surface-variant text-lg">Đơn hàng của bạn đã được hủy thành công theo yêu cầu.</p>
+            <?php else: ?>
             <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <span class="material-symbols-outlined text-6xl text-green-600">check_circle</span>
             </div>
             <h1 class="font-headline-lg text-headline-lg text-on-surface mb-4">Đặt hàng thành công!</h1>
             <p class="text-on-surface-variant text-lg">Cảm ơn bạn đã đặt hàng tại Axeron. Chúng tôi sẽ xử lý đơn hàng của bạn trong thời gian sớm nhất.</p>
+            <?php endif; ?>
         </div>
 
         <!-- Order Info -->
@@ -246,7 +254,7 @@ $currentStatus = $statusLabels[$order['order_status']] ?? ['text' => $order['ord
 
         <!-- Actions -->
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="<?= BASE_URL ?>/shop/product-catalog.php" class="flex-1 sm:flex-none bg-axeron-red text-white px-8 py-4 rounded-lg font-bold text-center hover:bg-primary transition-colors">
+            <a href="<?= BASE_URL ?>/shop/product-catalog.php" class="flex-1 sm:flex-none border-2 border-gray-400 text-gray-600 px-8 py-4 rounded-lg font-bold text-center hover:bg-gray-100 transition-colors">
                 Tiếp tục mua sắm
             </a>
             <?php if ($userId): ?>
@@ -258,7 +266,167 @@ $currentStatus = $statusLabels[$order['order_status']] ?? ['text' => $order['ord
                 Tra cứu đơn hàng khác
             </a>
             <?php endif; ?>
+            
+            <?php if ($userId && in_array($order['order_status'], ['pending', 'confirmed'])): ?>
+            <button onclick="showCancelModal()" class="flex-1 sm:flex-none bg-axeron-red text-white px-8 py-4 rounded-lg font-bold text-center hover:bg-primary transition-colors">
+                Hủy đơn hàng
+            </button>
+            <?php endif; ?>
         </div>
+        
+        <?php if ($userId && in_array($order['order_status'], ['pending', 'confirmed'])): ?>
+        <!-- Cancel Order Modal -->
+        <div id="cancelModal" class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center">
+            <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-xl">
+                <div class="flex justify-between items-center border-b border-gray-200 pb-3 mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Bạn có chắc muốn hủy đơn hàng này?</h3>
+                    <button onclick="hideCancelModal()" class="text-gray-500 hover:text-red-500">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                
+                <form id="cancelOrderForm" onsubmit="submitCancelOrder(event)">
+                    <p class="text-gray-600 mb-3 text-sm">Vui lòng chọn lý do hủy đơn (Bắt buộc):</p>
+                    <div class="space-y-3 mb-6">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="cancel_reason" value="Đặt nhầm sản phẩm" class="text-axeron-red focus:ring-axeron-red" required>
+                            <span>Đặt nhầm sản phẩm</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="cancel_reason" value="Muốn thay đổi địa chỉ" class="text-axeron-red focus:ring-axeron-red">
+                            <span>Muốn thay đổi địa chỉ</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="cancel_reason" value="Tìm được sản phẩm khác" class="text-axeron-red focus:ring-axeron-red">
+                            <span>Tìm được sản phẩm khác</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="cancel_reason" value="other" class="text-axeron-red focus:ring-axeron-red" onchange="toggleOtherReason(this)">
+                            <span>Khác</span>
+                        </label>
+                        <input type="text" id="other_reason_text" class="w-full border border-gray-300 rounded px-3 py-2 mt-2 hidden focus:ring-2 focus:ring-axeron-red outline-none" placeholder="Nhập lý do của bạn..." disabled>
+                    </div>
+                    
+                    <div class="flex gap-3 justify-end">
+                        <button type="button" onclick="hideCancelModal()" class="px-5 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium">Đóng</button>
+                        <button type="submit" class="px-5 py-2 bg-axeron-red text-white rounded-lg hover:bg-red-700 font-medium flex items-center gap-2" id="btnCancelSubmit">
+                            Xác nhận hủy
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <script>
+            function showCancelModal() {
+                document.getElementById('cancelModal').classList.remove('hidden');
+            }
+            function hideCancelModal() {
+                document.getElementById('cancelModal').classList.add('hidden');
+            }
+            function toggleOtherReason(radio) {
+                const textInput = document.getElementById('other_reason_text');
+                if (radio.checked && radio.value === 'other') {
+                    textInput.classList.remove('hidden');
+                    textInput.disabled = false;
+                    textInput.required = true;
+                } else {
+                    textInput.classList.add('hidden');
+                    textInput.disabled = true;
+                    textInput.required = false;
+                }
+            }
+            
+            // Add event listener to other radios to hide text input
+            document.querySelectorAll('input[name="cancel_reason"]:not([value="other"])').forEach(radio => {
+                radio.addEventListener('change', () => {
+                    document.getElementById('other_reason_text').classList.add('hidden');
+                    document.getElementById('other_reason_text').disabled = true;
+                    document.getElementById('other_reason_text').required = false;
+                });
+            });
+
+            function showCenterToast(message, type = 'success') {
+                let container = document.getElementById('center-toast-container');
+                if (!container) {
+                    container = document.createElement('div');
+                    container.id = 'center-toast-container';
+                    container.className = 'fixed inset-0 pointer-events-none z-[9999] flex flex-col items-center justify-center gap-4';
+                    document.body.appendChild(container);
+                }
+
+                const toast = document.createElement('div');
+                const bgColor = 'bg-white';
+                const iconColor = type === 'success' ? 'text-green-500' : 'text-red-500';
+                const iconName = type === 'success' ? 'check_circle' : 'error';
+
+                toast.className = `${bgColor} border border-gray-100 pointer-events-auto px-8 py-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] flex flex-col items-center gap-3 transform transition-all duration-300 scale-95 opacity-0 min-w-[320px] text-center`;
+                toast.innerHTML = `
+                    <span class="material-symbols-outlined text-5xl ${iconColor}">${iconName}</span>
+                    <span class="text-gray-800 font-medium text-lg">${message}</span>
+                `;
+
+                container.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.classList.remove('scale-95', 'opacity-0');
+                    toast.classList.add('scale-100', 'opacity-100');
+                }, 10);
+
+                setTimeout(() => {
+                    toast.classList.remove('scale-100', 'opacity-100');
+                    toast.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => toast.remove(), 300);
+                }, 2000);
+            }
+
+            async function submitCancelOrder(e) {
+                e.preventDefault();
+                const form = e.target;
+                let reason = form.cancel_reason.value;
+                if (reason === 'other') {
+                    reason = document.getElementById('other_reason_text').value.trim();
+                }
+                
+                if (!reason) {
+                    showCenterToast('Vui lòng chọn hoặc nhập lý do.', 'error');
+                    return;
+                }
+                
+                const btn = document.getElementById('btnCancelSubmit');
+                btn.disabled = true;
+                btn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> Đang xử lý...';
+                
+                try {
+                    const formData = new FormData();
+                    formData.append('order_id', <?= $orderId ?>);
+                    formData.append('reason', reason);
+                    
+                    const response = await fetch('<?= BASE_URL ?>/api/cancel_order.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        hideCancelModal();
+                        showCenterToast(result.message, 'success');
+                        setTimeout(() => window.location.reload(), 1500);
+                    } else {
+                        showCenterToast(result.message || 'Lỗi hệ thống', 'error');
+                        btn.disabled = false;
+                        btn.innerHTML = 'Xác nhận hủy';
+                    }
+                } catch (error) {
+                    alert('Lỗi kết nối mạng');
+                    console.error(error);
+                    btn.disabled = false;
+                    btn.innerHTML = 'Xác nhận hủy';
+                }
+            }
+        </script>
+        <?php endif; ?>
     </main>
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
