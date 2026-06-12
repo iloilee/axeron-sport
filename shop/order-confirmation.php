@@ -6,6 +6,7 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/session.php';
 
 $db = db();
+$flash = getFlash();
 $orderId = (int)($_GET['id'] ?? 0);
 
 if (!$orderId) {
@@ -134,6 +135,40 @@ $currentStatus = $statusLabels[$order['order_status']] ?? ['text' => $order['ord
 </head>
 <body class="bg-background text-on-background font-body-md antialiased">
     <?php include __DIR__ . '/../includes/header.php'; ?>
+
+    <?php if ($flash): ?>
+    <div id="flash-toast-container" class="fixed inset-0 pointer-events-none z-[9999] flex flex-col items-center justify-center gap-4">
+        <div class="bg-white border border-gray-100 pointer-events-auto px-8 py-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] flex flex-col items-center gap-3 transform transition-all duration-300 min-w-[320px] text-center" id="flash-toast-box">
+            <span class="material-symbols-outlined text-[48px] <?= $flash['type'] === 'success' ? 'text-green-500' : 'text-red-500' ?>">
+                <?= $flash['type'] === 'success' ? 'check_circle' : 'error' ?>
+            </span>
+            <span class="text-gray-800 font-semibold text-lg leading-tight"><?= htmlspecialchars($flash['message']) ?></span>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toast = document.getElementById('flash-toast-box');
+            if (toast) {
+                // Initialize scale/opacity for animation
+                toast.classList.add('scale-95', 'opacity-0');
+                
+                requestAnimationFrame(() => {
+                    toast.classList.remove('scale-95', 'opacity-0');
+                    toast.classList.add('scale-100', 'opacity-100');
+                });
+                
+                setTimeout(() => {
+                    toast.classList.remove('scale-100', 'opacity-100');
+                    toast.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => {
+                        const container = document.getElementById('flash-toast-container');
+                        if(container) container.remove();
+                    }, 300);
+                }, 3000);
+            }
+        });
+    </script>
+    <?php endif; ?>
 
     <main class="max-w-4xl mx-auto px-margin-mobile md:px-margin-desktop py-12">
         <!-- Status Message -->
