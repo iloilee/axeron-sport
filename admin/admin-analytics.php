@@ -5,30 +5,10 @@
  */
 ?>
 <!-- Analytics Dashboard Content -->
-<div class="space-y-6">
-    <!-- Page Header -->
-    <div class="flex justify-between items-center">
-        <div>
-            <h2 class="text-xl font-bold text-gray-800">Báo Cáo & Thống Kê</h2>
-            <p class="text-gray-500 text-sm mt-1">Phân tích doanh thu và hiệu suất kinh doanh</p>
-        </div>
-    </div>
+<div class="space-y-4">
 
-    <!-- Tab Navigation -->
-    <div class="flex gap-2 border-b border-gray-200">
-        <button class="tab-btn px-6 py-3 font-medium text-sm transition-all border-b-2 border-transparent hover:text-axeron-red <?= ($tab ?? 'revenue') === 'revenue' ? 'active border-axeron-red text-axeron-red' : 'text-gray-500' ?>" data-tab="revenue" onclick="switchTab('revenue')">
-            <span class="material-symbols-outlined text-lg align-middle mr-1">trending_up</span>
-            Doanh Thu
-        </button>
-        <button class="tab-btn px-6 py-3 font-medium text-sm transition-all border-b-2 border-transparent hover:text-axeron-red <?= ($tab ?? '') === 'customers' ? 'active border-axeron-red text-axeron-red' : 'text-gray-500' ?>" data-tab="customers" onclick="switchTab('customers')">
-            <span class="material-symbols-outlined text-lg align-middle mr-1">people</span>
-            Khách Hàng
-        </button>
-        <button class="tab-btn px-6 py-3 font-medium text-sm transition-all border-b-2 border-transparent hover:text-axeron-red <?= ($tab ?? '') === 'products' ? 'active border-axeron-red text-axeron-red' : 'text-gray-500' ?>" data-tab="products" onclick="switchTab('products')">
-            <span class="material-symbols-outlined text-lg align-middle mr-1">inventory_2</span>
-            Sản Phẩm
-        </button>
-    </div>
+
+
 
     <!-- Filter Bar -->
     <div class="bg-white rounded-xl p-4 shadow-sm border">
@@ -71,7 +51,23 @@
                 <span id="date-range-label">Đang tải...</span>
             </div>
 
-            <div class="flex-1"></div>
+            <!-- Tab Navigation (Moved) -->
+            <div class="flex-1 flex justify-center">
+                <div class="flex gap-2">
+                    <button class="tab-btn px-4 py-2 font-medium text-sm transition-all border rounded-lg hover:text-axeron-red <?= ($tab ?? 'revenue') === 'revenue' ? 'active border-axeron-red text-axeron-red' : 'border-transparent text-gray-500 hover:bg-gray-50' ?>" data-tab="revenue" onclick="switchTab('revenue')">
+                        <span class="material-symbols-outlined text-lg align-middle mr-1">trending_up</span>
+                        Doanh Thu
+                    </button>
+                    <button class="tab-btn px-4 py-2 font-medium text-sm transition-all border rounded-lg hover:text-axeron-red <?= ($tab ?? '') === 'customers' ? 'active border-axeron-red text-axeron-red' : 'border-transparent text-gray-500 hover:bg-gray-50' ?>" data-tab="customers" onclick="switchTab('customers')">
+                        <span class="material-symbols-outlined text-lg align-middle mr-1">people</span>
+                        Khách Hàng
+                    </button>
+                    <button class="tab-btn px-4 py-2 font-medium text-sm transition-all border rounded-lg hover:text-axeron-red <?= ($tab ?? '') === 'products' ? 'active border-axeron-red text-axeron-red' : 'border-transparent text-gray-500 hover:bg-gray-50' ?>" data-tab="products" onclick="switchTab('products')">
+                        <span class="material-symbols-outlined text-lg align-middle mr-1">inventory_2</span>
+                        Sản Phẩm
+                    </button>
+                </div>
+            </div>
 
             <!-- Export Buttons -->
             <div class="flex gap-2">
@@ -88,8 +84,8 @@
     </div>
 
     <!-- Summary Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="summary-cards">
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3" id="summary-cards">
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-gray-500 text-sm">Tổng Doanh Thu</p>
@@ -101,7 +97,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-gray-500 text-sm">Tổng Đơn Hàng</p>
@@ -113,7 +109,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-gray-500 text-sm">Giá Trị TB/Đơn</p>
@@ -125,7 +121,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-gray-500 text-sm">Khách Hàng</p>
@@ -133,6 +129,19 @@
                 </div>
                 <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
                     <span class="material-symbols-outlined text-orange-600">people</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conversion Rate Card -->
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Tỷ lệ chuyển đổi</p>
+                    <p class="text-2xl font-bold text-teal-600 mt-1" id="summary-conversion">--</p>
+                </div>
+                <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-teal-600">insights</span>
                 </div>
             </div>
         </div>
@@ -221,4 +230,4 @@
 <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
-<script src="<?= BASE_URL ?>/js/admin-analytics.js"></script>
+<script src="<?= BASE_URL ?>/js/admin-analytics.js?v=<?= time() + 2 ?>"></script>

@@ -99,6 +99,17 @@ function getSummary($db) {
         AND created_at BETWEEN ? AND ?
     ", [$dateRange['start'], $dateRange['end']]);
 
+    // Lượt xem sản phẩm để tính Tỷ lệ chuyển đổi
+    $views = $db->selectOne("
+        SELECT COUNT(*) as total
+        FROM product_view_logs
+        WHERE viewed_at BETWEEN ? AND ?
+    ", [$dateRange['start'], $dateRange['end']]);
+    $totalViews = (int)$views['total'];
+    
+    // Conversion rate (Tỷ lệ chuyển đổi)
+    $conversionRate = $totalViews > 0 ? ($orders['total'] / $totalViews) * 100 : 0;
+
     // AOV (Average Order Value)
     $aov = $orders['total'] > 0 ? $revenue['total'] / $orders['total'] : 0;
 
@@ -109,6 +120,7 @@ function getSummary($db) {
         'customers' => (int)$customers['total'],
         'aov' => (float)$aov,
         'aov_formatted' => formatPrice($aov),
+        'conversion_rate' => round($conversionRate, 2),
         'period' => $period,
         'date_range' => $dateRange
     ]);
@@ -395,7 +407,6 @@ function getRevenueStats($db) {
         ", [$year, $month]);
     }
 
-    // Format data
     $totalRevenue = 0;
     $totalOrders = 0;
 
@@ -406,6 +417,28 @@ function getRevenueStats($db) {
         $totalOrders += $d['total_orders'];
     }
 
+    // Get date range for the current period
+    $dateRange = getDateRange($period, $_GET);
+    
+    // Count total unique customers who bought
+    $customersData = $db->selectOne("
+        SELECT COUNT(DISTINCT user_id) as total
+        FROM orders
+        WHERE order_status NOT IN ('cancelled', 'returned')
+        AND created_at BETWEEN ? AND ?
+    ", [$dateRange['start'], $dateRange['end']]);
+    $totalCustomers = (int)($customersData['total'] ?? 0);
+
+    // Count total product views
+    $viewsData = $db->selectOne("
+        SELECT COUNT(*) as total
+        FROM product_view_logs
+        WHERE viewed_at BETWEEN ? AND ?
+    ", [$dateRange['start'], $dateRange['end']]);
+    $totalViews = (int)($viewsData['total'] ?? 0);
+
+    $conversionRate = $totalViews > 0 ? ($totalOrders / $totalViews) * 100 : 0;
+
     jsonResponse(true, 'Success', [
         'period_type' => $period,
         'year' => $year,
@@ -415,6 +448,8 @@ function getRevenueStats($db) {
             'total_revenue' => (float)$totalRevenue,
             'total_revenue_formatted' => formatPrice($totalRevenue),
             'total_orders' => (int)$totalOrders,
+            'customers' => $totalCustomers,
+            'conversion_rate' => round($conversionRate, 2),
             'avg_monthly_revenue' => $period === 'year' && count($data) > 0 ? $totalRevenue / count($data) : 0
         ]
     ]);

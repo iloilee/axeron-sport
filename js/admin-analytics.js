@@ -117,13 +117,13 @@ function switchTab(tab) {
     // Update tab active state
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('active', 'border-axeron-red', 'text-axeron-red');
-        btn.classList.add('text-gray-500');
+        btn.classList.add('border-transparent', 'text-gray-500', 'hover:bg-gray-50');
     });
 
     const activeTab = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
     if (activeTab) {
         activeTab.classList.add('active', 'border-axeron-red', 'text-axeron-red');
-        activeTab.classList.remove('text-gray-500');
+        activeTab.classList.remove('border-transparent', 'text-gray-500', 'hover:bg-gray-50');
     }
 
     // Show/hide chart container
@@ -266,11 +266,16 @@ function updateSummaryCards(data) {
         document.getElementById('summary-orders').textContent = formatNumber(data.summary.total_orders || 0);
         document.getElementById('summary-aov').textContent = formatCurrency(data.summary.avg_monthly_revenue || 0);
         document.getElementById('summary-customers').textContent = formatNumber(data.summary.customers || 0);
+        
+        let convRate = data.summary.conversion_rate || 0;
+        document.getElementById('summary-conversion').textContent = convRate + '%';
     } else if (data.totals) {
         // For products tab
         document.getElementById('summary-revenue').textContent = data.totals.revenue_formatted || formatCurrency(data.totals.revenue || 0);
         document.getElementById('summary-orders').textContent = formatNumber(data.totals.sold || 0);
-        document.getElementById('summary-aov').textContent = data.products?.length || 0 + ' sản phẩm';
+        document.getElementById('summary-aov').textContent = (data.products?.length || 0) + ' sản phẩm';
+        if(document.getElementById('summary-customers')) document.getElementById('summary-customers').textContent = '--';
+        if(document.getElementById('summary-conversion')) document.getElementById('summary-conversion').textContent = '--%';
     }
 }
 
@@ -555,7 +560,7 @@ function updateDateRangeLabel(data) {
     let text = '';
     switch (period) {
         case 'month':
-            text = 'Tháng ' + new Date().getMonth() + 1 + ' / ' + year;
+            text = 'Tháng ' + (new Date().getMonth() + 1) + ' / ' + year;
             break;
         case 'quarter':
             text = 'Quý ' + quarter + ' / ' + year;

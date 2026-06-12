@@ -343,8 +343,17 @@ if ($action === 'dashboard') {
                         <span class="material-symbols-outlined text-2xl">menu</span>
                     </button>
                     <div>
-                        <h1 class="text-xl sm:text-2xl font-bold text-gray-800"><?= $pageTitle ?></h1>
-                        <p class="text-gray-500 text-sm hidden sm:block">Xin chào, <?= htmlspecialchars($currentUser['full_name']) ?>!</p>
+                        <?php if ($action === 'analytics'): ?>
+                        <h1 class="text-xl sm:text-2xl font-bold text-gray-800">Báo Cáo & Thống Kê</h1>
+                        <?php else: ?>
+                        <?php 
+                        $displayTitle = $pageTitle;
+                        if (!in_array($action, ['dashboard', 'settings'])) {
+                            $displayTitle = 'Quản lý ' . $pageTitle;
+                        }
+                        ?>
+                        <h1 class="text-xl sm:text-2xl font-bold text-gray-800"><?= $displayTitle ?></h1>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
