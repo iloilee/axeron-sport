@@ -35,7 +35,74 @@ $roles = $db->select("SELECT role_id, role_name FROM roles");
 
 // Get current user ID for JavaScript
 $currentUserId = getUserId();
+
+// Lấy thống kê
+$thisMonthStart = date('Y-m-01');
+$lastMonthStart = date('Y-m-01', strtotime('-1 month'));
+
+$totalUsersCurrent = $db->selectOne("SELECT COUNT(*) as count FROM users")['count'];
+$totalUsersPrev = $db->selectOne("SELECT COUNT(*) as count FROM users WHERE created_at < ?", [$thisMonthStart])['count'];
+
+$newUsersCurrent = $db->selectOne("SELECT COUNT(*) as count FROM users WHERE created_at >= ?", [$thisMonthStart])['count'];
+$newUsersPrev = $db->selectOne("SELECT COUNT(*) as count FROM users WHERE created_at >= ? AND created_at < ?", [$lastMonthStart, $thisMonthStart])['count'];
+
+$staffCurrent = $db->selectOne("SELECT COUNT(*) as count FROM users u JOIN roles r ON u.role_id = r.role_id WHERE r.role_name LIKE 'staff%'")['count'];
+$staffPrev = $db->selectOne("SELECT COUNT(*) as count FROM users u JOIN roles r ON u.role_id = r.role_id WHERE r.role_name LIKE 'staff%' AND u.created_at < ?", [$thisMonthStart])['count'];
+
+$customerCurrent = $db->selectOne("SELECT COUNT(*) as count FROM users u JOIN roles r ON u.role_id = r.role_id WHERE r.role_name = 'customer'")['count'];
+$customerPrev = $db->selectOne("SELECT COUNT(*) as count FROM users u JOIN roles r ON u.role_id = r.role_id WHERE r.role_name = 'customer' AND u.created_at < ?", [$thisMonthStart])['count'];
+
+function calculateUserTrend($current, $prev) {
+    if ($prev == 0) return ['trend' => 'up', 'percent' => $current > 0 ? 100 : 0];
+    $diff = $current - $prev;
+    $percent = ($diff / $prev) * 100;
+    return [
+        'trend' => $diff >= 0 ? 'up' : 'down',
+        'percent' => abs(round($percent, 1))
+    ];
+}
+
+$userStats = [
+    'total' => ['count' => $totalUsersCurrent, 'trend' => calculateUserTrend($totalUsersCurrent, $totalUsersPrev)],
+    'new' => ['count' => $newUsersCurrent, 'trend' => calculateUserTrend($newUsersCurrent, $newUsersPrev)],
+    'staff' => ['count' => $staffCurrent, 'trend' => calculateUserTrend($staffCurrent, $staffPrev)],
+    'customer' => ['count' => $customerCurrent, 'trend' => calculateUserTrend($customerCurrent, $customerPrev)]
+];
+
+function renderStatCard($title, $value, $trendData, $icon, $colorClass, $bgColorClass) {
+    $trendIcon = $trendData['trend'] === 'up' ? 'trending_up' : 'trending_down';
+    $trendColor = $trendData['trend'] === 'up' ? 'text-emerald-600' : 'text-red-600';
+    $percent = $trendData['percent'] . '%';
+    
+    return '
+    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div class="flex justify-between items-start">
+            <div>
+                <p class="text-sm font-medium text-slate-500">'.$title.'</p>
+                <h3 class="mt-1 text-2xl font-bold text-slate-900">'.number_format($value).'</h3>
+            </div>
+            <div class="flex h-10 w-10 items-center justify-center rounded-lg '.$bgColorClass.' '.$colorClass.'">
+                <span class="material-symbols-outlined">'.$icon.'</span>
+            </div>
+        </div>
+        <div class="mt-4 flex items-center gap-2">
+            <span class="flex items-center text-xs font-medium '.$trendColor.'">
+                <span class="material-symbols-outlined !text-sm mr-1">'.$trendIcon.'</span>
+                '.$percent.'
+            </span>
+            <span class="text-xs text-slate-500">so với tháng trước</span>
+        </div>
+    </div>';
+}
 ?>
+
+<!-- Thống kê nhanh -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <?= renderStatCard('Tổng người dùng', $userStats['total']['count'], $userStats['total']['trend'], 'group', 'text-blue-600', 'bg-blue-50') ?>
+    <?= renderStatCard('Người dùng mới', $userStats['new']['count'], $userStats['new']['trend'], 'person_add', 'text-green-600', 'bg-green-50') ?>
+    <?= renderStatCard('Nhân viên', $userStats['staff']['count'], $userStats['staff']['trend'], 'badge', 'text-purple-600', 'bg-purple-50') ?>
+    <?= renderStatCard('Khách hàng', $userStats['customer']['count'], $userStats['customer']['trend'], 'person', 'text-orange-600', 'bg-orange-50') ?>
+</div>
 
 <div class="mb-6 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
     <div class="flex flex-col xl:flex-row gap-3 items-start xl:items-center">

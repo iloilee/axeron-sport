@@ -51,60 +51,105 @@ $orders = $db->select("
 ", $params);
 
 // Lấy thống kê tổng quan
+$thisMonthStart = date('Y-m-01');
+$lastMonthStart = date('Y-m-01', strtotime('-1 month'));
+
+// Thống kê tổng số lượng hiện tại (All time)
 $statusCounts = $db->selectOne("
     SELECT 
+        COUNT(*) as total_count,
         SUM(CASE WHEN order_status = 'pending' THEN 1 ELSE 0 END) as pending_count,
-        SUM(CASE WHEN order_status IN ('shipped', 'processing') THEN 1 ELSE 0 END) as shipping_count,
+        SUM(CASE WHEN order_status = 'confirmed' THEN 1 ELSE 0 END) as confirmed_count,
+        SUM(CASE WHEN order_status = 'processing' THEN 1 ELSE 0 END) as processing_count,
+        SUM(CASE WHEN order_status = 'shipped' THEN 1 ELSE 0 END) as shipped_count,
         SUM(CASE WHEN order_status = 'delivered' THEN 1 ELSE 0 END) as delivered_count,
-        SUM(CASE WHEN order_status = 'cancelled' THEN 1 ELSE 0 END) as cancelled_count
+        SUM(CASE WHEN order_status = 'cancelled' THEN 1 ELSE 0 END) as cancelled_count,
+        SUM(CASE WHEN order_status = 'returned' THEN 1 ELSE 0 END) as returned_count
     FROM orders
 ");
+
+// Thống kê trước đó (Tạo trước tháng này)
+$statusCountsPrev = $db->selectOne("
+    SELECT 
+        COUNT(*) as total_count,
+        SUM(CASE WHEN order_status = 'pending' THEN 1 ELSE 0 END) as pending_count,
+        SUM(CASE WHEN order_status = 'confirmed' THEN 1 ELSE 0 END) as confirmed_count,
+        SUM(CASE WHEN order_status = 'processing' THEN 1 ELSE 0 END) as processing_count,
+        SUM(CASE WHEN order_status = 'shipped' THEN 1 ELSE 0 END) as shipped_count,
+        SUM(CASE WHEN order_status = 'delivered' THEN 1 ELSE 0 END) as delivered_count,
+        SUM(CASE WHEN order_status = 'cancelled' THEN 1 ELSE 0 END) as cancelled_count,
+        SUM(CASE WHEN order_status = 'returned' THEN 1 ELSE 0 END) as returned_count
+    FROM orders
+    WHERE created_at < ?
+", [$thisMonthStart]);
+
+function calculateOrderTrend($current, $prev) {
+    $current = $current ?? 0;
+    $prev = $prev ?? 0;
+    if ($prev == 0) return ['trend' => 'up', 'percent' => $current > 0 ? 100 : 0];
+    $diff = $current - $prev;
+    $percent = ($diff / $prev) * 100;
+    return [
+        'trend' => $diff >= 0 ? 'up' : 'down',
+        'percent' => abs(round($percent, 1))
+    ];
+}
+
+$orderStats = [
+    'total' => ['count' => $statusCounts['total_count'] ?? 0, 'trend' => calculateOrderTrend($statusCounts['total_count'], $statusCountsPrev['total_count'])],
+    'pending' => ['count' => $statusCounts['pending_count'] ?? 0, 'trend' => calculateOrderTrend($statusCounts['pending_count'], $statusCountsPrev['pending_count'])],
+    'confirmed' => ['count' => $statusCounts['confirmed_count'] ?? 0, 'trend' => calculateOrderTrend($statusCounts['confirmed_count'], $statusCountsPrev['confirmed_count'])],
+    'processing' => ['count' => $statusCounts['processing_count'] ?? 0, 'trend' => calculateOrderTrend($statusCounts['processing_count'], $statusCountsPrev['processing_count'])],
+    'shipped' => ['count' => $statusCounts['shipped_count'] ?? 0, 'trend' => calculateOrderTrend($statusCounts['shipped_count'], $statusCountsPrev['shipped_count'])],
+    'delivered' => ['count' => $statusCounts['delivered_count'] ?? 0, 'trend' => calculateOrderTrend($statusCounts['delivered_count'], $statusCountsPrev['delivered_count'])],
+    'cancelled' => ['count' => $statusCounts['cancelled_count'] ?? 0, 'trend' => calculateOrderTrend($statusCounts['cancelled_count'], $statusCountsPrev['cancelled_count'])],
+    'returned' => ['count' => $statusCounts['returned_count'] ?? 0, 'trend' => calculateOrderTrend($statusCounts['returned_count'], $statusCountsPrev['returned_count'])]
+];
+
+function renderOrderStatCard($title, $value, $trendData, $icon, $colorClass, $bgColorClass) {
+    $trendIcon = $trendData['trend'] === 'up' ? 'trending_up' : 'trending_down';
+    $trendColor = $trendData['trend'] === 'up' ? 'text-emerald-600' : 'text-red-600';
+    $percent = $trendData['percent'] . '%';
+    
+    return '
+    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div class="flex justify-between items-start">
+            <div>
+                <p class="text-sm font-medium text-slate-500">'.$title.'</p>
+                <h3 class="mt-1 text-2xl font-bold text-slate-900">'.number_format($value).'</h3>
+            </div>
+            <div class="flex h-10 w-10 items-center justify-center rounded-lg '.$bgColorClass.' '.$colorClass.'">
+                <span class="material-symbols-outlined">'.$icon.'</span>
+            </div>
+        </div>
+        <div class="mt-4 flex items-center gap-2">
+            <span class="flex items-center text-xs font-medium '.$trendColor.'">
+                <span class="material-symbols-outlined !text-sm mr-1">'.$trendIcon.'</span>
+                '.$percent.'
+            </span>
+            <span class="text-xs text-slate-500">so với tháng trước</span>
+        </div>
+    </div>';
+}
 
 $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled', 'returned'];
 ?>
 
 <!-- Thống kê nhanh -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
-        <div>
-            <p class="text-sm text-gray-500 font-medium">Chờ xác nhận</p>
-            <p class="text-2xl font-bold text-yellow-600"><?= number_format($statusCounts['pending_count'] ?? 0) ?></p>
-        </div>
-        <div class="w-10 h-10 rounded-full bg-yellow-50 flex items-center justify-center text-yellow-600">
-            <span class="material-symbols-outlined">pending_actions</span>
-        </div>
-    </div>
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
-        <div>
-            <p class="text-sm text-gray-500 font-medium">Đang giao</p>
-            <p class="text-2xl font-bold text-indigo-600"><?= number_format($statusCounts['shipping_count'] ?? 0) ?></p>
-        </div>
-        <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
-            <span class="material-symbols-outlined">local_shipping</span>
-        </div>
-    </div>
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
-        <div>
-            <p class="text-sm text-gray-500 font-medium">Hoàn thành</p>
-            <p class="text-2xl font-bold text-green-600"><?= number_format($statusCounts['delivered_count'] ?? 0) ?></p>
-        </div>
-        <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600">
-            <span class="material-symbols-outlined">check_circle</span>
-        </div>
-    </div>
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
-        <div>
-            <p class="text-sm text-gray-500 font-medium">Đã hủy</p>
-            <p class="text-2xl font-bold text-red-600"><?= number_format($statusCounts['cancelled_count'] ?? 0) ?></p>
-        </div>
-        <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-600">
-            <span class="material-symbols-outlined">cancel</span>
-        </div>
-    </div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <?= renderOrderStatCard('Tổng đơn hàng', $orderStats['total']['count'], $orderStats['total']['trend'], 'receipt_long', 'text-blue-600', 'bg-blue-50') ?>
+    <?= renderOrderStatCard('Chờ xử lý', $orderStats['pending']['count'], $orderStats['pending']['trend'], 'pending_actions', 'text-yellow-600', 'bg-yellow-50') ?>
+    <?= renderOrderStatCard('Đã xác nhận', $orderStats['confirmed']['count'], $orderStats['confirmed']['trend'], 'done', 'text-teal-600', 'bg-teal-50') ?>
+    <?= renderOrderStatCard('Đang xử lý', $orderStats['processing']['count'], $orderStats['processing']['trend'], 'inventory_2', 'text-purple-600', 'bg-purple-50') ?>
+    <?= renderOrderStatCard('Đang giao', $orderStats['shipped']['count'], $orderStats['shipped']['trend'], 'local_shipping', 'text-indigo-600', 'bg-indigo-50') ?>
+    <?= renderOrderStatCard('Đã giao', $orderStats['delivered']['count'], $orderStats['delivered']['trend'], 'check_circle', 'text-green-600', 'bg-green-50') ?>
+    <?= renderOrderStatCard('Đã hủy', $orderStats['cancelled']['count'], $orderStats['cancelled']['trend'], 'cancel', 'text-red-600', 'bg-red-50') ?>
+    <?= renderOrderStatCard('Trả hàng', $orderStats['returned']['count'], $orderStats['returned']['trend'], 'keyboard_return', 'text-gray-600', 'bg-gray-50') ?>
 </div>
 
 <div class="mb-6 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
-    <form method="GET" class="flex gap-3 flex-wrap items-center" id="filter-form">
+    <div class="flex flex-col xl:flex-row gap-3 items-start xl:items-center">
+        <form method="GET" class="flex gap-3 flex-wrap items-center" id="filter-form">
         <input type="hidden" name="action" value="orders">
         
         <input type="text" name="search" placeholder="Tìm mã đơn, tên, SĐT, Email..." value="<?= htmlspecialchars($search) ?>"
@@ -143,6 +188,11 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
             <button type="submit" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium">Lọc</button>
         </div>
     </form>
+    
+    <div class="px-4 py-2 bg-red-50 border border-red-100 rounded-lg text-sm font-medium text-axeron-red whitespace-nowrap">
+        Tổng số: <strong class="text-base"><?= count($orders) ?></strong> đơn hàng
+    </div>
+</div>
     
     <script>
     function toggleCustomDate(val) {

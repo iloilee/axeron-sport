@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 12, 2026 lúc 06:17 AM
+-- Thời gian đã tạo: Th6 12, 2026 lúc 06:51 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -696,7 +696,7 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (48, 13, 1, 'Tất thể thao DL Sport (5 doi)', 'tat-the-thao-dl-sport-5doi', '5 đôi tất thể thao DL, chất liệu cotton pha.', 95000.00, 150, 1, 0, 0, 999, 4.20, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
 (49, 23, 1, 'Mũ thể thao nữ DL Lily', 'mu-the-thao-nu-dl-lily', 'Mũ nữ kiểu bucket hat thời trang.', 155000.00, 60, 1, 0, 0, 999, 4.30, 5, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
 (50, 23, 3, 'Balo nữ Adidas Classic BOS', 'balo-nu-adidas-classic', 'Balo nữ Adidas Classic BOS dung tích 22L.', 650000.00, 30, 1, 0, 0, 999, 4.60, 9, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(56, 34, 4, 'sản phẩm test ẩn hiện', 'san-phm-test-n-hin', '', 1000000.00, 12, 1, 0, 1, 2, NULL, 0, '2026-06-06 02:20:00', '2026-06-11 00:18:35'),
+(56, 34, 4, 'sản phẩm test ẩn hiện', 'san-phm-test-n-hin', '', 1000000.00, 12, 0, 0, 1, 2, NULL, 0, '2026-06-06 02:20:00', '2026-06-12 11:50:34'),
 (58, 315, 11, 'Giày Pickleball Axeron Pro V1-C439', 'giay-pickleball-v1-c439', '<p>Sản phẩm Giày Pickleball Axeron Pro V1-C439 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 835000.00, 42, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
 (59, 315, 11, 'Giày Pickleball Axeron Pro V2-D06C', 'giay-pickleball-v2-d06c', '<p>Sản phẩm Giày Pickleball Axeron Pro V2-D06C với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1459000.00, 75, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
 (60, 315, 11, 'Giày Pickleball Axeron Pro V3-0BD7', 'giay-pickleball-v3-0bd7', '<p>Sản phẩm Giày Pickleball Axeron Pro V3-0BD7 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 926000.00, 79, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
@@ -1539,7 +1539,9 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (256, 3, 6, '2026-06-12 10:39:52'),
 (257, 3, 6, '2026-06-12 10:43:43'),
 (258, 3, 6, '2026-06-12 10:44:18'),
-(259, 3, 174, '2026-06-12 11:06:43');
+(259, 3, 174, '2026-06-12 11:06:43'),
+(260, 3, 56, '2026-06-12 11:47:28'),
+(261, 3, 56, '2026-06-12 11:50:25');
 
 -- --------------------------------------------------------
 
@@ -1697,7 +1699,8 @@ INSERT INTO `search_logs` (`log_id`, `user_id`, `keyword`, `result_count`, `sear
 (22, 3, '5k', 1, '2026-06-11 23:39:26'),
 (23, 3, '10k', 2, '2026-06-11 23:39:32'),
 (24, 3, '3k', 1, '2026-06-11 23:39:36'),
-(25, 3, 'vợt', 11, '2026-06-12 00:09:48');
+(25, 3, 'vợt', 11, '2026-06-12 00:09:48'),
+(26, 3, 'ẩn hiện', 0, '2026-06-12 11:47:18');
 
 -- --------------------------------------------------------
 
@@ -1881,7 +1884,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Quản Trị Viên', 'admin@gmail.com', '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, NULL, 0, '$2y$10$A.36OAoEOycKUHdFl3YLtO9XYYtz7gnjtPaNgW86Qb6rYdOco61NC', 1, '2026-05-29 19:17:55', '2026-06-12 10:24:52'),
+(1, 1, 'Quản Trị Viên', 'admin@gmail.com', '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, NULL, 0, '$2y$10$qrmarDwufwiFKMK3yKE3J.ocp2S49ORWiX1KA3qxd4Sm6Z/qQ0mnS', 1, '2026-05-29 19:17:55', '2026-06-12 11:48:14'),
 (2, 3, 'Lợi Lê Hữu', 'loiledelta0@gmail.com', '0772130908', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_27_1781012205.png', 'male', '2004-10-21', 1, NULL, 0, '$2y$10$tlWRp7c6FvBZ1Glr..3fIeatQJ01NsHQAl0v/klVHTe/ymWS/FEU2', 1, '2026-06-09 19:32:29', '2026-06-11 01:04:10'),
 (3, 3, 'Bug', 'vancedloile@gmail.com', '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, NULL, 0, '$2y$10$Q2N6t7OsQEjhHIw2mn8vBeuKNrZbLNUYDXk4PSU8OV8fx.JviR4mK', 1, '2026-06-11 01:07:16', '2026-06-12 10:06:07'),
 (4, 3, 'Trần Thị Bích', 'bich.tran@gmail.com', '0923456789', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
@@ -1953,7 +1956,8 @@ INSERT INTO `user_wishlists` (`wishlist_id`, `user_id`, `product_id`, `created_a
 (4, 3, 175, '2026-06-11 16:39:28'),
 (5, 3, 176, '2026-06-11 16:39:34'),
 (6, 3, 174, '2026-06-11 16:39:38'),
-(8, 3, 1, '2026-06-11 17:05:38');
+(8, 3, 1, '2026-06-11 17:05:38'),
+(9, 3, 56, '2026-06-12 04:47:53');
 
 -- --------------------------------------------------------
 
@@ -2362,7 +2366,7 @@ ALTER TABLE `product_variants`
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=260;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=262;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
@@ -2386,7 +2390,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT cho bảng `search_logs`
 --
 ALTER TABLE `search_logs`
-  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT cho bảng `shipping_methods`
@@ -2422,7 +2426,7 @@ ALTER TABLE `user_addresses`
 -- AUTO_INCREMENT cho bảng `user_wishlists`
 --
 ALTER TABLE `user_wishlists`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

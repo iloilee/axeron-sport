@@ -39,24 +39,165 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_action'])) {
     require_once __DIR__ . '/admin-api.php';
     exit;
 }
+// Lấy thống kê tổng quan
+$thisMonthStart = date('Y-m-01');
+$lastMonthStart = date('Y-m-01', strtotime('-1 month'));
+
+$productStatsRaw = $db->selectOne("
+    SELECT 
+        COUNT(*) as total_count,
+        SUM(CASE WHEN is_featured = 1 THEN 1 ELSE 0 END) as featured_count,
+        SUM(CASE WHEN stock_quantity = 0 THEN 1 ELSE 0 END) as out_of_stock_count,
+        SUM(CASE WHEN stock_quantity > 0 AND stock_quantity <= 10 THEN 1 ELSE 0 END) as low_stock_count,
+        SUM(CASE WHEN is_visible = 1 THEN 1 ELSE 0 END) as active_count,
+        SUM(CASE WHEN is_visible = 0 THEN 1 ELSE 0 END) as inactive_count,
+        SUM(base_price * stock_quantity) as total_inventory_value
+    FROM products
+    WHERE is_deleted = 0
+");
+
+$bestSellersStats = $db->selectOne("
+    SELECT COUNT(*) as count 
+    FROM (
+        SELECT p.product_id 
+        FROM products p 
+        JOIN product_variants pv ON p.product_id = pv.product_id
+        JOIN order_items oi ON pv.variant_id = oi.variant_id 
+        WHERE p.is_deleted = 0 
+        GROUP BY p.product_id 
+        HAVING SUM(oi.quantity) >= 10
+    ) t
+");
+$productStatsRaw['best_sellers_count'] = $bestSellersStats['count'] ?? 0;
+
+$productStatsPrev = $db->selectOne("
+    SELECT 
+        COUNT(*) as total_count,
+        SUM(CASE WHEN is_featured = 1 THEN 1 ELSE 0 END) as featured_count,
+        SUM(CASE WHEN stock_quantity = 0 THEN 1 ELSE 0 END) as out_of_stock_count,
+        SUM(CASE WHEN stock_quantity > 0 AND stock_quantity <= 10 THEN 1 ELSE 0 END) as low_stock_count,
+        SUM(CASE WHEN is_visible = 1 THEN 1 ELSE 0 END) as active_count,
+        SUM(CASE WHEN is_visible = 0 THEN 1 ELSE 0 END) as inactive_count,
+        SUM(base_price * stock_quantity) as total_inventory_value
+    FROM products
+    WHERE is_deleted = 0 AND created_at < ?
+", [$thisMonthStart]);
+
+$bestSellersStatsPrev = $db->selectOne("
+    SELECT COUNT(*) as count 
+    FROM (
+        SELECT p.product_id 
+        FROM products p 
+        JOIN product_variants pv ON p.product_id = pv.product_id
+        JOIN order_items oi ON pv.variant_id = oi.variant_id 
+        WHERE p.is_deleted = 0 AND p.created_at < ?
+        GROUP BY p.product_id 
+        HAVING SUM(oi.quantity) >= 10
+    ) t
+", [$thisMonthStart]);
+$productStatsPrev['best_sellers_count'] = $bestSellersStatsPrev['count'] ?? 0;
+
+function calculateProductTrend($current, $prev) {
+    $current = $current ?? 0;
+    $prev = $prev ?? 0;
+    if ($prev == 0) return ['trend' => 'up', 'percent' => $current > 0 ? 100 : 0];
+    $diff = $current - $prev;
+    $percent = ($diff / $prev) * 100;
+    return [
+        'trend' => $diff >= 0 ? 'up' : 'down',
+        'percent' => abs(round($percent, 1))
+    ];
+}
+
+$pStats = [
+    'total' => ['count' => $productStatsRaw['total_count'] ?? 0, 'trend' => calculateProductTrend($productStatsRaw['total_count'], $productStatsPrev['total_count'])],
+    'featured' => ['count' => $productStatsRaw['featured_count'] ?? 0, 'trend' => calculateProductTrend($productStatsRaw['featured_count'], $productStatsPrev['featured_count'])],
+    'bestsellers' => ['count' => $productStatsRaw['best_sellers_count'] ?? 0, 'trend' => calculateProductTrend($productStatsRaw['best_sellers_count'], $productStatsPrev['best_sellers_count'])],
+    'outofstock' => ['count' => $productStatsRaw['out_of_stock_count'] ?? 0, 'trend' => calculateProductTrend($productStatsRaw['out_of_stock_count'], $productStatsPrev['out_of_stock_count'])],
+    'lowstock' => ['count' => $productStatsRaw['low_stock_count'] ?? 0, 'trend' => calculateProductTrend($productStatsRaw['low_stock_count'], $productStatsPrev['low_stock_count'])],
+    'active' => ['count' => $productStatsRaw['active_count'] ?? 0, 'trend' => calculateProductTrend($productStatsRaw['active_count'], $productStatsPrev['active_count'])],
+    'inactive' => ['count' => $productStatsRaw['inactive_count'] ?? 0, 'trend' => calculateProductTrend($productStatsRaw['inactive_count'], $productStatsPrev['inactive_count'])],
+    'inventory_value' => ['count' => $productStatsRaw['total_inventory_value'] ?? 0, 'trend' => calculateProductTrend($productStatsRaw['total_inventory_value'], $productStatsPrev['total_inventory_value'])]
+];
+
+function renderProductStatCard($title, $value, $trendData, $icon, $colorClass, $bgColorClass, $isCurrency = false) {
+    $trendIcon = $trendData['trend'] === 'up' ? 'trending_up' : 'trending_down';
+    $trendColor = $trendData['trend'] === 'up' ? 'text-emerald-600' : 'text-red-600';
+    $percent = $trendData['percent'] . '%';
+    
+    // Rút gọn hiển thị tiền cho đẹp
+    $displayValue = $value;
+    $unit = '';
+    if ($isCurrency) {
+        if ($value >= 1000000000) {
+            $displayValue = round($value / 1000000000, 1) . 'T';
+        } elseif ($value >= 1000000) {
+            $displayValue = round($value / 1000000, 1) . 'M';
+        } elseif ($value >= 1000) {
+            $displayValue = round($value / 1000, 1) . 'K';
+        } else {
+            $displayValue = number_format($value);
+        }
+        $unit = ' <span class="text-sm font-normal text-slate-500">vnđ</span>';
+    } else {
+        $displayValue = number_format($value);
+    }
+    
+    return '
+    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div class="flex justify-between items-start">
+            <div>
+                <p class="text-sm font-medium text-slate-500 truncate" title="'.$title.'">'.$title.'</p>
+                <h3 class="mt-1 text-2xl font-bold text-slate-900">'.$displayValue.$unit.'</h3>
+            </div>
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg '.$bgColorClass.' '.$colorClass.'">
+                <span class="material-symbols-outlined">'.$icon.'</span>
+            </div>
+        </div>
+        <div class="mt-4 flex items-center gap-2">
+            <span class="flex items-center text-xs font-medium '.$trendColor.'">
+                <span class="material-symbols-outlined !text-sm mr-1">'.$trendIcon.'</span>
+                '.$percent.'
+            </span>
+            <span class="text-xs text-slate-500">so với tháng trước</span>
+        </div>
+    </div>';
+}
 ?>
 
+<!-- Thống kê nhanh -->
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 mb-6">
+    <?= renderProductStatCard('Tổng sản phẩm', $pStats['total']['count'], $pStats['total']['trend'], 'inventory', 'text-blue-600', 'bg-blue-50') ?>
+    <?= renderProductStatCard('Sản phẩm nổi bật', $pStats['featured']['count'], $pStats['featured']['trend'], 'star', 'text-yellow-600', 'bg-yellow-50') ?>
+    <?= renderProductStatCard('Bán chạy (>10sp)', $pStats['bestsellers']['count'], $pStats['bestsellers']['trend'], 'local_fire_department', 'text-orange-600', 'bg-orange-50') ?>
+    <?= renderProductStatCard('Hết hàng', $pStats['outofstock']['count'], $pStats['outofstock']['trend'], 'remove_shopping_cart', 'text-red-600', 'bg-red-50') ?>
+    <?= renderProductStatCard('Sắp hết hàng', $pStats['lowstock']['count'], $pStats['lowstock']['trend'], 'warning', 'text-amber-600', 'bg-amber-50') ?>
+    <?= renderProductStatCard('Đang hoạt động', $pStats['active']['count'], $pStats['active']['trend'], 'check_circle', 'text-green-600', 'bg-green-50') ?>
+    <?= renderProductStatCard('Ngừng bán', $pStats['inactive']['count'], $pStats['inactive']['trend'], 'do_not_disturb_on', 'text-gray-600', 'bg-gray-100') ?>
+    <?= renderProductStatCard('Tổng giá trị tồn kho', $pStats['inventory_value']['count'], $pStats['inventory_value']['trend'], 'payments', 'text-emerald-600', 'bg-emerald-50', true) ?>
+</div>
+
 <div class="mb-6 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
-    <form method="GET" class="flex gap-3 flex-wrap">
-        <input type="hidden" name="action" value="products">
-        <input type="text" name="search" placeholder="Tìm sản phẩm..." value="<?= htmlspecialchars($search) ?>"
-               class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent outline-none">
-        <select name="category" onchange="this.form.submit()" class="px-4 py-2 border border-gray-300 rounded-lg">
-            <option value="">Tất cả danh mục</option>
-            <?php foreach ($categories as $cat): ?>
-            <option value="<?= $cat['category_id'] ?>" <?= $categoryFilter == $cat['category_id'] ? 'selected' : '' ?>>
-                <?= htmlspecialchars($cat['category_name']) ?>
-            </option>
-            <?php endforeach; ?>
-        </select>
-    </form>
+    <div class="flex flex-col xl:flex-row gap-3 items-start xl:items-center">
+        <form method="GET" class="flex gap-3 flex-wrap">
+            <input type="hidden" name="action" value="products">
+            <input type="text" name="search" placeholder="Tìm sản phẩm..." value="<?= htmlspecialchars($search) ?>"
+                   class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent outline-none">
+            <select name="category" onchange="this.form.submit()" class="px-4 py-2 border border-gray-300 rounded-lg">
+                <option value="">Tất cả danh mục</option>
+                <?php foreach ($categories as $cat): ?>
+                <option value="<?= $cat['category_id'] ?>" <?= $categoryFilter == $cat['category_id'] ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($cat['category_name']) ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </form>
+        <div class="px-4 py-2 bg-red-50 border border-red-100 rounded-lg text-sm font-medium text-axeron-red whitespace-nowrap">
+            Tổng số: <strong class="text-base"><?= count($products) ?></strong> sản phẩm
+        </div>
+    </div>
     <a href="javascript:void(0)" onclick="openProductModal()"
-       class="px-4 py-2 bg-axeron-red text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2">
+       class="px-4 py-2 bg-axeron-red text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2 whitespace-nowrap">
         <span class="material-symbols-outlined text-xl">add</span>
         Thêm Sản Phẩm
     </a>
