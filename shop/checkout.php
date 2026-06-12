@@ -853,7 +853,17 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
                     shippingEl.className = 'text-green-600 font-semibold';
                 }
                 
-                const total = subtotal + finalShippingFee - discount;
+                let currentDiscount = 0;
+                if (rawDiscount > 0) {
+                    currentDiscount = Math.min(rawDiscount, subtotal + finalShippingFee);
+                }
+                
+                const discountEl = document.getElementById('checkout-discount');
+                if (discountEl) {
+                    discountEl.textContent = '-' + new Intl.NumberFormat('vi-VN').format(currentDiscount) + 'đ';
+                }
+
+                const total = Math.max(0, subtotal + finalShippingFee - currentDiscount);
                 document.getElementById('checkout-total').textContent = new Intl.NumberFormat('vi-VN').format(total) + 'đ';
             }
         }
@@ -865,18 +875,24 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
         }
 
         // Xử lý API Tỉnh/Thành - Quận/Huyện
-        document.addEventListener('DOMContentLoaded', function() {
-            const districtSelect = document.getElementById('district');
-            const currentDistrict = document.getElementById('current_district').value;
-            let provincesData = [];
+        const districtSelect = document.getElementById('district');
+        const currentDistrict = document.getElementById('current_district').value;
+        let provincesData = [];
 
             const normalizeString = (str) => {
                 return str.toLowerCase().replace(/^(tỉnh|thành phố|tp\.|tp )\s*/, '').trim();
             };
 
             const loadDistricts = (selectedProvinceName) => {
-                districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
-                districtSelect.disabled = true;
+                let distEl = document.getElementById('district');
+                if (!distEl) return;
+                
+                if (distEl.tagName.toLowerCase() === 'input') {
+                    return; // Đã chuyển thành text input
+                }
+
+                distEl.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
+                distEl.disabled = true;
 
                 if (!selectedProvinceName) return;
 
@@ -894,15 +910,24 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
                         if (d.name === currentDistrict) {
                             option.selected = true;
                         }
-                        districtSelect.appendChild(option);
+                        distEl.appendChild(option);
                     });
-                    districtSelect.disabled = false;
+                    distEl.disabled = false;
                 } else {
-                    districtSelect.disabled = false; // Fallback
+                    // Fallback: Chuyển sang ô nhập text nếu API lỗi hoặc không tìm thấy
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.id = 'district';
+                    input.name = 'district';
+                    input.className = distEl.className.replace('appearance-none', '');
+                    input.placeholder = 'Nhập Quận/Huyện';
+                    input.required = true;
+                    input.value = currentDistrict;
+                    distEl.parentNode.replaceChild(input, distEl);
                 }
             };
 
-            fetch('https://provinces.open-api.vn/api/?depth=2')
+            fetch('https://provinces.open-api.vn/api/v1/?depth=2')
                 .then(response => response.json())
                 .then(data => {
                     provincesData = data;
@@ -917,7 +942,6 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
                     loadDistricts(this.value);
                 });
             }
-        });
     </script>
 </body>
 </html>
