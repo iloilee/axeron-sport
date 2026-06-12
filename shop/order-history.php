@@ -206,8 +206,8 @@ $orders = $db->select("
                             <td class="px-4 py-4 font-body-md font-semibold whitespace-nowrap">
                                 <?php
                                 $paymentText = match($order['payment_method']) {
-                                    'cod' => 'Thanh toán khi nhận hàng (COD)',
-                                    'payos', 'bank_transfer' => 'Thanh toán QR/Chuyển khoản (PayOS)',
+                                    'cod' => 'Thanh toán khi nhận hàng COD',
+                                    'payos', 'bank_transfer' => 'Thanh toán QR/Chuyển khoản',
                                     'momo' => 'Ví MoMo',
                                     'vnpay' => 'VNPay',
                                     'zalopay' => 'ZaloPay',

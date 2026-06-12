@@ -76,8 +76,9 @@ $statusLabels = [
 ];
 
 $paymentLabels = [
-    'cod' => 'Thanh toán khi nhận hàng (COD)',
-    'bank_transfer' => 'Chuyển khoản ngân hàng',
+    'cod' => 'Thanh toán khi nhận hàng COD',
+    'payos' => 'Thanh toán QR/Chuyển khoản',
+    'bank_transfer' => 'Thanh toán QR/Chuyển khoản',
     'momo' => 'Ví MoMo',
     'vnpay' => 'VNPay',
     'zalopay' => 'ZaloPay'

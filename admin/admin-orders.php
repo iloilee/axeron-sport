@@ -422,10 +422,12 @@ async function viewOrder(orderId) {
             }
 
             const paymentMap = {
-                'cod': 'Thanh toán khi nhận hàng (COD)',
-                'vnpay': 'Thanh toán qua VNPay',
-                'momo': 'Thanh toán qua Momo',
-                'bank_transfer': 'Chuyển khoản ngân hàng'
+                'cod': 'Thanh toán khi nhận hàng COD',
+                'payos': 'Thanh toán QR/Chuyển khoản',
+                'bank_transfer': 'Thanh toán QR/Chuyển khoản',
+                'momo': 'Ví MoMo',
+                'vnpay': 'VNPay',
+                'zalopay': 'ZaloPay'
             };
 
             const modalContent = `
