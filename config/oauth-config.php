@@ -20,3 +20,8 @@ if (strpos($_SERVER['HTTP_HOST'] ?? '', 'localhost') === false) {
 
 $domain = $_SERVER['HTTP_HOST'] ?? 'www.axeronsport.xyz';
 define('GOOGLE_REDIRECT_URI', $protocol . '://' . $domain . '/auth/google-callback.php');
+
+// Cấu hình Facebook OAuth
+define('FACEBOOK_CLIENT_ID', $_ENV['FACEBOOK_CLIENT_ID'] ?? 'YOUR_FACEBOOK_APP_ID');
+define('FACEBOOK_CLIENT_SECRET', $_ENV['FACEBOOK_CLIENT_SECRET'] ?? 'YOUR_FACEBOOK_APP_SECRET');
+define('FACEBOOK_REDIRECT_URI', $protocol . '://' . $domain . '/auth/facebook-callback.php');
