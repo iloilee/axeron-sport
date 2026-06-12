@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 12, 2026 lúc 06:51 AM
+-- Thời gian đã tạo: Th6 12, 2026 lúc 08:01 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -1865,8 +1865,9 @@ CREATE TABLE `users` (
   `role_id` tinyint(3) UNSIGNED NOT NULL DEFAULT 3 COMMENT '3=customer, 2=staff, 1=admin',
   `full_name` varchar(100) NOT NULL,
   `email` varchar(150) NOT NULL,
+  `google_id` varchar(255) DEFAULT NULL,
   `phone` varchar(15) DEFAULT NULL,
-  `password_hash` varchar(255) NOT NULL COMMENT 'Luu mat khau da bam (bcrypt/argon2)',
+  `password_hash` varchar(255) DEFAULT NULL,
   `avatar_url` varchar(500) DEFAULT NULL,
   `gender` enum('male','female','other') DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
@@ -1883,21 +1884,21 @@ CREATE TABLE `users` (
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Quản Trị Viên', 'admin@gmail.com', '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, NULL, 0, '$2y$10$qrmarDwufwiFKMK3yKE3J.ocp2S49ORWiX1KA3qxd4Sm6Z/qQ0mnS', 1, '2026-05-29 19:17:55', '2026-06-12 11:48:14'),
-(2, 3, 'Lợi Lê Hữu', 'loiledelta0@gmail.com', '0772130908', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_27_1781012205.png', 'male', '2004-10-21', 1, NULL, 0, '$2y$10$tlWRp7c6FvBZ1Glr..3fIeatQJ01NsHQAl0v/klVHTe/ymWS/FEU2', 1, '2026-06-09 19:32:29', '2026-06-11 01:04:10'),
-(3, 3, 'Bug', 'vancedloile@gmail.com', '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, NULL, 0, '$2y$10$Q2N6t7OsQEjhHIw2mn8vBeuKNrZbLNUYDXk4PSU8OV8fx.JviR4mK', 1, '2026-06-11 01:07:16', '2026-06-12 10:06:07'),
-(4, 3, 'Trần Thị Bích', 'bich.tran@gmail.com', '0923456789', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(5, 3, 'Lê Minh Cường', 'cuong.le@gmail.com', '0934567890', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(6, 3, 'Phạm Thị Dung', 'dung.pham@gmail.com', '0945678901', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(7, 3, 'Hoàng Văn Em', 'em.hoang@gmail.com', '0956789012', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
-(8, 3, 'Nguyễn Văn An', 'user@gmail.com', '0912345678', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:08:30'),
-(9, 3, 'Nguyễn Thị Phương', 'phuong.nt@gmail.com', '0967890123', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:08:39'),
-(10, 5, 'Staff Sản Phẩm', 'nvsp@gmail.com', '0901000005', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-11 01:05:38'),
-(11, 6, 'Staff Đơn Hàng', 'nvorder@gmail.com', '0901000006', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-11 01:05:39'),
-(12, 7, 'Staff Thống Kê', 'nvtk@gmail.com', '0901000007', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-11 01:05:42'),
-(13, 8, 'Staff CMS', 'nvcms@gmail.com', '0901000008', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-06 03:16:46', '2026-06-11 01:05:44'),
-(14, 4, 'Staff Tài Khoản', 'nvacc@gmail.com', '0901000004', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-11 01:08:43');
+INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, NULL, 0, '$2y$10$qrmarDwufwiFKMK3yKE3J.ocp2S49ORWiX1KA3qxd4Sm6Z/qQ0mnS', 1, '2026-05-29 19:17:55', '2026-06-12 11:48:14'),
+(2, 3, 'Lợi Lê Hữu', 'loiledelta0@gmail.com', NULL, '0772130908', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_27_1781012205.png', 'male', '2004-10-21', 1, NULL, 0, '$2y$10$tlWRp7c6FvBZ1Glr..3fIeatQJ01NsHQAl0v/klVHTe/ymWS/FEU2', 1, '2026-06-09 19:32:29', '2026-06-11 01:04:10'),
+(3, 3, 'Bug', 'vancedloile@gmail.com', NULL, '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-12 12:08:55'),
+(4, 3, 'Trần Thị Bích', 'bich.tran@gmail.com', NULL, '0923456789', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
+(5, 3, 'Lê Minh Cường', 'cuong.le@gmail.com', NULL, '0934567890', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
+(6, 3, 'Phạm Thị Dung', 'dung.pham@gmail.com', NULL, '0945678901', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
+(7, 3, 'Hoàng Văn Em', 'em.hoang@gmail.com', NULL, '0956789012', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:04:10'),
+(8, 3, 'Nguyễn Văn An', 'user@gmail.com', NULL, '0912345678', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:08:30'),
+(9, 3, 'Nguyễn Thị Phương', 'phuong.nt@gmail.com', NULL, '0967890123', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', NULL, NULL, NULL, 1, NULL, 0, NULL, 1, '2026-05-29 19:17:55', '2026-06-11 01:08:39'),
+(10, 5, 'Staff Sản Phẩm', 'nvsp@gmail.com', NULL, '0901000005', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-11 01:05:38'),
+(11, 6, 'Staff Đơn Hàng', 'nvorder@gmail.com', NULL, '0901000006', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-11 01:05:39'),
+(12, 7, 'Staff Thống Kê', 'nvtk@gmail.com', NULL, '0901000007', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-11 01:05:42'),
+(13, 8, 'Staff CMS', 'nvcms@gmail.com', NULL, '0901000008', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-06 03:16:46', '2026-06-11 01:05:44'),
+(14, 4, 'Staff Tài Khoản', 'nvacc@gmail.com', NULL, '0901000004', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-11 01:08:43');
 
 -- --------------------------------------------------------
 
@@ -2414,7 +2415,7 @@ ALTER TABLE `site_settings`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT cho bảng `user_addresses`

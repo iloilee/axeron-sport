@@ -143,7 +143,10 @@ $flash = getFlash();
                 <div class="flex items-center gap-6 border-b border-surface-variant pb-6">
                     <div class="relative w-24 h-24 rounded-full overflow-hidden border-2 border-outline-variant flex-shrink-0 bg-surface-variant">
                         <?php 
-                        $avatarImg = !empty($user['avatar_url']) ? BASE_URL . $user['avatar_url'] : 'https://ui-avatars.com/api/?name=' . urlencode($user['full_name'] ?? 'User') . '&background=random';
+                        $avatarImg = 'https://ui-avatars.com/api/?name=' . urlencode($user['full_name'] ?? 'User') . '&background=random';
+                        if (!empty($user['avatar_url'])) {
+                            $avatarImg = (strpos($user['avatar_url'], 'http') === 0) ? $user['avatar_url'] : BASE_URL . $user['avatar_url'];
+                        }
                         ?>
                         <img id="avatar-preview" src="<?= htmlspecialchars($avatarImg) ?>" alt="Avatar" class="w-full h-full object-cover">
                         
