@@ -277,5 +277,43 @@ if ($action === 'cancel_email_change') {
     axRedirect(BASE_URL . '/auth/account.php');
 }
 
+if ($action === 'delete_account') {
+    if (!verifyCsrfToken($_POST['csrf_token'] ?? '')) {
+        setFlash('error', 'Yêu cầu không hợp lệ. Vui lòng thử lại.');
+        axRedirect(BASE_URL . '/auth/account.php');
+    }
+
+    try {
+        $db->beginTransaction();
+
+        $deletedEmail = 'deleted_' . $userId . '_' . time() . '@deleted.local';
+        
+        $db->update("
+            UPDATE users 
+            SET is_deleted = 1, 
+                is_active = 0, 
+                full_name = 'Deleted User', 
+                email = ?, 
+                phone = NULL,
+                password_hash = NULL,
+                google_id = NULL,
+                avatar_url = NULL,
+                updated_at = NOW() 
+            WHERE user_id = ?
+        ", [$deletedEmail, $userId]);
+
+        $db->commit();
+
+        logoutUser();
+        setFlash('success', 'Tài khoản của bạn đã được xóa thành công. Rất tiếc vì sự rời đi của bạn.');
+        axRedirect(BASE_URL . '/');
+    } catch (Exception $e) {
+        $db->rollback();
+        error_log('Delete Account Error: ' . $e->getMessage());
+        setFlash('error', 'Có lỗi xảy ra khi xóa tài khoản. Vui lòng thử lại sau.');
+        axRedirect(BASE_URL . '/auth/account.php');
+    }
+}
+
 // Fallback
 axRedirect(BASE_URL . '/auth/account.php');

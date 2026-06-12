@@ -244,6 +244,22 @@ $flash = getFlash();
             </form>
         </div>
 
+        <!-- Block Xóa Tài Khoản -->
+        <div class="bg-red-50 rounded-xl border border-red-200 p-6 md:p-8 mt-8">
+            <h2 class="font-headline-md text-headline-md font-semibold text-axeron-red mb-4">Xóa Tài Khoản</h2>
+            <p class="text-on-surface-variant mb-6 text-sm">
+                Việc xóa tài khoản sẽ đánh dấu tài khoản của bạn là đã xóa và xóa toàn bộ thông tin cá nhân.
+                Hành động này <strong>không thể hoàn tác</strong>. Mọi dữ liệu liên quan đến lịch sử đơn hàng sẽ được giữ lại vô danh để phục vụ đối soát.
+            </p>
+            <button onclick="confirmDeleteAccount()" class="bg-white text-axeron-red border border-red-200 px-6 py-3 rounded-lg font-label-lg hover:bg-red-100 transition-colors uppercase shadow-sm">
+                Xóa tài khoản
+            </button>
+            <form id="delete-account-form" action="<?= BASE_URL ?>/api/account-handler.php" method="POST" class="hidden">
+                <input type="hidden" name="action" value="delete_account">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generateCsrfToken()) ?>">
+            </form>
+        </div>
+
         <?php if (!empty($_SESSION['show_email_otp_modal'])): ?>
         <!-- OTP Modal -->
         <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-opacity">
@@ -436,6 +452,39 @@ $flash = getFlash();
                 }
             }
         });
+        // Confirm Delete Account bằng Modal Nổi
+        function confirmDeleteAccount() {
+            const container = document.getElementById('toast-container');
+            const modalHtml = `
+                <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 transition-opacity duration-300" id="confirm-modal-backdrop">
+                    <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-8 text-center transform transition-transform duration-300 scale-95" id="confirm-modal-content">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-50 text-red-500 border-red-100 mb-5 border shadow-sm">
+                            <span class="material-symbols-outlined text-[40px]">warning</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3" style="font-family: 'Montserrat', sans-serif;">Xóa tài khoản</h3>
+                        <p class="text-gray-600 mb-8 text-base px-2">Bạn có chắc chắn muốn xóa tài khoản? Hành động này không thể hoàn tác.</p>
+                        <div class="flex gap-4 w-full">
+                            <button onclick="document.getElementById('toast-container').innerHTML=''" class="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 font-semibold transition-colors shadow-sm">
+                                Hủy
+                            </button>
+                            <button onclick="document.getElementById('delete-account-form').submit()" class="flex-1 px-4 py-3 bg-axeron-red text-white rounded-xl hover:bg-red-700 font-semibold transition-colors shadow-md">
+                                Xác nhận xóa
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = modalHtml;
+
+            requestAnimationFrame(() => {
+                const wrapper = document.getElementById('confirm-modal-content');
+                if (wrapper) {
+                    wrapper.classList.remove('scale-95');
+                    wrapper.classList.add('scale-100');
+                }
+            });
+        }
     </script>
 </body>
 </html>
