@@ -439,7 +439,11 @@ function getProductStats($db) {
         }
     }
 
-    // Classify products + format
+    // Fetch ALL matching products to calculate accurate summary KPIs (not just current page)
+    $allProductsParams = array_merge($baseParams, $baseParams, $productParams);
+    $allProductsSql = $dataSql . " ORDER BY total_sold DESC";
+    $allProducts = $db->select($allProductsSql, $allProductsParams);
+
     $totalSoldAll = 0;
     $totalRevenueAll = 0;
     $totalViewsAll = 0;
@@ -447,16 +451,24 @@ function getProductStats($db) {
     $bestSellerSold = 0;
     $slowCount = 0;
 
-    foreach ($products as &$p) {
-        $totalSoldAll += (int)$p['total_sold'];
-        $totalRevenueAll += (float)$p['total_revenue'];
-        $totalViewsAll += (int)$p['view_count'];
-
-        if ((int)$p['total_sold'] > $bestSellerSold) {
-            $bestSellerSold = (int)$p['total_sold'];
-            $bestSellerName = $p['product_name'];
+    // Calculate totals across ALL filtered products
+    foreach ($allProducts as $ap) {
+        $totalSoldAll += (int)$ap['total_sold'];
+        $totalRevenueAll += (float)$ap['total_revenue'];
+        $totalViewsAll += (int)$ap['view_count'];
+        
+        if ((int)$ap['total_sold'] > $bestSellerSold) {
+            $bestSellerSold = (int)$ap['total_sold'];
+            $bestSellerName = $ap['product_name'];
         }
+        
+        if ((int)$ap['total_sold'] < 5) {
+            $slowCount++;
+        }
+    }
 
+    // Classify products + format for CURRENT PAGE only
+    foreach ($products as &$p) {
         // Conversion rate
         $p['conversion_rate'] = $p['view_count'] > 0 ? round(($p['order_count'] / $p['view_count']) * 100, 1) : 0;
 
@@ -473,7 +485,6 @@ function getProductStats($db) {
         } elseif ($currentSold < 5) {
             $p['status'] = 'cold';
             $p['status_label'] = '📉 Chậm';
-            $slowCount++;
         } else {
             $p['status'] = 'normal';
             $p['status_label'] = '📊 Bình thường';
@@ -493,9 +504,6 @@ function getProductStats($db) {
     }
 
     // Charts data (top 10 for each)
-    $allProductsParams = array_merge($baseParams, $baseParams, $productParams);
-    $allProductsSql = $dataSql . " ORDER BY total_sold DESC";
-    $allProducts = $db->select($allProductsSql, $allProductsParams);
 
     $topRevenue = array_slice(
         array_map(fn($p) => ['name' => $p['product_name'], 'value' => (float)$p['total_revenue']],
