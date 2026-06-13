@@ -78,45 +78,56 @@ $reviews = $db->select("
 ?>
 
 <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
+    <div class="bg-white py-3 px-2 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
         <span class="text-sm text-gray-500 font-medium">Tổng Đánh Giá</span>
-        <span class="text-2xl font-bold text-gray-800"><?= number_format($stats['total'] ?? 0) ?></span>
+        <span class="text-xl font-bold text-gray-800 mt-1"><?= number_format($stats['total'] ?? 0) ?></span>
     </div>
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-        <span class="text-sm text-gray-500 font-medium flex items-center gap-1">5 <span class="material-symbols-outlined text-yellow-500 text-sm">star</span></span>
-        <span class="text-xl font-bold text-gray-800"><?= number_format($stats['star_5'] ?? 0) ?></span>
+    <div class="bg-white py-3 px-2 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
+        <div class="flex items-center gap-0.5">
+            <?php for($i=0; $i<5; $i++): ?><span class="material-symbols-outlined text-yellow-500 text-lg" style="font-variation-settings: 'FILL' 1, 'wght' 700;">star</span><?php endfor; ?>
+        </div>
+        <span class="text-xl font-bold text-gray-800 mt-1"><?= number_format($stats['star_5'] ?? 0) ?></span>
     </div>
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-        <span class="text-sm text-gray-500 font-medium flex items-center gap-1">4 <span class="material-symbols-outlined text-yellow-500 text-sm">star</span></span>
-        <span class="text-xl font-bold text-gray-800"><?= number_format($stats['star_4'] ?? 0) ?></span>
+    <div class="bg-white py-3 px-2 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
+        <div class="flex items-center gap-0.5">
+            <?php for($i=0; $i<4; $i++): ?><span class="material-symbols-outlined text-yellow-500 text-lg" style="font-variation-settings: 'FILL' 1, 'wght' 700;">star</span><?php endfor; ?>
+        </div>
+        <span class="text-xl font-bold text-gray-800 mt-1"><?= number_format($stats['star_4'] ?? 0) ?></span>
     </div>
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-        <span class="text-sm text-gray-500 font-medium flex items-center gap-1">3 <span class="material-symbols-outlined text-yellow-500 text-sm">star</span></span>
-        <span class="text-xl font-bold text-gray-800"><?= number_format($stats['star_3'] ?? 0) ?></span>
+    <div class="bg-white py-3 px-2 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
+        <div class="flex items-center gap-0.5">
+            <?php for($i=0; $i<3; $i++): ?><span class="material-symbols-outlined text-yellow-500 text-lg" style="font-variation-settings: 'FILL' 1, 'wght' 700;">star</span><?php endfor; ?>
+        </div>
+        <span class="text-xl font-bold text-gray-800 mt-1"><?= number_format($stats['star_3'] ?? 0) ?></span>
     </div>
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-        <span class="text-sm text-gray-500 font-medium flex items-center gap-1">2 <span class="material-symbols-outlined text-yellow-500 text-sm">star</span></span>
-        <span class="text-xl font-bold text-gray-800"><?= number_format($stats['star_2'] ?? 0) ?></span>
+    <div class="bg-white py-3 px-2 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
+        <div class="flex items-center gap-0.5">
+            <?php for($i=0; $i<2; $i++): ?><span class="material-symbols-outlined text-yellow-500 text-lg" style="font-variation-settings: 'FILL' 1, 'wght' 700;">star</span><?php endfor; ?>
+        </div>
+        <span class="text-xl font-bold text-gray-800 mt-1"><?= number_format($stats['star_2'] ?? 0) ?></span>
     </div>
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-        <span class="text-sm text-gray-500 font-medium flex items-center gap-1">1 <span class="material-symbols-outlined text-yellow-500 text-sm">star</span></span>
-        <span class="text-xl font-bold text-gray-800"><?= number_format($stats['star_1'] ?? 0) ?></span>
+    <div class="bg-white py-3 px-2 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
+        <div class="flex items-center gap-0.5">
+            <span class="material-symbols-outlined text-yellow-500 text-lg" style="font-variation-settings: 'FILL' 1, 'wght' 700;">star</span>
+        </div>
+        <span class="text-xl font-bold text-gray-800 mt-1"><?= number_format($stats['star_1'] ?? 0) ?></span>
     </div>
 </div>
 
-<div class="mb-4">
-    <div class="px-4 py-2 bg-red-50 border border-red-100 rounded-lg text-sm font-medium text-axeron-red inline-block whitespace-nowrap">
-        Tổng số kết quả: <strong class="text-base"><?= number_format($totalRecords) ?></strong> đánh giá
-    </div>
-</div>
+
 
 <div class="mb-6 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
     <form method="GET" class="flex flex-col md:flex-row gap-4 items-end flex-wrap">
         <input type="hidden" name="action" value="reviews">
         <div class="flex-grow min-w-[200px]">
             <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Tìm kiếm</label>
-            <input type="text" name="keyword" value="<?= htmlspecialchars($keyword) ?>" placeholder="Sản phẩm, Người dùng, Đơn hàng..." 
-                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none">
+            <div class="flex gap-2">
+                <input type="text" name="keyword" value="<?= htmlspecialchars($keyword) ?>" placeholder="Sản phẩm, Người dùng, Đơn hàng..." 
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none">
+                <div class="px-4 py-2 bg-red-50 border border-red-100 rounded-lg text-sm font-medium text-axeron-red whitespace-nowrap flex items-center">
+                    Tổng: <strong class="text-base mx-1"><?= number_format($totalRecords) ?></strong> đánh giá
+                </div>
+            </div>
         </div>
         <div>
             <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Trạng thái</label>
@@ -126,7 +137,7 @@ $reviews = $db->select("
                 <option value="approved" <?= $statusFilter === 'approved' ? 'selected' : '' ?>>Đã duyệt</option>
                 <option value="rejected" <?= $statusFilter === 'rejected' ? 'selected' : '' ?>>Từ chối</option>
                 <option value="hidden" <?= $statusFilter === 'hidden' ? 'selected' : '' ?>>Ẩn</option>
-                <option value="deleted" <?= $statusFilter === 'deleted' ? 'selected' : '' ?>>Đã xóa (Soft Delete)</option>
+                <option value="deleted" <?= $statusFilter === 'deleted' ? 'selected' : '' ?>>Đã xóa</option>
             </select>
         </div>
         <div>
