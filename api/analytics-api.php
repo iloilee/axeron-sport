@@ -139,8 +139,11 @@ function getCustomerStats($db) {
     $perPage = 20;
     $offset = ($page - 1) * $perPage;
 
-    // Build Cache Key
-    $cacheKey = "customer_report_" . md5(json_encode([$period, $search, $sort, $order, $page, $rankFilter]));
+    // Build Cache Key (include all filter params)
+    $year = $_GET['year'] ?? date('Y');
+    $month = $_GET['month'] ?? date('n');
+    $quarter = $_GET['quarter'] ?? '';
+    $cacheKey = "customer_report_" . md5(json_encode([$period, $year, $month, $quarter, $search, $sort, $order, $page, $rankFilter]));
     if (isset($_SESSION[$cacheKey]) && isset($_SESSION[$cacheKey . '_time'])) {
         if (time() - $_SESSION[$cacheKey . '_time'] < 900) { // 15 phút
             jsonResponse(true, 'Success (Cached)', $_SESSION[$cacheKey]);
@@ -166,7 +169,6 @@ function getCustomerStats($db) {
 
     $rankSql = "
         CASE
-            WHEN DATEDIFF(CURRENT_DATE, MAX(o.created_at)) > 60 THEN 'Rời bỏ'
             WHEN COALESCE(SUM(o.total_amount), 0) > 5000000 OR COUNT(o.order_id) > 5 THEN 'VIP'
             WHEN COALESCE(SUM(o.total_amount), 0) >= 2000000 THEN 'Tiềm năng'
             WHEN COUNT(o.order_id) = 1 THEN 'Mới'
@@ -253,10 +255,9 @@ function getCustomerStats($db) {
     $totalCus = count($allCustomers);
     $vipCount = 0;
     $newCount = 0;
-    $churnCount = 0;
     $returningCount = 0;
     $segmentationData = [
-        'VIP' => 0, 'Tiềm năng' => 0, 'Mới' => 0, 'Bình thường' => 0, 'Rời bỏ' => 0
+        'VIP' => 0, 'Tiềm năng' => 0, 'Mới' => 0, 'Bình thường' => 0
     ];
 
     foreach ($allCustomers as $ac) {
@@ -265,7 +266,6 @@ function getCustomerStats($db) {
         
         if ($r === 'VIP') $vipCount++;
         if ($r === 'Mới') $newCount++;
-        if ($r === 'Rời bỏ') $churnCount++;
         if ($ac['total_orders'] > 1) $returningCount++;
     }
 
@@ -281,8 +281,7 @@ function getCustomerStats($db) {
             'total_customers' => $totalCus,
             'new_customers' => $newCount,
             'vip_customers' => $vipCount,
-            'returning_customers' => $returningCount,
-            'churn_customers' => $churnCount
+            'returning_customers' => $returningCount
         ],
         'charts' => [
             'segmentation' => $segmentationData
@@ -562,6 +561,13 @@ function getDateRange($period, $params) {
     $quarter = (int)($params['quarter'] ?? ceil($month / 3));
 
     switch ($period) {
+        case 'all':
+            return [
+                'start' => '2000-01-01 00:00:00',
+                'end' => $now->format('Y-m-d 23:59:59'),
+                'label' => 'Tất cả thời gian'
+            ];
+
         case 'year':
             return [
                 'start' => "$year-01-01 00:00:00",

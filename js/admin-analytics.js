@@ -149,10 +149,10 @@ function initializeChart() {
         customerPieChartInstance = new Chart(pieCtx.getContext('2d'), {
             type: 'doughnut',
             data: {
-                labels: ['VIP', 'Tiềm năng', 'Mới', 'Bình thường', 'Rời bỏ'],
+                labels: ['VIP', 'Tiềm năng', 'Mới', 'Bình thường'],
                 datasets: [{
-                    data: [0, 0, 0, 0, 0],
-                    backgroundColor: ['#eab308', '#3b82f6', '#22c55e', '#9ca3af', '#ef4444'],
+                    data: [0, 0, 0, 0],
+                    backgroundColor: ['#eab308', '#3b82f6', '#22c55e', '#9ca3af'],
                     borderWidth: 0
                 }]
             },
@@ -333,10 +333,12 @@ async function loadData() {
             break;
         case 'customers':
             apiUrl += 'customers&period=' + period + '&year=' + year + '&sort=' + currentSort + '&order=' + currentOrder + '&page=' + currentPage + '&search=' + encodeURIComponent(search) + '&rank=' + encodeURIComponent(rankFilter);
+            if (period === 'quarter') apiUrl += '&quarter=' + quarter;
             if (period === 'month') apiUrl += '&month=' + month;
             break;
         case 'products':
             apiUrl += 'products&period=' + period + '&year=' + year + '&sort=' + currentSort + '&order=' + currentOrder + '&page=' + currentPage + '&search=' + encodeURIComponent(search);
+            if (period === 'quarter') apiUrl += '&quarter=' + quarter;
             if (period === 'month') apiUrl += '&month=' + month;
             break;
         default:
@@ -386,7 +388,7 @@ function updateSummaryCards(data) {
         document.getElementById('customer-new').textContent = formatNumber(data.customer_summary.new_customers || 0);
         document.getElementById('customer-vip').textContent = formatNumber(data.customer_summary.vip_customers || 0);
         document.getElementById('customer-returning').textContent = formatNumber(data.customer_summary.returning_customers || 0);
-        document.getElementById('customer-churn').textContent = formatNumber(data.customer_summary.churn_customers || 0);
+
     } else if (data.summary) {
         document.getElementById('summary-revenue').textContent = data.summary.total_revenue_formatted || formatCurrency(data.summary.total_revenue || 0);
         document.getElementById('summary-orders').textContent = formatNumber(data.summary.total_orders || 0);
@@ -435,7 +437,7 @@ function updateTable(data) {
                     if (c.customer_rank === 'VIP') rankClass = 'bg-yellow-100 text-yellow-800';
                     else if (c.customer_rank === 'Tiềm năng') rankClass = 'bg-blue-100 text-blue-800';
                     else if (c.customer_rank === 'Mới') rankClass = 'bg-green-100 text-green-800';
-                    else if (c.customer_rank === 'Rời bỏ') rankClass = 'bg-red-100 text-red-800';
+
 
                     rows += `
                         <tr class="hover:bg-gray-50">
@@ -644,7 +646,6 @@ function updateCustomerCharts(data) {
             if (c.customer_rank === 'VIP') return '#eab308';
             if (c.customer_rank === 'Tiềm năng') return '#3b82f6';
             if (c.customer_rank === 'Mới') return '#22c55e';
-            if (c.customer_rank === 'Rời bỏ') return '#ef4444';
             return '#9ca3af'; // Bình thường
         });
         customerBarChartInstance.update();
@@ -657,8 +658,7 @@ function updateCustomerCharts(data) {
             seg['VIP'] || 0,
             seg['Tiềm năng'] || 0,
             seg['Mới'] || 0,
-            seg['Bình thường'] || 0,
-            seg['Rời bỏ'] || 0
+            seg['Bình thường'] || 0
         ];
         customerPieChartInstance.update();
     }

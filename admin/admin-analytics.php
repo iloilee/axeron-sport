@@ -202,17 +202,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-gray-500 text-sm">Khách rời bỏ</p>
-                    <p class="text-2xl font-bold text-red-600 mt-1" id="customer-churn">--</p>
-                </div>
-                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                    <span class="material-symbols-outlined text-red-600">person_remove</span>
-                </div>
-            </div>
-        </div>
+
     </div>
 
     <!-- Chart Area (Revenue Tab) -->
@@ -267,7 +257,7 @@
                     <option value="Tiềm năng">Tiềm năng</option>
                     <option value="Mới">Khách mới</option>
                     <option value="Bình thường">Bình thường</option>
-                    <option value="Rời bỏ">Khách rời bỏ</option>
+
                 </select>
                 <select id="table-sort" class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-axeron-red w-full sm:w-auto" onchange="handleSort()">
                     <option value="total_spent">Sắp xếp theo</option>

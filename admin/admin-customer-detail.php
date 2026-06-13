@@ -36,9 +36,7 @@ if (!$customer) {
 // Tính hạng
 $daysSinceLastOrder = $customer['last_order_date'] ? (time() - strtotime($customer['last_order_date'])) / (60 * 60 * 24) : 999;
 $rank = 'Bình thường';
-if ($daysSinceLastOrder > 60 && $customer['total_orders'] > 0) {
-    $rank = 'Rời bỏ';
-} elseif ($customer['total_spent'] > 5000000 || $customer['total_orders'] > 5) {
+if ($customer['total_spent'] > 5000000 || $customer['total_orders'] > 5) {
     $rank = 'VIP';
 } elseif ($customer['total_spent'] >= 2000000) {
     $rank = 'Tiềm năng';
@@ -52,7 +50,6 @@ $rankClass = match($rank) {
     'VIP' => 'bg-yellow-100 text-yellow-800 border-yellow-200',
     'Tiềm năng' => 'bg-blue-100 text-blue-800 border-blue-200',
     'Mới' => 'bg-green-100 text-green-800 border-green-200',
-    'Rời bỏ' => 'bg-red-100 text-red-800 border-red-200',
     default => 'bg-gray-100 text-gray-800 border-gray-200'
 };
 
