@@ -54,6 +54,9 @@ try {
             case 'products':
                 getProductStats($db);
                 break;
+            case 'product_detail':
+                getProductDetail($db);
+                break;
             case 'revenue':
                 getRevenueStats($db);
                 break;
@@ -304,7 +307,7 @@ function getCustomerStats($db) {
 }
 
 /**
- * Thống kê theo sản phẩm (hot/cold items)
+ * Thống kê theo sản phẩm (nâng cấp: views, rating, stock, conversion, classification)
  */
 function getProductStats($db) {
     $period = $_GET['period'] ?? 'month';
@@ -312,6 +315,9 @@ function getProductStats($db) {
 
     $search = sanitize($_GET['search'] ?? '');
     $categoryId = (int)($_GET['category_id'] ?? 0);
+    $brandId = (int)($_GET['brand_id'] ?? 0);
+    $stockStatus = sanitize($_GET['stock_status'] ?? '');
+    $performance = sanitize($_GET['performance'] ?? '');
     $sort = $_GET['sort'] ?? 'total_sold';
     $order = $_GET['order'] ?? 'desc';
     $page = max(1, (int)($_GET['page'] ?? 1));
@@ -319,105 +325,386 @@ function getProductStats($db) {
     $offset = ($page - 1) * $perPage;
 
     // Validate sort column
-    $allowedSorts = ['total_sold', 'total_revenue', 'avg_price', 'product_name'];
+    $allowedSorts = ['total_sold', 'total_revenue', 'avg_price', 'product_name', 'view_count', 'avg_rating', 'stock_quantity'];
     if (!in_array($sort, $allowedSorts)) {
         $sort = 'total_sold';
     }
     $order = $order === 'asc' ? 'ASC' : 'DESC';
 
-    // Build WHERE clause
-    $where = "o.order_status NOT IN ('cancelled', 'returned') AND o.payment_status = 'paid' AND o.created_at BETWEEN ? AND ?";
-    $params = [$dateRange['start'], $dateRange['end']];
+    // Build WHERE clause for orders
+    $orderWhere = "o.order_status NOT IN ('cancelled', 'returned') AND o.payment_status = 'paid' AND o.created_at BETWEEN ? AND ?";
+    $baseParams = [$dateRange['start'], $dateRange['end']];
 
+    // Product filters
+    $productWhere = "1=1";
+    $productParams = [];
     if ($search) {
-        $where .= " AND p.product_name LIKE ?";
-        $params[] = "%$search%";
+        $productWhere .= " AND p.product_name LIKE ?";
+        $productParams[] = "%$search%";
     }
-
     if ($categoryId > 0) {
-        $where .= " AND p.category_id = ?";
-        $params[] = $categoryId;
+        $productWhere .= " AND p.category_id = ?";
+        $productParams[] = $categoryId;
+    }
+    if ($brandId > 0) {
+        $productWhere .= " AND p.brand_id = ?";
+        $productParams[] = $brandId;
     }
 
-    // Count total
-    $countSql = "
-        SELECT COUNT(DISTINCT p.product_id) as total
-        FROM order_items oi
-        JOIN product_variants pv ON oi.variant_id = pv.variant_id
-        JOIN products p ON pv.product_id = p.product_id
-        JOIN orders o ON oi.order_id = o.order_id
-        WHERE $where
-    ";
-    $countParams = $params;
-    $totalResult = $db->selectOne($countSql, $countParams);
-    $totalItems = (int)$totalResult['total'];
-
-    // Get data
+    // Main query: sales + views + ratings + stock
     $dataSql = "
         SELECT
             p.product_id,
             p.product_name,
             p.slug,
+            p.base_price,
+            p.stock_quantity,
             c.category_name,
             b.brand_name,
-            SUM(oi.quantity) AS total_sold,
-            SUM(oi.subtotal) AS total_revenue,
-            AVG(oi.unit_price) AS avg_price,
-            COUNT(DISTINCT o.order_id) AS order_count
-        FROM order_items oi
-        JOIN product_variants pv ON oi.variant_id = pv.variant_id
-        JOIN products p ON pv.product_id = p.product_id
+            COALESCE(sales.total_sold, 0) AS total_sold,
+            COALESCE(sales.total_revenue, 0) AS total_revenue,
+            COALESCE(sales.avg_price, 0) AS avg_price,
+            COALESCE(sales.order_count, 0) AS order_count,
+            COALESCE(views.view_count, 0) AS view_count,
+            COALESCE(p.avg_rating, 0) AS avg_rating,
+            COALESCE(p.total_reviews, 0) AS review_count
+        FROM products p
         LEFT JOIN categories c ON p.category_id = c.category_id
         LEFT JOIN brands b ON p.brand_id = b.brand_id
-        JOIN orders o ON oi.order_id = o.order_id
-        WHERE $where
-        GROUP BY p.product_id, p.product_name, p.slug, c.category_name, b.brand_name
-        ORDER BY $sort $order
-        LIMIT ? OFFSET ?
+        LEFT JOIN (
+            SELECT pv2.product_id,
+                   SUM(oi.quantity) AS total_sold,
+                   SUM(oi.subtotal) AS total_revenue,
+                   AVG(oi.unit_price) AS avg_price,
+                   COUNT(DISTINCT o.order_id) AS order_count
+            FROM order_items oi
+            JOIN product_variants pv2 ON oi.variant_id = pv2.variant_id
+            JOIN orders o ON oi.order_id = o.order_id
+            WHERE $orderWhere
+            GROUP BY pv2.product_id
+        ) sales ON p.product_id = sales.product_id
+        LEFT JOIN (
+            SELECT product_id, COUNT(*) AS view_count
+            FROM product_view_logs
+            WHERE viewed_at BETWEEN ? AND ?
+            GROUP BY product_id
+        ) views ON p.product_id = views.product_id
+        WHERE $productWhere AND p.is_deleted = 0
     ";
-    $params[] = $perPage;
-    $params[] = $offset;
+    $queryParams = array_merge($baseParams, $baseParams, $productParams);
 
-    $products = $db->select($dataSql, $params);
-
-    // Calculate percentage and identify hot/cold
-    $totalSoldAll = array_sum(array_column($products, 'total_sold'));
-    $totalRevenueAll = array_sum(array_column($products, 'total_revenue'));
-
-    foreach ($products as &$p) {
-        $p['total_revenue_formatted'] = formatPrice($p['total_revenue']);
-        $p['avg_price_formatted'] = formatPrice($p['avg_price']);
-        $p['sold_percentage'] = $totalSoldAll > 0 ? round(($p['total_sold'] / $totalSoldAll) * 100, 1) : 0;
-        $p['revenue_percentage'] = $totalRevenueAll > 0 ? round(($p['total_revenue'] / $totalRevenueAll) * 100, 1) : 0;
-        $p['status'] = $p['total_sold'] > 50 ? 'hot' : ($p['total_sold'] < 10 ? 'cold' : 'normal');
+    // Stock status filter
+    if ($stockStatus === 'out') {
+        $dataSql .= " AND p.stock_quantity = 0";
+    } elseif ($stockStatus === 'low') {
+        $dataSql .= " AND p.stock_quantity > 0 AND p.stock_quantity <= 10";
+    } elseif ($stockStatus === 'available') {
+        $dataSql .= " AND p.stock_quantity > 10";
     }
 
-    // Get categories for filter
+    // Performance filter (applied after HAVING)
+    $havingClause = "";
+    if ($performance === 'hot') {
+        $havingClause = " HAVING total_sold > 50";
+    } elseif ($performance === 'cold') {
+        $havingClause = " HAVING total_sold < 5";
+    }
+
+    // Wrap for count
+    $countSql = "SELECT COUNT(*) as total FROM ($dataSql $havingClause) as sub";
+    $totalResult = $db->selectOne($countSql, $queryParams);
+    $totalItems = (int)($totalResult['total'] ?? 0);
+
+    // Final query with sort + pagination
+    $finalSql = $dataSql . $havingClause . " ORDER BY $sort $order LIMIT ? OFFSET ?";
+    $queryParams[] = $perPage;
+    $queryParams[] = $offset;
+    $products = $db->select($finalSql, $queryParams);
+
+    // Calculate previous period for trending detection
+    $prevRange = getPreviousDateRange($period, $_GET);
+    $prevSoldMap = [];
+    if ($prevRange) {
+        $prevSales = $db->select("
+            SELECT pv2.product_id, SUM(oi.quantity) AS prev_sold
+            FROM order_items oi
+            JOIN product_variants pv2 ON oi.variant_id = pv2.variant_id
+            JOIN orders o ON oi.order_id = o.order_id
+            WHERE o.order_status NOT IN ('cancelled', 'returned') AND o.payment_status = 'paid'
+              AND o.created_at BETWEEN ? AND ?
+            GROUP BY pv2.product_id
+        ", [$prevRange['start'], $prevRange['end']]);
+        foreach ($prevSales as $ps) {
+            $prevSoldMap[$ps['product_id']] = (int)$ps['prev_sold'];
+        }
+    }
+
+    // Classify products + format
+    $totalSoldAll = 0;
+    $totalRevenueAll = 0;
+    $totalViewsAll = 0;
+    $bestSellerName = 'N/A';
+    $bestSellerSold = 0;
+    $slowCount = 0;
+
+    foreach ($products as &$p) {
+        $totalSoldAll += (int)$p['total_sold'];
+        $totalRevenueAll += (float)$p['total_revenue'];
+        $totalViewsAll += (int)$p['view_count'];
+
+        if ((int)$p['total_sold'] > $bestSellerSold) {
+            $bestSellerSold = (int)$p['total_sold'];
+            $bestSellerName = $p['product_name'];
+        }
+
+        // Conversion rate
+        $p['conversion_rate'] = $p['view_count'] > 0 ? round(($p['order_count'] / $p['view_count']) * 100, 1) : 0;
+
+        // Classification
+        $prevSold = $prevSoldMap[$p['product_id']] ?? 0;
+        $currentSold = (int)$p['total_sold'];
+
+        if ($currentSold > 50) {
+            $p['status'] = 'hot';
+            $p['status_label'] = '🔥 Best Seller';
+        } elseif ($prevSold > 0 && $currentSold > 0 && (($currentSold - $prevSold) / $prevSold) > 0.3) {
+            $p['status'] = 'trending';
+            $p['status_label'] = '🚀 Trending';
+        } elseif ($currentSold < 5) {
+            $p['status'] = 'cold';
+            $p['status_label'] = '📉 Chậm';
+            $slowCount++;
+        } else {
+            $p['status'] = 'normal';
+            $p['status_label'] = '📊 Bình thường';
+        }
+
+        $p['total_revenue_formatted'] = formatPrice($p['total_revenue']);
+        $p['avg_price_formatted'] = formatPrice($p['avg_price']);
+        $p['base_price_formatted'] = formatPrice($p['base_price']);
+        $p['sold_percentage'] = $totalSoldAll > 0 ? round(($p['total_sold'] / max($totalSoldAll, 1)) * 100, 1) : 0;
+    }
+    unset($p);
+
+    // Filter by trending performance (post-processing since it needs prev data)
+    if ($performance === 'trending') {
+        $products = array_values(array_filter($products, fn($p) => $p['status'] === 'trending'));
+        $totalItems = count($products);
+    }
+
+    // Charts data (top 10 for each)
+    $allProductsParams = array_merge($baseParams, $baseParams, $productParams);
+    $allProductsSql = $dataSql . " ORDER BY total_sold DESC";
+    $allProducts = $db->select($allProductsSql, $allProductsParams);
+
+    $topRevenue = array_slice(
+        array_map(fn($p) => ['name' => $p['product_name'], 'value' => (float)$p['total_revenue']],
+            (function($arr) { usort($arr, fn($a, $b) => $b['total_revenue'] <=> $a['total_revenue']); return $arr; })($allProducts)),
+        0, 10
+    );
+    $topSellers = array_slice(
+        array_map(fn($p) => ['name' => $p['product_name'], 'value' => (int)$p['total_sold']],
+            $allProducts),
+        0, 10
+    );
+    // Top viewed
+    $allViewProducts = (function($arr) { usort($arr, fn($a, $b) => $b['view_count'] <=> $a['view_count']); return $arr; })($allProducts);
+    $topViewed = array_slice(
+        array_map(fn($p) => ['name' => $p['product_name'], 'value' => (int)$p['view_count']], $allViewProducts),
+        0, 10
+    );
+
+    // Get categories + brands for filter
     $categories = $db->select("SELECT category_id, category_name FROM categories WHERE is_visible = 1 ORDER BY category_name");
+    $brands = $db->select("SELECT brand_id, brand_name FROM brands ORDER BY brand_name");
 
     jsonResponse(true, 'Success', [
         'products' => $products,
         'categories' => $categories,
+        'brands' => $brands,
         'pagination' => [
             'current_page' => $page,
-            'total_pages' => ceil($totalItems / $perPage),
+            'total_pages' => max(1, ceil($totalItems / $perPage)),
             'total_items' => $totalItems,
             'per_page' => $perPage
         ],
-        'totals' => [
-            'sold' => (int)$totalSoldAll,
-            'revenue' => (float)$totalRevenueAll,
-            'revenue_formatted' => formatPrice($totalRevenueAll)
+        'product_summary' => [
+            'total_sold' => $totalSoldAll,
+            'total_revenue' => $totalRevenueAll,
+            'total_revenue_formatted' => formatPrice($totalRevenueAll),
+            'best_seller_name' => $bestSellerName,
+            'slow_mover_count' => $slowCount,
+            'total_views' => $totalViewsAll
+        ],
+        'charts' => [
+            'top_revenue' => $topRevenue,
+            'top_sellers' => $topSellers,
+            'top_viewed' => $topViewed
         ],
         'filters' => [
             'period' => $period,
             'search' => $search,
             'category_id' => $categoryId,
+            'brand_id' => $brandId,
             'sort' => $sort,
             'order' => $order,
             'date_range' => $dateRange
         ]
     ]);
+}
+
+/**
+ * Chi tiết insight cho 1 sản phẩm
+ */
+function getProductDetail($db) {
+    $productId = (int)($_GET['id'] ?? 0);
+    if ($productId <= 0) {
+        jsonResponse(false, 'Thiếu product_id');
+    }
+
+    // Thông tin sản phẩm
+    $product = $db->selectOne("
+        SELECT p.*, c.category_name, b.brand_name,
+               (SELECT GROUP_CONCAT(pi.image_url SEPARATOR '||') FROM product_images pi WHERE pi.product_id = p.product_id AND pi.is_primary = 1 LIMIT 1) as primary_image
+        FROM products p
+        LEFT JOIN categories c ON p.category_id = c.category_id
+        LEFT JOIN brands b ON p.brand_id = b.brand_id
+        WHERE p.product_id = ?
+    ", [$productId]);
+
+    if (!$product) {
+        jsonResponse(false, 'Không tìm thấy sản phẩm');
+    }
+
+    // Hiệu suất tổng
+    $performance = $db->selectOne("
+        SELECT
+            COALESCE(SUM(oi.quantity), 0) AS total_sold,
+            COALESCE(SUM(oi.subtotal), 0) AS total_revenue,
+            COUNT(DISTINCT o.order_id) AS order_count
+        FROM order_items oi
+        JOIN product_variants pv ON oi.variant_id = pv.variant_id
+        JOIN orders o ON oi.order_id = o.order_id
+        WHERE pv.product_id = ? AND o.order_status NOT IN ('cancelled', 'returned') AND o.payment_status = 'paid'
+    ", [$productId]);
+
+    // Lượt xem
+    $views = $db->selectOne("SELECT COUNT(*) as total FROM product_view_logs WHERE product_id = ?", [$productId]);
+    $viewCount = (int)($views['total'] ?? 0);
+    $conversionRate = $viewCount > 0 ? round(($performance['order_count'] / $viewCount) * 100, 1) : 0;
+
+    // Doanh thu theo tháng (năm nay)
+    $monthlyRevenue = $db->select("
+        SELECT MONTH(o.created_at) as month, SUM(oi.subtotal) as revenue
+        FROM order_items oi
+        JOIN product_variants pv ON oi.variant_id = pv.variant_id
+        JOIN orders o ON oi.order_id = o.order_id
+        WHERE pv.product_id = ? AND o.order_status NOT IN ('cancelled', 'returned') AND o.payment_status = 'paid'
+          AND YEAR(o.created_at) = YEAR(CURDATE())
+        GROUP BY MONTH(o.created_at)
+    ", [$productId]);
+    $chartMap = [];
+    foreach ($monthlyRevenue as $r) { $chartMap[$r['month']] = (float)$r['revenue']; }
+    $chartValues = [];
+    for ($i = 1; $i <= 12; $i++) { $chartValues[] = $chartMap[$i] ?? 0; }
+
+    // Top 5 khách xem nhiều nhất
+    $topViewers = $db->select("
+        SELECT u.user_id, u.full_name, u.email, COUNT(*) as view_count
+        FROM product_view_logs pv
+        JOIN users u ON pv.user_id = u.user_id
+        WHERE pv.product_id = ?
+        GROUP BY u.user_id, u.full_name, u.email
+        ORDER BY view_count DESC LIMIT 5
+    ", [$productId]);
+
+    // Từ khóa tìm kiếm liên quan
+    $relatedKeywords = $db->select("
+        SELECT keyword, COUNT(*) as search_count
+        FROM search_logs
+        WHERE keyword LIKE ? OR keyword LIKE ?
+        GROUP BY keyword
+        ORDER BY search_count DESC LIMIT 10
+    ", ['%' . substr($product['product_name'], 0, 10) . '%', '%' . ($product['category_name'] ?? '') . '%']);
+
+    // Sản phẩm thường mua kèm
+    $boughtTogether = $db->select("
+        SELECT p2.product_id, p2.product_name, p2.base_price, COUNT(*) as together_count
+        FROM order_items oi1
+        JOIN order_items oi2 ON oi1.order_id = oi2.order_id AND oi1.order_item_id != oi2.order_item_id
+        JOIN product_variants pv1 ON oi1.variant_id = pv1.variant_id
+        JOIN product_variants pv2 ON oi2.variant_id = pv2.variant_id
+        JOIN products p2 ON pv2.product_id = p2.product_id
+        WHERE pv1.product_id = ? AND p2.product_id != ?
+        GROUP BY p2.product_id, p2.product_name, p2.base_price
+        ORDER BY together_count DESC LIMIT 5
+    ", [$productId, $productId]);
+
+    // 5 Review gần nhất
+    $reviews = $db->select("
+        SELECT r.rating, r.comment, r.created_at, u.full_name
+        FROM reviews r
+        JOIN users u ON r.user_id = u.user_id
+        WHERE r.product_id = ? AND r.status = 'approved' AND r.is_deleted = 0
+        ORDER BY r.created_at DESC LIMIT 5
+    ", [$productId]);
+
+    jsonResponse(true, 'Success', [
+        'product' => $product,
+        'performance' => [
+            'total_sold' => (int)$performance['total_sold'],
+            'total_revenue' => (float)$performance['total_revenue'],
+            'total_revenue_formatted' => formatPrice($performance['total_revenue']),
+            'order_count' => (int)$performance['order_count'],
+            'view_count' => $viewCount,
+            'conversion_rate' => $conversionRate,
+            'avg_rating' => (float)$product['avg_rating'],
+            'review_count' => (int)$product['total_reviews']
+        ],
+        'chart_data' => $chartValues,
+        'top_viewers' => $topViewers,
+        'related_keywords' => $relatedKeywords,
+        'bought_together' => $boughtTogether,
+        'reviews' => $reviews
+    ]);
+}
+
+/**
+ * Tính khoảng thời gian trước đó (để so sánh trending)
+ */
+function getPreviousDateRange($period, $params) {
+    $year = (int)($params['year'] ?? date('Y'));
+    $month = (int)($params['month'] ?? date('n'));
+    $quarter = (int)($params['quarter'] ?? ceil($month / 3));
+
+    switch ($period) {
+        case 'month':
+            $prevMonth = $month - 1;
+            $prevYear = $year;
+            if ($prevMonth < 1) { $prevMonth = 12; $prevYear--; }
+            $days = cal_days_in_month(CAL_GREGORIAN, $prevMonth, $prevYear);
+            return [
+                'start' => sprintf("%04d-%02d-01 00:00:00", $prevYear, $prevMonth),
+                'end' => sprintf("%04d-%02d-%02d 23:59:59", $prevYear, $prevMonth, $days)
+            ];
+        case 'quarter':
+            $prevQ = $quarter - 1;
+            $prevY = $year;
+            if ($prevQ < 1) { $prevQ = 4; $prevY--; }
+            $ms = ($prevQ - 1) * 3 + 1;
+            $me = $ms + 2;
+            return [
+                'start' => sprintf("%04d-%02d-01 00:00:00", $prevY, $ms),
+                'end' => sprintf("%04d-%02d-%02d 23:59:59", $prevY, $me, cal_days_in_month(CAL_GREGORIAN, $me, $prevY))
+            ];
+        case 'year':
+            return [
+                'start' => ($year - 1) . "-01-01 00:00:00",
+                'end' => ($year - 1) . "-12-31 23:59:59"
+            ];
+        default:
+            return null;
+    }
 }
 
 /**

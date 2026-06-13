@@ -8,6 +8,9 @@ let currentData = [];
 let chartInstance = null;
 let customerBarChartInstance = null;
 let customerPieChartInstance = null;
+let productBarChartInstance = null;
+let productHBarChartInstance = null;
+let productViewChartInstance = null;
 let chartType = 'line';
 
 // State
@@ -165,6 +168,65 @@ function initializeChart() {
             }
         });
     }
+
+    // Initialize Product Charts
+    const prodRevCtx = document.getElementById('productRevenueChart');
+    if (prodRevCtx) {
+        productBarChartInstance = new Chart(prodRevCtx.getContext('2d'), {
+            type: 'bar',
+            data: { labels: [], datasets: [{ label: 'Doanh thu', data: [], backgroundColor: '#BE1E2D', borderRadius: 4 }] },
+            options: {
+                indexAxis: 'y', // Horizontal bar chart
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                if (value >= 1000000) return (value / 1000000) + ' Tr';
+                                return formatCurrency(value);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    const prodSellCtx = document.getElementById('productSellersChart');
+    if (prodSellCtx) {
+        productHBarChartInstance = new Chart(prodSellCtx.getContext('2d'), {
+            type: 'bar',
+            data: { labels: [], datasets: [{ label: 'Đã bán', data: [], backgroundColor: '#2563eb', borderRadius: 4 }] },
+            options: {
+                indexAxis: 'y', // Horizontal bar chart
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { beginAtZero: true }
+                }
+            }
+        });
+    }
+
+    const prodViewCtx = document.getElementById('productViewChart');
+    if (prodViewCtx) {
+        productViewChartInstance = new Chart(prodViewCtx.getContext('2d'), {
+            type: 'bar',
+            data: { labels: [], datasets: [{ label: 'Lượt xem', data: [], backgroundColor: '#9ca3af', borderRadius: 4 }] },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    }
 }
 
 /**
@@ -236,15 +298,32 @@ function switchTab(tab) {
     // Show/hide chart containers and summary cards
     const chartContainerRev = document.getElementById('chart-container-revenue');
     const chartContainerCus = document.getElementById('chart-container-customers');
+    const chartContainerProd = document.getElementById('chart-container-products');
     const summaryRev = document.getElementById('summary-cards-revenue');
     const summaryCus = document.getElementById('summary-cards-customers');
+    const summaryProd = document.getElementById('summary-cards-products');
     const rankFilter = document.getElementById('filter-rank');
+    
+    // Product filters
+    const categoryFilter = document.getElementById('filter-category');
+    const brandFilter = document.getElementById('filter-brand');
+    const stockFilter = document.getElementById('filter-stock');
+    const performanceFilter = document.getElementById('filter-performance');
 
     if (chartContainerRev) chartContainerRev.classList.toggle('hidden', tab !== 'revenue');
     if (chartContainerCus) chartContainerCus.classList.toggle('hidden', tab !== 'customers');
-    if (summaryRev) summaryRev.classList.toggle('hidden', tab === 'customers');
+    if (chartContainerProd) chartContainerProd.classList.toggle('hidden', tab !== 'products');
+    
+    if (summaryRev) summaryRev.classList.toggle('hidden', tab !== 'revenue');
     if (summaryCus) summaryCus.classList.toggle('hidden', tab !== 'customers');
+    if (summaryProd) summaryProd.classList.toggle('hidden', tab !== 'products');
+    
     if (rankFilter) rankFilter.classList.toggle('hidden', tab !== 'customers');
+    
+    if (categoryFilter) categoryFilter.classList.toggle('hidden', tab !== 'products');
+    if (brandFilter) brandFilter.classList.toggle('hidden', tab !== 'products');
+    if (stockFilter) stockFilter.classList.toggle('hidden', tab !== 'products');
+    if (performanceFilter) performanceFilter.classList.toggle('hidden', tab !== 'products');
 
     // Update sort options based on tab
     updateSortOptions();
@@ -318,6 +397,12 @@ async function loadData() {
     const month = document.getElementById('filter-month') ? document.getElementById('filter-month').value : new Date().getMonth() + 1;
     const search = document.getElementById('table-search').value;
     const rankFilter = document.getElementById('filter-rank') ? document.getElementById('filter-rank').value : '';
+    
+    // Product filters
+    const categoryFilter = document.getElementById('filter-category') ? document.getElementById('filter-category').value : '';
+    const brandFilter = document.getElementById('filter-brand') ? document.getElementById('filter-brand').value : '';
+    const stockFilter = document.getElementById('filter-stock') ? document.getElementById('filter-stock').value : '';
+    const performanceFilter = document.getElementById('filter-performance') ? document.getElementById('filter-performance').value : '';
 
     // Determine correct base URL for API
     let apiBase = BASE_URL;
@@ -338,6 +423,7 @@ async function loadData() {
             break;
         case 'products':
             apiUrl += 'products&period=' + period + '&year=' + year + '&sort=' + currentSort + '&order=' + currentOrder + '&page=' + currentPage + '&search=' + encodeURIComponent(search);
+            apiUrl += '&category_id=' + categoryFilter + '&brand_id=' + brandFilter + '&stock_status=' + stockFilter + '&performance=' + performanceFilter;
             if (period === 'quarter') apiUrl += '&quarter=' + quarter;
             if (period === 'month') apiUrl += '&month=' + month;
             break;
@@ -365,10 +451,28 @@ async function loadData() {
 
         if (result.success) {
             currentData = result.data;
+            
+            // Render filter options if available
+            if (result.data.categories && document.getElementById('filter-category').options.length <= 1) {
+                let catHtml = '<option value="">Tất cả danh mục</option>';
+                result.data.categories.forEach(c => {
+                    catHtml += `<option value="${c.category_id}">${c.category_name}</option>`;
+                });
+                document.getElementById('filter-category').innerHTML = catHtml;
+            }
+            if (result.data.brands && document.getElementById('filter-brand').options.length <= 1) {
+                let brandHtml = '<option value="">Tất cả thương hiệu</option>';
+                result.data.brands.forEach(b => {
+                    brandHtml += `<option value="${b.brand_id}">${b.brand_name}</option>`;
+                });
+                document.getElementById('filter-brand').innerHTML = brandHtml;
+            }
+
             updateSummaryCards(result.data);
             updateTable(result.data);
             updateChart(result.data);
             updateCustomerCharts(result.data);
+            if (typeof updateProductCharts === 'function') updateProductCharts(result.data);
 
         } else {
             showToast(result.message || 'Lỗi tải dữ liệu', 'error');
@@ -388,6 +492,14 @@ function updateSummaryCards(data) {
         document.getElementById('customer-new').textContent = formatNumber(data.customer_summary.new_customers || 0);
         document.getElementById('customer-vip').textContent = formatNumber(data.customer_summary.vip_customers || 0);
         document.getElementById('customer-returning').textContent = formatNumber(data.customer_summary.returning_customers || 0);
+
+    } else if (currentTab === 'products' && data.product_summary) {
+        document.getElementById('product-total-sold').textContent = formatNumber(data.product_summary.total_sold || 0);
+        document.getElementById('product-total-revenue').textContent = data.product_summary.total_revenue_formatted || formatCurrency(data.product_summary.total_revenue || 0);
+        document.getElementById('product-best-seller').textContent = data.product_summary.best_seller_name || 'N/A';
+        document.getElementById('product-best-seller').title = data.product_summary.best_seller_name || '';
+        document.getElementById('product-slow-count').textContent = formatNumber(data.product_summary.slow_mover_count || 0);
+        document.getElementById('product-total-views').textContent = formatNumber(data.product_summary.total_views || 0);
 
     } else if (data.summary) {
         document.getElementById('summary-revenue').textContent = data.summary.total_revenue_formatted || formatCurrency(data.summary.total_revenue || 0);
@@ -474,18 +586,24 @@ function updateTable(data) {
         case 'products':
             tableTitle.textContent = 'Báo Cáo Sản Phẩm';
             headers = `
-                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:bg-gray-100">Sản Phẩm</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:bg-gray-100" onclick="sortBy('product_name')">Sản Phẩm</th>
                 <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Danh Mục</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:bg-gray-100">Đã Bán</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Doanh Thu</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Tỷ Lệ</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Trạng Thái</th>
+                <th class="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:bg-gray-100" onclick="sortBy('total_sold')">Đã Bán</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:bg-gray-100" onclick="sortBy('total_revenue')">Doanh Thu</th>
+                <th class="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:bg-gray-100" onclick="sortBy('view_count')">Lượt Xem</th>
+                <th class="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:bg-gray-100" onclick="sortBy('stock_quantity')">Tồn Kho</th>
+                <th class="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:bg-gray-100" onclick="sortBy('avg_rating')">Rating</th>
+                <th class="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Hiệu Suất</th>
+                <th class="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Hành Động</th>
             `;
 
             if (data.products && data.products.length > 0) {
                 data.products.forEach(p => {
-                    const statusClass = p.status === 'hot' ? 'bg-red-100 text-red-800' : (p.status === 'cold' ? 'bg-gray-100 text-gray-800' : 'bg-blue-100 text-blue-800');
-                    const statusText = p.status === 'hot' ? 'Hot' : (p.status === 'cold' ? 'Ế' : 'Bình thường');
+                    let statusClass = 'bg-gray-100 text-gray-800';
+                    if (p.status === 'hot') statusClass = 'bg-red-100 text-red-800';
+                    else if (p.status === 'trending') statusClass = 'bg-yellow-100 text-yellow-800';
+                    else if (p.status === 'cold') statusClass = 'bg-gray-200 text-gray-600';
+                    else if (p.status === 'normal') statusClass = 'bg-blue-100 text-blue-800';
 
                     rows += `
                         <tr class="hover:bg-gray-50">
@@ -496,14 +614,14 @@ function updateTable(data) {
                             <td class="px-4 py-3 text-gray-600">${escapeHtml(p.category_name || 'N/A')}</td>
                             <td class="px-4 py-3 text-center font-medium">${formatNumber(p.total_sold || 0)}</td>
                             <td class="px-4 py-3 font-bold text-axeron-red">${p.total_revenue_formatted || formatCurrency(p.total_revenue || 0)}</td>
-                            <td class="px-4 py-3">
-                                <div class="w-24 bg-gray-200 rounded-full h-2">
-                                    <div class="bg-axeron-red h-2 rounded-full" style="width: ${p.sold_percentage || 0}%"></div>
-                                </div>
-                                <span class="text-xs text-gray-500">${p.sold_percentage || 0}%</span>
+                            <td class="px-4 py-3 text-center text-gray-600">${formatNumber(p.view_count || 0)}</td>
+                            <td class="px-4 py-3 text-center ${p.stock_quantity <= 10 ? 'text-red-500 font-bold' : 'text-green-600'}">${formatNumber(p.stock_quantity || 0)}</td>
+                            <td class="px-4 py-3 text-center text-yellow-500 font-medium">${p.avg_rating > 0 ? p.avg_rating + ' ⭐' : '--'}</td>
+                            <td class="px-4 py-3 text-center">
+                                <span class="px-2 py-1 rounded-full text-xs whitespace-nowrap ${statusClass}">${p.status_label || 'Bình thường'}</span>
                             </td>
-                            <td class="px-4 py-3">
-                                <span class="px-2 py-1 rounded-full text-xs ${statusClass}">${statusText}</span>
+                            <td class="px-4 py-3 text-center">
+                                <a href="admin.php?action=product_detail&id=${p.product_id}" class="text-blue-600 hover:text-blue-800 font-medium">Xem</a>
                             </td>
                         </tr>
                     `;
@@ -661,6 +779,31 @@ function updateCustomerCharts(data) {
             seg['Bình thường'] || 0
         ];
         customerPieChartInstance.update();
+    }
+}
+
+function updateProductCharts(data) {
+    if (currentTab !== 'products' || !data.charts) return;
+
+    // Bar chart: Top 10 Revenue
+    if (productBarChartInstance && data.charts.top_revenue) {
+        productBarChartInstance.data.labels = data.charts.top_revenue.map(item => item.name);
+        productBarChartInstance.data.datasets[0].data = data.charts.top_revenue.map(item => item.value);
+        productBarChartInstance.update();
+    }
+
+    // Horizontal Bar: Top 10 Sellers
+    if (productHBarChartInstance && data.charts.top_sellers) {
+        productHBarChartInstance.data.labels = data.charts.top_sellers.map(item => item.name);
+        productHBarChartInstance.data.datasets[0].data = data.charts.top_sellers.map(item => item.value);
+        productHBarChartInstance.update();
+    }
+
+    // Bar chart: Top 10 Viewed
+    if (productViewChartInstance && data.charts.top_viewed) {
+        productViewChartInstance.data.labels = data.charts.top_viewed.map(item => item.name);
+        productViewChartInstance.data.datasets[0].data = data.charts.top_viewed.map(item => item.value);
+        productViewChartInstance.update();
     }
 }
 

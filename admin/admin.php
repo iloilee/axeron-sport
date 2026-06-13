@@ -83,6 +83,7 @@ $pageTitle = match($action) {
     'analytics' => 'Thống Kê',
     'featured' => 'Sản Phẩm Nổi Bật',
     'customer_detail' => 'Chi Tiết Khách Hàng',
+    'product_detail' => 'Chi Tiết Sản Phẩm',
     default => 'Dashboard'
 };
 
@@ -578,6 +579,10 @@ if ($action === 'dashboard') {
             <?php elseif ($action === 'customer_detail'): ?>
                 <!-- Customer Detail -->
                 <?php include __DIR__ . '/admin-customer-detail.php'; ?>
+
+            <?php elseif ($action === 'product_detail'): ?>
+                <!-- Product Detail Insight -->
+                <?php include __DIR__ . '/admin-product-detail.php'; ?>
 
             <?php else: ?>
                 <div class="bg-white rounded-xl p-12 text-center">

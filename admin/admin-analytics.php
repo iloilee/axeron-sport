@@ -205,6 +205,65 @@
 
     </div>
 
+    <!-- Summary Cards Products -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 hidden" id="summary-cards-products">
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Tổng SP bán ra</p>
+                    <p class="text-2xl font-bold text-blue-600 mt-1" id="product-total-sold">--</p>
+                </div>
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-blue-600">inventory_2</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Tổng doanh thu</p>
+                    <p class="text-2xl font-bold text-green-600 mt-1" id="product-total-revenue">--</p>
+                </div>
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-green-600">payments</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">SP bán chạy nhất</p>
+                    <p class="text-lg font-bold text-orange-600 mt-1 truncate max-w-[160px]" id="product-best-seller" title="">--</p>
+                </div>
+                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-orange-600">local_fire_department</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">SP bán chậm</p>
+                    <p class="text-2xl font-bold text-red-500 mt-1" id="product-slow-count">--</p>
+                </div>
+                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-red-500">trending_down</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Tổng lượt xem</p>
+                    <p class="text-2xl font-bold text-gray-600 mt-1" id="product-total-views">--</p>
+                </div>
+                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-gray-600">visibility</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Chart Area (Revenue Tab) -->
     <div class="bg-white rounded-xl p-6 shadow-sm border" id="chart-container-revenue">
         <div class="flex justify-between items-center mb-6">
@@ -239,6 +298,30 @@
         </div>
     </div>
 
+    <!-- Chart Area (Products Tab) -->
+    <div class="space-y-6 hidden" id="chart-container-products">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white rounded-xl p-6 shadow-sm border">
+                <h3 class="font-bold text-lg mb-4">Top 10 Doanh Thu Sản Phẩm</h3>
+                <div class="h-72">
+                    <canvas id="productRevenueChart"></canvas>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-sm border">
+                <h3 class="font-bold text-lg mb-4">Top 10 Bán Chạy</h3>
+                <div class="h-72">
+                    <canvas id="productSellersChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border">
+            <h3 class="font-bold text-lg mb-4">Top 10 Xem Nhiều</h3>
+            <div class="h-64">
+                <canvas id="productViewChart"></canvas>
+            </div>
+        </div>
+    </div>
+
     <!-- Data Table -->
     <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
         <!-- Table Header with Search -->
@@ -252,12 +335,33 @@
                 
                 <!-- Rank Filter (Customers only) -->
                 <select id="filter-rank" class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-axeron-red hidden w-full sm:w-auto" onchange="loadData()">
-                    <option value="">Tất cả hạng</option>
+                    <option value="">Tất cả hạng (Khách hàng)</option>
                     <option value="VIP">VIP</option>
                     <option value="Tiềm năng">Tiềm năng</option>
                     <option value="Mới">Khách mới</option>
                     <option value="Bình thường">Bình thường</option>
+                </select>
 
+                <!-- Product Filters (Products only) -->
+                <select id="filter-category" class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-axeron-red hidden w-full sm:w-auto" onchange="loadData()">
+                    <option value="">Tất cả danh mục</option>
+                    <!-- Populated by JS -->
+                </select>
+                <select id="filter-brand" class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-axeron-red hidden w-full sm:w-auto" onchange="loadData()">
+                    <option value="">Tất cả thương hiệu</option>
+                    <!-- Populated by JS -->
+                </select>
+                <select id="filter-stock" class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-axeron-red hidden w-full sm:w-auto" onchange="loadData()">
+                    <option value="">Tất cả tồn kho</option>
+                    <option value="available">Còn hàng (>10)</option>
+                    <option value="low">Sắp hết (1-10)</option>
+                    <option value="out">Hết hàng (0)</option>
+                </select>
+                <select id="filter-performance" class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-axeron-red hidden w-full sm:w-auto" onchange="loadData()">
+                    <option value="">Tất cả hiệu suất</option>
+                    <option value="hot">🔥 Best Seller</option>
+                    <option value="trending">🚀 Trending</option>
+                    <option value="cold">📉 Bán chậm</option>
                 </select>
                 <select id="table-sort" class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-axeron-red w-full sm:w-auto" onchange="handleSort()">
                     <option value="total_spent">Sắp xếp theo</option>
