@@ -10,6 +10,13 @@ $timeFilter = $_GET['time'] ?? '';
 $startDate = $_GET['start_date'] ?? '';
 $endDate = $_GET['end_date'] ?? '';
 
+// Pagination
+$limit = (int)($_GET['limit'] ?? 10);
+if (!in_array($limit, [10, 20, 50, 100])) $limit = 10;
+$currentPage = (int)($_GET['page'] ?? 1);
+if ($currentPage < 1) $currentPage = 1;
+$offset = ($currentPage - 1) * $limit;
+
 $where = "WHERE 1=1";
 $params = [];
 
@@ -41,13 +48,22 @@ if ($timeFilter) {
     }
 }
 
+$totalRecordsQuery = "
+    SELECT COUNT(*) as count 
+    FROM orders o 
+    LEFT JOIN users u ON o.user_id = u.user_id 
+    $where
+";
+$totalRecords = $db->selectOne($totalRecordsQuery, $params)['count'] ?? 0;
+$totalPages = $totalRecords > 0 ? ceil($totalRecords / $limit) : 0;
+
 $orders = $db->select("
     SELECT o.*, u.full_name, u.email
     FROM orders o
     LEFT JOIN users u ON o.user_id = u.user_id
     $where
     ORDER BY o.created_at DESC
-    LIMIT 100
+    LIMIT $limit OFFSET $offset
 ", $params);
 
 // Lấy thống kê tổng quan
@@ -190,7 +206,7 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
     </form>
     
     <div class="px-4 py-2 bg-red-50 border border-red-100 rounded-lg text-sm font-medium text-axeron-red whitespace-nowrap">
-        Tổng số: <strong class="text-base"><?= count($orders) ?></strong> đơn hàng
+        Tổng số: <strong class="text-base"><?= number_format($totalRecords) ?></strong> đơn hàng
     </div>
 </div>
     
@@ -378,6 +394,9 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
                 <?php endif; ?>
             </tbody>
         </table>
+    </div>
+    <div class="p-4">
+        <?php include __DIR__ . '/includes/pagination.php'; ?>
     </div>
 </div>
 

@@ -47,6 +47,24 @@ if ($keyword) {
     $params[] = $k;
 }
 
+// Pagination
+$limit = (int)($_GET['limit'] ?? 10);
+if (!in_array($limit, [10, 20, 50, 100])) $limit = 10;
+$currentPage = (int)($_GET['page'] ?? 1);
+if ($currentPage < 1) $currentPage = 1;
+$offset = ($currentPage - 1) * $limit;
+
+$totalRecordsQuery = "
+    SELECT COUNT(*) as count 
+    FROM reviews r
+    JOIN products p ON r.product_id = p.product_id
+    JOIN users u ON r.user_id = u.user_id
+    LEFT JOIN orders o ON r.order_id = o.order_id
+    $where
+";
+$totalRecords = $db->selectOne($totalRecordsQuery, $params)['count'] ?? 0;
+$totalPages = $totalRecords > 0 ? ceil($totalRecords / $limit) : 0;
+
 $reviews = $db->select("
     SELECT r.*, p.product_name, p.slug, u.full_name, o.order_code
     FROM reviews r
@@ -55,7 +73,7 @@ $reviews = $db->select("
     LEFT JOIN orders o ON r.order_id = o.order_id
     $where
     ORDER BY r.created_at DESC
-    LIMIT 100
+    LIMIT $limit OFFSET $offset
 ", $params);
 ?>
 
@@ -83,6 +101,12 @@ $reviews = $db->select("
     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
         <span class="text-sm text-gray-500 font-medium flex items-center gap-1">1 <span class="material-symbols-outlined text-yellow-500 text-sm">star</span></span>
         <span class="text-xl font-bold text-gray-800"><?= number_format($stats['star_1'] ?? 0) ?></span>
+    </div>
+</div>
+
+<div class="mb-4">
+    <div class="px-4 py-2 bg-red-50 border border-red-100 rounded-lg text-sm font-medium text-axeron-red inline-block whitespace-nowrap">
+        Tổng số kết quả: <strong class="text-base"><?= number_format($totalRecords) ?></strong> đánh giá
     </div>
 </div>
 
@@ -243,6 +267,9 @@ $reviews = $db->select("
                 <?php endif; ?>
             </tbody>
         </table>
+    </div>
+    <div class="p-4">
+        <?php include __DIR__ . '/includes/pagination.php'; ?>
     </div>
 </div>
 

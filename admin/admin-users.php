@@ -7,6 +7,13 @@
 $roleFilter = $_GET['role'] ?? '';
 $search = $_GET['search'] ?? '';
 
+// Pagination
+$limit = (int)($_GET['limit'] ?? 10);
+if (!in_array($limit, [10, 20, 50, 100])) $limit = 10;
+$currentPage = (int)($_GET['page'] ?? 1);
+if ($currentPage < 1) $currentPage = 1;
+$offset = ($currentPage - 1) * $limit;
+
 $where = "WHERE 1=1";
 $params = [];
 
@@ -22,6 +29,14 @@ if ($roleFilter) {
     $params[] = $roleFilter;
 }
 
+$totalRecordsQuery = "
+    SELECT COUNT(*) as count 
+    FROM users u 
+    $where
+";
+$totalRecords = $db->selectOne($totalRecordsQuery, $params)['count'] ?? 0;
+$totalPages = $totalRecords > 0 ? ceil($totalRecords / $limit) : 0;
+
 $users = $db->select("
     SELECT u.*, r.role_name,
            TIMESTAMPDIFF(SECOND, NOW(), u.locked_until) as lockout_seconds
@@ -29,6 +44,7 @@ $users = $db->select("
     LEFT JOIN roles r ON u.role_id = r.role_id
     $where
     ORDER BY u.user_id ASC
+    LIMIT $limit OFFSET $offset
 ", $params);
 
 // Roles for filter
@@ -134,7 +150,7 @@ function renderStatCard($title, $value, $trendData, $icon, $colorClass, $bgColor
             </select>
         </form>
         <div class="px-4 py-2 bg-red-50 border border-red-100 rounded-lg text-sm font-medium text-axeron-red whitespace-nowrap">
-            Tổng số: <strong class="text-base"><?= count($users) ?></strong> người dùng
+            Tổng số: <strong class="text-base"><?= number_format($totalRecords) ?></strong> người dùng
         </div>
     </div>
     <a href="javascript:void(0)" onclick="openUserModal()"
@@ -252,6 +268,9 @@ function renderStatCard($title, $value, $trendData, $icon, $colorClass, $bgColor
                 <?php endif; ?>
             </tbody>
         </table>
+    </div>
+    <div class="p-4">
+        <?php include __DIR__ . '/includes/pagination.php'; ?>
     </div>
 </div>
 

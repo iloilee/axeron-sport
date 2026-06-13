@@ -8,6 +8,13 @@ $search = $_GET['search'] ?? '';
 $categoryFilter = $_GET['category'] ?? '';
 $brandFilter = $_GET['brand'] ?? '';
 
+// Pagination
+$limit = (int)($_GET['limit'] ?? 10);
+if (!in_array($limit, [10, 20, 50, 100])) $limit = 10;
+$currentPage = (int)($_GET['page'] ?? 1);
+if ($currentPage < 1) $currentPage = 1;
+$offset = ($currentPage - 1) * $limit;
+
 $where = "WHERE p.is_deleted = 0";
 $params = [];
 
@@ -27,6 +34,14 @@ if ($brandFilter) {
     $params[] = $brandFilter;
 }
 
+$totalRecordsQuery = "
+    SELECT COUNT(*) as count 
+    FROM products p 
+    $where
+";
+$totalRecords = $db->selectOne($totalRecordsQuery, $params)['count'] ?? 0;
+$totalPages = $totalRecords > 0 ? ceil($totalRecords / $limit) : 0;
+
 $products = $db->select("
     SELECT p.*, c.category_name, b.brand_name,
            (SELECT image_url FROM product_images WHERE product_id = p.product_id AND is_primary = 1 LIMIT 1) as image_url
@@ -35,6 +50,7 @@ $products = $db->select("
     LEFT JOIN brands b ON p.brand_id = b.brand_id
     $where
     ORDER BY p.updated_at DESC
+    LIMIT $limit OFFSET $offset
 ", $params);
 
 // Categories for filter
@@ -210,7 +226,7 @@ function renderProductStatCard($title, $value, $trendData, $icon, $colorClass, $
             </select>
         </form>
         <div class="px-4 py-2 bg-red-50 border border-red-100 rounded-lg text-sm font-medium text-axeron-red whitespace-nowrap">
-            Tổng số: <strong class="text-base"><?= count($products) ?></strong> sản phẩm
+            Tổng số: <strong class="text-base"><?= number_format($totalRecords) ?></strong> sản phẩm
         </div>
     </div>
     <a href="javascript:void(0)" onclick="openProductModal()"
@@ -291,6 +307,9 @@ function renderProductStatCard($title, $value, $trendData, $icon, $colorClass, $
                 <?php endif; ?>
             </tbody>
         </table>
+    </div>
+    <div class="p-4">
+        <?php include __DIR__ . '/includes/pagination.php'; ?>
     </div>
 </div>
 

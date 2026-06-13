@@ -3,11 +3,26 @@
  * Admin Brands Management
  */
 
+// Pagination
+$limitOptions = [9, 18, 27, 54];
+$limit = (int)($_GET['limit'] ?? 9);
+if (!in_array($limit, $limitOptions)) $limit = 9;
+$currentPage = (int)($_GET['page'] ?? 1);
+if ($currentPage < 1) $currentPage = 1;
+$offset = ($currentPage - 1) * $limit;
+
+$totalRecordsQuery = "SELECT COUNT(*) as count FROM brands";
+$totalRecords = $db->selectOne($totalRecordsQuery)['count'] ?? 0;
+$totalPages = $totalRecords > 0 ? ceil($totalRecords / $limit) : 0;
+
 // Load brands
-$brands = $db->select("SELECT * FROM brands ORDER BY brand_name");
+$brands = $db->select("SELECT * FROM brands ORDER BY brand_name LIMIT $limit OFFSET $offset");
 ?>
 
-<div class="mb-6">
+<div class="mb-6 flex justify-between items-center">
+    <div class="px-4 py-2 bg-red-50 border border-red-100 rounded-lg text-sm font-medium text-axeron-red whitespace-nowrap">
+        Tổng số: <strong class="text-base"><?= number_format($totalRecords) ?></strong> thương hiệu
+    </div>
     <a href="javascript:void(0)" onclick="openBrandModal()"
        class="px-4 py-2 bg-axeron-red text-white rounded-lg hover:bg-red-700 transition-colors inline-flex items-center gap-2">
         <span class="material-symbols-outlined text-xl">add</span>
@@ -50,6 +65,10 @@ $brands = $db->select("SELECT * FROM brands ORDER BY brand_name");
         </div>
     </div>
     <?php endforeach; ?>
+</div>
+
+<div class="p-4 bg-white rounded-xl shadow-sm border border-gray-100 mt-6">
+    <?php include __DIR__ . '/includes/pagination.php'; ?>
 </div>
 
 <script>

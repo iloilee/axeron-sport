@@ -3,10 +3,22 @@
  * Admin Promotions Management
  */
 
+// Pagination
+$limit = (int)($_GET['limit'] ?? 10);
+if (!in_array($limit, [10, 20, 50, 100])) $limit = 10;
+$currentPage = (int)($_GET['page'] ?? 1);
+if ($currentPage < 1) $currentPage = 1;
+$offset = ($currentPage - 1) * $limit;
+
+$totalRecordsQuery = "SELECT COUNT(*) as count FROM promotions";
+$totalRecords = $db->selectOne($totalRecordsQuery)['count'] ?? 0;
+$totalPages = $totalRecords > 0 ? ceil($totalRecords / $limit) : 0;
+
 // Load promotions
 $promotions = $db->select("
     SELECT * FROM promotions
     ORDER BY is_active DESC, created_at DESC
+    LIMIT $limit OFFSET $offset
 ");
 
 // Load targets for modal
@@ -14,7 +26,10 @@ $all_categories = $db->select("SELECT category_id, category_name FROM categories
 $all_products = $db->select("SELECT product_id, product_name FROM products WHERE is_deleted = 0 ORDER BY product_name");
 ?>
 
-<div class="mb-6">
+<div class="mb-6 flex justify-between items-center">
+    <div class="px-4 py-2 bg-red-50 border border-red-100 rounded-lg text-sm font-medium text-axeron-red whitespace-nowrap">
+        Tổng số: <strong class="text-base"><?= number_format($totalRecords) ?></strong> khuyến mãi
+    </div>
     <a href="javascript:void(0)" onclick="openPromotionModal()"
        class="px-4 py-2 bg-axeron-red text-white rounded-lg hover:bg-red-700 transition-colors inline-flex items-center gap-2">
         <span class="material-symbols-outlined text-xl">add</span>
@@ -121,6 +136,9 @@ $all_products = $db->select("SELECT product_id, product_name FROM products WHERE
                 <?php endif; ?>
             </tbody>
         </table>
+    </div>
+    <div class="p-4">
+        <?php include __DIR__ . '/includes/pagination.php'; ?>
     </div>
 </div>
 
