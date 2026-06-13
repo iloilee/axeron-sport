@@ -57,7 +57,8 @@ function ajaxLogin($input) {
     $db = db();
 
     $user = $db->selectOne("
-        SELECT u.*, r.role_name
+        SELECT u.*, r.role_name,
+               TIMESTAMPDIFF(SECOND, NOW(), u.locked_until) as lockout_seconds
         FROM users u
         JOIN roles r ON u.role_id = r.role_id
         WHERE u.email = ? AND u.is_active = 1
@@ -69,17 +70,22 @@ function ajaxLogin($input) {
         return;
     }
 
-    if ($user['locked_until'] && strtotime($user['locked_until']) > time()) {
-        echo json_encode(['success' => false, 'message' => 'Tài khoản đã bị tạm khóa. Vui lòng thử lại sau.']);
+    if ($user['locked_until'] && $user['lockout_seconds'] > 0) {
+        $remaining = (int)$user['lockout_seconds'];
+        $mins = floor($remaining / 60);
+        $secs = $remaining % 60;
+        $timeStr = '';
+        if ($mins > 0) $timeStr .= $mins . ' phút ';
+        $timeStr .= $secs . ' giây';
+        echo json_encode(['success' => false, 'message' => 'Tài khoản bị khóa. Vui lòng thử lại sau ' . trim($timeStr), 'lockout_seconds' => $remaining]);
         return;
     }
 
     if (!password_verify($password, $user['password_hash'])) {
         $attempts = $user['login_attempts'] + 1;
         if ($attempts >= 5) {
-            $lockedUntil = date('Y-m-d H:i:s', strtotime('+15 minutes'));
-            $db->update("UPDATE users SET login_attempts = ?, locked_until = ? WHERE user_id = ?", [$attempts, $lockedUntil, $user['user_id']]);
-            echo json_encode(['success' => false, 'message' => 'Bạn đã nhập sai 5 lần. Tài khoản bị khóa 15 phút.']);
+            $db->update("UPDATE users SET login_attempts = ?, locked_until = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE user_id = ?", [$attempts, $user['user_id']]);
+            echo json_encode(['success' => false, 'message' => 'Bạn đã nhập sai 5 lần. Tài khoản bị khóa 15 phút.', 'lockout_seconds' => 900]);
             return;
         }
         $db->update("UPDATE users SET login_attempts = ? WHERE user_id = ?", [$attempts, $user['user_id']]);

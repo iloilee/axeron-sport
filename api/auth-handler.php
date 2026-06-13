@@ -26,7 +26,8 @@ if ($action === 'login') {
 
     // Tìm user
     $user = $db->selectOne("
-        SELECT u.user_id, u.full_name, u.email, u.password_hash, u.role_id, r.role_name, u.avatar_url, u.login_attempts, u.locked_until, u.is_active
+        SELECT u.user_id, u.full_name, u.email, u.password_hash, u.role_id, r.role_name, u.avatar_url, u.login_attempts, u.locked_until, u.is_active,
+               TIMESTAMPDIFF(SECOND, NOW(), u.locked_until) as lockout_seconds
         FROM users u
         JOIN roles r ON u.role_id = r.role_id
         WHERE u.email = ?
@@ -44,8 +45,9 @@ if ($action === 'login') {
     }
 
     // Kiểm tra khóa
-    if ($user['locked_until'] && strtotime($user['locked_until']) > time()) {
-        setFlash('error', 'Tài khoản bị khóa tạm 15 phút');
+    if ($user['locked_until'] && $user['lockout_seconds'] > 0) {
+        $_SESSION['lockout_remaining'] = (int)$user['lockout_seconds'];
+        setFlash('error', 'Tài khoản bị khóa.');
         axRedirect(BASE_URL . '/auth/login.php');
     }
 
@@ -58,7 +60,8 @@ if ($action === 'login') {
                 "UPDATE users SET login_attempts = ?, locked_until = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE user_id = ?",
                 [$attempts, $user['user_id']]
             );
-            setFlash('error', 'Đăng nhập sai 5 lần. Tài khoản bị khóa 15 phút');
+            $_SESSION['lockout_remaining'] = 900;
+            setFlash('error', 'Tài khoản bị khóa.');
         } else {
             $db->update("UPDATE users SET login_attempts = ? WHERE user_id = ?", [$attempts, $user['user_id']]);
             setFlash('error', 'Email hoặc mật khẩu không đúng (' . $attempts . '/5)');

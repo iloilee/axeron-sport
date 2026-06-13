@@ -90,27 +90,63 @@ unset($_SESSION['old_input']);
             <div class="w-full max-w-md">
                 <!-- Flash Message is displayed as floating toast below -->
                 <?php if ($flash): ?>
-                <div id="auth-backdrop" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[90] transition-opacity duration-300"></div>
+                <?php 
+                    $lockoutRemaining = $_SESSION['lockout_remaining'] ?? 0;
+                    unset($_SESSION['lockout_remaining']);
+                    $isLockout = $lockoutRemaining > 0;
+                ?>
+                <div id="auth-backdrop" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[90] transition-opacity duration-300" <?php if ($isLockout): ?>onclick="closeLockoutToast()"<?php endif; ?>></div>
                 <div id="auth-toast" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100] px-8 py-5 rounded-2xl shadow-2xl flex items-center gap-4 transition-all duration-300 <?= $flash['type'] === 'error' ? 'bg-red-50 border-2 border-red-200 text-red-800' : 'bg-green-50 border-2 border-green-200 text-green-800' ?> max-w-sm w-full text-center flex-col">
                     <span class="material-symbols-outlined text-5xl <?= $flash['type'] === 'error' ? 'text-red-500' : 'text-green-500' ?>">
                         <?= $flash['type'] === 'error' ? 'error' : 'check_circle' ?>
                     </span>
-                    <span class="font-bold text-lg leading-relaxed"><?= htmlspecialchars($flash['message']) ?></span>
+                    <?php if ($isLockout): ?>
+                        <span id="lockout-message" class="font-bold text-lg leading-relaxed">Tài khoản bị khóa. Vui lòng thử lại sau: <span id="countdown-timer" class="font-mono"></span></span>
+                        <button onclick="closeLockoutToast()" class="mt-2 px-6 py-2 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 transition-colors">Đóng</button>
+                        <script>
+                        (function() {
+                            let remaining = <?= (int)$lockoutRemaining ?>;
+                            const timerEl = document.getElementById('countdown-timer');
+
+                            function pad(n) { return n < 10 ? '0' + n : n; }
+
+                            function updateCountdown() {
+                                if (remaining <= 0) {
+                                    timerEl.textContent = '0 giây';
+                                    clearInterval(interval);
+                                    setTimeout(() => { closeLockoutToast(); window.location.reload(); }, 500);
+                                    return;
+                                }
+                                const mins = Math.floor(remaining / 60);
+                                const secs = remaining % 60;
+                                let text = '';
+                                if (mins > 0) text += mins + ' phút ';
+                                text += pad(secs) + ' giây';
+                                timerEl.textContent = text;
+                                remaining--;
+                            }
+
+                            updateCountdown();
+                            const interval = setInterval(updateCountdown, 1000);
+                            window.__lockoutInterval = interval;
+                        })();
+                        </script>
+                    <?php else: ?>
+                        <span class="font-bold text-lg leading-relaxed"><?= htmlspecialchars($flash['message']) ?></span>
+                    <?php endif; ?>
                 </div>
                 <script>
-                    setTimeout(() => {
+                    function closeLockoutToast() {
                         const toast = document.getElementById('auth-toast');
                         const backdrop = document.getElementById('auth-backdrop');
-                        if (toast) {
-                            toast.style.opacity = '0';
-                            toast.style.transform = 'translate(-50%, -40%) scale(0.95)';
-                        }
+                        if (window.__lockoutInterval) clearInterval(window.__lockoutInterval);
+                        if (toast) { toast.style.opacity = '0'; toast.style.transform = 'translate(-50%, -40%) scale(0.95)'; }
                         if (backdrop) backdrop.style.opacity = '0';
-                        setTimeout(() => {
-                            if (toast) toast.remove();
-                            if (backdrop) backdrop.remove();
-                        }, 300);
-                    }, 1200);
+                        setTimeout(() => { if (toast) toast.remove(); if (backdrop) backdrop.remove(); }, 300);
+                    }
+                    <?php if (!$isLockout): ?>
+                    setTimeout(() => { closeLockoutToast(); }, 1200);
+                    <?php endif; ?>
                 </script>
                 <?php endif; ?>
 
