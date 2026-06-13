@@ -70,6 +70,11 @@ function ajaxLogin($input) {
         return;
     }
 
+    if ($user['email_verified'] == 0) {
+        echo json_encode(['success' => false, 'message' => 'Tài khoản chưa xác thực email. Vui lòng đăng nhập lại qua trang đăng nhập để nhận mã OTP.', 'needs_verification' => true]);
+        return;
+    }
+
     if ($user['locked_until']) {
         if ($user['lockout_seconds'] > 0) {
             $remaining = (int)$user['lockout_seconds'];
@@ -176,7 +181,7 @@ function ajaxRegister($input) {
 
     $userId = $db->insert("
         INSERT INTO users (role_id, full_name, email, phone, password_hash, email_verified, created_at)
-        VALUES (3, ?, ?, ?, ?, 1, NOW())
+        VALUES (3, ?, ?, ?, ?, 0, NOW())
     ", [$fullName, $email, $phone, $passwordHash]);
 
     if (!$userId) {
@@ -186,26 +191,44 @@ function ajaxRegister($input) {
 
     $db->insert("INSERT INTO carts (user_id) VALUES (?)", [$userId]);
 
-    if (!empty($_SESSION['cart'])) {
-        mergeCart($userId);
-    }
+    require_once __DIR__ . '/../config/smtp_config.php';
+    
+    $otpCode = generateOTP(OTP_LENGTH);
+    $resetToken = generateResetToken();
+    $expiresAt = date('Y-m-d H:i:s', strtotime('+' . OTP_EXPIRY_MINUTES . ' minutes'));
+    $ipAddress = $_SERVER['REMOTE_ADDR'] ?? '';
 
-    $user = $db->selectOne("SELECT u.*, r.role_name FROM users u JOIN roles r ON u.role_id = r.role_id WHERE u.user_id = ?", [$userId]);
-    loginUser($user);
-    updateCartCount();
+    $db->insert(
+        "INSERT INTO password_resets (user_id, email, reset_token, otp_code, expires_at, ip_address) VALUES (?, ?, ?, ?, ?, ?)",
+        [$userId, $email, $resetToken, $otpCode, $expiresAt, $ipAddress]
+    );
+
+    $_SESSION['reg_reset_token'] = $resetToken;
+    $_SESSION['reg_email'] = $email;
+
+    $subject = 'Mã xác thực đăng ký tài khoản - Axeron Sports';
+    $body = '
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #BE1E2D; font-size: 24px; margin: 0;">AXERON SPORTS</h1>
+        </div>
+        <div style="background: #f9f9f9; border-radius: 10px; padding: 30px; text-align: center;">
+            <h2 style="color: #333; font-size: 20px; margin-bottom: 20px;">Xác thực tài khoản</h2>
+            <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Xin chào ' . htmlspecialchars($fullName) . ',</p>
+            <p style="color: #666; font-size: 14px; margin-bottom: 30px;">Mã xác thực của bạn là:</p>
+            <div style="background: #BE1E2D; color: white; font-size: 32px; font-weight: bold; padding: 20px 40px; border-radius: 8px; letter-spacing: 8px; display: inline-block;">
+                ' . $otpCode . '
+            </div>
+            <p style="color: #999; font-size: 12px; margin-top: 30px;">Mã này sẽ hết hạn sau ' . OTP_EXPIRY_MINUTES . ' phút.<br>Vui lòng không chia sẻ mã này với bất kỳ ai.</p>
+        </div>
+    </div>';
+
+    sendEmail($email, $subject, $body);
 
     echo json_encode([
         'success' => true,
-        'message' => 'Đăng ký thành công',
-        'data' => [
-            'user' => [
-                'user_id' => $user['user_id'],
-                'full_name' => $user['full_name'],
-                'email' => $user['email'],
-                'role' => $user['role_name']
-            ],
-            'cart_count' => getCartCount()
-        ]
+        'message' => 'Vui lòng kiểm tra email để xác thực tài khoản.',
+        'requires_verification' => true
     ]);
 }
 

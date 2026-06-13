@@ -401,4 +401,16 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+<?php
+// Global flash message handler
+$globalFlash = getFlash();
+if ($globalFlash && !empty($globalFlash['message'])):
+?>
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof showToast === 'function') {
+        showToast(<?= json_encode($globalFlash['message']) ?>, <?= json_encode($globalFlash['type'] ?? 'success') ?>);
+    }
+});
+<?php endif; ?>
 </script>

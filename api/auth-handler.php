@@ -26,7 +26,7 @@ if ($action === 'login') {
 
     // Tìm user
     $user = $db->selectOne("
-        SELECT u.user_id, u.full_name, u.email, u.password_hash, u.role_id, r.role_name, u.avatar_url, u.login_attempts, u.locked_until, u.is_active,
+        SELECT u.user_id, u.full_name, u.email, u.password_hash, u.role_id, r.role_name, u.avatar_url, u.login_attempts, u.locked_until, u.is_active, u.email_verified,
                TIMESTAMPDIFF(SECOND, NOW(), u.locked_until) as lockout_seconds
         FROM users u
         JOIN roles r ON u.role_id = r.role_id
@@ -37,6 +37,47 @@ if ($action === 'login') {
         $_SESSION['old_input'] = $input;
         setFlash('error', 'Email hoặc mật khẩu không đúng');
         axRedirect(BASE_URL . '/auth/login.php');
+    }
+
+    if ($user['email_verified'] == 0) {
+        // Tài khoản chưa xác thực, gửi lại OTP
+        require_once __DIR__ . '/../config/smtp_config.php';
+        
+        $db->delete("DELETE FROM password_resets WHERE user_id = ?", [$user['user_id']]);
+        
+        $otpCode = generateOTP(OTP_LENGTH);
+        $resetToken = generateResetToken();
+        $expiresAt = date('Y-m-d H:i:s', strtotime('+' . OTP_EXPIRY_MINUTES . ' minutes'));
+        
+        $db->insert(
+            "INSERT INTO password_resets (user_id, email, reset_token, otp_code, expires_at) VALUES (?, ?, ?, ?, ?)",
+            [$user['user_id'], $user['email'], $resetToken, $otpCode, $expiresAt]
+        );
+        
+        $_SESSION['reg_reset_token'] = $resetToken;
+        $_SESSION['reg_email'] = $user['email'];
+        
+        $subject = 'Mã xác thực tài khoản - Axeron Sports';
+        $body = '
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h1 style="color: #BE1E2D; font-size: 24px; margin: 0;">AXERON SPORTS</h1>
+            </div>
+            <div style="background: #f9f9f9; border-radius: 10px; padding: 30px; text-align: center;">
+                <h2 style="color: #333; font-size: 20px; margin-bottom: 20px;">Xác thực tài khoản</h2>
+                <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Xin chào ' . htmlspecialchars($user['full_name']) . ',</p>
+                <p style="color: #666; font-size: 14px; margin-bottom: 30px;">Mã xác thực của bạn là:</p>
+                <div style="background: #BE1E2D; color: white; font-size: 32px; font-weight: bold; padding: 20px 40px; border-radius: 8px; letter-spacing: 8px; display: inline-block;">
+                    ' . $otpCode . '
+                </div>
+                <p style="color: #999; font-size: 12px; margin-top: 30px;">Mã này sẽ hết hạn sau ' . OTP_EXPIRY_MINUTES . ' phút.<br>Vui lòng không chia sẻ mã này với bất kỳ ai.</p>
+            </div>
+        </div>';
+        
+        sendEmail($user['email'], $subject, $body);
+        
+        setFlash('success', 'Tài khoản chưa được xác thực. Mã xác thực mới đã được gửi đến email của bạn.');
+        axRedirect(BASE_URL . '/auth/verify-register-otp.php');
     }
 
     if ($user['is_active'] == 0) {
@@ -180,7 +221,7 @@ if ($action === 'register') {
 
     $hash = password_hash($password, PASSWORD_DEFAULT);
     $userId = $db->insert(
-        "INSERT INTO users (role_id, full_name, email, phone, password_hash, email_verified) VALUES (3, ?, ?, ?, ?, 1)",
+        "INSERT INTO users (role_id, full_name, email, phone, password_hash, email_verified) VALUES (3, ?, ?, ?, ?, 0)",
         [$fullName, $email, $phone, $hash]
     );
 
@@ -191,48 +232,47 @@ if ($action === 'register') {
 
     $db->insert("INSERT INTO carts (user_id) VALUES (?)", [$userId]);
 
-    $user = $db->selectOne(
-        "SELECT u.user_id, u.full_name, u.email, u.role_id, r.role_name
-         FROM users u JOIN roles r ON u.role_id = r.role_id WHERE u.user_id = ?",
-        [$userId]
+    require_once __DIR__ . '/../config/smtp_config.php';
+    
+    $otpCode = generateOTP(OTP_LENGTH);
+    $resetToken = generateResetToken();
+    $expiresAt = date('Y-m-d H:i:s', strtotime('+' . OTP_EXPIRY_MINUTES . ' minutes'));
+    $ipAddress = $_SERVER['REMOTE_ADDR'] ?? '';
+
+    $db->insert(
+        "INSERT INTO password_resets (user_id, email, reset_token, otp_code, expires_at, ip_address) VALUES (?, ?, ?, ?, ?, ?)",
+        [$userId, $email, $resetToken, $otpCode, $expiresAt, $ipAddress]
     );
-    loginUser($user);
 
-    // Merge cart nếu có session cart (từ trang checkout yêu cầu login)
-    if (!empty($_SESSION['cart'])) {
-        $cart = $db->selectOne("SELECT cart_id FROM carts WHERE user_id = ?", [$userId]);
-        if ($cart) {
-            foreach ($_SESSION['cart'] as $item) {
-                $existing = $db->selectOne(
-                    "SELECT cart_item_id, quantity FROM cart_items WHERE cart_id = ? AND variant_id = ?",
-                    [$cart['cart_id'], $item['variant_id']]
-                );
-                $variant = $db->selectOne("SELECT stock_quantity FROM product_variants WHERE variant_id = ? AND is_deleted = 0", [$item['variant_id']]);
-                $maxQty = $variant ? $variant['stock_quantity'] : 0;
-                if ($existing) {
-                    $newQty = min($existing['quantity'] + $item['quantity'], $maxQty);
-                    $db->update("UPDATE cart_items SET quantity = ? WHERE cart_item_id = ?", [$newQty, $existing['cart_item_id']]);
-                } else {
-                    $qty = min($item['quantity'], $maxQty);
-                    if ($qty > 0) {
-                        $db->insert("INSERT INTO cart_items (cart_id, variant_id, quantity) VALUES (?, ?, ?)", [$cart['cart_id'], $item['variant_id'], $qty]);
-                    }
-                }
-            }
-        }
-        unset($_SESSION['cart']);
-    }
+    $_SESSION['reg_reset_token'] = $resetToken;
+    $_SESSION['reg_email'] = $email;
 
-    updateCartCount();
-    setFlash('success', 'Đăng ký thành công!');
+    $subject = 'Mã xác thực đăng ký tài khoản - Axeron Sports';
+    $body = '
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #BE1E2D; font-size: 24px; margin: 0;">AXERON SPORTS</h1>
+        </div>
+        <div style="background: #f9f9f9; border-radius: 10px; padding: 30px; text-align: center;">
+            <h2 style="color: #333; font-size: 20px; margin-bottom: 20px;">Xác thực tài khoản</h2>
+            <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Xin chào ' . htmlspecialchars($fullName) . ',</p>
+            <p style="color: #666; font-size: 14px; margin-bottom: 30px;">Mã xác thực của bạn là:</p>
+            <div style="background: #BE1E2D; color: white; font-size: 32px; font-weight: bold; padding: 20px 40px; border-radius: 8px; letter-spacing: 8px; display: inline-block;">
+                ' . $otpCode . '
+            </div>
+            <p style="color: #999; font-size: 12px; margin-top: 30px;">Mã này sẽ hết hạn sau ' . OTP_EXPIRY_MINUTES . ' phút.<br>Vui lòng không chia sẻ mã này với bất kỳ ai.</p>
+        </div>
+    </div>';
 
-    // Xử lý redirect sau khi đăng ký
+    sendEmail($email, $subject, $body);
+
     $redirect = $input['redirect'] ?? '';
     if (!empty($redirect) && filter_var($redirect, FILTER_VALIDATE_URL)) {
-        // Lưu redirect url vào session để register.php có thể dùng sau 3s
         $_SESSION['register_redirect'] = $redirect;
     }
-    axRedirect(BASE_URL . '/auth/register.php');
+
+    setFlash('success', 'Mã xác thực đã được gửi đến email của bạn.');
+    axRedirect(BASE_URL . '/auth/verify-register-otp.php');
 }
 
 // Xử lý FORGOT PASSWORD
@@ -339,6 +379,80 @@ if ($action === 'verify_otp') {
     $_SESSION['reset_verified'] = true;
 
     axRedirect(BASE_URL . '/auth/reset-password.php');
+}
+
+// Xử lý VERIFY REGISTER OTP
+if ($action === 'verify_register_otp') {
+    $otp = sanitize($input['otp'] ?? '');
+    $resetToken = sanitize($input['reset_token'] ?? '');
+
+    if (empty($otp) || empty($resetToken)) {
+        setFlash('error', 'Vui lòng nhập mã xác thực');
+        axRedirect(BASE_URL . '/auth/verify-register-otp.php');
+    }
+
+    $resetRequest = $db->selectOne(
+        "SELECT * FROM password_resets WHERE reset_token = ? AND otp_code = ? AND verified_at IS NULL AND used_at IS NULL",
+        [$resetToken, $otp]
+    );
+
+    if (!$resetRequest) {
+        setFlash('error', 'Mã xác thực không đúng hoặc đã hết hạn');
+        axRedirect(BASE_URL . '/auth/verify-register-otp.php');
+    }
+
+    if (strtotime($resetRequest['expires_at']) < time()) {
+        setFlash('error', 'Mã xác thực đã hết hạn. Vui lòng đăng nhập lại để nhận mã mới.');
+        axRedirect(BASE_URL . '/auth/login.php');
+    }
+
+    $db->update("UPDATE password_resets SET verified_at = NOW(), used_at = NOW() WHERE id = ?", [$resetRequest['id']]);
+    $db->update("UPDATE users SET email_verified = 1 WHERE user_id = ?", [$resetRequest['user_id']]);
+
+    unset($_SESSION['reg_token']);
+    unset($_SESSION['reg_email']);
+    unset($_SESSION['reg_reset_token']);
+
+    $user = $db->selectOne(
+        "SELECT u.user_id, u.full_name, u.email, u.role_id, r.role_name
+         FROM users u JOIN roles r ON u.role_id = r.role_id WHERE u.user_id = ?",
+        [$resetRequest['user_id']]
+    );
+    loginUser($user);
+
+    if (!empty($_SESSION['cart'])) {
+        $cart = $db->selectOne("SELECT cart_id FROM carts WHERE user_id = ?", [$user['user_id']]);
+        if ($cart) {
+            foreach ($_SESSION['cart'] as $item) {
+                $existing = $db->selectOne(
+                    "SELECT cart_item_id, quantity FROM cart_items WHERE cart_id = ? AND variant_id = ?",
+                    [$cart['cart_id'], $item['variant_id']]
+                );
+                $variant = $db->selectOne("SELECT stock_quantity FROM product_variants WHERE variant_id = ? AND is_deleted = 0", [$item['variant_id']]);
+                $maxQty = $variant ? $variant['stock_quantity'] : 0;
+                if ($existing) {
+                    $newQty = min($existing['quantity'] + $item['quantity'], $maxQty);
+                    $db->update("UPDATE cart_items SET quantity = ? WHERE cart_item_id = ?", [$newQty, $existing['cart_item_id']]);
+                } else {
+                    $qty = min($item['quantity'], $maxQty);
+                    if ($qty > 0) {
+                        $db->insert("INSERT INTO cart_items (cart_id, variant_id, quantity) VALUES (?, ?, ?)", [$cart['cart_id'], $item['variant_id'], $qty]);
+                    }
+                }
+            }
+        }
+        unset($_SESSION['cart']);
+    }
+
+    updateCartCount();
+    setFlash('success', 'Xác thực thành công!');
+
+    $targetRedirect = BASE_URL . '/';
+    if (!empty($_SESSION['register_redirect'])) {
+        $targetRedirect = $_SESSION['register_redirect'];
+        unset($_SESSION['register_redirect']);
+    }
+    axRedirect($targetRedirect);
 }
 
 // Xử lý RESET PASSWORD
