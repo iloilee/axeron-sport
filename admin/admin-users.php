@@ -23,7 +23,8 @@ if ($roleFilter) {
 }
 
 $users = $db->select("
-    SELECT u.*, r.role_name
+    SELECT u.*, r.role_name,
+           TIMESTAMPDIFF(SECOND, NOW(), u.locked_until) as lockout_seconds
     FROM users u
     LEFT JOIN roles r ON u.role_id = r.role_id
     $where
@@ -205,8 +206,13 @@ function renderStatCard($title, $value, $trendData, $icon, $colorClass, $bgColor
                     <td class="px-4 py-3">
                         <?php if (!$user['is_active']): ?>
                         <span class="px-2.5 py-0.5 bg-red-100 text-red-800 rounded-full text-xs font-medium inline-block whitespace-nowrap">Bị khóa</span>
-                        <?php elseif (!empty($user['locked_until']) && strtotime($user['locked_until']) > time()): ?>
-                        <span class="px-2.5 py-0.5 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium inline-block whitespace-nowrap">Khóa tạm (<?= date('H:i', strtotime($user['locked_until'])) ?>)</span>
+                        <?php elseif (!empty($user['locked_until']) && $user['lockout_seconds'] > 0): ?>
+                        <?php 
+                            $remaining_mins = floor($user['lockout_seconds'] / 60);
+                            $remaining_secs = $user['lockout_seconds'] % 60;
+                            $time_display = sprintf("%02d:%02d", $remaining_mins, $remaining_secs);
+                        ?>
+                        <span class="px-2.5 py-0.5 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium inline-block whitespace-nowrap">Khóa tạm (<?= $time_display ?>)</span>
                         <?php else: ?>
                         <span class="px-2.5 py-0.5 bg-green-100 text-green-800 rounded-full text-xs font-medium inline-block whitespace-nowrap">Hoạt động</span>
                         <?php endif; ?>
@@ -219,7 +225,7 @@ function renderStatCard($title, $value, $trendData, $icon, $colorClass, $bgColor
                                 <span class="material-symbols-outlined text-gray-600">edit</span>
                             </a>
                             <?php if ($user['user_id'] != $currentUserId): ?>
-                            <?php if (!$user['is_active'] || (!empty($user['locked_until']) && strtotime($user['locked_until']) > time())): ?>
+                            <?php if (!$user['is_active'] || (!empty($user['locked_until']) && $user['lockout_seconds'] > 0)): ?>
                             <a href="javascript:void(0)" onclick="toggleUserStatus(<?= $user['user_id'] ?>, 1)"
                                class="p-2 hover:bg-green-50 rounded-lg transition-colors" title="Mở khóa">
                                 <span class="material-symbols-outlined text-green-600">lock_open</span>

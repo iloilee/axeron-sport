@@ -70,15 +70,22 @@ function ajaxLogin($input) {
         return;
     }
 
-    if ($user['locked_until'] && $user['lockout_seconds'] > 0) {
-        $remaining = (int)$user['lockout_seconds'];
-        $mins = floor($remaining / 60);
-        $secs = $remaining % 60;
-        $timeStr = '';
-        if ($mins > 0) $timeStr .= $mins . ' phút ';
-        $timeStr .= $secs . ' giây';
-        echo json_encode(['success' => false, 'message' => 'Tài khoản bị khóa. Vui lòng thử lại sau ' . trim($timeStr), 'lockout_seconds' => $remaining]);
-        return;
+    if ($user['locked_until']) {
+        if ($user['lockout_seconds'] > 0) {
+            $remaining = (int)$user['lockout_seconds'];
+            $mins = floor($remaining / 60);
+            $secs = $remaining % 60;
+            $timeStr = '';
+            if ($mins > 0) $timeStr .= $mins . ' phút ';
+            $timeStr .= $secs . ' giây';
+            echo json_encode(['success' => false, 'message' => 'Tài khoản bị khóa. Vui lòng thử lại sau ' . trim($timeStr), 'lockout_seconds' => $remaining]);
+            return;
+        } else {
+            // Đã hết thời gian khóa, reset login_attempts
+            $db->update("UPDATE users SET login_attempts = 0, locked_until = NULL WHERE user_id = ?", [$user['user_id']]);
+            $user['login_attempts'] = 0;
+            $user['locked_until'] = null;
+        }
     }
 
     if (!password_verify($password, $user['password_hash'])) {

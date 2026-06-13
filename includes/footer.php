@@ -38,6 +38,12 @@ $socialZalo = $footerData['social_zalo'] ?? '#';
         <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-axeron-red text-white font-label-sm text-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Hỏi đáp AI</span>
     </button>
     
+    <!-- Tra cứu đơn hàng Button -->
+    <a aria-label="Tra cứu đơn hàng" class="w-12 h-12 flex items-center justify-center bg-[#FF9800] rounded-full text-white hover:scale-110 transition-transform shadow-md group relative" href="<?= BASE_URL ?>/shop/order-tracking.php">
+        <span class="material-symbols-outlined text-2xl">local_shipping</span>
+        <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-[#FF9800] text-white font-label-sm text-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Tra cứu đơn hàng</span>
+    </a>
+    
     <?php if (!empty($socialZalo) && $socialZalo !== '#'): ?>
     <a aria-label="Zalo" class="w-12 h-12 flex items-center justify-center bg-inverse-surface rounded-full text-white hover:scale-110 transition-transform shadow-md group relative" href="<?= htmlspecialchars($socialZalo) ?>" target="_blank">
         <span class="material-symbols-outlined text-2xl">chat</span>

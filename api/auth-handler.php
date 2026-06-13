@@ -45,10 +45,17 @@ if ($action === 'login') {
     }
 
     // Kiểm tra khóa
-    if ($user['locked_until'] && $user['lockout_seconds'] > 0) {
-        $_SESSION['lockout_remaining'] = (int)$user['lockout_seconds'];
-        setFlash('error', 'Tài khoản bị khóa.');
-        axRedirect(BASE_URL . '/auth/login.php');
+    if ($user['locked_until']) {
+        if ($user['lockout_seconds'] > 0) {
+            $_SESSION['lockout_remaining'] = (int)$user['lockout_seconds'];
+            setFlash('error', 'Tài khoản bị khóa.');
+            axRedirect(BASE_URL . '/auth/login.php');
+        } else {
+            // Đã hết thời gian khóa, reset login_attempts
+            $db->update("UPDATE users SET login_attempts = 0, locked_until = NULL WHERE user_id = ?", [$user['user_id']]);
+            $user['login_attempts'] = 0;
+            $user['locked_until'] = null;
+        }
     }
 
     // Kiểm tra mật khẩu
