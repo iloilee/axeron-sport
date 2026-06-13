@@ -212,13 +212,14 @@ if (isLoggedIn()) {
 
         <!-- Section: Sản phẩm nổi bật -->
         <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-surface-dim pb-4">
-                <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative">
+            <div class="flex flex-row justify-between items-center mb-8 border-b border-surface-dim pb-4 gap-2">
+                <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative shrink truncate">
                     Sản Phẩm Nổi Bật
                     <span class="absolute -bottom-4 left-0 w-1/2 h-1 bg-axeron-red"></span>
                 </h2>
-                <a class="hidden md:flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-red transition-colors" href="<?= BASE_URL ?>/shop/product-catalog.php">
-                    Xem tất cả <span class="material-symbols-outlined text-lg">chevron_right</span>
+                <a class="flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-red transition-colors shrink-0 whitespace-nowrap" href="<?= BASE_URL ?>/shop/product-catalog.php">
+                    <span class="hidden md:inline">Xem tất cả</span> 
+                    <span class="material-symbols-outlined text-xl md:text-lg bg-surface-container-high md:bg-transparent rounded-full p-1.5 md:p-0">chevron_right</span>
                 </a>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-gutter" id="featured-products">
@@ -268,14 +269,15 @@ if (isLoggedIn()) {
 
         <!-- Section: Giày Thể Thao -->
         <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 bg-surface-container-low md:bg-transparent rounded-2xl md:rounded-none">
-            <div class="flex flex-row justify-between items-center mb-6 border-b border-surface-dim pb-4">
-                <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative shrink-0">
+            <div class="flex flex-row justify-between items-center mb-6 border-b border-surface-dim pb-4 gap-2">
+                <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative shrink truncate">
                     Giày Thể Thao
                     <span class="absolute -bottom-4 left-0 w-1/2 h-1 bg-axeron-red"></span>
                 </h2>
                 
                 <a class="flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-red transition-colors shrink-0 whitespace-nowrap" href="<?= BASE_URL ?>/shop/product-catalog.php?category=giay-the-thao" id="shoes-view-all">
-                    Xem tất cả <span class="material-symbols-outlined text-lg">chevron_right</span>
+                    <span class="hidden md:inline">Xem tất cả</span> 
+                    <span class="material-symbols-outlined text-xl md:text-lg bg-surface-container-high md:bg-transparent rounded-full p-1.5 md:p-0">chevron_right</span>
                 </a>
             </div>
             
@@ -336,16 +338,17 @@ if (isLoggedIn()) {
         <!-- Section: Gợi ý cá nhân hóa -->
         <?php if (!empty($recommendedProducts)): ?>
         <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-surface-dim pb-4">
-                <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-axeron-red text-3xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
-                    <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative">
+            <div class="flex flex-row justify-between items-center mb-8 border-b border-surface-dim pb-4 gap-2">
+                <div class="flex items-center gap-2 shrink truncate">
+                    <span class="material-symbols-outlined text-axeron-red text-2xl md:text-3xl shrink-0" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                    <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative truncate">
                         <?= htmlspecialchars($recoTitle) ?>
                         <span class="absolute -bottom-4 left-0 w-1/2 h-1 bg-gradient-to-r from-axeron-red to-axeron-blue"></span>
                     </h2>
                 </div>
-                <a class="hidden md:flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-red transition-colors" href="<?= BASE_URL ?>/shop/product-catalog.php">
-                    Xem tất cả <span class="material-symbols-outlined text-lg">chevron_right</span>
+                <a class="flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-red transition-colors shrink-0 whitespace-nowrap" href="<?= BASE_URL ?>/shop/product-catalog.php">
+                    <span class="hidden md:inline">Xem tất cả</span> 
+                    <span class="material-symbols-outlined text-xl md:text-lg bg-surface-container-high md:bg-transparent rounded-full p-1.5 md:p-0">chevron_right</span>
                 </a>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-gutter" id="recommended-products">
@@ -396,13 +399,14 @@ if (isLoggedIn()) {
 
         <!-- Latest News / Articles -->
         <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16 md:py-24">
-            <div class="flex justify-between items-end mb-12">
-                <div class="flex flex-col">
-                    <span class="text-axeron-red font-label-lg uppercase tracking-widest mb-2">Cập nhật xu hướng</span>
-                    <h2 class="font-headline-lg text-headline-lg uppercase">Tin Tức Mới Nhất</h2>
+            <div class="flex flex-row justify-between items-end mb-12 gap-2">
+                <div class="flex flex-col shrink truncate">
+                    <span class="text-axeron-red font-label-sm md:font-label-lg uppercase tracking-widest mb-1 md:mb-2 truncate">Cập nhật xu hướng</span>
+                    <h2 class="font-headline-md md:font-headline-lg text-headline-md md:text-headline-lg uppercase truncate">Tin Tức Mới Nhất</h2>
                 </div>
-                <a class="font-label-lg text-on-surface-variant hover:text-axeron-red flex items-center gap-1" href="<?= BASE_URL ?>/blog/news.php">
-                    Xem toàn bộ tin <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                <a class="flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-red shrink-0 whitespace-nowrap mb-1" href="<?= BASE_URL ?>/blog/news.php">
+                    <span class="hidden md:inline">Xem toàn bộ tin</span> 
+                    <span class="material-symbols-outlined text-xl md:text-lg bg-surface-container-high md:bg-transparent rounded-full p-1.5 md:p-0">arrow_forward</span>
                 </a>
             </div>
             <div class="relative overflow-hidden w-full group" id="news-slider-wrapper">
