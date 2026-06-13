@@ -163,7 +163,7 @@ if (isLoggedIn()) {
                 }
             }
         </style>
-        <section class="max-w-container-max mx-auto px-margin-desktop py-12 md:py-16 overflow-hidden">
+        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-16 overflow-hidden">
             <div class="-mx-[12px]"> <!-- Removed flex to prevent shrinking -->
                 <div class="img-marquee-wrapper">
                     <!-- Original 3 -->
@@ -209,7 +209,7 @@ if (isLoggedIn()) {
         </section>
 
         <!-- Section: Sản phẩm nổi bật -->
-        <section class="max-w-container-max mx-auto px-margin-desktop py-12">
+        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
             <div class="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-surface-dim pb-4">
                 <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative">
                     Sản Phẩm Nổi Bật
@@ -262,7 +262,7 @@ if (isLoggedIn()) {
         </section>
 
         <!-- Section: Giày Thể Thao -->
-        <section class="max-w-container-max mx-auto px-margin-desktop py-12 bg-surface-container-low md:bg-transparent rounded-2xl md:rounded-none">
+        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 bg-surface-container-low md:bg-transparent rounded-2xl md:rounded-none">
             <div class="flex flex-row justify-between items-center mb-6 border-b border-surface-dim pb-4">
                 <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative shrink-0">
                     Giày Thể Thao
@@ -327,7 +327,7 @@ if (isLoggedIn()) {
 
         <!-- Section: Gợi ý cá nhân hóa -->
         <?php if (!empty($recommendedProducts)): ?>
-        <section class="max-w-container-max mx-auto px-margin-desktop py-12">
+        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
             <div class="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-surface-dim pb-4">
                 <div class="flex items-center gap-3">
                     <span class="material-symbols-outlined text-axeron-red text-3xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
@@ -391,7 +391,7 @@ if (isLoggedIn()) {
         <?php endif; ?>
 
         <!-- Latest News / Articles -->
-        <section class="max-w-container-max mx-auto px-margin-desktop py-16 md:py-24">
+        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16 md:py-24">
             <div class="flex justify-between items-end mb-12">
                 <div class="flex flex-col">
                     <span class="text-axeron-red font-label-lg uppercase tracking-widest mb-2">Cập nhật xu hướng</span>
