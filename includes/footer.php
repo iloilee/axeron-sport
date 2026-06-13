@@ -24,7 +24,7 @@ $contactEmail = $footerData['contact_email'] ?? 'contact@axeron.vn';
 $contactAddress = $footerData['contact_address'] ?? '';
 $workHours = $footerData['contact_work_hours'] ?? '08:30 - 21:30';
 $footerAbout = $footerData['footer_about'] ?? 'Hệ thống cung cấp dụng cụ và thời trang thể thao chuyên nghiệp hàng đầu.';
-$footerCopyright = '© 2026 Axeron Sport. Developed by Le Huu Loi';
+$footerCopyright = '© 2026 Axeron Sport - Developed by Le Huu Loi';
 $socialFacebook = $footerData['social_facebook'] ?? '#';
 $socialYoutube = $footerData['social_youtube'] ?? '#';
 $socialInstagram = $footerData['social_instagram'] ?? '#';
@@ -413,4 +413,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 <?php endif; ?>
+</script>
+
+<!-- AOS Library -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                once: true, // whether animation should happen only once - while scrolling down
+                offset: 50, // offset (in px) from the original trigger point
+                duration: 800, // values from 0 to 3000, with step 50ms
+                easing: 'ease-out-cubic', // default easing for AOS animations
+            });
+        }
+    });
 </script>

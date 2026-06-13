@@ -60,6 +60,9 @@ $banners = $db->select("
     LIMIT 6
 ");
 
+// Load active brands for carousel
+$activeBrands = $db->select("SELECT brand_id, brand_name, logo_url FROM brands WHERE is_active = 1 LIMIT 12");
+
 // Load articles/news dynamically
 $articles = $db->select("
     SELECT article_id, title, slug, excerpt, featured_image, category, published_at
@@ -210,8 +213,30 @@ if (isLoggedIn()) {
             </div>
         </section>
 
+        <!-- Section: Thương Hiệu Nổi Bật -->
+        <?php if (!empty($activeBrands)): ?>
+        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12" data-aos="fade-up">
+            <h2 class="font-label-lg md:font-headline-sm text-center text-on-surface-variant uppercase tracking-widest mb-6 md:mb-8">Thương Hiệu Đồng Hành</h2>
+            <div class="relative w-full bg-surface-container-lowest py-2 md:py-4 rounded-2xl shadow-sm border border-outline-variant">
+                <div class="flex gap-8 md:gap-16 items-center overflow-x-auto overflow-y-hidden snap-x px-8 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                    <?php foreach ($activeBrands as $brand): ?>
+                    <a href="<?= BASE_URL ?>/shop/product-catalog.php?brand=<?= urlencode($brand['brand_name']) ?>" class="flex-shrink-0 snap-center opacity-50 hover:opacity-100 grayscale hover:grayscale-0 transition-all duration-500 hover:scale-110">
+                        <?php if (!empty($brand['logo_url'])): ?>
+                            <img src="<?= htmlspecialchars(getImageUrl($brand['logo_url'], '')) ?>" alt="<?= htmlspecialchars($brand['brand_name']) ?>" class="h-10 md:h-14 object-contain" />
+                        <?php else: ?>
+                            <div class="h-10 md:h-14 flex items-center justify-center font-headline-sm md:font-headline-md text-on-background font-black tracking-tighter italic">
+                                <?= strtoupper($brand['brand_name']) ?>
+                            </div>
+                        <?php endif; ?>
+                    </a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </section>
+        <?php endif; ?>
+
         <!-- Section: Sản phẩm nổi bật -->
-        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
+        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12" data-aos="fade-up">
             <div class="flex flex-row justify-between items-center mb-8 border-b border-surface-dim pb-4 gap-2">
                 <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative shrink truncate">
                     Sản Phẩm Nổi Bật
@@ -223,12 +248,14 @@ if (isLoggedIn()) {
                 </a>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-gutter" id="featured-products">
-                <?php foreach ($featuredProducts as $product): ?>
+                <?php $delay = 0; foreach ($featuredProducts as $product): ?>
                 <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
+                    data-aos="fade-up" data-aos-delay="<?= $delay ?>"
                     class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col relative">
+                    <?php $delay += 50; ?>
                     <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
                         <?php if ($product['is_featured'] ?? false): ?>
-                        <span class="absolute top-2 left-2 bg-axeron-red text-white font-label-sm text-label-sm px-2 py-1 rounded-full uppercase z-10">Nổi bật</span>
+                        <span class="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_10px_rgba(239,68,68,0.5)] text-white font-label-sm text-label-sm px-3 py-1 rounded-full uppercase tracking-wider z-10">Nổi bật</span>
                         <?php endif; ?>
                         <?php
                         $isFav = isLoggedIn() && in_array($product['product_id'], $userWishlistIds);
@@ -243,6 +270,14 @@ if (isLoggedIn()) {
                         <img alt="<?= htmlspecialchars($product['product_name']) ?>"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
+                        
+                        <!-- Quick Add Overlay -->
+                        <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-20 flex justify-center">
+                            <button class="bg-on-surface/90 backdrop-blur-sm hover:bg-axeron-red text-white font-label-md text-label-md px-6 py-2.5 rounded-full shadow-lg transition-all flex items-center gap-2 hover:scale-105 w-[90%] justify-center" onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?= $product['product_id'] ?>, 0, 1)">
+                                <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                                Mua Ngay
+                            </button>
+                        </div>
                     </div>
                     <div class="p-4 flex flex-col flex-grow">
                         <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors">
@@ -256,7 +291,7 @@ if (isLoggedIn()) {
                                     <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
                                     <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($product['base_price']) ?></span>
                                 </div>
-                                <span class="text-[10px] bg-axeron-red text-white px-1.5 py-0.5 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                                <span class="text-[10px] bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-2 py-0.5 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
                             <?php else: ?>
                                 <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($product['base_price']) ?></span>
                             <?php endif; ?>
@@ -268,7 +303,7 @@ if (isLoggedIn()) {
         </section>
 
         <!-- Section: Giày Thể Thao -->
-        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 bg-surface-container-low md:bg-transparent rounded-2xl md:rounded-none">
+        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 bg-surface-container-low md:bg-transparent rounded-2xl md:rounded-none" data-aos="fade-up">
             <div class="flex flex-row justify-between items-center mb-6 border-b border-surface-dim pb-4 gap-2">
                 <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative shrink truncate">
                     Giày Thể Thao
@@ -295,7 +330,7 @@ if (isLoggedIn()) {
                     class="shoe-item <?= htmlspecialchars($product['category_slug']) ?> hidden group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex-col relative">
                     <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
                         <?php if ($product['is_featured'] ?? false): ?>
-                        <span class="absolute top-2 left-2 bg-axeron-red text-white font-label-sm text-label-sm px-2 py-1 rounded-full uppercase z-10">Nổi bật</span>
+                        <span class="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_10px_rgba(239,68,68,0.5)] text-white font-label-sm text-label-sm px-3 py-1 rounded-full uppercase tracking-wider z-10">Nổi bật</span>
                         <?php endif; ?>
                         <?php
                         $isFav = isLoggedIn() && in_array($product['product_id'], $userWishlistIds);
@@ -310,6 +345,14 @@ if (isLoggedIn()) {
                         <img alt="<?= htmlspecialchars($product['product_name']) ?>"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
+                        
+                        <!-- Quick Add Overlay -->
+                        <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-20 flex justify-center">
+                            <button class="bg-on-surface/90 backdrop-blur-sm hover:bg-axeron-red text-white font-label-md text-label-md px-6 py-2.5 rounded-full shadow-lg transition-all flex items-center gap-2 hover:scale-105 w-[90%] justify-center" onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?= $product['product_id'] ?>, 0, 1)">
+                                <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                                Mua Ngay
+                            </button>
+                        </div>
                     </div>
                     <div class="p-4 flex flex-col flex-grow">
                         <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors">
@@ -323,7 +366,7 @@ if (isLoggedIn()) {
                                     <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
                                     <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($product['base_price']) ?></span>
                                 </div>
-                                <span class="text-[10px] bg-axeron-red text-white px-1.5 py-0.5 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                                <span class="text-[10px] bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-2 py-0.5 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
                             <?php else: ?>
                                 <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($product['base_price']) ?></span>
                             <?php endif; ?>
@@ -337,7 +380,7 @@ if (isLoggedIn()) {
 
         <!-- Section: Gợi ý cá nhân hóa -->
         <?php if (!empty($recommendedProducts)): ?>
-        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
+        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12" data-aos="fade-up">
             <div class="flex flex-row justify-between items-center mb-8 border-b border-surface-dim pb-4 gap-2">
                 <div class="flex items-center gap-2 shrink truncate">
                     <span class="material-symbols-outlined text-axeron-red text-2xl md:text-3xl shrink-0" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
@@ -352,12 +395,14 @@ if (isLoggedIn()) {
                 </a>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-gutter" id="recommended-products">
-                <?php foreach ($recommendedProducts as $rProduct): ?>
+                <?php $delay = 0; foreach ($recommendedProducts as $rProduct): ?>
                 <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($rProduct['slug']) ?>"
+                    data-aos="fade-up" data-aos-delay="<?= $delay ?>"
                     class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col relative">
+                    <?php $delay += 50; ?>
                     <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
                         <?php if ($rProduct['is_featured'] ?? false): ?>
-                        <span class="absolute top-2 left-2 bg-axeron-red text-white font-label-sm text-label-sm px-2 py-1 rounded-full uppercase z-10">Nổi bật</span>
+                        <span class="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_10px_rgba(239,68,68,0.5)] text-white font-label-sm text-label-sm px-3 py-1 rounded-full uppercase tracking-wider z-10">Nổi bật</span>
                         <?php endif; ?>
                         <?php
                         $isFav = isLoggedIn() && in_array($rProduct['product_id'], $userWishlistIds);
@@ -372,6 +417,14 @@ if (isLoggedIn()) {
                         <img alt="<?= htmlspecialchars($rProduct['product_name']) ?>"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             src="<?= htmlspecialchars(getImageUrl($rProduct['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($rProduct['product_name'], 0, 20)))) ?>"/>
+                            
+                        <!-- Quick Add Overlay -->
+                        <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-20 flex justify-center">
+                            <button class="bg-on-surface/90 backdrop-blur-sm hover:bg-axeron-red text-white font-label-md text-label-md px-6 py-2.5 rounded-full shadow-lg transition-all flex items-center gap-2 hover:scale-105 w-[90%] justify-center" onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?= $rProduct['product_id'] ?>, 0, 1)">
+                                <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                                Mua Ngay
+                            </button>
+                        </div>
                     </div>
                     <div class="p-4 flex flex-col flex-grow">
                         <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors">
@@ -385,7 +438,7 @@ if (isLoggedIn()) {
                                     <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
                                     <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($rProduct['base_price']) ?></span>
                                 </div>
-                                <span class="text-[10px] bg-axeron-red text-white px-1.5 py-0.5 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                                <span class="text-[10px] bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-2 py-0.5 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
                             <?php else: ?>
                                 <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($rProduct['base_price']) ?></span>
                             <?php endif; ?>
@@ -398,7 +451,7 @@ if (isLoggedIn()) {
         <?php endif; ?>
 
         <!-- Latest News / Articles -->
-        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16 md:py-24">
+        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16 md:py-24" data-aos="fade-up">
             <div class="flex flex-row justify-between items-end mb-12 gap-2">
                 <div class="flex flex-col shrink truncate">
                     <span class="text-axeron-red font-label-sm md:font-label-lg uppercase tracking-widest mb-1 md:mb-2 truncate">Cập nhật xu hướng</span>
@@ -411,9 +464,11 @@ if (isLoggedIn()) {
             </div>
             <div class="relative overflow-hidden w-full group" id="news-slider-wrapper">
                 <div class="flex gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-4 transition-transform duration-300 ease-out" id="news-slider">
-                    <?php foreach ($articles as $article): ?>
+                    <?php $delay = 0; foreach ($articles as $article): ?>
                     <a href="<?= BASE_URL ?>/blog/news.php?slug=<?= htmlspecialchars($article['slug']) ?>"
+                        data-aos="fade-up" data-aos-delay="<?= $delay ?>"
                         class="flex-shrink-0 w-[85vw] sm:w-[350px] snap-center group/card border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col">
+                        <?php $delay += 100; ?>
                         <div class="aspect-[16/10] bg-surface-container-low overflow-hidden">
                             <img alt="<?= htmlspecialchars($article['title']) ?>"
                                 class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500"
@@ -452,7 +507,7 @@ if (isLoggedIn()) {
         </section>
 
         <!-- Info Sections -->
-        <section class="relative py-20 md:py-24 bg-center bg-cover" style="background-image: url('https://images.unsplash.com/photo-1508344928928-7137b29de216?q=80&w=1920&auto=format&fit=crop');">
+        <section class="relative py-20 md:py-24 bg-center bg-cover" data-aos="fade-up" style="background-image: url('https://images.unsplash.com/photo-1508344928928-7137b29de216?q=80&w=1920&auto=format&fit=crop');">
             <!-- Lớp phủ trắng mờ để nổi bật nội dung chữ -->
             <div class="absolute inset-0 bg-[#fcf9f8]/90 backdrop-blur-[2px]"></div>
             
