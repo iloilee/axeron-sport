@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 13, 2026 lúc 09:17 PM
+-- Thời gian đã tạo: Th6 14, 2026 lúc 12:39 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -57,7 +57,7 @@ CREATE TABLE `articles` (
 INSERT INTO `articles` (`article_id`, `title`, `slug`, `excerpt`, `content`, `featured_image`, `category`, `tags`, `author_id`, `author_name`, `is_featured`, `is_published`, `published_at`, `view_count`, `meta_title`, `meta_description`, `meta_keywords`, `sort_order`, `created_at`, `updated_at`) VALUES
 (1, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024', 'top-10-giay-chay-bo-2024', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024 với công nghệ tiên tiến nhất.', '<h2>Giới thiệu</h2><p>Năm 2024 hứa hẹn là năm của những đôi giày chạy bộ công nghệ cao với nhiều cải tiến vượt bậc. Dưới đây là top 10 sản phẩm đáng mua nhất.</p><h2>1. Nike Alphafly 3</h2><p>Đôi giày định hình lại ngành giày chạy bộ với công nghệ ZoomX foam và Air Zoom pods.</p><h2>2. Adidas Ultraboost Light</h2><p>Phiên bản nhẹ hơn, êm hơn với Boost foam thế hệ mới.</p>', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', 'blog', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 2, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024 | Axeron Sport', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024.', NULL, 0, '2026-06-05 12:54:12', '2026-06-10 00:30:45'),
 (2, 'Hướng Dẫn Chọn Size Giày Thể Thao', 'huong-dan-chon-size-giay', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ, mẹo đo chân tại nhà để chọn được đôi giày vừa vặn.', '<h2>Tại sao chọn đúng size quan trọng?</h2><p>Giày vừa vặn giúp bạn thoải mái khi vận động, tránh chấn thương và tối ưu hiệu suất tập luyện.</p><h2>Cách đo chân</h2><p>1. Đứng lên tờ giấy và vẽ viền chân<br>2. Đo khoảng cách từ gót đến ngón dài nhất<br>3. Cộng thêm 0.5-1cm để có không gian thoải mái</p>', 'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=800&auto=format&fit=crop', 'guide', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 3, 'Hướng Dẫn Chọn Size Giày Thể Thao | Axeron Sport', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ.', NULL, 0, '2026-06-05 12:54:12', '2026-06-10 00:30:45'),
-(3, 'Axeron Khai Trương Cửa Hàng Mới', 'axeron-khai-truong-cua-hang-moi', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi hấp dẫn dành cho khách hàng.', '<h2>Grand Opening Event</h2><p>Axeron Sport hân hạnh thông báo khai trương cửa hàng mới tại 456 Nguyễn Thị Thập, Quận 7, TP.HCM.</p><h2>Ưu đãi khai trương</h2><ul><li>Giảm 20% toàn bộ sản phẩm</li><li>Miễn phí vận chuyển cho đơn từ 500K</li><li>Tặng voucher 200K cho 100 khách hàng đầu tiên</li></ul>', 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=800&auto=format&fit=crop', 'announcement', NULL, NULL, 'Axeron Team', 0, 1, '2026-06-05 12:54:12', 0, 'Axeron Khai Trương Cửa Hàng Mới | Axeron Sport', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi.', NULL, 0, '2026-06-05 12:54:12', '2026-06-10 00:30:45'),
+(3, 'Axeron Khai Trương Cửa Hàng Mới', 'axeron-khai-truong-cua-hang-moi', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi hấp dẫn dành cho khách hàng.', '<h2>Grand Opening Event</h2><p>Axeron Sport hân hạnh thông báo khai trương cửa hàng mới tại 456 Nguyễn Thị Thập, Quận 7, TP.HCM.</p><h2>Ưu đãi khai trương</h2><ul><li>Giảm 20% toàn bộ sản phẩm</li><li>Miễn phí vận chuyển cho đơn từ 500K</li><li>Tặng voucher 200K cho 100 khách hàng đầu tiên</li></ul>', 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=800&auto=format&fit=crop', 'announcement', NULL, NULL, 'Axeron Team', 0, 1, '2026-06-05 12:54:12', 1, 'Axeron Khai Trương Cửa Hàng Mới | Axeron Sport', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi.', NULL, 0, '2026-06-05 12:54:12', '2026-06-14 05:01:10'),
 (4, 'Sân vận động', 'stadiums', 'Khám phá các dự án sân vận động tiêu chuẩn quốc tế mà Axeron đã tham gia thi công và cung cấp trang thiết bị.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 0, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-10 00:25:12'),
 (5, 'Nhà thi đấu', 'arenas', 'Các dự án nhà thi đấu đa năng được trang bị hệ thống ánh sáng, âm thanh và sàn gỗ thể thao cao cấp từ Axeron.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 0, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-10 00:25:12'),
 (6, 'Đồng phục học sinh - sinh viên', 'school-uniforms', 'Thiết kế và sản xuất đồng phục thể dục, đồng phục lớp cho các trường đại học và phổ thông trên toàn quốc.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 0, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-10 00:25:12'),
@@ -260,7 +260,7 @@ INSERT INTO `categories` (`category_id`, `parent_id`, `category_name`, `slug`, `
 (315, 318, 'Giày Pickleball', 'giay-pickleball', NULL, NULL, 0, 1, '2026-06-10 00:10:10', '2026-06-10 00:15:37'),
 (316, 318, 'Giày cầu lông', 'giay-cau-long', NULL, NULL, 0, 1, '2026-06-10 00:10:10', '2026-06-10 00:15:37'),
 (317, 318, 'Giày chạy bộ', 'giay-chay-bo', NULL, NULL, 0, 1, '2026-06-10 00:10:10', '2026-06-10 00:15:37'),
-(318, NULL, 'Giày Thể Thao', 'giay-the-thao', NULL, NULL, 45, 1, '2026-06-10 00:15:37', '2026-06-10 00:18:48'),
+(318, NULL, 'Giày', 'giay-the-thao', '', NULL, 45, 1, '2026-06-10 00:15:37', '2026-06-14 03:36:34'),
 (319, 12, 'Bộ Suvec Nam', 'bo-suvec-nam', NULL, NULL, 1, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
 (320, 12, 'Bộ Bóng Đá Nam', 'bo-bong-da-nam', NULL, NULL, 2, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
 (321, 12, 'Bộ Cầu Lông Nam', 'bo-cau-long-nam', NULL, NULL, 3, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
@@ -408,33 +408,33 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `order_code`, `user_id`, `shipping_id`, `shipping_method_id`, `promo_id`, `recipient_name`, `recipient_phone`, `recipient_email`, `guest_token`, `shipping_address`, `subtotal`, `discount_amount`, `shipping_fee`, `total_amount`, `order_status`, `payment_method`, `payment_status`, `note`, `created_at`, `updated_at`) VALUES
-(1, 'ORD-000001', 12, 1, 1, 1, 'Nguyễn Văn An', '0912345678', NULL, NULL, '12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP HCM', 890000.00, 50000.00, 0.00, 840000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
+(1, 'ORD-000001', 12, 1, 1, NULL, 'Nguyễn Văn An', '0912345678', NULL, NULL, '12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP HCM', 890000.00, 50000.00, 0.00, 840000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
 (2, 'ORD-000002', 8, 2, 1, NULL, 'Trần Thị Bích', '0923456789', NULL, NULL, '45 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP HCM', 4500000.00, 0.00, 50000.00, 4550000.00, 'shipped', 'vnpay', 'paid', 'Giao hàng giờ hành chính', '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
-(3, 'ORD-000003', 9, 1, 1, 2, 'Lê Minh Cường', '0934567890', NULL, NULL, '88 Trần Thái Tông, Phường Dịch Vọng, Cầu Giấy, Hà Nội', 2900000.00, 100000.00, 0.00, 2800000.00, 'confirmed', 'bank_transfer', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
+(3, 'ORD-000003', 9, 1, 1, NULL, 'Lê Minh Cường', '0934567890', NULL, NULL, '88 Trần Thái Tông, Phường Dịch Vọng, Cầu Giấy, Hà Nội', 2900000.00, 100000.00, 0.00, 2800000.00, 'confirmed', 'bank_transfer', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
 (4, 'ORD-000004', 10, 3, 1, NULL, 'Phạm Thị Dung', '0945678901', NULL, NULL, '23 Trần Phú, Phường Hải Châu 1, Hải Châu, Đà Nẵng', 1200000.00, 0.00, 80000.00, 1280000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-12 22:12:00'),
-(5, 'ORD-000005', 11, 2, 1, 3, 'Hoàng Văn Em', '0956789012', NULL, NULL, '5 Nguyễn Văn Linh, Phường Tân Phong, Quận 7, TP HCM', 680000.00, 50000.00, 0.00, 630000.00, 'delivered', 'momo', 'paid', 'Giao trước 18h', '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
+(5, 'ORD-000005', 11, 2, 1, NULL, 'Hoàng Văn Em', '0956789012', NULL, NULL, '5 Nguyễn Văn Linh, Phường Tân Phong, Quận 7, TP HCM', 680000.00, 50000.00, 0.00, 630000.00, 'delivered', 'momo', 'paid', 'Giao trước 18h', '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
 (6, 'ORD-000006', 12, 1, 1, NULL, 'Nguyễn Văn An', '0912345678', NULL, NULL, '12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP HCM', 3200000.00, 0.00, 0.00, 3200000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
 (7, 'ORD-000007', 13, 2, 1, NULL, 'Nguyễn Thị Phương', '0967890123', NULL, NULL, '100 Võ Văn Ngân, Phường Linh Trung, Thủ Đức, TP HCM', 1570000.00, 0.00, 50000.00, 1620000.00, 'processing', 'vnpay', 'paid', NULL, '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
-(8, 'ORD-000008', 8, 1, 1, 1, 'Trần Thị Bích', '0923456789', NULL, NULL, '45 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP HCM', 750000.00, 50000.00, 0.00, 700000.00, 'cancelled', 'cod', 'unpaid', 'Khách hủy vì sai size', '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
-(16, 'ORD-000016', 1, 2, 1, 6, 'Quản Trị Viên', '0123456789', NULL, NULL, '77/5a phường 4 tpvl, , , Vĩnh Long', 4500000.00, 225000.00, 0.00, 4275000.00, 'cancelled', 'cod', 'refunded', '', '2026-06-05 16:08:26', '2026-06-11 03:14:41'),
-(17, 'ORD-000017', 1, 14, 1, 6, 'Quản Trị Viên', '0123456789', NULL, NULL, '77/5a phường 4 tpvl, , , Bình Dương', 4500000.00, 225000.00, 25000.00, 4300000.00, 'delivered', 'bank_transfer', 'paid', '', '2026-06-05 16:33:17', '2026-06-11 03:14:41'),
-(20, 'ORD-000020', 2, 1, 3, 1, 'Tester User', '0987654321', NULL, NULL, '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 1680000.00, 100000.00, 0.00, 1580000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 01:56:28', '2026-06-11 03:14:41'),
+(8, 'ORD-000008', 8, 1, 1, NULL, 'Trần Thị Bích', '0923456789', NULL, NULL, '45 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP HCM', 750000.00, 50000.00, 0.00, 700000.00, 'cancelled', 'cod', 'unpaid', 'Khách hủy vì sai size', '2026-05-29 19:17:55', '2026-06-11 03:14:41'),
+(16, 'ORD-000016', 1, 2, 1, NULL, 'Quản Trị Viên', '0123456789', NULL, NULL, '77/5a phường 4 tpvl, , , Vĩnh Long', 4500000.00, 225000.00, 0.00, 4275000.00, 'cancelled', 'cod', 'refunded', '', '2026-06-05 16:08:26', '2026-06-11 03:14:41'),
+(17, 'ORD-000017', 1, 14, 1, NULL, 'Quản Trị Viên', '0123456789', NULL, NULL, '77/5a phường 4 tpvl, , , Bình Dương', 4500000.00, 225000.00, 25000.00, 4300000.00, 'delivered', 'bank_transfer', 'paid', '', '2026-06-05 16:33:17', '2026-06-11 03:14:41'),
+(20, 'ORD-000020', 2, 1, 3, NULL, 'Tester User', '0987654321', NULL, NULL, '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 1680000.00, 100000.00, 0.00, 1580000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 01:56:28', '2026-06-11 03:14:41'),
 (21, 'ORD-000021', 2, 1, 1, NULL, 'Tester User', '0987654321', NULL, NULL, '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3300000.00, 0.00, 0.00, 3300000.00, 'delivered', 'bank_transfer', 'unpaid', '', '2026-06-11 02:02:11', '2026-06-11 23:03:31'),
 (22, 'ORD-000022', 2, 1, 2, NULL, 'Tester User', '0987654321', NULL, NULL, '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 1170000.00, 0.00, 35000.00, 1205000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 02:10:46', '2026-06-11 03:14:41'),
 (23, 'ORD-2B5F71', NULL, 7, 1, NULL, 'Guest Tester', '0901234567', 'guest@example.com', '03b5c61831f9b657e798be62a1eca990', '123 Guest Street, , , Bà Rịa - Vũng Tàu', 160000.00, 0.00, 35000.00, 195000.00, 'cancelled', 'cod', 'unpaid', '', '2026-06-11 03:20:09', '2026-06-11 22:57:24'),
 (24, 'ORD-E81C83', NULL, 11, 1, NULL, 'khach vang lai', '0987912342', 'guest@gmail.com', 'a88b452293120863fce434c3cd11789e', 'Tam Bình, , , Bắc Ninh', 2000000.00, 0.00, 0.00, 2000000.00, 'confirmed', 'cod', 'unpaid', '', '2026-06-11 22:01:58', '2026-06-11 22:57:15'),
 (25, 'ORD-478360', NULL, 61, 2, NULL, 'khach van lai 2', '0987654333', 'vanglai2@gmail.com', '50aae7b27431865f8ce289ef3abefa7f', '6/71 Nguyễn Huệ, , Huyện Trà Ôn, Vĩnh Long', 890000.00, 0.00, 40000.00, 930000.00, 'processing', 'cod', 'refunded', '', '2026-06-11 22:53:18', '2026-06-11 22:59:46'),
 (26, 'ORD-F6D4D0', 2, 1, 1, NULL, 'Bug', '0987654321', '', '74c772bce67e10207be806715d4da1ad', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 2003000.00, 0.00, 0.00, 2003000.00, 'pending', 'payos', 'unpaid', '', '2026-06-11 23:40:05', '2026-06-12 10:56:14'),
-(27, 'ORD-7A70FA', 2, 1, 2, 7, 'Bug', '0987654321', '', '56bdf4aeb8c3778bebb3791a8ea092ea', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 23:46:05', '2026-06-11 23:46:05'),
-(28, 'ORD-0BD226', 2, 1, 2, 7, 'Bug', '0987654321', '', 'afbcacfef26b531db7314cae38ba0e7d', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'cancelled', 'payos', 'unpaid', '', '2026-06-11 23:47:45', '2026-06-12 10:56:14'),
-(29, 'ORD-037718', 2, 1, 2, 7, 'Bug', '0987654321', '', '4420568facd9fa393f9b1db5d8e54492', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'cancelled', 'payos', 'unpaid', '', '2026-06-11 23:53:00', '2026-06-12 10:56:14'),
-(30, 'ORD-39C77C', 2, 1, 1, 7, 'Bug', '0987654321', '', '5f9c1b2cdc890502e20fdfb1e0e55d5e', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 15000.00, 35000.00, 20000.00, 0.00, 'cancelled', 'cod', 'unpaid', '', '2026-06-12 10:29:03', '2026-06-12 10:29:37'),
-(31, 'ORD-C04CC7', 2, 51, 1, 7, 'Bug', '0987654321', '', '5cad99fa3a25bcaa22726a6ef1e55a23', '6/21 Huỳnh Tấn Phát, , Huyện Long Phú, Sóc Trăng', 3000.00, 35000.00, 35000.00, 3000.00, 'pending', 'payos', 'paid', '', '2026-06-12 21:45:05', '2026-06-12 21:50:00'),
-(32, 'ORD-CA62D5', 2, 1, 2, 7, 'Bug', '0987654321', '', '616dbcd74003072cc1edaa313b6eeb20', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'pending', 'payos', 'unpaid', '', '2026-06-12 21:52:59', '2026-06-12 21:52:59'),
-(33, 'ORD-C1808E', 2, 1, 2, 7, 'Bug', '0987654321', '', '1a50e4122371386e1a4f5bd91822eeee', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'pending', 'payos', 'unpaid', '', '2026-06-12 21:53:45', '2026-06-12 21:53:45'),
-(50000, 'ORD-4C1599', 2, 1, 2, 7, 'Bug', '0987654321', '', '0ce0a5f3da2b4039dfb4e869c44dd3c3', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'cancelled', 'payos', 'unpaid', '', '2026-06-12 22:10:57', '2026-06-12 22:22:29'),
-(50001, 'ORD-13523F', 2, 1, 2, 7, 'Bug', '0987654321', '', '20f94ea939bfbf98d3857d27ecd0ac04', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 20000.00, 35000.00, 35000.00, 20000.00, 'pending', 'payos', 'paid', '', '2026-06-12 22:24:01', '2026-06-12 22:24:33'),
-(50002, 'ORD-860E2B', 2, 1, 2, 7, 'Bug', '0987654321', '', '84fdd338d5e2b2828baa82fb3b239d68', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'pending', 'payos', 'paid', 'day la ghi chu', '2026-06-12 22:34:12', '2026-06-12 22:34:44'),
+(27, 'ORD-7A70FA', 2, 1, 2, NULL, 'Bug', '0987654321', '', '56bdf4aeb8c3778bebb3791a8ea092ea', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 23:46:05', '2026-06-11 23:46:05'),
+(28, 'ORD-0BD226', 2, 1, 2, NULL, 'Bug', '0987654321', '', 'afbcacfef26b531db7314cae38ba0e7d', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'cancelled', 'payos', 'unpaid', '', '2026-06-11 23:47:45', '2026-06-12 10:56:14'),
+(29, 'ORD-037718', 2, 1, 2, NULL, 'Bug', '0987654321', '', '4420568facd9fa393f9b1db5d8e54492', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'cancelled', 'payos', 'unpaid', '', '2026-06-11 23:53:00', '2026-06-12 10:56:14'),
+(30, 'ORD-39C77C', 2, 1, 1, NULL, 'Bug', '0987654321', '', '5f9c1b2cdc890502e20fdfb1e0e55d5e', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 15000.00, 35000.00, 20000.00, 0.00, 'cancelled', 'cod', 'unpaid', '', '2026-06-12 10:29:03', '2026-06-12 10:29:37'),
+(31, 'ORD-C04CC7', 2, 51, 1, NULL, 'Bug', '0987654321', '', '5cad99fa3a25bcaa22726a6ef1e55a23', '6/21 Huỳnh Tấn Phát, , Huyện Long Phú, Sóc Trăng', 3000.00, 35000.00, 35000.00, 3000.00, 'pending', 'payos', 'paid', '', '2026-06-12 21:45:05', '2026-06-12 21:50:00'),
+(32, 'ORD-CA62D5', 2, 1, 2, NULL, 'Bug', '0987654321', '', '616dbcd74003072cc1edaa313b6eeb20', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'pending', 'payos', 'unpaid', '', '2026-06-12 21:52:59', '2026-06-12 21:52:59'),
+(33, 'ORD-C1808E', 2, 1, 2, NULL, 'Bug', '0987654321', '', '1a50e4122371386e1a4f5bd91822eeee', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'pending', 'payos', 'unpaid', '', '2026-06-12 21:53:45', '2026-06-12 21:53:45'),
+(50000, 'ORD-4C1599', 2, 1, 2, NULL, 'Bug', '0987654321', '', '0ce0a5f3da2b4039dfb4e869c44dd3c3', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'cancelled', 'payos', 'unpaid', '', '2026-06-12 22:10:57', '2026-06-12 22:22:29'),
+(50001, 'ORD-13523F', 2, 1, 2, NULL, 'Bug', '0987654321', '', '20f94ea939bfbf98d3857d27ecd0ac04', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 20000.00, 35000.00, 35000.00, 20000.00, 'pending', 'payos', 'paid', '', '2026-06-12 22:24:01', '2026-06-12 22:24:33'),
+(50002, 'ORD-860E2B', 2, 1, 2, NULL, 'Bug', '0987654321', '', '84fdd338d5e2b2828baa82fb3b239d68', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'pending', 'payos', 'paid', 'day la ghi chu', '2026-06-12 22:34:12', '2026-06-12 22:34:44'),
 (50003, 'ORD-27A8F5', 11, NULL, 1, NULL, 'Test User', '0987654321', NULL, NULL, 'Dia chi test', 1500000.00, 0.00, 30000.00, 1530000.00, 'delivered', 'cod', 'paid', NULL, '2026-01-03 18:11:20', '2026-01-03 18:11:20'),
 (50004, 'ORD-3AF370', 13, NULL, 1, NULL, 'Test User', '0987654321', NULL, NULL, 'Dia chi test', 3900000.00, 0.00, 30000.00, 3930000.00, 'delivered', 'cod', 'paid', NULL, '2026-01-14 18:50:57', '2026-01-14 18:50:57'),
 (50005, 'ORD-4E5F2E', 10, NULL, 1, NULL, 'Test User', '0987654321', NULL, NULL, 'Dia chi test', 890000.00, 0.00, 30000.00, 920000.00, 'delivered', 'cod', 'paid', NULL, '2026-01-05 18:00:57', '2026-01-05 18:00:57'),
@@ -955,8 +955,8 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (6, 100, 1, 'Giày đá bóng DL Striker FG 2024', 'giay-da-bong-dl-striker-fg-2024', 'Giày đá bóng sân cỏ, đế cao su tự nhiên.', 650000.00, 80, 1, 0, 1, 6, 4.50, 9, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
 (7, 100, 1, 'Giày đá bóng DL Futsal Pro F10', 'giay-da-bong-dl-futsal-pro-f10', 'Thiết kế dành riêng cho futsal, đế bám sân nhà tốt.', 550000.00, 70, 1, 0, 0, 999, 4.30, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
 (8, 100, 3, 'Giày đá bóng Adidas Predator 24 FG', 'giay-da-bong-adidas-predator-24', 'Vật liệu Zone Skin giúp kiểm soát bóng chính xác hơn.', 2800000.00, 25, 1, 0, 1, 7, 4.70, 11, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
-(9, 100, 2, 'Giày đá bóng Nike Phantom GX2', 'giay-da-bong-nike-phantom-gx2', 'Công nghệ Aerotrak giúp bóng bay chính xác.', 3100000.00, 20, 1, 0, 0, 999, 4.60, 13, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(10, 100, 1, 'Giày đá bóng DL Speed FG Jr', 'giay-da-bong-dl-speed-fg-jr', 'Dành cho cầu thủ trẻ em và thiếu niên.', 420000.00, 100, 1, 0, 0, 999, 4.20, 5, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
+(9, 100, 2, 'Giày đá bóng Nike Phantom GX2', 'giay-da-bong-nike-phantom-gx2', 'Công nghệ Aerotrak giúp bóng bay chính xác.', 3100000.00, 20, 1, 0, 1, 999, 4.60, 13, '2026-05-29 19:17:55', '2026-06-14 05:36:19'),
+(10, 100, 1, 'Giày đá bóng DL Speed FG Jr', 'giay-da-bong-dl-speed-fg-jr', 'Dành cho cầu thủ trẻ em và thiếu niên.', 420000.00, 100, 1, 0, 1, 999, 4.20, 5, '2026-05-29 19:17:55', '2026-06-14 05:36:19'),
 (11, 102, 4, 'Giày cầu lông Yonex Power Cushion 65Z3', 'giay-cl-yonex-65z3', 'Đế giày Power Cushion hấp thụ chấn động.', 2900000.00, 30, 1, 0, 1, 9, 4.80, 16, '2026-05-29 19:17:55', '2026-06-06 02:53:39'),
 (12, 102, 1, 'Giày cầu lông DL Wing Pro 2024', 'giay-cl-dl-wing-pro', 'Giày cầu lông thương hiệu Đồng Lực, đế EVA nhẹ.', 680000.00, 60, 1, 0, 0, 999, 4.40, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
 (13, 102, 5, 'Giày cầu lông Lining Ranger TD', 'giay-cl-lining-ranger', 'Thương hiệu Lining nổi tiếng, đế giữa Light Foam.', 1200000.00, 40, 1, 0, 0, 999, 4.50, 9, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
@@ -1001,38 +1001,38 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (58, 315, 11, 'Giày Pickleball Axeron Pro V1-C439', 'giay-pickleball-v1-c439', '<p>Sản phẩm Giày Pickleball Axeron Pro V1-C439 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 835000.00, 42, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
 (59, 315, 11, 'Giày Pickleball Axeron Pro V2-D06C', 'giay-pickleball-v2-d06c', '<p>Sản phẩm Giày Pickleball Axeron Pro V2-D06C với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1459000.00, 75, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
 (60, 315, 11, 'Giày Pickleball Axeron Pro V3-0BD7', 'giay-pickleball-v3-0bd7', '<p>Sản phẩm Giày Pickleball Axeron Pro V3-0BD7 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 926000.00, 79, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(61, 315, 11, 'Giày Pickleball Axeron Pro V4-0A99', 'giay-pickleball-v4-0a99', '<p>Sản phẩm Giày Pickleball Axeron Pro V4-0A99 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1095000.00, 22, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(61, 315, 11, 'Giày Pickleball Axeron Pro V4-0A99', 'giay-pickleball-v4-0a99', '<p>Sản phẩm Giày Pickleball Axeron Pro V4-0A99 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1095000.00, 22, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
 (62, 315, 11, 'Giày Pickleball Axeron Pro V5-F316', 'giay-pickleball-v5-f316', '<p>Sản phẩm Giày Pickleball Axeron Pro V5-F316 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 854000.00, 63, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(63, 315, 11, 'Giày Pickleball Axeron Pro V6-CD61', 'giay-pickleball-v6-cd61', '<p>Sản phẩm Giày Pickleball Axeron Pro V6-CD61 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1289000.00, 67, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(64, 315, 11, 'Giày Pickleball Axeron Pro V7-076E', 'giay-pickleball-v7-076e', '<p>Sản phẩm Giày Pickleball Axeron Pro V7-076E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 936000.00, 26, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(65, 315, 11, 'Giày Pickleball Axeron Pro V8-972E', 'giay-pickleball-v8-972e', '<p>Sản phẩm Giày Pickleball Axeron Pro V8-972E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1251000.00, 58, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(66, 315, 11, 'Giày Pickleball Axeron Pro V9-CBAB', 'giay-pickleball-v9-cbab', '<p>Sản phẩm Giày Pickleball Axeron Pro V9-CBAB với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1343000.00, 55, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(63, 315, 11, 'Giày Pickleball Axeron Pro V6-CD61', 'giay-pickleball-v6-cd61', '<p>Sản phẩm Giày Pickleball Axeron Pro V6-CD61 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1289000.00, 67, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
+(64, 315, 11, 'Giày Pickleball Axeron Pro V7-076E', 'giay-pickleball-v7-076e', '<p>Sản phẩm Giày Pickleball Axeron Pro V7-076E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 936000.00, 26, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
+(65, 315, 11, 'Giày Pickleball Axeron Pro V8-972E', 'giay-pickleball-v8-972e', '<p>Sản phẩm Giày Pickleball Axeron Pro V8-972E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1251000.00, 58, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
+(66, 315, 11, 'Giày Pickleball Axeron Pro V9-CBAB', 'giay-pickleball-v9-cbab', '<p>Sản phẩm Giày Pickleball Axeron Pro V9-CBAB với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1343000.00, 55, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
 (67, 315, 11, 'Giày Pickleball Axeron Pro V10-77AD', 'giay-pickleball-v10-77ad', '<p>Sản phẩm Giày Pickleball Axeron Pro V10-77AD với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 938000.00, 40, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
 (68, 100, 11, 'Giày Bóng Đá Axeron V1-FF6F', 'giay-da-bong-v1-ff6f', '<p>Sản phẩm Giày Bóng Đá Axeron V1-FF6F với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1677000.00, 19, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(69, 100, 11, 'Giày Bóng Đá Axeron V2-0429', 'giay-da-bong-v2-0429', '<p>Sản phẩm Giày Bóng Đá Axeron V2-0429 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1284000.00, 20, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(69, 100, 11, 'Giày Bóng Đá Axeron V2-0429', 'giay-da-bong-v2-0429', '<p>Sản phẩm Giày Bóng Đá Axeron V2-0429 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1284000.00, 20, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
 (70, 100, 11, 'Giày Bóng Đá Axeron V3-8DBF', 'giay-da-bong-v3-8dbf', '<p>Sản phẩm Giày Bóng Đá Axeron V3-8DBF với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1760000.00, 12, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(71, 100, 11, 'Giày Bóng Đá Axeron V4-7620', 'giay-da-bong-v4-7620', '<p>Sản phẩm Giày Bóng Đá Axeron V4-7620 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1204000.00, 25, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(71, 100, 11, 'Giày Bóng Đá Axeron V4-7620', 'giay-da-bong-v4-7620', '<p>Sản phẩm Giày Bóng Đá Axeron V4-7620 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1204000.00, 25, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
 (72, 100, 11, 'Giày Bóng Đá Axeron V5-C9CD', 'giay-da-bong-v5-c9cd', '<p>Sản phẩm Giày Bóng Đá Axeron V5-C9CD với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1591000.00, 82, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
 (73, 316, 11, 'Giày Cầu Lông Axeron Smash V1-5FD8', 'giay-cau-long-v1-5fd8', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V1-5FD8 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1040000.00, 66, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
 (74, 316, 11, 'Giày Cầu Lông Axeron Smash V2-28A4', 'giay-cau-long-v2-28a4', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V2-28A4 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 921000.00, 79, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(75, 316, 11, 'Giày Cầu Lông Axeron Smash V3-231E', 'giay-cau-long-v3-231e', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V3-231E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 896000.00, 35, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(76, 316, 11, 'Giày Cầu Lông Axeron Smash V4-215C', 'giay-cau-long-v4-215c', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V4-215C với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1029000.00, 10, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(75, 316, 11, 'Giày Cầu Lông Axeron Smash V3-231E', 'giay-cau-long-v3-231e', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V3-231E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 896000.00, 35, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
+(76, 316, 11, 'Giày Cầu Lông Axeron Smash V4-215C', 'giay-cau-long-v4-215c', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V4-215C với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1029000.00, 10, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
 (77, 316, 11, 'Giày Cầu Lông Axeron Smash V5-3B23', 'giay-cau-long-v5-3b23', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V5-3B23 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1073000.00, 16, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(78, 316, 11, 'Giày Cầu Lông Axeron Smash V6-2124', 'giay-cau-long-v6-2124', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V6-2124 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 803000.00, 93, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(79, 316, 11, 'Giày Cầu Lông Axeron Smash V7-C6A6', 'giay-cau-long-v7-c6a6', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V7-C6A6 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 846000.00, 98, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(78, 316, 11, 'Giày Cầu Lông Axeron Smash V6-2124', 'giay-cau-long-v6-2124', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V6-2124 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 803000.00, 93, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
+(79, 316, 11, 'Giày Cầu Lông Axeron Smash V7-C6A6', 'giay-cau-long-v7-c6a6', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V7-C6A6 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 846000.00, 98, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
 (80, 316, 11, 'Giày Cầu Lông Axeron Smash V8-AC76', 'giay-cau-long-v8-ac76', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V8-AC76 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1072000.00, 52, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
 (81, 316, 11, 'Giày Cầu Lông Axeron Smash V9-C744', 'giay-cau-long-v9-c744', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V9-C744 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 687000.00, 45, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(82, 316, 11, 'Giày Cầu Lông Axeron Smash V10-79F1', 'giay-cau-long-v10-79f1', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V10-79F1 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 675000.00, 31, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(82, 316, 11, 'Giày Cầu Lông Axeron Smash V10-79F1', 'giay-cau-long-v10-79f1', '<p>Sản phẩm Giày Cầu Lông Axeron Smash V10-79F1 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 675000.00, 31, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
 (83, 317, 11, 'Giày Chạy Bộ Axeron Run V1-DA7E', 'giay-chay-bo-v1-da7e', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V1-DA7E với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 570000.00, 12, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
 (84, 317, 11, 'Giày Chạy Bộ Axeron Run V2-9BCA', 'giay-chay-bo-v2-9bca', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V2-9BCA với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1447000.00, 34, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
 (85, 317, 11, 'Giày Chạy Bộ Axeron Run V3-F9B5', 'giay-chay-bo-v3-f9b5', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V3-F9B5 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 950000.00, 86, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(86, 317, 11, 'Giày Chạy Bộ Axeron Run V4-455D', 'giay-chay-bo-v4-455d', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V4-455D với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 980000.00, 50, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(87, 317, 11, 'Giày Chạy Bộ Axeron Run V5-B9B5', 'giay-chay-bo-v5-b9b5', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V5-B9B5 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 568000.00, 64, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(88, 317, 11, 'Giày Chạy Bộ Axeron Run V6-D657', 'giay-chay-bo-v6-d657', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V6-D657 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 843000.00, 84, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(86, 317, 11, 'Giày Chạy Bộ Axeron Run V4-455D', 'giay-chay-bo-v4-455d', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V4-455D với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 980000.00, 50, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
+(87, 317, 11, 'Giày Chạy Bộ Axeron Run V5-B9B5', 'giay-chay-bo-v5-b9b5', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V5-B9B5 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 568000.00, 64, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
+(88, 317, 11, 'Giày Chạy Bộ Axeron Run V6-D657', 'giay-chay-bo-v6-d657', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V6-D657 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 843000.00, 84, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
 (89, 317, 11, 'Giày Chạy Bộ Axeron Run V7-EBB9', 'giay-chay-bo-v7-ebb9', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V7-EBB9 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1488000.00, 83, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
 (90, 317, 11, 'Giày Chạy Bộ Axeron Run V8-2DEA', 'giay-chay-bo-v8-2dea', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V8-2DEA với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1261000.00, 98, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(91, 317, 11, 'Giày Chạy Bộ Axeron Run V9-2FED', 'giay-chay-bo-v9-2fed', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V9-2FED với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1152000.00, 77, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
-(92, 317, 11, 'Giày Chạy Bộ Axeron Run V10-82E4', 'giay-chay-bo-v10-82e4', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V10-82E4 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 617000.00, 19, 1, 0, 0, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-10 00:10:43'),
+(91, 317, 11, 'Giày Chạy Bộ Axeron Run V9-2FED', 'giay-chay-bo-v9-2fed', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V9-2FED với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 1152000.00, 77, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
+(92, 317, 11, 'Giày Chạy Bộ Axeron Run V10-82E4', 'giay-chay-bo-v10-82e4', '<p>Sản phẩm Giày Chạy Bộ Axeron Run V10-82E4 với thiết kế hiện đại, chất liệu bền bỉ mang đến trải nghiệm tập luyện thể thao tuyệt vời.</p>', 617000.00, 19, 1, 0, 1, 999, NULL, 0, '2026-06-10 00:10:43', '2026-06-14 05:36:19'),
 (93, 319, 10, 'Bộ Suvec Nam Thể Thao 4046', 'bo-suvec-nam-the-thao-4046-1781112128-1', 'Đây là sản phẩm Bộ Suvec Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 900000.00, 90, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
 (94, 319, 4, 'Bộ Suvec Nam Thể Thao E1F4', 'bo-suvec-nam-the-thao-e1f4-1781112128-2', 'Đây là sản phẩm Bộ Suvec Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 600000.00, 22, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
 (95, 320, 5, 'Bộ Bóng Đá Nam Thể Thao C853', 'bo-bong-da-nam-the-thao-c853-1781112128-1', 'Đây là sản phẩm Bộ Bóng Đá Nam cực kỳ chất lượng, mang lại cảm giác thoải mái và hiệu năng ấn tượng.', 1000000.00, 88, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
@@ -2236,7 +2236,8 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (770, 25, 13, '2026-05-03 04:56:59'),
 (771, 28, 2, '2026-06-08 21:35:19'),
 (772, 24, 15, '2025-08-26 02:23:09'),
-(773, 29, 3, '2025-09-15 17:01:32');
+(773, 29, 3, '2025-09-15 17:01:32'),
+(774, 2, 19, '2026-06-14 02:55:03');
 
 -- --------------------------------------------------------
 
@@ -2268,13 +2269,202 @@ CREATE TABLE `promotions` (
 --
 
 INSERT INTO `promotions` (`promo_id`, `promo_code`, `promo_name`, `description`, `type`, `discount_type`, `discount_value`, `min_order_value`, `max_discount`, `usage_limit`, `used_count`, `start_date`, `end_date`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'WELCOME10', 'Chào mừng thành viên mới', NULL, 'voucher', 'fixed', 100000.00, 200000.00, 50000.00, 1000, 1, '2026-01-01 00:00:00', '2026-12-31 00:00:00', 1, '2026-05-29 19:17:55', '2026-06-11 01:56:28'),
-(2, 'SALE20', 'Khuyến mãi 20%', NULL, 'voucher', 'percent', 20.00, 500000.00, 100000.00, 500, 0, '2025-06-01 00:00:00', '2025-12-31 23:59:59', 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
-(3, 'FREESHIP', 'Miễn phí vận chuyển', NULL, 'voucher', 'fixed', 50000.00, 300000.00, NULL, 300, 0, '2025-07-01 00:00:00', '2025-09-30 23:59:59', 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
-(4, 'SUMMER100K', 'Hè nóng giảm 100K', NULL, 'voucher', 'fixed', 100000.00, 800000.00, NULL, 200, 0, '2025-06-01 00:00:00', '2025-08-31 23:59:59', 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
-(5, 'VIP30', 'Ưu đãi khách hàng VIP', NULL, 'voucher', 'percent', 30.00, 1000000.00, 200000.00, 50, 0, '2025-01-01 00:00:00', '2025-12-31 23:59:59', 1, '2026-05-29 19:17:55', '2026-05-29 19:17:55'),
-(6, 'GIAM5', 'giảm 5%', NULL, 'voucher', 'percent', 5.00, 0.00, NULL, 10, 2, '2026-06-05 00:00:00', '2026-12-31 00:00:00', 1, '2026-06-05 16:03:27', '2026-06-05 16:33:17'),
-(7, 'TEST-BANK', 'test thanh toán online', NULL, 'voucher', 'fixed', 35000.00, 0.00, NULL, NULL, 10, '2026-06-11 00:00:00', '2026-12-30 00:00:00', 1, '2026-06-11 23:42:42', '2026-06-12 22:34:13');
+(10, 'DISCOUNT5', 'Giảm 5%', NULL, 'product', 'percent', 5.00, 0.00, NULL, NULL, 0, '2026-06-14 00:15:15', '2027-06-14 00:15:15', 1, '2026-06-14 05:15:15', '2026-06-14 05:20:26'),
+(11, 'FLASH10', 'KM 10%', NULL, 'flashsale', 'percent', 10.00, 0.00, NULL, NULL, 0, '2026-06-14 00:00:00', '2027-06-14 00:00:00', 1, '2026-06-14 05:15:15', '2026-06-14 05:36:51');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `promotion_categories`
+--
+
+CREATE TABLE `promotion_categories` (
+  `id` int(11) NOT NULL,
+  `promo_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `promotion_products`
+--
+
+CREATE TABLE `promotion_products` (
+  `id` int(11) NOT NULL,
+  `promo_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `promotion_products`
+--
+
+INSERT INTO `promotion_products` (`id`, `promo_id`, `product_id`) VALUES
+(11, 10, 1),
+(32, 10, 2),
+(12, 10, 3),
+(34, 10, 4),
+(13, 10, 5),
+(14, 10, 6),
+(37, 10, 7),
+(15, 10, 8),
+(39, 10, 9),
+(40, 10, 10),
+(16, 10, 11),
+(42, 10, 12),
+(43, 10, 13),
+(17, 10, 14),
+(45, 10, 15),
+(18, 10, 16),
+(47, 10, 17),
+(48, 10, 18),
+(19, 10, 19),
+(50, 10, 20),
+(51, 10, 21),
+(20, 10, 22),
+(53, 10, 23),
+(54, 10, 24),
+(55, 10, 25),
+(56, 10, 26),
+(57, 10, 27),
+(58, 10, 28),
+(59, 10, 29),
+(60, 10, 30),
+(61, 10, 31),
+(62, 10, 32),
+(63, 10, 33),
+(64, 10, 34),
+(65, 10, 35),
+(66, 10, 36),
+(67, 10, 37),
+(68, 10, 38),
+(69, 10, 39),
+(70, 10, 40),
+(71, 10, 41),
+(72, 10, 42),
+(73, 10, 43),
+(74, 10, 44),
+(75, 10, 45),
+(76, 10, 46),
+(77, 10, 47),
+(78, 10, 48),
+(79, 10, 49),
+(80, 10, 50),
+(81, 10, 58),
+(82, 10, 59),
+(83, 10, 60),
+(84, 10, 61),
+(85, 10, 62),
+(86, 10, 63),
+(87, 10, 64),
+(88, 10, 65),
+(89, 10, 66),
+(90, 10, 67),
+(91, 10, 68),
+(92, 10, 69),
+(93, 10, 70),
+(94, 10, 71),
+(95, 10, 72),
+(96, 10, 83),
+(97, 10, 84),
+(98, 10, 85),
+(99, 10, 86),
+(100, 10, 87),
+(101, 10, 88),
+(102, 10, 89),
+(103, 10, 90),
+(104, 10, 91),
+(105, 10, 92),
+(106, 10, 93),
+(107, 10, 94),
+(108, 10, 95),
+(109, 10, 96),
+(110, 10, 97),
+(111, 10, 98),
+(112, 10, 99),
+(113, 10, 100),
+(114, 10, 101),
+(115, 10, 102),
+(116, 10, 103),
+(117, 10, 104),
+(118, 10, 105),
+(119, 10, 106),
+(120, 10, 107),
+(121, 10, 108),
+(122, 10, 109),
+(123, 10, 110),
+(124, 10, 111),
+(125, 10, 112),
+(126, 10, 113),
+(127, 10, 114),
+(128, 10, 115),
+(129, 10, 116),
+(130, 10, 117),
+(131, 10, 118),
+(132, 10, 119),
+(133, 10, 120),
+(134, 10, 121),
+(135, 10, 122),
+(136, 10, 123),
+(137, 10, 124),
+(138, 10, 125),
+(139, 10, 126),
+(140, 10, 127),
+(141, 10, 128),
+(142, 10, 129),
+(143, 10, 130),
+(144, 10, 131),
+(145, 10, 132),
+(146, 10, 133),
+(147, 10, 134),
+(148, 10, 135),
+(149, 10, 136),
+(150, 10, 137),
+(151, 10, 138),
+(152, 10, 139),
+(153, 10, 140),
+(154, 10, 141),
+(155, 10, 142),
+(156, 10, 143),
+(157, 10, 144),
+(158, 10, 145),
+(159, 10, 146),
+(160, 10, 147),
+(161, 10, 148),
+(162, 10, 149),
+(163, 10, 150),
+(164, 10, 151),
+(165, 10, 152),
+(166, 10, 153),
+(167, 10, 154),
+(168, 10, 155),
+(169, 10, 156),
+(170, 10, 157),
+(171, 10, 158),
+(172, 10, 159),
+(173, 10, 160),
+(174, 10, 161),
+(175, 10, 162),
+(176, 10, 163),
+(177, 10, 164),
+(178, 10, 165),
+(179, 10, 166),
+(180, 10, 167),
+(181, 10, 168),
+(182, 10, 174),
+(183, 10, 175),
+(184, 10, 176),
+(21, 11, 73),
+(22, 11, 74),
+(23, 11, 75),
+(24, 11, 76),
+(25, 11, 77),
+(26, 11, 78),
+(27, 11, 79),
+(28, 11, 80),
+(29, 11, 81),
+(30, 11, 82);
 
 -- --------------------------------------------------------
 
@@ -2746,8 +2936,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `facebook_id`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `is_deleted`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`, `review_banned`) VALUES
-(1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$OIvMG2avM/kjXIVXSnzouu0RBM3nkpc7oAEDHm1eDEcMbxvIvK2qu', 1, '2026-05-29 19:17:55', '2026-06-14 01:14:27', 0),
-(2, 3, 'Bug', 'vancedloile@gmail.com', NULL, NULL, '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, 0, NULL, 0, '$2y$10$ZrOiQ8oJOlocn/2R/HH0Ye4HzkPF8JiDtAqwLJkfuLNsgfLcX7Cze', 1, '2026-06-11 01:07:16', '2026-06-14 01:34:42', 0),
+(1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$GzWL04EuRUZ5/5AKeNg7l.AqJ5gWIZhVLvn4TnAVd1FPASLUb5cd2', 1, '2026-05-29 19:17:55', '2026-06-14 04:42:32', 0),
+(2, 3, 'Bug', 'vancedloile@gmail.com', NULL, NULL, '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, 0, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-14 02:55:08', 0),
 (3, 4, 'Staff Tài Khoản', 'nvacc@gmail.com', NULL, NULL, '0901000004', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-13 06:39:03', 0),
 (4, 5, 'Staff Sản Phẩm', 'nvsp@gmail.com', NULL, NULL, '0901000005', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-13 06:39:03', 0),
 (5, 6, 'Staff Đơn Hàng', 'nvorder@gmail.com', NULL, NULL, '0901000006', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-13 06:39:03', 0),
@@ -3071,6 +3261,20 @@ ALTER TABLE `promotions`
   ADD KEY `idx_promo_code` (`promo_code`);
 
 --
+-- Chỉ mục cho bảng `promotion_categories`
+--
+ALTER TABLE `promotion_categories`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `idx_promo_category` (`promo_id`,`category_id`);
+
+--
+-- Chỉ mục cho bảng `promotion_products`
+--
+ALTER TABLE `promotion_products`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `idx_promo_product` (`promo_id`,`product_id`);
+
+--
 -- Chỉ mục cho bảng `reviews`
 --
 ALTER TABLE `reviews`
@@ -3163,7 +3367,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT cho bảng `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT cho bảng `cart_items`
@@ -3217,7 +3421,7 @@ ALTER TABLE `order_status_logs`
 -- AUTO_INCREMENT cho bảng `password_resets`
 --
 ALTER TABLE `password_resets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `payment_transactions`
@@ -3247,13 +3451,25 @@ ALTER TABLE `product_variants`
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=774;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=775;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
 --
 ALTER TABLE `promotions`
-  MODIFY `promo_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `promo_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT cho bảng `promotion_categories`
+--
+ALTER TABLE `promotion_categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT cho bảng `promotion_products`
+--
+ALTER TABLE `promotion_products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
 
 --
 -- AUTO_INCREMENT cho bảng `reviews`
@@ -3295,7 +3511,7 @@ ALTER TABLE `site_settings`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT cho bảng `user_addresses`

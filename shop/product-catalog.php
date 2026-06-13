@@ -193,8 +193,14 @@ if (isLoggedIn()) {
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 flex flex-col md:flex-row gap-gutter">
+        <!-- Mobile Filter Button -->
+        <button type="button" class="md:hidden w-full flex items-center justify-center gap-2 bg-white border border-outline-variant text-on-surface font-label-lg py-3 rounded-lg mb-4 hover:bg-surface-dim transition-colors shadow-sm" onclick="document.getElementById('mobile-filter-container').classList.toggle('hidden')">
+            <span class="material-symbols-outlined">filter_list</span>
+            Bộ lọc & Tùy chọn
+        </button>
+
         <!-- Sidebar Filter -->
-        <aside class="w-full md:w-64 flex-shrink-0 mb-8 md:mb-0">
+        <aside id="mobile-filter-container" class="hidden md:block w-full md:w-64 flex-shrink-0 mb-8 md:mb-0">
             <div class="bg-surface-container-lowest p-6 rounded-lg border border-outline-variant shadow-sm sticky top-24 custom-scrollbar max-h-[calc(100vh-120px)] overflow-y-auto">
                 <div class="flex items-center justify-between mb-6 pb-4 border-b border-outline-variant">
                     <h2 class="font-headline-md text-headline-md text-on-surface">Bộ lọc</h2>
@@ -282,9 +288,9 @@ if (isLoggedIn()) {
                 </div>
 
                 <!-- Sort -->
-                <div class="flex items-center space-x-4">
-                    <span class="font-body-md text-body-md text-on-surface-variant">Sắp xếp:</span>
-                    <select onchange="window.location.href=this.value" class="form-select font-body-md text-body-md border-outline-variant rounded-md bg-surface-container-lowest text-on-surface focus:ring-axeron-red focus:border-axeron-red px-3 py-2">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center w-full sm:w-auto gap-2 sm:gap-4 mt-4 sm:mt-0">
+                    <span class="font-body-md text-body-md text-on-surface-variant whitespace-nowrap">Sắp xếp:</span>
+                    <select onchange="window.location.href=this.value" class="form-select font-body-md text-body-md border-outline-variant rounded-md bg-surface-container-lowest text-on-surface focus:ring-axeron-red focus:border-axeron-red px-3 py-2 w-full sm:w-auto">
                         <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'popular', 'page' => null])) ?>" <?= $sortBy == 'popular' ? 'selected' : '' ?>>Phổ biến nhất</option>
                         <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'newest', 'page' => null])) ?>" <?= $sortBy == 'newest' ? 'selected' : '' ?>>Mới nhất</option>
                         <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'price_asc', 'page' => null])) ?>" <?= $sortBy == 'price_asc' ? 'selected' : '' ?>>Giá: Thấp đến Cao</option>
@@ -322,7 +328,7 @@ if (isLoggedIn()) {
                     </div>
                 </div>
             <?php else: ?>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter mb-12">
+                <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter mb-12">
                     <?php foreach ($products as $product): ?>
                     <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
                         class="group bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col">
@@ -349,21 +355,27 @@ if (isLoggedIn()) {
                             <h3 class="font-headline-md text-headline-md text-on-surface text-lg leading-tight mb-2 line-clamp-2 group-hover:text-axeron-red transition-colors">
                                 <?= htmlspecialchars($product['product_name']) ?>
                             </h3>
-                            <?php if ($product['avg_rating']): ?>
-                            <div class="flex items-center gap-1 mb-2">
-                                <span class="material-symbols-outlined text-sm text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
-                                <span class="text-sm text-on-surface-variant"><?= number_format($product['avg_rating'], 1) ?> (<?= $product['total_reviews'] ?>)</span>
+                            <?php $promoInfo = getBestPromotionForProduct($product['product_id'], $product['category_id'] ?? 0, $product['base_price']); ?>
+                            <div class="flex items-center justify-between gap-2 mb-2 min-h-[24px]">
+                                <?php if ($product['avg_rating']): ?>
+                                <div class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-sm text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+                                    <span class="text-sm text-on-surface-variant"><?= number_format($product['avg_rating'], 1) ?> (<?= $product['total_reviews'] ?>)</span>
+                                </div>
+                                <?php else: ?>
+                                <div></div>
+                                <?php endif; ?>
+
+                                <?php if ($promoInfo['discount_amount'] > 0): ?>
+                                <span class="text-[10px] bg-axeron-red text-white px-1.5 py-0.5 rounded-sm uppercase tracking-widest text-center max-w-[80px] leading-tight flex-shrink-0"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                                <?php endif; ?>
                             </div>
-                            <?php endif; ?>
                             <div class="mt-auto pt-2 flex items-center justify-between">
-                                <?php 
-                                $promoInfo = getBestPromotionForProduct($product['product_id'], $product['category_id'] ?? 0, $product['base_price']);
-                                if ($promoInfo['discount_amount'] > 0): ?>
-                                    <div class="flex items-center gap-2">
+                                <?php if ($promoInfo['discount_amount'] > 0): ?>
+                                    <div class="flex flex-col">
                                         <span class="font-headline-md text-headline-md text-axeron-red text-xl"><?= formatPrice($promoInfo['discounted_price']) ?></span>
-                                        <span class="text-on-surface-variant line-through text-sm font-medium"><?= formatPrice($product['base_price']) ?></span>
+                                        <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($product['base_price']) ?></span>
                                     </div>
-                                    <span class="text-[10px] bg-axeron-red text-white px-1.5 py-0.5 rounded-sm uppercase tracking-widest self-end mb-1"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
                                 <?php else: ?>
                                     <span class="font-headline-md text-headline-md text-axeron-red text-xl"><?= formatPrice($product['base_price']) ?></span>
                                 <?php endif; ?>

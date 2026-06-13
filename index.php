@@ -20,7 +20,8 @@ $featuredProducts = $db->select("
         p.total_reviews,
         c.category_name,
         b.brand_name,
-        pi.image_url
+        pi.image_url,
+        p.is_featured
     FROM products p
     LEFT JOIN categories c ON p.category_id = c.category_id
     LEFT JOIN brands b ON p.brand_id = b.brand_id
@@ -39,7 +40,8 @@ $shoesProducts = $db->select("
         p.slug,
         p.base_price,
         c.slug as category_slug,
-        pi.image_url
+        pi.image_url,
+        p.is_featured
     FROM products p
     JOIN categories c ON p.category_id = c.category_id
     LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
@@ -224,6 +226,9 @@ if (isLoggedIn()) {
                 <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
                     class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col relative">
                     <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
+                        <?php if ($product['is_featured'] ?? false): ?>
+                        <span class="absolute top-2 left-2 bg-axeron-red text-white font-label-sm text-label-sm px-2 py-1 rounded-full uppercase z-10">Nổi bật</span>
+                        <?php endif; ?>
                         <?php
                         $isFav = isLoggedIn() && in_array($product['product_id'], $userWishlistIds);
                         $favColor = $isFav ? 'text-axeron-red' : 'text-on-surface-variant hover:text-axeron-red';
@@ -287,6 +292,9 @@ if (isLoggedIn()) {
                 <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
                     class="shoe-item <?= htmlspecialchars($product['category_slug']) ?> hidden group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex-col relative">
                     <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
+                        <?php if ($product['is_featured'] ?? false): ?>
+                        <span class="absolute top-2 left-2 bg-axeron-red text-white font-label-sm text-label-sm px-2 py-1 rounded-full uppercase z-10">Nổi bật</span>
+                        <?php endif; ?>
                         <?php
                         $isFav = isLoggedIn() && in_array($product['product_id'], $userWishlistIds);
                         $favColor = $isFav ? 'text-axeron-red' : 'text-on-surface-variant hover:text-axeron-red';
@@ -345,6 +353,9 @@ if (isLoggedIn()) {
                 <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($rProduct['slug']) ?>"
                     class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col relative">
                     <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
+                        <?php if ($rProduct['is_featured'] ?? false): ?>
+                        <span class="absolute top-2 left-2 bg-axeron-red text-white font-label-sm text-label-sm px-2 py-1 rounded-full uppercase z-10">Nổi bật</span>
+                        <?php endif; ?>
                         <?php
                         $isFav = isLoggedIn() && in_array($rProduct['product_id'], $userWishlistIds);
                         $favColor = $isFav ? 'text-axeron-red' : 'text-on-surface-variant hover:text-axeron-red';
@@ -363,8 +374,7 @@ if (isLoggedIn()) {
                         <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors">
                             <?= htmlspecialchars($rProduct['product_name']) ?>
                         </h3>
-                        <div class="mt-auto flex items-end justify-between w-full">
-                            <div>
+                        <div class="mt-auto flex items-center justify-between">
                             <?php 
                             $promoInfo = getBestPromotionForProduct($rProduct['product_id'], $rProduct['category_id'] ?? 0, $rProduct['base_price']);
                             if ($promoInfo['discount_amount'] > 0): ?>
@@ -372,15 +382,9 @@ if (isLoggedIn()) {
                                     <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
                                     <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($rProduct['base_price']) ?></span>
                                 </div>
+                                <span class="text-[10px] bg-axeron-red text-white px-1.5 py-0.5 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
                             <?php else: ?>
                                 <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($rProduct['base_price']) ?></span>
-                            <?php endif; ?>
-                            </div>
-                            <?php if (!empty($rProduct['avg_rating'])): ?>
-                            <div class="flex items-center gap-1 text-sm text-on-surface-variant shrink-0 ml-2">
-                                <span class="material-symbols-outlined text-[16px] text-[#FFD700]" style="font-variation-settings: 'FILL' 1;">star</span>
-                                <?= number_format($rProduct['avg_rating'], 1) ?>
-                            </div>
                             <?php endif; ?>
                         </div>
                     </div>

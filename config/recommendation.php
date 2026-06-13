@@ -28,8 +28,8 @@ class RecommendationEngine
         $this->userId = getUserId();
         $this->isLoggedIn = isLoggedIn();
         $this->cacheKey = $this->isLoggedIn
-            ? 'reco_cache_user_' . $this->userId
-            : 'reco_cache_guest';
+            ? 'reco_cache_user_v2_' . $this->userId
+            : 'reco_cache_guest_v2';
     }
 
     /**
@@ -306,7 +306,8 @@ class RecommendationEngine
                 p.total_reviews,
                 c.category_name,
                 b.brand_name,
-                pi.image_url
+                pi.image_url,
+                p.is_featured
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.category_id
             LEFT JOIN brands b ON p.brand_id = b.brand_id
@@ -349,7 +350,8 @@ class RecommendationEngine
                 p.total_reviews,
                 c.category_name,
                 b.brand_name,
-                pi.image_url
+                pi.image_url,
+                p.is_featured
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.category_id
             LEFT JOIN brands b ON p.brand_id = b.brand_id
