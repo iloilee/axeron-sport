@@ -103,43 +103,31 @@ if (isLoggedIn()) {
 
     <main>
         <!-- Banner Hero Slider -->
-        <section class="relative w-full h-[600px] md:h-[700px] overflow-hidden group" id="hero-slider">
-            <?php if (empty($banners)): ?>
-            <!-- Fallback banner if no banners configured -->
-            <div class="absolute inset-0">
-                <img alt="Axeron Vortex Collection" class="w-full h-full object-cover"
-                    src="https://placehold.co/1920x800/BE1E2D/ffffff?text=AXERON+SPORT"/>
+        <section class="relative w-full overflow-hidden group" id="hero-slider" style="aspect-ratio: 1920/700; min-height: 300px;">
+            <!-- Slide 1 -->
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-100" id="slide-1" onclick="window.location.href='<?= BASE_URL ?>/shop/product-catalog.php'" style="cursor: pointer;">
+                <img alt="Siêu sự kiện ưu đãi hè" class="w-full h-full object-cover" src="<?= BASE_URL ?>/assets/slide-banner/home_slide_banner_1.jpg"/>
             </div>
-            <?php else: ?>
-            <?php foreach ($banners as $index => $banner): ?>
-            <?php $link = strpos($banner['link_url'] ?? '', 'http') === 0 ? $banner['link_url'] : BASE_URL . '/' . ltrim($banner['link_url'] ?? '', '/'); ?>
-            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out <?= $index === 0 ? 'opacity-100' : 'opacity-0' ?>"
-                 id="slide-<?= $index + 1 ?>" <?php if ($banner['link_url']): ?>onclick="window.location.href='<?= htmlspecialchars($link) ?>'" style="cursor: pointer;"<?php endif; ?>>
-                <img alt="<?= htmlspecialchars($banner['title']) ?>" class="w-full h-full object-cover"
-                    src="<?= htmlspecialchars(getImageUrl($banner['image_url'])) ?>"/>
-                <?php if ($banner['title'] || $banner['subtitle']): ?>
-                <div class="absolute inset-0 bg-black/30"></div>
-                <div class="absolute inset-0 flex items-center">
-                    <div class="max-w-container-max mx-auto px-margin-desktop w-full">
-                        <?php if ($banner['title']): ?>
-                        <h1 class="text-white text-4xl md:text-6xl font-bold mb-4"><?= htmlspecialchars($banner['title']) ?></h1>
-                        <?php endif; ?>
-                        <?php if ($banner['subtitle']): ?>
-                        <p class="text-white text-xl md:text-2xl mb-6"><?= htmlspecialchars($banner['subtitle']) ?></p>
-                        <?php endif; ?>
-                        <?php if ($banner['button_text'] && $banner['link_url']): ?>
-                        <a href="<?= htmlspecialchars($link) ?>"
-                           class="inline-block bg-white text-axeron-red px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors relative z-20">
-                            <?= htmlspecialchars($banner['button_text']) ?>
-                        </a>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <?php endif; ?>
+            <!-- Slide 2 -->
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0" id="slide-2" onclick="window.location.href='<?= BASE_URL ?>/shop/product-catalog.php?category=vot-pickleball'" style="cursor: pointer;">
+                <img alt="Vợt Pickleball Axeron Summit & Apex Pro" class="w-full h-full object-cover" src="<?= BASE_URL ?>/assets/slide-banner/home_slide_banner_2.jpg"/>
             </div>
-            <?php endforeach; ?>
-            <?php /* Navigation buttons and dots removed as requested */ ?>
-            <?php endif; ?>
+            <!-- Slide 3 -->
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0" id="slide-3" onclick="window.location.href='<?= BASE_URL ?>/shop/product-catalog.php?category=giay-chay-bo'" style="cursor: pointer;">
+                <img alt="Axeron Run New Arrival" class="w-full h-full object-cover" src="<?= BASE_URL ?>/assets/slide-banner/home_slide_banner_3.jpg"/>
+            </div>
+            <!-- Slide 4 -->
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0" id="slide-4" onclick="window.location.href='<?= BASE_URL ?>/shop/product-catalog.php?category=ao-polo-nam'" style="cursor: pointer;">
+                <img alt="Summer Collection 2026" class="w-full h-full object-cover" src="<?= BASE_URL ?>/assets/slide-banner/home_slide_banner_4.jpg"/>
+            </div>
+            <!-- Slide 5 -->
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0" id="slide-5" onclick="window.location.href='<?= BASE_URL ?>/shop/product-catalog.php?category=vot-pickleball'" style="cursor: pointer;">
+                <img alt="Pickleball Championship Line" class="w-full h-full object-cover" src="<?= BASE_URL ?>/assets/slide-banner/home_slide_banner_5.jpg"/>
+            </div>
+            <!-- Slide 6 -->
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0" id="slide-6" onclick="window.location.href='<?= BASE_URL ?>/shop/product-catalog.php'" style="cursor: pointer;">
+                <img alt="Axeron Hot Summer Performance Sale" class="w-full h-full object-cover" src="<?= BASE_URL ?>/assets/slide-banner/home_slide_banner_6.jpg"/>
+            </div>
         </section>
 
         <!-- Promo Banner -->
@@ -158,29 +146,29 @@ if (isLoggedIn()) {
             }
             .img-marquee-wrapper {
                 display: flex;
-                width: 200%; /* Desktop: 2 items visible (4 items total) */
-                animation: image-marquee 10s linear infinite;
+                width: 300%; /* Desktop: 2 items visible (6 items total) */
+                animation: image-marquee 15s linear infinite;
             }
             .img-marquee-wrapper:hover {
                 animation-play-state: paused;
             }
             .img-marquee-item {
-                width: 25%;
+                width: 16.666667%;
                 flex-shrink: 0;
                 padding: 0 12px;
             }
             @media (max-width: 767px) {
                 .img-marquee-wrapper {
-                    width: 400%; /* Mobile: 1 item visible */
+                    width: 600%; /* Mobile: 1 item visible */
                 }
             }
         </style>
         <section class="max-w-container-max mx-auto px-margin-desktop py-12 md:py-16 overflow-hidden">
             <div class="-mx-[12px]"> <!-- Removed flex to prevent shrinking -->
                 <div class="img-marquee-wrapper">
-                    <!-- Original 2 -->
+                    <!-- Original 3 -->
                     <div class="img-marquee-item">
-                        <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=ao-polo">
+                        <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=ao-polo-nam">
                             <img alt="Axeron Nike Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 src="<?= BASE_URL ?>/assets/images/home_banner_image_1.jpg"/>
                         </a>
@@ -191,9 +179,15 @@ if (isLoggedIn()) {
                                 src="<?= BASE_URL ?>/assets/images/home_banner_image_2.jpg"/>
                         </a>
                     </div>
-                    <!-- Duplicated 2 for seamless loop -->
                     <div class="img-marquee-item">
-                        <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=ao-polo">
+                        <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=vot-cau-long">
+                            <img alt="Axeron Badminton Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                src="<?= BASE_URL ?>/assets/images/home_banner_image_3.jpg"/>
+                        </a>
+                    </div>
+                    <!-- Duplicated 3 for seamless loop -->
+                    <div class="img-marquee-item">
+                        <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=ao-polo-nam">
                             <img alt="Axeron Nike Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 src="<?= BASE_URL ?>/assets/images/home_banner_image_1.jpg"/>
                         </a>
@@ -202,6 +196,12 @@ if (isLoggedIn()) {
                         <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=giay-pickleball">
                             <img alt="Axeron Pickleball Shoes Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 src="<?= BASE_URL ?>/assets/images/home_banner_image_2.jpg"/>
+                        </a>
+                    </div>
+                    <div class="img-marquee-item">
+                        <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=vot-cau-long">
+                            <img alt="Axeron Badminton Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                src="<?= BASE_URL ?>/assets/images/home_banner_image_3.jpg"/>
                         </a>
                     </div>
                 </div>
