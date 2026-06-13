@@ -18,7 +18,7 @@ $stats = $db->selectOne("
 
 // Load reviews
 $keyword = $_GET['keyword'] ?? '';
-$statusFilter = $_GET['status'] ?? 'pending';
+$statusFilter = $_GET['status'] ?? 'all';
 $ratingFilter = isset($_GET['rating']) && $_GET['rating'] !== '' ? $_GET['rating'] : 'all';
 
 $where = "WHERE 1=1";
@@ -153,7 +153,7 @@ $reviews = $db->select("
         </div>
         <div>
             <button type="submit" class="px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors h-[42px] font-medium">Lọc</button>
-            <?php if ($keyword || $statusFilter !== 'pending' || $ratingFilter !== 'all'): ?>
+            <?php if ($keyword || $statusFilter !== 'all' || $ratingFilter !== 'all'): ?>
             <a href="?action=reviews" class="px-4 py-2 text-gray-500 hover:text-gray-800 ml-2">Xóa lọc</a>
             <?php endif; ?>
         </div>

@@ -200,7 +200,7 @@ if ($action === 'dashboard') {
 
     <div class="flex min-h-screen">
         <!-- Sidebar -->
-        <aside id="sidebar" class="w-64 bg-dark text-white flex-shrink-0 fixed inset-y-0 left-0 z-50 transform -translate-x-full transition-transform duration-300 lg:relative lg:translate-x-0 h-screen overflow-y-auto">
+        <aside id="sidebar" class="w-64 bg-dark text-white flex-shrink-0 fixed inset-y-0 left-0 z-50 transform -translate-x-full transition-transform duration-300 lg:relative lg:translate-x-0 h-screen lg:h-auto overflow-y-auto lg:overflow-visible">
             <!-- Logo -->
             <div class="p-4 border-b border-gray-700">
                 <a href="<?= BASE_URL ?>/admin/admin.php" class="flex items-center gap-3">
