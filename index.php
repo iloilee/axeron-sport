@@ -138,34 +138,73 @@ if (isLoggedIn()) {
                 <?php endif; ?>
             </div>
             <?php endforeach; ?>
-            <?php if (count($banners) > 1): ?>
-            <button class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 hover:bg-white/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity z-10" onclick="prevSlide()">
-                <span class="material-symbols-outlined text-3xl">chevron_left</span>
-            </button>
-            <button class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 hover:bg-white/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity z-10" onclick="nextSlide()">
-                <span class="material-symbols-outlined text-3xl">chevron_right</span>
-            </button>
-            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                <?php foreach ($banners as $index => $banner): ?>
-                <button class="slider-dot w-8 h-3 rounded-full transition-all <?= $index === 0 ? 'bg-white' : 'bg-white/50' ?>"
-                        id="dot-<?= $index + 1 ?>" onclick="goToSlide(<?= $index + 1 ?>)"></button>
-                <?php endforeach; ?>
-            </div>
-            <?php endif; ?>
+            <?php /* Navigation buttons and dots removed as requested */ ?>
             <?php endif; ?>
         </section>
 
-        <!-- Product Categories Bento Grid -->
-        <section class="max-w-container-max mx-auto px-margin-desktop py-12 md:py-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
-                <a class="relative h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=ao-polo">
-                    <img alt="Axeron Polo Shirt Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        src="https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=800&q=80"/>
-                </a>
-                <a class="relative h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=giay-pickleball">
-                    <img alt="Axeron Pickleball Shoes Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80"/>
-                </a>
+        <!-- Promo Banner -->
+        <div class="w-full bg-[#333333] text-white py-3 text-label-sm font-label-sm tracking-wide marquee-container">
+            <div class="marquee-content">
+                Freeship với hóa đơn trên 500k |
+                <a class="underline hover:text-axeron-red transition-colors" href="<?= BASE_URL ?>/auth/register.php">ĐĂNG KÝ NGAY</a>
+            </div>
+        </div>
+
+        <!-- Product Categories Marquee (Right to Left Loop) -->
+        <style>
+            @keyframes image-marquee {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+            }
+            .img-marquee-wrapper {
+                display: flex;
+                width: 200%; /* Desktop: 2 items visible (4 items total) */
+                animation: image-marquee 10s linear infinite;
+            }
+            .img-marquee-wrapper:hover {
+                animation-play-state: paused;
+            }
+            .img-marquee-item {
+                width: 25%;
+                flex-shrink: 0;
+                padding: 0 12px;
+            }
+            @media (max-width: 767px) {
+                .img-marquee-wrapper {
+                    width: 400%; /* Mobile: 1 item visible */
+                }
+            }
+        </style>
+        <section class="max-w-container-max mx-auto px-margin-desktop py-12 md:py-16 overflow-hidden">
+            <div class="-mx-[12px]"> <!-- Removed flex to prevent shrinking -->
+                <div class="img-marquee-wrapper">
+                    <!-- Original 2 -->
+                    <div class="img-marquee-item">
+                        <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=ao-polo">
+                            <img alt="Axeron Nike Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                src="<?= BASE_URL ?>/assets/images/home_banner_image_1.jpg"/>
+                        </a>
+                    </div>
+                    <div class="img-marquee-item">
+                        <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=giay-pickleball">
+                            <img alt="Axeron Pickleball Shoes Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                src="<?= BASE_URL ?>/assets/images/home_banner_image_2.jpg"/>
+                        </a>
+                    </div>
+                    <!-- Duplicated 2 for seamless loop -->
+                    <div class="img-marquee-item">
+                        <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=ao-polo">
+                            <img alt="Axeron Nike Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                src="<?= BASE_URL ?>/assets/images/home_banner_image_1.jpg"/>
+                        </a>
+                    </div>
+                    <div class="img-marquee-item">
+                        <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=giay-pickleball">
+                            <img alt="Axeron Pickleball Shoes Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                src="<?= BASE_URL ?>/assets/images/home_banner_image_2.jpg"/>
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -467,51 +506,20 @@ if (isLoggedIn()) {
     <?php include __DIR__ . '/includes/footer.php'; ?>
 
     <script src="<?= BASE_URL ?>/js/main.js?v=<?= time() ?>"></script>
+    <script>
+        console.log("Checking slider...");
+        console.log("Total slides found:", document.querySelectorAll('[id^="slide-"]').length);
+        setInterval(() => {
+            console.log("Is window.nextSlide defined?", typeof window.nextSlide);
+            console.log("Current slide opacity classes:", 
+                document.getElementById('slide-1')?.className.includes('opacity-100'),
+                document.getElementById('slide-2')?.className.includes('opacity-100')
+            );
+        }, 4000);
+    </script>
 
     <script>
-        // Dynamic slider logic
-        const totalSlides = <?= count($banners) ?: 1 ?>;
-        let currentSlide = 1;
 
-        function updateSlider() {
-            for (let i = 1; i <= totalSlides; i++) {
-                const slide = document.getElementById('slide-' + i);
-                const dot = document.getElementById('dot-' + i);
-                if (slide) {
-                    slide.classList.toggle('opacity-0', currentSlide !== i);
-                    slide.classList.toggle('opacity-100', currentSlide === i);
-                }
-                if (dot) {
-                    dot.className = 'slider-dot ' + (currentSlide === i
-                        ? 'w-8 h-3 rounded-full bg-white transition-all'
-                        : 'w-3 h-3 rounded-full bg-white/50 transition-all hover:bg-white/80');
-                }
-            }
-        }
-
-        function nextSlide() {
-            if (totalSlides > 1) {
-                currentSlide = currentSlide >= totalSlides ? 1 : currentSlide + 1;
-                updateSlider();
-            }
-        }
-        function prevSlide() {
-            if (totalSlides > 1) {
-                currentSlide = currentSlide <= 1 ? totalSlides : currentSlide - 1;
-                updateSlider();
-            }
-        }
-        function goToSlide(idx) {
-            if (totalSlides > 1) {
-                currentSlide = idx;
-                updateSlider();
-            }
-        }
-
-        // Auto-slide if multiple banners
-        <?php if (count($banners) > 1): ?>
-        setInterval(nextSlide, 5000);
-        <?php endif; ?>
 
         // Tab logic for Giày thể thao
         document.addEventListener('DOMContentLoaded', function() {

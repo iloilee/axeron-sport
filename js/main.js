@@ -350,8 +350,8 @@ function initSlider() {
         updateSlider();
     };
 
-    // Auto advance every 5 seconds
-    setInterval(window.nextSlide, 5000);
+    // Auto advance every 4 seconds
+    setInterval(window.nextSlide, 4000);
 }
 
 // ==========================================

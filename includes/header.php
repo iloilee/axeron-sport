@@ -264,6 +264,27 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
     .mobile-submenu.open {
         max-height: 1000px;
     }
+
+    /* Marquee Banner */
+    .marquee-container {
+        overflow: hidden;
+        white-space: nowrap;
+        width: 100%;
+        position: relative;
+    }
+    .marquee-content {
+        display: inline-block;
+        padding-left: 100%;
+        animation: marquee 20s linear infinite;
+    }
+    /* Pause animation on hover */
+    .marquee-container:hover .marquee-content {
+        animation-play-state: paused;
+    }
+    @keyframes marquee {
+        0%   { transform: translate(0, 0); }
+        100% { transform: translate(-100%, 0); }
+    }
 </style>
 
 <!-- TopAppBar Component -->
@@ -432,12 +453,6 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
         </div>
     </div>
 </header>
-
-<!-- Promo Banner -->
-<div class="w-full bg-black text-white text-center py-2 text-label-sm font-label-sm tracking-wide">
-    Freeship với hóa đơn trên 500k |
-    <a class="underline hover:text-axeron-red" href="<?= BASE_URL ?>/auth/register.php">ĐĂNG KÝ NGAY</a>
-</div>
 
 <!-- Mobile Menu -->
 <div class="mobile-menu-backdrop" id="mobile-menu-backdrop" onclick="toggleMobileMenu()"></div>

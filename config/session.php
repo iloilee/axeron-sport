@@ -385,19 +385,23 @@ function getBestPromotionForProduct($productId, $categoryId, $basePrice) {
     
     $now = date('Y-m-d H:i:s');
     
-    $promos = $db->select("
-        SELECT p.* 
-        FROM promotions p 
-        LEFT JOIN promotion_products pp ON p.promo_id = pp.promo_id 
-        LEFT JOIN promotion_categories pc ON p.promo_id = pc.promo_id 
-        WHERE p.is_active = 1 
-        AND p.start_date <= ? AND p.end_date >= ?
-        AND (p.usage_limit IS NULL OR p.used_count < p.usage_limit)
-        AND (
-            (p.type IN ('product', 'flashsale') AND pp.product_id = ?)
-            OR (p.type = 'category' AND pc.category_id = ?)
-        )
-    ", [$now, $now, $productId, $categoryId]);
+    try {
+        $promos = $db->select("
+            SELECT p.* 
+            FROM promotions p 
+            LEFT JOIN promotion_products pp ON p.promo_id = pp.promo_id 
+            LEFT JOIN promotion_categories pc ON p.promo_id = pc.promo_id 
+            WHERE p.is_active = 1 
+            AND p.start_date <= ? AND p.end_date >= ?
+            AND (p.usage_limit IS NULL OR p.used_count < p.usage_limit)
+            AND (
+                (p.type IN ('product', 'flashsale') AND pp.product_id = ?)
+                OR (p.type = 'category' AND pc.category_id = ?)
+            )
+        ", [$now, $now, $productId, $categoryId]);
+    } catch (Exception $e) {
+        $promos = [];
+    }
 
     $bestDiscountAmount = 0;
     $bestPromo = null;
