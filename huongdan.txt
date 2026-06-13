@@ -1,0 +1,350 @@
+Giai đoạn 1: Chuẩn bị dữ liệu AI
+Bước 1: Tải dữ liệu Amazon
+
+Tải file:
+
+meta_Sports_and_Outdoors.jsonl
+
+Lọc còn:
+
+500 sản phẩm
+
+Giữ các trường:
+
+title
+
+description
+
+features
+
+price
+
+categories
+
+
+
+Bước 2: Tạo file dữ liệu huấn luyện
+
+Ví dụ:
+
+{
+
+ "id": 1,
+
+ "title": "Yonex Astrox 99",
+
+ "description": "Lightweight badminton racket",
+
+ "category": "Badminton"
+
+}
+
+
+
+Bước 3: Sinh Embedding trên Kaggle
+
+Tạo Notebook Kaggle.
+
+Cài:
+
+pip install transformers torch
+
+Sử dụng:
+
+Qwen/Qwen3-Embedding-8B
+
+Ghép dữ liệu:
+
+text = f"""
+
+Tên: {title}
+
+Danh mục: {category}
+
+Mô tả: {description}
+
+"""
+
+Sau đó sinh vector:
+
+embedding = model.encode(text)
+
+Kết quả:
+
+product_id
+
+title
+
+embedding
+
+Ví dụ:
+
+{
+
+ "product_id": 1,
+
+ "embedding": [0.123,0.456,...]
+
+}
+
+
+
+Giai đoạn 2: Thiết kế Database
+Bước 4: Tạo bảng lưu Embedding
+
+MySQL:
+
+CREATE TABLE product_embeddings (
+
+   id INT AUTO_INCREMENT PRIMARY KEY,
+
+   product_id INT NOT NULL,
+
+   embedding LONGTEXT NOT NULL,
+
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+);
+
+
+
+Bước 5: Import dữ liệu
+
+Sau khi Kaggle xuất:
+
+embeddings.csv
+
+Import vào:
+
+product_embeddings
+
+Kết quả:
+
+products
+
+product_embeddings
+
+liên kết bằng:
+
+product_id
+
+
+
+Giai đoạn 3: Tích hợp vào Axeron
+Bước 6: Thêm khu vực hiển thị
+
+Trong:
+
+product-detail.php
+
+hoặc:
+
+views/product/detail.php
+
+thêm:
+
+<section class="related-products">
+
+   <h3>Sản phẩm liên quan</h3>
+
+</section>
+
+
+
+Bước 7: Tạo Service Recommendation
+
+Ví dụ:
+
+RecommendationService.php
+
+class RecommendationService
+
+{
+
+   public static function getRelatedProducts($productId)
+
+   {
+
+
+
+   }
+
+}
+
+
+
+Bước 8: Lấy Embedding sản phẩm hiện tại
+
+SELECT embedding
+
+FROM product_embeddings
+
+WHERE product_id = ?
+
+Ví dụ:
+
+$currentVector
+
+
+
+Bước 9: Lấy tất cả vector còn lại
+
+SELECT product_id, embedding
+
+FROM product_embeddings
+
+WHERE product_id != ?
+
+
+
+Bước 10: Tính Cosine Similarity
+
+PHP:
+
+function cosineSimilarity($a, $b)
+
+{
+
+   $dot = 0;
+
+   $normA = 0;
+
+   $normB = 0;
+
+
+
+   foreach ($a as $i => $value) {
+
+       $dot += $value * $b[$i];
+
+       $normA += $value * $value;
+
+       $normB += $b[$i] * $b[$i];
+
+   }
+
+
+
+   return $dot / (sqrt($normA) * sqrt($normB));
+
+}
+
+
+
+Bước 11: Xếp hạng
+
+Ví dụ:
+
+[
+
+ product_12 => 0.94,
+
+ product_7 => 0.91,
+
+ product_88 => 0.89
+
+]
+
+Sắp xếp:
+
+arsort($scores);
+
+
+
+Bước 12: Lấy Top 4
+
+$relatedProducts = array_slice(
+
+   array_keys($scores),
+
+   0,
+
+   4
+
+);
+
+
+
+Bước 13: Hiển thị trên Website
+
+foreach ($relatedProducts as $productId)
+
+{
+
+   renderProductCard($productId);
+
+}
+
+Kết quả:
+
+Sản phẩm liên quan
+
+
+
+Yonex Astrox 88D
+
+Lining Tectonic 7
+
+Victor Thruster K
+
+Yonex Nanoflare 1000
+
+
+
+Giai đoạn 4: Tối ưu cho đồ án
+Để dễ được đánh giá cao khi bảo vệ:
+
+Thêm nhãn AI
+
+<div class="ai-badge">
+
+   AI Recommendation
+
+</div>
+
+
+
+Thêm thống kê
+
+500 sản phẩm mẫu
+
+500 vector Embedding
+
+Top 4 sản phẩm tương đồng
+
+
+
+Vẽ sơ đồ kiến trúc
+
+Amazon Sports Dataset
+
+         ↓
+
+    Data Cleaning
+
+         ↓
+
+Qwen3-Embedding-8B
+
+         ↓
+
+Product Embeddings
+
+         ↓
+
+       MySQL
+
+         ↓
+
+Cosine Similarity
+
+         ↓
+
+Axeron Website
+
+         ↓
+
+Sản phẩm liên quan
+
+
+

@@ -359,7 +359,7 @@ if ($action === 'dashboard') {
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
-                    <a href="<?= BASE_URL ?>/shop/product-catalog.php" target="_blank" class="text-gray-500 hover:text-axeron-red">
+                    <a href="<?= BASE_URL ?>/" target="_blank" class="text-gray-500 hover:text-axeron-red">
                         <span class="material-symbols-outlined">open_in_new</span>
                     </a>
                     <div class="flex items-center gap-2">
