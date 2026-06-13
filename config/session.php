@@ -366,3 +366,68 @@ function verifyCsrfToken($token) {
     }
     return hash_equals($_SESSION['csrf_token'], $token);
 }
+
+/**
+ * Tính toán giá trị giảm giá tốt nhất cho một sản phẩm (Flashsale, Product, Category).
+ * Ưu tiên Khuyến mãi mang lại giá trị giảm lớn nhất. Nếu bằng nhau, ưu tiên Flashsale.
+ */
+function getBestPromotionForProduct($productId, $categoryId, $basePrice) {
+    try {
+        $db = Database::getInstance();
+    } catch (Exception $e) {
+        return [
+            'original_price' => (float)$basePrice,
+            'discounted_price' => (float)$basePrice,
+            'discount_amount' => 0,
+            'promotion' => null
+        ];
+    }
+    
+    $now = date('Y-m-d H:i:s');
+    
+    $promos = $db->select("
+        SELECT p.* 
+        FROM promotions p 
+        LEFT JOIN promotion_products pp ON p.promo_id = pp.promo_id 
+        LEFT JOIN promotion_categories pc ON p.promo_id = pc.promo_id 
+        WHERE p.is_active = 1 
+        AND p.start_date <= ? AND p.end_date >= ?
+        AND (p.usage_limit IS NULL OR p.used_count < p.usage_limit)
+        AND (
+            (p.type IN ('product', 'flashsale') AND pp.product_id = ?)
+            OR (p.type = 'category' AND pc.category_id = ?)
+        )
+    ", [$now, $now, $productId, $categoryId]);
+
+    $bestDiscountAmount = 0;
+    $bestPromo = null;
+
+    foreach ($promos as $promo) {
+        $discountAmount = 0;
+        if ($promo['discount_type'] === 'percent') {
+            $discountAmount = ($basePrice * $promo['discount_value']) / 100;
+        } else {
+            $discountAmount = $promo['discount_value'];
+        }
+        
+        if ($promo['max_discount'] > 0 && $discountAmount > $promo['max_discount']) {
+            $discountAmount = $promo['max_discount'];
+        }
+        
+        if ($discountAmount > $basePrice) {
+            $discountAmount = $basePrice;
+        }
+
+        if ($discountAmount > $bestDiscountAmount || ($discountAmount == $bestDiscountAmount && $promo['type'] === 'flashsale' && (!$bestPromo || $bestPromo['type'] !== 'flashsale'))) {
+            $bestDiscountAmount = $discountAmount;
+            $bestPromo = $promo;
+        }
+    }
+
+    return [
+        'original_price' => (float)$basePrice,
+        'discounted_price' => (float)($basePrice - $bestDiscountAmount),
+        'discount_amount' => (float)$bestDiscountAmount,
+        'promotion' => $bestPromo
+    ];
+}

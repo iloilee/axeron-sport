@@ -356,6 +356,7 @@ function handleGetCart($userId) {
                 pv.size,
                 pv.extra_price,
                 p.product_id,
+                p.category_id,
                 p.product_name,
                 p.slug,
                 p.base_price,
@@ -374,7 +375,18 @@ function handleGetCart($userId) {
         $count = 0;
         foreach ($items as &$item) {
             $count += $item['quantity'];
+            
+            // Tính toán discount
+            $basePrice = $item['base_price'] + $item['extra_price'];
+            $promoInfo = getBestPromotionForProduct($item['product_id'], $item['category_id'], $basePrice);
+            
+            $item['unit_price'] = $promoInfo['discounted_price'];
+            $item['original_price'] = $promoInfo['original_price'];
+            if ($promoInfo['promotion']) {
+                $item['promotion_applied'] = $promoInfo['promotion']['promo_name'];
+            }
         }
+        unset($item);
 
         jsonResponse(true, 'Success', [
             'items' => $items,
@@ -402,6 +414,7 @@ function handleGetCart($userId) {
                     pv.extra_price,
                     pv.stock_quantity,
                     p.product_id,
+                    p.category_id,
                     p.product_name,
                     p.slug,
                     p.base_price,
@@ -415,6 +428,17 @@ function handleGetCart($userId) {
 
             if ($item) {
                 $item['quantity'] = min($item['quantity'], $item['stock_quantity']);
+                
+                // Tính toán discount
+                $basePrice = $item['base_price'] + $item['extra_price'];
+                $promoInfo = getBestPromotionForProduct($item['product_id'], $item['category_id'], $basePrice);
+                
+                $item['unit_price'] = $promoInfo['discounted_price'];
+                $item['original_price'] = $promoInfo['original_price'];
+                if ($promoInfo['promotion']) {
+                    $item['promotion_applied'] = $promoInfo['promotion']['promo_name'];
+                }
+                
                 $items[] = $item;
                 $count += $item['quantity'];
             }
@@ -441,7 +465,7 @@ function handleApplyPromo($input) {
 
     $promo = $db->selectOne("
         SELECT * FROM promotions
-        WHERE promo_code = ? AND is_active = 1
+        WHERE promo_code = ? AND is_active = 1 AND type = 'voucher'
         AND start_date <= NOW() AND end_date >= NOW()
         AND (usage_limit IS NULL OR used_count < usage_limit)
     ", [$code]);

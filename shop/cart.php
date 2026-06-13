@@ -33,12 +33,11 @@ if (isLoggedIn() && $userValid) {
                 pv.extra_price,
                 pv.stock_quantity,
                 p.product_id,
+                p.category_id,
                 p.product_name,
                 p.slug,
                 p.base_price,
-                pi.image_url,
-                (p.base_price + pv.extra_price) as unit_price,
-                (ci.quantity * (p.base_price + pv.extra_price)) as item_total
+                pi.image_url
             FROM cart_items ci
             JOIN product_variants pv ON ci.variant_id = pv.variant_id
             JOIN products p ON pv.product_id = p.product_id
@@ -47,10 +46,16 @@ if (isLoggedIn() && $userValid) {
             ORDER BY ci.added_at DESC
         ", [$cart['cart_id']]);
 
-        foreach ($cartItems as $item) {
+        foreach ($cartItems as &$item) {
+            $baseP = $item['base_price'] + $item['extra_price'];
+            $promoInfo = getBestPromotionForProduct($item['product_id'], $item['category_id'], $baseP);
+            $item['unit_price'] = $promoInfo['discounted_price'];
+            $item['item_total'] = $item['quantity'] * $item['unit_price'];
             $cartSubtotal += $item['item_total'];
             $cartCount += $item['quantity'];
+            $item['promo'] = $promoInfo['promotion']; // Lưu lại nếu cần hiện UI
         }
+        unset($item);
     }
 } else {
     // Session cart
@@ -67,20 +72,25 @@ if (isLoggedIn() && $userValid) {
                     pv.extra_price,
                     pv.stock_quantity,
                     p.product_id,
+                    p.category_id,
                     p.product_name,
                     p.slug,
                     p.base_price,
-                    pi.image_url,
-                    (p.base_price + pv.extra_price) as unit_price,
-                    (? * (p.base_price + pv.extra_price)) as item_total
+                    pi.image_url
                 FROM product_variants pv
                 JOIN products p ON pv.product_id = p.product_id
                 LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
                 WHERE pv.variant_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0
-            ", [$sessionItem['variant_id'], $sessionItem['quantity'], $sessionItem['quantity'], $sessionItem['variant_id']]);
+            ", [$sessionItem['variant_id'], $sessionItem['quantity'], $sessionItem['variant_id']]);
 
             if ($item) {
                 $item['quantity'] = min($item['quantity'], $item['stock_quantity']);
+                $baseP = $item['base_price'] + $item['extra_price'];
+                $promoInfo = getBestPromotionForProduct($item['product_id'], $item['category_id'], $baseP);
+                $item['unit_price'] = $promoInfo['discounted_price'];
+                $item['item_total'] = $item['quantity'] * $item['unit_price'];
+                $item['promo'] = $promoInfo['promotion'];
+                
                 $cartItems[] = $item;
                 $cartSubtotal += $item['item_total'];
                 $cartCount += $item['quantity'];
@@ -200,6 +210,9 @@ $flash = getFlash();
                             <div class="flex justify-between items-end mt-4">
                                 <div class="font-headline-md text-body-lg font-bold text-axeron-red item-price" data-price="<?= $item['unit_price'] ?>">
                                     <?= formatPrice($item['item_total']) ?>
+                                    <?php if (!empty($item['promo'])): ?>
+                                    <span class="text-xs bg-axeron-red text-white px-2 py-0.5 rounded-sm uppercase tracking-widest ml-2 align-middle font-normal"><?= htmlspecialchars($item['promo']['promo_name']) ?></span>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="flex items-center border border-outline-variant rounded-full overflow-hidden bg-surface-container-low">
                                     <button onclick="decreaseQty(<?= $item['cart_item_id'] ?>)" class="qty-btn px-3 py-1 hover:bg-surface-variant text-on-surface transition-colors" <?= $item['quantity'] <= 1 ? 'disabled' : '' ?>>

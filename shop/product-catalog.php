@@ -108,6 +108,7 @@ $orderBy = match($sortBy) {
 $products = $db->select("
     SELECT DISTINCT
         p.product_id,
+        p.category_id,
         p.product_name,
         p.slug,
         p.base_price,
@@ -355,7 +356,17 @@ if (isLoggedIn()) {
                             </div>
                             <?php endif; ?>
                             <div class="mt-auto pt-2 flex items-center justify-between">
-                                <span class="font-headline-md text-headline-md text-axeron-red text-xl"><?= formatPrice($product['base_price']) ?></span>
+                                <?php 
+                                $promoInfo = getBestPromotionForProduct($product['product_id'], $product['category_id'] ?? 0, $product['base_price']);
+                                if ($promoInfo['discount_amount'] > 0): ?>
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-headline-md text-headline-md text-axeron-red text-xl"><?= formatPrice($promoInfo['discounted_price']) ?></span>
+                                        <span class="text-on-surface-variant line-through text-sm font-medium"><?= formatPrice($product['base_price']) ?></span>
+                                    </div>
+                                    <span class="text-[10px] bg-axeron-red text-white px-1.5 py-0.5 rounded-sm uppercase tracking-widest self-end mb-1"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                                <?php else: ?>
+                                    <span class="font-headline-md text-headline-md text-axeron-red text-xl"><?= formatPrice($product['base_price']) ?></span>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </a>

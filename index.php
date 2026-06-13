@@ -12,6 +12,7 @@ $db = db();
 $featuredProducts = $db->select("
     SELECT
         p.product_id,
+        p.category_id,
         p.product_name,
         p.slug,
         p.base_price,
@@ -33,6 +34,7 @@ $featuredProducts = $db->select("
 $shoesProducts = $db->select("
     SELECT
         p.product_id,
+        p.category_id,
         p.product_name,
         p.slug,
         p.base_price,
@@ -201,10 +203,18 @@ if (isLoggedIn()) {
                         <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors">
                             <?= htmlspecialchars($product['product_name']) ?>
                         </h3>
-                        <div class="mt-auto">
-                            <p class="font-headline-md text-body-lg text-axeron-red font-bold">
-                                <?= formatPrice($product['base_price']) ?>
-                            </p>
+                        <div class="mt-auto flex items-center justify-between">
+                            <?php 
+                            $promoInfo = getBestPromotionForProduct($product['product_id'], $product['category_id'] ?? 0, $product['base_price']);
+                            if ($promoInfo['discount_amount'] > 0): ?>
+                                <div class="flex flex-col">
+                                    <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
+                                    <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($product['base_price']) ?></span>
+                                </div>
+                                <span class="text-[10px] bg-axeron-red text-white px-1.5 py-0.5 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                            <?php else: ?>
+                                <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($product['base_price']) ?></span>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </a>
@@ -256,10 +266,18 @@ if (isLoggedIn()) {
                         <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors">
                             <?= htmlspecialchars($product['product_name']) ?>
                         </h3>
-                        <div class="mt-auto">
-                            <p class="font-headline-md text-body-lg text-axeron-red font-bold">
-                                <?= formatPrice($product['base_price']) ?>
-                            </p>
+                        <div class="mt-auto flex items-center justify-between">
+                            <?php 
+                            $promoInfo = getBestPromotionForProduct($product['product_id'], $product['category_id'] ?? 0, $product['base_price']);
+                            if ($promoInfo['discount_amount'] > 0): ?>
+                                <div class="flex flex-col">
+                                    <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
+                                    <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($product['base_price']) ?></span>
+                                </div>
+                                <span class="text-[10px] bg-axeron-red text-white px-1.5 py-0.5 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                            <?php else: ?>
+                                <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($product['base_price']) ?></span>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </a>
@@ -306,12 +324,21 @@ if (isLoggedIn()) {
                         <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors">
                             <?= htmlspecialchars($rProduct['product_name']) ?>
                         </h3>
-                        <div class="mt-auto flex items-center justify-between">
-                            <p class="font-headline-md text-body-lg text-axeron-red font-bold">
-                                <?= formatPrice($rProduct['base_price']) ?>
-                            </p>
+                        <div class="mt-auto flex items-end justify-between w-full">
+                            <div>
+                            <?php 
+                            $promoInfo = getBestPromotionForProduct($rProduct['product_id'], $rProduct['category_id'] ?? 0, $rProduct['base_price']);
+                            if ($promoInfo['discount_amount'] > 0): ?>
+                                <div class="flex flex-col">
+                                    <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
+                                    <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($rProduct['base_price']) ?></span>
+                                </div>
+                            <?php else: ?>
+                                <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($rProduct['base_price']) ?></span>
+                            <?php endif; ?>
+                            </div>
                             <?php if (!empty($rProduct['avg_rating'])): ?>
-                            <div class="flex items-center gap-1 text-sm text-on-surface-variant">
+                            <div class="flex items-center gap-1 text-sm text-on-surface-variant shrink-0 ml-2">
                                 <span class="material-symbols-outlined text-[16px] text-[#FFD700]" style="font-variation-settings: 'FILL' 1;">star</span>
                                 <?= number_format($rProduct['avg_rating'], 1) ?>
                             </div>

@@ -262,6 +262,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $promo = $db->selectOne("SELECT * FROM promotions WHERE promo_id = ?", [$id]);
                 if ($promo) {
                     $response = ['success' => true, 'promotion' => $promo];
+                    if ($promo['type'] === 'product' || $promo['type'] === 'flashsale') {
+                        $p_ids = $db->select("SELECT product_id FROM promotion_products WHERE promo_id = ?", [$id]);
+                        $response['product_ids'] = array_column($p_ids, 'product_id');
+                    } elseif ($promo['type'] === 'category') {
+                        $c_ids = $db->select("SELECT category_id FROM promotion_categories WHERE promo_id = ?", [$id]);
+                        $response['category_ids'] = array_column($c_ids, 'category_id');
+                    }
                 } else {
                     $response = ['success' => false, 'message' => 'Không tìm thấy khuyến mãi!'];
                 }
@@ -2053,6 +2060,145 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $response = ['success' => true, 'message' => 'Đã xóa cấu hình phí vận chuyển thành công!'];
             } catch (Exception $e) {
                 $db->rollback();
+                $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
+            }
+            break;
+
+        // ==================== PROMOTIONS ====================
+        case 'create_promotion':
+            $type = $_POST['type'] ?? 'voucher';
+            $promo_code = trim($_POST['promo_code'] ?? '');
+            if ($type !== 'voucher') $promo_code = null;
+            
+            $promo_name = trim($_POST['promo_name'] ?? '');
+            $discount_type = $_POST['discount_type'] ?? 'percent';
+            $discount_value = (float)($_POST['discount_value'] ?? 0);
+            $min_order_value = (float)($_POST['min_order_value'] ?? 0);
+            $max_discount = trim($_POST['max_discount'] ?? '') !== '' ? (float)$_POST['max_discount'] : null;
+            $start_date = $_POST['start_date'] ?? '';
+            $end_date = $_POST['end_date'] ?? '';
+            $usage_limit = trim($_POST['usage_limit'] ?? '') !== '' ? (int)$_POST['usage_limit'] : null;
+            $is_active = isset($_POST['is_active']) ? 1 : 0;
+            
+            $product_ids = $_POST['product_ids'] ?? [];
+            $category_ids = $_POST['category_ids'] ?? [];
+
+            if (empty($promo_name) || empty($start_date) || empty($end_date)) {
+                $response = ['success' => false, 'message' => 'Vui lòng điền đầy đủ các trường bắt buộc!'];
+                break;
+            }
+            if ($type === 'voucher' && empty($promo_code)) {
+                $response = ['success' => false, 'message' => 'Mã Voucher không được để trống!'];
+                break;
+            }
+
+            if ($promo_code) {
+                $exists = $db->selectOne("SELECT promo_id FROM promotions WHERE promo_code = ?", [$promo_code]);
+                if ($exists) {
+                    $response = ['success' => false, 'message' => 'Mã khuyến mãi này đã tồn tại!'];
+                    break;
+                }
+            }
+
+            try {
+                $db->beginTransaction();
+                
+                $db->insert("INSERT INTO promotions (type, promo_code, promo_name, discount_type, discount_value, min_order_value, max_discount, start_date, end_date, usage_limit, is_active)
+                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [$type, $promo_code, $promo_name, $discount_type, $discount_value, $min_order_value, $max_discount, $start_date . ' 00:00:00', $end_date . ' 23:59:59', $usage_limit, $is_active]);
+                
+                $promo_id = $db->lastInsertId();
+                
+                if ($type === 'product' || $type === 'flashsale') {
+                    foreach ($product_ids as $pid) {
+                        $db->insert("INSERT IGNORE INTO promotion_products (promo_id, product_id) VALUES (?, ?)", [$promo_id, $pid]);
+                    }
+                } elseif ($type === 'category') {
+                    foreach ($category_ids as $cid) {
+                        $db->insert("INSERT IGNORE INTO promotion_categories (promo_id, category_id) VALUES (?, ?)", [$promo_id, $cid]);
+                    }
+                }
+                
+                $db->commit();
+                $response = ['success' => true, 'message' => 'Đã tạo chương trình khuyến mãi thành công!'];
+            } catch (Exception $e) {
+                $db->rollback();
+                $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
+            }
+            break;
+
+        case 'update_promotion':
+            $promo_id = (int)($_POST['promo_id'] ?? 0);
+            $type = $_POST['type'] ?? 'voucher';
+            $promo_code = trim($_POST['promo_code'] ?? '');
+            if ($type !== 'voucher') $promo_code = null;
+            
+            $promo_name = trim($_POST['promo_name'] ?? '');
+            $discount_type = $_POST['discount_type'] ?? 'percent';
+            $discount_value = (float)($_POST['discount_value'] ?? 0);
+            $min_order_value = (float)($_POST['min_order_value'] ?? 0);
+            $max_discount = trim($_POST['max_discount'] ?? '') !== '' ? (float)$_POST['max_discount'] : null;
+            $start_date = $_POST['start_date'] ?? '';
+            $end_date = $_POST['end_date'] ?? '';
+            $usage_limit = trim($_POST['usage_limit'] ?? '') !== '' ? (int)$_POST['usage_limit'] : null;
+            $is_active = isset($_POST['is_active']) ? 1 : 0;
+            
+            $product_ids = $_POST['product_ids'] ?? [];
+            $category_ids = $_POST['category_ids'] ?? [];
+
+            if ($promo_id <= 0 || empty($promo_name)) {
+                $response = ['success' => false, 'message' => 'Dữ liệu không hợp lệ!'];
+                break;
+            }
+            if ($type === 'voucher' && empty($promo_code)) {
+                $response = ['success' => false, 'message' => 'Mã Voucher không được để trống!'];
+                break;
+            }
+
+            if ($promo_code) {
+                $exists = $db->selectOne("SELECT promo_id FROM promotions WHERE promo_code = ? AND promo_id != ?", [$promo_code, $promo_id]);
+                if ($exists) {
+                    $response = ['success' => false, 'message' => 'Mã khuyến mãi này đã tồn tại!'];
+                    break;
+                }
+            }
+
+            try {
+                $db->beginTransaction();
+                $db->update("UPDATE promotions SET type = ?, promo_code = ?, promo_name = ?, discount_type = ?, discount_value = ?, min_order_value = ?, max_discount = ?, start_date = ?, end_date = ?, usage_limit = ?, is_active = ? WHERE promo_id = ?",
+                    [$type, $promo_code, $promo_name, $discount_type, $discount_value, $min_order_value, $max_discount, $start_date . ' 00:00:00', $end_date . ' 23:59:59', $usage_limit, $is_active, $promo_id]);
+                
+                $db->delete("DELETE FROM promotion_products WHERE promo_id = ?", [$promo_id]);
+                $db->delete("DELETE FROM promotion_categories WHERE promo_id = ?", [$promo_id]);
+                
+                if ($type === 'product' || $type === 'flashsale') {
+                    foreach ($product_ids as $pid) {
+                        $db->insert("INSERT IGNORE INTO promotion_products (promo_id, product_id) VALUES (?, ?)", [$promo_id, $pid]);
+                    }
+                } elseif ($type === 'category') {
+                    foreach ($category_ids as $cid) {
+                        $db->insert("INSERT IGNORE INTO promotion_categories (promo_id, category_id) VALUES (?, ?)", [$promo_id, $cid]);
+                    }
+                }
+                
+                $db->commit();
+                $response = ['success' => true, 'message' => 'Đã cập nhật khuyến mãi!'];
+            } catch (Exception $e) {
+                $db->rollback();
+                $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
+            }
+            break;
+
+        case 'delete_promotion':
+            $promo_id = (int)($_POST['promo_id'] ?? 0);
+            if ($promo_id <= 0) {
+                $response = ['success' => false, 'message' => 'ID không hợp lệ!'];
+                break;
+            }
+            try {
+                $db->delete("DELETE FROM promotions WHERE promo_id = ?", [$promo_id]);
+                $response = ['success' => true, 'message' => 'Đã xóa khuyến mãi thành công!'];
+            } catch (Exception $e) {
                 $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];
             }
             break;

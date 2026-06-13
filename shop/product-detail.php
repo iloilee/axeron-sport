@@ -234,7 +234,18 @@ if (isLoggedIn()) {
                     if ($initialPrice <= 0 && !empty($variants)) {
                         $initialPrice = min(array_column($variants, 'extra_price'));
                     }
-                    echo formatPrice($initialPrice);
+                    
+                    // Lấy khuyến mãi cho mức giá khởi điểm
+                    $initialPromo = getBestPromotionForProduct($product['product_id'], $product['category_id'], $initialPrice);
+                    if ($initialPromo['discount_amount'] > 0) {
+                        echo '<div class="flex items-center gap-3">';
+                        echo formatPrice($initialPromo['discounted_price']);
+                        echo '<span class="text-on-surface-variant line-through text-lg font-medium">' . formatPrice($initialPrice) . '</span>';
+                        echo '<span class="text-xs bg-axeron-red text-white px-2 py-1 rounded-sm uppercase tracking-widest">' . htmlspecialchars($initialPromo['promotion']['promo_name']) . '</span>';
+                        echo '</div>';
+                    } else {
+                        echo formatPrice($initialPrice);
+                    }
                     ?>
                 </div>
 
@@ -559,6 +570,7 @@ if (isLoggedIn()) {
         const variants = <?= json_encode($colorGroups) ?>;
         const hasVariants = <?= !empty($colorGroups) ? 'true' : 'false' ?>;
         const productImages = <?= json_encode($images) ?>;
+        const productPromo = <?= json_encode($initialPromo['promotion']) ?>;
         let selectedColor = '<?= htmlspecialchars($firstColor) ?>';
         let selectedVariantId = null;
         let selectedVariant = null;
@@ -642,7 +654,35 @@ if (isLoggedIn()) {
                 });
             }
 
-            document.getElementById('product-price').textContent = new Intl.NumberFormat('vi-VN').format(price).replace(/,/g, '.') + 'đ';
+            let finalPrice = price;
+            let discountHtml = '';
+            
+            if (productPromo) {
+                let discountAmount = 0;
+                if (productPromo.discount_type === 'percent') {
+                    discountAmount = (price * parseFloat(productPromo.discount_value)) / 100;
+                } else {
+                    discountAmount = parseFloat(productPromo.discount_value);
+                }
+                
+                if (productPromo.max_discount > 0 && discountAmount > parseFloat(productPromo.max_discount)) {
+                    discountAmount = parseFloat(productPromo.max_discount);
+                }
+                
+                if (discountAmount > price) discountAmount = price;
+                
+                finalPrice = price - discountAmount;
+                
+                discountHtml = '<div class="flex items-center gap-3">' +
+                               new Intl.NumberFormat('vi-VN').format(finalPrice).replace(/,/g, '.') + 'đ' +
+                               '<span class="text-on-surface-variant line-through text-lg font-medium">' + new Intl.NumberFormat('vi-VN').format(price).replace(/,/g, '.') + 'đ</span>' +
+                               '<span class="text-xs bg-axeron-red text-white px-2 py-1 rounded-sm uppercase tracking-widest">' + productPromo.promo_name + '</span>' +
+                               '</div>';
+            } else {
+                discountHtml = new Intl.NumberFormat('vi-VN').format(price).replace(/,/g, '.') + 'đ';
+            }
+
+            document.getElementById('product-price').innerHTML = discountHtml;
         }
 
         function changeQty(delta) {

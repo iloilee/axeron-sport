@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $cart = $db->selectOne("SELECT cart_id FROM carts WHERE user_id = ?", [$userId]);
         if ($cart) {
             $cartItems = $db->select("
-                SELECT ci.quantity, pv.variant_id, pv.stock_quantity, p.product_name, p.base_price, pv.extra_price, pv.color, pv.size
+                SELECT ci.quantity, pv.variant_id, pv.stock_quantity, p.product_id, p.category_id, p.product_name, p.base_price, pv.extra_price, pv.color, pv.size
                 FROM cart_items ci
                 JOIN product_variants pv ON ci.variant_id = pv.variant_id
                 JOIN products p ON pv.product_id = p.product_id
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!empty($_SESSION['cart'])) {
             foreach ($_SESSION['cart'] as $sessionItem) {
                 $variant = $db->selectOne("
-                    SELECT pv.variant_id, pv.stock_quantity, p.product_name, p.base_price, pv.extra_price, pv.color, pv.size
+                    SELECT pv.variant_id, pv.stock_quantity, p.product_id, p.category_id, p.product_name, p.base_price, pv.extra_price, pv.color, pv.size
                     FROM product_variants pv
                     JOIN products p ON pv.product_id = p.product_id
                     WHERE pv.variant_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0
@@ -81,9 +81,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $shippingFee = 0;
     $discountAmount = 0;
 
-    foreach ($cartItems as $item) {
-        $subtotal += $item['quantity'] * ($item['base_price'] + $item['extra_price']);
+    foreach ($cartItems as &$item) {
+        $baseP = $item['base_price'] + $item['extra_price'];
+        $promoInfo = getBestPromotionForProduct($item['product_id'], $item['category_id'], $baseP);
+        $item['unit_price'] = $promoInfo['discounted_price'];
+        $subtotal += $item['quantity'] * $item['unit_price'];
     }
+    unset($item);
 
     // Get shipping rate
     $shippingMethodId = (int)($_POST['shipping_method'] ?? 1);
@@ -184,9 +188,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $item['variant_id'],
                 $productSnapshot['product_name'],
                 ($item['color'] ?? '') . ' - Size ' . ($item['size'] ?? ''),
-                $item['base_price'] + $item['extra_price'],
+                $item['unit_price'],
                 $item['quantity'],
-                $item['quantity'] * ($item['base_price'] + $item['extra_price'])
+                $item['quantity'] * $item['unit_price']
             ]);
 
             // Update stock
@@ -397,11 +401,9 @@ if (isLoggedIn() && $userValid) {
     if ($cart) {
         $cartItems = $db->select("
             SELECT ci.*, pv.variant_id, pv.color, pv.size, pv.extra_price,
-                p.product_id, p.product_name, p.slug,
+                p.product_id, p.category_id, p.product_name, p.slug,
                 p.base_price, pv.stock_quantity,
-                pi.image_url,
-                (p.base_price + pv.extra_price) as unit_price,
-                (ci.quantity * (p.base_price + pv.extra_price)) as item_total
+                pi.image_url
             FROM cart_items ci
             JOIN product_variants pv ON ci.variant_id = pv.variant_id
             JOIN products p ON pv.product_id = p.product_id
@@ -409,28 +411,37 @@ if (isLoggedIn() && $userValid) {
             WHERE ci.cart_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0
         ", [$cart['cart_id']]);
 
-        foreach ($cartItems as $item) {
+        foreach ($cartItems as &$item) {
+            $baseP = $item['base_price'] + $item['extra_price'];
+            $promoInfo = getBestPromotionForProduct($item['product_id'], $item['category_id'], $baseP);
+            $item['unit_price'] = $promoInfo['discounted_price'];
+            $item['item_total'] = $item['quantity'] * $item['unit_price'];
             $subtotal += $item['item_total'];
         }
+        unset($item);
     }
 } else if (!empty($_SESSION['cart'])) {
     // Guest checkout hoặc User không hợp lệ: hiển thị từ session
     foreach ($_SESSION['cart'] as $sessionItem) {
         $item = $db->selectOne("
             SELECT pv.variant_id, pv.color, pv.size, pv.extra_price, pv.stock_quantity,
-                p.product_id, p.product_name, p.slug, p.base_price,
-                pi.image_url,
-                (p.base_price + pv.extra_price) as unit_price,
-                (? * (p.base_price + pv.extra_price)) as item_total
+                p.product_id, p.category_id, p.product_name, p.slug, p.base_price,
+                pi.image_url
             FROM product_variants pv
             JOIN products p ON pv.product_id = p.product_id
             LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
             WHERE pv.variant_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0
-        ", [$sessionItem['quantity'], $sessionItem['variant_id']]);
+        ", [$sessionItem['variant_id']]);
 
         if ($item) {
             $item['quantity'] = min($sessionItem['quantity'], $item['stock_quantity']);
             $item['cart_item_id'] = $sessionItem['variant_id']; // Dùng variant_id làm key tạm
+            
+            $baseP = $item['base_price'] + $item['extra_price'];
+            $promoInfo = getBestPromotionForProduct($item['product_id'], $item['category_id'], $baseP);
+            $item['unit_price'] = $promoInfo['discounted_price'];
+            $item['item_total'] = $item['quantity'] * $item['unit_price'];
+            
             $cartItems[] = $item;
             $subtotal += $item['item_total'];
         }

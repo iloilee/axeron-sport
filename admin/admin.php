@@ -584,6 +584,10 @@ if ($action === 'dashboard') {
                 <!-- Product Detail Insight -->
                 <?php include __DIR__ . '/admin-product-detail.php'; ?>
 
+            <?php elseif ($action === 'promotion_detail'): ?>
+                <!-- Promotion Detail -->
+                <?php include __DIR__ . '/admin-promotion-detail.php'; ?>
+
             <?php else: ?>
                 <div class="bg-white rounded-xl p-12 text-center">
                     <span class="material-symbols-outlined text-6xl text-gray-300">construction</span>
