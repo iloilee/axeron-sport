@@ -209,12 +209,12 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
         <button onclick="printSelectedPackingSlips()"
        class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2">
         <span class="material-symbols-outlined text-xl">local_shipping</span>
-        In Đơn Hàng (<span id="selected-print-count">0</span>)
+        In Đơn Hàng <span id="selected-print-count">0</span>
         </button>
         <button onclick="exportSelectedOrders()"
        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2">
         <span class="material-symbols-outlined text-xl">download</span>
-        Xuất Excel (<span id="selected-count">0</span>)
+        Xuất Excel <span id="selected-count">0</span>
         </button>
     </div>
 </div>
@@ -244,6 +244,9 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
                     </td>
                     <td class="px-4 py-3">
                         <span class="font-medium"><?= htmlspecialchars($order['order_code']) ?></span>
+                        <?php if (strpos($order['note'] ?? '', '[Yêu cầu hủy từ khách]') !== false && in_array($order['order_status'], ['pending', 'confirmed'])): ?>
+                            <br><span class="inline-block mt-1 px-2 py-0.5 bg-red-100 text-red-800 text-[10px] font-bold rounded animate-pulse" title="Khách hàng yêu cầu hủy đơn này">YÊU CẦU HỦY</span>
+                        <?php endif; ?>
                     </td>
                     <td class="px-4 py-3">
                         <p class="font-medium text-gray-800"><?= htmlspecialchars($order['full_name'] ?? $order['recipient_name']) ?></p>

@@ -85,6 +85,7 @@ $paymentLabels = [
 ];
 
 $currentStatus = $statusLabels[$order['order_status']] ?? ['text' => $order['order_status'], 'color' => 'bg-gray-100 text-gray-800'];
+$isGuestCancelRequested = (strpos($order['note'] ?? '', '[Yêu cầu hủy từ khách]') !== false);
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -180,6 +181,12 @@ $currentStatus = $statusLabels[$order['order_status']] ?? ['text' => $order['ord
             </div>
             <h1 class="font-headline-lg text-headline-lg text-on-surface mb-4">Đơn hàng đã bị hủy</h1>
             <p class="text-on-surface-variant text-lg">Đơn hàng của bạn đã được hủy thành công theo yêu cầu.</p>
+            <?php elseif (!$userId && $isGuestCancelRequested && in_array($order['order_status'], ['pending', 'confirmed'])): ?>
+            <div class="w-24 h-24 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+                <span class="material-symbols-outlined text-6xl text-yellow-600">hourglass_empty</span>
+            </div>
+            <h1 class="font-headline-lg text-headline-lg text-on-surface mb-4">Yêu cầu hủy đã được gửi!</h1>
+            <p class="text-on-surface-variant text-lg">Yêu cầu hủy đơn hàng của bạn đã được ghi nhận và đang chờ Admin xử lý.</p>
             <?php else: ?>
             <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <span class="material-symbols-outlined text-6xl text-green-600">check_circle</span>
@@ -303,14 +310,24 @@ $currentStatus = $statusLabels[$order['order_status']] ?? ['text' => $order['ord
             </a>
             <?php endif; ?>
             
-            <?php if ($userId && in_array($order['order_status'], ['pending', 'confirmed'])): ?>
+            <?php 
+            if (in_array($order['order_status'], ['pending', 'confirmed'])): 
+                if (!$userId && $isGuestCancelRequested):
+            ?>
+            <button disabled class="flex-1 sm:flex-none bg-gray-400 text-white px-8 py-4 rounded-lg font-bold text-center cursor-not-allowed">
+                Đang chờ duyệt hủy
+            </button>
+            <?php else: ?>
             <button onclick="showCancelModal()" class="flex-1 sm:flex-none bg-axeron-red text-white px-8 py-4 rounded-lg font-bold text-center hover:bg-primary transition-colors">
                 Hủy đơn hàng
             </button>
-            <?php endif; ?>
+            <?php 
+                endif;
+            endif; 
+            ?>
         </div>
         
-        <?php if ($userId && in_array($order['order_status'], ['pending', 'confirmed'])): ?>
+        <?php if (in_array($order['order_status'], ['pending', 'confirmed'])): ?>
         <!-- Cancel Order Modal -->
         <div id="cancelModal" class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center">
             <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-xl">
@@ -437,8 +454,14 @@ $currentStatus = $statusLabels[$order['order_status']] ?? ['text' => $order['ord
                     const formData = new FormData();
                     formData.append('order_id', <?= $orderId ?>);
                     formData.append('reason', reason);
+                    <?php if (!$userId): ?>
+                    formData.append('token', '<?= htmlspecialchars($token) ?>');
+                    const endpoint = '<?= BASE_URL ?>/api/guest_cancel_request.php';
+                    <?php else: ?>
+                    const endpoint = '<?= BASE_URL ?>/api/cancel_order.php';
+                    <?php endif; ?>
                     
-                    const response = await fetch('<?= BASE_URL ?>/api/cancel_order.php', {
+                    const response = await fetch(endpoint, {
                         method: 'POST',
                         body: formData
                     });

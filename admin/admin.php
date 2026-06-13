@@ -463,7 +463,12 @@ if ($action === 'dashboard') {
                                 <tbody class="divide-y divide-gray-100">
                                     <?php foreach ($stats['recentOrders'] as $order): ?>
                                     <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 text-sm font-medium"><?= htmlspecialchars($order['order_code']) ?></td>
+                                        <td class="px-4 py-3 text-sm font-medium">
+                                            <?= htmlspecialchars($order['order_code']) ?>
+                                            <?php if (strpos($order['note'] ?? '', '[Yêu cầu hủy từ khách]') !== false && in_array($order['order_status'], ['pending', 'confirmed'])): ?>
+                                                <br><span class="inline-block mt-1 px-2 py-0.5 bg-red-100 text-red-800 text-[10px] font-bold rounded animate-pulse" title="Khách hàng yêu cầu hủy đơn này">YÊU CẦU HỦY</span>
+                                            <?php endif; ?>
+                                        </td>
                                         <td class="px-4 py-3 text-sm"><?= htmlspecialchars($order['full_name'] ?? 'N/A') ?></td>
                                         <td class="px-4 py-3 text-sm font-medium text-axeron-red"><?= formatPrice($order['total_amount']) ?></td>
                                         <td class="px-4 py-3">
