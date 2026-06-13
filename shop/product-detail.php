@@ -55,7 +55,7 @@ $reviewCount = $db->selectOne("
 
 // Get related products
 $relatedProducts = $db->select("
-    SELECT p.product_id, p.product_name, p.slug, p.base_price, pi.image_url
+    SELECT p.product_id, p.product_name, p.slug, p.base_price, p.is_featured, p.category_id, pi.image_url
     FROM products p
     LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
     WHERE p.category_id = ? AND p.product_id != ? AND p.is_visible = 1 AND p.is_deleted = 0
@@ -533,8 +533,13 @@ if (isLoggedIn()) {
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-gutter">
                 <?php foreach ($relatedProducts as $rel): ?>
-                <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($rel['slug']) ?>" class="group bg-white rounded-xl overflow-hidden border border-outline-variant hover:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] transition-all duration-300">
-                    <div class="relative aspect-square overflow-hidden bg-surface-container">
+                <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($rel['slug']) ?>" 
+                   data-aos="fade-up"
+                   class="group bg-white rounded-xl overflow-hidden border border-outline-variant hover:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] transition-all duration-300 flex flex-col relative">
+                    <div class="relative w-full aspect-square overflow-hidden bg-surface-container flex items-center justify-center">
+                        <?php if (!empty($rel['is_featured'])): ?>
+                        <span class="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_10px_rgba(239,68,68,0.5)] text-white font-label-sm text-label-sm px-3 py-1 rounded-full uppercase tracking-wider z-10">Nổi bật</span>
+                        <?php endif; ?>
                         <?php
                         $isFav = isLoggedIn() && in_array($rel['product_id'], $userWishlistIds);
                         $favColor = $isFav ? 'text-axeron-red' : 'text-on-surface-variant hover:text-axeron-red';
@@ -546,12 +551,38 @@ if (isLoggedIn()) {
                             <span class="material-symbols-outlined text-[20px] <?= $favColor ?>" style="font-variation-settings: 'FILL' <?= $favFill ?>;">favorite</span>
                         </button>
                         <img alt="<?= htmlspecialchars($rel['product_name']) ?>"
-                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                              src="<?= htmlspecialchars(getImageUrl($rel['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($rel['product_name'], 0, 15)))) ?>"/>
+                             
+                        <!-- Quick Add Overlay -->
+                        <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-20 flex justify-center">
+                            <button class="bg-on-surface/90 backdrop-blur-sm hover:bg-axeron-red text-white font-label-md text-label-md px-6 py-2.5 rounded-full shadow-lg transition-all flex items-center gap-2 hover:scale-105 w-[90%] justify-center" onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?= $rel['product_id'] ?>, 0, 1)">
+                                <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                                Mua Ngay
+                            </button>
+                        </div>
                     </div>
-                    <div class="p-4">
-                        <h3 class="font-headline-md text-[18px] text-on-surface font-semibold mb-1 truncate"><?= htmlspecialchars($rel['product_name']) ?></h3>
-                        <p class="text-axeron-red font-bold text-[16px]"><?= formatPrice($rel['base_price']) ?></p>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <h3 class="font-headline-md text-[18px] text-on-surface font-semibold mb-2 truncate group-hover:text-axeron-red transition-colors"><?= htmlspecialchars($rel['product_name']) ?></h3>
+                        <?php 
+                        $promoInfo = getBestPromotionForProduct($rel['product_id'], $rel['category_id'] ?? 0, $rel['base_price']); 
+                        ?>
+                        <div class="flex items-center justify-between gap-2 mb-2 min-h-[24px]">
+                            <div></div>
+                            <?php if ($promoInfo['discount_amount'] > 0): ?>
+                            <span class="text-[10px] bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-2 py-0.5 rounded-sm uppercase tracking-widest text-center max-w-[80px] leading-tight flex-shrink-0"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="mt-auto pt-2 flex items-center justify-between">
+                            <?php if ($promoInfo['discount_amount'] > 0): ?>
+                                <div class="flex flex-col">
+                                    <span class="font-headline-md text-headline-md text-axeron-red text-xl"><?= formatPrice($promoInfo['discounted_price']) ?></span>
+                                    <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($rel['base_price']) ?></span>
+                                </div>
+                            <?php else: ?>
+                                <span class="font-headline-md text-headline-md text-axeron-red text-xl"><?= formatPrice($rel['base_price']) ?></span>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </a>
                 <?php endforeach; ?>

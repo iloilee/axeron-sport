@@ -17,6 +17,8 @@ $products = $db->select("
         p.product_name,
         p.slug,
         p.base_price,
+        p.is_featured,
+        p.category_id,
         p.avg_rating,
         p.total_reviews,
         b.brand_name,
@@ -98,29 +100,57 @@ $products = $db->select("
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter mb-12">
                 <?php foreach ($products as $product): ?>
                 <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
-                    class="group bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col">
+                    data-aos="fade-up"
+                    class="group bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col relative">
                     <div class="relative w-full aspect-square overflow-hidden bg-surface-container-low flex items-center justify-center">
+                        <?php if (!empty($product['is_featured'])): ?>
+                        <span class="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_10px_rgba(239,68,68,0.5)] text-white font-label-sm text-label-sm px-3 py-1 rounded-full uppercase tracking-wider z-10">Nổi bật</span>
+                        <?php endif; ?>
                          <img alt="<?= htmlspecialchars($product['product_name']) ?>"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 15)))) ?>"/>
                         <button class="absolute top-2 right-2 p-2 bg-white/80 rounded-full hover:text-axeron-red hover:bg-white transition-colors opacity-100 z-10"
                             onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(<?= $product['product_id'] ?>, this)">
                             <span class="material-symbols-outlined text-axeron-red" style="font-variation-settings: 'FILL' 1;">favorite</span>
                         </button>
+                        
+                        <!-- Quick Add Overlay -->
+                        <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-20 flex justify-center">
+                            <button class="bg-on-surface/90 backdrop-blur-sm hover:bg-axeron-red text-white font-label-md text-label-md px-6 py-2.5 rounded-full shadow-lg transition-all flex items-center gap-2 hover:scale-105 w-[90%] justify-center" onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?= $product['product_id'] ?>, 0, 1)">
+                                <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                                Mua Ngay
+                            </button>
+                        </div>
                     </div>
                     <div class="p-4 flex flex-col flex-grow">
                         <div class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider"><?= htmlspecialchars($product['brand_name'] ?? '') ?></div>
                         <h3 class="font-headline-md text-headline-md text-on-surface text-lg leading-tight mb-2 line-clamp-2 group-hover:text-axeron-red transition-colors">
                             <?= htmlspecialchars($product['product_name']) ?>
                         </h3>
-                        <?php if ($product['avg_rating']): ?>
-                        <div class="flex items-center gap-1 mb-2">
-                            <span class="material-symbols-outlined text-sm text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
-                            <span class="text-sm text-on-surface-variant"><?= number_format($product['avg_rating'], 1) ?> (<?= $product['total_reviews'] ?>)</span>
+                        <?php $promoInfo = getBestPromotionForProduct($product['product_id'], $product['category_id'] ?? 0, $product['base_price']); ?>
+                        <div class="flex items-center justify-between gap-2 mb-2 min-h-[24px]">
+                            <?php if ($product['avg_rating']): ?>
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="text-sm text-on-surface-variant"><?= number_format($product['avg_rating'], 1) ?> (<?= $product['total_reviews'] ?>)</span>
+                            </div>
+                            <?php else: ?>
+                            <div></div>
+                            <?php endif; ?>
+
+                            <?php if ($promoInfo['discount_amount'] > 0): ?>
+                            <span class="text-[10px] bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-2 py-0.5 rounded-sm uppercase tracking-widest text-center max-w-[80px] leading-tight flex-shrink-0"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                            <?php endif; ?>
                         </div>
-                        <?php endif; ?>
                         <div class="mt-auto pt-2 flex items-center justify-between">
-                            <span class="font-headline-md text-headline-md text-axeron-red text-xl"><?= formatPrice($product['base_price']) ?></span>
+                            <?php if ($promoInfo['discount_amount'] > 0): ?>
+                                <div class="flex flex-col">
+                                    <span class="font-headline-md text-headline-md text-axeron-red text-xl"><?= formatPrice($promoInfo['discounted_price']) ?></span>
+                                    <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($product['base_price']) ?></span>
+                                </div>
+                            <?php else: ?>
+                                <span class="font-headline-md text-headline-md text-axeron-red text-xl"><?= formatPrice($product['base_price']) ?></span>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </a>

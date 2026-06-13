@@ -331,14 +331,23 @@ if (isLoggedIn()) {
                 <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter mb-12">
                     <?php foreach ($products as $product): ?>
                     <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
-                        class="group bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col">
+                        data-aos="fade-up"
+                        class="group bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col relative">
                         <div class="relative w-full aspect-square overflow-hidden bg-surface-container-low flex items-center justify-center">
                             <?php if ($product['is_featured']): ?>
-                            <span class="absolute top-2 left-2 bg-axeron-red text-white font-label-sm text-label-sm px-2 py-1 rounded-full uppercase z-10">Nổi bật</span>
+                            <span class="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_10px_rgba(239,68,68,0.5)] text-white font-label-sm text-label-sm px-3 py-1 rounded-full uppercase tracking-wider z-10">Nổi bật</span>
                             <?php endif; ?>
                              <img alt="<?= htmlspecialchars($product['product_name']) ?>"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                 src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 15)))) ?>"/>
+                                
+                            <!-- Quick Add Overlay -->
+                            <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-20 flex justify-center">
+                                <button class="bg-on-surface/90 backdrop-blur-sm hover:bg-axeron-red text-white font-label-md text-label-md px-6 py-2.5 rounded-full shadow-lg transition-all flex items-center gap-2 hover:scale-105 w-[90%] justify-center" onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?= $product['product_id'] ?>, 0, 1)">
+                                    <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                                    Mua Ngay
+                                </button>
+                            </div>
                             <?php
                             $isFav = in_array($product['product_id'], $wishlistIds);
                             $favFill = $isFav ? "'FILL' 1" : "'FILL' 0";
@@ -367,7 +376,7 @@ if (isLoggedIn()) {
                                 <?php endif; ?>
 
                                 <?php if ($promoInfo['discount_amount'] > 0): ?>
-                                <span class="text-[10px] bg-axeron-red text-white px-1.5 py-0.5 rounded-sm uppercase tracking-widest text-center max-w-[80px] leading-tight flex-shrink-0"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                                <span class="text-[10px] bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-2 py-0.5 rounded-sm uppercase tracking-widest text-center max-w-[80px] leading-tight flex-shrink-0"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
                                 <?php endif; ?>
                             </div>
                             <div class="mt-auto pt-2 flex items-center justify-between">

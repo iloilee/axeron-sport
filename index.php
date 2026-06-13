@@ -215,17 +215,46 @@ if (isLoggedIn()) {
 
         <!-- Section: Thương Hiệu Nổi Bật -->
         <?php if (!empty($activeBrands)): ?>
-        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12" data-aos="fade-up">
-            <h2 class="font-label-lg md:font-headline-sm text-center text-on-surface-variant uppercase tracking-widest mb-6 md:mb-8">Thương Hiệu Đồng Hành</h2>
-            <div class="relative w-full bg-surface-container-lowest py-2 md:py-4 rounded-2xl shadow-sm border border-outline-variant">
-                <div class="flex gap-8 md:gap-16 items-center overflow-x-auto overflow-y-hidden snap-x px-8 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                    <?php foreach ($activeBrands as $brand): ?>
-                    <a href="<?= BASE_URL ?>/shop/product-catalog.php?brand=<?= urlencode($brand['brand_name']) ?>" class="flex-shrink-0 snap-center opacity-50 hover:opacity-100 grayscale hover:grayscale-0 transition-all duration-500 hover:scale-110">
+        <style>
+            @keyframes brand-scroll {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(calc(-100% / 3)); }
+            }
+            .brand-carousel-wrapper {
+                display: flex;
+                width: max-content;
+                animation: brand-scroll 30s linear infinite;
+            }
+            .brand-carousel-wrapper:hover {
+                animation-play-state: paused;
+            }
+            .brand-mask {
+                -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+                mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            }
+        </style>
+        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-4 md:py-8" data-aos="fade-up">
+            <div class="flex justify-center mb-4 md:mb-6">
+                <h2 class="font-label-md md:font-label-lg text-center text-on-surface-variant uppercase tracking-[0.2em] flex items-center gap-4">
+                    <span class="w-12 h-[1px] bg-outline-variant/50 hidden md:block"></span>
+                    Thương Hiệu Đồng Hành
+                    <span class="w-12 h-[1px] bg-outline-variant/50 hidden md:block"></span>
+                </h2>
+            </div>
+            
+            <div class="relative w-full overflow-hidden py-3 md:py-5 brand-mask border-y border-outline-variant/30 bg-gradient-to-r from-transparent via-surface-container-low/40 to-transparent">
+                <div class="brand-carousel-wrapper flex items-center gap-12 md:gap-24 px-8">
+                    <?php 
+                    // Nhân 4 mảng để đảm bảo độ dài chạy infinite thật mượt
+                    $brandsLoop = array_merge($activeBrands, $activeBrands, $activeBrands, $activeBrands); 
+                    foreach ($brandsLoop as $brand): 
+                    ?>
+                    <a href="<?= BASE_URL ?>/shop/product-catalog.php?brand=<?= urlencode($brand['brand_name']) ?>" class="flex-shrink-0 opacity-40 hover:opacity-100 grayscale hover:grayscale-0 transition-all duration-300 hover:scale-105 flex items-center justify-center min-w-[80px] md:min-w-[120px]">
                         <?php if (!empty($brand['logo_url'])): ?>
-                            <img src="<?= htmlspecialchars(getImageUrl($brand['logo_url'], '')) ?>" alt="<?= htmlspecialchars($brand['brand_name']) ?>" class="h-10 md:h-14 object-contain" />
+                            <img src="<?= htmlspecialchars(getImageUrl($brand['logo_url'], '')) ?>" alt="<?= htmlspecialchars($brand['brand_name']) ?>" class="h-6 md:h-9 object-contain opacity-80 hover:opacity-100" />
                         <?php else: ?>
-                            <div class="h-10 md:h-14 flex items-center justify-center font-headline-sm md:font-headline-md text-on-background font-black tracking-tighter italic">
-                                <?= strtoupper($brand['brand_name']) ?>
+                            <div class="h-6 md:h-9 flex items-center justify-center font-label-lg text-on-surface-variant font-black tracking-widest italic uppercase opacity-80 hover:opacity-100">
+                                <?= $brand['brand_name'] ?>
                             </div>
                         <?php endif; ?>
                     </a>
