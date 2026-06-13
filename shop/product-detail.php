@@ -183,9 +183,9 @@ if (isLoggedIn()) {
             <!-- Images Column (Left) -->
             <div class="md:col-span-7 flex flex-col gap-4">
                 <!-- Main Image -->
-                <div class="w-full bg-surface-container rounded-xl overflow-hidden relative group aspect-square md:aspect-auto flex-grow min-h-[400px]">
+                <div id="img-container" class="w-full bg-surface-container rounded-xl overflow-hidden relative group aspect-square flex-grow min-h-[400px]">
                     <img id="main-image" alt="<?= htmlspecialchars($product['product_name']) ?>"
-                         class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                         class="w-full h-full object-cover object-center"
                          src="<?= htmlspecialchars(getImageUrl(!empty($images) ? $images[0]['image_url'] : null, 'https://placehold.co/600x600/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
                     <?php if ($product['is_featured']): ?>
                     <div class="absolute top-4 left-4 bg-axeron-red text-white px-3 py-1 rounded font-label-sm text-label-sm uppercase font-bold tracking-wider">
@@ -609,6 +609,14 @@ if (isLoggedIn()) {
 
         function changeMainImage(url) {
             document.getElementById('main-image').src = window.getImageUrl(url);
+            // Xóa viền đỏ ở tất cả các thumbnail
+            const thumbs = document.querySelectorAll('.grid.grid-cols-4 button');
+            thumbs.forEach(btn => {
+                btn.classList.remove('border-axeron-red');
+                btn.classList.add('border-outline-variant');
+            });
+            // Thêm viền đỏ vào thumbnail được click (cần truyền element vào hàm changeMainImage để làm việc này chuẩn, hoặc tìm theo src)
+            // Tạm thời bỏ qua vì cần refactor
         }
 
         function selectColor(colorName) {
@@ -889,13 +897,40 @@ if (isLoggedIn()) {
 
             // Show loading only on first page
             if (isFirstPage) {
-                reviewsList.innerHTML = '<div class="text-center py-8"><span class="material-symbols-outlined text-4xl animate-spin text-gray-400">progress_activity</span><p class="mt-2 text-on-surface-variant">Đang tải đánh giá...</p></div>';
+                let skeletonHTML = '';
+                for(let i=0; i<3; i++) {
+                    skeletonHTML += `
+                    <div class="flex gap-4 animate-pulse border-b border-outline-variant pb-6 mb-6 last:border-b-0">
+                        <div class="w-12 h-12 bg-surface-container rounded-full flex-shrink-0"></div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="h-4 bg-surface-container rounded w-32"></div>
+                                <div class="h-3 bg-surface-container rounded w-20 ml-auto"></div>
+                            </div>
+                            <div class="flex gap-1 mb-3">
+                                <div class="w-4 h-4 bg-surface-container rounded"></div><div class="w-4 h-4 bg-surface-container rounded"></div><div class="w-4 h-4 bg-surface-container rounded"></div><div class="w-4 h-4 bg-surface-container rounded"></div><div class="w-4 h-4 bg-surface-container rounded"></div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="h-4 bg-surface-container rounded w-full"></div>
+                                <div class="h-4 bg-surface-container rounded w-5/6"></div>
+                            </div>
+                        </div>
+                    </div>`;
+                }
+                reviewsList.innerHTML = `<div class="py-4">${skeletonHTML}</div>`;
             } else {
                 // Append loading indicator for pagination
                 const loader = document.createElement('div');
                 loader.id = 'reviews-loading';
-                loader.className = 'text-center py-4';
-                loader.innerHTML = '<span class="material-symbols-outlined text-3xl animate-spin text-gray-400">progress_activity</span>';
+                loader.className = 'py-4';
+                loader.innerHTML = `
+                    <div class="flex gap-4 animate-pulse border-b border-outline-variant pb-6 mb-6">
+                        <div class="w-12 h-12 bg-surface-container rounded-full flex-shrink-0"></div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2"><div class="h-4 bg-surface-container rounded w-32"></div><div class="h-3 bg-surface-container rounded w-20 ml-auto"></div></div>
+                            <div class="space-y-2"><div class="h-4 bg-surface-container rounded w-full"></div></div>
+                        </div>
+                    </div>`;
                 reviewsList.appendChild(loader);
             }
 

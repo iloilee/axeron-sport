@@ -31,7 +31,11 @@ async function addToCart(productId, variantId, quantity = 1) {
 
         if (data.success) {
             updateCartBadge(data.cart_count);
-            showToast('Đã thêm sản phẩm vào giỏ hàng!', 'success');
+            if (typeof openCartDrawer === 'function') {
+                openCartDrawer();
+            } else {
+                showToast('Đã thêm sản phẩm vào giỏ hàng!', 'success');
+            }
             return true;
         } else {
             showToast(data.message || 'Có lỗi xảy ra', 'error');
@@ -64,7 +68,8 @@ async function updateCartItem(cartItemId, quantity) {
         const data = await response.json();
 
         if (data.success) {
-            updateCartBadge(data.cart_count);
+            const count = data.data ? data.data.cart_count : data.cart_count;
+            updateCartBadge(count);
             return data;
         } else {
             showToast(data.message || 'Có lỗi xảy ra', 'error');
@@ -96,7 +101,8 @@ async function removeFromCart(cartItemId) {
         const data = await response.json();
 
         if (data.success) {
-            updateCartBadge(data.cart_count);
+            const count = data.data ? data.data.cart_count : data.cart_count;
+            updateCartBadge(count);
             showToast('Đã xóa sản phẩm khỏi giỏ hàng', 'success');
             return true;
         } else {
@@ -108,6 +114,135 @@ async function removeFromCart(cartItemId) {
         showToast('Không thể xóa sản phẩm', 'error');
         return false;
     }
+}
+
+// ==========================================
+// CART DRAWER MANAGEMENT
+// ==========================================
+
+function openCartDrawer() {
+    const drawer = document.getElementById('cart-drawer');
+    const backdrop = document.getElementById('cart-drawer-backdrop');
+    if (drawer && backdrop) {
+        backdrop.classList.remove('hidden');
+        // Kích hoạt transition
+        setTimeout(() => {
+            backdrop.classList.remove('opacity-0');
+            drawer.classList.remove('translate-x-full');
+        }, 10);
+        loadCartDrawerItems();
+    } else {
+        // Nếu không có drawer (ở trang checkout chẳng hạn), redirect sang cart
+        window.location.href = BASE_URL + '/shop/cart.php';
+    }
+}
+
+function closeCartDrawer() {
+    const drawer = document.getElementById('cart-drawer');
+    const backdrop = document.getElementById('cart-drawer-backdrop');
+    if (drawer && backdrop) {
+        backdrop.classList.add('opacity-0');
+        drawer.classList.add('translate-x-full');
+        setTimeout(() => {
+            backdrop.classList.add('hidden');
+        }, 300); // Đợi transition CSS chạy xong
+    }
+}
+
+async function loadCartDrawerItems() {
+    const body = document.getElementById('cart-drawer-body');
+    const subtotalEl = document.getElementById('cart-drawer-subtotal');
+    const countEl = document.getElementById('cart-drawer-count');
+    
+    if (!body) return;
+    
+    body.innerHTML = '<div class="text-center py-12"><span class="material-symbols-outlined text-4xl animate-spin text-outline-variant">progress_activity</span></div>';
+    
+    try {
+        const response = await fetch(`${BASE_URL}/api/cart.php`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'get' })
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+            const resultData = data.data || {};
+            updateCartBadge(resultData.count || 0);
+            if (countEl) countEl.textContent = `(${resultData.count || 0})`;
+            
+            if (!resultData.items || resultData.items.length === 0) {
+                body.innerHTML = `
+                    <div class="text-center py-16 flex flex-col items-center">
+                        <span class="material-symbols-outlined text-6xl text-outline-variant mb-4">shopping_cart</span>
+                        <p class="text-on-surface-variant font-medium mb-6">Giỏ hàng của bạn đang trống</p>
+                        <button onclick="closeCartDrawer()" class="px-6 py-2 bg-axeron-red text-white rounded-lg hover:bg-primary transition-colors">Tiếp tục mua sắm</button>
+                    </div>
+                `;
+                if (subtotalEl) subtotalEl.textContent = '0đ';
+                return;
+            }
+            
+            let html = '';
+            let subtotal = 0;
+            
+            resultData.items.forEach(item => {
+                const img = window.getImageUrl ? window.getImageUrl(item.image_url) : (item.image_url || 'https://placehold.co/100x100');
+                const priceFormat = new Intl.NumberFormat('vi-VN').format(item.unit_price).replace(/,/g, '.') + 'đ';
+                const originalPriceFormat = new Intl.NumberFormat('vi-VN').format(item.original_price).replace(/,/g, '.') + 'đ';
+                subtotal += item.unit_price * item.quantity;
+                
+                html += `
+                    <div class="flex gap-4 border border-outline-variant p-3 rounded-xl relative group bg-surface-container-lowest hover:border-axeron-red/50 transition-colors">
+                        <img src="${img}" alt="${item.product_name}" class="w-20 h-20 object-cover rounded-md bg-surface-container">
+                        <div class="flex-1 flex flex-col justify-between">
+                            <div class="pr-6">
+                                <h4 class="font-headline-sm text-sm text-on-surface line-clamp-2 leading-tight mb-1">${item.product_name}</h4>
+                                <div class="text-xs text-on-surface-variant flex gap-2">
+                                    ${item.color ? `<span>Màu: <strong class="text-on-surface">${item.color}</strong></span>` : ''}
+                                    ${item.size ? `<span>Size: <strong class="text-on-surface">${item.size}</strong></span>` : ''}
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-axeron-red">${priceFormat}</span>
+                                    ${item.unit_price < item.original_price ? `<span class="text-xs text-on-surface-variant line-through">${originalPriceFormat}</span>` : ''}
+                                </div>
+                                
+                                <div class="flex items-center border border-outline-variant rounded-md overflow-hidden bg-white">
+                                    <button class="w-7 h-7 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant" onclick="updateDrawerCartItem(${item.cart_item_id}, ${item.quantity - 1})">-</button>
+                                    <span class="w-8 text-center font-medium text-sm text-on-surface flex items-center justify-center">${item.quantity}</span>
+                                    <button class="w-7 h-7 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant" onclick="updateDrawerCartItem(${item.cart_item_id}, ${item.quantity + 1})">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="removeDrawerCartItem(${item.cart_item_id})" class="absolute top-2 right-2 text-outline-variant hover:text-axeron-red transition-colors p-1 bg-surface-container-lowest rounded-full shadow-sm opacity-0 group-hover:opacity-100" aria-label="Xóa">
+                            <span class="material-symbols-outlined text-[18px]">delete</span>
+                        </button>
+                    </div>
+                `;
+            });
+            
+            body.innerHTML = html;
+            if (subtotalEl) subtotalEl.textContent = new Intl.NumberFormat('vi-VN').format(subtotal).replace(/,/g, '.') + 'đ';
+            
+        } else {
+            body.innerHTML = '<div class="text-center py-8 text-axeron-red">Có lỗi khi tải giỏ hàng</div>';
+        }
+    } catch (e) {
+        body.innerHTML = '<div class="text-center py-8 text-axeron-red">Lỗi kết nối</div>';
+    }
+}
+
+async function updateDrawerCartItem(cartItemId, quantity) {
+    if (quantity < 1) return removeDrawerCartItem(cartItemId);
+    await updateCartItem(cartItemId, quantity);
+    loadCartDrawerItems();
+}
+
+async function removeDrawerCartItem(cartItemId) {
+    await removeFromCart(cartItemId);
+    loadCartDrawerItems();
 }
 
 /**

@@ -30,6 +30,45 @@ $socialYoutube = $footerData['social_youtube'] ?? '#';
 $socialInstagram = $footerData['social_instagram'] ?? '#';
 $socialZalo = $footerData['social_zalo'] ?? '#';
 ?>
+<!-- Slide-out Cart Drawer -->
+<div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] hidden opacity-0 transition-opacity duration-300" onclick="closeCartDrawer()"></div>
+<div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[450px] bg-surface-container-lowest shadow-2xl z-[70] translate-x-full transition-transform duration-300 flex flex-col">
+    <!-- Header -->
+    <div class="px-6 py-4 border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
+        <h2 class="font-headline-md text-xl text-on-surface flex items-center gap-2">
+            <span class="material-symbols-outlined text-axeron-red">shopping_bag</span>
+            Giỏ Hàng <span id="cart-drawer-count" class="text-on-surface-variant font-label-md text-base font-normal ml-1">(0)</span>
+        </h2>
+        <button onclick="closeCartDrawer()" class="p-2 hover:bg-surface-container rounded-full text-on-surface-variant hover:text-axeron-red transition-colors" aria-label="Đóng">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    
+    <!-- Body: Cart Items -->
+    <div id="cart-drawer-body" class="flex-grow overflow-y-auto p-4 sm:p-6 space-y-4">
+        <div class="text-center py-12">
+            <span class="material-symbols-outlined text-4xl animate-spin text-outline-variant">progress_activity</span>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="border-t border-outline-variant p-6 bg-surface-container-low mt-auto">
+        <div class="flex justify-between items-center mb-4">
+            <span class="font-label-lg text-on-surface-variant uppercase tracking-widest">Tạm tính</span>
+            <span id="cart-drawer-subtotal" class="font-headline-md text-axeron-red text-2xl font-bold">0đ</span>
+        </div>
+        <p class="text-sm text-on-surface-variant mb-4 text-center">Phí vận chuyển sẽ được tính ở bước thanh toán.</p>
+        <div class="grid grid-cols-2 gap-3">
+            <a href="<?= BASE_URL ?>/shop/cart.php" class="py-3 px-4 border border-outline-variant rounded-lg text-center font-label-lg hover:border-axeron-red hover:text-axeron-red transition-colors text-on-surface bg-surface-container-lowest">
+                Xem giỏ hàng
+            </a>
+            <a href="<?= BASE_URL ?>/shop/checkout.php" class="py-3 px-4 bg-axeron-red text-white rounded-lg text-center font-label-lg hover:bg-primary transition-colors uppercase tracking-wider">
+                Thanh toán
+            </a>
+        </div>
+    </div>
+</div>
+
 <!-- SideNavBar (Floating Support) -->
 <div class="fixed right-4 bottom-24 z-50 flex flex-col space-y-3">
     <!-- Chatbot Button -->

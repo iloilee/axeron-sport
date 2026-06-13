@@ -237,11 +237,13 @@ $isGuestCancelRequested = (strpos($order['note'] ?? '', '[Yêu cầu hủy từ 
             <div class="space-y-4">
                 <?php foreach ($orderItems as $item): ?>
                 <div class="flex gap-4 items-center py-4 border-b border-outline-variant last:border-0">
-                    <div class="w-20 h-20 bg-surface-variant rounded-lg flex-shrink-0 overflow-hidden">
-                        <img alt="" class="w-full h-full object-cover" src="<?= htmlspecialchars(getImageUrl($item['image_url'], 'https://placehold.co/80x80/f0eded/5b403f?text=Product')) ?>"/>
-                    </div>
+                    <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($item['slug']) ?>" class="w-20 h-20 bg-surface-variant rounded-lg flex-shrink-0 overflow-hidden block">
+                        <img alt="<?= htmlspecialchars($item['product_name']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform" src="<?= htmlspecialchars(getImageUrl($item['image_url'], 'https://placehold.co/80x80/f0eded/5b403f?text=Product')) ?>"/>
+                    </a>
                     <div class="flex-grow">
-                        <h3 class="font-label-lg text-label-lg text-on-surface"><?= htmlspecialchars($item['product_name']) ?></h3>
+                        <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($item['slug']) ?>" class="hover:text-axeron-red transition-colors">
+                            <h3 class="font-label-lg text-label-lg text-on-surface hover:text-axeron-red"><?= htmlspecialchars($item['product_name']) ?></h3>
+                        </a>
                         <p class="text-on-surface-variant text-sm"><?= htmlspecialchars($item['variant_info'] ?? '') ?></p>
                         <p class="text-sm text-on-surface-variant">SL: <?= $item['quantity'] ?></p>
                         <?php if ($isDelivered && !empty($item['product_id'])): ?>
