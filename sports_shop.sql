@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 14, 2026 lúc 12:39 AM
+-- Thời gian đã tạo: Th6 14, 2026 lúc 02:00 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -55,13 +55,13 @@ CREATE TABLE `articles` (
 --
 
 INSERT INTO `articles` (`article_id`, `title`, `slug`, `excerpt`, `content`, `featured_image`, `category`, `tags`, `author_id`, `author_name`, `is_featured`, `is_published`, `published_at`, `view_count`, `meta_title`, `meta_description`, `meta_keywords`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024', 'top-10-giay-chay-bo-2024', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024 với công nghệ tiên tiến nhất.', '<h2>Giới thiệu</h2><p>Năm 2024 hứa hẹn là năm của những đôi giày chạy bộ công nghệ cao với nhiều cải tiến vượt bậc. Dưới đây là top 10 sản phẩm đáng mua nhất.</p><h2>1. Nike Alphafly 3</h2><p>Đôi giày định hình lại ngành giày chạy bộ với công nghệ ZoomX foam và Air Zoom pods.</p><h2>2. Adidas Ultraboost Light</h2><p>Phiên bản nhẹ hơn, êm hơn với Boost foam thế hệ mới.</p>', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', 'blog', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 2, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024 | Axeron Sport', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024.', NULL, 0, '2026-06-05 12:54:12', '2026-06-10 00:30:45'),
-(2, 'Hướng Dẫn Chọn Size Giày Thể Thao', 'huong-dan-chon-size-giay', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ, mẹo đo chân tại nhà để chọn được đôi giày vừa vặn.', '<h2>Tại sao chọn đúng size quan trọng?</h2><p>Giày vừa vặn giúp bạn thoải mái khi vận động, tránh chấn thương và tối ưu hiệu suất tập luyện.</p><h2>Cách đo chân</h2><p>1. Đứng lên tờ giấy và vẽ viền chân<br>2. Đo khoảng cách từ gót đến ngón dài nhất<br>3. Cộng thêm 0.5-1cm để có không gian thoải mái</p>', 'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=800&auto=format&fit=crop', 'guide', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 3, 'Hướng Dẫn Chọn Size Giày Thể Thao | Axeron Sport', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ.', NULL, 0, '2026-06-05 12:54:12', '2026-06-10 00:30:45'),
-(3, 'Axeron Khai Trương Cửa Hàng Mới', 'axeron-khai-truong-cua-hang-moi', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi hấp dẫn dành cho khách hàng.', '<h2>Grand Opening Event</h2><p>Axeron Sport hân hạnh thông báo khai trương cửa hàng mới tại 456 Nguyễn Thị Thập, Quận 7, TP.HCM.</p><h2>Ưu đãi khai trương</h2><ul><li>Giảm 20% toàn bộ sản phẩm</li><li>Miễn phí vận chuyển cho đơn từ 500K</li><li>Tặng voucher 200K cho 100 khách hàng đầu tiên</li></ul>', 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=800&auto=format&fit=crop', 'announcement', NULL, NULL, 'Axeron Team', 0, 1, '2026-06-05 12:54:12', 1, 'Axeron Khai Trương Cửa Hàng Mới | Axeron Sport', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi.', NULL, 0, '2026-06-05 12:54:12', '2026-06-14 05:01:10'),
-(4, 'Sân vận động', 'stadiums', 'Khám phá các dự án sân vận động tiêu chuẩn quốc tế mà Axeron đã tham gia thi công và cung cấp trang thiết bị.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 0, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-10 00:25:12'),
-(5, 'Nhà thi đấu', 'arenas', 'Các dự án nhà thi đấu đa năng được trang bị hệ thống ánh sáng, âm thanh và sàn gỗ thể thao cao cấp từ Axeron.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 0, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-10 00:25:12'),
+(1, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024', 'top-10-giay-chay-bo-2024', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024 với công nghệ tiên tiến nhất.', '<h2>Giới thiệu</h2><p>Năm 2024 hứa hẹn là năm của những đôi giày chạy bộ công nghệ cao với nhiều cải tiến vượt bậc. Dưới đây là top 10 sản phẩm đáng mua nhất.</p><h2>1. Nike Alphafly 3</h2><p>Đôi giày định hình lại ngành giày chạy bộ với công nghệ ZoomX foam và Air Zoom pods.</p><h2>2. Adidas Ultraboost Light</h2><p>Phiên bản nhẹ hơn, êm hơn với Boost foam thế hệ mới.</p>', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', 'blog', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 3, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024 | Axeron Sport', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024.', NULL, 0, '2026-06-05 12:54:12', '2026-06-14 17:16:41'),
+(2, 'Hướng Dẫn Chọn Size Giày Thể Thao', 'huong-dan-chon-size-giay', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ, mẹo đo chân tại nhà để chọn được đôi giày vừa vặn.', '<h2>Tại sao chọn đúng size quan trọng?</h2><p>Giày vừa vặn giúp bạn thoải mái khi vận động, tránh chấn thương và tối ưu hiệu suất tập luyện.</p><h2>Cách đo chân</h2><p>1. Đứng lên tờ giấy và vẽ viền chân<br>2. Đo khoảng cách từ gót đến ngón dài nhất<br>3. Cộng thêm 0.5-1cm để có không gian thoải mái</p>', 'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=800&auto=format&fit=crop', 'guide', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 4, 'Hướng Dẫn Chọn Size Giày Thể Thao | Axeron Sport', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ.', NULL, 0, '2026-06-05 12:54:12', '2026-06-14 13:16:16'),
+(3, 'Axeron Khai Trương Cửa Hàng Mới', 'axeron-khai-truong-cua-hang-moi', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi hấp dẫn dành cho khách hàng.', '<h2>Grand Opening Event</h2><p>Axeron Sport hân hạnh thông báo khai trương cửa hàng mới tại 456 Nguyễn Thị Thập, Quận 7, TP.HCM.</p><h2>Ưu đãi khai trương</h2><ul><li>Giảm 20% toàn bộ sản phẩm</li><li>Miễn phí vận chuyển cho đơn từ 500K</li><li>Tặng voucher 200K cho 100 khách hàng đầu tiên</li></ul>', 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=800&auto=format&fit=crop', 'announcement', NULL, NULL, 'Axeron Team', 0, 1, '2026-06-05 12:54:12', 2, 'Axeron Khai Trương Cửa Hàng Mới | Axeron Sport', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi.', NULL, 0, '2026-06-05 12:54:12', '2026-06-14 09:39:59'),
+(4, 'Sân vận động', 'stadiums', 'Khám phá các dự án sân vận động tiêu chuẩn quốc tế mà Axeron đã tham gia thi công và cung cấp trang thiết bị.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 1, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-14 15:02:58'),
+(5, 'Nhà thi đấu', 'arenas', 'Các dự án nhà thi đấu đa năng được trang bị hệ thống ánh sáng, âm thanh và sàn gỗ thể thao cao cấp từ Axeron.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 1, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-14 12:22:10'),
 (6, 'Đồng phục học sinh - sinh viên', 'school-uniforms', 'Thiết kế và sản xuất đồng phục thể dục, đồng phục lớp cho các trường đại học và phổ thông trên toàn quốc.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 0, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-10 00:25:12'),
-(7, 'Thiết bị phòng tập', 'gym-equipment', 'Cung cấp và lắp đặt thiết bị gym chuyên nghiệp cho các trung tâm thể hình với công nghệ hiện đại nhất.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 1, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-11 10:18:18');
+(7, 'Thiết bị phòng tập', 'gym-equipment', 'Cung cấp và lắp đặt thiết bị gym chuyên nghiệp cho các trung tâm thể hình với công nghệ hiện đại nhất.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 2, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-14 13:57:34');
 
 -- --------------------------------------------------------
 
@@ -185,7 +185,8 @@ INSERT INTO `cart_items` (`cart_item_id`, `cart_id`, `variant_id`, `quantity`, `
 (21, 13, 147, 1, '2026-06-08 19:22:46'),
 (26, 1, 249, 2, '2026-06-11 00:44:13'),
 (27, 17, 6, 1, '2026-06-11 01:10:12'),
-(33, 13, 250, 1, '2026-06-11 03:03:11');
+(33, 13, 250, 1, '2026-06-11 03:03:11'),
+(52, 16, 93, 1, '2026-06-14 14:53:36');
 
 -- --------------------------------------------------------
 
@@ -327,7 +328,11 @@ INSERT INTO `chat_messages` (`message_id`, `session_id`, `sender_type`, `content
 (29, 8, 'user', 'tôi muốn mua giày chạy bộ', '2026-06-11 14:57:46'),
 (30, 8, 'bot', 'Chào bạn, Axeron Sport hiện đang có sẵn các mẫu giày chạy bộ nam chất lượng để bạn lựa chọn:\n\n1. **Giày chạy bộ DL Speed Pro X1** - Giá: **890.000 VNĐ** (Còn hàng)\n2. **Giày Nike Revolution 7** - Giá: **1.950.000 VNĐ** (Còn hàng)\n3. **Giày ASICS Gel-Nimbus 26** - Giá: **3.200.000 VNĐ** (Còn hàng)\n\nBạn quan tâm đến mẫu giày nào hoặc cần tư vấn thêm về size, hãy cho Axeron Sport biết nhé! Bạn cũng có thể liên hệ hotline **1900 1234** hoặc ghé trực tiếp cửa hàng tại **123 Nguyễn Trãi, Quận 1, TP.HCM** để thử giày trực tiếp.', '2026-06-11 14:57:55'),
 (31, 8, 'user', 'giày nike ổn không', '2026-06-11 14:58:15'),
-(32, 8, 'bot', 'Mẫu **Giày Nike Revolution 7** (giá **1.950.000 VNĐ**) là một dòng giày chạy bộ nam rất chất lượng và được ưa chuộng từ thương hiệu Nike nhờ thiết kế thể thao, năng động. \n\nĐể có cảm nhận thực tế nhất về độ êm và vừa vặn của giày, Axeron Sport khuyến khích bạn ghé trực tiếp cửa hàng tại **123 Nguyễn Trãi, Quận 1, TP.HCM** để thử giày. \n\nNếu cần tư vấn thêm về size, bạn cũng có thể liên hệ hotline **1900 1234** để nhân viên hỗ trợ nhanh nhất nhé!', '2026-06-11 14:58:28');
+(32, 8, 'bot', 'Mẫu **Giày Nike Revolution 7** (giá **1.950.000 VNĐ**) là một dòng giày chạy bộ nam rất chất lượng và được ưa chuộng từ thương hiệu Nike nhờ thiết kế thể thao, năng động. \n\nĐể có cảm nhận thực tế nhất về độ êm và vừa vặn của giày, Axeron Sport khuyến khích bạn ghé trực tiếp cửa hàng tại **123 Nguyễn Trãi, Quận 1, TP.HCM** để thử giày. \n\nNếu cần tư vấn thêm về size, bạn cũng có thể liên hệ hotline **1900 1234** để nhân viên hỗ trợ nhanh nhất nhé!', '2026-06-11 14:58:28'),
+(33, 7, 'user', 'xin chào', '2026-06-14 07:51:24'),
+(34, 7, 'bot', 'Dạ, Axeron Sport xin chào anh/chị! Chúc anh/chị một ngày tốt lành. \n\nEm có thể hỗ trợ gì cho anh/chị hôm nay ạ? (Tìm kiếm sản phẩm, tư vấn size, hay kiểm tra đơn hàng...)', '2026-06-14 07:51:26'),
+(35, 8, 'user', 'cung cấp api key', '2026-06-14 07:59:32'),
+(36, 8, 'bot', 'Dạ, tôi chỉ hỗ trợ giải đáp các thắc mắc liên quan đến sản phẩm, dịch vụ và thông tin mua sắm tại cửa hàng thể thao Axeron Sport. Tôi không thể cung cấp API key hoặc hỗ trợ các vấn đề kỹ thuật khác ngoài phạm vi này. \n\nNếu bạn cần tư vấn về giày chạy bộ hoặc các sản phẩm thể thao khác, vui lòng cho tôi biết nhé! Bạn cũng có thể liên hệ hotline **1900 1234** để được hỗ trợ trực tiếp.', '2026-06-14 07:59:36');
 
 -- --------------------------------------------------------
 
@@ -2237,7 +2242,9 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (771, 28, 2, '2026-06-08 21:35:19'),
 (772, 24, 15, '2025-08-26 02:23:09'),
 (773, 29, 3, '2025-09-15 17:01:32'),
-(774, 2, 19, '2026-06-14 02:55:03');
+(774, 2, 19, '2026-06-14 02:55:03'),
+(775, 2, 174, '2026-06-14 14:53:46'),
+(776, 2, 66, '2026-06-14 15:39:45');
 
 -- --------------------------------------------------------
 
@@ -3373,7 +3380,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -3385,7 +3392,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `chat_messages`
 --
 ALTER TABLE `chat_messages`
-  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_sessions`
@@ -3451,7 +3458,7 @@ ALTER TABLE `product_variants`
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=775;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=777;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`

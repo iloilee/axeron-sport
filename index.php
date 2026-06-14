@@ -175,38 +175,38 @@ if (isLoggedIn()) {
                     <div class="img-marquee-item">
                         <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=ao-polo-nam">
                             <img alt="Axeron Nike Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                src="<?= BASE_URL ?>/assets/images/home_banner_image_1.jpg"/>
+                                src="<?= BASE_URL ?>/assets/catalog-banner/catalog_banner_image_1.jpg"/>
                         </a>
                     </div>
                     <div class="img-marquee-item">
                         <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=giay-pickleball">
                             <img alt="Axeron Pickleball Shoes Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                src="<?= BASE_URL ?>/assets/images/home_banner_image_2.jpg"/>
+                                src="<?= BASE_URL ?>/assets/catalog-banner/catalog_banner_image_2.jpg"/>
                         </a>
                     </div>
                     <div class="img-marquee-item">
                         <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=vot-cau-long">
                             <img alt="Axeron Badminton Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                src="<?= BASE_URL ?>/assets/images/home_banner_image_3.jpg"/>
+                                src="<?= BASE_URL ?>/assets/catalog-banner/catalog_banner_image_3.jpg"/>
                         </a>
                     </div>
                     <!-- Duplicated 3 for seamless loop -->
                     <div class="img-marquee-item">
                         <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=ao-polo-nam">
                             <img alt="Axeron Nike Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                src="<?= BASE_URL ?>/assets/images/home_banner_image_1.jpg"/>
+                                src="<?= BASE_URL ?>/assets/catalog-banner/catalog_banner_image_1.jpg"/>
                         </a>
                     </div>
                     <div class="img-marquee-item">
                         <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=giay-pickleball">
                             <img alt="Axeron Pickleball Shoes Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                src="<?= BASE_URL ?>/assets/images/home_banner_image_2.jpg"/>
+                                src="<?= BASE_URL ?>/assets/catalog-banner/catalog_banner_image_2.jpg"/>
                         </a>
                     </div>
                     <div class="img-marquee-item">
                         <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= BASE_URL ?>/shop/product-catalog.php?category=vot-cau-long">
                             <img alt="Axeron Badminton Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                src="<?= BASE_URL ?>/assets/images/home_banner_image_3.jpg"/>
+                                src="<?= BASE_URL ?>/assets/catalog-banner/catalog_banner_image_3.jpg"/>
                         </a>
                     </div>
                 </div>
