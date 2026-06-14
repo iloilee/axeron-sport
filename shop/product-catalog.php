@@ -15,6 +15,7 @@ $minPrice = (int)($_GET['min_price'] ?? 0);
 $maxPrice = (int)($_GET['max_price'] ?? 0);
 $sortBy = sanitize($_GET['sort'] ?? 'popular');
 $page = max(1, (int)($_GET['page'] ?? 1));
+$isFeatured = isset($_GET['featured']) && $_GET['featured'] == '1';
 $perPage = 12;
 
 // Current category info
@@ -70,6 +71,10 @@ if ($minPrice > 0) {
 if ($maxPrice > 0) {
     $where[] = "p.base_price <= ?";
     $params[] = $maxPrice;
+}
+
+if ($isFeatured) {
+    $where[] = "p.is_featured = 1";
 }
 
 $whereClause = implode(' AND ', $where);
@@ -214,6 +219,9 @@ if (isLoggedIn()) {
                     <?php if ($search): ?>
                         <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
                     <?php endif; ?>
+                    <?php if ($isFeatured): ?>
+                        <input type="hidden" name="featured" value="1">
+                    <?php endif; ?>
 
                     <!-- Price Filter -->
                     <div class="mb-6 border-b border-outline-variant pb-6">
@@ -278,6 +286,8 @@ if (isLoggedIn()) {
                     <h1 class="font-headline-lg text-headline-lg text-on-surface">
                         <?php if ($search): ?>
                             Kết quả tìm kiếm: "<?= htmlspecialchars($search) ?>"
+                        <?php elseif ($isFeatured): ?>
+                            Sản Phẩm Nổi Bật
                         <?php elseif ($currentCategory): ?>
                             <?= htmlspecialchars($currentCategory['category_name']) ?>
                         <?php else: ?>

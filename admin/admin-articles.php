@@ -413,28 +413,29 @@ document.getElementById('article-form').addEventListener('submit', async functio
 });
 
 // Delete article
-async function deleteArticle(articleId) { showConfirm('Bạn có chắc muốn xóa bài viết này?', async () => { 
+function deleteArticle(articleId) { 
+    showConfirm('Bạn có chắc muốn xóa bài viết này?', async () => { 
+        try {
+            const formData = new FormData();
+            formData.append('action', 'delete_article');
+            formData.append('article_id', articleId);
 
-    try {
-        const formData = new FormData();
-        formData.append('action', 'delete_article');
-        formData.append('article_id', articleId);
+            const response = await fetch('<?= BASE_URL ?>/api/cms-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
 
-        const response = await fetch('<?= BASE_URL ?>/api/cms-api.php', {
-            method: 'POST',
-            body: formData
-         }); });
-        const result = await response.json();
-
-        if (result.success) {
-            showToast(result.message, 'success');
-            loadArticles(currentPage);
-        } else {
-            showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            if (result.success) {
+                showToast(result.message, 'success');
+                loadArticles(currentPage);
+            } else {
+                showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            }
+        } catch (error) {
+            showToast('Có lỗi xảy ra!', 'error');
         }
-    } catch (error) {
-        showToast('Có lỗi xảy ra!', 'error');
-    }
+    });
 }
 
 // Image upload handling

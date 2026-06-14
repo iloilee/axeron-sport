@@ -242,7 +242,7 @@ if (isLoggedIn()) {
                     Sản Phẩm Nổi Bật
                     <span class="absolute -bottom-4 left-0 w-1/2 h-1 bg-axeron-red"></span>
                 </h2>
-                <a class="flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-red transition-colors shrink-0 whitespace-nowrap" href="<?= BASE_URL ?>/shop/product-catalog.php">
+                <a class="flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-red transition-colors shrink-0 whitespace-nowrap" href="<?= BASE_URL ?>/shop/product-catalog.php?featured=1">
                     <span class="hidden md:inline">Xem tất cả</span> 
                     <span class="material-symbols-outlined text-xl md:text-lg bg-surface-container-high md:bg-transparent rounded-full p-1.5 md:p-0">chevron_right</span>
                 </a>

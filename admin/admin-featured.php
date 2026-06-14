@@ -91,7 +91,6 @@ $featuredProducts = $db->select("
                             <button type="button" onclick="removeFeaturedProduct(<?= $product['product_id'] ?>, '<?= htmlspecialchars($product['product_name']) ?>')"
                                     class="px-2.5 py-1 text-red-600 hover:bg-red-50 rounded-lg transition-colors inline-flex items-center gap-1 text-xs font-semibold">
                                 <span class="material-symbols-outlined text-sm">delete</span>
-                                Gỡ nổi bật
                             </button>
                         </td>
                     </tr>
