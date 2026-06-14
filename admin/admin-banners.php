@@ -44,12 +44,7 @@
                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none">
                 </div>
 
-                <!-- Subtitle -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Phụ đề</label>
-                    <input type="text" name="subtitle" id="banner-subtitle"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none">
-                </div>
+
 
                 <!-- Image Upload -->
                 <div>
@@ -79,17 +74,12 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Link URL</label>
-                        <input type="url" name="link_url" id="banner-link-url"
+                        <input type="text" name="link_url" id="banner-link-url"
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none">
                     </div>
                 </div>
 
-                <!-- Button Text -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Text nút bấm</label>
-                    <input type="text" name="button_text" id="banner-button-text" placeholder="VD: Mua Ngay"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none">
-                </div>
+
 
                 <!-- Position & Status -->
                 <div class="grid grid-cols-2 gap-4">
@@ -107,19 +97,7 @@
                     </div>
                 </div>
 
-                <!-- Schedule -->
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Ngày bắt đầu</label>
-                        <input type="datetime-local" name="start_date" id="banner-start-date"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Ngày kết thúc</label>
-                        <input type="datetime-local" name="end_date" id="banner-end-date"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none">
-                    </div>
-                </div>
+
             </div>
 
             <div class="flex justify-end gap-3 mt-6 pt-4 border-t">
@@ -182,7 +160,7 @@ function renderBanners() {
             </div>
             <div class="p-4">
                 <h4 class="font-semibold text-gray-800 truncate">${banner.title}</h4>
-                <p class="text-sm text-gray-500 truncate">${banner.subtitle || 'Không có phụ đề'}</p>
+
                 <div class="flex items-center gap-2 mt-2">
                     <span class="text-xs px-2 py-1 rounded ${banner.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}">
                         ${banner.is_active ? 'Đang hiển thị' : 'Đã ẩn'}
@@ -218,21 +196,13 @@ function editBanner(bannerId) {
     document.getElementById('banner-action').value = 'update_banner';
     document.getElementById('banner-id').value = bannerId;
     document.getElementById('banner-title').value = banner.title || '';
-    document.getElementById('banner-subtitle').value = banner.subtitle || '';
     document.getElementById('banner-image-url').value = banner.image_url || '';
     document.getElementById('banner-link-type').value = banner.link_type || 'none';
     document.getElementById('banner-link-url').value = banner.link_url || '';
-    document.getElementById('banner-button-text').value = banner.button_text || '';
     document.getElementById('banner-position').value = banner.position || 0;
     document.getElementById('banner-is-active').checked = banner.is_active == 1;
 
-    // Format dates
-    if (banner.start_date) {
-        document.getElementById('banner-start-date').value = banner.start_date.slice(0, 16);
-    }
-    if (banner.end_date) {
-        document.getElementById('banner-end-date').value = banner.end_date.slice(0, 16);
-    }
+
 
     // Show image preview
     if (banner.image_url) {
@@ -276,28 +246,29 @@ document.getElementById('banner-form').addEventListener('submit', async function
 });
 
 // Delete banner
-async function deleteBanner(bannerId) { showConfirm('Bạn có chắc muốn xóa banner này?', async () => { 
+function deleteBanner(bannerId) { 
+    showConfirm('Bạn có chắc muốn xóa banner này?', async () => { 
+        try {
+            const formData = new FormData();
+            formData.append('action', 'delete_banner');
+            formData.append('banner_id', bannerId);
 
-    try {
-        const formData = new FormData();
-        formData.append('action', 'delete_banner');
-        formData.append('banner_id', bannerId);
+            const response = await fetch('<?= BASE_URL ?>/api/cms-api.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
 
-        const response = await fetch('<?= BASE_URL ?>/api/cms-api.php', {
-            method: 'POST',
-            body: formData
-         }); });
-        const result = await response.json();
-
-        if (result.success) {
-            showToast(result.message, 'success');
-            loadBanners();
-        } else {
-            showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            if (result.success) {
+                showToast(result.message, 'success');
+                loadBanners();
+            } else {
+                showToast(result.message || 'Có lỗi xảy ra!', 'error');
+            }
+        } catch (error) {
+            showToast('Có lỗi xảy ra!', 'error');
         }
-    } catch (error) {
-        showToast('Có lỗi xảy ra!', 'error');
-    }
+    });
 }
 
 // Image upload handling

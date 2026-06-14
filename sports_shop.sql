@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 14, 2026 lúc 02:00 PM
+-- Thời gian đã tạo: Th6 14, 2026 lúc 02:29 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -94,12 +94,15 @@ CREATE TABLE `banners` (
 --
 
 INSERT INTO `banners` (`banner_id`, `title`, `subtitle`, `image_url`, `image_url_mobile`, `link_url`, `link_type`, `target_id`, `button_text`, `position`, `is_active`, `start_date`, `end_date`, `click_count`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 'Siêu Sale Mùa Hè', 'Giảm đến 50% cho các sản phẩm thể thao', 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=1920&auto=format&fit=crop', 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=1920&auto=format&fit=crop', NULL, 'url', NULL, 'Mua Ngay', 1, 1, NULL, NULL, 0, NULL, '2026-06-05 12:54:12', '2026-06-10 00:33:58'),
-(2, 'Colección Adidas Mới', 'Công nghệ Boost đỉnh cao - Thiết kế hiện đại', 'https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1920&auto=format&fit=crop', 'https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1920&auto=format&fit=crop', NULL, 'category', NULL, 'Khám Phá Ngay', 2, 1, NULL, NULL, 0, NULL, '2026-06-05 12:54:12', '2026-06-10 00:33:58'),
-(3, 'Giày Chạy Bộ Pro', 'Hỗ trợ tối đa - Cực kỳ nhẹ', 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?q=80&w=1920&auto=format&fit=crop', 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?q=80&w=1920&auto=format&fit=crop', NULL, 'url', NULL, 'Xem Chi Tiết', 3, 1, NULL, NULL, 0, NULL, '2026-06-05 12:54:12', '2026-06-10 00:33:58'),
-(4, 'Bùng Nổ Đam Mê Bóng Đá', 'Trang bị trọn bộ thiết bị và giày bóng đá chuyên nghiệp', 'https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=1920&auto=format&fit=crop', 'https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=1920&auto=format&fit=crop', '/shop/product-catalog.php?category=bong-da', '', NULL, 'Mua ngay', 4, 1, NULL, NULL, 0, NULL, '2026-06-10 00:33:58', '2026-06-10 00:33:58'),
-(5, 'Cầu Lông Đỉnh Cao', 'Khám phá bộ sưu tập vợt và giày cầu lông mới nhất', 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?q=80&w=1920&auto=format&fit=crop', 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?q=80&w=1920&auto=format&fit=crop', '/shop/product-catalog.php?category=cau-long', '', NULL, 'Khám phá', 5, 1, NULL, NULL, 0, NULL, '2026-06-10 00:33:58', '2026-06-10 00:36:28'),
-(6, 'Gym & Fitness', 'Nâng tầm sức mạnh với thiết bị tập gym đẳng cấp', 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1920&auto=format&fit=crop', 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1920&auto=format&fit=crop', '/shop/product-catalog.php?category=gym-fitness', '', NULL, 'Xem chi tiết', 6, 1, NULL, NULL, 0, NULL, '2026-06-10 00:33:58', '2026-06-10 00:33:58');
+(1, 'Siêu sự kiện ưu đãi hè', '', '/uploads/banners/banner_1781439852.jpg', '', '/shop/product-catalog.php', 'url', NULL, '', 1, 1, NULL, NULL, 0, NULL, '2026-06-14 19:11:02', '2026-06-14 19:24:14'),
+(2, 'Vợt Pickleball Axeron Summit & Apex Pro', NULL, 'assets/slide-banner/home_slide_banner_2.jpg', NULL, '/shop/product-catalog.php?category=vot-pickleball', 'url', NULL, NULL, 2, 1, NULL, NULL, 0, NULL, '2026-06-14 19:11:02', '2026-06-14 19:11:02'),
+(3, 'Bộ Sưu Tập Giày Chạy Bộ Axeron Mới', NULL, 'assets/slide-banner/home_slide_banner_3.jpg', NULL, '/shop/product-catalog.php?category=giay-chay-bo', 'url', NULL, NULL, 3, 1, NULL, NULL, 0, NULL, '2026-06-14 19:11:02', '2026-06-14 19:28:09'),
+(4, 'Bộ Sưu Tập Thời Trang Mùa Hè 2026', NULL, 'assets/slide-banner/home_slide_banner_4.jpg', NULL, '/shop/product-catalog.php?category=ao-polo-nam', 'url', NULL, NULL, 4, 1, NULL, NULL, 0, NULL, '2026-06-14 19:11:02', '2026-06-14 19:28:09'),
+(5, 'Dòng Vợt Pickleball Chuyên Nghiệp', NULL, 'assets/slide-banner/home_slide_banner_5.jpg', NULL, '/shop/product-catalog.php?category=vot-pickleball', 'url', NULL, NULL, 5, 1, NULL, NULL, 0, NULL, '2026-06-14 19:11:02', '2026-06-14 19:28:09'),
+(6, 'Siêu Sale Hiệu Suất Mùa Hè Axeron', NULL, 'assets/slide-banner/home_slide_banner_6.jpg', NULL, '/shop/product-catalog.php', 'url', NULL, NULL, 6, 1, NULL, NULL, 0, NULL, '2026-06-14 19:11:02', '2026-06-14 19:28:09'),
+(7, 'Bộ Sưu Tập Thời Trang Áo Polo Nam', NULL, 'assets/catalog-banner/catalog_banner_image_1.jpg', NULL, '/shop/product-catalog.php?category=ao-polo-nam', 'url', NULL, NULL, 7, 1, NULL, NULL, 0, NULL, '2026-06-14 19:11:02', '2026-06-14 19:28:09'),
+(8, 'Bộ Sưu Tập Giày Pickleball Axeron', NULL, 'assets/catalog-banner/catalog_banner_image_2.jpg', NULL, '/shop/product-catalog.php?category=giay-pickleball', 'url', NULL, NULL, 8, 1, NULL, NULL, 0, NULL, '2026-06-14 19:11:02', '2026-06-14 19:28:09'),
+(9, 'Bộ Sưu Tập Vợt Cầu Lông Axeron', NULL, 'assets/catalog-banner/catalog_banner_image_3.jpg', NULL, '/shop/product-catalog.php?category=vot-cau-long', 'url', NULL, NULL, 9, 1, NULL, NULL, 0, NULL, '2026-06-14 19:11:02', '2026-06-14 19:28:09');
 
 -- --------------------------------------------------------
 
@@ -3362,7 +3365,7 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT cho bảng `banners`
 --
 ALTER TABLE `banners`
-  MODIFY `banner_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `banner_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `brands`
