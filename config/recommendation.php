@@ -51,11 +51,13 @@ class RecommendationEngine
         // Phân tích sở thích (tần suất category/brand)
         $preferences = $this->analyzePreferences($behaviorData);
 
-        // Lấy danh sách Collaborative Filtering (Sản phẩm mua kèm)
-        $collabRecommendations = $this->getCollaborativeRecommendations($behaviorData, $limit);
+        // Lấy danh sách Collaborative Filtering (Sản phẩm mua kèm) - Tối đa 40% số lượng
+        $collabLimit = max(1, (int)floor($limit * 0.4));
+        $collabRecommendations = $this->getCollaborativeRecommendations($behaviorData, $collabLimit);
 
         // Xây dựng và thực thi truy vấn gợi ý từ Preferences
-        $prefRecommendations = $this->fetchRecommendations($preferences, $behaviorData, $limit);
+        $prefLimit = $limit - count($collabRecommendations);
+        $prefRecommendations = $this->fetchRecommendations($preferences, $behaviorData, $limit); // fetch limit to allow dedup
 
         // Trộn danh sách (Ưu tiên Collab)
         $recommendations = array_merge($collabRecommendations, $prefRecommendations);

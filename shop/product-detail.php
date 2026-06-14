@@ -62,16 +62,20 @@ $relatedProducts = $db->select("
     ORDER BY p.is_featured DESC LIMIT 4
 ", [$product['category_id'], $product['product_id']]);
 
+require_once __DIR__ . '/../config/recommendation.php';
+
 // Log view (chỉ log nếu user còn tồn tại trong database)
 if (isLoggedIn()) {
     $userId = getUserId();
     $exists = $db->selectOne("SELECT user_id FROM users WHERE user_id = ?", [$userId]);
     if ($exists) {
         $db->insert("INSERT INTO product_view_logs (user_id, product_id) VALUES (?, ?)", [$userId, $product['product_id']]);
+        getRecommendationEngine()->clearCache();
     }
 } else {
     // Khách vãng lai: lưu vào session cho recommendation engine
     trackGuestProductView((int)$product['product_id']);
+    getRecommendationEngine()->clearCache();
 }
 
 // Tính tổng stock - Ưu tiên stock từ variants, nếu không có thì dùng stock_quantity từ bảng products
