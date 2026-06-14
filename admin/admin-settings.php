@@ -24,6 +24,10 @@
                     class="settings-tab px-4 py-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700">
                 Footer
             </button>
+            <button onclick="switchSettingsTab('sales')" id="tab-sales"
+                    class="settings-tab px-4 py-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                Kinh doanh
+            </button>
         </nav>
     </div>
 </div>
@@ -77,6 +81,19 @@
                 Nội dung Footer
             </h3>
             <div class="space-y-4" id="footer-settings-fields">
+                <!-- Loaded via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Sales Settings -->
+    <div id="settings-sales" class="settings-panel hidden">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <h3 class="text-lg font-semibold mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined text-gray-500">storefront</span>
+                Kinh doanh & Bán hàng
+            </h3>
+            <div class="space-y-4" id="sales-settings-fields">
                 <!-- Loaded via JS -->
             </div>
         </div>
@@ -149,6 +166,7 @@ function renderAllSettings() {
     renderSettingsGroup('contact', document.getElementById('contact-settings-fields'));
     renderSettingsGroup('social', document.getElementById('social-settings-fields'));
     renderSettingsGroup('footer', document.getElementById('footer-settings-fields'));
+    renderSettingsGroup('sales', document.getElementById('sales-settings-fields'));
 }
 
 // Render settings for a group

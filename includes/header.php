@@ -66,6 +66,21 @@ foreach ($_navLevel1 as $_l1) {
 
 // Detect which root category is active
 $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
+
+// Settings for Logo and Name
+if (!isset($settings)) {
+    $_headerDb = db();
+    $_headerRaw = $_headerDb->select("SELECT setting_key, setting_value FROM site_settings WHERE is_public = 1");
+    $settings = [];
+    foreach ($_headerRaw as $s) {
+        $settings[$s['setting_key']] = $s['setting_value'];
+    }
+}
+$siteLogoUrl = $settings['site_logo'] ?? '/assets/images/logo-axeron.jpg';
+if (strpos($siteLogoUrl, 'http') !== 0 && !empty($siteLogoUrl)) {
+    $siteLogoUrl = (defined('BASE_URL') ? BASE_URL : '') . (strpos($siteLogoUrl, '/') === 0 ? '' : '/') . $siteLogoUrl;
+}
+$siteNameDisplay = $settings['site_name'] ?? 'Axeron';
 ?>
 
 <!-- Mega Menu Styles -->
@@ -297,8 +312,8 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
 
         <!-- Brand Logo -->
         <a class="flex items-center gap-2 flex-shrink-0" href="<?= BASE_URL ?>/">
-            <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover">
-            <span class="font-display-lg text-axeron-red uppercase tracking-tight text-xl md:text-2xl">Axeron</span>
+            <img src="<?= htmlspecialchars($siteLogoUrl) ?>" alt="Logo" class="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover">
+            <span class="font-display-lg text-axeron-red uppercase tracking-tight text-xl md:text-2xl"><?= htmlspecialchars($siteNameDisplay) ?></span>
         </a>
 
         <!-- Navigation Links (Desktop) - Mega Menu -->
@@ -459,8 +474,8 @@ $_activeRootId = $_allSlugs[$currentCategorySlug] ?? null;
 <div class="mobile-menu-panel" id="mobile-menu-panel">
     <div class="flex items-center justify-between p-4 border-b border-gray-200">
         <a class="flex items-center gap-2 flex-shrink-0" href="<?= BASE_URL ?>/">
-            <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-8 h-8 rounded-lg object-cover">
-            <span class="font-bold text-xl text-axeron-red uppercase tracking-tight">Axeron</span>
+            <img src="<?= htmlspecialchars($siteLogoUrl) ?>" alt="Logo" class="w-8 h-8 rounded-lg object-cover">
+            <span class="font-bold text-xl text-axeron-red uppercase tracking-tight"><?= htmlspecialchars($siteNameDisplay) ?></span>
         </a>
         <button onclick="toggleMobileMenu()" class="p-2 hover:bg-gray-100 rounded-lg">
             <span class="material-symbols-outlined">close</span>

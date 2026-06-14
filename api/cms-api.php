@@ -582,7 +582,8 @@ function updateSetting($db) {
 }
 
 function updateSettings($db) {
-    $settings = $_POST['settings'] ?? [];
+    $settingsRaw = $_POST['settings'] ?? '';
+    $settings = is_string($settingsRaw) ? json_decode($settingsRaw, true) : $settingsRaw;
 
     if (!is_array($settings) || empty($settings)) {
         jsonResponse(false, 'No settings provided');

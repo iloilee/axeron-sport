@@ -123,12 +123,14 @@ if (isLoggedIn()) {
         </section>
 
         <!-- Promo Banner -->
+        <?php if (!empty($settings['top_announcement_bar'])): ?>
         <div class="w-full bg-[#333333] text-white py-3 text-label-sm font-label-sm tracking-wide marquee-container">
             <div class="marquee-content">
-                Freeship với hóa đơn trên 500k |
+                <?= htmlspecialchars($settings['top_announcement_bar']) ?> <?= number_format((int)($settings['freeship_threshold'] ?? 500000), 0, ',', '.') ?>đ |
                 <a class="underline hover:text-axeron-red transition-colors" href="<?= BASE_URL ?>/auth/register.php">ĐĂNG KÝ NGAY</a>
             </div>
         </div>
+        <?php endif; ?>
 
         <!-- Product Categories Marquee (Right to Left Loop) -->
         <style>

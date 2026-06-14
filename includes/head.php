@@ -1,3 +1,17 @@
+<?php
+if (!isset($settings)) {
+    $_headDb = db();
+    $_headRaw = $_headDb->select("SELECT setting_key, setting_value FROM site_settings WHERE is_public = 1");
+    $settings = [];
+    foreach ($_headRaw as $s) {
+        $settings[$s['setting_key']] = $s['setting_value'];
+    }
+}
+$siteFaviconUrl = $settings['site_favicon'] ?? '/assets/images/logo-axeron.jpg';
+if (strpos($siteFaviconUrl, 'http') !== 0 && !empty($siteFaviconUrl)) {
+    $siteFaviconUrl = (defined('BASE_URL') ? BASE_URL : '') . (strpos($siteFaviconUrl, '/') === 0 ? '' : '/') . $siteFaviconUrl;
+}
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -5,7 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="<?= htmlspecialchars(generateCsrfToken()) ?>">
     <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Axeron - Dụng cụ thể thao chuyên nghiệp' ?></title>
-    <link rel="icon" type="image/jpeg" href="<?= defined('BASE_URL') ? BASE_URL : '' ?>/assets/images/logo-axeron.jpg" />
+    <link rel="icon" href="<?= htmlspecialchars($siteFaviconUrl) ?>" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
