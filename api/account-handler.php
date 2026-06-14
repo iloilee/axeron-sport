@@ -203,7 +203,7 @@ if ($action === 'update_profile') {
             $body = '
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
                 <div style="text-align: center; margin-bottom: 30px;">
-                    <h1 style="color: #BE1E2D; font-size: 24px; margin: 0;">AXERON SPORTS</h1>
+                    <img src="' . BASE_URL . '/assets/images/logo-axeron.jpg" alt="Axeron Sports" style="max-height: 40px; margin: 0 auto; display: block;">
                 </div>
                 <div style="background: #f9f9f9; border-radius: 10px; padding: 30px; text-align: center;">
                     <h2 style="color: #333; font-size: 20px; margin-bottom: 20px;">Xác thực thay đổi Email</h2>
@@ -222,7 +222,7 @@ if ($action === 'update_profile') {
             $oldEmailBody = '
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
                 <div style="text-align: center; margin-bottom: 30px;">
-                    <h1 style="color: #BE1E2D; font-size: 24px; margin: 0;">AXERON SPORTS</h1>
+                    <img src="' . BASE_URL . '/assets/images/logo-axeron.jpg" alt="Axeron Sports" style="max-height: 40px; margin: 0 auto; display: block;">
                 </div>
                 <div style="background: #fff3f3; border: 1px solid #ffcdd2; border-radius: 10px; padding: 30px; text-align: center;">
                     <h2 style="color: #d32f2f; font-size: 20px; margin-bottom: 20px;">Cảnh Báo Bảo Mật</h2>

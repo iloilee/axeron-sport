@@ -61,7 +61,7 @@ if ($action === 'login') {
         $body = '
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
             <div style="text-align: center; margin-bottom: 30px;">
-                <h1 style="color: #BE1E2D; font-size: 24px; margin: 0;">AXERON SPORTS</h1>
+                <img src="' . BASE_URL . '/uploads/banners/banner_1781445641.jpg" alt="Axeron Sports" style="max-height: 40px; margin: 0 auto; display: block;">
             </div>
             <div style="background: #f9f9f9; border-radius: 10px; padding: 30px; text-align: center;">
                 <h2 style="color: #333; font-size: 20px; margin-bottom: 20px;">Xác thực tài khoản</h2>
@@ -251,7 +251,7 @@ if ($action === 'register') {
     $body = '
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px;">
-            <h1 style="color: #BE1E2D; font-size: 24px; margin: 0;">AXERON SPORTS</h1>
+            <img src="' . BASE_URL . '/assets/images/logo-axeron.jpg" alt="Axeron Sports" style="max-height: 40px; margin: 0 auto; display: block;">
         </div>
         <div style="background: #f9f9f9; border-radius: 10px; padding: 30px; text-align: center;">
             <h2 style="color: #333; font-size: 20px; margin-bottom: 20px;">Xác thực tài khoản</h2>
@@ -317,7 +317,7 @@ if ($action === 'forgot_password') {
     $body = '
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px;">
-            <h1 style="color: #BE1E2D; font-size: 24px; margin: 0;">AXERON SPORTS</h1>
+            <img src="' . BASE_URL . '/assets/images/logo-axeron.jpg" alt="Axeron Sports" style="max-height: 40px; margin: 0 auto; display: block;">
         </div>
         <div style="background: #f9f9f9; border-radius: 10px; padding: 30px; text-align: center;">
             <h2 style="color: #333; font-size: 20px; margin-bottom: 20px;">Yêu cầu đặt lại mật khẩu</h2>
@@ -478,9 +478,17 @@ if ($action === 'reset_password') {
         axRedirect(BASE_URL . '/auth/reset-password.php');
     }
 
+    $userId = $_SESSION['reset_user_id'];
+
+    // Kiểm tra không được trùng mật khẩu cũ
+    $user = $db->selectOne("SELECT password_hash FROM users WHERE user_id = ?", [$userId]);
+    if ($user && password_verify($newPassword, $user['password_hash'])) {
+        setFlash('error', 'Mật khẩu mới không được giống với mật khẩu hiện tại');
+        axRedirect(BASE_URL . '/auth/reset-password.php');
+    }
+
     // Cập nhật mật khẩu
     $hash = password_hash($newPassword, PASSWORD_DEFAULT);
-    $userId = $_SESSION['reset_user_id'];
 
     $db->update("UPDATE users SET password_hash = ?, updated_at = NOW() WHERE user_id = ?", [$hash, $userId]);
 

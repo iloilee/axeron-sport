@@ -99,9 +99,27 @@ if (isLoggedIn() && $userValid) {
     }
 }
 
-// Lấy phí ship mặc định từ database
-$defaultShipping = $db->selectOne("SELECT base_price FROM shipping_prices WHERE shipping_id = 1");
-$baseShippingFee = $defaultShipping ? (float)$defaultShipping['base_price'] : 30000;
+// Lấy phí ship
+$baseShippingFee = 30000;
+$defaultProvince = '';
+if (isLoggedIn() && $userId) {
+    $defaultAddress = $db->selectOne("SELECT province FROM user_addresses WHERE user_id = ? AND is_default = 1", [$userId]);
+    if ($defaultAddress) {
+        $defaultProvince = $defaultAddress['province'];
+    }
+}
+
+if (!empty($defaultProvince)) {
+    $sp = $db->selectOne("SELECT base_price FROM shipping_prices WHERE province_city = ?", [$defaultProvince]);
+    if ($sp) {
+        $baseShippingFee = (float)$sp['base_price'];
+    }
+} else {
+    $defaultShipping = $db->selectOne("SELECT base_price FROM shipping_prices WHERE shipping_id = 1");
+    if ($defaultShipping) {
+        $baseShippingFee = (float)$defaultShipping['base_price'];
+    }
+}
 
 // Lấy hạn mức freeship
 $fsSetting = $db->selectOne("SELECT setting_value FROM site_settings WHERE setting_key = 'freeship_threshold'");
@@ -212,8 +230,8 @@ $flash = getFlash();
                                 </button>
                             </div>
                             <div class="flex justify-between items-end mt-4">
-                                <div class="font-headline-md text-body-lg font-bold text-axeron-red item-price" data-price="<?= $item['unit_price'] ?>">
-                                    <?= formatPrice($item['item_total']) ?>
+                                <div class="font-headline-md text-body-lg font-bold text-axeron-red">
+                                    <span class="item-price" data-price="<?= $item['unit_price'] ?>"><?= formatPrice($item['item_total']) ?></span>
                                     <?php if (!empty($item['promo'])): ?>
                                     <span class="text-xs bg-axeron-red text-white px-2 py-0.5 rounded-sm uppercase tracking-widest ml-2 align-middle font-normal"><?= htmlspecialchars($item['promo']['promo_name']) ?></span>
                                     <?php endif; ?>

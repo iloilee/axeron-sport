@@ -23,8 +23,8 @@ use PHPMailer\PHPMailer\Exception;
 // Cấu hình SMTP - THAY ĐỔI THEO THÔNG TIN CỦA BẠN
 define('SMTP_HOST', 'smtp.gmail.com');
 define('SMTP_PORT', 587);
-define('SMTP_USERNAME', 'hoduykhang060@gmail.com');        // Thay bằng email của bạn
-define('SMTP_PASSWORD', 'drjuxekykkjocpgv');            // Thay bằng App Password (16 ký tự)
+define('SMTP_USERNAME', 'deltaloile0@gmail.com');        // Thay bằng email của bạn
+define('SMTP_PASSWORD', 'jdgfzafclhykuwqf');            // Thay bằng App Password (16 ký tự)
 define('SMTP_FROM_NAME', 'Axeron Sports');
 define('SMTP_FROM_EMAIL', 'noreply@axeron.com');
 define('SMTP_ENCRYPTION', 'tls');                        // 'tls' hoặc 'ssl'

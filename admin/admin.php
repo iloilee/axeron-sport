@@ -116,6 +116,16 @@ if ($action === 'dashboard') {
         AND payment_status = 'paid'
     ");
 
+    // Doanh thu tháng trước
+    $prevMonthlyRevenue = $db->selectOne("
+        SELECT COALESCE(SUM(total_amount), 0) as revenue
+        FROM orders
+        WHERE MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH)
+        AND YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH)
+        AND order_status NOT IN ('cancelled', 'returned')
+        AND payment_status = 'paid'
+    ");
+
     // Đơn hàng gần đây
     $recentOrders = $db->select("
         SELECT o.*, u.full_name
@@ -139,6 +149,108 @@ if ($action === 'dashboard') {
     // Review chờ duyệt
     $pendingReviews = $db->selectOne("SELECT COUNT(*) as count FROM reviews WHERE status = 'pending'");
 
+    // --- NÂNG CẤP DASHBOARD (5 TÍNH NĂNG MỚI) ---
+    
+    // 1. Biểu đồ Doanh thu (7 ngày)
+    $chartDataRaw = $db->select("
+        SELECT DATE(created_at) as date, COALESCE(SUM(total_amount), 0) as revenue
+        FROM orders
+        WHERE created_at >= DATE(NOW()) - INTERVAL 6 DAY
+        AND order_status NOT IN ('cancelled', 'returned')
+        GROUP BY DATE(created_at)
+        ORDER BY date ASC
+    ");
+    $chartDates = [];
+    $chartRevenues = [];
+    for ($i = 6; $i >= 0; $i--) {
+        $d = date('Y-m-d', strtotime("-$i days"));
+        $chartDates[] = date('d/m', strtotime($d));
+        $found = false;
+        foreach ($chartDataRaw as $row) {
+            if ($row['date'] === $d) {
+                $chartRevenues[] = (float)$row['revenue'];
+                $found = true; break;
+            }
+        }
+        if (!$found) $chartRevenues[] = 0;
+    }
+
+    // Biểu đồ Trạng thái Đơn hàng (Pie)
+    $orderStatusRaw = $db->select("SELECT order_status, COUNT(*) as count FROM orders GROUP BY order_status");
+    $statusCounts = ['pending' => 0, 'processing' => 0, 'shipped' => 0, 'completed' => 0, 'cancelled' => 0, 'returned' => 0];
+    foreach ($orderStatusRaw as $row) {
+        if (isset($statusCounts[$row['order_status']])) {
+            $statusCounts[$row['order_status']] = (int)$row['count'];
+        }
+    }
+
+    // 2. Cảnh báo rủi ro (Low Stock & Dead Stock)
+    $lowStockProducts = $db->select("
+        SELECT p.product_name, pv.sku, pv.stock_quantity, p.product_id
+        FROM product_variants pv
+        JOIN products p ON pv.product_id = p.product_id
+        WHERE pv.stock_quantity > 0 AND pv.stock_quantity <= 5
+        ORDER BY pv.stock_quantity ASC
+        LIMIT 5
+    ");
+    $deadStockProducts = $db->select("
+        SELECT p.product_name, pv.sku, pv.stock_quantity, p.product_id
+        FROM product_variants pv
+        JOIN products p ON pv.product_id = p.product_id
+        WHERE pv.stock_quantity > 0
+        AND pv.variant_id NOT IN (
+            SELECT DISTINCT variant_id 
+            FROM order_items oi
+            JOIN orders o ON oi.order_id = o.order_id
+            WHERE o.created_at >= DATE(NOW()) - INTERVAL 30 DAY
+        )
+        LIMIT 5
+    ");
+
+    // 3. Marketing & Customer Insights
+    $vipCustomers = $db->select("
+        SELECT u.full_name, u.email, COALESCE(SUM(o.total_amount), 0) as total_spent, COUNT(o.order_id) as total_orders
+        FROM users u
+        JOIN orders o ON u.user_id = o.user_id
+        WHERE o.order_status NOT IN ('cancelled', 'returned')
+        GROUP BY u.user_id
+        ORDER BY total_spent DESC
+        LIMIT 5
+    ");
+    $promoPerformance = $db->select("
+        SELECT promo_code, promo_name, used_count
+        FROM promotions
+        WHERE is_active = 1
+        ORDER BY used_count DESC
+        LIMIT 5
+    ");
+
+    // 4. Activity Log (Timeline tổng hợp)
+    $activities = [];
+    $recentOrderLogs = $db->select("SELECT order_id, created_at FROM orders ORDER BY created_at DESC LIMIT 5");
+    foreach($recentOrderLogs as $o) {
+        $activities[] = [
+            'time' => $o['created_at'], 'type' => 'order', 'icon' => 'shopping_bag', 'color' => 'text-blue-500', 'bg' => 'bg-blue-100',
+            'message' => "Đơn hàng mới <b>#" . htmlspecialchars($o['order_id']) . "</b> vừa được tạo."
+        ];
+    }
+    $recentReviewLogs = $db->select("SELECT review_id, created_at, rating FROM reviews ORDER BY created_at DESC LIMIT 5");
+    foreach($recentReviewLogs as $r) {
+        $activities[] = [
+            'time' => $r['created_at'], 'type' => 'review', 'icon' => 'star', 'color' => 'text-yellow-500', 'bg' => 'bg-yellow-100',
+            'message' => "Khách hàng vừa để lại đánh giá <b>" . htmlspecialchars($r['rating']) . " sao</b>."
+        ];
+    }
+    $recentUserLogs = $db->select("SELECT user_id, full_name, created_at FROM users WHERE role_id = 3 ORDER BY created_at DESC LIMIT 5");
+    foreach($recentUserLogs as $u) {
+        $activities[] = [
+            'time' => $u['created_at'], 'type' => 'user', 'icon' => 'person_add', 'color' => 'text-green-500', 'bg' => 'bg-green-100',
+            'message' => "Khách hàng mới <b>" . htmlspecialchars($u['full_name']) . "</b> vừa đăng ký."
+        ];
+    }
+    usort($activities, function($a, $b) { return strtotime($b['time']) - strtotime($a['time']); });
+    $activities = array_slice($activities, 0, 8);
+
     $stats = [
         'todayOrders' => $todayOrders['count'] ?? 0,
         'todayRevenue' => $todayOrders['revenue'] ?? 0,
@@ -146,9 +258,18 @@ if ($action === 'dashboard') {
         'totalProducts' => $totalProducts['count'] ?? 0,
         'totalCustomers' => $totalCustomers['count'] ?? 0,
         'monthlyRevenue' => $monthlyRevenue['revenue'] ?? 0,
+        'prevMonthlyRevenue' => $prevMonthlyRevenue['revenue'] ?? 0,
         'pendingReviews' => $pendingReviews['count'] ?? 0,
         'recentOrders' => $recentOrders,
-        'topProducts' => $topProducts
+        'topProducts' => $topProducts,
+        'chartDates' => $chartDates,
+        'chartRevenues' => $chartRevenues,
+        'statusCounts' => $statusCounts,
+        'lowStockProducts' => $lowStockProducts,
+        'deadStockProducts' => $deadStockProducts,
+        'vipCustomers' => $vipCustomers,
+        'promoPerformance' => $promoPerformance,
+        'activities' => $activities
     ];
 }
 ?>
@@ -178,6 +299,7 @@ if ($action === 'dashboard') {
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -404,64 +526,147 @@ if ($action === 'dashboard') {
             <!-- Content Area -->
             <?php if ($action === 'dashboard'): ?>
                 <!-- Dashboard Content -->
+
                 <!-- Stats Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                        <div class="flex items-center justify-between">
+                    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                        <div class="flex justify-between items-start">
                             <div>
-                                <p class="text-gray-500 text-sm">Đơn hàng hôm nay</p>
-                                <p class="text-3xl font-bold text-gray-800"><?= number_format($stats['todayOrders']) ?></p>
+                                <p class="text-sm font-medium text-slate-500">Đơn hàng hôm nay</p>
+                                <h3 class="mt-1 text-2xl font-bold text-slate-900"><?= number_format($stats['todayOrders']) ?></h3>
                             </div>
-                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                <span class="material-symbols-outlined text-blue-600">shopping_cart</span>
+                            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                                <span class="material-symbols-outlined">shopping_cart</span>
                             </div>
                         </div>
-                        <p class="text-green-600 text-sm mt-2">Doanh thu: <?= formatPrice($stats['todayRevenue']) ?></p>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-gray-500 text-sm">Chờ xử lý</p>
-                                <p class="text-3xl font-bold text-yellow-600"><?= number_format($stats['pendingOrders']) ?></p>
-                            </div>
-                            <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                                <span class="material-symbols-outlined text-yellow-600">pending_actions</span>
-                            </div>
-                        </div>
-                        <a href="<?= BASE_URL ?>/admin/admin.php?action=orders" class="text-axeron-red text-sm hover:underline mt-2 inline-block">Xem ngay →</a>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-gray-500 text-sm">Doanh thu tháng</p>
-                                <p class="text-2xl font-bold text-green-600"><?= formatPrice($stats['monthlyRevenue']) ?></p>
-                            </div>
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                                <span class="material-symbols-outlined text-green-600">payments</span>
-                            </div>
+                        <div class="mt-4 flex items-center gap-2">
+                            <span class="text-xs text-slate-500">Doanh thu hôm nay: <span class="font-medium text-green-600"><?= formatPrice($stats['todayRevenue']) ?></span></span>
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                        <div class="flex items-center justify-between">
+                    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                        <div class="flex justify-between items-start">
                             <div>
-                                <p class="text-gray-500 text-sm">Khách hàng</p>
-                                <p class="text-3xl font-bold text-gray-800"><?= number_format($stats['totalCustomers']) ?></p>
+                                <p class="text-sm font-medium text-slate-500">Chờ xử lý</p>
+                                <h3 class="mt-1 text-2xl font-bold text-slate-900"><?= number_format($stats['pendingOrders']) ?></h3>
                             </div>
-                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                                <span class="material-symbols-outlined text-purple-600">people</span>
+                            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-50 text-yellow-600">
+                                <span class="material-symbols-outlined">pending_actions</span>
                             </div>
                         </div>
-                        <a href="<?= BASE_URL ?>/admin/admin.php?action=users" class="text-axeron-red text-sm hover:underline mt-2 inline-block">Quản lý →</a>
+                        <div class="mt-4 flex items-center gap-2">
+                            <a href="<?= BASE_URL ?>/admin/admin.php?action=orders" class="text-xs font-medium text-axeron-red hover:underline">Xem ngay →</a>
+                        </div>
+                    </div>
+
+                    <?php
+                    $curRev = $stats['monthlyRevenue'] ?? 0;
+                    $prevRev = $stats['prevMonthlyRevenue'] ?? 0;
+                    if ($prevRev == 0) {
+                        $trend = 'up';
+                        $percent = $curRev > 0 ? 100 : 0;
+                    } else {
+                        $diff = $curRev - $prevRev;
+                        $trend = $diff >= 0 ? 'up' : 'down';
+                        $percent = abs(round(($diff / $prevRev) * 100, 1));
+                    }
+                    $trendIcon = $trend === 'up' ? 'trending_up' : 'trending_down';
+                    $trendColor = $trend === 'up' ? 'text-emerald-600' : 'text-red-600';
+                    ?>
+                    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm overflow-hidden">
+                        <div class="flex justify-between items-start gap-2">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-slate-500 truncate">Doanh thu tháng</p>
+                                <h3 class="mt-1 text-lg md:text-xl font-bold text-slate-900 truncate" title="<?= formatPrice($stats['monthlyRevenue']) ?>"><?= formatPrice($stats['monthlyRevenue']) ?></h3>
+                            </div>
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-green-50 text-green-600">
+                                <span class="material-symbols-outlined">payments</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex items-center gap-1.5 flex-wrap">
+                            <span class="flex items-center text-xs font-medium <?= $trendColor ?> whitespace-nowrap">
+                                <span class="material-symbols-outlined !text-[14px] mr-0.5"><?= $trendIcon ?></span>
+                                <?= $percent ?>%
+                            </span>
+                            <span class="text-xs text-slate-500 whitespace-nowrap">so với tháng trước</span>
+                        </div>
+                    </div>
+
+                    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm font-medium text-slate-500">Khách hàng</p>
+                                <h3 class="mt-1 text-2xl font-bold text-slate-900"><?= number_format($stats['totalCustomers']) ?></h3>
+                            </div>
+                            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-50 text-purple-600">
+                                <span class="material-symbols-outlined">people</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex items-center gap-2">
+                            <a href="<?= BASE_URL ?>/admin/admin.php?action=users" class="text-xs font-medium text-axeron-red hover:underline">Quản lý →</a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Recent Orders & Top Products -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Charts & Timelines (New Feature) -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <div class="lg:col-span-2 bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <h2 class="font-bold text-lg mb-4">Biểu đồ Doanh thu (7 ngày qua)</h2>
+                        <canvas id="revenueChart" height="100"></canvas>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <h2 class="font-bold text-lg mb-4">Trạng thái đơn hàng</h2>
+                        <canvas id="orderStatusChart" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- Low Stock & Marketing -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 border-l-4 border-l-red-500">
+                        <h2 class="font-bold text-lg text-red-600 mb-4 flex items-center gap-2"><span class="material-symbols-outlined">warning</span> Sắp hết hàng</h2>
+                        <ul class="divide-y divide-gray-100">
+                            <?php foreach($stats['lowStockProducts'] as $p): ?>
+                            <li class="py-2 flex justify-between items-center">
+                                <span class="text-sm truncate pr-2" title="<?= htmlspecialchars($p['product_name']) ?>"><?= htmlspecialchars($p['product_name']) ?> (<?= htmlspecialchars($p['sku']) ?>)</span>
+                                <span class="text-[10px] font-bold bg-red-100 text-red-600 px-2 py-1 rounded whitespace-nowrap">Còn <?= $p['stock_quantity'] ?></span>
+                            </li>
+                            <?php endforeach; if(empty($stats['lowStockProducts'])): ?>
+                            <li class="py-2 text-sm text-gray-500">Tồn kho ổn định.</li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 border-l-4 border-l-orange-500">
+                        <h2 class="font-bold text-lg text-orange-600 mb-4 flex items-center gap-2"><span class="material-symbols-outlined">inventory_2</span> Tồn kho lâu (30 ngày)</h2>
+                        <ul class="divide-y divide-gray-100">
+                            <?php foreach($stats['deadStockProducts'] as $p): ?>
+                            <li class="py-2 flex justify-between items-center">
+                                <span class="text-sm truncate pr-2" title="<?= htmlspecialchars($p['product_name']) ?>"><?= htmlspecialchars($p['product_name']) ?></span>
+                                <span class="text-[10px] font-bold bg-orange-100 text-orange-600 px-2 py-1 rounded whitespace-nowrap">Tồn <?= $p['stock_quantity'] ?></span>
+                            </li>
+                            <?php endforeach; if(empty($stats['deadStockProducts'])): ?>
+                            <li class="py-2 text-sm text-gray-500">Không có hàng tồn.</li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 border-l-4 border-l-purple-500">
+                        <h2 class="font-bold text-lg text-purple-600 mb-4 flex items-center gap-2"><span class="material-symbols-outlined">workspace_premium</span> Top Khách VIP</h2>
+                        <ul class="divide-y divide-gray-100">
+                            <?php foreach($stats['vipCustomers'] as $c): ?>
+                            <li class="py-2 flex justify-between items-center">
+                                <span class="text-sm truncate pr-2 font-medium"><?= htmlspecialchars($c['full_name']) ?></span>
+                                <span class="text-sm text-purple-600 font-bold whitespace-nowrap"><?= formatPrice($c['total_spent']) ?></span>
+                            </li>
+                            <?php endforeach; if(empty($stats['vipCustomers'])): ?>
+                            <li class="py-2 text-sm text-gray-500">Chưa có khách hàng.</li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Recent Orders & Activity Log -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Recent Orders -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+                    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100">
                         <div class="p-4 border-b border-gray-100 flex justify-between items-center">
                             <h2 class="font-bold text-lg">Đơn hàng gần đây</h2>
                             <a href="<?= BASE_URL ?>/admin/admin.php?action=orders" class="text-axeron-red text-sm hover:underline">Xem tất cả</a>
@@ -522,28 +727,87 @@ if ($action === 'dashboard') {
                         </div>
                     </div>
 
-                    <!-- Top Products -->
+                    <!-- Activity Log -->
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100">
                         <div class="p-4 border-b border-gray-100 flex justify-between items-center">
-                            <h2 class="font-bold text-lg">Sản phẩm bán chạy</h2>
-                            <a href="<?= BASE_URL ?>/admin/admin.php?action=products" class="text-axeron-red text-sm hover:underline">Xem tất cả</a>
+                            <h2 class="font-bold text-lg">Hoạt động mới nhất</h2>
                         </div>
-                        <div class="divide-y divide-gray-100">
-                            <?php foreach ($stats['topProducts'] as $product): ?>
-                            <div class="p-4 flex items-center justify-between">
-                                <div>
-                                    <p class="font-medium text-gray-800"><?= htmlspecialchars($product['product_name']) ?></p>
-                                    <p class="text-sm text-gray-500">Đã bán: <?= number_format($product['sold']) ?> sản phẩm</p>
+                        <div class="p-4">
+                            <div class="relative border-l border-gray-200 ml-3 space-y-4">
+                                <?php foreach($stats['activities'] as $act): ?>
+                                <div class="mb-4 ml-6">
+                                    <span class="absolute -left-3.5 flex items-center justify-center w-7 h-7 <?= $act['bg'] ?> rounded-full ring-4 ring-white">
+                                        <span class="material-symbols-outlined text-[14px] <?= $act['color'] ?>"><?= $act['icon'] ?></span>
+                                    </span>
+                                    <p class="text-sm text-gray-600 leading-tight"><?= $act['message'] ?></p>
+                                    <time class="block mb-2 text-[11px] font-normal leading-none text-gray-400 mt-1"><?= date('d/m/Y H:i', strtotime($act['time'])) ?></time>
                                 </div>
-                                <p class="font-bold text-axeron-red"><?= formatPrice($product['revenue']) ?></p>
+                                <?php endforeach; if(empty($stats['activities'])): ?>
+                                <p class="ml-4 text-sm text-gray-500">Chưa có hoạt động nào.</p>
+                                <?php endif; ?>
                             </div>
-                            <?php endforeach; ?>
-                            <?php if (empty($stats['topProducts'])): ?>
-                            <div class="p-8 text-center text-gray-500">Chưa có dữ liệu</div>
-                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        const chartDates = <?= json_encode($stats['chartDates']) ?>;
+                        const chartRevenues = <?= json_encode($stats['chartRevenues']) ?>;
+                        const statusCounts = <?= json_encode($stats['statusCounts']) ?>;
+
+                        // Revenue Chart
+                        const ctxRev = document.getElementById('revenueChart');
+                        if (ctxRev) {
+                            new Chart(ctxRev, {
+                                type: 'line',
+                                data: {
+                                    labels: chartDates,
+                                    datasets: [{
+                                        label: 'Doanh thu (VNĐ)',
+                                        data: chartRevenues,
+                                        borderColor: '#BE1E2D',
+                                        backgroundColor: 'rgba(190, 30, 45, 0.1)',
+                                        borderWidth: 2,
+                                        fill: true,
+                                        tension: 0.4
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    plugins: { legend: { display: false } },
+                                    scales: { y: { beginAtZero: true } }
+                                }
+                            });
+                        }
+
+                        // Order Status Chart
+                        const ctxStatus = document.getElementById('orderStatusChart');
+                        if (ctxStatus) {
+                            new Chart(ctxStatus, {
+                                type: 'doughnut',
+                                data: {
+                                    labels: ['Chờ xử lý', 'Đang xử lý', 'Đang giao', 'Đã giao', 'Đã hủy', 'Trả hàng'],
+                                    datasets: [{
+                                        data: [
+                                            statusCounts.pending || 0, 
+                                            statusCounts.processing || 0, 
+                                            statusCounts.shipped || 0, 
+                                            statusCounts.completed || 0, 
+                                            statusCounts.cancelled || 0, 
+                                            statusCounts.returned || 0
+                                        ],
+                                        backgroundColor: ['#fef08a', '#e9d5ff', '#c7d2fe', '#bbf7d0', '#fecaca', '#f5f5f4']
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    plugins: { legend: { position: 'bottom' } }
+                                }
+                            });
+                        }
+                    });
+                </script>
 
             <?php elseif ($action === 'products'): ?>
                 <!-- Products Management -->

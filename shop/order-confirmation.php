@@ -228,6 +228,13 @@ $isGuestCancelRequested = (strpos($order['note'] ?? '', '[Yêu cầu hủy từ 
                     <p class="font-body-md text-on-surface"><?= htmlspecialchars($order['shipping_method_name'] ?? 'Tiêu chuẩn') ?></p>
                 </div>
             </div>
+
+            <?php if (!empty($order['note'])): ?>
+            <div class="mt-6 pt-6 border-t border-outline-variant">
+                <p class="text-on-surface-variant text-sm mb-2">Ghi chú đơn hàng</p>
+                <p class="font-body-md text-on-surface whitespace-pre-wrap"><?= htmlspecialchars($order['note']) ?></p>
+            </div>
+            <?php endif; ?>
         </div>
 
         <!-- Order Items -->

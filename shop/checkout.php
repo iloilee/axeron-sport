@@ -96,6 +96,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $shippingMethod = $db->selectOne("SELECT * FROM shipping_methods WHERE method_id = ?", [$shippingMethodId]);
     
+    $fsSetting = $db->selectOne("SELECT setting_value FROM site_settings WHERE setting_key = 'freeship_threshold'");
+    $freeshipThreshold = $fsSetting ? (int)$fsSetting['setting_value'] : 2000000;
+
     if ($subtotal >= $freeshipThreshold) {
         $shippingFee = 0; // Miễn phí giao hàng đơn > 2000k
     } else {

@@ -91,13 +91,13 @@
 
     <!-- Summary Cards Revenue -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3" id="summary-cards-revenue">
-        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-gray-500 text-sm">Tổng Doanh Thu</p>
-                    <p class="text-2xl font-bold text-green-600 mt-1" id="summary-revenue">--</p>
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 overflow-hidden">
+            <div class="flex items-center justify-between gap-1">
+                <div class="flex-1 min-w-0">
+                    <p class="text-gray-500 text-xs sm:text-sm">Tổng Doanh Thu</p>
+                    <p class="text-base sm:text-lg font-bold tracking-tight text-green-600 mt-1" id="summary-revenue">--</p>
                 </div>
-                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-lg flex items-center justify-center shrink-0">
                     <span class="material-symbols-outlined text-green-600">payments</span>
                 </div>
             </div>
@@ -115,13 +115,13 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-gray-500 text-sm">Giá Trị TB/Đơn</p>
-                    <p class="text-2xl font-bold text-purple-600 mt-1" id="summary-aov">--</p>
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 overflow-hidden">
+            <div class="flex items-center justify-between gap-1">
+                <div class="flex-1 min-w-0">
+                    <p class="text-gray-500 text-xs sm:text-sm">Giá Trị TB/Đơn</p>
+                    <p class="text-base sm:text-lg font-bold tracking-tight text-purple-600 mt-1" id="summary-aov">--</p>
                 </div>
-                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-lg flex items-center justify-center shrink-0">
                     <span class="material-symbols-outlined text-purple-600">shopping_bag</span>
                 </div>
             </div>
