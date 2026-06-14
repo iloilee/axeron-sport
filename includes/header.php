@@ -304,20 +304,20 @@ $siteNameDisplay = $settings['site_name'] ?? 'Axeron';
 
 <!-- TopAppBar Component -->
 <header class="bg-surface dark:bg-on-background sticky top-0 z-50 border-b border-outline-variant dark:border-outline" id="main-header">
-    <div class="flex justify-between items-center w-[80%] max-w-none px-margin-desktop py-5 mx-auto">
+    <div class="flex justify-between items-center w-full max-w-[1400px] px-4 lg:px-8 py-5 mx-auto">
         <!-- Mobile Menu Toggle -->
         <button class="md:hidden p-2 -ml-2 hover:bg-surface-container rounded-lg transition-colors" onclick="toggleMobileMenu()" aria-label="Menu">
             <span class="material-symbols-outlined text-2xl text-on-surface">menu</span>
         </button>
 
         <!-- Brand Logo -->
-        <a class="flex items-center gap-2 flex-shrink-0" href="<?= BASE_URL ?>/">
+        <a class="flex items-center gap-2 flex-shrink-0 mr-4 lg:mr-8 xl:mr-12" href="<?= BASE_URL ?>/">
             <img src="<?= htmlspecialchars($siteLogoUrl) ?>" alt="Logo" class="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover">
             <span class="font-display-lg text-axeron-red uppercase tracking-tight text-xl md:text-2xl"><?= htmlspecialchars($siteNameDisplay) ?></span>
         </a>
 
         <!-- Navigation Links (Desktop) - Mega Menu -->
-        <nav class="hidden lg:flex items-center gap-2 xl:gap-4 flex-1 justify-center" id="mega-nav">
+        <nav class="hidden lg:flex items-center gap-2 xl:gap-6 flex-1 justify-center" id="mega-nav">
             <?php foreach ($_navLevel1 as $_l1):
                 $_isActive = ($_activeRootId === $_l1['category_id']);
                 $_hasLevel2 = isset($_navLevel2Map[$_l1['category_id']]);

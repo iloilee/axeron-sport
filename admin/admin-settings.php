@@ -198,14 +198,15 @@ function renderSettingsGroup(group, container) {
                         <div class="flex-1">
                             <input type="text" id="${id}" name="${setting.setting_key}" value="${value}"
                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none"
-                                   placeholder="URL hoặc upload ảnh">
+                                   placeholder="URL hoặc upload ảnh"
+                                   onchange="const p = document.getElementById('preview_${setting.setting_key}'); if(this.value) { p.src = getImageUrl(this.value); p.classList.remove('hidden'); } else { p.classList.add('hidden'); }">
                         </div>
                         <button type="button" onclick="openImageUpload('${setting.setting_key}')"
                                 class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg border border-gray-300">
                             <span class="material-symbols-outlined text-gray-600">upload</span>
                         </button>
                     </div>
-                    ${value ? `<img src="${getImageUrl(value)}" alt="" class="mt-2 max-h-24 rounded-lg border border-gray-200">` : ''}
+                    <img id="preview_${setting.setting_key}" src="${value ? getImageUrl(value) : ''}" alt="" class="mt-2 max-h-24 rounded-lg border border-gray-200 ${value ? '' : 'hidden'}">
                 `;
                 break;
             case 'boolean':
@@ -364,9 +365,16 @@ async function uploadSettingsImage(file) {
             const input = document.getElementById('setting_' + currentImageField);
             if (input) {
                 input.value = result.data.url;
+                
+                // Update the form preview image
+                const formPreview = document.getElementById('preview_' + currentImageField);
+                if (formPreview) {
+                    formPreview.src = getImageUrl(result.data.url);
+                    formPreview.classList.remove('hidden');
+                }
             }
 
-            // Update preview
+            // Update modal preview
             settingsImagePreview.src = getImageUrl(result.data.url);
             settingsImagePreview.classList.remove('hidden');
             settingsUploadPlaceholder.classList.add('hidden');

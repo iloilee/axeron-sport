@@ -103,8 +103,12 @@ if (isLoggedIn() && $userValid) {
 $defaultShipping = $db->selectOne("SELECT base_price FROM shipping_prices WHERE shipping_id = 1");
 $baseShippingFee = $defaultShipping ? (float)$defaultShipping['base_price'] : 30000;
 
-// Calculate shipping (free if over 2000k)
-$shippingFee = $cartSubtotal >= 2000000 ? 0 : $baseShippingFee;
+// Lấy hạn mức freeship
+$fsSetting = $db->selectOne("SELECT setting_value FROM site_settings WHERE setting_key = 'freeship_threshold'");
+$freeshipThreshold = $fsSetting ? (int)$fsSetting['setting_value'] : 2000000;
+
+// Calculate shipping (free if over threshold)
+$shippingFee = $cartSubtotal >= $freeshipThreshold ? 0 : $baseShippingFee;
 $totalAmount = $cartSubtotal + $shippingFee;
 
 // Lấy flash message nếu có (từ trang checkout đá về)
@@ -245,7 +249,7 @@ $flash = getFlash();
                                     <div class="flex-1 flex justify-between text-sm">
                                         <span>Giao hàng tiêu chuẩn</span>
                                         <span class="font-semibold text-axeron-red" id="cart-standard-fee">
-                                            <?= $cartSubtotal >= 2000000 ? 'Miễn phí' : formatPrice($baseShippingFee) ?>
+                                            <?= $cartSubtotal >= $freeshipThreshold ? 'Miễn phí' : formatPrice($baseShippingFee) ?>
                                         </span>
                                     </div>
                                 </label>
@@ -254,7 +258,7 @@ $flash = getFlash();
                                     <div class="flex-1 flex justify-between text-sm">
                                         <span>Giao nhanh (Express)</span>
                                         <span class="font-semibold text-axeron-red" id="cart-express-fee">
-                                            <?= $cartSubtotal >= 2000000 ? 'Miễn phí' : formatPrice($baseShippingFee + 15000) ?>
+                                            <?= $cartSubtotal >= $freeshipThreshold ? 'Miễn phí' : formatPrice($baseShippingFee + 15000) ?>
                                         </span>
                                     </div>
                                 </label>
@@ -268,8 +272,8 @@ $flash = getFlash();
                         </div>
                         <div id="freeship-notice-container" class="bg-green-50 border border-green-200 rounded-lg p-3 mb-6">
                             <p class="text-sm text-green-700" id="freeship-notice-text">
-                                <?php if ($cartSubtotal < 2000000): ?>
-                                    <span class="font-semibold">Mua thêm <span id="freeship-amount"><?= formatPrice(2000000 - $cartSubtotal) ?></span></span> để được freeship!
+                                <?php if ($cartSubtotal < $freeshipThreshold): ?>
+                                    <span class="font-semibold">Mua thêm <span id="freeship-amount"><?= formatPrice($freeshipThreshold - $cartSubtotal) ?></span></span> để được freeship!
                                 <?php else: ?>
                                     <span class="font-semibold">Tuyệt vời! Đơn hàng của bạn đã được freeship!</span>
                                 <?php endif; ?>
@@ -488,7 +492,7 @@ $flash = getFlash();
             const baseShippingFee = <?= $baseShippingFee ?>;
             let finalShippingFee = method === 'express' ? baseShippingFee + 15000 : baseShippingFee;
 
-            if (subtotal >= 2000000) {
+            if (subtotal >= <?= $freeshipThreshold ?>) {
                 finalShippingFee = 0;
                 document.getElementById('cart-standard-fee').textContent = 'Miễn phí';
                 document.getElementById('cart-standard-fee').classList.remove('text-axeron-red');
@@ -512,8 +516,8 @@ $flash = getFlash();
             // Cập nhật thông báo freeship
             const freeshipText = document.getElementById('freeship-notice-text');
             if (freeshipText) {
-                if (subtotal < 2000000) {
-                    const remaining = 2000000 - subtotal;
+                if (subtotal < <?= $freeshipThreshold ?>) {
+                    const remaining = <?= $freeshipThreshold ?> - subtotal;
                     freeshipText.innerHTML = `<span class="font-semibold">Mua thêm <span id="freeship-amount">${new Intl.NumberFormat('vi-VN').format(remaining)}đ</span></span> để được freeship!`;
                 } else {
                     freeshipText.innerHTML = `<span class="font-semibold">Tuyệt vời! Đơn hàng của bạn đã được freeship!</span>`;

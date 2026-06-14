@@ -18,7 +18,16 @@ if (strpos($siteFaviconUrl, 'http') !== 0 && !empty($siteFaviconUrl)) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="<?= htmlspecialchars(generateCsrfToken()) ?>">
-    <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Axeron - Dụng cụ thể thao chuyên nghiệp' ?></title>
+    <?php
+        $defaultSiteName = $settings['site_name'] ?? 'Axeron Sport';
+        $defaultTagline = $settings['site_tagline'] ?? 'Dụng cụ thể thao chuyên nghiệp';
+        if (isset($pageTitle)) {
+            $displayTitle = htmlspecialchars($pageTitle) . ' - ' . htmlspecialchars($defaultSiteName);
+        } else {
+            $displayTitle = htmlspecialchars($defaultSiteName) . ' - ' . htmlspecialchars($defaultTagline);
+        }
+    ?>
+    <title><?= $displayTitle ?></title>
     <link rel="icon" href="<?= htmlspecialchars($siteFaviconUrl) ?>" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>

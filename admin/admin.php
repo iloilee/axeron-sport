@@ -157,8 +157,24 @@ if ($action === 'dashboard') {
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin - <?= $pageTitle ?> | Axeron Sport</title>
-    <link rel="icon" type="image/jpeg" href="<?= defined('BASE_URL') ? BASE_URL : '' ?>/assets/images/logo-axeron.jpg" />
+    <?php
+    $_adminSettingsRaw = $db->select("SELECT setting_key, setting_value FROM site_settings");
+    $adminSettings = [];
+    foreach ($_adminSettingsRaw as $s) {
+        $adminSettings[$s['setting_key']] = $s['setting_value'];
+    }
+    $adminSiteLogo = $adminSettings['site_logo'] ?? '/assets/images/logo-axeron.jpg';
+    $adminSiteFavicon = $adminSettings['site_favicon'] ?? '/assets/images/logo-axeron.jpg';
+    
+    if (strpos($adminSiteLogo, 'http') !== 0 && !empty($adminSiteLogo)) {
+        $adminSiteLogo = (defined('BASE_URL') ? BASE_URL : '') . (strpos($adminSiteLogo, '/') === 0 ? '' : '/') . $adminSiteLogo;
+    }
+    if (strpos($adminSiteFavicon, 'http') !== 0 && !empty($adminSiteFavicon)) {
+        $adminSiteFavicon = (defined('BASE_URL') ? BASE_URL : '') . (strpos($adminSiteFavicon, '/') === 0 ? '' : '/') . $adminSiteFavicon;
+    }
+    ?>
+    <title>Admin - <?= $pageTitle ?> | <?= htmlspecialchars($adminSettings['site_name'] ?? 'Axeron Sport') ?></title>
+    <link rel="icon" type="image/jpeg" href="<?= htmlspecialchars($adminSiteFavicon) ?>" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -204,9 +220,9 @@ if ($action === 'dashboard') {
             <!-- Logo -->
             <div class="p-4 border-b border-gray-700">
                 <a href="<?= BASE_URL ?>/admin/admin.php" class="flex items-center gap-3">
-                    <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-10 h-10 rounded-lg object-cover">
+                    <img src="<?= htmlspecialchars($adminSiteLogo) ?>" alt="Logo" class="w-10 h-10 rounded-lg object-cover bg-white">
                     <div>
-                        <div class="font-bold text-lg">Axeron Sports</div>
+                        <div class="font-bold text-lg leading-tight uppercase"><?= htmlspecialchars($adminSettings['site_name'] ?? 'Axeron Sports') ?></div>
                         <div class="text-xs text-gray-400">Admin Panel</div>
                     </div>
                 </a>

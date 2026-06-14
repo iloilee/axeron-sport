@@ -127,8 +127,11 @@ $policyTermsUrl = formatFooterUrl($policyTermsUrl);
     <div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <!-- Brand Info -->
         <div class="flex flex-col gap-4">
-            <a class="text-headline-md font-headline-lg text-white font-black tracking-tight" href="<?= BASE_URL ?>">
-                <?= strtoupper($siteName) ?>
+            <a class="text-headline-md font-headline-lg text-white font-black tracking-tight flex flex-col" href="<?= BASE_URL ?>">
+                <span><?= strtoupper($siteName) ?></span>
+                <?php if (!empty($settings['site_tagline'])): ?>
+                <span class="text-xs font-normal text-axeron-red tracking-widest mt-1"><?= htmlspecialchars($settings['site_tagline']) ?></span>
+                <?php endif; ?>
             </a>
             <p class="font-body-md text-body-md text-surface-variant text-sm mt-4">
                 <?= nl2br(htmlspecialchars($footerAbout)) ?>

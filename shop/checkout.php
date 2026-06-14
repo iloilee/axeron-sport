@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $shippingMethod = $db->selectOne("SELECT * FROM shipping_methods WHERE method_id = ?", [$shippingMethodId]);
     
-    if ($subtotal >= 2000000) {
+    if ($subtotal >= $freeshipThreshold) {
         $shippingFee = 0; // Miễn phí giao hàng đơn > 2000k
     } else {
         if ($shippingMethod) {
@@ -340,6 +340,9 @@ if (isLoggedIn() && $userId) {
 }
 
 // Tự động áp dụng mã giảm giá WELCOME10 nếu là tài khoản mới
+$fsSetting = $db->selectOne("SELECT setting_value FROM site_settings WHERE setting_key = 'freeship_threshold'");
+$freeshipThreshold = $fsSetting ? (int)$fsSetting['setting_value'] : 2000000;
+// Tự động áp dụng mã giảm giá WELCOME10 nếu là tài khoản mới
 if ($userValid && !isset($_SESSION['checkout_promo'])) {
     $hasOrders = $db->selectOne("SELECT order_id FROM orders WHERE user_id = ?", [$userId]);
     if (!$hasOrders) {
@@ -520,7 +523,7 @@ if ($initSm) {
     }
 }
 
-if ($subtotal >= 2000000) {
+if ($subtotal >= $freeshipThreshold) {
     $shippingFee = 0;
 }
 
@@ -825,7 +828,7 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
                         feeForMethod = baseShippingFee;
                     }
 
-                    if (subtotal >= 2000000) {
+                    if (subtotal >= <?= $freeshipThreshold ?>) {
                         feeForMethod = 0;
                     }
 
@@ -854,7 +857,7 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
                 }
 
                 // Áp dụng Freeship nếu đơn > 2.000.000đ
-                if (subtotal >= 2000000) {
+                if (subtotal >= <?= $freeshipThreshold ?>) {
                     finalShippingFee = 0;
                 }
                 
