@@ -51,8 +51,25 @@ class RecommendationEngine
         // Phân tích sở thích (tần suất category/brand)
         $preferences = $this->analyzePreferences($behaviorData);
 
-        // Xây dựng và thực thi truy vấn gợi ý
-        $recommendations = $this->fetchRecommendations($preferences, $behaviorData, $limit);
+        // Lấy danh sách Collaborative Filtering (Sản phẩm mua kèm)
+        $collabRecommendations = $this->getCollaborativeRecommendations($behaviorData, $limit);
+
+        // Xây dựng và thực thi truy vấn gợi ý từ Preferences
+        $prefRecommendations = $this->fetchRecommendations($preferences, $behaviorData, $limit);
+
+        // Trộn danh sách (Ưu tiên Collab)
+        $recommendations = array_merge($collabRecommendations, $prefRecommendations);
+        
+        // Loại bỏ trùng lặp
+        $uniqueRecommendations = [];
+        $seenIds = [];
+        foreach ($recommendations as $rec) {
+            if (!in_array($rec['product_id'], $seenIds)) {
+                $uniqueRecommendations[] = $rec;
+                $seenIds[] = $rec['product_id'];
+            }
+        }
+        $recommendations = $uniqueRecommendations;
 
         // Nếu không đủ, fallback sang sản phẩm nổi bật / bán chạy
         if (count($recommendations) < $limit) {
@@ -62,10 +79,97 @@ class RecommendationEngine
             $recommendations = array_merge($recommendations, $fallback);
         }
 
+        // Loại bỏ trùng lặp lại lần cuối (nếu fallback bị trùng)
+        $uniqueRecommendations = [];
+        $seenIds = [];
+        foreach ($recommendations as $rec) {
+            if (!in_array($rec['product_id'], $seenIds)) {
+                $uniqueRecommendations[] = $rec;
+                $seenIds[] = $rec['product_id'];
+            }
+        }
+        $recommendations = $uniqueRecommendations;
+
         // Lưu cache
         $this->setCache($recommendations);
 
         return array_slice($recommendations, 0, $limit);
+    }
+
+    /**
+     * Thuật toán Collaborative Filtering - Mua kèm
+     */
+    private function getCollaborativeRecommendations(array $behaviorData, int $limit): array
+    {
+        // Sử dụng sản phẩm trong giỏ và lịch sử xem để làm "Seed"
+        $seedIds = array_unique(array_merge($behaviorData['cart_product_ids'], $behaviorData['viewed_ids']));
+        if (empty($seedIds)) {
+            return [];
+        }
+
+        // Lấy tối đa 10 seed gần nhất để query không bị quá nặng
+        $seedIds = array_slice($seedIds, 0, 10);
+        $placeholders = implode(',', array_fill(0, count($seedIds), '?'));
+        
+        // Exclude các SP người dùng đã mua hoặc làm seed
+        $excludeIds = array_unique(array_merge($seedIds, $behaviorData['purchased_ids']));
+        $excludePlaceholders = implode(',', array_fill(0, count($excludeIds), '?'));
+
+        $sql = "
+            SELECT 
+                pv2.product_id, 
+                COUNT(oi2.order_id) as co_occurrence
+            FROM order_items oi1
+            JOIN product_variants pv1 ON oi1.variant_id = pv1.variant_id
+            JOIN order_items oi2 ON oi1.order_id = oi2.order_id AND oi1.variant_id != oi2.variant_id
+            JOIN product_variants pv2 ON oi2.variant_id = pv2.variant_id
+            JOIN products p2 ON pv2.product_id = p2.product_id
+            WHERE pv1.product_id IN ($placeholders) 
+              AND pv2.product_id NOT IN ($excludePlaceholders)
+              AND p2.is_visible = 1 AND p2.is_deleted = 0
+            GROUP BY pv2.product_id
+            ORDER BY co_occurrence DESC
+            LIMIT ?
+        ";
+
+        $params = array_merge($seedIds, $excludeIds, [$limit]);
+        
+        // Sử dụng class Database có sẵn (hỗ trợ mysqli) thay vì PDO
+        $rows = $this->db->select($sql, $params);
+        $resultIds = array_column($rows, 'product_id');
+
+        if (empty($resultIds)) {
+            return [];
+        }
+
+        // Lấy chi tiết thông tin sản phẩm
+        $inIds = implode(',', array_fill(0, count($resultIds), '?'));
+        $detailsSql = "
+            SELECT p.product_id, p.product_name, p.slug, p.base_price,
+                   c.category_name, b.brand_name,
+                   (SELECT pi.image_url FROM product_images pi WHERE pi.product_id = p.product_id AND pi.is_primary = 1 LIMIT 1) as image_url,
+                   (SELECT AVG(rating) FROM reviews pr WHERE pr.product_id = p.product_id AND pr.status = 'approved') as avg_rating,
+                   (SELECT COUNT(*) FROM reviews pr WHERE pr.product_id = p.product_id AND pr.status = 'approved') as total_reviews
+            FROM products p
+            LEFT JOIN categories c ON p.category_id = c.category_id
+            LEFT JOIN brands b ON p.brand_id = b.brand_id
+            WHERE p.product_id IN ($inIds)
+        ";
+        
+        $products = $this->db->select($detailsSql, $resultIds);
+        
+        // Giữ đúng thứ tự của resultIds (sắp xếp theo co_occurrence)
+        $orderedProducts = [];
+        foreach ($resultIds as $id) {
+            foreach ($products as $p) {
+                if ($p['product_id'] == $id) {
+                    $orderedProducts[] = $p;
+                    break;
+                }
+            }
+        }
+
+        return $orderedProducts;
     }
 
     /**
