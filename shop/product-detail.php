@@ -50,7 +50,7 @@ foreach ($variants as $v) {
 
 // Get review count
 $reviewCount = $db->selectOne("
-    SELECT COUNT(*) as total FROM reviews WHERE product_id = ? AND status = 'approved'
+    SELECT COUNT(*) as total FROM reviews WHERE product_id = ? AND status = 'approved' AND is_deleted = 0
 ", [$product['product_id']]);
 
 // Get related products

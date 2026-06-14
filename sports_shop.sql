@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 14, 2026 lúc 04:45 PM
+-- Thời gian đã tạo: Th6 14, 2026 lúc 06:14 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -548,7 +548,8 @@ INSERT INTO `orders` (`order_id`, `order_code`, `user_id`, `shipping_id`, `shipp
 (50104, '6D0510F0', 24, NULL, 1, NULL, '', '', NULL, NULL, '123 Đường Axeron, TP.HCM', 0.00, 0.00, 0.00, 1570000.00, 'delivered', 'cod', 'paid', NULL, '2025-07-26 07:38:07', '2026-06-13 07:22:15'),
 (50105, '8A134395', 25, NULL, 1, NULL, '', '', NULL, NULL, '123 Đường Axeron, TP.HCM', 0.00, 0.00, 0.00, 890000.00, 'shipped', 'cod', 'paid', NULL, '2025-07-12 11:01:36', '2026-06-13 07:22:15'),
 (50106, '0D899FC4', 28, NULL, 1, NULL, '', '', NULL, NULL, '123 Đường Axeron, TP.HCM', 0.00, 0.00, 0.00, 11530000.00, 'delivered', 'cod', 'paid', NULL, '2025-10-18 13:51:27', '2026-06-13 07:22:15'),
-(50107, 'ORD-B89F98', NULL, 9, 1, NULL, 'khach vang lai', '0987655555', 'vanlai@gmail.com', '4c609cb2dd34363262e6a5dce9c3ba2c', '7/21, , Huyện Ba Bể, Bắc Kạn', 3100000.00, 0.00, 0.00, 3100000.00, 'pending', 'cod', 'unpaid', '[Yêu cầu hủy từ khách]: Tìm được sản phẩm khác', '2026-06-14 01:25:20', '2026-06-14 01:30:47');
+(50107, 'ORD-B89F98', NULL, 9, 1, NULL, 'khach vang lai', '0987655555', 'vanlai@gmail.com', '4c609cb2dd34363262e6a5dce9c3ba2c', '7/21, , Huyện Ba Bể, Bắc Kạn', 3100000.00, 0.00, 0.00, 3100000.00, 'pending', 'cod', 'unpaid', '[Yêu cầu hủy từ khách]: Tìm được sản phẩm khác', '2026-06-14 01:25:20', '2026-06-14 01:30:47'),
+(50115, 'ORD-TEST-1781453217', NULL, NULL, 1, NULL, 'Test Name', '0123456789', NULL, NULL, 'Test Address', 0.00, 0.00, 0.00, 0.00, 'delivered', 'cod', 'unpaid', NULL, '2026-06-14 23:06:57', '2026-06-14 23:13:12');
 
 -- --------------------------------------------------------
 
@@ -877,7 +878,8 @@ INSERT INTO `order_status_logs` (`log_id`, `order_id`, `changed_by`, `old_status
 (66, 50000, 3, 'pending', 'cancelled', 'Lý do: Tìm được sản phẩm khác', '2026-06-12 22:22:29'),
 (67, 50001, NULL, NULL, 'pending', NULL, '2026-06-12 22:24:02'),
 (68, 50002, NULL, NULL, 'pending', NULL, '2026-06-12 22:34:13'),
-(71, 50107, NULL, NULL, 'pending', NULL, '2026-06-14 01:25:20');
+(71, 50107, NULL, NULL, 'pending', NULL, '2026-06-14 01:25:20'),
+(82, 50115, 1, 'pending', 'delivered', NULL, '2026-06-14 23:13:12');
 
 -- --------------------------------------------------------
 
@@ -956,7 +958,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`, `slug`, `description`, `base_price`, `stock_quantity`, `is_visible`, `is_deleted`, `is_featured`, `featured_sort_order`, `avg_rating`, `total_reviews`, `created_at`, `updated_at`) VALUES
-(1, 101, 1, 'Giày chạy bộ DL Speed Pro X1', 'giay-chay-bo-dl-speed-pro-x1', 'Giày chạy bộ chuyên nghiệp với đế giày EVA siêu nhẹ.', 890000.00, 50, 1, 0, 1, 3, 4.60, 12, '2026-05-29 19:17:55', '2026-06-14 19:42:28'),
+(1, 101, 1, 'Giày chạy bộ DL Speed Pro X1', 'giay-chay-bo-dl-speed-pro-x1', 'Giày chạy bộ chuyên nghiệp với đế giày EVA siêu nhẹ.', 890000.00, 50, 1, 0, 1, 3, 4.67, 3, '2026-05-29 19:17:55', '2026-06-14 22:57:24'),
 (2, 101, 1, 'Giày chạy bộ DL Runner Air 2024', 'giay-chay-bo-dl-runner-air-2024', 'Thiết kế khí động học giúp tăng tốc độ.', 750000.00, 60, 1, 0, 0, 999, 4.40, 8, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
 (3, 101, 2, 'Giày Nike Revolution 7', 'giay-nike-revolution-7', 'Giày chạy bộ phổ biến của Nike với đế giữa foam đen.', 1950000.00, 30, 1, 0, 1, 2, 4.50, 15, '2026-05-29 19:17:55', '2026-06-14 19:42:29'),
 (4, 101, 3, 'Giày Adidas Runfalcon 3.0', 'giay-adidas-runfalcon-3', 'Dòng giày chạy bộ giá tốt của Adidas.', 1650000.00, 40, 1, 0, 0, 999, 4.30, 10, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
@@ -1121,7 +1123,9 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (169, 112, 11, 'San pham test QA live', 'san-pham-test-qa-live', '', 250000.00, 10, 1, 1, 0, 999, NULL, 0, '2026-06-11 03:00:42', '2026-06-11 03:04:42'),
 (174, 1, 3, 'BANKING Test 3K', 'san-pham-test-3k', '<p>Đây là sản phẩm giả lập dùng để test hệ thống thanh toán qua cổng PayOS.</p>', 3000.00, 997, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-12 10:38:27'),
 (175, 1, 3, 'BANKING Test 5K', 'san-pham-test-5k', '<p>Đây là sản phẩm giả lập dùng để test hệ thống thanh toán qua cổng PayOS.</p>', 5000.00, 999, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-11 23:39:07'),
-(176, 1, 3, 'BANKING Test 10K', 'san-pham-test-10k', '<p>Đây là sản phẩm giả lập dùng để test hệ thống thanh toán qua cổng PayOS.</p>', 10000.00, 997, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-12 22:22:29');
+(176, 1, 3, 'BANKING Test 10K', 'san-pham-test-10k', '<p>Đây là sản phẩm giả lập dùng để test hệ thống thanh toán qua cổng PayOS.</p>', 10000.00, 997, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-12 22:22:29'),
+(177, 112, 10, 'test san pham', 'test-san-pham', 'test mo tatest mo tatest mo tatest mo ta', 100000.00, 200, 1, 1, 0, 999, NULL, 0, '2026-06-14 22:53:04', '2026-06-14 22:55:12'),
+(178, 112, 9, 'test san phamxxxxxxxx', 'test-san-pham-1781452421', 'test san phamtest san phamtest san phamxxxxxxxx', 100000.00, 200, 1, 1, 0, 999, NULL, 0, '2026-06-14 22:53:41', '2026-06-14 22:55:04');
 
 -- --------------------------------------------------------
 
@@ -1310,7 +1314,11 @@ INSERT INTO `product_images` (`image_id`, `product_id`, `image_url`, `alt_text`,
 (171, 169, 'https://placehold.co/600x600/111827/ffffff?text=San+pham+test+QA+liv', 'San pham test QA live', 0, 1, NULL),
 (175, 174, 'https://placehold.co/400x400/E63946/FFFFFF?text=BANKING+Test+3K%0A3%2C000+VND', NULL, 0, 1, NULL),
 (176, 175, 'https://placehold.co/400x400/2A9D8F/FFFFFF?text=BANKING+Test+5K%0A5%2C000+VND', NULL, 0, 1, NULL),
-(177, 176, 'https://placehold.co/400x400/E9C46A/000000?text=BANKING+Test+10K%0A10%2C000+VND', NULL, 0, 1, NULL);
+(177, 176, 'https://placehold.co/400x400/E9C46A/000000?text=BANKING+Test+10K%0A10%2C000+VND', NULL, 0, 1, NULL),
+(178, 177, '/uploads/products/test-san-pham/img_6a2ece6039c23_1781452384.jpg', 'test san pham', 0, 1, NULL),
+(179, 177, '/uploads/products/test-san-pham/img_6a2ece603a2ef_1781452384.jpg', 'test san pham', 0, 0, NULL),
+(180, 177, '/uploads/products/test-san-pham/img_6a2ece603a72d_1781452384.jpg', 'test san pham', 0, 0, NULL),
+(183, 178, '/uploads/products/test-san-pham-1781452421/img_6a2ecebc6f172_1781452476.jpg', 'desk.jpg', 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -1335,13 +1343,13 @@ CREATE TABLE `product_variants` (
 --
 
 INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `size`, `extra_price`, `stock_quantity`, `is_active`, `is_deleted`) VALUES
-(1, 1, 'DL-SPX1-DEN-39', 'Đen', '39', 0.00, 8, 1, 0),
+(1, 1, 'DL-SPX1-DEN-39', 'Đen', '39', 0.00, 7, 1, 0),
 (2, 1, 'DL-SPX1-DEN-40', 'Đen', '40', 0.00, 10, 1, 0),
 (3, 1, 'DL-SPX1-DEN-41', 'Đen', '41', 0.00, 10, 1, 0),
 (4, 1, 'DL-SPX1-DEN-42', 'Đen', '42', 0.00, 8, 1, 0),
 (5, 1, 'DL-SPX1-DEN-43', 'Đen', '43', 0.00, 7, 1, 0),
-(6, 1, 'DL-SPX1-TRANG-40', 'Trắng', '40', 0.00, 5, 1, 0),
-(7, 2, 'DL-RAR-XANH-39', 'Xanh navy', '39', 0.00, 8, 1, 0),
+(6, 1, 'DL-SPX1-TRANG-40', 'Trắng', '40', 0.00, 2, 1, 0),
+(7, 2, 'DL-RAR-XANH-39', 'Xanh navy', '39', 0.00, 6, 1, 0),
 (8, 2, 'DL-RAR-XANH-40', 'Xanh navy', '40', 0.00, 10, 1, 0),
 (9, 2, 'DL-RAR-XANH-41', 'Xanh navy', '41', 0.00, 10, 1, 0),
 (10, 2, 'DL-RAR-XANH-42', 'Xanh navy', '42', 0.00, 8, 1, 0),
@@ -1581,10 +1589,11 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (248, 144, 'DEFAULT-144-1781113313', 'default', 'default', 0.00, 21, 1, 0),
 (249, 165, 'DEFAULT-165-1781113453', 'default', 'default', 0.00, 10, 1, 0),
 (250, 169, 'SP-TEST-01', 'Xanh', 'XL', 0.00, 10, 1, 0),
-(254, 174, 'TEST-84B78D', 'Mặc định', 'Free Size', 0.00, 995, 1, 0),
+(254, 174, 'TEST-84B78D', 'Mặc định', 'Free Size', 0.00, 992, 1, 0),
 (255, 175, 'TEST-F66E00', 'Mặc định', 'Free Size', 0.00, 999, 1, 0),
 (256, 176, 'TEST-B404DD', 'Mặc định', 'Free Size', 0.00, 995, 1, 0),
-(257, 63, 'DEFAULT-63-1781233659', 'default', 'default', 0.00, 67, 1, 0);
+(257, 63, 'DEFAULT-63-1781233659', 'default', 'default', 0.00, 67, 1, 0),
+(259, 178, 'h123', 'Xanh lá', '32', 0.00, 200, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -2252,7 +2261,21 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (777, 1, 62, '2026-06-14 19:44:48'),
 (778, 1, 176, '2026-06-14 20:18:45'),
 (779, 2, 1, '2026-06-14 20:44:28'),
-(780, 2, 1, '2026-06-14 20:44:33');
+(780, 2, 1, '2026-06-14 20:44:33'),
+(791, 1, 178, '2026-06-14 22:53:53'),
+(792, 1, 178, '2026-06-14 22:54:54'),
+(793, 1, 178, '2026-06-14 22:55:02'),
+(794, 1, 1, '2026-06-14 22:57:00'),
+(795, 1, 1, '2026-06-14 22:57:10'),
+(796, 1, 1, '2026-06-14 22:57:22'),
+(797, 1, 1, '2026-06-14 22:57:26'),
+(798, 1, 1, '2026-06-14 22:57:28'),
+(799, 1, 1, '2026-06-14 22:57:31'),
+(800, 1, 1, '2026-06-14 22:57:31'),
+(801, 1, 1, '2026-06-14 22:57:32'),
+(802, 1, 1, '2026-06-14 22:57:32'),
+(803, 1, 1, '2026-06-14 23:01:04'),
+(806, 1, 14, '2026-06-14 23:12:00');
 
 -- --------------------------------------------------------
 
@@ -2285,7 +2308,8 @@ CREATE TABLE `promotions` (
 
 INSERT INTO `promotions` (`promo_id`, `promo_code`, `promo_name`, `description`, `type`, `discount_type`, `discount_value`, `min_order_value`, `max_discount`, `usage_limit`, `used_count`, `start_date`, `end_date`, `is_active`, `created_at`, `updated_at`) VALUES
 (10, 'DISCOUNT5', 'Giảm 5%', NULL, 'product', 'percent', 5.00, 0.00, NULL, NULL, 0, '2026-06-14 00:15:15', '2027-06-14 00:15:15', 1, '2026-06-14 05:15:15', '2026-06-14 05:20:26'),
-(11, 'FLASH10', 'KM 10%', NULL, 'flashsale', 'percent', 10.00, 0.00, NULL, NULL, 0, '2026-06-14 00:00:00', '2027-06-14 00:00:00', 1, '2026-06-14 05:15:15', '2026-06-14 05:36:51');
+(11, 'FLASH10', 'KM 10%', NULL, 'flashsale', 'percent', 10.00, 0.00, NULL, NULL, 0, '2026-06-14 00:00:00', '2027-06-14 00:00:00', 1, '2026-06-14 05:15:15', '2026-06-14 05:36:51'),
+(12, 'TEST-BANK', 'test banking', NULL, 'voucher', 'fixed', 25000.00, 0.00, NULL, NULL, 3, '2026-06-14 00:00:00', '2027-06-14 00:00:00', 1, '2026-06-14 22:35:34', '2026-06-14 22:48:20');
 
 -- --------------------------------------------------------
 
@@ -2871,7 +2895,7 @@ INSERT INTO `shipping_prices` (`shipping_id`, `province_city`, `base_price`, `es
 (61, 'Vĩnh Long', 25000.00, 3, '2026-06-05 16:13:22', '2026-06-05 16:13:22'),
 (62, 'Vĩnh Phúc', 35000.00, 4, '2026-06-05 16:13:22', '2026-06-05 16:13:22'),
 (63, 'Yên Bái', 35000.00, 4, '2026-06-05 16:13:22', '2026-06-05 16:13:22'),
-(65, 'An Giang', 30000.00, 3, '2026-06-05 16:22:13', '2026-06-05 16:22:13');
+(66, 'An Giang', 30000.00, 3, '2026-06-14 23:03:51', '2026-06-14 23:03:51');
 
 -- --------------------------------------------------------
 
@@ -3046,7 +3070,9 @@ INSERT INTO `user_wishlists` (`wishlist_id`, `user_id`, `product_id`, `created_a
 (5, 3, 176, '2026-06-11 16:39:34'),
 (6, 3, 174, '2026-06-11 16:39:38'),
 (8, 3, 1, '2026-06-11 17:05:38'),
-(9, 3, 56, '2026-06-12 04:47:53');
+(9, 3, 56, '2026-06-12 04:47:53'),
+(10, 43, 1, '2026-06-14 15:30:38'),
+(11, 43, 3, '2026-06-14 15:30:39');
 
 -- --------------------------------------------------------
 
@@ -3385,13 +3411,13 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT cho bảng `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -3421,25 +3447,25 @@ ALTER TABLE `contact_messages`
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50108;
+  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50119;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
+  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=238;
 
 --
 -- AUTO_INCREMENT cho bảng `order_status_logs`
 --
 ALTER TABLE `order_status_logs`
-  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT cho bảng `password_resets`
 --
 ALTER TABLE `password_resets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `payment_transactions`
@@ -3451,31 +3477,31 @@ ALTER TABLE `payment_transactions`
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
+  MODIFY `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
 
 --
 -- AUTO_INCREMENT cho bảng `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `image_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
+  MODIFY `image_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=184;
 
 --
 -- AUTO_INCREMENT cho bảng `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=258;
+  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=260;
 
 --
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=781;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=807;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
 --
 ALTER TABLE `promotions`
-  MODIFY `promo_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `promo_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `promotion_categories`
@@ -3493,7 +3519,7 @@ ALTER TABLE `promotion_products`
 -- AUTO_INCREMENT cho bảng `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `review_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT cho bảng `roles`
@@ -3505,7 +3531,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT cho bảng `search_logs`
 --
 ALTER TABLE `search_logs`
-  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
+  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
 
 --
 -- AUTO_INCREMENT cho bảng `shipping_methods`
@@ -3517,7 +3543,7 @@ ALTER TABLE `shipping_methods`
 -- AUTO_INCREMENT cho bảng `shipping_prices`
 --
 ALTER TABLE `shipping_prices`
-  MODIFY `shipping_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `shipping_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT cho bảng `site_settings`
@@ -3529,19 +3555,19 @@ ALTER TABLE `site_settings`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT cho bảng `user_addresses`
 --
 ALTER TABLE `user_addresses`
-  MODIFY `address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT cho bảng `user_wishlists`
 --
 ALTER TABLE `user_wishlists`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

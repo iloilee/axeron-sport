@@ -92,9 +92,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get shipping rate
     $shippingMethodId = (int)($_POST['shipping_method'] ?? 1);
     $shipping = $db->selectOne("SELECT * FROM shipping_prices WHERE shipping_id = ?", [$shippingId]);
+    if (!$shipping) {
+        $shipping = $db->selectOne("SELECT * FROM shipping_prices LIMIT 1");
+        $shippingId = $shipping ? $shipping['shipping_id'] : null;
+    }
     $baseShippingFee = $shipping ? (float)$shipping['base_price'] : 30000;
     
     $shippingMethod = $db->selectOne("SELECT * FROM shipping_methods WHERE method_id = ?", [$shippingMethodId]);
+    if (!$shippingMethod) {
+        $shippingMethod = $db->selectOne("SELECT * FROM shipping_methods LIMIT 1");
+        $shippingMethodId = $shippingMethod ? $shippingMethod['method_id'] : null;
+    }
     
     $fsSetting = $db->selectOne("SELECT setting_value FROM site_settings WHERE setting_key = 'freeship_threshold'");
     $freeshipThreshold = $fsSetting ? (int)$fsSetting['setting_value'] : 2000000;
@@ -117,19 +125,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $promoId = null;
     $rawDiscount = 0;
     if (isset($_SESSION['checkout_promo'])) {
-        $promoId = $_SESSION['checkout_promo']['promo_id'];
-        $promo = $_SESSION['checkout_promo'];
+        $sessionPromoId = $_SESSION['checkout_promo']['promo_id'];
+        $checkPromo = $db->selectOne("SELECT promo_id FROM promotions WHERE promo_id = ?", [$sessionPromoId]);
+        if (!$checkPromo) {
+            unset($_SESSION['checkout_promo']);
+        } else {
+            $promoId = $sessionPromoId;
+            $promo = $_SESSION['checkout_promo'];
 
-        if ($subtotal >= $promo['min_order_value']) {
-            if ($promo['discount_type'] === 'percent') {
-                $rawDiscount = $subtotal * ($promo['discount_value'] / 100);
-                if ($promo['max_discount']) {
-                    $rawDiscount = min($rawDiscount, $promo['max_discount']);
+            if ($subtotal >= $promo['min_order_value']) {
+                if ($promo['discount_type'] === 'percent') {
+                    $rawDiscount = $subtotal * ($promo['discount_value'] / 100);
+                    if ($promo['max_discount']) {
+                        $rawDiscount = min($rawDiscount, $promo['max_discount']);
+                    }
+                } else {
+                    $rawDiscount = $promo['discount_value'];
                 }
-            } else {
-                $rawDiscount = $promo['discount_value'];
+                $discountAmount = min($rawDiscount, $subtotal + $shippingFee);
             }
-            $discountAmount = min($rawDiscount, $subtotal + $shippingFee);
         }
     }
 

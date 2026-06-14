@@ -438,7 +438,7 @@ function getProductReviews($db) {
 
     $total = $db->selectOne("
         SELECT COUNT(*) as total FROM reviews
-        WHERE product_id = ? AND status = 'approved'
+        WHERE product_id = ? AND status = 'approved' AND is_deleted = 0
     ", [$productId]);
 
     $reviews = $db->select("
@@ -448,7 +448,7 @@ function getProductReviews($db) {
             u.avatar_url
         FROM reviews r
         LEFT JOIN users u ON r.user_id = u.user_id
-        WHERE r.product_id = ? AND r.status = 'approved'
+        WHERE r.product_id = ? AND r.status = 'approved' AND r.is_deleted = 0
         ORDER BY r.created_at DESC
         LIMIT ? OFFSET ?
     ", [$productId, $perPage, $offset]);
