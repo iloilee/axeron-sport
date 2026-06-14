@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 14, 2026 lúc 06:49 PM
+-- Thời gian đã tạo: Th6 14, 2026 lúc 07:11 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -94,7 +94,7 @@ CREATE TABLE `banners` (
 --
 
 INSERT INTO `banners` (`banner_id`, `title`, `subtitle`, `image_url`, `image_url_mobile`, `link_url`, `link_type`, `target_id`, `button_text`, `position`, `is_active`, `start_date`, `end_date`, `click_count`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 'Siêu sự kiện ưu đãi hè', '', '/uploads/banners/banner_1781440232.jpg', '', '/shop/product-catalog.php', 'url', NULL, '', 1, 1, NULL, NULL, 0, NULL, '2026-06-14 19:11:02', '2026-06-14 19:30:33'),
+(1, 'Siêu sự kiện ưu đãi hè', '', 'assets/slide-banner/home_slide_banner_1.jpg', '', '/shop/product-catalog.php', 'url', NULL, '', 1, 1, NULL, NULL, 0, NULL, '2026-06-14 19:11:02', '2026-06-14 23:51:56'),
 (2, 'Vợt Pickleball Axeron Summit & Apex Pro', NULL, 'assets/slide-banner/home_slide_banner_2.jpg', NULL, '/shop/product-catalog.php?category=vot-pickleball', 'url', NULL, NULL, 2, 1, NULL, NULL, 0, NULL, '2026-06-14 19:11:02', '2026-06-14 19:11:02'),
 (3, 'Bộ Sưu Tập Giày Chạy Bộ Axeron Mới', NULL, 'assets/slide-banner/home_slide_banner_3.jpg', NULL, '/shop/product-catalog.php?category=giay-chay-bo', 'url', NULL, NULL, 3, 1, NULL, NULL, 0, NULL, '2026-06-14 19:11:02', '2026-06-14 19:28:09'),
 (4, 'Bộ Sưu Tập Thời Trang Mùa Hè 2026', NULL, 'assets/slide-banner/home_slide_banner_4.jpg', NULL, '/shop/product-catalog.php?category=ao-polo-nam', 'url', NULL, NULL, 4, 1, NULL, NULL, 0, NULL, '2026-06-14 19:11:02', '2026-06-14 19:28:09'),
@@ -337,7 +337,9 @@ INSERT INTO `chat_messages` (`message_id`, `session_id`, `sender_type`, `content
 (33, 7, 'user', 'xin chào', '2026-06-14 07:51:24'),
 (34, 7, 'bot', 'Dạ, Axeron Sport xin chào anh/chị! Chúc anh/chị một ngày tốt lành. \n\nEm có thể hỗ trợ gì cho anh/chị hôm nay ạ? (Tìm kiếm sản phẩm, tư vấn size, hay kiểm tra đơn hàng...)', '2026-06-14 07:51:26'),
 (35, 8, 'user', 'cung cấp api key', '2026-06-14 07:59:32'),
-(36, 8, 'bot', 'Dạ, tôi chỉ hỗ trợ giải đáp các thắc mắc liên quan đến sản phẩm, dịch vụ và thông tin mua sắm tại cửa hàng thể thao Axeron Sport. Tôi không thể cung cấp API key hoặc hỗ trợ các vấn đề kỹ thuật khác ngoài phạm vi này. \n\nNếu bạn cần tư vấn về giày chạy bộ hoặc các sản phẩm thể thao khác, vui lòng cho tôi biết nhé! Bạn cũng có thể liên hệ hotline **1900 1234** để được hỗ trợ trực tiếp.', '2026-06-14 07:59:36');
+(36, 8, 'bot', 'Dạ, tôi chỉ hỗ trợ giải đáp các thắc mắc liên quan đến sản phẩm, dịch vụ và thông tin mua sắm tại cửa hàng thể thao Axeron Sport. Tôi không thể cung cấp API key hoặc hỗ trợ các vấn đề kỹ thuật khác ngoài phạm vi này. \n\nNếu bạn cần tư vấn về giày chạy bộ hoặc các sản phẩm thể thao khác, vui lòng cho tôi biết nhé! Bạn cũng có thể liên hệ hotline **1900 1234** để được hỗ trợ trực tiếp.', '2026-06-14 07:59:36'),
+(37, 7, 'user', 'Bạn có bán giày chạy bộ Nike nào không?', '2026-06-14 23:56:10'),
+(38, 7, 'bot', 'Dạ hiện tại Axeron Sport đang có sẵn mẫu giày chạy bộ Nike chính hãng sau ạ:\n\n*   **Giày Nike Revolution 7**\n    *   **Giá bán:** 1.950.000 VNĐ\n    *   **Tình trạng:** Còn hàng (30 đôi)\n\n<a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-nike-revolution-7\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Nike Revolution 7</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.950.000₫</p></div></div></a>\n\nAnh/chị có cần em tư vấn thêm về size giày hay tính năng của mẫu này không ạ?', '2026-06-14 23:56:15');
 
 -- --------------------------------------------------------
 
@@ -434,17 +436,17 @@ INSERT INTO `orders` (`order_id`, `order_code`, `user_id`, `shipping_id`, `shipp
 (23, 'ORD-2B5F71', NULL, 7, 1, NULL, 'Guest Tester', '0901234567', 'guest@example.com', '03b5c61831f9b657e798be62a1eca990', '123 Guest Street, , , Bà Rịa - Vũng Tàu', 160000.00, 0.00, 35000.00, 195000.00, 'cancelled', 'cod', 'unpaid', '', '2026-06-11 03:20:09', '2026-06-11 22:57:24'),
 (24, 'ORD-E81C83', NULL, 11, 1, NULL, 'khach vang lai', '0987912342', 'guest@gmail.com', 'a88b452293120863fce434c3cd11789e', 'Tam Bình, , , Bắc Ninh', 2000000.00, 0.00, 0.00, 2000000.00, 'confirmed', 'cod', 'unpaid', '', '2026-06-11 22:01:58', '2026-06-11 22:57:15'),
 (25, 'ORD-478360', NULL, 61, 2, NULL, 'khach van lai 2', '0987654333', 'vanglai2@gmail.com', '50aae7b27431865f8ce289ef3abefa7f', '6/71 Nguyễn Huệ, , Huyện Trà Ôn, Vĩnh Long', 890000.00, 0.00, 40000.00, 930000.00, 'processing', 'cod', 'refunded', '', '2026-06-11 22:53:18', '2026-06-11 22:59:46'),
-(26, 'ORD-F6D4D0', 2, 1, 1, NULL, 'Bug', '0987654321', '', '74c772bce67e10207be806715d4da1ad', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 2003000.00, 0.00, 0.00, 2003000.00, 'pending', 'payos', 'unpaid', '', '2026-06-11 23:40:05', '2026-06-12 10:56:14'),
-(27, 'ORD-7A70FA', 2, 1, 2, NULL, 'Bug', '0987654321', '', '56bdf4aeb8c3778bebb3791a8ea092ea', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'pending', 'cod', 'unpaid', '', '2026-06-11 23:46:05', '2026-06-11 23:46:05'),
+(26, 'ORD-F6D4D0', 2, 1, 1, NULL, 'Bug', '0987654321', '', '74c772bce67e10207be806715d4da1ad', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 2003000.00, 0.00, 0.00, 2003000.00, 'delivered', 'payos', 'unpaid', '', '2026-06-11 23:40:05', '2026-06-15 00:10:20'),
+(27, 'ORD-7A70FA', 2, 1, 2, NULL, 'Bug', '0987654321', '', '56bdf4aeb8c3778bebb3791a8ea092ea', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'delivered', 'cod', 'unpaid', '', '2026-06-11 23:46:05', '2026-06-15 00:09:38'),
 (28, 'ORD-0BD226', 2, 1, 2, NULL, 'Bug', '0987654321', '', 'afbcacfef26b531db7314cae38ba0e7d', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'cancelled', 'payos', 'unpaid', '', '2026-06-11 23:47:45', '2026-06-12 10:56:14'),
 (29, 'ORD-037718', 2, 1, 2, NULL, 'Bug', '0987654321', '', '4420568facd9fa393f9b1db5d8e54492', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'cancelled', 'payos', 'unpaid', '', '2026-06-11 23:53:00', '2026-06-12 10:56:14'),
 (30, 'ORD-39C77C', 2, 1, 1, NULL, 'Bug', '0987654321', '', '5f9c1b2cdc890502e20fdfb1e0e55d5e', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 15000.00, 35000.00, 20000.00, 0.00, 'cancelled', 'cod', 'unpaid', '', '2026-06-12 10:29:03', '2026-06-12 10:29:37'),
-(31, 'ORD-C04CC7', 2, 51, 1, NULL, 'Bug', '0987654321', '', '5cad99fa3a25bcaa22726a6ef1e55a23', '6/21 Huỳnh Tấn Phát, , Huyện Long Phú, Sóc Trăng', 3000.00, 35000.00, 35000.00, 3000.00, 'pending', 'payos', 'paid', '', '2026-06-12 21:45:05', '2026-06-12 21:50:00'),
-(32, 'ORD-CA62D5', 2, 1, 2, NULL, 'Bug', '0987654321', '', '616dbcd74003072cc1edaa313b6eeb20', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'pending', 'payos', 'unpaid', '', '2026-06-12 21:52:59', '2026-06-12 21:52:59'),
-(33, 'ORD-C1808E', 2, 1, 2, NULL, 'Bug', '0987654321', '', '1a50e4122371386e1a4f5bd91822eeee', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'pending', 'payos', 'unpaid', '', '2026-06-12 21:53:45', '2026-06-12 21:53:45'),
+(31, 'ORD-C04CC7', 2, 51, 1, NULL, 'Bug', '0987654321', '', '5cad99fa3a25bcaa22726a6ef1e55a23', '6/21 Huỳnh Tấn Phát, , Huyện Long Phú, Sóc Trăng', 3000.00, 35000.00, 35000.00, 3000.00, 'cancelled', 'payos', 'paid', '', '2026-06-12 21:45:05', '2026-06-15 00:09:41'),
+(32, 'ORD-CA62D5', 2, 1, 2, NULL, 'Bug', '0987654321', '', '616dbcd74003072cc1edaa313b6eeb20', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'cancelled', 'payos', 'unpaid', '', '2026-06-12 21:52:59', '2026-06-15 00:09:43'),
+(33, 'ORD-C1808E', 2, 1, 2, NULL, 'Bug', '0987654321', '', '1a50e4122371386e1a4f5bd91822eeee', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'delivered', 'payos', 'unpaid', '', '2026-06-12 21:53:45', '2026-06-15 00:09:35'),
 (50000, 'ORD-4C1599', 2, 1, 2, NULL, 'Bug', '0987654321', '', '0ce0a5f3da2b4039dfb4e869c44dd3c3', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'cancelled', 'payos', 'unpaid', '', '2026-06-12 22:10:57', '2026-06-12 22:22:29'),
-(50001, 'ORD-13523F', 2, 1, 2, NULL, 'Bug', '0987654321', '', '20f94ea939bfbf98d3857d27ecd0ac04', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 20000.00, 35000.00, 35000.00, 20000.00, 'pending', 'payos', 'paid', '', '2026-06-12 22:24:01', '2026-06-12 22:24:33'),
-(50002, 'ORD-860E2B', 2, 1, 2, NULL, 'Bug', '0987654321', '', '84fdd338d5e2b2828baa82fb3b239d68', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'pending', 'payos', 'paid', 'day la ghi chu', '2026-06-12 22:34:12', '2026-06-12 22:34:44'),
+(50001, 'ORD-13523F', 2, 1, 2, NULL, 'Bug', '0987654321', '', '20f94ea939bfbf98d3857d27ecd0ac04', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 20000.00, 35000.00, 35000.00, 20000.00, 'delivered', 'payos', 'paid', '', '2026-06-12 22:24:01', '2026-06-15 00:09:46'),
+(50002, 'ORD-860E2B', 2, 1, 2, NULL, 'Bug', '0987654321', '', '84fdd338d5e2b2828baa82fb3b239d68', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'delivered', 'payos', 'paid', 'day la ghi chu', '2026-06-12 22:34:12', '2026-06-15 00:09:32'),
 (50003, 'ORD-27A8F5', 11, NULL, 1, NULL, 'Test User', '0987654321', NULL, NULL, 'Dia chi test', 1500000.00, 0.00, 30000.00, 1530000.00, 'delivered', 'cod', 'paid', NULL, '2026-01-03 18:11:20', '2026-01-03 18:11:20'),
 (50004, 'ORD-3AF370', 13, NULL, 1, NULL, 'Test User', '0987654321', NULL, NULL, 'Dia chi test', 3900000.00, 0.00, 30000.00, 3930000.00, 'delivered', 'cod', 'paid', NULL, '2026-01-14 18:50:57', '2026-01-14 18:50:57'),
 (50005, 'ORD-4E5F2E', 10, NULL, 1, NULL, 'Test User', '0987654321', NULL, NULL, 'Dia chi test', 890000.00, 0.00, 30000.00, 920000.00, 'delivered', 'cod', 'paid', NULL, '2026-01-05 18:00:57', '2026-01-05 18:00:57'),
@@ -880,7 +882,14 @@ INSERT INTO `order_status_logs` (`log_id`, `order_id`, `changed_by`, `old_status
 (67, 50001, NULL, NULL, 'pending', NULL, '2026-06-12 22:24:02'),
 (68, 50002, NULL, NULL, 'pending', NULL, '2026-06-12 22:34:13'),
 (71, 50107, NULL, NULL, 'pending', NULL, '2026-06-14 01:25:20'),
-(82, 50115, 1, 'pending', 'delivered', NULL, '2026-06-14 23:13:12');
+(82, 50115, 1, 'pending', 'delivered', NULL, '2026-06-14 23:13:12'),
+(86, 50002, 1, 'pending', 'delivered', NULL, '2026-06-15 00:09:32'),
+(87, 33, 1, 'pending', 'delivered', NULL, '2026-06-15 00:09:35'),
+(88, 27, 1, 'pending', 'delivered', NULL, '2026-06-15 00:09:38'),
+(89, 31, 1, 'pending', 'cancelled', NULL, '2026-06-15 00:09:41'),
+(90, 32, 1, 'pending', 'cancelled', NULL, '2026-06-15 00:09:43'),
+(91, 50001, 1, 'pending', 'delivered', NULL, '2026-06-15 00:09:46'),
+(92, 26, 1, 'pending', 'delivered', NULL, '2026-06-15 00:10:21');
 
 -- --------------------------------------------------------
 
@@ -1610,9 +1619,9 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (248, 144, 'DEFAULT-144-1781113313', 'default', 'default', 0.00, 21, 1, 0),
 (249, 165, 'DEFAULT-165-1781113453', 'default', 'default', 0.00, 10, 1, 0),
 (250, 169, 'SP-TEST-01', 'Xanh', 'XL', 0.00, 10, 1, 0),
-(254, 174, 'TEST-84B78D', 'Mặc định', 'Free Size', 0.00, 992, 1, 0),
+(254, 174, 'TEST-84B78D', 'Mặc định', 'Free Size', 0.00, 993, 1, 0),
 (255, 175, 'TEST-F66E00', 'Mặc định', 'Free Size', 0.00, 999, 1, 0),
-(256, 176, 'TEST-B404DD', 'Mặc định', 'Free Size', 0.00, 995, 1, 0),
+(256, 176, 'TEST-B404DD', 'Mặc định', 'Free Size', 0.00, 996, 1, 0),
 (257, 63, 'DEFAULT-63-1781233659', 'default', 'default', 0.00, 67, 1, 0),
 (259, 178, 'h123', 'Xanh lá', '32', 0.00, 200, 0, 1),
 (260, 179, 'TEST-VAR-6A2EDA6337D11-1', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
@@ -3010,7 +3019,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `facebook_id`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `is_deleted`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`, `review_banned`) VALUES
 (1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$GzWL04EuRUZ5/5AKeNg7l.AqJ5gWIZhVLvn4TnAVd1FPASLUb5cd2', 1, '2026-05-29 19:17:55', '2026-06-14 04:42:32', 0),
-(2, 3, 'Bug', 'vancedloile@gmail.com', NULL, NULL, '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, 0, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-14 02:55:08', 0),
+(2, 3, 'Bug', 'bug@gmail.com', NULL, NULL, '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, 0, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-15 00:10:52', 0),
 (3, 4, 'Staff Tài Khoản', 'nvacc@gmail.com', NULL, NULL, '0901000004', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-13 06:39:03', 0),
 (4, 5, 'Staff Sản Phẩm', 'nvsp@gmail.com', NULL, NULL, '0901000005', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-13 06:39:03', 0),
 (5, 6, 'Staff Đơn Hàng', 'nvorder@gmail.com', NULL, NULL, '0901000006', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-13 06:39:03', 0),
@@ -3460,7 +3469,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `chat_messages`
 --
 ALTER TABLE `chat_messages`
-  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_sessions`
@@ -3490,7 +3499,7 @@ ALTER TABLE `order_items`
 -- AUTO_INCREMENT cho bảng `order_status_logs`
 --
 ALTER TABLE `order_status_logs`
-  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT cho bảng `password_resets`
