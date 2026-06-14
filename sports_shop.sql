@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 14, 2026 lúc 06:14 PM
+-- Thời gian đã tạo: Th6 14, 2026 lúc 06:49 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -280,7 +280,8 @@ INSERT INTO `categories` (`category_id`, `parent_id`, `category_name`, `slug`, `
 (330, 22, 'Bộ Pickleball Nữ', 'bo-pickleball-nu', NULL, NULL, 12, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
 (331, 23, 'Mũ Nữ', 'mu-nu', NULL, NULL, 13, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
 (332, 23, 'Balo Nữ', 'balo-nu', NULL, NULL, 14, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
-(333, 23, 'Tất Nữ', 'tat-nu', NULL, NULL, 15, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08');
+(333, 23, 'Tất Nữ', 'tat-nu', NULL, NULL, 15, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
+(334, NULL, 'TEST', 'test-category', 'Danh mục chuyên dùng để test', NULL, 0, 1, '2026-06-14 23:44:19', '2026-06-14 23:44:19');
 
 -- --------------------------------------------------------
 
@@ -1121,11 +1122,21 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (167, 308, 9, 'Giàn Tập BBDF', 'gian-tap-bbdf-1781112741-4', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 2000000.00, 47, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
 (168, 308, 1, 'Giàn Tập 2AD4', 'gian-tap-2ad4-1781112741-5', 'Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.', 1400000.00, 87, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-11 00:32:21'),
 (169, 112, 11, 'San pham test QA live', 'san-pham-test-qa-live', '', 250000.00, 10, 1, 1, 0, 999, NULL, 0, '2026-06-11 03:00:42', '2026-06-11 03:04:42'),
-(174, 1, 3, 'BANKING Test 3K', 'san-pham-test-3k', '<p>Đây là sản phẩm giả lập dùng để test hệ thống thanh toán qua cổng PayOS.</p>', 3000.00, 997, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-12 10:38:27'),
-(175, 1, 3, 'BANKING Test 5K', 'san-pham-test-5k', '<p>Đây là sản phẩm giả lập dùng để test hệ thống thanh toán qua cổng PayOS.</p>', 5000.00, 999, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-11 23:39:07'),
-(176, 1, 3, 'BANKING Test 10K', 'san-pham-test-10k', '<p>Đây là sản phẩm giả lập dùng để test hệ thống thanh toán qua cổng PayOS.</p>', 10000.00, 997, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-12 22:22:29'),
+(174, 1, 3, 'BANKING 3K', 'san-pham-3k', '<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>', 3000.00, 992, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-14 23:47:56'),
+(175, 1, 3, 'BANKING 5K', 'san-pham-5k', '<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>', 5000.00, 999, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-14 23:48:01'),
+(176, 1, 3, 'BANKING 10K', 'san-pham-10k', '<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>', 10000.00, 995, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-14 23:48:05'),
 (177, 112, 10, 'test san pham', 'test-san-pham', 'test mo tatest mo tatest mo tatest mo ta', 100000.00, 200, 1, 1, 0, 999, NULL, 0, '2026-06-14 22:53:04', '2026-06-14 22:55:12'),
-(178, 112, 9, 'test san phamxxxxxxxx', 'test-san-pham-1781452421', 'test san phamtest san phamtest san phamxxxxxxxx', 100000.00, 200, 1, 1, 0, 999, NULL, 0, '2026-06-14 22:53:41', '2026-06-14 22:55:04');
+(178, 112, 9, 'test san phamxxxxxxxx', 'test-san-pham-1781452421', 'test san phamtest san phamtest san phamxxxxxxxx', 100000.00, 200, 1, 1, 0, 999, NULL, 0, '2026-06-14 22:53:41', '2026-06-14 22:55:04'),
+(179, 334, NULL, 'Sản Phẩm TEST Số 01', 'san-pham-test-1781455459-1', 'Đây là sản phẩm test tự động cho Recommendation Engine', 1000000.00, 100, 1, 0, 0, 999, 5.00, 10, '2026-06-14 23:44:19', '2026-06-14 23:44:19'),
+(180, 334, NULL, 'Sản Phẩm TEST Số 02', 'san-pham-test-1781455459-2', 'Đây là sản phẩm test tự động cho Recommendation Engine', 1000000.00, 100, 1, 0, 0, 999, 5.00, 10, '2026-06-14 23:44:19', '2026-06-14 23:44:19'),
+(181, 334, NULL, 'Sản Phẩm TEST Số 03', 'san-pham-test-1781455459-3', 'Đây là sản phẩm test tự động cho Recommendation Engine', 1000000.00, 100, 1, 0, 0, 999, 5.00, 10, '2026-06-14 23:44:19', '2026-06-14 23:44:19'),
+(182, 334, NULL, 'Sản Phẩm TEST Số 04', 'san-pham-test-1781455459-4', 'Đây là sản phẩm test tự động cho Recommendation Engine', 1000000.00, 100, 1, 0, 0, 999, 5.00, 10, '2026-06-14 23:44:19', '2026-06-14 23:44:19'),
+(183, 334, NULL, 'Sản Phẩm TEST Số 05', 'san-pham-test-1781455459-5', 'Đây là sản phẩm test tự động cho Recommendation Engine', 1000000.00, 100, 1, 0, 0, 999, 5.00, 10, '2026-06-14 23:44:19', '2026-06-14 23:44:19'),
+(184, 334, NULL, 'Sản Phẩm TEST Số 06', 'san-pham-test-1781455459-6', 'Đây là sản phẩm test tự động cho Recommendation Engine', 1000000.00, 100, 1, 0, 0, 999, 5.00, 10, '2026-06-14 23:44:19', '2026-06-14 23:44:19'),
+(185, 334, NULL, 'Sản Phẩm TEST Số 07', 'san-pham-test-1781455459-7', 'Đây là sản phẩm test tự động cho Recommendation Engine', 1000000.00, 100, 1, 0, 0, 999, 5.00, 10, '2026-06-14 23:44:19', '2026-06-14 23:44:19'),
+(186, 334, NULL, 'Sản Phẩm TEST Số 08', 'san-pham-test-1781455459-8', 'Đây là sản phẩm test tự động cho Recommendation Engine', 1000000.00, 100, 1, 0, 0, 999, 5.00, 10, '2026-06-14 23:44:19', '2026-06-14 23:44:19'),
+(187, 334, NULL, 'Sản Phẩm TEST Số 09', 'san-pham-test-1781455459-9', 'Đây là sản phẩm test tự động cho Recommendation Engine', 1000000.00, 100, 1, 0, 0, 999, 5.00, 10, '2026-06-14 23:44:19', '2026-06-14 23:44:19'),
+(188, 334, NULL, 'Sản Phẩm TEST Số 10', 'san-pham-test-1781455459-10', 'Đây là sản phẩm test tự động cho Recommendation Engine', 1000000.00, 100, 1, 0, 0, 999, 5.00, 10, '2026-06-14 23:44:19', '2026-06-14 23:44:19');
 
 -- --------------------------------------------------------
 
@@ -1318,7 +1329,17 @@ INSERT INTO `product_images` (`image_id`, `product_id`, `image_url`, `alt_text`,
 (178, 177, '/uploads/products/test-san-pham/img_6a2ece6039c23_1781452384.jpg', 'test san pham', 0, 1, NULL),
 (179, 177, '/uploads/products/test-san-pham/img_6a2ece603a2ef_1781452384.jpg', 'test san pham', 0, 0, NULL),
 (180, 177, '/uploads/products/test-san-pham/img_6a2ece603a72d_1781452384.jpg', 'test san pham', 0, 0, NULL),
-(183, 178, '/uploads/products/test-san-pham-1781452421/img_6a2ecebc6f172_1781452476.jpg', 'desk.jpg', 1, 1, NULL);
+(183, 178, '/uploads/products/test-san-pham-1781452421/img_6a2ecebc6f172_1781452476.jpg', 'desk.jpg', 1, 1, NULL),
+(184, 179, 'https://placehold.co/600x600/e0e0e0/333333.png?text=S%E1%BA%A3n+Ph%E1%BA%A9m+TEST+S%E1%BB%91+01', 'Sản Phẩm TEST Số 01', 0, 1, NULL),
+(185, 180, 'https://placehold.co/600x600/e0e0e0/333333.png?text=S%E1%BA%A3n+Ph%E1%BA%A9m+TEST+S%E1%BB%91+02', 'Sản Phẩm TEST Số 02', 0, 1, NULL),
+(186, 181, 'https://placehold.co/600x600/e0e0e0/333333.png?text=S%E1%BA%A3n+Ph%E1%BA%A9m+TEST+S%E1%BB%91+03', 'Sản Phẩm TEST Số 03', 0, 1, NULL),
+(187, 182, 'https://placehold.co/600x600/e0e0e0/333333.png?text=S%E1%BA%A3n+Ph%E1%BA%A9m+TEST+S%E1%BB%91+04', 'Sản Phẩm TEST Số 04', 0, 1, NULL),
+(188, 183, 'https://placehold.co/600x600/e0e0e0/333333.png?text=S%E1%BA%A3n+Ph%E1%BA%A9m+TEST+S%E1%BB%91+05', 'Sản Phẩm TEST Số 05', 0, 1, NULL),
+(189, 184, 'https://placehold.co/600x600/e0e0e0/333333.png?text=S%E1%BA%A3n+Ph%E1%BA%A9m+TEST+S%E1%BB%91+06', 'Sản Phẩm TEST Số 06', 0, 1, NULL),
+(190, 185, 'https://placehold.co/600x600/e0e0e0/333333.png?text=S%E1%BA%A3n+Ph%E1%BA%A9m+TEST+S%E1%BB%91+07', 'Sản Phẩm TEST Số 07', 0, 1, NULL),
+(191, 186, 'https://placehold.co/600x600/e0e0e0/333333.png?text=S%E1%BA%A3n+Ph%E1%BA%A9m+TEST+S%E1%BB%91+08', 'Sản Phẩm TEST Số 08', 0, 1, NULL),
+(192, 187, 'https://placehold.co/600x600/e0e0e0/333333.png?text=S%E1%BA%A3n+Ph%E1%BA%A9m+TEST+S%E1%BB%91+09', 'Sản Phẩm TEST Số 09', 0, 1, NULL),
+(193, 188, 'https://placehold.co/600x600/e0e0e0/333333.png?text=S%E1%BA%A3n+Ph%E1%BA%A9m+TEST+S%E1%BB%91+10', 'Sản Phẩm TEST Số 10', 0, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -1593,7 +1614,17 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (255, 175, 'TEST-F66E00', 'Mặc định', 'Free Size', 0.00, 999, 1, 0),
 (256, 176, 'TEST-B404DD', 'Mặc định', 'Free Size', 0.00, 995, 1, 0),
 (257, 63, 'DEFAULT-63-1781233659', 'default', 'default', 0.00, 67, 1, 0),
-(259, 178, 'h123', 'Xanh lá', '32', 0.00, 200, 0, 1);
+(259, 178, 'h123', 'Xanh lá', '32', 0.00, 200, 0, 1),
+(260, 179, 'TEST-VAR-6A2EDA6337D11-1', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
+(261, 180, 'TEST-VAR-6A2EDA6338665-2', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
+(262, 181, 'TEST-VAR-6A2EDA633904F-3', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
+(263, 182, 'TEST-VAR-6A2EDA633A24E-4', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
+(264, 183, 'TEST-VAR-6A2EDA633AB17-5', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
+(265, 184, 'TEST-VAR-6A2EDA633B466-6', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
+(266, 185, 'TEST-VAR-6A2EDA633BD9C-7', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
+(267, 186, 'TEST-VAR-6A2EDA633C5C4-8', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
+(268, 187, 'TEST-VAR-6A2EDA633CF90-9', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
+(269, 188, 'TEST-VAR-6A2EDA633E149-10', 'Mặc định', 'Free Size', 0.00, 100, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -3423,7 +3454,7 @@ ALTER TABLE `cart_items`
 -- AUTO_INCREMENT cho bảng `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=334;
+  MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=335;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_messages`
@@ -3477,19 +3508,19 @@ ALTER TABLE `payment_transactions`
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
+  MODIFY `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
 
 --
 -- AUTO_INCREMENT cho bảng `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `image_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=184;
+  MODIFY `image_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
 
 --
 -- AUTO_INCREMENT cho bảng `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=260;
+  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=270;
 
 --
 -- AUTO_INCREMENT cho bảng `product_view_logs`

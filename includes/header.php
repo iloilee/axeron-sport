@@ -18,7 +18,7 @@ $_headerDb = db();
 $_navLevel1 = $_headerDb->select("
     SELECT category_id, category_name, slug
     FROM categories
-    WHERE parent_id IS NULL AND is_visible = 1
+    WHERE parent_id IS NULL AND is_visible = 1 AND category_name != 'TEST'
     ORDER BY sort_order, category_id
     LIMIT 8
 ");
