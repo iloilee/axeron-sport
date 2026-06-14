@@ -239,7 +239,10 @@ $socialZalo = $footerData['social_zalo'] ?? '#';
             <span class="material-symbols-outlined">smart_toy</span>
             <div>
                 <h3 class="font-headline-md font-bold text-sm m-0 leading-tight">Axeron AI Assistant</h3>
-                <p class="text-[10px] text-white/80 m-0">Trực tuyến</p>
+                <div class="flex items-center gap-1 mt-0.5">
+                    <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+                    <p class="text-[10px] text-white/90 m-0 leading-none">Trực tuyến</p>
+                </div>
             </div>
         </div>
         <button class="material-symbols-outlined hover:text-white/80 transition-colors" onclick="toggleChatbox(); event.stopPropagation();" aria-label="Close">close</button>
@@ -272,8 +275,9 @@ $socialZalo = $footerData['social_zalo'] ?? '#';
 <!-- Chatbox Logic -->
 <script>
 let chatSessionId = localStorage.getItem('axeron_chat_session_id') || '';
+let chatHistoryLoaded = false;
 
-function toggleChatbox() {
+async function toggleChatbox() {
     const chatbox = document.getElementById('ai-chatbox');
     if (chatbox.classList.contains('opacity-0')) {
         chatbox.classList.remove('hidden');
@@ -281,9 +285,35 @@ function toggleChatbox() {
         void chatbox.offsetWidth;
         chatbox.classList.remove('translate-y-8', 'opacity-0', 'pointer-events-none');
         document.getElementById('chat-input').focus();
+        
+        if (!chatHistoryLoaded && chatSessionId) {
+            await loadChatHistory();
+        }
     } else {
         chatbox.classList.add('translate-y-8', 'opacity-0', 'pointer-events-none');
         setTimeout(() => chatbox.classList.add('hidden'), 300);
+    }
+}
+
+async function loadChatHistory() {
+    chatHistoryLoaded = true;
+    const baseUrl = typeof window.BASE_URL !== 'undefined' ? window.BASE_URL : '';
+    try {
+        const response = await fetch(baseUrl + '/api/chatbot.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'history', session_id: chatSessionId })
+        });
+        const data = await response.json();
+        if (data.success && data.data && data.data.messages && data.data.messages.length > 0) {
+            document.getElementById('chat-messages').innerHTML = '';
+            
+            data.data.messages.forEach(msg => {
+                appendMessage(msg.sender_type, msg.content, false);
+            });
+        }
+    } catch (e) {
+        console.error("Failed to load chat history", e);
     }
 }
 
@@ -302,10 +332,20 @@ function appendMessage(sender, text, isHtml = false) {
     // Markdown formatting logic
     let formattedText = text;
     if (sender === 'bot' && !isHtml) {
-        formattedText = text
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.*?)\*/g, '<em>$1</em>')
-            .replace(/\n/g, '<br>');
+        // Handle bold
+        formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold">$1</strong>');
+        // Handle italic
+        formattedText = formattedText.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        // Handle lists
+        formattedText = formattedText.replace(/^- (.*)$/gm, '<li class="ml-4 list-disc">$1</li>');
+        formattedText = formattedText.replace(/(\<li class="ml-4 list-disc"\>.*\<\/li\>)/s, '<ul class="my-2">$1</ul>');
+        // Handle newlines
+        formattedText = formattedText.replace(/\n/g, '<br>');
+        
+        // Custom style for product cards from AI if any
+        if (formattedText.includes('[PRODUCT_CARD]')) {
+            // Will handle product cards parsing later
+        }
     }
     
     const contentHtml = `<div class="p-3 rounded-2xl text-sm shadow-sm ${bgClass}">${isHtml ? text : formattedText}</div>`;
