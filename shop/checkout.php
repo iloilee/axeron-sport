@@ -730,7 +730,7 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
                                         <input class="text-axeron-blue focus:ring-axeron-blue w-5 h-5" name="payment" type="radio" value="payos"/>
                                         <div class="flex items-center gap-3 relative z-10">
                                             <span class="material-symbols-outlined text-on-surface-variant">qr_code_scanner</span>
-                                            <span class="font-label-lg text-label-lg">Thanh toán bằng mã QR / Chuyển khoản (PayOS)</span>
+                                            <span class="font-label-lg text-label-lg">Thanh toán bằng mã QR / Chuyển khoản ngân hàng</span>
                                         </div>
                                         <div class="absolute inset-0 bg-axeron-blue opacity-0 group-hover:opacity-5 transition-opacity"></div>
                                     </label>
