@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 14, 2026 lúc 07:11 PM
+-- Thời gian đã tạo: Th6 16, 2026 lúc 03:36 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -55,13 +55,13 @@ CREATE TABLE `articles` (
 --
 
 INSERT INTO `articles` (`article_id`, `title`, `slug`, `excerpt`, `content`, `featured_image`, `category`, `tags`, `author_id`, `author_name`, `is_featured`, `is_published`, `published_at`, `view_count`, `meta_title`, `meta_description`, `meta_keywords`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024', 'top-10-giay-chay-bo-2024', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024 với công nghệ tiên tiến nhất.', '<h2>Giới thiệu</h2><p>Năm 2024 hứa hẹn là năm của những đôi giày chạy bộ công nghệ cao với nhiều cải tiến vượt bậc. Dưới đây là top 10 sản phẩm đáng mua nhất.</p><h2>1. Nike Alphafly 3</h2><p>Đôi giày định hình lại ngành giày chạy bộ với công nghệ ZoomX foam và Air Zoom pods.</p><h2>2. Adidas Ultraboost Light</h2><p>Phiên bản nhẹ hơn, êm hơn với Boost foam thế hệ mới.</p>', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', 'blog', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 5, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024 | Axeron Sport', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024.', NULL, 0, '2026-06-05 12:54:12', '2026-06-14 19:37:53'),
-(2, 'Hướng Dẫn Chọn Size Giày Thể Thao', 'huong-dan-chon-size-giay', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ, mẹo đo chân tại nhà để chọn được đôi giày vừa vặn.', '<h2>Tại sao chọn đúng size quan trọng?</h2><p>Giày vừa vặn giúp bạn thoải mái khi vận động, tránh chấn thương và tối ưu hiệu suất tập luyện.</p><h2>Cách đo chân</h2><p>1. Đứng lên tờ giấy và vẽ viền chân<br>2. Đo khoảng cách từ gót đến ngón dài nhất<br>3. Cộng thêm 0.5-1cm để có không gian thoải mái</p>', 'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=800&auto=format&fit=crop', 'guide', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 4, 'Hướng Dẫn Chọn Size Giày Thể Thao | Axeron Sport', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ.', NULL, 0, '2026-06-05 12:54:12', '2026-06-14 13:16:16'),
-(3, 'Axeron Khai Trương Cửa Hàng Mới', 'axeron-khai-truong-cua-hang-moi', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi hấp dẫn dành cho khách hàng.', '<h2>Grand Opening Event</h2><p>Axeron Sport hân hạnh thông báo khai trương cửa hàng mới tại 456 Nguyễn Thị Thập, Quận 7, TP.HCM.</p><h2>Ưu đãi khai trương</h2><ul><li>Giảm 20% toàn bộ sản phẩm</li><li>Miễn phí vận chuyển cho đơn từ 500K</li><li>Tặng voucher 200K cho 100 khách hàng đầu tiên</li></ul>', 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=800&auto=format&fit=crop', 'announcement', NULL, NULL, 'Axeron Team', 0, 1, '2026-06-05 12:54:12', 2, 'Axeron Khai Trương Cửa Hàng Mới | Axeron Sport', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi.', NULL, 0, '2026-06-05 12:54:12', '2026-06-14 09:39:59'),
-(4, 'Sân vận động', 'stadiums', 'Khám phá các dự án sân vận động tiêu chuẩn quốc tế mà Axeron đã tham gia thi công và cung cấp trang thiết bị.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 1, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-14 15:02:58'),
-(5, 'Nhà thi đấu', 'arenas', 'Các dự án nhà thi đấu đa năng được trang bị hệ thống ánh sáng, âm thanh và sàn gỗ thể thao cao cấp từ Axeron.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 1, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-14 12:22:10'),
-(6, 'Đồng phục học sinh - sinh viên', 'school-uniforms', 'Thiết kế và sản xuất đồng phục thể dục, đồng phục lớp cho các trường đại học và phổ thông trên toàn quốc.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 0, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-10 00:25:12'),
-(7, 'Thiết bị phòng tập', 'gym-equipment', 'Cung cấp và lắp đặt thiết bị gym chuyên nghiệp cho các trung tâm thể hình với công nghệ hiện đại nhất.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 2, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-14 13:57:34');
+(1, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024', 'top-10-giay-chay-bo-2024', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024 với công nghệ tiên tiến nhất.', '<h2>Giới thiệu</h2><p>Năm 2024 hứa hẹn là năm của những đôi giày chạy bộ công nghệ cao với nhiều cải tiến vượt bậc. Dưới đây là top 10 sản phẩm đáng mua nhất.</p><h2>1. Nike Alphafly 3</h2><p>Đôi giày định hình lại ngành giày chạy bộ với công nghệ ZoomX foam và Air Zoom pods.</p><h2>2. Adidas Ultraboost Light</h2><p>Phiên bản nhẹ hơn, êm hơn với Boost foam thế hệ mới.</p>', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', 'blog', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 6, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024 | Axeron Sport', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024.', NULL, 0, '2026-06-05 12:54:12', '2026-06-16 04:33:23'),
+(2, 'Hướng Dẫn Chọn Size Giày Thể Thao', 'huong-dan-chon-size-giay', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ, mẹo đo chân tại nhà để chọn được đôi giày vừa vặn.', '<h2>Tại sao chọn đúng size quan trọng?</h2><p>Giày vừa vặn giúp bạn thoải mái khi vận động, tránh chấn thương và tối ưu hiệu suất tập luyện.</p><h2>Cách đo chân</h2><p>1. Đứng lên tờ giấy và vẽ viền chân<br>2. Đo khoảng cách từ gót đến ngón dài nhất<br>3. Cộng thêm 0.5-1cm để có không gian thoải mái</p>', 'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=800&auto=format&fit=crop', 'guide', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 5, 'Hướng Dẫn Chọn Size Giày Thể Thao | Axeron Sport', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ.', NULL, 0, '2026-06-05 12:54:12', '2026-06-16 04:32:32'),
+(3, 'Axeron Khai Trương Cửa Hàng Mới', 'axeron-khai-truong-cua-hang-moi', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi hấp dẫn dành cho khách hàng.', '<h2>Grand Opening Event</h2><p>Axeron Sport hân hạnh thông báo khai trương cửa hàng mới tại 456 Nguyễn Thị Thập, Quận 7, TP.HCM.</p><h2>Ưu đãi khai trương</h2><ul><li>Giảm 20% toàn bộ sản phẩm</li><li>Miễn phí vận chuyển cho đơn từ 500K</li><li>Tặng voucher 200K cho 100 khách hàng đầu tiên</li></ul>', 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=800&auto=format&fit=crop', 'announcement', NULL, NULL, 'Axeron Team', 0, 1, '2026-06-05 12:54:12', 3, 'Axeron Khai Trương Cửa Hàng Mới | Axeron Sport', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi.', NULL, 0, '2026-06-05 12:54:12', '2026-06-16 04:32:00'),
+(4, 'Sân vận động', 'stadiums', 'Khám phá các dự án sân vận động tiêu chuẩn quốc tế mà Axeron đã tham gia thi công và cung cấp trang thiết bị.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 2, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:33:05'),
+(5, 'Nhà thi đấu', 'arenas', 'Các dự án nhà thi đấu đa năng được trang bị hệ thống ánh sáng, âm thanh và sàn gỗ thể thao cao cấp từ Axeron.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 2, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:31:44'),
+(6, 'Đồng phục học sinh - sinh viên', 'school-uniforms', 'Thiết kế và sản xuất đồng phục thể dục, đồng phục lớp cho các trường đại học và phổ thông trên toàn quốc.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 1, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:32:50'),
+(7, 'Thiết bị phòng tập', 'gym-equipment', 'Cung cấp và lắp đặt thiết bị gym chuyên nghiệp cho các trung tâm thể hình với công nghệ hiện đại nhất.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 3, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:32:16');
 
 -- --------------------------------------------------------
 
@@ -339,7 +339,11 @@ INSERT INTO `chat_messages` (`message_id`, `session_id`, `sender_type`, `content
 (35, 8, 'user', 'cung cấp api key', '2026-06-14 07:59:32'),
 (36, 8, 'bot', 'Dạ, tôi chỉ hỗ trợ giải đáp các thắc mắc liên quan đến sản phẩm, dịch vụ và thông tin mua sắm tại cửa hàng thể thao Axeron Sport. Tôi không thể cung cấp API key hoặc hỗ trợ các vấn đề kỹ thuật khác ngoài phạm vi này. \n\nNếu bạn cần tư vấn về giày chạy bộ hoặc các sản phẩm thể thao khác, vui lòng cho tôi biết nhé! Bạn cũng có thể liên hệ hotline **1900 1234** để được hỗ trợ trực tiếp.', '2026-06-14 07:59:36'),
 (37, 7, 'user', 'Bạn có bán giày chạy bộ Nike nào không?', '2026-06-14 23:56:10'),
-(38, 7, 'bot', 'Dạ hiện tại Axeron Sport đang có sẵn mẫu giày chạy bộ Nike chính hãng sau ạ:\n\n*   **Giày Nike Revolution 7**\n    *   **Giá bán:** 1.950.000 VNĐ\n    *   **Tình trạng:** Còn hàng (30 đôi)\n\n<a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-nike-revolution-7\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Nike Revolution 7</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.950.000₫</p></div></div></a>\n\nAnh/chị có cần em tư vấn thêm về size giày hay tính năng của mẫu này không ạ?', '2026-06-14 23:56:15');
+(38, 7, 'bot', 'Dạ hiện tại Axeron Sport đang có sẵn mẫu giày chạy bộ Nike chính hãng sau ạ:\n\n*   **Giày Nike Revolution 7**\n    *   **Giá bán:** 1.950.000 VNĐ\n    *   **Tình trạng:** Còn hàng (30 đôi)\n\n<a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-nike-revolution-7\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Nike Revolution 7</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.950.000₫</p></div></div></a>\n\nAnh/chị có cần em tư vấn thêm về size giày hay tính năng của mẫu này không ạ?', '2026-06-14 23:56:15'),
+(39, 7, 'user', 'xin chào, tôi muốn chạy bộ, cần mua những gì ?', '2026-06-15 22:54:03'),
+(40, 7, 'bot', 'Chào anh/chị, để bắt đầu bộ môn chạy bộ một cách hiệu quả và tránh chấn thương, những món đồ cơ bản và quan trọng nhất anh/chị cần chuẩn bị gồm có:\n\n**1. Một đôi giày chạy bộ chuyên dụng (Quan trọng nhất):**\nMột đôi giày tốt sẽ giúp nâng đỡ bàn chân, giảm áp lực lên xương khớp và hạn chế chấn thương. Axeron Sport xin gợi ý các dòng giày chạy bộ đang rất được ưa chuộng:\n*   **Giày Nike Revolution 7**: Dòng giày chạy bộ êm ái, bền bỉ đến từ thương hiệu Nike nổi tiếng.\n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-nike-revolution-7\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Nike Revolution 7</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.950.000₫</p></div></div></a>\n*   **Giày chạy bộ DL Speed Pro X1**: Thiết kế thể thao nâng đỡ tốt, trọng lượng nhẹ, giá cả rất phải chăng.\n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-chay-bo-dl-speed-pro-x1\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày chạy bộ DL Speed Pro X1</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>890.000₫</p></div></div></a>\n*   **Giày chạy bộ DL Runner Air 2024**: Thoáng khí tối đa, phù hợp cho người mới bắt đầu tập luyện hàng ngày.\n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-chay-bo-dl-runner-air-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày chạy bộ DL Runner Air 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>750.000₫</p></div></div></a>\n\n**2. Trang phục thể thao thoải mái:**\nNên ưu tiên áo quần có chất liệu co giãn, thấm hút mồ hôi tốt để cơ thể luôn khô thoáng khi vận động. Anh/chị có thể tham khảo mẫu áo thun thể thao năng động tại cửa hàng:\n*   **Áo polo thể thao DL Classic 2024**: Chất vải mát mẻ, lịch sự, phù hợp cho cả tập luyện và đi chơi nhẹ nhàng.\n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=ao-polo-dl-classic-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://deltasport.vn/wp-content/uploads/2026/03/PO121M1-ao-polo-nam-479K-2.png\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Áo polo thể thao DL Classic 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>280.000₫</p></div></div></a>\n\nAnh/chị có thể cho em xin thông tin về giới tính, chiều cao, cân nặng hoặc size giày thường mang để em tư vấn sản phẩm phù hợp nhất cho mình nhé!', '2026-06-15 22:54:48'),
+(41, 9, 'user', 'Hi', '2026-06-15 22:55:05'),
+(42, 9, 'bot', 'Xin chào! Em là trợ lý ảo của Axeron Sport. Em có thể giúp gì cho anh/chị hôm nay ạ?', '2026-06-15 22:55:39');
 
 -- --------------------------------------------------------
 
@@ -367,7 +371,8 @@ INSERT INTO `chat_sessions` (`session_id`, `user_id`, `status`, `started_at`, `e
 (5, NULL, 'open', '2026-06-09 11:57:01', NULL),
 (6, NULL, 'open', '2026-06-09 11:59:34', NULL),
 (7, 2, 'open', '2026-06-11 14:54:03', NULL),
-(8, NULL, 'open', '2026-06-11 14:57:46', NULL);
+(8, NULL, 'open', '2026-06-11 14:57:46', NULL),
+(9, NULL, 'open', '2026-06-15 22:55:05', NULL);
 
 -- --------------------------------------------------------
 
@@ -992,7 +997,7 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (22, 210, 7, 'Áo Under Armour HeatGear Nữ', 'ao-ua-heatgear-nu', 'Phiên bản nữ của HeatGear, chất liệu siêu nhẹ.', 620000.00, 50, 1, 0, 1, 11, 4.60, 10, '2026-05-29 19:17:55', '2026-06-14 19:42:28'),
 (23, 211, 3, 'Áo sport bra Adidas Powerreact', 'ao-sport-bra-adidas', 'Áo lót thể thao nữ Adidas, dây vai lưới thông gió.', 680000.00, 45, 1, 0, 1, 13, 4.50, 11, '2026-05-29 19:17:55', '2026-06-14 19:42:28'),
 (24, 211, 2, 'Áo sport bra Nike Indy', 'ao-sport-bra-nike-indy', 'Nike Indy Medium-Support, chất liệu Dri-FIT.', 750000.00, 40, 1, 0, 0, 999, 4.70, 9, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
-(25, 302, 4, 'Vợt cầu lông Yonex Astrox 99 Pro', 'vot-cl-yonex-astrox-99-pro', 'Vợt tấn công hàng đầu Yonex, khung carbon cao cấp.', 4500000.00, 9, 1, 0, 1, 1, 4.90, 22, '2026-05-29 19:17:55', '2026-06-14 19:42:29'),
+(25, 302, 4, 'Vợt cầu lông Yonex Astrox 99 Pro', 'vot-cl-yonex-astrox-99-pro', 'Vợt tấn công hàng đầu Yonex, khung carbon cao cấp.', 4500000.00, 31, 1, 0, 1, 1, 4.90, 22, '2026-05-29 19:17:55', '2026-06-16 20:25:19'),
 (26, 302, 4, 'Vợt cầu lông Yonex Nanoflare 700', 'vot-cl-yonex-nanoflare-700', 'Vợt phản công nhanh, khung Tungsten Mesh.', 3200000.00, 25, 1, 0, 1, 14, 4.80, 18, '2026-05-29 19:17:55', '2026-06-14 19:42:28'),
 (27, 302, 5, 'Vợt cầu lông Lining Windstorm 72', 'vot-cl-lining-windstorm-72', 'Vợt phản công siêu nhẹ 72g, khung carbon tổ hợp.', 1800000.00, 35, 1, 0, 0, 999, 4.50, 10, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
 (28, 302, 1, 'Vợt cầu lông DL Pro 500', 'vot-cl-dl-pro-500', 'Vợt cầu lông thương hiệu Đồng Lực dành cho người chơi phổ thông.', 480000.00, 60, 1, 0, 0, 999, 4.20, 7, '2026-05-29 19:17:55', '2026-06-06 02:34:43'),
@@ -1218,8 +1223,8 @@ INSERT INTO `product_images` (`image_id`, `product_id`, `image_url`, `alt_text`,
 (49, 49, 'https://images.unsplash.com/photo-1521369909029-2afed882baee?q=80&w=800&auto=format&fit=crop', 'Mũ nữ DL Lily', 0, 1, NULL),
 (50, 50, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5taz02Lz4bDFjnYj2hPSs-w61NLcnw0rP8A&s', 'Balo nữ Adidas', 0, 1, NULL),
 (55, 56, 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=800&auto=format&fit=crop', 'sản phẩm test ẩn hiện', 0, 1, NULL),
-(58, 25, 'https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-yonex-astrox-99-pro-trang-ma-jp_1695687382.webp', 'vot-cau-long-yonex-astrox-99-pro-do-khong-bao-hanh-ma-sp_1727208715.webp', 1, 0, 'Do (4U)'),
-(59, 25, 'https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-yonex-astrox-99-pro-trang-ma-jp_1695687382.webp', 'vot-cau-long-yonex-astrox-99-pro-trang-ma-jp-3_1695687409.webp', 2, 1, 'Trang (4U)'),
+(58, 25, 'https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-yonex-astrox-99-pro-trang-ma-jp_1695687382.webp', 'vot-cau-long-yonex-astrox-99-pro-do-khong-bao-hanh-ma-sp_1727208715.webp', 1, 0, 'Đỏ'),
+(59, 25, 'https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-yonex-astrox-99-pro-trang-ma-jp_1695687382.webp', 'vot-cau-long-yonex-astrox-99-pro-trang-ma-jp-3_1695687409.webp', 2, 1, 'Trắng'),
 (60, 58, 'https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
 (61, 59, 'https://cdn.vuahanghieu.com/unsafe/0x500/left/top/smart/filters:quality(90)/https://s3.vuahanghieu.com/upload/1779348649183/cloud-image-1779348649183-giay-pickleball-tennis-nu-wilson-women-s-intrigue-pro-omni-tennis-shoes-wrs340120u-mau-trang-xanh--12-.jpg', NULL, 0, 1, NULL),
 (62, 60, 'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=800&auto=format&fit=crop', NULL, 0, 1, NULL),
@@ -1519,9 +1524,9 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (144, 24, 'NK-IND-HONG-S', 'Hồng', 'S', 0.00, 7, 1, 0),
 (145, 24, 'NK-IND-HONG-M', 'Hồng', 'M', 0.00, 5, 1, 0),
 (146, 24, 'NK-IND-TIM-M', 'Tím', 'M', 0.00, 5, 1, 0),
-(147, 25, 'YNX-A99P-DO-4U', 'Do (4U)', '4U/G5', 0.00, 6, 1, 0),
+(147, 25, 'YNX-A99P-DO-4U', 'Đỏ', '4U', 0.00, 6, 1, 0),
 (148, 25, 'YNX-A99P-DO-3U', 'Do (3U)', '3U/G4', 0.00, 5, 0, 1),
-(149, 25, 'YNX-A99P-TRANG-4U', 'Trang (4U)', '4U/G5', 100000.00, 3, 1, 0),
+(149, 25, 'YNX-A99P-TRANG-4U', 'Trắng', '4U', 100000.00, 3, 1, 0),
 (151, 26, 'YNX-NF700-XANH-4U', 'Xanh lá', '4U/G5', 0.00, 8, 1, 0),
 (152, 26, 'YNX-NF700-XANH-3U', 'Xanh lá', '3U/G4', 0.00, 8, 1, 0),
 (153, 26, 'YNX-NF700-DO-4U', 'Đỏ', '4U/G5', 50000.00, 5, 1, 0),
@@ -1633,7 +1638,9 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (266, 185, 'TEST-VAR-6A2EDA633BD9C-7', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
 (267, 186, 'TEST-VAR-6A2EDA633C5C4-8', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
 (268, 187, 'TEST-VAR-6A2EDA633CF90-9', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
-(269, 188, 'TEST-VAR-6A2EDA633E149-10', 'Mặc định', 'Free Size', 0.00, 100, 1, 0);
+(269, 188, 'TEST-VAR-6A2EDA633E149-10', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
+(270, 25, 'YNX-A99P-DO-G5', 'Đỏ', 'G5', 500000.00, 10, 1, 0),
+(271, 25, 'YNX-A99P-TRANG-G5', 'Trắng', 'G5', 500000.00, 12, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -2315,7 +2322,8 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (801, 1, 1, '2026-06-14 22:57:32'),
 (802, 1, 1, '2026-06-14 22:57:32'),
 (803, 1, 1, '2026-06-14 23:01:04'),
-(806, 1, 14, '2026-06-14 23:12:00');
+(806, 1, 14, '2026-06-14 23:12:00'),
+(807, 1, 38, '2026-06-16 20:02:16');
 
 -- --------------------------------------------------------
 
@@ -3018,7 +3026,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `facebook_id`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `is_deleted`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`, `review_banned`) VALUES
-(1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$GzWL04EuRUZ5/5AKeNg7l.AqJ5gWIZhVLvn4TnAVd1FPASLUb5cd2', 1, '2026-05-29 19:17:55', '2026-06-14 04:42:32', 0),
+(1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$pbHGMuzvmzrpb/o.3uw2oem43tgkYPGjciAzuiyluDiHFAYFEfo/i', 1, '2026-05-29 19:17:55', '2026-06-16 20:01:45', 0),
 (2, 3, 'Bug', 'bug@gmail.com', NULL, NULL, '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, 0, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-15 00:10:52', 0),
 (3, 4, 'Staff Tài Khoản', 'nvacc@gmail.com', NULL, NULL, '0901000004', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-13 06:39:03', 0),
 (4, 5, 'Staff Sản Phẩm', 'nvsp@gmail.com', NULL, NULL, '0901000005', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-13 06:39:03', 0),
@@ -3469,13 +3477,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `chat_messages`
 --
 ALTER TABLE `chat_messages`
-  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_sessions`
 --
 ALTER TABLE `chat_sessions`
-  MODIFY `session_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `session_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `contact_messages`
@@ -3529,13 +3537,13 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT cho bảng `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=270;
+  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=272;
 
 --
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=807;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=808;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
