@@ -266,23 +266,29 @@ if (isLoggedIn()) {
 
         <!-- Sidebar Filter -->
         <aside id="mobile-filter-container" class="hidden md:block w-full md:w-64 flex-shrink-0 mb-8 md:mb-0">
-            <div class="bg-surface-container-lowest p-6 rounded-lg border border-outline-variant shadow-sm sticky top-24 custom-scrollbar max-h-[calc(100vh-120px)] overflow-y-auto">
-                <div class="flex items-center justify-between mb-6 pb-4 border-b border-outline-variant">
-                    <h2 class="font-headline-md text-headline-md text-on-surface">Bộ lọc</h2>
-                    <a href="<?= BASE_URL ?>/shop/product-catalog.php<?= $categorySlug ? '?category=' . $categorySlug : '' ?>" class="font-label-sm text-label-sm text-axeron-red hover:underline">Xóa tất cả</a>
-                </div>
-
-                <form id="filter-form" method="GET" class="relative">
-                    <div class="sticky top-0 bg-surface-container-lowest z-10 pb-4 mb-4 border-b border-surface-container-high">
-                        <button type="submit" class="w-full bg-axeron-red text-white font-label-lg py-2 rounded-lg hover:bg-primary transition-colors shadow-sm flex items-center justify-center gap-2">
-                            <span class="material-symbols-outlined text-sm">filter_alt</span>
-                            Áp dụng bộ lọc
+            <div class="bg-surface-container-lowest rounded-lg border border-outline-variant shadow-sm sticky top-24 flex flex-col max-h-[calc(100vh-120px)] overflow-hidden">
+                <form id="filter-form" method="GET" class="flex flex-col flex-grow overflow-hidden min-h-0">
+                    <!-- Sticky Header Row -->
+                    <div class="flex items-center justify-between p-5 border-b border-surface-container-high bg-surface-container-lowest z-10 flex-shrink-0">
+                        <h2 class="font-headline-md text-[18px] font-bold text-on-surface m-0">Bộ lọc</h2>
+                        <button type="submit" class="bg-axeron-red text-white px-3 py-1.5 rounded-full hover:bg-primary transition-colors shadow-sm flex items-center justify-center gap-1 mx-2 flex-shrink-0 font-label-sm text-[13px]" title="Áp dụng bộ lọc">
+                            <span class="material-symbols-outlined text-[18px]">filter_alt</span>
+                            Lọc
                         </button>
+                        <?php
+                            $clearParams = [];
+                            if ($search) $clearParams['search'] = $search;
+                            if ($isFeatured) $clearParams['featured'] = 1;
+                            $clearUrl = BASE_URL . '/shop/product-catalog.php' . (!empty($clearParams) ? '?' . http_build_query($clearParams) : '');
+                        ?>
+                        <a href="<?= htmlspecialchars($clearUrl) ?>" class="font-label-sm text-[13px] text-axeron-red hover:underline whitespace-nowrap m-0">Xóa tất cả</a>
                     </div>
 
-                    <?php if ($categorySlug): ?>
-                        <input type="hidden" name="category" value="<?= htmlspecialchars($categorySlug) ?>">
-                    <?php endif; ?>
+                    <!-- Scrollable Content -->
+                    <div class="p-6 pt-5 overflow-y-auto custom-scrollbar flex-grow">
+                        <?php if ($categorySlug): ?>
+                            <input type="hidden" name="category" value="<?= htmlspecialchars($categorySlug) ?>">
+                        <?php endif; ?>
                     <?php if ($search): ?>
                         <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
                     <?php endif; ?>
@@ -410,9 +416,7 @@ if (isLoggedIn()) {
                     </div>
                     <?php endif; ?>
 
-                    <button type="submit" class="w-full bg-axeron-red text-white font-label-lg py-2 rounded-lg hover:bg-primary transition-colors">
-                        Áp dụng
-                    </button>
+                    </div> <!-- End scrollable content -->
                 </form>
             </div>
         </aside>

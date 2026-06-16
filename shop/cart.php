@@ -296,7 +296,7 @@ $flash = getFlash();
                                 <?php if ($cartSubtotal < $freeshipThreshold): ?>
                                     <span class="font-semibold">Mua thêm <span id="freeship-amount"><?= formatPrice($freeshipThreshold - $cartSubtotal) ?></span></span> để được freeship!
                                 <?php else: ?>
-                                    <span class="font-semibold">Tuyệt vời! Đơn hàng của bạn đã được freeship!</span>
+                                    <span class="font-semibold">Đơn hàng của bạn đã được freeship!</span>
                                 <?php endif; ?>
                             </p>
                         </div>
