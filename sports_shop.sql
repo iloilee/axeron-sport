@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 16, 2026 lúc 04:16 PM
+-- Thời gian đã tạo: Th6 16, 2026 lúc 06:21 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -60,7 +60,7 @@ INSERT INTO `articles` (`article_id`, `title`, `slug`, `excerpt`, `content`, `fe
 (3, 'Axeron Khai Trương Cửa Hàng Mới', 'axeron-khai-truong-cua-hang-moi', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi hấp dẫn dành cho khách hàng.', '<h2>Grand Opening Event</h2><p>Axeron Sport hân hạnh thông báo khai trương cửa hàng mới tại 456 Nguyễn Thị Thập, Quận 7, TP.HCM.</p><h2>Ưu đãi khai trương</h2><ul><li>Giảm 20% toàn bộ sản phẩm</li><li>Miễn phí vận chuyển cho đơn từ 500K</li><li>Tặng voucher 200K cho 100 khách hàng đầu tiên</li></ul>', 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=800&auto=format&fit=crop', 'announcement', NULL, NULL, 'Axeron Team', 0, 1, '2026-06-05 12:54:12', 3, 'Axeron Khai Trương Cửa Hàng Mới | Axeron Sport', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi.', NULL, 0, '2026-06-05 12:54:12', '2026-06-16 04:32:00'),
 (4, 'Sân vận động', 'stadiums', 'Khám phá các dự án sân vận động tiêu chuẩn quốc tế mà Axeron đã tham gia thi công và cung cấp trang thiết bị.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 2, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:33:05'),
 (5, 'Nhà thi đấu', 'arenas', 'Các dự án nhà thi đấu đa năng được trang bị hệ thống ánh sáng, âm thanh và sàn gỗ thể thao cao cấp từ Axeron.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 2, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:31:44'),
-(6, 'Đồng phục học sinh - sinh viên', 'school-uniforms', 'Thiết kế và sản xuất đồng phục thể dục, đồng phục lớp cho các trường đại học và phổ thông trên toàn quốc.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 1, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:32:50'),
+(6, 'Đồng phục học sinh - sinh viên', 'school-uniforms', 'Thiết kế và sản xuất đồng phục thể dục, đồng phục lớp cho các trường đại học và phổ thông trên toàn quốc.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 2, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 21:40:10'),
 (7, 'Thiết bị phòng tập', 'gym-equipment', 'Cung cấp và lắp đặt thiết bị gym chuyên nghiệp cho các trung tâm thể hình với công nghệ hiện đại nhất.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 3, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:32:16');
 
 -- --------------------------------------------------------
@@ -190,7 +190,12 @@ INSERT INTO `cart_items` (`cart_item_id`, `cart_id`, `variant_id`, `quantity`, `
 (27, 17, 6, 1, '2026-06-11 01:10:12'),
 (33, 13, 250, 1, '2026-06-11 03:03:11'),
 (52, 16, 93, 5, '2026-06-14 14:53:36'),
-(53, 16, 6, 5, '2026-06-14 20:44:29');
+(53, 16, 6, 2, '2026-06-14 20:44:29'),
+(61, 16, 13, 2, '2026-06-16 21:40:53'),
+(62, 16, 147, 1, '2026-06-16 21:40:53'),
+(63, 16, 272, 1, '2026-06-16 21:40:53'),
+(64, 16, 257, 1, '2026-06-16 21:40:53'),
+(65, 16, 61, 5, '2026-06-16 21:56:38');
 
 -- --------------------------------------------------------
 
@@ -265,7 +270,7 @@ INSERT INTO `categories` (`category_id`, `parent_id`, `category_name`, `slug`, `
 (315, 318, 'Giày Pickleball', 'giay-pickleball', NULL, NULL, 0, 1, '2026-06-10 00:10:10', '2026-06-10 00:15:37'),
 (316, 318, 'Giày cầu lông', 'giay-cau-long', NULL, NULL, 0, 1, '2026-06-10 00:10:10', '2026-06-10 00:15:37'),
 (317, 318, 'Giày chạy bộ', 'giay-chay-bo', NULL, NULL, 0, 1, '2026-06-10 00:10:10', '2026-06-10 00:15:37'),
-(318, NULL, 'Giày', 'giay-the-thao', '', NULL, 45, 1, '2026-06-10 00:15:37', '2026-06-14 03:36:34'),
+(318, NULL, 'Giày Thể Thao', 'giay-the-thao', '', NULL, 45, 1, '2026-06-10 00:15:37', '2026-06-16 21:52:33'),
 (319, 12, 'Bộ Suvec Nam', 'bo-suvec-nam', NULL, NULL, 1, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
 (320, 12, 'Bộ Bóng Đá Nam', 'bo-bong-da-nam', NULL, NULL, 2, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
 (321, 12, 'Bộ Cầu Lông Nam', 'bo-cau-long-nam', NULL, NULL, 3, 1, '2026-06-11 00:22:08', '2026-06-11 00:22:08'),
@@ -1650,7 +1655,9 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (268, 187, 'TEST-VAR-6A2EDA633CF90-9', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
 (269, 188, 'TEST-VAR-6A2EDA633E149-10', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
 (270, 25, 'YNX-A99P-DO-G5', 'Đỏ', 'G5', 500000.00, 10, 1, 0),
-(271, 25, 'YNX-A99P-TRANG-G5', 'Trắng', 'G5', 500000.00, 12, 1, 0);
+(271, 25, 'YNX-A99P-TRANG-G5', 'Trắng', 'G5', 500000.00, 12, 1, 0),
+(272, 66, 'DEFAULT-66-1781619761', 'default', 'default', 0.00, 55, 1, 0),
+(273, 59, 'DEFAULT-59-1781620440', 'default', 'default', 0.00, 75, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -2333,7 +2340,8 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (802, 1, 1, '2026-06-14 22:57:32'),
 (803, 1, 1, '2026-06-14 23:01:04'),
 (806, 1, 14, '2026-06-14 23:12:00'),
-(807, 1, 38, '2026-06-16 20:02:16');
+(807, 1, 38, '2026-06-16 20:02:16'),
+(808, 2, 25, '2026-06-16 23:17:25');
 
 -- --------------------------------------------------------
 
@@ -3037,7 +3045,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `facebook_id`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `is_deleted`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`, `review_banned`) VALUES
 (1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$pbHGMuzvmzrpb/o.3uw2oem43tgkYPGjciAzuiyluDiHFAYFEfo/i', 1, '2026-05-29 19:17:55', '2026-06-16 20:01:45', 0),
-(2, 3, 'Bug', 'bug@gmail.com', NULL, NULL, '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, 0, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-15 00:10:52', 0),
+(2, 3, 'Bug', 'bug@gmail.com', NULL, NULL, '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, 0, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-16 21:56:57', 0),
 (3, 4, 'Staff Tài Khoản', 'nvacc@gmail.com', NULL, NULL, '0901000004', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-13 06:39:03', 0),
 (4, 5, 'Staff Sản Phẩm', 'nvsp@gmail.com', NULL, NULL, '0901000005', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-13 06:39:03', 0),
 (5, 6, 'Staff Đơn Hàng', 'nvorder@gmail.com', NULL, NULL, '0901000006', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-13 06:39:03', 0),
@@ -3475,7 +3483,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -3547,13 +3555,13 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT cho bảng `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=272;
+  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=274;
 
 --
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=808;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=809;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
