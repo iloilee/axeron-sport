@@ -404,8 +404,10 @@ if (isLoggedIn()) {
 
             <!-- Description Tab -->
             <div id="content-description" class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
-                <div class="md:col-span-8 font-body-lg text-body-lg text-on-surface-variant space-y-6">
-                    <p><?= nl2br(htmlspecialchars($product['description'] ?? 'Sản phẩm chất lượng cao từ Axeron Sport.')) ?></p>
+                <div class="md:col-span-8 font-body-lg text-body-lg text-on-surface-variant space-y-4">
+                    <div class="prose prose-sm md:prose-base max-w-none prose-h3:text-axeron-red prose-h3:mt-8 prose-h3:mb-4 prose-h4:text-on-surface prose-h4:mt-6 prose-h4:mb-2 prose-li:my-1 prose-ul:my-4 prose-p:my-3">
+                        <?= $product['description'] ?? 'Sản phẩm chất lượng cao từ Axeron Sport.' ?>
+                    </div>
                 </div>
                 <div class="md:col-span-4 bg-surface-container-lowest p-6 rounded-xl border border-outline-variant">
                     <h3 class="font-headline-md text-headline-md text-on-surface mb-4">Thông số kỹ thuật</h3>
