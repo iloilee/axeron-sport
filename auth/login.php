@@ -24,7 +24,7 @@ unset($_SESSION['old_input']);
     <link rel="icon" type="image/jpeg" href="<?= defined('BASE_URL') ? BASE_URL : '' ?>/assets/images/logo-axeron.jpg" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet"/>
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -68,7 +68,7 @@ unset($_SESSION['old_input']);
     <header class="w-full py-4 px-margin-mobile md:px-margin-desktop border-b border-surface-variant bg-surface flex justify-center items-center absolute top-0 z-10">
                         <a class="flex items-center gap-2 flex-shrink-0" href="<?= BASE_URL ?>/">
             <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover">
-            <span class="font-display-lg text-[#BE1E2D] uppercase tracking-tight text-xl md:text-2xl" style="font-family: 'Montserrat', sans-serif;">Axeron</span>
+            <span class="font-display-lg text-[#BE1E2D] uppercase tracking-tight text-xl md:text-2xl" style="font-family: 'Montserrat', sans-serif;">Axeron Sport</span>
         </a>
     </header>
 
@@ -150,7 +150,7 @@ unset($_SESSION['old_input']);
                 </script>
                 <?php endif; ?>
 
-                <div class="mb-8 text-center md:text-left">
+                <div class="mb-8 text-center">
                     <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Đăng Nhập</h2>
                     <p class="font-body-md text-body-md text-on-surface-variant">Chào mừng bạn trở lại! Vui lòng nhập thông tin.</p>
                 </div>

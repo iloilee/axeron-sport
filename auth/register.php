@@ -37,7 +37,7 @@ if (!empty($_SESSION['register_redirect'])) {
     <link rel="icon" type="image/jpeg" href="<?= defined('BASE_URL') ? BASE_URL : '' ?>/assets/images/logo-axeron.jpg" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet"/>
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -75,31 +75,33 @@ if (!empty($_SESSION['register_redirect'])) {
         .material-symbols-outlined { font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; }
     </style>
 </head>
-<body class="bg-[#fcf9f8] text-[#1b1c1c] antialiased min-h-screen flex flex-col items-center justify-center relative bg-cover bg-center py-12" style="font-family: 'Noto Sans', sans-serif; background-image: url('<?= BASE_URL ?>/assets/images/auth-banner.png');">
-    <!-- Background Overlays -->
-    <div class="absolute inset-0 bg-axeron-red/40 mix-blend-multiply"></div>
-    <div class="absolute inset-0 bg-black/60"></div>
-
-    <!-- Navigation to Homepage -->
-    <a href="<?= BASE_URL ?>/" class="absolute top-6 left-6 z-20 flex items-center gap-2 text-white hover:text-[#ffb3b0] transition-colors bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm border border-white/20">
-        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-        <span class="font-medium text-sm">Quay lại trang chủ</span>
-    </a>
+<body class="bg-[#fcf9f8] text-[#1b1c1c] font-body-md antialiased min-h-screen flex flex-col" style="font-family: 'Noto Sans', sans-serif;">
+    <header class="w-full py-4 px-margin-mobile md:px-margin-desktop border-b border-[#e5e2e1] bg-[#fcf9f8] flex justify-center items-center absolute top-0 z-10">
+        <a class="flex items-center gap-2 flex-shrink-0" href="<?= BASE_URL ?>/">
+            <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover">
+            <span class="font-display-lg text-[#BE1E2D] uppercase tracking-tight text-xl md:text-2xl" style="font-family: 'Montserrat', sans-serif;">Axeron Sport</span>
+        </a>
+    </header>
 
     <!-- Main Content -->
-    <main class="relative z-10 w-full max-w-lg px-4 py-8">
-        <!-- Logo -->
-        <div class="flex justify-center mb-6">
-            <a class="flex items-center gap-3 flex-shrink-0 bg-white/10 p-3 px-5 rounded-2xl backdrop-blur-md border border-white/20 hover:bg-white/20 transition-colors" href="<?= BASE_URL ?>/">
-                <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-10 h-10 rounded-lg object-cover shadow-sm">
-                <span class="font-display-lg text-white uppercase tracking-tight text-2xl font-black drop-shadow-sm" style="font-family: 'Montserrat', sans-serif;">Axeron</span>
-            </a>
+    <main class="flex-1 flex flex-col md:flex-row w-full min-h-screen">
+        <!-- Left Side: Branding -->
+        <div class="hidden md:flex md:w-1/2 relative bg-[#F5F5F5] items-center justify-center overflow-hidden bg-cover bg-center" style="background-image: url('<?= BASE_URL ?>/assets/images/auth-banner.png');">
+            <div class="absolute inset-0 bg-[#BE1E2D]/40 mix-blend-multiply"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+            <div class="relative z-10 p-12 text-center text-white">
+                <h1 class="font-display-lg text-[48px] font-black leading-tight text-white mb-4 uppercase drop-shadow-md" style="font-family: 'Montserrat', sans-serif;">Khởi Đầu<br/>Hành Trình</h1>
+                <p class="text-[18px] text-[#e5e2e1] max-w-md mx-auto">
+                    Trở thành thành viên của Axeron ngay hôm nay để mở khóa những đặc quyền hấp dẫn và cháy hết mình với đam mê thể thao.
+                </p>
+            </div>
         </div>
 
-        <!-- Form Container -->
-        <div class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 w-full border border-[#e5e2e1]">
+        <!-- Right Side: Register Form -->
+        <div class="w-full md:w-1/2 flex items-center justify-center p-4 md:p-12 lg:p-24 bg-[#fcf9f8] mt-16 md:mt-0">
+            <div class="w-full max-w-md">
             <?php if ($showSuccessAndRedirect): ?>
-                <div class="text-center py-10">
+                <div class="text-center py-10 bg-white rounded-2xl shadow-xl border border-[#e5e2e1] p-8">
                     <span class="material-symbols-outlined text-6xl text-green-500 mb-4 block mx-auto">check_circle</span>
                     <h2 class="text-2xl font-bold text-[#1b1c1c] mb-2" style="font-family: 'Montserrat', sans-serif;">Đăng ký thành công!</h2>
                     <p class="text-sm text-[#5b403f]">Hệ thống đang tự động chuyển hướng...</p>
@@ -115,9 +117,9 @@ if (!empty($_SESSION['register_redirect'])) {
                     });
                 </script>
             <?php else: ?>
-                <div class="mb-6 text-center">
-                    <h2 class="text-2xl font-bold text-[#1b1c1c] mb-2" style="font-family: 'Montserrat', sans-serif;">Tạo Tài Khoản</h2>
-                    <p class="text-sm text-[#5b403f]">Điền thông tin bên dưới để tạo tài khoản mới.</p>
+                <div class="mb-8 text-center">
+                    <h2 class="text-2xl md:text-[32px] font-bold text-[#1b1c1c] mb-2" style="font-family: 'Montserrat', sans-serif;">Tạo Tài Khoản</h2>
+                    <p class="text-base text-[#5b403f]">Điền thông tin bên dưới để tạo tài khoản mới.</p>
                 </div>
 
                 <form method="POST" action="<?= BASE_URL ?>/api/auth-handler.php" class="space-y-5">
@@ -258,6 +260,7 @@ if (!empty($_SESSION['register_redirect'])) {
                 </p>
             </div>
             <?php endif; ?>
+            </div>
         </div>
     </main>
 
