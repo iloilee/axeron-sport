@@ -210,9 +210,9 @@ async function loadCartDrawerItems() {
                                 </div>
                                 
                                 <div class="flex items-center border border-outline-variant rounded-md overflow-hidden bg-white">
-                                    <button class="w-7 h-7 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant" onclick="updateDrawerCartItem(${item.cart_item_id}, ${parseInt(item.quantity) - 1})">-</button>
+                                    <button class="w-7 h-7 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant" onclick="updateDrawerCartItem(${item.cart_item_id}, ${parseInt(item.quantity) - 1}, ${item.stock_quantity})">-</button>
                                     <span class="w-8 text-center font-medium text-sm text-on-surface flex items-center justify-center">${item.quantity}</span>
-                                    <button class="w-7 h-7 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant" onclick="updateDrawerCartItem(${item.cart_item_id}, ${parseInt(item.quantity) + 1})">+</button>
+                                    <button class="w-7 h-7 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant" onclick="updateDrawerCartItem(${item.cart_item_id}, ${parseInt(item.quantity) + 1}, ${item.stock_quantity})">+</button>
                                 </div>
                             </div>
                         </div>
@@ -234,8 +234,12 @@ async function loadCartDrawerItems() {
     }
 }
 
-async function updateDrawerCartItem(cartItemId, quantity) {
+async function updateDrawerCartItem(cartItemId, quantity, maxStock) {
     if (quantity < 1) return removeDrawerCartItem(cartItemId);
+    if (maxStock !== undefined && quantity > maxStock) {
+        showToast('Số lượng sản phẩm vượt quá tồn kho hiện có.', 'error');
+        return;
+    }
     await updateCartItem(cartItemId, quantity);
     loadCartDrawerItems();
 }
@@ -337,6 +341,16 @@ function initSizeSelector() {
  */
 function showToast(message, type = 'success') {
     const container = document.getElementById('toast-container') || createToastContainer();
+
+    // Prevent spam: check if the exact same message is currently displaying
+    const existingMessages = Array.from(container.children).map(toast => {
+        const span = toast.querySelector('.font-body-md');
+        return span ? span.textContent.trim() : '';
+    });
+    
+    if (existingMessages.includes(message.trim())) {
+        return;
+    }
 
     const toast = document.createElement('div');
     const bgColor = type === 'success' ? 'bg-green-600' : type === 'error' ? 'bg-red-600' : 'bg-axeron-blue';

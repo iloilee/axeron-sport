@@ -244,7 +244,7 @@ $flash = getFlash();
                                         <span class="material-symbols-outlined text-sm">remove</span>
                                     </button>
                                     <input class="w-12 text-center bg-transparent border-none font-label-lg text-label-lg focus:ring-0 p-1 quantity-input" type="number" value="<?= $item['quantity'] ?>" min="1" max="<?= $item['stock_quantity'] ?>" data-item-id="<?= $item['cart_item_id'] ?>" data-stock="<?= $item['stock_quantity'] ?>"/>
-                                    <button onclick="increaseQty(<?= $item['cart_item_id'] ?>)" class="qty-btn px-3 py-1 hover:bg-surface-variant text-on-surface transition-colors" <?= $item['quantity'] >= $item['stock_quantity'] ? 'disabled' : '' ?>>
+                                    <button onclick="increaseQty(<?= $item['cart_item_id'] ?>)" class="qty-btn px-3 py-1 hover:bg-surface-variant text-on-surface transition-colors">
                                         <span class="material-symbols-outlined text-sm">add</span>
                                     </button>
                                 </div>
@@ -421,7 +421,7 @@ $flash = getFlash();
                 // Re-enable buttons
                 updatingItems.delete(cartItemId);
                 btns[0].disabled = quantity <= 1;
-                btns[1].disabled = quantity >= parseInt(itemElement.querySelector('.quantity-input').max);
+                // Không disable nút + để khi user bấm sẽ hiện thông báo
             }
         }
 
@@ -441,6 +441,8 @@ $flash = getFlash();
 
             if (currentQty < maxQty) {
                 debouncedUpdateQuantity(cartItemId, currentQty + 1);
+            } else {
+                showToast('Số lượng sản phẩm vượt quá tồn kho hiện có.', 'error');
             }
         }
 

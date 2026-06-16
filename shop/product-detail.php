@@ -708,10 +708,13 @@ if (isLoggedIn()) {
             var firstAvailableSizeBtn = selector.querySelector('button:not([disabled])');
             if (firstAvailableSizeBtn) {
                 firstAvailableSizeBtn.click();
+            } else {
+                var stockInfo = document.getElementById('stock-info');
+                if (stockInfo) {
+                    stockInfo.textContent = 'Hết hàng';
+                    stockInfo.className = 'text-sm text-red-600 mt-2';
+                }
             }
-
-            var stockInfo = document.getElementById('stock-info');
-            if (stockInfo) stockInfo.textContent = 'Còn ' + totalColorStock + ' sản phẩm';
         }
 
         function selectSize(variantId, size, price, stock) {
@@ -764,6 +767,26 @@ if (isLoggedIn()) {
             }
 
             document.getElementById('product-price').innerHTML = discountHtml;
+
+            var stockInfo = document.getElementById('stock-info');
+            var qtyInput = document.getElementById('qty-input');
+            
+            if (qtyInput) {
+                qtyInput.max = stock > 0 ? stock : 1;
+                if (parseInt(qtyInput.value) > stock) {
+                    qtyInput.value = stock > 0 ? stock : 1;
+                }
+            }
+
+            if (stockInfo) {
+                if (stock > 0) {
+                    stockInfo.textContent = 'Còn ' + stock + ' sản phẩm';
+                    stockInfo.className = 'text-sm text-green-600 mt-2';
+                } else {
+                    stockInfo.textContent = 'Hết hàng';
+                    stockInfo.className = 'text-sm text-red-600 mt-2';
+                }
+            }
         }
 
         function changeQty(delta) {
@@ -776,7 +799,12 @@ if (isLoggedIn()) {
 
             // Giới hạn
             if (val < 1) val = 1;
-            if (val > max) val = max;
+            if (val > max) {
+                val = max;
+                if (delta > 0) {
+                    showToast('Số lượng sản phẩm vượt quá tồn kho hiện có.', 'error');
+                }
+            }
 
             input.value = val;
         }
