@@ -18,6 +18,10 @@ $page = max(1, (int)($_GET['page'] ?? 1));
 $isFeatured = isset($_GET['featured']) && $_GET['featured'] == '1';
 $perPage = 12;
 
+$selectedCategories = isset($_GET['cat_id']) && is_array($_GET['cat_id']) ? $_GET['cat_id'] : [];
+$selectedColors = isset($_GET['color']) && is_array($_GET['color']) ? $_GET['color'] : [];
+$selectedSizes = isset($_GET['size']) && is_array($_GET['size']) ? $_GET['size'] : [];
+
 // Current category info
 $currentCategory = null;
 if ($categorySlug) {
@@ -26,27 +30,78 @@ if ($categorySlug) {
     ", [$categorySlug]);
 }
 
-// Get all categories for sidebar
-$categories = $db->select("
-    SELECT * FROM categories WHERE parent_id IS NULL AND is_visible = 1 ORDER BY sort_order
-");
+// Get categories for sidebar (cây danh mục 2 cấp)
+$treeCategories = [];
+$rootCats = $db->select("SELECT * FROM categories WHERE parent_id IS NULL AND is_visible = 1 ORDER BY sort_order");
+foreach ($rootCats as $rc) {
+    $children = $db->select("SELECT * FROM categories WHERE parent_id = ? AND is_visible = 1 ORDER BY sort_order", [$rc['category_id']]);
+    $rc['children'] = $children;
+    // Lấy thêm cấp 3 nếu có để đếm hoặc tiện mở rộng
+    foreach ($rc['children'] as &$child) {
+        $grandChildren = $db->select("SELECT * FROM categories WHERE parent_id = ? AND is_visible = 1 ORDER BY sort_order", [$child['category_id']]);
+        $child['children'] = $grandChildren;
+    }
+    $treeCategories[] = $rc;
+}
 
-// Get brands for filter
+// Get brands, colors, sizes for filter
 $brands = $db->select("SELECT * FROM brands WHERE is_active = 1 ORDER BY brand_name");
+$colorsList = $db->select("SELECT DISTINCT color FROM product_variants WHERE is_active = 1 AND color IS NOT NULL AND color != '' ORDER BY color");
+$sizesList = $db->select("SELECT DISTINCT size FROM product_variants WHERE is_active = 1 AND size IS NOT NULL AND size != '' ORDER BY size");
 
 // Build query
 $where = ["p.is_visible = 1", "p.is_deleted = 0"];
 $params = [];
 
-if ($currentCategory) {
+if (!empty($selectedCategories)) {
+    $cleanCatIds = array_map('intval', $selectedCategories);
+    $allSelectedIds = $cleanCatIds;
+    foreach ($cleanCatIds as $cid) {
+        $children = $db->select("SELECT category_id FROM categories WHERE parent_id = ?", [$cid]);
+        foreach ($children as $c) {
+            $allSelectedIds[] = $c['category_id'];
+            $grandChildren = $db->select("SELECT category_id FROM categories WHERE parent_id = ?", [$c['category_id']]);
+            foreach ($grandChildren as $gc) {
+                $allSelectedIds[] = $gc['category_id'];
+            }
+        }
+    }
+    $allSelectedIds = array_unique($allSelectedIds);
+    $placeholders = implode(',', array_fill(0, count($allSelectedIds), '?'));
+    $where[] = "p.category_id IN ($placeholders)";
+    $params = array_merge($params, $allSelectedIds);
+} elseif ($currentCategory) {
     // Get all child categories
     $catIds = [$currentCategory['category_id']];
     $children = $db->select("SELECT category_id FROM categories WHERE parent_id = ?", [$currentCategory['category_id']]);
-    foreach ($children as $c) $catIds[] = $c['category_id'];
+    foreach ($children as $c) {
+        $catIds[] = $c['category_id'];
+        $grandChildren = $db->select("SELECT category_id FROM categories WHERE parent_id = ?", [$c['category_id']]);
+        foreach ($grandChildren as $gc) {
+            $catIds[] = $gc['category_id'];
+        }
+    }
 
     $placeholders = implode(',', array_fill(0, count($catIds), '?'));
     $where[] = "p.category_id IN ($placeholders)";
     $params = array_merge($params, $catIds);
+}
+
+// Colors and Sizes filter
+if (!empty($selectedColors) || !empty($selectedSizes)) {
+    $vWhere = ["pv.product_id = p.product_id", "pv.is_active = 1"];
+    if (!empty($selectedColors)) {
+        $placeholders = implode(',', array_fill(0, count($selectedColors), '?'));
+        $vWhere[] = "pv.color IN ($placeholders)";
+        $params = array_merge($params, $selectedColors);
+    }
+    if (!empty($selectedSizes)) {
+        $placeholders = implode(',', array_fill(0, count($selectedSizes), '?'));
+        $vWhere[] = "pv.size IN ($placeholders)";
+        $params = array_merge($params, $selectedSizes);
+    }
+    $vWhereClause = implode(' AND ', $vWhere);
+    $where[] = "EXISTS (SELECT 1 FROM product_variants pv WHERE $vWhereClause)";
 }
 
 if ($search) {
@@ -212,7 +267,14 @@ if (isLoggedIn()) {
                     <a href="<?= BASE_URL ?>/shop/product-catalog.php<?= $categorySlug ? '?category=' . $categorySlug : '' ?>" class="font-label-sm text-label-sm text-axeron-red hover:underline">Xóa tất cả</a>
                 </div>
 
-                <form id="filter-form" method="GET">
+                <form id="filter-form" method="GET" class="relative">
+                    <div class="sticky top-0 bg-surface-container-lowest z-10 pb-4 mb-4 border-b border-surface-container-high">
+                        <button type="submit" class="w-full bg-axeron-red text-white font-label-lg py-2 rounded-lg hover:bg-primary transition-colors shadow-sm flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-sm">filter_alt</span>
+                            Áp dụng bộ lọc
+                        </button>
+                    </div>
+
                     <?php if ($categorySlug): ?>
                         <input type="hidden" name="category" value="<?= htmlspecialchars($categorySlug) ?>">
                     <?php endif; ?>
@@ -221,6 +283,44 @@ if (isLoggedIn()) {
                     <?php endif; ?>
                     <?php if ($isFeatured): ?>
                         <input type="hidden" name="featured" value="1">
+                    <?php endif; ?>
+
+                    <!-- Category Filter -->
+                    <?php if (!empty($treeCategories)): ?>
+                    <div class="mb-6 border-b border-outline-variant pb-6">
+                        <h3 class="font-label-lg text-label-lg text-on-surface mb-4">Danh mục sản phẩm</h3>
+                        <div class="flex flex-col space-y-4">
+                            <?php foreach ($treeCategories as $rootCat): ?>
+                            <div>
+                                <h4 class="font-bold text-on-surface mb-2 text-sm uppercase tracking-wide"><?= htmlspecialchars($rootCat['category_name']) ?></h4>
+                                <?php if (!empty($rootCat['children'])): ?>
+                                <div class="flex flex-col space-y-2 pl-2 border-l-2 border-surface-container-high ml-1">
+                                    <?php foreach ($rootCat['children'] as $childCat): ?>
+                                    <div class="flex flex-col space-y-1">
+                                        <label class="flex items-center space-x-3 cursor-pointer group">
+                                            <input type="checkbox" name="cat_id[]" value="<?= $childCat['category_id'] ?>" class="form-checkbox h-4 w-4 text-axeron-red rounded" <?= in_array($childCat['category_id'], $selectedCategories) ? 'checked' : '' ?>/>
+                                            <span class="font-body-sm text-sm text-on-surface-variant group-hover:text-axeron-red transition-colors font-medium"><?= htmlspecialchars($childCat['category_name']) ?></span>
+                                        </label>
+                                        
+                                        <!-- Level 3 Categories -->
+                                        <?php if (!empty($childCat['children'])): ?>
+                                        <div class="flex flex-col space-y-1 pl-7">
+                                            <?php foreach ($childCat['children'] as $grandChild): ?>
+                                            <label class="flex items-center space-x-3 cursor-pointer group">
+                                                <input type="checkbox" name="cat_id[]" value="<?= $grandChild['category_id'] ?>" class="form-checkbox h-3.5 w-3.5 text-axeron-red rounded opacity-70" <?= in_array($grandChild['category_id'], $selectedCategories) ? 'checked' : '' ?>/>
+                                                <span class="font-body-sm text-[13px] text-on-surface-variant group-hover:text-axeron-red transition-colors"><?= htmlspecialchars($grandChild['category_name']) ?></span>
+                                            </label>
+                                            <?php endforeach; ?>
+                                        </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <?php endforeach; ?>
+                                </div>
+                                <?php endif; ?>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
                     <?php endif; ?>
 
                     <!-- Price Filter -->
@@ -271,6 +371,40 @@ if (isLoggedIn()) {
                         </div>
                     </div>
 
+                    <!-- Size Filter -->
+                    <?php if (!empty($sizesList)): ?>
+                    <div class="mb-6 border-b border-outline-variant pb-6">
+                        <h3 class="font-label-lg text-label-lg text-on-surface mb-4">Kích cỡ (Size)</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <?php foreach ($sizesList as $s): ?>
+                            <label class="cursor-pointer">
+                                <input type="checkbox" name="size[]" value="<?= htmlspecialchars($s['size']) ?>" class="peer sr-only" <?= in_array($s['size'], $selectedSizes) ? 'checked' : '' ?>/>
+                                <div class="min-w-[2.5rem] h-10 px-2 flex items-center justify-center rounded-md border border-outline-variant text-on-surface-variant peer-checked:bg-axeron-red peer-checked:text-white peer-checked:border-axeron-red hover:border-axeron-red transition-colors font-label-md whitespace-nowrap">
+                                    <?= htmlspecialchars($s['size']) ?>
+                                </div>
+                            </label>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+
+                    <!-- Color Filter -->
+                    <?php if (!empty($colorsList)): ?>
+                    <div class="mb-6 border-b border-outline-variant pb-6">
+                        <h3 class="font-label-lg text-label-lg text-on-surface mb-4">Màu sắc</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <?php foreach ($colorsList as $c): ?>
+                            <label class="cursor-pointer">
+                                <input type="checkbox" name="color[]" value="<?= htmlspecialchars($c['color']) ?>" class="peer sr-only" <?= in_array($c['color'], $selectedColors) ? 'checked' : '' ?>/>
+                                <div class="px-3 py-1.5 flex items-center justify-center rounded-md border border-outline-variant text-on-surface-variant peer-checked:bg-axeron-red peer-checked:text-white peer-checked:border-axeron-red hover:border-axeron-red transition-colors font-body-sm text-sm">
+                                    <?= htmlspecialchars($c['color']) ?>
+                                </div>
+                            </label>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+
                     <button type="submit" class="w-full bg-axeron-red text-white font-label-lg py-2 rounded-lg hover:bg-primary transition-colors">
                         Áp dụng
                     </button>
@@ -286,6 +420,14 @@ if (isLoggedIn()) {
                     <h1 class="font-headline-lg text-headline-lg text-on-surface">
                         <?php if ($search): ?>
                             Kết quả tìm kiếm: "<?= htmlspecialchars($search) ?>"
+                        <?php elseif (!empty($selectedCategories)): ?>
+                            <?php if (count($selectedCategories) === 1): 
+                                $sc = $db->selectOne("SELECT category_name FROM categories WHERE category_id = ?", [$selectedCategories[0]]);
+                            ?>
+                                <?= htmlspecialchars($sc['category_name'] ?? 'Kết quả lọc sản phẩm') ?>
+                            <?php else: ?>
+                                Kết quả lọc sản phẩm
+                            <?php endif; ?>
                         <?php elseif ($isFeatured): ?>
                             Sản Phẩm Nổi Bật
                         <?php elseif ($currentCategory): ?>

@@ -597,7 +597,7 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12">
-        <h1 class="font-headline-lg text-headline-lg mb-8 uppercase text-center md:text-left">Thanh Toán</h1>
+        <h1 class="text-xl md:text-2xl font-bold mb-8 uppercase text-center md:text-left">Thanh Toán</h1>
 
         <?php if ($flash): ?>
             <div class="mb-6 p-4 rounded-xl <?= $flash['type'] === 'error' ? 'bg-error-container text-on-error-container' : 'bg-green-100 text-green-800' ?>">
