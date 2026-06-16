@@ -32,7 +32,7 @@ $user = $db->selectOne("SELECT full_name, email FROM users WHERE user_id = ?", [
     <link rel="icon" type="image/jpeg" href="<?= defined('BASE_URL') ? BASE_URL : '' ?>/assets/images/logo-axeron.jpg" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-20..200&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-20..200&display=block" rel="stylesheet"/>
     <style>
         * { font-family: 'Noto Sans', sans-serif; }
         .font-display-lg, h1, h2, h3 { font-family: 'Montserrat', sans-serif; }
@@ -40,29 +40,19 @@ $user = $db->selectOne("SELECT full_name, email FROM users WHERE user_id = ?", [
         .fill-icon { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
     </style>
 </head>
-<body class="bg-[#fcf9f8] text-[#1b1c1c] antialiased min-h-screen flex flex-col items-center justify-center relative bg-cover bg-center py-12" style="font-family: 'Noto Sans', sans-serif; background-image: url('<?= BASE_URL ?>/assets/images/auth-banner.png');">
-    <!-- Background Overlays -->
-    <div class="absolute inset-0 bg-axeron-red/40 mix-blend-multiply"></div>
-    <div class="absolute inset-0 bg-black/60"></div>
-
-    <!-- Navigation to Homepage -->
-    <a href="<?= BASE_URL ?>/" class="absolute top-6 left-6 z-20 flex items-center gap-2 text-white hover:text-[#ffb3b0] transition-colors bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm border border-white/20">
-        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-        <span class="font-medium text-sm">Quay lại trang chủ</span>
-    </a>
+<body class="bg-[#fcf9f8] text-[#1b1c1c] font-body-md antialiased min-h-screen flex flex-col" style="font-family: 'Noto Sans', sans-serif;">
+    <!-- Header -->
+    <header class="w-full py-4 px-margin-mobile md:px-margin-desktop border-b border-[#e5e2e1] bg-[#fcf9f8] flex justify-center items-center absolute top-0 z-10">
+        <a class="flex items-center gap-2 flex-shrink-0" href="<?= BASE_URL ?>/">
+            <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover">
+            <span class="font-display-lg text-[#BE1E2D] uppercase tracking-tight text-xl md:text-2xl" style="font-family: 'Montserrat', sans-serif;">Axeron Sport</span>
+        </a>
+    </header>
 
     <!-- Main Content -->
-    <main class="relative z-10 w-full max-w-md px-4 py-8 flex flex-col items-center">
-        <!-- Logo -->
-        <div class="flex justify-center mb-6">
-            <a class="flex items-center gap-3 flex-shrink-0 bg-white/10 p-3 px-5 rounded-2xl backdrop-blur-md border border-white/20 hover:bg-white/20 transition-colors" href="<?= BASE_URL ?>/">
-                <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-10 h-10 rounded-lg object-cover shadow-sm">
-                <span class="font-display-lg text-white uppercase tracking-tight text-2xl font-black drop-shadow-sm" style="font-family: 'Montserrat', sans-serif;">Axeron</span>
-            </a>
-        </div>
-
+    <main class="flex-1 flex items-center justify-center w-full min-h-screen p-4 pt-24 md:pt-0">
         <!-- Form Container -->
-        <div class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 w-full border border-[#e5e2e1]">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-[#e5e2e1]">
             <!-- Flash Message -->
             <?php if ($flash): ?>
             <div class="mb-6 p-4 rounded-xl <?= $flash['type'] === 'error' ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-green-50 border border-green-200 text-green-700' ?>">
