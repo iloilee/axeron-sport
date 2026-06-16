@@ -21,13 +21,13 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 // Cấu hình SMTP - THAY ĐỔI THEO THÔNG TIN CỦA BẠN
-define('SMTP_HOST', 'smtp.gmail.com');
-define('SMTP_PORT', 587);
-define('SMTP_USERNAME', 'deltaloile0@gmail.com');        // Thay bằng email của bạn
-define('SMTP_PASSWORD', 'jdgfzafclhykuwqf');            // Thay bằng App Password (16 ký tự)
-define('SMTP_FROM_NAME', 'Axeron Sports');
-define('SMTP_FROM_EMAIL', 'noreply@axeron.com');
-define('SMTP_ENCRYPTION', 'tls');                        // 'tls' hoặc 'ssl'
+define('SMTP_HOST', getenv('SMTP_HOST') ?: 'smtp.gmail.com');
+define('SMTP_PORT', getenv('SMTP_PORT') ?: 587);
+define('SMTP_USERNAME', getenv('SMTP_USERNAME') ?: '');        // Lấy từ .env
+define('SMTP_PASSWORD', getenv('SMTP_PASSWORD') ?: '');        // Lấy từ .env
+define('SMTP_FROM_NAME', getenv('SMTP_FROM_NAME') ?: 'Axeron Sports');
+define('SMTP_FROM_EMAIL', getenv('SMTP_FROM_EMAIL') ?: 'noreply@axeron.com');
+define('SMTP_ENCRYPTION', getenv('SMTP_ENCRYPTION') ?: 'tls');
 
 // Cấu hình OTP
 define('OTP_EXPIRY_MINUTES', 5);

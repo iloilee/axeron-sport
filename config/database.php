@@ -5,11 +5,11 @@
  */
 require_once __DIR__ . '/env.php';
 
-define('DB_HOST', '127.0.0.1');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'sports_shop');
-define('DB_PORT', '3306');
+define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1'); // Có thể giữ localhost làm mặc định
+define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_PASS', getenv('DB_PASS') ?: '');
+define('DB_NAME', getenv('DB_NAME') ?: 'sports_shop');
+define('DB_PORT', getenv('DB_PORT') ?: '3306');
 
 class Database {
     private static $instance = null;

@@ -13,10 +13,12 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Cloudinary\Cloudinary;
 use Cloudinary\Asset\Configuration;
 
-// Cấu hình Cloudinary - THAY ĐỔI THEO TÀI KHOẢN CỦA BẠN
-define('CLOUDINARY_CLOUD_NAME', 'dx8yqkmzp');        // Ví dụ: 'abc123'
-define('CLOUDINARY_API_KEY', '556438877966755');    // Ví dụ: '123456789012345'
-define('CLOUDINARY_API_SECRET', 'wJLxKzN8yQmRsTcUvWxY');  // Ví dụ: 'abcdefghijklmnop'
+// Lấy cấu hình Cloudinary từ .env
+require_once __DIR__ . '/env.php';
+
+define('CLOUDINARY_CLOUD_NAME', getenv('CLOUDINARY_CLOUD_NAME') ?: '');
+define('CLOUDINARY_API_KEY', getenv('CLOUDINARY_API_KEY') ?: '');
+define('CLOUDINARY_API_SECRET', getenv('CLOUDINARY_API_SECRET') ?: '');
 
 // Cấu hình upload mặc định
 define('CLOUDINARY_FOLDER', 'axeron-products');     // Thư mục trên Cloudinary
