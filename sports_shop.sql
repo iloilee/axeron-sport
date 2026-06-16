@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 16, 2026 lúc 08:07 PM
+-- Thời gian đã tạo: Th6 16, 2026 lúc 09:29 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -190,13 +190,7 @@ INSERT INTO `cart_items` (`cart_item_id`, `cart_id`, `variant_id`, `quantity`, `
 (26, 1, 249, 2, '2026-06-11 00:44:13'),
 (27, 17, 6, 1, '2026-06-11 01:10:12'),
 (33, 13, 250, 1, '2026-06-11 03:03:11'),
-(52, 16, 93, 5, '2026-06-14 14:53:36'),
-(53, 16, 6, 2, '2026-06-14 20:44:29'),
-(61, 16, 13, 2, '2026-06-16 21:40:53'),
-(62, 16, 147, 1, '2026-06-16 21:40:53'),
-(63, 16, 272, 1, '2026-06-16 21:40:53'),
-(64, 16, 257, 1, '2026-06-16 21:40:53'),
-(65, 16, 61, 5, '2026-06-16 21:56:38');
+(69, 16, 111, 4, '2026-06-17 02:12:44');
 
 -- --------------------------------------------------------
 
@@ -351,7 +345,13 @@ INSERT INTO `chat_messages` (`message_id`, `session_id`, `sender_type`, `content
 (41, 9, 'user', 'Hi', '2026-06-15 22:55:05'),
 (42, 9, 'bot', 'Xin chào! Em là trợ lý ảo của Axeron Sport. Em có thể giúp gì cho anh/chị hôm nay ạ?', '2026-06-15 22:55:39'),
 (43, 7, 'user', 'tôi muốn mua giày chạy bộ', '2026-06-16 21:15:47'),
-(44, 7, 'bot', 'Lỗi kết nối AI (Code: 503). Chi tiết: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', '2026-06-16 21:15:49');
+(44, 7, 'bot', 'Lỗi kết nối AI (Code: 503). Chi tiết: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', '2026-06-16 21:15:49'),
+(45, 7, 'user', 'xin chào, tôi muốn mua giày', '2026-06-17 01:17:12'),
+(46, 7, 'bot', 'Xin lỗi, hiện tại hệ thống AI đang được bảo trì (Thiếu API Key). Vui lòng thử lại sau.', '2026-06-17 01:17:12'),
+(47, 7, 'user', 'xin chào', '2026-06-17 01:52:33'),
+(48, 7, 'bot', 'Xin lỗi, hiện tại hệ thống AI đang được bảo trì (Thiếu API Key). Vui lòng thử lại sau.', '2026-06-17 01:52:33'),
+(49, 10, 'user', 'xin chào tôi muốn mua giày', '2026-06-17 02:22:23'),
+(50, 10, 'bot', 'Xin lỗi, hiện tại hệ thống AI đang được bảo trì (Thiếu API Key). Vui lòng thử lại sau.', '2026-06-17 02:22:23');
 
 -- --------------------------------------------------------
 
@@ -380,7 +380,8 @@ INSERT INTO `chat_sessions` (`session_id`, `user_id`, `status`, `started_at`, `e
 (6, NULL, 'open', '2026-06-09 11:59:34', NULL),
 (7, 2, 'open', '2026-06-11 14:54:03', NULL),
 (8, NULL, 'open', '2026-06-11 14:57:46', NULL),
-(9, NULL, 'open', '2026-06-15 22:55:05', NULL);
+(9, NULL, 'open', '2026-06-15 22:55:05', NULL),
+(10, NULL, 'open', '2026-06-17 02:22:23', NULL);
 
 -- --------------------------------------------------------
 
@@ -1665,7 +1666,8 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (270, 25, 'YNX-A99P-DO-G5', 'Đỏ', 'G5', 500000.00, 10, 1, 0),
 (271, 25, 'YNX-A99P-TRANG-G5', 'Trắng', 'G5', 500000.00, 12, 1, 0),
 (272, 66, 'DEFAULT-66-1781619761', 'default', 'default', 0.00, 55, 1, 0),
-(273, 59, 'DEFAULT-59-1781620440', 'default', 'default', 0.00, 75, 1, 0);
+(273, 59, 'DEFAULT-59-1781620440', 'default', 'default', 0.00, 75, 1, 0),
+(274, 58, 'DEFAULT-58-1781636074', 'default', 'default', 0.00, 42, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -2349,7 +2351,10 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (803, 1, 1, '2026-06-14 23:01:04'),
 (806, 1, 14, '2026-06-14 23:12:00'),
 (807, 1, 38, '2026-06-16 20:02:16'),
-(808, 2, 25, '2026-06-16 23:17:25');
+(808, 2, 25, '2026-06-16 23:17:25'),
+(809, 2, 3, '2026-06-17 01:55:06'),
+(810, 2, 3, '2026-06-17 01:55:11'),
+(811, 2, 25, '2026-06-17 01:57:42');
 
 -- --------------------------------------------------------
 
@@ -2996,27 +3001,27 @@ CREATE TABLE `site_settings` (
 --
 
 INSERT INTO `site_settings` (`setting_id`, `setting_key`, `setting_value`, `setting_type`, `group_name`, `display_name`, `description`, `sort_order`, `is_public`, `updated_by`, `updated_at`) VALUES
-(1, 'site_name', 'Axeron Sport', 'text', 'general', 'Tên Website', 'Tên website hiển thị trên trình duyệt và logo', 1, 1, 1, '2026-06-14 21:09:16'),
-(2, 'site_tagline', 'Dụng Cụ Thể Thao Chuyên Nghiệp', 'text', 'general', 'Tagline', 'Khẩu hiệu ngắn của website', 2, 1, 1, '2026-06-14 21:09:16'),
-(3, 'site_logo', '/assets/images/logo-axeron.jpg', 'image', 'general', 'Logo Website', 'Logo chính của website (khuyến nghị: 200x60px)', 3, 1, 1, '2026-06-14 21:09:16'),
-(4, 'site_favicon', '/assets/images/logo-axeron.jpg', 'image', 'general', 'Favicon', 'Icon nhỏ hiển thị trên tab trình duyệt (32x32px)', 4, 1, 1, '2026-06-14 21:09:16'),
-(6, 'contact_email', 'contact@axeron.vn', 'text', 'contact', 'Email Liên Hệ', 'Email chính để khách hàng liên hệ', 10, 1, 1, '2026-06-14 21:09:16'),
-(7, 'contact_phone', '1900 1234', 'text', 'contact', 'Số Điện Thoại', 'Số hotline hoặc hotline hỗ trợ', 11, 1, 1, '2026-06-14 21:09:16'),
-(9, 'contact_address', '123 Nguyễn Trãi, Quận 1, TP.HCM', 'textarea', 'contact', 'Địa Chỉ', 'Địa chỉ trụ sở/cửa hàng chính', 13, 1, 1, '2026-06-14 21:09:16'),
-(11, 'contact_work_hours', 'T2 - T7: 8:00 - 20:00', 'text', 'contact', 'Giờ Làm Việc', 'Giờ làm việc của cửa hàng', 15, 1, 1, '2026-06-14 21:09:16'),
-(12, 'social_facebook', 'https://facebook.com', 'text', 'social', 'Facebook', 'Link fanpage Facebook', 20, 1, 1, '2026-06-14 21:09:16'),
-(13, 'social_instagram', 'https://instagram.com', 'text', 'social', 'Instagram', 'Link Instagram', 21, 1, 1, '2026-06-14 21:09:16'),
-(14, 'social_youtube', 'https://youtube.com', 'text', 'social', 'YouTube', 'Link YouTube channel', 22, 1, 1, '2026-06-14 21:09:16'),
-(15, 'social_tiktok', 'https://www.tiktok.com/', 'text', 'social', 'TikTok', 'Link TikTok', 23, 1, 1, '2026-06-14 21:09:16'),
-(16, 'social_zalo', 'https://zalo.me/vi/', 'text', 'social', 'Zalo', 'Link Zalo Official Account', 24, 1, 1, '2026-06-14 21:09:16'),
-(17, 'footer_about', 'Hệ thống cung cấp dụng cụ và thời trang thể thao chuyên nghiệp hàng đầu. Cam kết 100% authentic, bảo hành chính hãng.', 'textarea', 'footer', 'Giới Thiệu Footer', 'Đoạn text giới thiệu ngắn hiển thị ở footer', 30, 1, 1, '2026-06-14 21:09:16'),
-(18, 'footer_copyright', '© 2026 Axeron Sport - Developed by Le Huu Loi', 'text', 'footer', 'Copyright Text', 'Text copyright ở footer', 31, 1, 1, '2026-06-14 21:09:16'),
-(20, 'contact_map_url', 'https://www.google.com/maps?q=123+Nguy%E1%BB%85n+Tr%C3%A3i,+Qu%E1%BA%ADn+1,+TP.HCM', 'text', 'contact', 'Link Google Maps', 'Đường dẫn link đến vị trí trên Google Maps', 14, 1, 1, '2026-06-14 21:09:16'),
-(21, 'policy_privacy_url', '/policies/privacy-policy.php', 'text', 'footer', 'Link CS Bảo Mật', 'Đường dẫn đến trang chính sách bảo mật', 32, 1, 1, '2026-06-14 21:09:16'),
-(22, 'policy_return_url', '/policies/return-exchange-policy.php', 'text', 'footer', 'Link CS Đổi Trả', 'Đường dẫn đến trang chính sách đổi trả', 33, 1, 1, '2026-06-14 21:09:16'),
-(23, 'policy_terms_url', '/policies/purchase-policy.php', 'text', 'footer', 'Link Điều Khoản', 'Đường dẫn đến trang điều khoản dịch vụ', 34, 1, 1, '2026-06-14 21:09:16'),
-(24, 'freeship_threshold', '2000000', 'number', 'sales', 'Hạn mức Freeship', 'Số tiền tối thiểu để được miễn phí vận chuyển (VD: 500000)', 40, 1, 1, '2026-06-14 21:09:16'),
-(25, 'top_announcement_bar', 'Freeship với hóa đơn trên', 'text', 'sales', 'Dòng thông báo chạy', 'Thanh thông báo trên cùng (Top bar). Bỏ trống sẽ tự ẩn.', 41, 1, 1, '2026-06-14 21:09:16');
+(1, 'site_name', 'Axeron Sport', 'text', 'general', 'Tên Website', 'Tên website hiển thị trên trình duyệt và logo', 1, 1, 1, '2026-06-17 02:26:42'),
+(2, 'site_tagline', 'Dụng Cụ Thể Thao Chuyên Nghiệp', 'text', 'general', 'Tagline', 'Khẩu hiệu ngắn của website', 2, 1, 1, '2026-06-17 02:26:42'),
+(3, 'site_logo', '/assets/images/logo-axeron.jpg', 'image', 'general', 'Logo Website', 'Logo chính của website (khuyến nghị: 200x60px)', 3, 1, 1, '2026-06-17 02:26:42'),
+(4, 'site_favicon', '/assets/images/logo-axeron.jpg', 'image', 'general', 'Favicon', 'Icon nhỏ hiển thị trên tab trình duyệt (32x32px)', 4, 1, 1, '2026-06-17 02:26:42'),
+(6, 'contact_email', 'contact@axeron.vn', 'text', 'contact', 'Email Liên Hệ', 'Email chính để khách hàng liên hệ', 10, 1, 1, '2026-06-17 02:26:42'),
+(7, 'contact_phone', '1900 1234', 'text', 'contact', 'Số Điện Thoại', 'Số hotline hoặc hotline hỗ trợ', 11, 1, 1, '2026-06-17 02:26:42'),
+(9, 'contact_address', '123 Nguyễn Trãi, Quận 1, TP.HCM', 'textarea', 'contact', 'Địa Chỉ', 'Địa chỉ trụ sở/cửa hàng chính', 13, 1, 1, '2026-06-17 02:26:42'),
+(11, 'contact_work_hours', 'T2 - T7: 8:00 - 20:00', 'text', 'contact', 'Giờ Làm Việc', 'Giờ làm việc của cửa hàng', 15, 1, 1, '2026-06-17 02:26:42'),
+(12, 'social_facebook', 'https://www.facebook.com/eeliol', 'text', 'social', 'Facebook', 'Link fanpage Facebook', 20, 1, 1, '2026-06-17 02:26:42'),
+(13, 'social_instagram', 'https://www.instagram.com/12.eeliol/', 'text', 'social', 'Instagram', 'Link Instagram', 21, 1, 1, '2026-06-17 02:26:42'),
+(14, 'social_youtube', 'https://youtube.com', 'text', 'social', 'YouTube', 'Link YouTube channel', 22, 1, 1, '2026-06-17 02:26:42'),
+(15, 'social_tiktok', 'https://www.tiktok.com/', 'text', 'social', 'TikTok', 'Link TikTok', 23, 1, 1, '2026-06-17 02:26:42'),
+(16, 'social_zalo', 'http://zaloapp.com/qr/p/9e94039spuq', 'text', 'social', 'Zalo', 'Link Zalo Official Account', 24, 1, 1, '2026-06-17 02:26:42'),
+(17, 'footer_about', 'Hệ thống cung cấp dụng cụ và thời trang thể thao chuyên nghiệp hàng đầu. Cam kết 100% authentic, bảo hành chính hãng.', 'textarea', 'footer', 'Giới Thiệu Footer', 'Đoạn text giới thiệu ngắn hiển thị ở footer', 30, 1, 1, '2026-06-17 02:26:42'),
+(18, 'footer_copyright', '© 2026 Axeron Sport - Developed by Le Huu Loi', 'text', 'footer', 'Copyright Text', 'Text copyright ở footer', 31, 1, 1, '2026-06-17 02:26:42'),
+(20, 'contact_map_url', 'https://www.google.com/maps?q=123+Nguy%E1%BB%85n+Tr%C3%A3i,+Qu%E1%BA%ADn+1,+TP.HCM', 'text', 'contact', 'Link Google Maps', 'Đường dẫn link đến vị trí trên Google Maps', 14, 1, 1, '2026-06-17 02:26:42'),
+(21, 'policy_privacy_url', '/policies/privacy-policy.php', 'text', 'footer', 'Link CS Bảo Mật', 'Đường dẫn đến trang chính sách bảo mật', 32, 1, 1, '2026-06-17 02:26:42'),
+(22, 'policy_return_url', '/policies/return-exchange-policy.php', 'text', 'footer', 'Link CS Đổi Trả', 'Đường dẫn đến trang chính sách đổi trả', 33, 1, 1, '2026-06-17 02:26:42'),
+(23, 'policy_terms_url', '/policies/purchase-policy.php', 'text', 'footer', 'Link Điều Khoản', 'Đường dẫn đến trang điều khoản dịch vụ', 34, 1, 1, '2026-06-17 02:26:42'),
+(24, 'freeship_threshold', '2000000', 'number', 'sales', 'Hạn mức Freeship', 'Số tiền tối thiểu để được miễn phí vận chuyển (VD: 500000)', 40, 1, 1, '2026-06-17 02:26:42'),
+(25, 'top_announcement_bar', 'Freeship với hóa đơn trên', 'text', 'sales', 'Dòng thông báo chạy', 'Thanh thông báo trên cùng (Top bar). Bỏ trống sẽ tự ẩn.', 41, 1, 1, '2026-06-17 02:26:42');
 
 -- --------------------------------------------------------
 
@@ -3491,7 +3496,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -3503,13 +3508,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `chat_messages`
 --
 ALTER TABLE `chat_messages`
-  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_sessions`
 --
 ALTER TABLE `chat_sessions`
-  MODIFY `session_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `session_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `contact_messages`
@@ -3563,13 +3568,13 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT cho bảng `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=274;
+  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=275;
 
 --
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=809;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=812;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
