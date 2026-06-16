@@ -210,9 +210,9 @@ async function loadCartDrawerItems() {
                                 </div>
                                 
                                 <div class="flex items-center border border-outline-variant rounded-md overflow-hidden bg-white">
-                                    <button class="w-7 h-7 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant" onclick="updateDrawerCartItem(${item.cart_item_id}, ${item.quantity - 1})">-</button>
+                                    <button class="w-7 h-7 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant" onclick="updateDrawerCartItem(${item.cart_item_id}, ${parseInt(item.quantity) - 1})">-</button>
                                     <span class="w-8 text-center font-medium text-sm text-on-surface flex items-center justify-center">${item.quantity}</span>
-                                    <button class="w-7 h-7 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant" onclick="updateDrawerCartItem(${item.cart_item_id}, ${item.quantity + 1})">+</button>
+                                    <button class="w-7 h-7 flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant" onclick="updateDrawerCartItem(${item.cart_item_id}, ${parseInt(item.quantity) + 1})">+</button>
                                 </div>
                             </div>
                         </div>
@@ -278,7 +278,7 @@ function initQuantityControls(container = document) {
         const decreaseBtn = wrapper.querySelector('button:first-child');
         const increaseBtn = wrapper.querySelector('button:last-child');
 
-        if (decreaseBtn) {
+        if (decreaseBtn && !decreaseBtn.hasAttribute('onclick')) {
             decreaseBtn.addEventListener('click', () => {
                 const currentValue = parseInt(input.value) || 1;
                 if (currentValue > 1) {
@@ -288,7 +288,7 @@ function initQuantityControls(container = document) {
             });
         }
 
-        if (increaseBtn) {
+        if (increaseBtn && !increaseBtn.hasAttribute('onclick')) {
             increaseBtn.addEventListener('click', () => {
                 const currentValue = parseInt(input.value) || 1;
                 const maxValue = parseInt(input.max) || 999;
