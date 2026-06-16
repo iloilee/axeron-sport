@@ -293,7 +293,7 @@
                 </p>
 <!-- Secondary Image -->
 <figure class="my-8 rounded-xl overflow-hidden shadow-sm border border-outline-variant max-w-[600px] mx-auto">
-<img alt="Cận cảnh kết cấu bọt xốp đệm Aero-Foam trên đế giày" class="w-full h-auto object-cover aspect-square" src="https://lh3.googleusercontent.com/aida/ADBb0ujNwMOB06kZxr5ovWnnerUv2xh-3H3TVfLWO6aijFrydO8sgiFDWA-wHSy7v74Mgan-YCscZWNAD-RZe_WMWhryqJC_B83AcF2FXVsroyzPIlOJN_mPhRaBtfzwmCseWRIlCM64but23fcI4lMmWDw_t7M5zmhU_Iyq952HmbV7WpKq5ArH3R87YUojJUcpLxLTthvUbgTYginWIWGfeOPMFj69ipl1tegCfj8OnirExsSIbe3r0MuIX5VQ"/>
+<img alt="Cận cảnh kết cấu bọt xốp đệm Aero-Foam trên đế giày" class="w-full h-auto object-cover aspect-square" src="https://cdn.shopify.com/s/files/1/0456/5070/6581/files/dem-giay-chay-bo-la-gi-co-nhung-loai-nao-cach-chon-dem-giay-chay-bo-phu-hop-5.jpg?v=1710472525"/>
 <figcaption class="text-center font-label-sm text-label-sm text-on-surface-variant mt-2 p-2">Kết cấu vi bọt tổ ong siêu nhỏ của Aero-Foam dưới kính hiển vi.</figcaption>
 </figure>
 <p>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 16, 2026 lúc 06:21 PM
+-- Thời gian đã tạo: Th6 16, 2026 lúc 07:27 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -61,7 +61,8 @@ INSERT INTO `articles` (`article_id`, `title`, `slug`, `excerpt`, `content`, `fe
 (4, 'Sân vận động', 'stadiums', 'Khám phá các dự án sân vận động tiêu chuẩn quốc tế mà Axeron đã tham gia thi công và cung cấp trang thiết bị.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 2, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:33:05'),
 (5, 'Nhà thi đấu', 'arenas', 'Các dự án nhà thi đấu đa năng được trang bị hệ thống ánh sáng, âm thanh và sàn gỗ thể thao cao cấp từ Axeron.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 2, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:31:44'),
 (6, 'Đồng phục học sinh - sinh viên', 'school-uniforms', 'Thiết kế và sản xuất đồng phục thể dục, đồng phục lớp cho các trường đại học và phổ thông trên toàn quốc.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 2, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 21:40:10'),
-(7, 'Thiết bị phòng tập', 'gym-equipment', 'Cung cấp và lắp đặt thiết bị gym chuyên nghiệp cho các trung tâm thể hình với công nghệ hiện đại nhất.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 3, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:32:16');
+(7, 'Thiết bị phòng tập', 'gym-equipment', 'Cung cấp và lắp đặt thiết bị gym chuyên nghiệp cho các trung tâm thể hình với công nghệ hiện đại nhất.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 3, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:32:16'),
+(8, 'Axeron ra mắt công nghệ đệm Aero-Foam mới', 'axeron-ra-mat-cong-nghe-dem-aero-foam-moi', 'Axeron Sport tự hào giới thiệu thế hệ đệm giảm chấn hoàn toàn mới mang tên Aero-Foam. Đây là bước đột phá công nghệ...', '<p class=\"font-headline-md text-[20px] leading-relaxed text-on-surface font-semibold border-l-4 border-axeron-red pl-4\">Axeron Sport tự hào giới thiệu thế hệ đệm giảm chấn hoàn toàn mới mang tên Aero-Foam. Đây là bước đột phá công nghệ hướng đến sự cân bằng hoàn hảo giữa trọng lượng siêu nhẹ, khả năng phản hồi lực và độ bền bỉ đáng kinh ngạc.</p><p>Được phát triển trong hơn 2 năm tại phòng nghiên cứu hiệu suất cao của Axeron, Aero-Foam không chỉ đơn thuần là một bản cập nhật vật liệu. Chúng tôi đã tái cấu trúc lại hoàn toàn các phân tử bọt xốp, tích hợp các khoang khí siêu vi cấu trúc tổ ong để tạo ra một lớp đệm có khả năng hấp thụ chấn động tức thì và hoàn trả năng lượng vượt trội trong mỗi bước chạy.</p><h3 class=\"font-headline-md text-headline-md text-on-surface mt-8 mb-4\">Các điểm mạnh vượt trội của Aero-Foam:</h3><div class=\"grid grid-cols-1 md:grid-cols-2 gap-4 mb-8\"><div class=\"bg-surface-container-low p-6 rounded-lg border border-outline-variant hover:shadow-md transition-shadow\"><div class=\"text-axeron-red mb-3\"><span class=\"material-symbols-outlined text-[32px]\" data-icon=\"speed\" data-weight=\"fill\">speed</span></div><h4 class=\"font-label-lg text-[16px] font-bold text-on-surface mb-2\">Trọng lượng nhẹ hơn 30%</h4><p class=\"font-body-md text-[14px] text-on-surface-variant\">So với vật liệu EVA truyền thống, cấu trúc vi bọt giúp giảm thiểu tối đa khối lượng vật lý mà không làm mất đi form dáng tổng thể.</p></div><div class=\"bg-surface-container-low p-6 rounded-lg border border-outline-variant hover:shadow-md transition-shadow\"><div class=\"text-axeron-blue mb-3\"><span class=\"material-symbols-outlined text-[32px]\" data-icon=\"bolt\" data-weight=\"fill\">bolt</span></div><h4 class=\"font-label-lg text-[16px] font-bold text-on-surface mb-2\">Hoàn trả năng lượng lên đến 75%</h4><p class=\"font-body-md text-[14px] text-on-surface-variant\">Mỗi bước chạm đất, Aero-Foam lưu trữ lực tác động và giải phóng ngay lập tức để đẩy người chạy về phía trước.</p></div><div class=\"bg-surface-container-low p-6 rounded-lg border border-outline-variant hover:shadow-md transition-shadow\"><div class=\"text-secondary mb-3\"><span class=\"material-symbols-outlined text-[32px]\">shield</span></div><h4 class=\"font-label-lg text-[16px] font-bold text-on-surface mb-2\">Độ bền bỉ theo thời gian</h4><p class=\"font-body-md text-[14px] text-on-surface-variant\">Khả năng chống xẹp lún cực tốt, duy trì được 90% hiệu suất ban đầu sau 500km chạy liên tục.</p></div><div class=\"bg-surface-container-low p-6 rounded-lg border border-outline-variant hover:shadow-md transition-shadow\"><div class=\"text-tertiary mb-3\"><span class=\"material-symbols-outlined text-[32px]\">thermostat</span></div><h4 class=\"font-label-lg text-[16px] font-bold text-on-surface mb-2\">Thích ứng nhiệt độ đa dạng</h4><p class=\"font-body-md text-[14px] text-on-surface-variant\">Vật liệu không bị cứng lại trong thời tiết lạnh giá hay biến dạng dưới sức nóng mặt đường khắc nghiệt.</p></div></div><p>Sự kết hợp giữa Aero-Foam và thiết kế khí động học đặc trưng của Axeron hứa hẹn sẽ mang đến những kỷ lục mới trên đường chạy. Công nghệ này sẽ lần lượt được áp dụng trên các dòng giày flagship sắp ra mắt trong quý tới, mở đầu là dòng Axeron Phantom 3.0.</p><figure class=\"my-8 rounded-xl overflow-hidden shadow-sm border border-outline-variant max-w-[600px] mx-auto\"><img alt=\"Cận cảnh kết cấu bọt xốp đệm Aero-Foam trên đế giày\" class=\"w-full h-auto object-cover aspect-square\" src=\"https://cdn.shopify.com/s/files/1/0456/5070/6581/files/dem-giay-chay-bo-la-gi-co-nhung-loai-nao-cach-chon-dem-giay-chay-bo-phu-hop-5.jpg?v=1710472525\"/><figcaption class=\"text-center font-label-sm text-label-sm text-on-surface-variant mt-2 p-2\">Kết cấu vi bọt tổ ong siêu nhỏ của Aero-Foam dưới kính hiển vi.</figcaption></figure><p>Chúng tôi không thỏa hiệp giữa sự thoải mái và tốc độ. Aero-Foam là câu trả lời của Axeron dành cho những người không ngừng theo đuổi sự hoàn hảo, - Giám đốc R&D của Axeron chia sẻ trong sự kiện ra mắt kín tuần qua.</p>', 'https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/970e4055732d4fd7937421b1ae2c4b5c~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&t=555f072d&ps=933b5bde&shp=a3510d86&shcp=6ce186a1&idc=my2&from=2739998086', '', NULL, NULL, 'Đội ngũ Axeron', 1, 1, '2026-06-17 00:15:51', 1511, NULL, NULL, NULL, 0, '2026-06-17 00:15:51', '2026-06-17 00:26:45');
 
 -- --------------------------------------------------------
 
@@ -921,6 +922,13 @@ CREATE TABLE `password_resets` (
   `ip_address` varchar(45) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `password_resets`
+--
+
+INSERT INTO `password_resets` (`id`, `user_id`, `email`, `reset_token`, `otp_code`, `expires_at`, `verified_at`, `used_at`, `ip_address`, `created_at`) VALUES
+(16, 2, 'vancedloile@gmail.com', 'f289ae79e2d5a1eb5c473e3164183f955c20d3d7e652db1ddc2b646c7c478adf', '574360', '2026-06-16 18:58:46', '2026-06-16 23:54:17', '2026-06-16 23:54:51', '::1', '2026-06-16 23:53:46');
 
 -- --------------------------------------------------------
 
@@ -3045,7 +3053,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `facebook_id`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `is_deleted`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`, `review_banned`) VALUES
 (1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/avatar_1_1781017883.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$pbHGMuzvmzrpb/o.3uw2oem43tgkYPGjciAzuiyluDiHFAYFEfo/i', 1, '2026-05-29 19:17:55', '2026-06-16 20:01:45', 0),
-(2, 3, 'Bug', 'bug@gmail.com', NULL, NULL, '0987654321', '$2y$10$vuvFSwtxYA8.tss5/Wg99eS65JeT5x6MyQDjtDrzZdKEnU309/FLG', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, 0, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-16 21:56:57', 0),
+(2, 3, 'Bug', 'vancedloile@gmail.com', NULL, NULL, '0987654321', '$2y$10$Gkk3hUDtMjFp.tQVdy0vne4zrVU.2avITZkr87q1AahfN4eccyZJ.', '/assets/uploads/avatars/avatar_14_1781114853.png', NULL, '2004-10-21', 1, 0, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-17 00:02:22', 0),
 (3, 4, 'Staff Tài Khoản', 'nvacc@gmail.com', NULL, NULL, '0901000004', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-13 06:39:03', 0),
 (4, 5, 'Staff Sản Phẩm', 'nvsp@gmail.com', NULL, NULL, '0901000005', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-13 06:39:03', 0),
 (5, 6, 'Staff Đơn Hàng', 'nvorder@gmail.com', NULL, NULL, '0901000006', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', '/assets/uploads/avatars/staff.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-13 06:39:03', 0),
@@ -3459,7 +3467,7 @@ ALTER TABLE `user_wishlists`
 -- AUTO_INCREMENT cho bảng `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `article_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `article_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `banners`
@@ -3531,7 +3539,7 @@ ALTER TABLE `order_status_logs`
 -- AUTO_INCREMENT cho bảng `password_resets`
 --
 ALTER TABLE `password_resets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT cho bảng `payment_transactions`
