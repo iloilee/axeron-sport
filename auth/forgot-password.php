@@ -54,7 +54,7 @@ $flash = getFlash();
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#ffdad6] text-[#93000a] mb-5 shadow-sm border border-[#ffb3b0]">
                     <span class="material-symbols-outlined fill-icon text-3xl">lock_reset</span>
                 </div>
-                <h2 class="text-2xl font-bold text-[#1b1c1c] mb-3" style="font-family: 'Montserrat', sans-serif;">Quên mật khẩu?</h2>
+                <h2 class="text-2xl font-bold text-[#1b1c1c] mb-3" style="font-family: 'Montserrat', sans-serif;">Quên Mật Khẩu?</h2>
                 <p class="text-sm text-[#5b403f] leading-relaxed">
                     Nhập địa chỉ email liên kết với tài khoản của bạn và chúng tôi sẽ gửi cho bạn một liên kết để đặt lại mật khẩu.
                 </p>
@@ -70,7 +70,7 @@ $flash = getFlash();
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                             <span class="material-symbols-outlined text-[#8f6f6e] text-[20px]">mail</span>
                         </div>
-                        <input class="w-full pl-11 pr-4 py-3.5 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="email" name="email" placeholder="nhapemail@axeron.com" required type="email"/>
+                        <input class="w-full pl-11 pr-4 py-3.5 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="email" name="email" placeholder="email@example.com" required type="email"/>
                     </div>
                 </div>
 
