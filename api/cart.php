@@ -169,6 +169,7 @@ function handleAddToCart($input, $userId) {
             $total += $item['quantity'];
         }
 
+        $_SESSION['cart_count'] = $total;
         jsonResponse(true, 'Đã thêm vào giỏ hàng', [
             'cart_count' => $total
         ]);
@@ -237,6 +238,7 @@ function handleUpdateCart($input, $userId) {
             WHERE ci.cart_id = ? AND pv.is_deleted = 0 AND p.is_deleted = 0
         ", [$cart['cart_id']]);
 
+        $_SESSION['cart_count'] = (int)$result['total'];
         jsonResponse(true, 'Đã cập nhật', [
             'cart_count' => (int)$result['total'],
             'subtotal' => (float)$subtotal['subtotal']
