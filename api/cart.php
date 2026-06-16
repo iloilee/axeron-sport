@@ -123,8 +123,11 @@ function handleAddToCart($input, $userId) {
 
         // Đếm tổng số lượng
         $result = $db->selectOne("
-            SELECT COALESCE(SUM(quantity), 0) as total
-            FROM cart_items WHERE cart_id = ?
+            SELECT COALESCE(SUM(ci.quantity), 0) as total
+            FROM cart_items ci
+            JOIN product_variants pv ON ci.variant_id = pv.variant_id
+            JOIN products p ON pv.product_id = p.product_id
+            WHERE ci.cart_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0 AND p.is_deleted = 0
         ", [$cartId]);
 
         $_SESSION['cart_count'] = (int)$result['total'];
@@ -218,8 +221,11 @@ function handleUpdateCart($input, $userId) {
         ", [$userId]);
 
         $result = $db->selectOne("
-            SELECT COALESCE(SUM(quantity), 0) as total
-            FROM cart_items WHERE cart_id = ?
+            SELECT COALESCE(SUM(ci.quantity), 0) as total
+            FROM cart_items ci
+            JOIN product_variants pv ON ci.variant_id = pv.variant_id
+            JOIN products p ON pv.product_id = p.product_id
+            WHERE ci.cart_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0 AND p.is_deleted = 0
         ", [$cart['cart_id']]);
 
         // Tính subtotal
@@ -296,8 +302,11 @@ function handleRemoveFromCart($input, $userId) {
 
         $cart = $db->selectOne("SELECT cart_id FROM carts WHERE user_id = ?", [$userId]);
         $result = $db->selectOne("
-            SELECT COALESCE(SUM(quantity), 0) as total
-            FROM cart_items WHERE cart_id = ?
+            SELECT COALESCE(SUM(ci.quantity), 0) as total
+            FROM cart_items ci
+            JOIN product_variants pv ON ci.variant_id = pv.variant_id
+            JOIN products p ON pv.product_id = p.product_id
+            WHERE ci.cart_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0 AND p.is_deleted = 0
         ", [$cart['cart_id']]);
 
         $_SESSION['cart_count'] = (int)$result['total'];

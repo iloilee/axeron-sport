@@ -255,7 +255,7 @@ function updateCartCount() {
         require_once __DIR__ . '/database.php';
         $db = Database::getInstance();
         $userId = $_SESSION['user_id'];
-        $result = $db->selectOne("SELECT COALESCE(SUM(ci.quantity), 0) as total FROM cart_items ci JOIN carts c ON ci.cart_id = c.cart_id WHERE c.user_id = ?", [$userId]);
+        $result = $db->selectOne("SELECT COALESCE(SUM(ci.quantity), 0) as total FROM cart_items ci JOIN carts c ON ci.cart_id = c.cart_id JOIN product_variants pv ON ci.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id WHERE c.user_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0 AND p.is_deleted = 0", [$userId]);
         setCartCount((int)$result['total']);
     } else {
         $cart = $_SESSION['cart'] ?? [];

@@ -131,7 +131,13 @@ if ($userId && $validUser) {
         $db->insert("INSERT INTO cart_items (cart_id, variant_id, quantity) VALUES (?, ?, ?)", [$cartId, $variantId, $quantity]);
     }
 
-    $result = $db->selectOne("SELECT COALESCE(SUM(quantity), 0) as total FROM cart_items WHERE cart_id = ?", [$cartId]);
+    $result = $db->selectOne("
+        SELECT COALESCE(SUM(ci.quantity), 0) as total 
+        FROM cart_items ci
+        JOIN product_variants pv ON ci.variant_id = pv.variant_id
+        JOIN products p ON pv.product_id = p.product_id
+        WHERE ci.cart_id = ? AND pv.is_active = 1 AND pv.is_deleted = 0 AND p.is_deleted = 0
+    ", [$cartId]);
     $cartCount = (int)$result['total'];
 
     $_SESSION['cart_count'] = $cartCount;

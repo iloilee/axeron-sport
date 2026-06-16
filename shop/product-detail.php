@@ -38,15 +38,29 @@ $variants = $db->select("
     FROM product_variants WHERE product_id = ? AND is_active = 1 AND is_deleted = 0 ORDER BY color, size
 ", [$product['product_id']]);
 
-// Group by color
+// Group by color and collect all unique sizes
 $colorGroups = [];
+$allSizes = [];
 foreach ($variants as $v) {
     $color = $v['color'] ?? 'default';
     if (!isset($colorGroups[$color])) {
         $colorGroups[$color] = ['color' => $color, 'sizes' => [], 'images' => []];
     }
     $colorGroups[$color]['sizes'][] = $v;
+    
+    if (!in_array($v['size'], $allSizes)) {
+        $allSizes[] = $v['size'];
+    }
 }
+
+// Sort sizes standard order
+$sizeOrder = ['XS' => 1, 'S' => 2, 'M' => 3, 'L' => 4, 'XL' => 5, 'XXL' => 6];
+usort($allSizes, function($a, $b) use ($sizeOrder) {
+    $orderA = $sizeOrder[strtoupper($a)] ?? 99;
+    $orderB = $sizeOrder[strtoupper($b)] ?? 99;
+    if ($orderA == $orderB) return strcmp($a, $b);
+    return $orderA - $orderB;
+});
 
 // Get review count
 $reviewCount = $db->selectOne("
@@ -273,7 +287,7 @@ if (isLoggedIn()) {
                 <div class="mb-6">
                     <div class="flex justify-between items-center mb-3">
                         <span class="font-label-lg text-label-lg text-on-surface">Kích thước (EU)</span>
-                        <a class="text-axeron-blue font-label-sm text-label-sm hover:underline flex items-center gap-1" href="<?= BASE_URL ?>/policies/size-guide.html">
+                        <a class="text-axeron-blue font-label-sm text-label-sm hover:underline flex items-center gap-1" href="<?= BASE_URL ?>/policies/size-guide.php">
                             <span class="material-symbols-outlined text-[16px]">straighten</span> Hướng dẫn chọn size
                         </a>
                     </div>
@@ -284,19 +298,30 @@ if (isLoggedIn()) {
                         $hasSizes = !empty($colorGroups[$firstColor]['sizes']);
 
                         if ($hasSizes): ?>
-                            <?php foreach (($colorGroups[$firstColor]['sizes'] ?? []) as $variant):
-                                $isOut = $variant['stock_quantity'] <= 0;
-                                $totalColorStock += $variant['stock_quantity'];
+                            <?php foreach ($allSizes as $sizeName):
+                                $variant = null;
+                                foreach ($colorGroups[$firstColor]['sizes'] as $v) {
+                                    if ($v['size'] === $sizeName) {
+                                        $variant = $v;
+                                        break;
+                                    }
+                                }
+                                $isOut = !$variant || $variant['stock_quantity'] <= 0;
+                                if ($variant) {
+                                    $totalColorStock += $variant['stock_quantity'];
+                                }
                             ?>
-                            <button onclick="<?= $isOut ? '' : "selectSize({$variant['variant_id']}, '{$variant['size']}', " . ($product['base_price'] + $variant['extra_price']) . ", {$variant['stock_quantity']})" ?>"
+                            <button onclick="<?= $isOut ? '' : "selectSize({$variant['variant_id']}, '{$sizeName}', " . ($product['base_price'] + $variant['extra_price']) . ", {$variant['stock_quantity']})" ?>"
                                     class="w-12 h-12 rounded-full border flex items-center justify-center font-label-lg text-label-lg <?= $isOut ? 'opacity-50 cursor-not-allowed bg-surface-container relative overflow-hidden' : 'hover:border-axeron-red transition-colors text-on-surface-variant ' . ($firstSize && !$isOut ? 'border-2 border-axeron-red bg-axeron-red/5 text-axeron-red font-bold' : 'border border-outline-variant') ?>"
                                     <?= $isOut ? 'disabled' : '' ?>>
-                                <?= htmlspecialchars($variant['size']) ?>
+                                <?= htmlspecialchars($sizeName) ?>
                                 <?php if ($isOut): ?>
                                 <div class="absolute w-full h-[1px] bg-outline-variant rotate-45 top-1/2 left-0"></div>
                                 <?php endif; ?>
                             </button>
-                            <?php $firstSize = false; endforeach; ?>
+                            <?php 
+                            if (!$isOut) $firstSize = false; 
+                            endforeach; ?>
                         <?php else: ?>
                             <?php // Sản phẩm không có variants - hiển thị một nút duy nhất để mua trực tiếp
                             if ($hasStock): ?>
@@ -603,6 +628,7 @@ if (isLoggedIn()) {
         const productId = <?= $product['product_id'] ?>;
         const basePrice = <?= (float)$product['base_price'] ?>;
         const variants = <?= json_encode($colorGroups) ?>;
+        const allSizes = <?= json_encode($allSizes) ?>;
         const hasVariants = <?= !empty($colorGroups) ? 'true' : 'false' ?>;
         const productImages = <?= json_encode($images) ?>;
         const productPromo = <?= json_encode($initialPromo['promotion']) ?>;
@@ -650,17 +676,29 @@ if (isLoggedIn()) {
             var totalColorStock = 0;
             var sizes = variants[colorName]?.sizes || [];
 
-            sizes.forEach(function(v, idx) {
-                totalColorStock += v.stock_quantity;
-                var isOut = v.stock_quantity <= 0;
+            function getVariantBySize(sz) {
+                return sizes.find(function(v) { return v.size === sz; });
+            }
+
+            let firstSizeRendered = false;
+
+            allSizes.forEach(function(sizeName) {
+                var v = getVariantBySize(sizeName);
+                var isOut = !v || v.stock_quantity <= 0;
+                if (v) {
+                    totalColorStock += v.stock_quantity;
+                }
+
                 var btn = document.createElement('button');
                 btn.type = 'button';
                 btn.className = 'w-12 h-12 rounded-full border flex items-center justify-center font-label-lg text-label-lg ' +
                     (isOut ? 'opacity-50 cursor-not-allowed bg-surface-container relative overflow-hidden' : 'hover:border-axeron-red transition-colors text-on-surface-variant ') +
-                    (idx === 0 && !isOut ? 'border-2 border-axeron-red bg-axeron-red/5 text-axeron-red font-bold' : 'border border-outline-variant');
-                btn.innerHTML = v.size + (isOut ? '<div class="absolute w-full h-[1px] bg-outline-variant rotate-45 top-1/2 left-0"></div>' : '');
+                    (!firstSizeRendered && !isOut ? 'border-2 border-axeron-red bg-axeron-red/5 text-axeron-red font-bold' : 'border border-outline-variant');
+                btn.innerHTML = sizeName + (isOut ? '<div class="absolute w-full h-[1px] bg-outline-variant rotate-45 top-1/2 left-0"></div>' : '');
+                
                 if (!isOut) {
-                    btn.onclick = function() { selectSize(v.variant_id, v.size, basePrice + parseFloat(v.extra_price || 0), v.stock_quantity); };
+                    btn.onclick = function() { selectSize(v.variant_id, sizeName, basePrice + parseFloat(v.extra_price || 0), v.stock_quantity); };
+                    firstSizeRendered = true;
                 } else {
                     btn.disabled = true;
                 }

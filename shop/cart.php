@@ -99,6 +99,9 @@ if (isLoggedIn() && $userValid) {
     }
 }
 
+// Đồng bộ lại badge giỏ hàng
+setCartCount($cartCount);
+
 // Lấy phí ship
 $baseShippingFee = 30000;
 $defaultProvince = '';
