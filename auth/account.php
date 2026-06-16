@@ -124,8 +124,6 @@ $flash = getFlash();
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
-        <h1 class="font-headline-lg text-headline-lg md:text-display-lg font-bold mb-8 uppercase text-text-dark">Tài Khoản Của Tôi</h1>
-
         <?php if ($flash && $flash['message'] === 'Chào mừng test register!'): ?>
         <div class="mb-6 p-4 rounded-lg <?= $flash['type'] === 'error' ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-green-50 border border-green-200 text-green-700' ?>">
             <?= htmlspecialchars($flash['message']) ?>

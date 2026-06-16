@@ -28,6 +28,11 @@ if ($categorySlug) {
     $currentCategory = $db->selectOne("
         SELECT category_id, category_name, slug FROM categories WHERE slug = ? AND is_visible = 1
     ", [$categorySlug]);
+    
+    // Nếu truy cập từ URL (Menu/Banner) chưa chọn filter, tự động check danh mục hiện tại
+    if ($currentCategory && empty($selectedCategories)) {
+        $selectedCategories[] = $currentCategory['category_id'];
+    }
 }
 
 // Get categories for sidebar (cây danh mục 2 cấp)
