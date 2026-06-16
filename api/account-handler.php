@@ -233,7 +233,6 @@ if ($action === 'update_profile') {
             </div>';
             sendEmail($currentEmail, $oldEmailSubject, $oldEmailBody);
 
-            setFlash('success', 'Mã xác thực đã được gửi đến email mới. Vui lòng kiểm tra hộp thư.');
         } else {
             setFlash('success', 'Cập nhật thông tin thành công!');
         }

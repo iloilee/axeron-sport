@@ -278,9 +278,14 @@ $flash = getFlash();
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generateCsrfToken()) ?>">
                     
                     <div>
-                        <label class="block font-label-lg text-label-lg text-on-surface mb-2" for="otp">Mã Xác Thực (OTP)</label>
-                        <input type="text" id="otp" name="otp" required pattern="[0-9]{6}" placeholder="Nhập 6 số" maxlength="6" autofocus
-                               class="text-center tracking-[0.5em] text-2xl px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors font-body-md w-full" />
+                        <label class="block text-sm font-semibold text-on-surface mb-2" for="otp">Mã xác thực (6 số)</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                                <span class="material-symbols-outlined text-outline text-[20px]">lock</span>
+                            </div>
+                            <input class="w-full pl-11 pr-4 py-3.5 border border-outline-variant rounded-xl bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-axeron-red focus:border-transparent transition-all text-center text-2xl tracking-[1em] otp-input font-bold" id="otp" name="otp" placeholder="------" required type="text" maxlength="6" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]{6}" autofocus/>
+                        </div>
+                        <p class="mt-2 text-xs text-center text-outline">Mã có hiệu lực trong <span id="otp-timer" class="font-bold text-axeron-red">05:00</span></p>
                     </div>
                     
                     <div class="flex gap-4">
@@ -294,6 +299,47 @@ $flash = getFlash();
                 </form>
             </div>
         </div>
+        <script>
+            // Script cho OTP Modal
+            document.addEventListener('DOMContentLoaded', function() {
+                const otpInput = document.getElementById('otp');
+                if (otpInput) {
+                    otpInput.focus();
+                    
+                    // Auto-format OTP input - chỉ cho phép số
+                    otpInput.addEventListener('input', function(e) {
+                        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);
+                        
+                        // Auto submit when 6 digits entered
+                        if (this.value.length === 6) {
+                            this.closest('form').submit();
+                        }
+                    });
+
+                    // Countdown Timer
+                    let timeLeft = 300; // 5 minutes in seconds
+                    const timerElement = document.getElementById('otp-timer');
+                    
+                    if (timerElement) {
+                        const timerInterval = setInterval(() => {
+                            timeLeft--;
+                            const minutes = Math.floor(timeLeft / 60);
+                            const seconds = timeLeft % 60;
+                            
+                            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                            
+                            if (timeLeft <= 0) {
+                                clearInterval(timerInterval);
+                                timerElement.textContent = "00:00";
+                                timerElement.classList.replace("text-axeron-red", "text-outline");
+                                otpInput.disabled = true;
+                                otpInput.placeholder = "Hết hạn";
+                            }
+                        }, 1000);
+                    }
+                }
+            });
+        </script>
         <?php endif; ?>
     </main>
 
