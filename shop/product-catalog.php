@@ -7,6 +7,19 @@ require_once __DIR__ . '/../config/session.php';
 
 $db = db();
 
+// Helper function for Cosine Similarity
+function cosineSimilarity($vecA, $vecB) {
+    $dotProduct = 0; $normA = 0; $normB = 0;
+    $count = count($vecA);
+    for ($i = 0; $i < $count; $i++) {
+        $dotProduct += $vecA[$i] * $vecB[$i];
+        $normA += $vecA[$i] * $vecA[$i];
+        $normB += $vecB[$i] * $vecB[$i];
+    }
+    if ($normA == 0 || $normB == 0) return 0;
+    return $dotProduct / (sqrt($normA) * sqrt($normB));
+}
+
 // Get filter parameters
 $categorySlug = sanitize($_GET['category'] ?? '');
 $search = sanitize($_GET['search'] ?? '');
@@ -109,13 +122,64 @@ if (!empty($selectedColors) || !empty($selectedSizes)) {
     $where[] = "EXISTS (SELECT 1 FROM product_variants pv WHERE $vWhereClause)";
 }
 
+$semanticProductIds = [];
+$semanticScoreMap = [];
+
 if ($search) {
-    $where[] = "(p.product_name LIKE ? OR p.description LIKE ? OR b.brand_name LIKE ? OR c.category_name LIKE ?)";
-    $searchTerm = '%' . $search . '%';
-    $params[] = $searchTerm;
-    $params[] = $searchTerm;
-    $params[] = $searchTerm;
-    $params[] = $searchTerm;
+    // 1. Gọi API sang Server Python lấy Vector
+    $apiUrl = "http://localhost:5000/api/embed?keyword=" . urlencode($search);
+    
+    // Sử dụng context để set timeout (10 giây cho lần đầu tải)
+    $ctx = stream_context_create(['http' => ['timeout' => 10]]);
+    $response = @file_get_contents($apiUrl, false, $ctx);
+    
+    if ($response) {
+        $responseData = json_decode($response, true);
+        if (isset($responseData['vector'])) {
+            $queryVector = $responseData['vector'];
+            
+            // 2. Lấy toàn bộ vector từ MariaDB
+            $allEmbeddings = $db->select("SELECT product_id, embedding_vector FROM product_embeddings");
+            $scoredProducts = [];
+            
+            // 3. Tính điểm Cosine Similarity
+            foreach ($allEmbeddings as $row) {
+                $productVector = json_decode($row['embedding_vector'], true);
+                if (is_array($productVector) && count($productVector) === count($queryVector)) {
+                    $score = cosineSimilarity($queryVector, $productVector);
+                    if ($score > 0.3) { // Ngưỡng chấp nhận được
+                        $scoredProducts[] = ['id' => $row['product_id'], 'score' => $score];
+                    }
+                }
+            }
+            
+            // 4. Sắp xếp giảm dần theo độ giống nhau
+            usort($scoredProducts, function($a, $b) {
+                return $b['score'] <=> $a['score'];
+            });
+            
+            // 5. Trích xuất ID
+            foreach ($scoredProducts as $sp) {
+                $semanticProductIds[] = $sp['id'];
+                $semanticScoreMap[$sp['id']] = $sp['score'];
+            }
+        }
+    }
+    
+    if (!empty($semanticProductIds)) {
+        // AI Tìm thấy kết quả -> Lọc theo mảng ID
+        $placeholders = implode(',', array_fill(0, count($semanticProductIds), '?'));
+        $where[] = "p.product_id IN ($placeholders)";
+        $params = array_merge($params, $semanticProductIds);
+    } else {
+        // Fallback: Tìm kiếm LIKE truyền thống nếu AI lỗi hoặc không có kết quả phù hợp
+        $where[] = "(p.product_name LIKE ? OR p.description LIKE ? OR b.brand_name LIKE ? OR c.category_name LIKE ?)";
+        $searchTerm = '%' . $search . '%';
+        $params[] = $searchTerm;
+        $params[] = $searchTerm;
+        $params[] = $searchTerm;
+        $params[] = $searchTerm;
+    }
 }
 
 if ($brand) {
@@ -168,6 +232,11 @@ $orderBy = match($sortBy) {
     'rating' => 'p.avg_rating DESC',
     default => 'p.is_featured DESC, p.total_reviews DESC'
 };
+
+// Ghi đè sắp xếp nếu dùng AI Search (Sort by Relevance)
+if ($search && !empty($semanticProductIds) && $sortBy == 'popular') {
+    $orderBy = "FIELD(p.product_id, " . implode(',', $semanticProductIds) . ")";
+}
 
 // Get products
 $products = $db->select("
@@ -429,6 +498,17 @@ if (isLoggedIn()) {
                     <h1 class="font-headline-lg text-headline-lg text-on-surface">
                         <?php if ($search): ?>
                             Kết quả tìm kiếm: "<?= htmlspecialchars($search) ?>"
+                            <?php if (isset($semanticProductIds) && !empty($semanticProductIds)): ?>
+                                <span class="ml-2 inline-flex items-center gap-1 bg-gradient-to-r from-purple-600 to-blue-500 text-white text-[13px] px-3 py-1 rounded-full align-middle whitespace-nowrap shadow-sm shadow-purple-200">
+                                    <span class="material-symbols-outlined text-[16px]">smart_toy</span>
+                                    AI Tìm kiếm ngữ nghĩa
+                                </span>
+                            <?php else: ?>
+                                <span class="ml-2 inline-flex items-center gap-1 bg-gray-200 text-gray-700 text-[13px] px-3 py-1 rounded-full align-middle whitespace-nowrap">
+                                    <span class="material-symbols-outlined text-[16px]">search</span>
+                                    Tìm kiếm từ khóa thường
+                                </span>
+                            <?php endif; ?>
                         <?php elseif (!empty($selectedCategories)): ?>
                             <?php if (count($selectedCategories) === 1): 
                                 $sc = $db->selectOne("SELECT category_name FROM categories WHERE category_id = ?", [$selectedCategories[0]]);
@@ -526,6 +606,16 @@ if (isLoggedIn()) {
                                 <?= htmlspecialchars($product['product_name']) ?>
                             </h3>
                             <?php $promoInfo = getBestPromotionForProduct($product['product_id'], $product['category_id'] ?? 0, $product['base_price']); ?>
+                            
+                            <!-- Hiển thị điểm số AI Match Score (Chỉ hiện khi search bằng AI) -->
+                            <?php if ($search && isset($semanticScoreMap) && isset($semanticScoreMap[$product['product_id']])): ?>
+                                <?php $matchPercent = round($semanticScoreMap[$product['product_id']] * 100, 1); ?>
+                                <div class="mb-2 w-full bg-gray-100 rounded-full h-1.5 mt-1 overflow-hidden relative" title="Độ tương đồng ngữ nghĩa: <?= $matchPercent ?>%">
+                                    <div class="bg-gradient-to-r from-purple-500 to-blue-500 h-1.5 rounded-full" style="width: <?= $matchPercent ?>%"></div>
+                                    <span class="absolute top-2 right-0 text-[10px] text-purple-600 font-bold hidden group-hover:block">Khớp: <?= $matchPercent ?>%</span>
+                                </div>
+                            <?php endif; ?>
+                            
                             <div class="flex items-center justify-between gap-2 mb-2 min-h-[24px]">
                                 <?php if ($product['avg_rating']): ?>
                                 <div class="flex items-center gap-1">
