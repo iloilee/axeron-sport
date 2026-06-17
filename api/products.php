@@ -515,17 +515,46 @@ function submitReview($db) {
         jsonResponse(false, 'Bạn chỉ có thể đánh giá sản phẩm này sau khi đã mua và nhận hàng thành công!');
     }
 
-    // Kiểm tra đã đánh giá chưa
-    $existingReview = $db->selectOne("SELECT review_id FROM reviews WHERE product_id = ? AND user_id = ?", [$productId, getUserId()]);
+    // Kiểm tra đã đánh giá chưa (chỉ tính các đánh giá chưa bị xóa)
+    $existingReview = $db->selectOne("SELECT review_id FROM reviews WHERE product_id = ? AND user_id = ? AND is_deleted = 0", [$productId, getUserId()]);
     if ($existingReview) {
         jsonResponse(false, 'Bạn đã đánh giá sản phẩm này rồi');
     }
 
-    // Thêm đánh giá với trạng thái pending
+    // GỌI API PYTHON SERVER PHÂN TÍCH CẢM XÚC
+    $sentiment = 'neutral'; // Mặc định
+    $python_server_url = 'http://127.0.0.1:5000/analyze_sentiment';
+    $data_to_send = json_encode(['text' => $comment]);
+
+    $ch = curl_init($python_server_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_to_send);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+    // Thêm timeout tránh treo web nếu AI Server lỗi
+    curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+
+    $response = @curl_exec($ch);
+    curl_close($ch);
+
+    if ($response) {
+        $result_json = json_decode($response, true);
+        if(isset($result_json['sentiment'])){
+            $sentiment = $result_json['sentiment'];
+        }
+    }
+
+    // Thêm đánh giá với trạng thái pending và sentiment
     $reviewId = $db->insert("
-        INSERT INTO reviews (product_id, user_id, order_id, rating, comment, status, created_at)
-        VALUES (?, ?, ?, ?, ?, 'pending', NOW())
-    ", [$productId, $userId, $purchaseCheck['order_id'], $rating, $comment]);
+        INSERT INTO reviews (product_id, user_id, order_id, rating, comment, status, created_at, sentiment)
+        VALUES (?, ?, ?, ?, ?, 'pending', NOW(), ?)
+    ", [$productId, $userId, $purchaseCheck['order_id'], $rating, $comment, $sentiment]);
+
+    // KIỂM TRA NẾU LÀ TIÊU CỰC -> TẠO THÔNG BÁO CHO ADMIN
+    if ($sentiment === 'negative') {
+        $alert_msg = "Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID " . $productId . " (Review ID: " . $reviewId . ")";
+        $db->insert("INSERT INTO notifications (message) VALUES (?)", [$alert_msg]);
+    }
 
     jsonResponse(true, 'Đánh giá của bạn đã được gửi và đang chờ quản trị viên xét duyệt', [
         'review_id' => $reviewId,

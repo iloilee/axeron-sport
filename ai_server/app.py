@@ -4,6 +4,7 @@ import pymysql
 import numpy as np
 from flask import Flask, request, jsonify
 from sentence_transformers import SentenceTransformer
+from transformers import pipeline
 from dotenv import load_dotenv, find_dotenv
 
 # Tự động quét ngược lên các thư mục cha để tìm file .env
@@ -12,9 +13,11 @@ load_dotenv(find_dotenv())
 app = Flask(__name__)
 
 # Tải sẵn mô hình vào RAM khi khởi động server
-print("Đang tải mô hình AI vào RAM... Xin chờ vài giây...")
+print("Đang tải mô hình Qwen/Qwen3-Embedding-0.6B vào RAM...")
 model = SentenceTransformer('Qwen/Qwen3-Embedding-0.6B', trust_remote_code=True)
-print("✅ Server AI đã sẵn sàng lắng nghe request!")
+print("Đang tải mô hình PhoBERT Sentiment...")
+sentiment_analyzer = pipeline("sentiment-analysis", model="wonrax/phobert-base-vietnamese-sentiment")
+print("Server AI Python đã sẵn sàng lắng nghe request!")
 
 # Cache Vector Database
 VECTOR_CACHE = {
@@ -112,6 +115,37 @@ def get_embedding():
         return jsonify({'error': 'Vui lòng cung cấp từ khóa'}), 400
     vector = model.encode(keyword).tolist()
     return jsonify({'vector': vector})
+
+@app.route('/analyze_sentiment', methods=['POST'])
+def analyze():
+    try:
+        data = request.get_json()
+        text = data.get('text', '')
+        
+        if not text:
+            return jsonify({"error": "Không có nội dung bình luận"}), 400
+
+        # Đưa đoạn text vào mô hình PhoBERT để dự đoán
+        result = sentiment_analyzer(text)[0]
+        label = result['label']  # POS, NEG, NEU
+        score = result['score']  # Độ tin cậy (VD: 0.98)
+
+        # Chuẩn hóa nhãn (Map label) về định dạng tiếng Anh
+        sentiment_map = {
+            "POS": "positive",
+            "NEG": "negative",
+            "NEU": "neutral"
+        }
+        
+        final_sentiment = sentiment_map.get(label, "neutral")
+
+        return jsonify({
+            "sentiment": final_sentiment,
+            "confidence": round(score, 4)
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     # Chạy server ở port 5000

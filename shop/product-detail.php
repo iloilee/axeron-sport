@@ -62,10 +62,34 @@ usort($allSizes, function($a, $b) use ($sizeOrder) {
     return $orderA - $orderB;
 });
 
-// Get review count
+// Get review count and sentiment breakdown
 $reviewCount = $db->selectOne("
     SELECT COUNT(*) as total FROM reviews WHERE product_id = ? AND status = 'approved' AND is_deleted = 0
 ", [$product['product_id']]);
+
+$sentimentStats = $db->select("
+    SELECT sentiment, COUNT(*) as count 
+    FROM reviews 
+    WHERE product_id = ? AND status = 'approved' AND is_deleted = 0
+    GROUP BY sentiment
+", [$product['product_id']]);
+
+$sentimentCounts = [
+    'positive' => 0,
+    'neutral' => 0,
+    'negative' => 0
+];
+foreach ($sentimentStats as $stat) {
+    if (isset($sentimentCounts[$stat['sentiment']])) {
+        $sentimentCounts[$stat['sentiment']] = (int)$stat['count'];
+    }
+}
+$totalSentiment = array_sum($sentimentCounts);
+$sentimentPercents = [
+    'positive' => $totalSentiment > 0 ? round(($sentimentCounts['positive'] / $totalSentiment) * 100) : 0,
+    'neutral' => $totalSentiment > 0 ? round(($sentimentCounts['neutral'] / $totalSentiment) * 100) : 0,
+    'negative' => $totalSentiment > 0 ? round(($sentimentCounts['negative'] / $totalSentiment) * 100) : 0
+];
 
 // Get related products
 $relatedProducts = $db->select("
@@ -446,10 +470,36 @@ if (isLoggedIn()) {
                             </div>
                             <p class="text-on-surface-variant text-sm"><?= $reviewCount['total'] ?? 0 ?> đánh giá</p>
                         </div>
-                        <div class="flex-1">
-                            <!-- Rating distribution bars -->
-                            <div id="rating-distribution" class="space-y-2">
-                                <!-- Loaded via JS -->
+                        <div class="flex-1 border-l border-outline-variant pl-8">
+                            <!-- Sentiment distribution bars -->
+                            <h4 class="font-label-lg text-label-lg font-bold text-on-surface mb-4 flex items-center gap-2">
+                                Phân tích Cảm xúc AI <span class="material-symbols-outlined text-axeron-red">psychology</span> 
+                            </h4>
+                            <div class="space-y-3">
+                                <!-- Positive -->
+                                <div class="flex items-center gap-3">
+                                    <span class="w-28 whitespace-nowrap text-sm font-medium text-green-600">😍 Tích cực</span>
+                                    <div class="flex-1 h-3 bg-surface-container rounded-full overflow-hidden">
+                                        <div class="h-full bg-green-500 rounded-full" style="width: <?= $sentimentPercents['positive'] ?>%"></div>
+                                    </div>
+                                    <span class="w-12 text-sm text-right text-on-surface-variant"><?= $sentimentPercents['positive'] ?>%</span>
+                                </div>
+                                <!-- Neutral -->
+                                <div class="flex items-center gap-3">
+                                    <span class="w-28 whitespace-nowrap text-sm font-medium text-gray-600">😐 Trung tính</span>
+                                    <div class="flex-1 h-3 bg-surface-container rounded-full overflow-hidden">
+                                        <div class="h-full bg-gray-400 rounded-full" style="width: <?= $sentimentPercents['neutral'] ?>%"></div>
+                                    </div>
+                                    <span class="w-12 text-sm text-right text-on-surface-variant"><?= $sentimentPercents['neutral'] ?>%</span>
+                                </div>
+                                <!-- Negative -->
+                                <div class="flex items-center gap-3">
+                                    <span class="w-28 whitespace-nowrap text-sm font-medium text-red-600">😡 Tiêu cực</span>
+                                    <div class="flex-1 h-3 bg-surface-container rounded-full overflow-hidden">
+                                        <div class="h-full bg-red-500 rounded-full" style="width: <?= $sentimentPercents['negative'] ?>%"></div>
+                                    </div>
+                                    <span class="w-12 text-sm text-right text-on-surface-variant"><?= $sentimentPercents['negative'] ?>%</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1007,7 +1057,7 @@ if (isLoggedIn()) {
             }
 
             try {
-                const response = await fetch(BASE_URL + '/api/products.php?action=reviews&product_id=' + productId + '&page=' + currentReviewPage);
+                const response = await fetch(BASE_URL + '/api/products.php?action=reviews&product_id=' + productId + '&page=' + currentReviewPage + '&_t=' + new Date().getTime());
                 const result = await response.json();
 
                 // Remove loading indicator if exists
@@ -1048,6 +1098,15 @@ if (isLoggedIn()) {
                 const date = new Date(review.created_at).toLocaleDateString('vi-VN');
                 const avatarInitial = review.full_name ? review.full_name.charAt(0).toUpperCase() : 'U';
                 const avatarUrl = review.avatar_url || null;
+                
+                let senBadge = '';
+                if (review.sentiment === 'positive') {
+                    senBadge = '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-[10px] font-medium ml-2">😍 Tích cực</span>';
+                } else if (review.sentiment === 'negative') {
+                    senBadge = '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded text-[10px] font-medium ml-2">😡 Tiêu cực</span>';
+                } else if (review.sentiment === 'neutral') {
+                    senBadge = '<span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-[10px] font-medium ml-2">😐 Trung tính</span>';
+                }
 
                 return `
                     <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant mb-4">
@@ -1058,8 +1117,8 @@ if (isLoggedIn()) {
                             }
                             <div class="flex-1">
                                 <div class="flex items-center gap-2 mb-1">
-                                    <span class="font-semibold text-on-surface">${review.full_name || 'Người dùng'}</span>
-                                    <span class="text-sm text-on-surface-variant">${date}</span>
+                                    <span class="font-semibold text-on-surface">${review.full_name || 'Người dùng'}</span>${senBadge}
+                                    <span class="text-sm text-on-surface-variant ml-auto">${date}</span>
                                 </div>
                                 <div class="flex gap-0.5 mb-2">
                                     ${[1,2,3,4,5].map(i => `

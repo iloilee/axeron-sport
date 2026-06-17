@@ -20,6 +20,7 @@ $stats = $db->selectOne("
 $keyword = $_GET['keyword'] ?? '';
 $statusFilter = $_GET['status'] ?? 'all';
 $ratingFilter = isset($_GET['rating']) && $_GET['rating'] !== '' ? $_GET['rating'] : 'all';
+$sentimentFilter = $_GET['sentiment'] ?? 'all';
 
 $where = "WHERE 1=1";
 $params = [];
@@ -37,6 +38,11 @@ if ($statusFilter === 'deleted') {
 if ($ratingFilter !== 'all') {
     $where .= " AND r.rating = ?";
     $params[] = (int)$ratingFilter;
+}
+
+if ($sentimentFilter !== 'all') {
+    $where .= " AND r.sentiment = ?";
+    $params[] = $sentimentFilter;
 }
 
 if ($keyword) {
@@ -152,8 +158,17 @@ $reviews = $db->select("
             </select>
         </div>
         <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Cảm xúc (AI)</label>
+            <select name="sentiment" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none">
+                <option value="all" <?= $sentimentFilter === 'all' ? 'selected' : '' ?>>Tất cả cảm xúc</option>
+                <option value="positive" <?= $sentimentFilter === 'positive' ? 'selected' : '' ?>>😍 Tích cực</option>
+                <option value="negative" <?= $sentimentFilter === 'negative' ? 'selected' : '' ?>>😡 Tiêu cực</option>
+                <option value="neutral" <?= $sentimentFilter === 'neutral' ? 'selected' : '' ?>>😐 Trung tính</option>
+            </select>
+        </div>
+        <div>
             <button type="submit" class="px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors h-[42px] font-medium">Lọc</button>
-            <?php if ($keyword || $statusFilter !== 'all' || $ratingFilter !== 'all'): ?>
+            <?php if ($keyword || $statusFilter !== 'all' || $ratingFilter !== 'all' || $sentimentFilter !== 'all'): ?>
             <a href="?action=reviews" class="px-4 py-2 text-gray-500 hover:text-gray-800 ml-2">Xóa lọc</a>
             <?php endif; ?>
         </div>
@@ -201,9 +216,22 @@ $reviews = $db->select("
                         </div>
                     </td>
                     <td class="px-4 py-3 text-sm text-gray-600 max-w-[200px]">
-                        <div class="truncate" title="<?= htmlspecialchars($review['comment'] ?? '') ?>">
+                        <div class="truncate mb-1" title="<?= htmlspecialchars($review['comment'] ?? '') ?>">
                             <?= htmlspecialchars($review['comment'] ?? '') ?>
                         </div>
+                        <?php 
+                        $senClass = match($review['sentiment'] ?? '') {
+                            'positive' => 'bg-green-100 text-green-700',
+                            'negative' => 'bg-red-100 text-red-700',
+                            default => 'bg-gray-100 text-gray-600'
+                        };
+                        $senText = match($review['sentiment'] ?? '') {
+                            'positive' => '😍 Tích cực',
+                            'negative' => '😡 Tiêu cực',
+                            default => '😐 Trung tính'
+                        };
+                        ?>
+                        <span class="inline-block px-2 py-0.5 rounded text-[10px] font-medium <?= $senClass ?>"><?= $senText ?></span>
                     </td>
                     <td class="px-4 py-3 text-sm text-gray-500"><?= date('d/m/Y', strtotime($review['created_at'])) ?></td>
                     <td class="px-4 py-3">
@@ -342,7 +370,10 @@ $reviews = $db->select("
 
             <!-- Review Content -->
             <div>
-                <h4 class="text-xs font-semibold text-gray-500 uppercase mb-3">Nội dung đánh giá</h4>
+                <div class="flex justify-between items-center mb-3">
+                    <h4 class="text-xs font-semibold text-gray-500 uppercase">Nội dung đánh giá</h4>
+                    <span id="detail_sentiment_badge" class="px-2 py-0.5 rounded text-[10px] font-medium border hidden"></span>
+                </div>
                 <div class="flex gap-1 mb-3" id="detail_stars">
                     <!-- Stars will be populated here -->
                 </div>
@@ -389,7 +420,7 @@ function updateReviewStatus(reviewId, newStatus) {
 }
 
 function deleteReview(reviewId) {
-    showConfirm('Bạn có chắc chắn muốn xóa (ẩn) đánh giá này không? Hành động này sẽ thay đổi số sao trung bình của sản phẩm.', async () => { 
+    showConfirm('Bạn có chắc chắn muốn xóa đánh giá này không? Hành động này sẽ thay đổi số sao trung bình của sản phẩm.', async () => { 
         const formData = new FormData();
         formData.append('ajax_action', 'delete_review');
         formData.append('review_id', reviewId);
@@ -435,6 +466,20 @@ async function viewReviewDetail(reviewId) {
                 starsHtml += `<span class="material-symbols-outlined text-[20px] ${i <= r.rating ? 'text-yellow-500' : 'text-gray-300'}">star</span>`;
             }
             document.getElementById('detail_stars').innerHTML = starsHtml;
+
+            // Sentiment
+            const senBadge = document.getElementById('detail_sentiment_badge');
+            senBadge.classList.remove('hidden', 'bg-green-100', 'text-green-700', 'border-green-200', 'bg-red-100', 'text-red-700', 'border-red-200', 'bg-gray-100', 'text-gray-600', 'border-gray-200');
+            if (r.sentiment === 'positive') {
+                senBadge.textContent = '😍 Tích cực (AI)';
+                senBadge.classList.add('bg-green-100', 'text-green-700', 'border-green-200');
+            } else if (r.sentiment === 'negative') {
+                senBadge.textContent = '😡 Tiêu cực (AI)';
+                senBadge.classList.add('bg-red-100', 'text-red-700', 'border-red-200');
+            } else {
+                senBadge.textContent = '😐 Trung tính (AI)';
+                senBadge.classList.add('bg-gray-100', 'text-gray-600', 'border-gray-200');
+            }
             
             // Ban status
             currentUserId = r.user_id;
