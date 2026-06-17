@@ -15,7 +15,7 @@ load_dotenv(find_dotenv())
 app = Flask(__name__)
 
 # Tải sẵn mô hình vào RAM khi khởi động server
-print("Đang tải mô hình Qwen/Qwen3-Embedding-0.6B vào RAM...")
+print("Đang tải mô hình Qwen/Qwen3-Embedding-0.6B...")
 model = SentenceTransformer('Qwen/Qwen3-Embedding-0.6B', trust_remote_code=True)
 print("Đang tải mô hình PhoBERT Sentiment...")
 sentiment_analyzer = pipeline("sentiment-analysis", model="wonrax/phobert-base-vietnamese-sentiment")
@@ -55,9 +55,9 @@ def load_vectors_from_db():
             # Avoid division by zero
             norms[norms == 0] = 1
             VECTOR_CACHE['embeddings'] = emb_array / norms
-            print(f"✅ Đã nạp thành công {len(ids)} vectors vào RAM.")
+            print(f"Đã nạp thành công {len(ids)} vectors vào RAM.")
     except Exception as e:
-        print(f"❌ Lỗi nạp Vector: {str(e)}")
+        print(f"Lỗi nạp Vector: {str(e)}")
     finally:
         if 'conn' in locals() and conn.open:
             conn.close()
@@ -108,8 +108,8 @@ def search_similar_products():
     results = sorted(results, key=lambda x: x['score'], reverse=True)
     
     # In log ra màn hình CMD theo đúng format
-    print(f"Nhập tìm kiếm: \"{keyword}\"", flush=True)
-    print(f"AI trả về: {len(results)} kết quả tương tự", flush=True)
+    print(f"Keyword: \"{keyword}\"", flush=True)
+    print(f"Results: {len(results)}", flush=True)
     if results:
         print(f"Top 1: ID {results[0]['id']} (Score: {results[0]['score']:.4f})", flush=True)
     
