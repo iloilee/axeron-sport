@@ -1,4 +1,5 @@
 <?php
+$startTime = microtime(true);
 /**
  * Product Catalog - Danh mục sản phẩm
  */
@@ -129,8 +130,8 @@ if ($search) {
     // 1. Gọi API sang Server Python lấy Vector
     $apiUrl = "http://localhost:5000/api/embed?keyword=" . urlencode($search);
     
-    // Sử dụng context để set timeout (10 giây cho lần đầu tải)
-    $ctx = stream_context_create(['http' => ['timeout' => 10]]);
+    // Sử dụng context để set timeout (3 giây để đảm bảo CPU xử lý kịp mô hình)
+    $ctx = stream_context_create(['http' => ['timeout' => 3]]);
     $response = @file_get_contents($apiUrl, false, $ctx);
     
     if ($response) {
@@ -498,15 +499,16 @@ if (isLoggedIn()) {
                     <h1 class="font-headline-lg text-headline-lg text-on-surface">
                         <?php if ($search): ?>
                             Kết quả tìm kiếm: "<?= htmlspecialchars($search) ?>"
+                            <?php $searchTimeMs = round((microtime(true) - $startTime) * 1000, 2); ?>
                             <?php if (isset($semanticProductIds) && !empty($semanticProductIds)): ?>
                                 <span class="ml-2 inline-flex items-center gap-1 bg-gradient-to-r from-purple-600 to-blue-500 text-white text-[13px] px-3 py-1 rounded-full align-middle whitespace-nowrap shadow-sm shadow-purple-200">
                                     <span class="material-symbols-outlined text-[16px]">smart_toy</span>
-                                    AI Tìm kiếm ngữ nghĩa
+                                    AI Tìm kiếm ngữ nghĩa (<?= $searchTimeMs ?> ms)
                                 </span>
                             <?php else: ?>
                                 <span class="ml-2 inline-flex items-center gap-1 bg-gray-200 text-gray-700 text-[13px] px-3 py-1 rounded-full align-middle whitespace-nowrap">
                                     <span class="material-symbols-outlined text-[16px]">search</span>
-                                    Tìm kiếm từ khóa thường
+                                    Tìm kiếm từ khóa thường (<?= $searchTimeMs ?> ms)
                                 </span>
                             <?php endif; ?>
                         <?php elseif (!empty($selectedCategories)): ?>
@@ -610,9 +612,13 @@ if (isLoggedIn()) {
                             <!-- Hiển thị điểm số AI Match Score (Chỉ hiện khi search bằng AI) -->
                             <?php if ($search && isset($semanticScoreMap) && isset($semanticScoreMap[$product['product_id']])): ?>
                                 <?php $matchPercent = round($semanticScoreMap[$product['product_id']] * 100, 1); ?>
-                                <div class="mb-2 w-full bg-gray-100 rounded-full h-1.5 mt-1 overflow-hidden relative" title="Độ tương đồng ngữ nghĩa: <?= $matchPercent ?>%">
-                                    <div class="bg-gradient-to-r from-purple-500 to-blue-500 h-1.5 rounded-full" style="width: <?= $matchPercent ?>%"></div>
-                                    <span class="absolute top-2 right-0 text-[10px] text-purple-600 font-bold hidden group-hover:block">Khớp: <?= $matchPercent ?>%</span>
+                                <div class="mb-2 w-full mt-1" title="Độ tương đồng ngữ nghĩa: <?= $matchPercent ?>%">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-[11px] text-purple-600 font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">auto_awesome</span> Khớp: <?= $matchPercent ?>%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-purple-500 to-blue-500 h-1.5 rounded-full" style="width: <?= $matchPercent ?>%"></div>
+                                    </div>
                                 </div>
                             <?php endif; ?>
                             
