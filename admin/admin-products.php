@@ -19,7 +19,18 @@ $where = "WHERE p.is_deleted = 0";
 $params = [];
 
 if ($search) {
-    $where .= " AND (p.product_name LIKE ? OR p.slug LIKE ?)";
+    $where .= " AND (
+        p.product_name LIKE ? 
+        OR p.slug LIKE ? 
+        OR p.product_id LIKE ? 
+        OR EXISTS(SELECT 1 FROM product_variants pv WHERE pv.product_id = p.product_id AND pv.sku LIKE ?)
+        OR EXISTS(SELECT 1 FROM categories c WHERE c.category_id = p.category_id AND c.category_name LIKE ?)
+        OR EXISTS(SELECT 1 FROM brands b WHERE b.brand_id = p.brand_id AND b.brand_name LIKE ?)
+    )";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
     $params[] = "%$search%";
     $params[] = "%$search%";
 }
@@ -206,7 +217,7 @@ function renderProductStatCard($title, $value, $trendData, $icon, $colorClass, $
     <div class="flex flex-col xl:flex-row gap-3 items-start xl:items-center">
         <form method="GET" class="flex gap-3 flex-wrap">
             <input type="hidden" name="action" value="products">
-            <input type="text" name="search" placeholder="Tìm sản phẩm..." value="<?= htmlspecialchars($search) ?>"
+            <input type="text" name="search" placeholder="Tìm ID, Tên, SKU, Danh mục, Thương hiệu..." value="<?= htmlspecialchars($search) ?>"
                    class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent outline-none">
             <select name="category" onchange="this.form.submit()" class="px-4 py-2 border border-gray-300 rounded-lg">
                 <option value="">Tất cả danh mục</option>

@@ -21,7 +21,10 @@ $where = "WHERE 1=1";
 $params = [];
 
 if ($search) {
-    $where .= " AND (o.order_id LIKE ? OR o.recipient_name LIKE ? OR o.recipient_phone LIKE ? OR u.email LIKE ? OR o.recipient_email LIKE ?)";
+    $where .= " AND (o.order_code LIKE ? OR o.order_id LIKE ? OR o.recipient_name LIKE ? OR u.full_name LIKE ? OR o.recipient_phone LIKE ? OR u.phone LIKE ? OR u.email LIKE ? OR o.recipient_email LIKE ?)";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
     $params[] = "%$search%";
     $params[] = "%$search%";
     $params[] = "%$search%";

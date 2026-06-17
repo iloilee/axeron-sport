@@ -46,8 +46,20 @@ if ($sentimentFilter !== 'all') {
 }
 
 if ($keyword) {
-    $where .= " AND (p.product_name LIKE ? OR u.full_name LIKE ? OR o.order_code LIKE ?)";
+    $where .= " AND (
+        r.review_id LIKE ? 
+        OR r.comment LIKE ? 
+        OR p.product_name LIKE ? 
+        OR p.product_id LIKE ?
+        OR u.full_name LIKE ? 
+        OR u.email LIKE ?
+        OR o.order_code LIKE ?
+    )";
     $k = "%$keyword%";
+    $params[] = $k;
+    $params[] = $k;
+    $params[] = $k;
+    $params[] = $k;
     $params[] = $k;
     $params[] = $k;
     $params[] = $k;
@@ -128,7 +140,7 @@ $reviews = $db->select("
         <div class="flex-grow min-w-[200px]">
             <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Tìm kiếm</label>
             <div class="flex gap-2">
-                <input type="text" name="keyword" value="<?= htmlspecialchars($keyword) ?>" placeholder="Sản phẩm, Người dùng, Đơn hàng..." 
+                <input type="text" name="keyword" value="<?= htmlspecialchars($keyword) ?>" placeholder="ID, Nội dung, Sản phẩm, Email, Mã đơn..." 
                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none">
                 <div class="px-4 py-2 bg-red-50 border border-red-100 rounded-lg text-sm font-medium text-axeron-red whitespace-nowrap flex items-center">
                     Tổng: <strong class="text-base mx-1"><?= number_format($totalRecords) ?></strong> đánh giá

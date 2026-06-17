@@ -18,7 +18,15 @@ $where = "WHERE 1=1";
 $params = [];
 
 if ($search) {
-    $where .= " AND (u.full_name LIKE ? OR u.email LIKE ? OR u.phone LIKE ?)";
+    $where .= " AND (
+        u.user_id LIKE ? 
+        OR u.full_name LIKE ? 
+        OR u.email LIKE ? 
+        OR u.phone LIKE ?
+        OR EXISTS(SELECT 1 FROM roles r WHERE r.role_id = u.role_id AND r.role_name LIKE ?)
+    )";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
     $params[] = "%$search%";
     $params[] = "%$search%";
     $params[] = "%$search%";
@@ -125,7 +133,7 @@ function renderStatCard($title, $value, $trendData, $icon, $colorClass, $bgColor
     <div class="flex flex-col xl:flex-row gap-3 items-start xl:items-center">
         <form method="GET" class="flex gap-3 flex-wrap">
             <input type="hidden" name="action" value="users">
-            <input type="text" name="search" placeholder="Tìm theo tên, email, SĐT..." value="<?= htmlspecialchars($search) ?>"
+            <input type="text" name="search" placeholder="Tìm ID, Tên, Email, SĐT, Vai trò..." value="<?= htmlspecialchars($search) ?>"
                    class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent outline-none">
             <select name="role" class="px-4 py-2 border border-gray-300 rounded-lg" onchange="this.form.submit()">
                 <option value="">Tất cả vai trò</option>
