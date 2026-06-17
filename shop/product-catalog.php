@@ -316,7 +316,7 @@ if (isLoggedIn()) {
                         </button>
                         <?php
                             $clearParams = [];
-                            if ($search) $clearParams['search'] = $search;
+                            if ($categorySlug) $clearParams['category'] = $categorySlug;
                             if ($isFeatured) $clearParams['featured'] = 1;
                             $clearUrl = BASE_URL . '/shop/product-catalog.php' . (!empty($clearParams) ? '?' . http_build_query($clearParams) : '');
                         ?>
