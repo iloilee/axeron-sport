@@ -15,8 +15,10 @@ define('PRODUCT_IMAGES_DIR', 'products/');
 define('BANNERS_DIR', 'banners/');
 define('ARTICLES_DIR', 'articles/');
 
+require_once __DIR__ . '/cloudinary_config.php';
+
 /**
- * Upload file lên thư mục local
+ * Upload file lên thư mục local (Chuyển hướng sang Cloudinary)
  *
  * @param string $tmpFilePath Đường dẫn file tạm
  * @param string $subDir Thư mục con (products/, banners/, articles/)
@@ -24,62 +26,54 @@ define('ARTICLES_DIR', 'articles/');
  * @return array|false
  */
 function uploadToLocal($tmpFilePath, $subDir = 'products/', $customName = null) {
-    // Validate file
-    if (!file_exists($tmpFilePath)) {
-        return ['success' => false, 'error' => 'File không tồn tại'];
+    // Gọi hàm uploadToCloudinary từ cloudinary_config.php
+    $options = [];
+    if ($customName) {
+        $options['public_id'] = $customName;
     }
-
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $mime = finfo_file($finfo, $tmpFilePath);
-    finfo_close($finfo);
-
-    if (!in_array($mime, ALLOWED_TYPES)) {
-        return ['success' => false, 'error' => 'Định dạng file không được hỗ trợ'];
-    }
-
-    if (filesize($tmpFilePath) > MAX_FILE_SIZE) {
-        return ['success' => false, 'error' => 'Kích thước file vượt quá 10MB'];
-    }
-
-    // Enforce trailing slash on subDir
-    if (!empty($subDir)) {
-        $subDir = rtrim($subDir, '/') . '/';
-    }
-
-    // Tạo thư mục nếu chưa có
-    $uploadDir = UPLOAD_DIR . $subDir;
-    if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0755, true);
-    }
-
-    // Tạo tên file duy nhất
-    $extension = strtolower(pathinfo($customName ?: basename($_FILES['image']['name'] ?? 'image.jpg'), PATHINFO_EXTENSION));
-    if (empty($extension)) $extension = 'jpg';
-    $filename = ($customName ?: uniqid('img_') . '_' . time()) . '.' . $extension;
-    $targetPath = $uploadDir . $filename;
-
-    // Di chuyển file
-    if (move_uploaded_file($tmpFilePath, $targetPath)) {
-        $relativePath = $subDir . $filename;
+    
+    // Đảm bảo không bị lỗi MIME type, uploadToCloudinary sẽ check
+    $result = uploadToCloudinary($tmpFilePath, $options);
+    
+    if ($result && $result['success']) {
         return [
             'success' => true,
-            'filename' => $filename,
-            'path' => $relativePath,
-            'url' => UPLOAD_URL . $relativePath,
-            'full_path' => $targetPath
+            'filename' => basename($result['secure_url']),
+            'path' => $result['secure_url'], // Sử dụng luôn secure_url
+            'url' => $result['secure_url'],
+            'full_path' => $result['secure_url'],
+            'public_id' => $result['public_id'] // Để lưu nếu cần
         ];
     }
-
-    return ['success' => false, 'error' => 'Không thể lưu file'];
+    
+    return ['success' => false, 'error' => $result['error'] ?? 'Upload lên Cloudinary thất bại'];
 }
 
 /**
- * Xóa file ảnh local
+ * Xóa file ảnh (Chuyển hướng sang Cloudinary)
  *
- * @param string $relativePath Đường dẫn tương đối
+ * @param string $relativePath Đường dẫn tương đối hoặc public ID
  * @return bool
  */
 function deleteLocalImage($relativePath) {
+    // Nếu truyền vào là public ID của Cloudinary (ví dụ: axeron-products/product_1234)
+    // Nếu là đường dẫn cục bộ (không dùng nữa), cứ kệ
+    if (strpos($relativePath, 'http') === 0 && strpos($relativePath, 'cloudinary.com') !== false) {
+        // Trích xuất public ID từ URL
+        $parts = explode('/upload/', $relativePath);
+        if (count($parts) > 1) {
+            $pathAfterUpload = $parts[1]; // v123456/axeron-products/product_abc.jpg
+            $pathParts = explode('/', $pathAfterUpload);
+            array_shift($pathParts); // Bỏ v123456
+            $publicIdWithExt = implode('/', $pathParts);
+            $publicId = preg_replace('/\.[a-zA-Z0-9]+$/', '', $publicIdWithExt); // Xoá extension
+            
+            $res = deleteFromCloudinary($publicId);
+            return $res['success'];
+        }
+    }
+    
+    // Fallback thử xoá local file cũ nếu còn
     $fullPath = UPLOAD_DIR . $relativePath;
     if (file_exists($fullPath)) {
         return unlink($fullPath);
