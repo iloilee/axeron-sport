@@ -39,7 +39,31 @@ $orders = $db->select("
         o.payment_status,
         o.created_at,
         sm.method_name as shipping_method_name,
-        COUNT(oi.order_item_id) as item_count
+        COUNT(oi.order_item_id) as item_count,
+        (SELECT COUNT(DISTINCT r.product_id) 
+         FROM order_items oi2 
+         JOIN product_variants pv2 ON oi2.variant_id = pv2.variant_id
+         JOIN reviews r ON r.product_id = pv2.product_id AND r.user_id = o.user_id AND r.is_deleted = 0
+         WHERE oi2.order_id = o.order_id) as reviewed_count,
+        (SELECT COUNT(DISTINCT pv3.product_id)
+         FROM order_items oi3
+         JOIN product_variants pv3 ON oi3.variant_id = pv3.variant_id
+         WHERE oi3.order_id = o.order_id) as distinct_product_count,
+        (SELECT p.slug
+         FROM order_items oi4
+         JOIN product_variants pv4 ON oi4.variant_id = pv4.variant_id
+         JOIN products p ON pv4.product_id = p.product_id
+         WHERE oi4.order_id = o.order_id
+           AND NOT EXISTS (
+               SELECT 1 FROM reviews r WHERE r.product_id = p.product_id AND r.user_id = o.user_id AND r.is_deleted = 0
+           )
+         LIMIT 1) as first_unreviewed_slug,
+        (SELECT p.slug
+         FROM order_items oi5
+         JOIN product_variants pv5 ON oi5.variant_id = pv5.variant_id
+         JOIN products p ON pv5.product_id = p.product_id
+         WHERE oi5.order_id = o.order_id
+         LIMIT 1) as first_product_slug
     FROM orders o
     LEFT JOIN order_items oi ON o.order_id = oi.order_id
     LEFT JOIN shipping_methods sm ON o.shipping_method_id = sm.method_id
@@ -177,6 +201,7 @@ $orders = $db->select("
                             <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Phương thức vận chuyển</th>
                             <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Thanh toán</th>
                             <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Trạng Thái</th>
+                            <th class="text-center px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Đánh Giá</th>
                             <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Thao Tác</th>
                         </tr>
                     </thead>
@@ -261,6 +286,19 @@ $orders = $db->select("
                                 };
                                 ?>
                                 <span class="px-3 py-1 rounded-full text-sm <?= $statusClass ?>"><?= $statusText ?></span>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-center">
+                                <?php if ($order['order_status'] === 'delivered'): ?>
+                                    <?php if ($order['reviewed_count'] >= $order['distinct_product_count'] && $order['distinct_product_count'] > 0): ?>
+                                        <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($order['first_product_slug']) ?>#reviews-section" class="text-green-600 hover:text-green-800 font-semibold text-sm flex justify-center items-center gap-1"><span class="material-symbols-outlined text-[16px]">check_circle</span> Đã đánh giá</a>
+                                    <?php elseif ($order['reviewed_count'] > 0): ?>
+                                        <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($order['first_unreviewed_slug']) ?>#reviews-section" class="text-yellow-600 hover:text-yellow-800 font-semibold text-sm flex justify-center items-center gap-1"><span class="material-symbols-outlined text-[16px]">star_half</span> Đánh giá tiếp</a>
+                                    <?php else: ?>
+                                        <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($order['first_unreviewed_slug']) ?>#reviews-section" class="text-axeron-red hover:text-red-800 hover:underline font-semibold text-sm flex justify-center items-center gap-1"><span class="material-symbols-outlined text-[16px]">rate_review</span> Đánh giá ngay</a>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <span class="text-gray-400 text-sm">-</span>
+                                <?php endif; ?>
                             </td>
                             <td class="px-4 py-4 whitespace-nowrap">
                                 <div class="flex items-center gap-2">

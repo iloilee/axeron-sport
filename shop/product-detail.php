@@ -524,8 +524,14 @@ if (isLoggedIn()) {
                     if ($purchaseCheck) {
                         $hasPurchased = true;
                     }
+
+                    $hasReviewed = false;
+                    $reviewCheck = $db->selectOne("SELECT review_id FROM reviews WHERE product_id = ? AND user_id = ? AND is_deleted = 0", [$productId, $userId]);
+                    if ($reviewCheck) {
+                        $hasReviewed = true;
+                    }
                     ?>
-                    <?php if ($hasPurchased): ?>
+                    <?php if ($hasPurchased && !$hasReviewed): ?>
                         <div class="mb-6">
                             <button onclick="showReviewForm()" id="btn-write-review" class="px-6 py-3 bg-axeron-red text-white rounded-lg hover:bg-primary transition-colors flex items-center gap-2">
                                 <span class="material-symbols-outlined">edit</span>
@@ -570,6 +576,16 @@ if (isLoggedIn()) {
                                     </button>
                                 </div>
                             </form>
+                        </div>
+                    <?php elseif ($hasPurchased && $hasReviewed): ?>
+                        <div class="mb-6">
+                            <div class="px-6 py-4 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-start md:items-center gap-3">
+                                <span class="material-symbols-outlined text-green-600 text-2xl mt-0.5 md:mt-0">check_circle</span>
+                                <div>
+                                    <h4 class="font-bold text-[15px]">Bạn đã đánh giá sản phẩm này</h4>
+                                    <p class="text-sm mt-0.5 text-green-600/80">Cảm ơn bạn đã chia sẻ trải nghiệm với Axeron Sport. Đánh giá của bạn giúp cộng đồng mua sắm tốt hơn.</p>
+                                </div>
+                            </div>
                         </div>
                     <?php else: ?>
                         <div class="mb-6">
