@@ -139,6 +139,10 @@ def analyze():
         
         final_sentiment = sentiment_map.get(label, "neutral")
 
+        # In log ra màn hình CMD theo đúng format
+        print(f"Nhập: \"{text}\"", flush=True)
+        print(f"AI trả về: {{\"confidence\":{round(score, 4)},\"sentiment\":\"{final_sentiment}\"}}", flush=True)
+
         return jsonify({
             "sentiment": final_sentiment,
             "confidence": round(score, 4)
