@@ -121,8 +121,8 @@ if ($search) {
         // 1. Gọi API sang Server Python lấy ID đã được xếp hạng
         $apiUrl = "http://127.0.0.1:5000/api/search?keyword=" . urlencode($search);
         
-        // Sử dụng context để set timeout (3 giây để đảm bảo CPU xử lý kịp mô hình)
-        $ctx = stream_context_create(['http' => ['timeout' => 3]]);
+        // Sử dụng context để set timeout (1.5 giây để đảm bảo CPU xử lý kịp mô hình)
+        $ctx = stream_context_create(['http' => ['timeout' => 1.5]]);
         $response = @file_get_contents($apiUrl, false, $ctx);
         
         if ($response) {
