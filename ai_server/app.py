@@ -107,6 +107,12 @@ def search_similar_products():
     # 6. Sắp xếp giảm dần theo Score
     results = sorted(results, key=lambda x: x['score'], reverse=True)
     
+    # In log ra màn hình CMD theo đúng format
+    print(f"Nhập tìm kiếm: \"{keyword}\"", flush=True)
+    print(f"AI trả về: {len(results)} kết quả tương tự", flush=True)
+    if results:
+        print(f"Top 1: ID {results[0]['id']} (Score: {results[0]['score']:.4f})", flush=True)
+    
     return jsonify({'results': results})
 
 # Endpoint dự phòng vẫn giữ lại để tương thích

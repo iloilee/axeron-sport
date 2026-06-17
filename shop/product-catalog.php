@@ -33,10 +33,7 @@ if ($categorySlug) {
         SELECT category_id, category_name, slug FROM categories WHERE slug = ? AND is_visible = 1
     ", [$categorySlug]);
     
-    // Nếu truy cập từ URL (Menu/Banner) chưa chọn filter, tự động check danh mục hiện tại
-    if ($currentCategory && empty($selectedCategories)) {
-        $selectedCategories[] = $currentCategory['category_id'];
-    }
+    // Removed auto-check logic to allow users to clear all filters visually
 }
 
 // Get categories for sidebar (cây danh mục 2 cấp)
@@ -115,9 +112,20 @@ if (!empty($selectedColors) || !empty($selectedSizes)) {
 
 $semanticProductIds = [];
 $semanticScoreMap = [];
+$aiServerStatus = true;
+
+if (!$disableAi) {
+    // Ping nhanh port 5000 để kiểm tra server có online không (Timeout siêu thấp: 0.1s)
+    $fp = @fsockopen("127.0.0.1", 5000, $errno, $errstr, 0.1);
+    if (!$fp) {
+        $aiServerStatus = false;
+    } else {
+        fclose($fp);
+    }
+}
 
 if ($search) {
-    if (!$disableAi) {
+    if (!$disableAi && $aiServerStatus) {
         // 1. Gọi API sang Server Python lấy ID đã được xếp hạng
         $apiUrl = "http://127.0.0.1:5000/api/search?keyword=" . urlencode($search);
         
@@ -125,7 +133,9 @@ if ($search) {
         $ctx = stream_context_create(['http' => ['timeout' => 1.5]]);
         $response = @file_get_contents($apiUrl, false, $ctx);
         
-        if ($response) {
+        if ($response === false) {
+            $aiServerStatus = false;
+        } else {
             $responseData = json_decode($response, true);
             if (isset($responseData['results']) && is_array($responseData['results'])) {
                 foreach ($responseData['results'] as $sp) {
@@ -306,7 +316,7 @@ if (isLoggedIn()) {
         <!-- Sidebar Filter -->
         <aside id="mobile-filter-container" class="hidden md:block w-full md:w-64 flex-shrink-0 mb-8 md:mb-0">
             <div class="bg-surface-container-lowest rounded-lg border border-outline-variant shadow-sm sticky top-24 flex flex-col max-h-[calc(100vh-120px)] overflow-hidden">
-                <form id="filter-form" method="GET" class="flex flex-col flex-grow overflow-hidden min-h-0">
+                <form id="filter-form" method="GET" class="flex flex-col flex-grow overflow-hidden min-h-0" autocomplete="off">
                     <!-- Sticky Header Row -->
                     <div class="flex items-center justify-between p-5 border-b border-surface-container-high bg-surface-container-lowest z-10 flex-shrink-0">
                         <h2 class="font-headline-md text-[18px] font-bold text-on-surface m-0">Bộ lọc</h2>
@@ -315,12 +325,9 @@ if (isLoggedIn()) {
                             Lọc
                         </button>
                         <?php
-                            $clearParams = [];
-                            if ($categorySlug) $clearParams['category'] = $categorySlug;
-                            if ($isFeatured) $clearParams['featured'] = 1;
-                            $clearUrl = BASE_URL . '/shop/product-catalog.php' . (!empty($clearParams) ? '?' . http_build_query($clearParams) : '');
+                            $clearUrl = BASE_URL . '/shop/product-catalog.php';
                         ?>
-                        <a href="<?= htmlspecialchars($clearUrl) ?>" class="font-label-sm text-[13px] text-axeron-red hover:underline whitespace-nowrap m-0">Xóa tất cả</a>
+                        <a href="<?= htmlspecialchars($clearUrl) ?>" onclick="document.querySelectorAll('#filter-form input[type=checkbox], #filter-form input[type=radio]').forEach(e => e.checked = false); window.location.href=this.href; return false;" class="font-label-sm text-[13px] text-axeron-red hover:underline whitespace-nowrap m-0">Xóa tất cả</a>
                     </div>
 
                     <!-- Scrollable Content -->
@@ -513,18 +520,19 @@ if (isLoggedIn()) {
                     </div>
 
                     <!-- Nút Debug bật/tắt AI Semantic Search -->
-                    <div class="flex items-center gap-2 bg-surface-container-lowest border <?= !$disableAi ? 'border-purple-300' : 'border-outline-variant' ?> px-3 py-2.5 rounded-lg shadow-sm h-full">
+                    <?php $showAiAsOn = !$disableAi && $aiServerStatus; ?>
+                    <div class="flex items-center gap-2 bg-surface-container-lowest border <?= $showAiAsOn ? 'border-purple-300' : 'border-outline-variant' ?> px-3 py-2.5 rounded-lg shadow-sm h-full" <?= !$aiServerStatus ? 'title="Server AI hiện đang không hoạt động"' : '' ?>>
                         <span class="font-bold text-[14px] text-on-surface flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[18px]" style="color: <?= !$disableAi ? '#8b5cf6' : '#9ca3af' ?>;">smart_toy</span>
+                            <span class="material-symbols-outlined text-[18px]" style="color: <?= $showAiAsOn ? '#8b5cf6' : '#9ca3af' ?>;">smart_toy</span>
                             AI Search
                         </span>
                         <label class="relative inline-block w-8 h-4 cursor-pointer ml-1 mb-0">
-                            <input type="checkbox" <?= !$disableAi ? 'checked' : '' ?> onchange="toggleAiSearch(this.checked)" class="opacity-0 w-0 h-0 absolute">
-                            <span class="absolute top-0 left-0 right-0 bottom-0 transition duration-300 rounded-full" style="background-color: <?= !$disableAi ? '#8b5cf6' : '#d1d5db' ?>;">
-                                <span class="absolute h-3 w-3 bottom-[2px] bg-white transition duration-300 rounded-full shadow-sm" style="left: <?= !$disableAi ? '18px' : '2px' ?>;"></span>
+                            <input type="checkbox" <?= $showAiAsOn ? 'checked' : '' ?> onchange="toggleAiSearch(this.checked)" class="opacity-0 w-0 h-0 absolute">
+                            <span class="absolute top-0 left-0 right-0 bottom-0 transition duration-300 rounded-full" style="background-color: <?= $showAiAsOn ? '#8b5cf6' : '#d1d5db' ?>;">
+                                <span class="absolute h-3 w-3 bottom-[2px] bg-white transition duration-300 rounded-full shadow-sm" style="left: <?= $showAiAsOn ? '18px' : '2px' ?>;"></span>
                             </span>
                         </label>
-                        <span class="text-[11px] font-bold w-6 text-center" style="color: <?= !$disableAi ? '#8b5cf6' : '#6b7280' ?>;"><?= !$disableAi ? 'ON' : 'OFF' ?></span>
+                        <span class="text-[11px] font-bold w-6 text-center" style="color: <?= $showAiAsOn ? '#8b5cf6' : '#6b7280' ?>;"><?= $showAiAsOn ? 'ON' : 'OFF' ?></span>
                     </div>
                 </div>
             </div>
