@@ -711,6 +711,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $db->update("UPDATE products SET stock_quantity = ? WHERE product_id = ?", [$stock_sum, $product_id]);
                 }
 
+                // AI Visual Search: Gửi ảnh chính sang Python Server để trích xuất Vector
+                $primaryImg = $db->selectOne("SELECT image_url FROM product_images WHERE product_id = ? AND is_primary = 1 LIMIT 1", [$product_id]);
+                if ($primaryImg && !empty($primaryImg['image_url'])) {
+                    $ch = curl_init('http://localhost:5000/index_image');
+                    curl_setopt($ch, CURLOPT_POST, true);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, [
+                        'product_id' => $product_id,
+                        'image_url' => $primaryImg['image_url']
+                    ]);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_TIMEOUT, 5); // Timeout 5s
+                    curl_exec($ch);
+                    curl_close($ch);
+                }
+
                 $response = ['success' => true, 'message' => 'Sản phẩm đã được tạo thành công!', 'debug' => $debug_info];
             } catch (Exception $e) {
                 $response = ['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()];

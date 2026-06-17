@@ -12,12 +12,12 @@ $db = db();
 $disableAi = isset($_COOKIE['disable_ai']) && $_COOKIE['disable_ai'] == '1';
 
 // Get filter parameters
-$categorySlug = sanitize($_GET['category'] ?? '');
-$search = sanitize($_GET['search'] ?? '');
-$brand = sanitize($_GET['brand'] ?? '');
-$minPrice = (int)($_GET['min_price'] ?? 0);
-$maxPrice = (int)($_GET['max_price'] ?? 0);
-$sortBy = sanitize($_GET['sort'] ?? 'popular');
+$categorySlug = sanitize($_REQUEST['category'] ?? '');
+$search = sanitize($_REQUEST['search'] ?? '');
+$brand = sanitize($_REQUEST['brand'] ?? '');
+$minPrice = (int)($_REQUEST['min_price'] ?? 0);
+$maxPrice = (int)($_REQUEST['max_price'] ?? 0);
+$sortBy = sanitize($_REQUEST['sort'] ?? 'popular');
 $page = max(1, (int)($_GET['page'] ?? 1));
 $isFeatured = isset($_GET['featured']) && $_GET['featured'] == '1';
 $perPage = 12;
@@ -124,7 +124,30 @@ if (!$disableAi) {
     }
 }
 
-if ($search) {
+if (isset($_FILES['search_image']) && $_FILES['search_image']['error'] == 0) {
+    if (!$disableAi && $aiServerStatus) {
+        $cfile = new CURLFile($_FILES['search_image']['tmp_name'], $_FILES['search_image']['type'], $_FILES['search_image']['name']);
+        $ch = curl_init('http://127.0.0.1:5000/search_image');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, ['file' => $cfile]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response) {
+            $responseData = json_decode($response, true);
+            if (is_array($responseData)) {
+                foreach ($responseData as $sp) {
+                    if (isset($sp['product_id'])) {
+                        $semanticProductIds[] = $sp['product_id'];
+                        $semanticScoreMap[$sp['product_id']] = $sp['score'] ?? 0;
+                    }
+                }
+            }
+        }
+    }
+} elseif ($search) {
     if (!$disableAi && $aiServerStatus) {
         // 1. Gọi API sang Server Python lấy ID đã được xếp hạng
         $apiUrl = "http://127.0.0.1:5000/api/search?keyword=" . urlencode($search);
@@ -145,7 +168,9 @@ if ($search) {
             }
         }
     }
-    
+}
+
+if ($search || !empty($semanticProductIds)) {
     if (!empty($semanticProductIds)) {
         // AI Tìm thấy kết quả -> Lọc theo mảng ID
         $placeholders = implode(',', array_fill(0, count($semanticProductIds), '?'));
@@ -214,7 +239,7 @@ $orderBy = match($sortBy) {
 };
 
 // Ghi đè sắp xếp nếu dùng AI Search (Sort by Relevance)
-if ($search && !empty($semanticProductIds) && $sortBy == 'popular') {
+if (($search || !empty($semanticProductIds)) && !empty($semanticProductIds) && $sortBy == 'popular') {
     $orderBy = "FIELD(p.product_id, " . implode(',', $semanticProductIds) . ")";
 }
 
@@ -473,7 +498,16 @@ if (isLoggedIn()) {
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-4 border-b border-outline-variant gap-4">
                 <div>
                     <h1 class="font-headline-lg text-headline-lg text-on-surface">
-                        <?php if ($search): ?>
+                        <?php if (isset($_FILES['search_image']) && $_FILES['search_image']['error'] == 0): ?>
+                            Tìm kiếm bằng hình ảnh
+                            <?php $searchTimeMs = round((microtime(true) - $startTime) * 1000); ?>
+                            <?php if (isset($semanticProductIds) && !empty($semanticProductIds)): ?>
+                                <span class="ml-2 inline-flex items-center gap-1 bg-gradient-to-r from-green-500 to-teal-500 text-white text-[12px] px-2.5 py-0.5 rounded-full align-middle whitespace-nowrap shadow-sm shadow-green-200">
+                                    <span class="material-symbols-outlined text-[16px]">photo_camera</span>
+                                    AI Visual Search (<?= $searchTimeMs ?> ms)
+                                </span>
+                            <?php endif; ?>
+                        <?php elseif ($search): ?>
                             Kết quả tìm kiếm: "<?= htmlspecialchars($search) ?>"
                             <?php $searchTimeMs = round((microtime(true) - $startTime) * 1000); ?>
                             <?php if (isset($semanticProductIds) && !empty($semanticProductIds)): ?>
@@ -544,7 +578,7 @@ if (isLoggedIn()) {
                     <h3 class="font-headline-md text-2xl text-on-surface mb-3">Không tìm thấy kết quả phù hợp</h3>
                     <p class="text-on-surface-variant text-base max-w-md mx-auto mb-6">
                         Rất tiếc, chúng tôi không thể tìm thấy sản phẩm nào khớp với 
-                        <?= $search ? 'từ khóa "<strong>' . htmlspecialchars($search) . '</strong>"' : 'bộ lọc của bạn' ?>.
+                        <?= $search ? 'từ khóa "<strong>' . htmlspecialchars($search) . '</strong>"' : (isset($_FILES['search_image']) ? 'ảnh bạn vừa tải lên' : 'bộ lọc của bạn') ?>.
                     </p>
                     <div class="bg-surface-container rounded-lg p-6 max-w-md mx-auto text-left">
                         <h4 class="font-bold text-on-surface mb-3 flex items-center gap-2">
@@ -570,6 +604,7 @@ if (isLoggedIn()) {
                     <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
                         data-aos="fade-up"
                         class="group bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col relative">
+
                         <div class="relative w-full aspect-square overflow-hidden bg-surface-container-low flex items-center justify-center">
                             <?php if ($product['is_featured']): ?>
                             <span class="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_10px_rgba(239,68,68,0.5)] text-white font-label-sm text-label-sm px-3 py-1 rounded-full uppercase tracking-wider z-10">Nổi bật</span>
@@ -604,14 +639,21 @@ if (isLoggedIn()) {
                             <?php $promoInfo = getBestPromotionForProduct($product['product_id'], $product['category_id'] ?? 0, $product['base_price']); ?>
                             
                             <!-- Hiển thị điểm số AI Match Score (Chỉ hiện khi search bằng AI) -->
-                            <?php if ($search && isset($semanticScoreMap) && isset($semanticScoreMap[$product['product_id']])): ?>
-                                <?php $matchPercent = round($semanticScoreMap[$product['product_id']] * 100, 1); ?>
-                                <div class="mb-2 w-full mt-1" title="Độ tương đồng ngữ nghĩa: <?= $matchPercent ?>%">
+                            <?php if (($search || (isset($_FILES['search_image']) && $_FILES['search_image']['error'] == 0)) && isset($semanticScoreMap) && isset($semanticScoreMap[$product['product_id']])): ?>
+                                <?php 
+                                    $rawScore = $semanticScoreMap[$product['product_id']];
+                                    $matchPercent = $rawScore > 1 ? round($rawScore, 1) : round($rawScore * 100, 1);
+                                    $isImageSearch = isset($_FILES['search_image']) && $_FILES['search_image']['error'] == 0;
+                                ?>
+                                <div class="mb-2 w-full mt-1" title="Độ tương đồng: <?= $matchPercent ?>%">
                                     <div class="flex justify-between items-center mb-1">
-                                        <span class="text-[11px] text-purple-600 font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">auto_awesome</span> Khớp: <?= $matchPercent ?>%</span>
+                                        <span class="text-[11px] <?= $isImageSearch ? 'text-green-600' : 'text-purple-600' ?> font-bold flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-[12px]"><?= $isImageSearch ? 'photo_camera' : 'auto_awesome' ?></span> 
+                                            Khớp: <?= $matchPercent ?>%
+                                        </span>
                                     </div>
                                     <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                                        <div class="bg-gradient-to-r from-purple-500 to-blue-500 h-1.5 rounded-full" style="width: <?= $matchPercent ?>%"></div>
+                                        <div class="<?= $isImageSearch ? 'bg-gradient-to-r from-green-500 to-teal-500' : 'bg-gradient-to-r from-purple-500 to-blue-500' ?> h-1.5 rounded-full" style="width: <?= $matchPercent ?>%"></div>
                                     </div>
                                 </div>
                             <?php endif; ?>

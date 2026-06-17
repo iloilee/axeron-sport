@@ -375,14 +375,20 @@ $siteNameDisplay = $settings['site_name'] ?? 'Axeron';
         <!-- Trailing Actions -->
         <div class="flex items-center gap-3 text-axeron-red dark:text-primary-fixed flex-shrink-0">
             <!-- Search -->
-            <form action="<?= BASE_URL ?>/shop/product-catalog.php" method="GET" class="relative hidden lg:block" id="desktop-search-form" autocomplete="off">
+            <form action="<?= BASE_URL ?>/shop/product-catalog.php" method="POST" enctype="multipart/form-data" class="relative hidden lg:block" id="desktop-search-form" autocomplete="off">
                 <input
-                    class="bg-surface-container rounded-full py-2 pl-4 pr-10 border border-outline-variant focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue outline-none text-body-md text-on-surface font-body-md w-80 transition-all"
+                    class="bg-surface-container rounded-full py-2 pl-4 pr-16 border border-outline-variant focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue outline-none text-body-md text-on-surface font-body-md w-80 transition-all"
                     placeholder="Tìm kiếm..."
                     type="text"
                     id="search-input"
                     name="search"
                 />
+                
+                <label class="absolute right-10 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-axeron-red cursor-pointer mb-0">
+                    <span class="material-symbols-outlined text-xl">photo_camera</span>
+                    <input type="file" name="search_image" accept="image/*" class="hidden" onchange="this.form.submit()">
+                </label>
+
                 <button type="submit" id="search-btn" class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-axeron-red cursor-pointer text-xl bg-transparent border-none p-0">
                     search
                 </button>
@@ -488,9 +494,15 @@ $siteNameDisplay = $settings['site_name'] ?? 'Axeron';
 
     <!-- Mobile Search -->
     <div class="p-4 border-b border-gray-100">
-        <form action="<?= BASE_URL ?>/shop/product-catalog.php" method="GET" class="relative" autocomplete="off">
+        <form action="<?= BASE_URL ?>/shop/product-catalog.php" method="POST" enctype="multipart/form-data" class="relative" autocomplete="off">
             <input type="text" name="search" id="mobile-search-input" placeholder="Tìm kiếm sản phẩm..."
-                   class="w-full pl-4 pr-10 py-2.5 border border-gray-200 rounded-full text-sm text-on-surface focus:ring-2 focus:ring-axeron-red outline-none">
+                   class="w-full pl-4 pr-16 py-2.5 border border-gray-200 rounded-full text-sm text-on-surface focus:ring-2 focus:ring-axeron-red outline-none">
+            
+            <label class="absolute right-10 top-1/2 -translate-y-1/2 text-gray-400 hover:text-axeron-red cursor-pointer mb-0 p-1">
+                <span class="material-symbols-outlined text-xl">photo_camera</span>
+                <input type="file" name="search_image" accept="image/*" class="hidden" onchange="this.form.submit()">
+            </label>
+                   
             <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-none p-0">
                 <span class="material-symbols-outlined text-gray-400 text-xl">search</span>
             </button>

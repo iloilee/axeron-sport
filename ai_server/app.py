@@ -8,6 +8,14 @@ from flask import Flask, request, jsonify
 from sentence_transformers import SentenceTransformer
 from transformers import pipeline
 from dotenv import load_dotenv, find_dotenv
+import pickle
+import torch
+import torch.nn as nn
+from torchvision import models, transforms
+from PIL import Image
+from sklearn.metrics.pairwise import cosine_similarity
+import requests
+from io import BytesIO
 
 # Tự động quét ngược lên các thư mục cha để tìm file .env
 load_dotenv(find_dotenv())
@@ -23,6 +31,41 @@ print("Loading model Qwen/Qwen3-Embedding-0.6B...")
 model = SentenceTransformer('Qwen/Qwen3-Embedding-0.6B', trust_remote_code=True)
 print("Loading model PhoBERT Sentiment...")
 sentiment_analyzer = pipeline("sentiment-analysis", model="wonrax/phobert-base-vietnamese-sentiment")
+
+print("Loading model ResNet50 for Visual Search...")
+weights = models.ResNet50_Weights.DEFAULT
+resnet = models.resnet50(weights=weights)
+# Bỏ lớp Fully Connected cuối cùng để lấy Vector đặc trưng (2048 chiều)
+resnet_model = nn.Sequential(*list(resnet.children())[:-1])
+resnet_model.eval() # Chế độ suy luận
+
+preprocess_image = transforms.Compose([
+    transforms.Resize(256),
+    transforms.CenterCrop(224),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+])
+
+FEATURE_FILE = 'image_features.pkl'
+
+def load_image_features():
+    if os.path.exists(FEATURE_FILE):
+        with open(FEATURE_FILE, 'rb') as f:
+            return pickle.load(f)
+    return {}
+
+def save_image_features(features):
+    with open(FEATURE_FILE, 'wb') as f:
+        pickle.dump(features, f)
+
+def extract_image_vector(image):
+    """Biến đổi file ảnh (PIL Image) thành 1 mảng numpy vector 2048 chiều"""
+    img_t = preprocess_image(image.convert('RGB'))
+    batch_t = torch.unsqueeze(img_t, 0)
+    with torch.no_grad():
+        features = resnet_model(batch_t)
+    return features.squeeze().numpy()
+
 print("Server AI Python ready!")
 
 # Cache Vector Database
@@ -196,6 +239,90 @@ def forecast():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# ================= VISUAL SEARCH ROUTES =================
+
+@app.route('/index_image', methods=['POST'])
+def index_image():
+    """Admin gọi API này khi thêm sản phẩm mới để AI học hình ảnh"""
+    product_id = request.form.get('product_id')
+    image_url = request.form.get('image_url')
+    
+    if not product_id:
+        return jsonify({"error": "Thiếu product_id"}), 400
+
+    try:
+        # Nếu gửi file lên
+        if 'file' in request.files:
+            file = request.files['file']
+            img = Image.open(file)
+        # Hoặc nếu gửi URL (từ thư mục cục bộ hoặc cloudinary)
+        elif image_url:
+            if image_url.startswith('http'):
+                response = requests.get(image_url)
+                img = Image.open(BytesIO(response.content))
+            else:
+                # Local file path
+                base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                img_path = os.path.join(base_dir, image_url.lstrip('/'))
+                img = Image.open(img_path)
+        else:
+            return jsonify({"error": "Thiếu file hoặc image_url"}), 400
+
+        vector = extract_image_vector(img)
+        features = load_image_features()
+        features[product_id] = vector # Lưu vector vào dict
+        save_image_features(features)
+        
+        print(f"Action: Index Image | Product ID: {product_id}", flush=True)
+        return jsonify({"status": "success", "product_id": product_id})
+        
+    except Exception as e:
+        print(f"Error indexing image: {str(e)}", flush=True)
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/search_image', methods=['POST'])
+def search_image():
+    """User gọi API này bằng cách upload ảnh để tìm kiếm"""
+    if 'file' not in request.files:
+        return jsonify({"error": "Vui lòng upload ảnh"}), 400
+
+    try:
+        file = request.files['file']
+        img = Image.open(file)
+        
+        query_vector = extract_image_vector(img)
+        
+        features = load_image_features()
+        if not features:
+            return jsonify([])
+
+        product_ids = list(features.keys())
+        database_vectors = list(features.values())
+        
+        # Tính độ tương đồng
+        similarities = cosine_similarity([query_vector], database_vectors)[0]
+        
+        # Lấy Top 8 sản phẩm giống nhất
+        top_indices = np.argsort(similarities)[::-1][:8]
+        
+        results = []
+        for i in top_indices:
+            # Lọc bỏ ảnh giống < 50%
+            if similarities[i] > 0.5:
+                results.append({
+                    "product_id": product_ids[i],
+                    "score": round(float(similarities[i]) * 100, 2)
+                })
+        
+        print(f"Action: Visual Search | Results: {len(results)}", flush=True)
+        return jsonify(results)
+        
+    except Exception as e:
+        print(f"Error visual search: {str(e)}", flush=True)
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
-    # Chạy server ở port 5000
-    app.run(port=5000, debug=False)
+    # Load database into memory first time
+    load_vectors_from_db()
+    # Run the server
+    app.run(host='0.0.0.0', port=5000, debug=False)

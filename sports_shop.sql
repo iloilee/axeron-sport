@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 17, 2026 lúc 08:46 PM
+-- Thời gian đã tạo: Th6 17, 2026 lúc 09:21 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -443,7 +443,8 @@ INSERT INTO `notifications` (`id`, `message`, `is_read`, `created_at`) VALUES
 (4, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 16 (Review ID: 1402)', 0, '2026-06-17 13:41:43'),
 (5, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 16 (Review ID: 1403)', 0, '2026-06-17 14:00:49'),
 (6, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 3 (Review ID: 1405)', 0, '2026-06-17 18:01:37'),
-(7, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 236 (Review ID: 1406)', 0, '2026-06-17 18:29:59');
+(7, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 236 (Review ID: 1406)', 0, '2026-06-17 18:29:59'),
+(8, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 236 (Review ID: 1409)', 0, '2026-06-17 19:17:17');
 
 -- --------------------------------------------------------
 
@@ -8868,7 +8869,10 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (881, 2, 16, '2026-06-18 01:31:09'),
 (882, 2, 16, '2026-06-18 01:31:25'),
 (883, 2, 16, '2026-06-18 01:31:31'),
-(884, 2, 16, '2026-06-18 01:31:39');
+(884, 2, 16, '2026-06-18 01:31:39'),
+(885, 2, 236, '2026-06-18 02:17:00'),
+(886, 2, 236, '2026-06-18 02:17:14'),
+(887, 2, 236, '2026-06-18 02:17:19');
 
 -- --------------------------------------------------------
 
@@ -10862,7 +10866,8 @@ INSERT INTO `reviews` (`review_id`, `product_id`, `user_id`, `rating`, `comment`
 (1405, 3, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'pending', '2026-06-18 01:01:37', '2026-06-18 01:29:19', 1, 26, 'negative'),
 (1406, 236, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'pending', '2026-06-18 01:29:59', '2026-06-18 01:31:19', 1, 50316, 'negative'),
 (1407, 429, 2, 4, 'Đây là một trong những món đồ tốt nhất mình từng mua.', 'pending', '2026-06-18 01:30:43', '2026-06-18 01:31:15', 1, 51108, 'positive'),
-(1408, 16, 2, 3, 'Tôi chưa có nhiều đánh giá sau khi sử dụng.', 'pending', '2026-06-18 01:31:07', '2026-06-18 01:32:18', 1, 20, 'neutral');
+(1408, 16, 2, 3, 'Tôi chưa có nhiều đánh giá sau khi sử dụng.', 'pending', '2026-06-18 01:31:07', '2026-06-18 01:32:18', 1, 20, 'neutral'),
+(1409, 236, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'pending', '2026-06-18 02:17:17', '2026-06-18 02:17:40', 1, 50316, 'negative');
 
 -- --------------------------------------------------------
 
@@ -11168,7 +11173,13 @@ INSERT INTO `search_logs` (`log_id`, `user_id`, `keyword`, `result_count`, `sear
 (260, 1, 'giày thể thao đế mềm nhẹ nhàng', 501, '2026-06-18 01:40:11'),
 (261, 1, 'giày thể thao đế mềm nhẹ nhàng', 501, '2026-06-18 01:42:54'),
 (262, 1, 'tôi muốn tập cơ bắp', 78, '2026-06-18 01:43:07'),
-(263, 1, 'tôi muốn có thân hình săn chắc', 232, '2026-06-18 01:43:20');
+(263, 1, 'tôi muốn có thân hình săn chắc', 232, '2026-06-18 01:43:20'),
+(264, 2, 'vật dụng cho người mới đánh cầu', 412, '2026-06-18 02:08:37'),
+(265, 2, 'vật dụng cho người mới đánh cầu', 412, '2026-06-18 02:08:37'),
+(266, 2, 'vật dụng cho người mới đánh cầu', 412, '2026-06-18 02:10:37'),
+(267, 2, 'vật dụng cho người mới đánh cầu', 412, '2026-06-18 02:11:25'),
+(268, 2, 'vật dụng cho người mới đánh cầu', 412, '2026-06-18 02:11:50'),
+(269, 2, 'đồ dùng cho người mới chơi picklebal', 470, '2026-06-18 02:15:22');
 
 -- --------------------------------------------------------
 
@@ -11839,7 +11850,7 @@ ALTER TABLE `contact_messages`
 -- AUTO_INCREMENT cho bảng `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
@@ -11893,7 +11904,7 @@ ALTER TABLE `product_variants`
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=885;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=888;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
@@ -11917,7 +11928,7 @@ ALTER TABLE `promotion_products`
 -- AUTO_INCREMENT cho bảng `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1409;
+  MODIFY `review_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1410;
 
 --
 -- AUTO_INCREMENT cho bảng `roles`
@@ -11929,7 +11940,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT cho bảng `search_logs`
 --
 ALTER TABLE `search_logs`
-  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=264;
+  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=270;
 
 --
 -- AUTO_INCREMENT cho bảng `shipping_methods`
