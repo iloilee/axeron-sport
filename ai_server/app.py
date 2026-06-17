@@ -2,6 +2,8 @@ import os
 import json
 import pymysql
 import numpy as np
+import pandas as pd
+from prophet import Prophet
 from flask import Flask, request, jsonify
 from sentence_transformers import SentenceTransformer
 from transformers import pipeline
@@ -147,6 +149,37 @@ def analyze():
             "sentiment": final_sentiment,
             "confidence": round(score, 4)
         })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/forecast_revenue', methods=['POST'])
+def forecast():
+    try:
+        data = request.get_json()
+        if not data or len(data) < 10:
+            return jsonify({"error": "Cần ít nhất 10 ngày dữ liệu để dự báo"}), 400
+
+        df = pd.DataFrame(data)
+        
+        # Khởi tạo và huấn luyện mô hình Prophet
+        model = Prophet(yearly_seasonality=False, weekly_seasonality=True, daily_seasonality=False)
+        model.fit(df)
+        
+        # Tạo dataframe chứa 30 ngày tiếp theo
+        future = model.make_future_dataframe(periods=30)
+        forecast_result = model.predict(future)
+        
+        # Lọc lấy 30 ngày tương lai để trả về
+        future_data = forecast_result[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail(30)
+        
+        # Format lại ngày và làm tròn số tiền
+        future_data['ds'] = future_data['ds'].dt.strftime('%Y-%m-%d')
+        future_data['yhat'] = future_data['yhat'].round(0)
+        future_data['yhat_lower'] = future_data['yhat_lower'].round(0)
+        future_data['yhat_upper'] = future_data['yhat_upper'].round(0)
+        
+        return future_data.to_json(orient='records')
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

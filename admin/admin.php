@@ -663,6 +663,17 @@ if ($action === 'dashboard') {
                     </div>
                 </div>
 
+                <!-- AI Forecast Chart -->
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mb-6 border-l-4 border-indigo-500">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="font-bold text-lg text-indigo-700 flex items-center gap-2"><span class="material-symbols-outlined">auto_graph</span> Biểu Đồ Dự Báo Doanh Thu 30 Ngày Tới (AI Prophet)</h2>
+                        <button id="btn-load-forecast" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">magic_button</span> Chạy AI Dự Báo
+                        </button>
+                    </div>
+                    <canvas id="revenueForecastChart" height="80"></canvas>
+                </div>
+
                 <!-- Recent Orders & Activity Log -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Recent Orders -->
@@ -806,6 +817,97 @@ if ($action === 'dashboard') {
                                 }
                             });
                         }
+
+                        // AI Forecast Chart Logic
+                        document.getElementById('btn-load-forecast').addEventListener('click', function() {
+                            let btn = this;
+                            btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span> Đang phân tích...';
+                            btn.disabled = true;
+
+                            fetch('api_get_forecast.php')
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.status === 'error') {
+                                        throw new Error(data.error);
+                                    }
+                                    
+                                    let all_labels = [...new Set([...data.labels_history, ...data.labels_future])];
+
+                                    let history_data_padded = data.values_history.slice();
+                                    for(let i = 0; i < data.labels_future.length - 1; i++) {
+                                        history_data_padded.push(null);
+                                    }
+
+                                    let future_data_padded = [];
+                                    for(let i = 0; i < data.labels_history.length - 1; i++) {
+                                        future_data_padded.push(null);
+                                    }
+                                    future_data_padded = future_data_padded.concat(data.values_future);
+
+                                    var ctx = document.getElementById('revenueForecastChart').getContext('2d');
+                                    
+                                    if(window.myForecastChart) {
+                                        window.myForecastChart.destroy();
+                                    }
+
+                                    window.myForecastChart = new Chart(ctx, {
+                                        type: 'line',
+                                        data: {
+                                            labels: all_labels,
+                                            datasets: [
+                                                {
+                                                    label: 'Doanh thu thực tế',
+                                                    data: history_data_padded,
+                                                    borderColor: '#2979FF',
+                                                    backgroundColor: 'rgba(41, 121, 255, 0.1)',
+                                                    borderWidth: 2,
+                                                    fill: true,
+                                                    tension: 0.3
+                                                },
+                                                {
+                                                    label: 'AI Dự báo (30 ngày tới)',
+                                                    data: future_data_padded,
+                                                    borderColor: '#BE1E2D',
+                                                    borderDash: [5, 5],
+                                                    backgroundColor: 'transparent',
+                                                    borderWidth: 2,
+                                                    tension: 0.3
+                                                }
+                                            ]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            interaction: { mode: 'index', intersect: false },
+                                            plugins: {
+                                                tooltip: {
+                                                    callbacks: {
+                                                        label: function(context) {
+                                                            let label = context.dataset.label || '';
+                                                            if (label) { label += ': '; }
+                                                            if (context.parsed.y !== null) {
+                                                                label += new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(context.parsed.y);
+                                                            }
+                                                            return label;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+
+                                    btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check_circle</span> Cập nhật thành công!';
+                                    setTimeout(() => { 
+                                        btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">magic_button</span> Chạy AI Dự Báo'; 
+                                        btn.disabled = false; 
+                                    }, 3000);
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert("Có lỗi xảy ra: " + error.message);
+                                    btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">magic_button</span> Chạy AI Dự Báo'; 
+                                    btn.disabled = false;
+                                });
+                        });
                     });
                 </script>
 

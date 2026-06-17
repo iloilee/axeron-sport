@@ -8,5 +8,6 @@ echo Kiem tra va cai dat thu vien (Neu chua co)...
 pip install -r requirements.txt
 echo.
 echo Dang chay Server AI Python...
+set PYTHONUTF8=1
 python -u app.py
 pause
