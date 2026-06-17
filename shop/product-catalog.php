@@ -8,19 +8,6 @@ require_once __DIR__ . '/../config/session.php';
 
 $db = db();
 
-// Helper function for Cosine Similarity
-function cosineSimilarity($vecA, $vecB) {
-    $dotProduct = 0; $normA = 0; $normB = 0;
-    $count = count($vecA);
-    for ($i = 0; $i < $count; $i++) {
-        $dotProduct += $vecA[$i] * $vecB[$i];
-        $normA += $vecA[$i] * $vecA[$i];
-        $normB += $vecB[$i] * $vecB[$i];
-    }
-    if ($normA == 0 || $normB == 0) return 0;
-    return $dotProduct / (sqrt($normA) * sqrt($normB));
-}
-
 // Get filter parameters
 $categorySlug = sanitize($_GET['category'] ?? '');
 $search = sanitize($_GET['search'] ?? '');
@@ -127,8 +114,8 @@ $semanticProductIds = [];
 $semanticScoreMap = [];
 
 if ($search) {
-    // 1. Gọi API sang Server Python lấy Vector
-    $apiUrl = "http://localhost:5000/api/embed?keyword=" . urlencode($search);
+    // 1. Gọi API sang Server Python lấy ID đã được xếp hạng
+    $apiUrl = "http://127.0.0.1:5000/api/search?keyword=" . urlencode($search);
     
     // Sử dụng context để set timeout (3 giây để đảm bảo CPU xử lý kịp mô hình)
     $ctx = stream_context_create(['http' => ['timeout' => 3]]);
@@ -136,31 +123,8 @@ if ($search) {
     
     if ($response) {
         $responseData = json_decode($response, true);
-        if (isset($responseData['vector'])) {
-            $queryVector = $responseData['vector'];
-            
-            // 2. Lấy toàn bộ vector từ MariaDB
-            $allEmbeddings = $db->select("SELECT product_id, embedding_vector FROM product_embeddings");
-            $scoredProducts = [];
-            
-            // 3. Tính điểm Cosine Similarity
-            foreach ($allEmbeddings as $row) {
-                $productVector = json_decode($row['embedding_vector'], true);
-                if (is_array($productVector) && count($productVector) === count($queryVector)) {
-                    $score = cosineSimilarity($queryVector, $productVector);
-                    if ($score > 0.3) { // Ngưỡng chấp nhận được
-                        $scoredProducts[] = ['id' => $row['product_id'], 'score' => $score];
-                    }
-                }
-            }
-            
-            // 4. Sắp xếp giảm dần theo độ giống nhau
-            usort($scoredProducts, function($a, $b) {
-                return $b['score'] <=> $a['score'];
-            });
-            
-            // 5. Trích xuất ID
-            foreach ($scoredProducts as $sp) {
+        if (isset($responseData['results']) && is_array($responseData['results'])) {
+            foreach ($responseData['results'] as $sp) {
                 $semanticProductIds[] = $sp['id'];
                 $semanticScoreMap[$sp['id']] = $sp['score'];
             }
