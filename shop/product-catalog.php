@@ -8,6 +8,9 @@ require_once __DIR__ . '/../config/session.php';
 
 $db = db();
 
+// Check if AI is disabled via Cookie (Persists across page loads/searches)
+$disableAi = isset($_COOKIE['disable_ai']) && $_COOKIE['disable_ai'] == '1';
+
 // Get filter parameters
 $categorySlug = sanitize($_GET['category'] ?? '');
 $search = sanitize($_GET['search'] ?? '');
@@ -114,19 +117,21 @@ $semanticProductIds = [];
 $semanticScoreMap = [];
 
 if ($search) {
-    // 1. Gọi API sang Server Python lấy ID đã được xếp hạng
-    $apiUrl = "http://127.0.0.1:5000/api/search?keyword=" . urlencode($search);
-    
-    // Sử dụng context để set timeout (3 giây để đảm bảo CPU xử lý kịp mô hình)
-    $ctx = stream_context_create(['http' => ['timeout' => 3]]);
-    $response = @file_get_contents($apiUrl, false, $ctx);
-    
-    if ($response) {
-        $responseData = json_decode($response, true);
-        if (isset($responseData['results']) && is_array($responseData['results'])) {
-            foreach ($responseData['results'] as $sp) {
-                $semanticProductIds[] = $sp['id'];
-                $semanticScoreMap[$sp['id']] = $sp['score'];
+    if (!$disableAi) {
+        // 1. Gọi API sang Server Python lấy ID đã được xếp hạng
+        $apiUrl = "http://127.0.0.1:5000/api/search?keyword=" . urlencode($search);
+        
+        // Sử dụng context để set timeout (3 giây để đảm bảo CPU xử lý kịp mô hình)
+        $ctx = stream_context_create(['http' => ['timeout' => 3]]);
+        $response = @file_get_contents($apiUrl, false, $ctx);
+        
+        if ($response) {
+            $responseData = json_decode($response, true);
+            if (isset($responseData['results']) && is_array($responseData['results'])) {
+                foreach ($responseData['results'] as $sp) {
+                    $semanticProductIds[] = $sp['id'];
+                    $semanticScoreMap[$sp['id']] = $sp['score'];
+                }
             }
         }
     }
@@ -463,14 +468,14 @@ if (isLoggedIn()) {
                     <h1 class="font-headline-lg text-headline-lg text-on-surface">
                         <?php if ($search): ?>
                             Kết quả tìm kiếm: "<?= htmlspecialchars($search) ?>"
-                            <?php $searchTimeMs = round((microtime(true) - $startTime) * 1000, 2); ?>
+                            <?php $searchTimeMs = round((microtime(true) - $startTime) * 1000); ?>
                             <?php if (isset($semanticProductIds) && !empty($semanticProductIds)): ?>
-                                <span class="ml-2 inline-flex items-center gap-1 bg-gradient-to-r from-purple-600 to-blue-500 text-white text-[13px] px-3 py-1 rounded-full align-middle whitespace-nowrap shadow-sm shadow-purple-200">
+                                <span class="ml-2 inline-flex items-center gap-1 bg-gradient-to-r from-purple-600 to-blue-500 text-white text-[12px] px-2.5 py-0.5 rounded-full align-middle whitespace-nowrap shadow-sm shadow-purple-200">
                                     <span class="material-symbols-outlined text-[16px]">smart_toy</span>
                                     AI Tìm kiếm ngữ nghĩa (<?= $searchTimeMs ?> ms)
                                 </span>
                             <?php else: ?>
-                                <span class="ml-2 inline-flex items-center gap-1 bg-gray-200 text-gray-700 text-[13px] px-3 py-1 rounded-full align-middle whitespace-nowrap">
+                                <span class="ml-2 inline-flex items-center gap-1 bg-gray-200 text-gray-700 text-[12px] px-2.5 py-0.5 rounded-full align-middle whitespace-nowrap">
                                     <span class="material-symbols-outlined text-[16px]">search</span>
                                     Tìm kiếm từ khóa thường (<?= $searchTimeMs ?> ms)
                                 </span>
@@ -494,16 +499,33 @@ if (isLoggedIn()) {
                     <p class="text-on-surface-variant text-sm mt-1">Hiển thị <?= count($products) ?> trong <?= $totalProducts ?> sản phẩm</p>
                 </div>
 
-                <!-- Sort -->
-                <div class="flex flex-col sm:flex-row items-start sm:items-center w-full sm:w-auto gap-2 sm:gap-4 mt-4 sm:mt-0">
-                    <span class="font-body-md text-body-md text-on-surface-variant whitespace-nowrap">Sắp xếp:</span>
-                    <select onchange="window.location.href=this.value" class="form-select font-body-md text-body-md border-outline-variant rounded-md bg-surface-container-lowest text-on-surface focus:ring-axeron-red focus:border-axeron-red px-3 py-2 w-full sm:w-auto">
-                        <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'popular', 'page' => null])) ?>" <?= $sortBy == 'popular' ? 'selected' : '' ?>>Phổ biến nhất</option>
-                        <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'newest', 'page' => null])) ?>" <?= $sortBy == 'newest' ? 'selected' : '' ?>>Mới nhất</option>
-                        <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'price_asc', 'page' => null])) ?>" <?= $sortBy == 'price_asc' ? 'selected' : '' ?>>Giá: Thấp đến Cao</option>
-                        <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'price_desc', 'page' => null])) ?>" <?= $sortBy == 'price_desc' ? 'selected' : '' ?>>Giá: Cao đến Thấp</option>
-                        <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'rating', 'page' => null])) ?>" <?= $sortBy == 'rating' ? 'selected' : '' ?>>Đánh giá cao nhất</option>
-                    </select>
+                <!-- Sort & AI Toggle -->
+                <div class="flex flex-col items-end gap-3 mt-4 sm:mt-0 w-full sm:w-auto">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
+                        <span class="font-body-md text-body-md text-on-surface-variant whitespace-nowrap">Sắp xếp:</span>
+                        <select onchange="window.location.href=this.value" class="form-select font-body-md text-body-md border-outline-variant rounded-md bg-surface-container-lowest text-on-surface focus:ring-axeron-red focus:border-axeron-red px-3 py-2 w-full sm:w-auto">
+                            <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'popular', 'page' => null])) ?>" <?= $sortBy == 'popular' ? 'selected' : '' ?>>Phổ biến nhất</option>
+                            <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'newest', 'page' => null])) ?>" <?= $sortBy == 'newest' ? 'selected' : '' ?>>Mới nhất</option>
+                            <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'price_asc', 'page' => null])) ?>" <?= $sortBy == 'price_asc' ? 'selected' : '' ?>>Giá: Thấp đến Cao</option>
+                            <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'price_desc', 'page' => null])) ?>" <?= $sortBy == 'price_desc' ? 'selected' : '' ?>>Giá: Cao đến Thấp</option>
+                            <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'rating', 'page' => null])) ?>" <?= $sortBy == 'rating' ? 'selected' : '' ?>>Đánh giá cao nhất</option>
+                        </select>
+                    </div>
+
+                    <!-- Nút Debug bật/tắt AI Semantic Search -->
+                    <div class="flex items-center gap-2 bg-surface-container-lowest border <?= !$disableAi ? 'border-purple-300' : 'border-outline-variant' ?> px-3 py-2.5 rounded-lg shadow-sm h-full">
+                        <span class="font-bold text-[14px] text-on-surface flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[18px]" style="color: <?= !$disableAi ? '#8b5cf6' : '#9ca3af' ?>;">smart_toy</span>
+                            AI Search
+                        </span>
+                        <label class="relative inline-block w-8 h-4 cursor-pointer ml-1 mb-0">
+                            <input type="checkbox" <?= !$disableAi ? 'checked' : '' ?> onchange="toggleAiSearch(this.checked)" class="opacity-0 w-0 h-0 absolute">
+                            <span class="absolute top-0 left-0 right-0 bottom-0 transition duration-300 rounded-full" style="background-color: <?= !$disableAi ? '#8b5cf6' : '#d1d5db' ?>;">
+                                <span class="absolute h-3 w-3 bottom-[2px] bg-white transition duration-300 rounded-full shadow-sm" style="left: <?= !$disableAi ? '18px' : '2px' ?>;"></span>
+                            </span>
+                        </label>
+                        <span class="text-[11px] font-bold w-6 text-center" style="color: <?= !$disableAi ? '#8b5cf6' : '#6b7280' ?>;"><?= !$disableAi ? 'ON' : 'OFF' ?></span>
+                    </div>
                 </div>
             </div>
 
@@ -643,6 +665,18 @@ if (isLoggedIn()) {
     </main>
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
+
+    <script>
+    function toggleAiSearch(isAiOn) {
+        if (!isAiOn) {
+            document.cookie = "disable_ai=1; path=/; max-age=86400"; // Tồn tại 1 ngày
+        } else {
+            document.cookie = "disable_ai=0; path=/; max-age=86400";
+        }
+        // Reload lại trang hiện tại ngay lập tức để áp dụng
+        window.location.reload();
+    }
+    </script>
 
     <script src="<?= BASE_URL ?>/js/main.js?v=<?= time() ?>"></script>
     <script>
