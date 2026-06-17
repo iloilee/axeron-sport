@@ -1019,7 +1019,28 @@ if (isLoggedIn()) {
 
                 if (result.success) {
                     showToast(result.message, 'success');
-                    hideReviewForm();
+                    // Thay thế nút Viết đánh giá bằng thông báo thành công
+                    const btnContainer = document.getElementById('btn-write-review').parentElement;
+                    btnContainer.innerHTML = `
+                        <div class="px-6 py-4 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-start md:items-center gap-3">
+                            <span class="material-symbols-outlined text-green-600 text-2xl mt-0.5 md:mt-0">check_circle</span>
+                            <div>
+                                <h4 class="font-bold text-[15px]">Bạn đã đánh giá sản phẩm này</h4>
+                                <p class="text-sm mt-0.5 text-green-600/80">Cảm ơn bạn đã chia sẻ trải nghiệm với Axeron Sport. Đánh giá của bạn giúp cộng đồng mua sắm tốt hơn.</p>
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('review-form-container').remove();
+                    
+                    // Reload danh sách đánh giá
+                    currentReviewPage = 1;
+                    loadReviews();
+                    
+                    // Reload cả trang sau 2 giây để cập nhật lại số sao trung bình và biểu đồ cảm xúc
+                    setTimeout(() => {
+                        window.location.hash = 'reviews-section';
+                        window.location.reload();
+                    }, 2000);
                 } else {
                     showToast(result.message || 'Có lỗi xảy ra', 'error');
                 }

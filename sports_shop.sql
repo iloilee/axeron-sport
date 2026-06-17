@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 17, 2026 lúc 07:19 PM
+-- Thời gian đã tạo: Th6 17, 2026 lúc 08:07 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -441,7 +441,8 @@ INSERT INTO `notifications` (`id`, `message`, `is_read`, `created_at`) VALUES
 (2, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 16 (Review ID: 1400)', 0, '2026-06-17 13:26:10'),
 (3, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 16 (Review ID: 1401)', 0, '2026-06-17 13:36:24'),
 (4, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 16 (Review ID: 1402)', 0, '2026-06-17 13:41:43'),
-(5, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 16 (Review ID: 1403)', 0, '2026-06-17 14:00:49');
+(5, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 16 (Review ID: 1403)', 0, '2026-06-17 14:00:49'),
+(6, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 3 (Review ID: 1405)', 0, '2026-06-17 18:01:37');
 
 -- --------------------------------------------------------
 
@@ -4012,7 +4013,7 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (233, 104, NULL, 'Giày Thể Thao Nam Puma Fuse 2.0', 'giay-the-thao-nam-puma-fuse-2-0-de0e5', '<p>Đây là <strong>Giày Thể Thao Nam Puma Fuse 2.0</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 580000.00, 100, 1, 0, 1, 999, 4.50, 4, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
 (234, 104, NULL, 'Giày Thể Thao Nam Under Armour TriBase', 'giay-the-thao-nam-under-armour-tribase-61e24', '<p>Đây là <strong>Giày Thể Thao Nam Under Armour TriBase</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 570000.00, 100, 1, 0, 1, 999, 4.50, 4, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
 (235, 104, NULL, 'Giày Thể Thao Nam DL Training Core', 'giay-the-thao-nam-dl-training-core-ba9c3', '<p>Đây là <strong>Giày Thể Thao Nam DL Training Core</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1320000.00, 100, 1, 0, 1, 999, 4.33, 3, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
-(236, 105, NULL, 'Dép Nam Signature 8580', 'dep-nam-signature-8580-8fdcf', '<p>Đây là <strong>Dép Nam Signature 8580</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 530000.00, 100, 1, 0, 0, 999, 4.60, 5, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
+(236, 105, NULL, 'Dép Nam Signature 8580', 'dep-nam-signature-8580-8fdcf', '<p>Đây là <strong>Dép Nam Signature 8580</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 530000.00, 100, 1, 0, 0, 999, 4.50, 4, '2026-06-17 07:59:26', '2026-06-18 01:05:59'),
 (237, 105, NULL, 'Dép Nam Signature C888', 'dep-nam-signature-c888-31a20', '<p>Đây là <strong>Dép Nam Signature C888</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 220000.00, 100, 1, 0, 1, 999, 4.40, 5, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
 (238, 105, NULL, 'Dép Nam Thể Thao Quai Ngang DL', 'dep-nam-the-thao-quai-ngang-dl-34efa', '<p>Đây là <strong>Dép Nam Thể Thao Quai Ngang DL</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1100000.00, 100, 1, 0, 1, 999, 5.00, 3, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
 (239, 105, NULL, 'Dép Nam Adidas Adilette Comfort', 'dep-nam-adidas-adilette-comfort-b69c9', '<p>Đây là <strong>Dép Nam Adidas Adilette Comfort</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 490000.00, 100, 1, 0, 1, 999, 4.75, 4, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
@@ -4021,7 +4022,7 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (242, 105, NULL, 'Dép Nam Under Armour Ignite', 'dep-nam-under-armour-ignite-60777', '<p>Đây là <strong>Dép Nam Under Armour Ignite</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 340000.00, 100, 1, 0, 1, 999, 4.80, 5, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
 (243, 105, NULL, 'Dép Nam Kẹp Thể Thao DL', 'dep-nam-kep-the-thao-dl-82285', '<p>Đây là <strong>Dép Nam Kẹp Thể Thao DL</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 940000.00, 100, 1, 0, 1, 999, 4.20, 5, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
 (244, 110, NULL, 'Áo Polo Thể Thao DL Classic 2024', 'ao-polo-the-thao-dl-classic-2024-72787', '<p>Đây là <strong>Áo Polo Thể Thao DL Classic 2024</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 280000.00, 100, 1, 0, 1, 999, 4.60, 5, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
-(245, 110, NULL, 'Áo Polo DL Pro Team 2024', 'ao-polo-dl-pro-team-2024-d20d6', '<p>Đây là <strong>Áo Polo DL Pro Team 2024</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1480000.00, 100, 1, 0, 0, 999, 4.67, 3, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
+(245, 110, NULL, 'Áo Polo DL Pro Team 2024', 'ao-polo-dl-pro-team-2024-d20d6', '<p>Đây là <strong>Áo Polo DL Pro Team 2024</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1480000.00, 100, 1, 0, 0, 999, 4.50, 2, '2026-06-17 07:59:26', '2026-06-18 01:06:47'),
 (246, 110, NULL, 'Áo Polo Nam Adidas Performance', 'ao-polo-nam-adidas-performance-74ac2', '<p>Đây là <strong>Áo Polo Nam Adidas Performance</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1500000.00, 100, 1, 0, 1, 999, 4.40, 5, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
 (247, 110, NULL, 'Áo Polo Nam Nike Dri-FIT', 'ao-polo-nam-nike-dri-fit-25329', '<p>Đây là <strong>Áo Polo Nam Nike Dri-FIT</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1020000.00, 100, 1, 0, 0, 999, 4.80, 5, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
 (248, 110, NULL, 'Áo Polo Nam Under Armour Tech', 'ao-polo-nam-under-armour-tech-6ec41', '<p>Đây là <strong>Áo Polo Nam Under Armour Tech</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1160000.00, 100, 1, 0, 1, 999, 4.40, 5, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
@@ -4146,10 +4147,10 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (366, 303, NULL, 'Cầu Lông Lưới - Phiên Bản Cao Cấp 4', 'cau-long-luoi-phien-ban-cao-cap-4-d3515', '<p>Đây là <strong>Cầu Lông Lưới - Phiên Bản Cao Cấp 4</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 920000.00, 100, 1, 0, 1, 999, 4.67, 3, '2026-06-17 07:59:26', '2026-06-17 13:15:56'),
 (367, 303, NULL, 'Cầu Lông Lưới - Phiên Bản Cao Cấp 5', 'cau-long-luoi-phien-ban-cao-cap-5-8227f', '<p>Đây là <strong>Cầu Lông Lưới - Phiên Bản Cao Cấp 5</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 350000.00, 100, 1, 0, 0, 999, 4.25, 4, '2026-06-17 07:59:26', '2026-06-17 08:41:17'),
 (368, 303, NULL, 'Cầu Lông Lưới - Phiên Bản Cao Cấp 6', 'cau-long-luoi-phien-ban-cao-cap-6-f694f', '<p>Đây là <strong>Cầu Lông Lưới - Phiên Bản Cao Cấp 6</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 860000.00, 100, 1, 0, 1, 999, 5.00, 4, '2026-06-17 07:59:26', '2026-06-17 13:15:55'),
-(369, 304, NULL, 'Vợt Pickleball - Phiên Bản Cao Cấp 1', 'vot-pickleball-phien-ban-cao-cap-1-440ce', '<p>Đây là <strong>Vợt Pickleball - Phiên Bản Cao Cấp 1</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1100000.00, 100, 1, 0, 0, 999, 4.50, 4, '2026-06-17 07:59:26', '2026-06-17 08:41:17'),
+(369, 304, NULL, 'Vợt Pickleball - Phiên Bản Cao Cấp 1', 'vot-pickleball-phien-ban-cao-cap-1-440ce', '<p>Đây là <strong>Vợt Pickleball - Phiên Bản Cao Cấp 1</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1100000.00, 100, 1, 0, 0, 999, 4.33, 3, '2026-06-17 07:59:26', '2026-06-18 00:59:59'),
 (370, 304, NULL, 'Vợt Pickleball - Phiên Bản Cao Cấp 2', 'vot-pickleball-phien-ban-cao-cap-2-3e342', '<p>Đây là <strong>Vợt Pickleball - Phiên Bản Cao Cấp 2</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 210000.00, 100, 1, 0, 1, 999, 4.20, 5, '2026-06-17 07:59:26', '2026-06-17 13:17:10'),
 (371, 304, NULL, 'Vợt Pickleball - Phiên Bản Cao Cấp 3', 'vot-pickleball-phien-ban-cao-cap-3-4ca0e', '<p>Đây là <strong>Vợt Pickleball - Phiên Bản Cao Cấp 3</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 250000.00, 100, 1, 0, 1, 999, 4.00, 3, '2026-06-17 07:59:26', '2026-06-17 13:17:09'),
-(372, 304, NULL, 'Vợt Pickleball - Phiên Bản Cao Cấp 4', 'vot-pickleball-phien-ban-cao-cap-4-d9a41', '<p>Đây là <strong>Vợt Pickleball - Phiên Bản Cao Cấp 4</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 960000.00, 100, 1, 0, 1, 999, 5.00, 4, '2026-06-17 07:59:26', '2026-06-17 13:17:09'),
+(372, 304, NULL, 'Vợt Pickleball - Phiên Bản Cao Cấp 4', 'vot-pickleball-phien-ban-cao-cap-4-d9a41', '<p>Đây là <strong>Vợt Pickleball - Phiên Bản Cao Cấp 4</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 960000.00, 100, 1, 0, 1, 999, 5.00, 3, '2026-06-17 07:59:26', '2026-06-18 00:59:06'),
 (373, 304, NULL, 'Vợt Pickleball - Phiên Bản Cao Cấp 5', 'vot-pickleball-phien-ban-cao-cap-5-e7aeb', '<p>Đây là <strong>Vợt Pickleball - Phiên Bản Cao Cấp 5</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1330000.00, 100, 1, 0, 1, 999, 5.00, 5, '2026-06-17 07:59:26', '2026-06-17 13:17:09'),
 (374, 304, NULL, 'Vợt Pickleball - Phiên Bản Cao Cấp 6', 'vot-pickleball-phien-ban-cao-cap-6-0f111', '<p>Đây là <strong>Vợt Pickleball - Phiên Bản Cao Cấp 6</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 580000.00, 100, 1, 0, 1, 999, 4.33, 3, '2026-06-17 07:59:26', '2026-06-17 13:17:08'),
 (375, 305, NULL, 'Bóng Pickleball - Phiên Bản Cao Cấp 1', 'bong-pickleball-phien-ban-cao-cap-1-2463f', '<p>Đây là <strong>Bóng Pickleball - Phiên Bản Cao Cấp 1</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 630000.00, 100, 1, 0, 1, 999, 4.00, 4, '2026-06-17 07:59:26', '2026-06-17 13:18:26'),
@@ -4173,7 +4174,7 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (393, 308, NULL, 'Giàn Tập - Phiên Bản Cao Cấp 1', 'gian-tap-phien-ban-cao-cap-1-2c230', '<p>Đây là <strong>Giàn Tập - Phiên Bản Cao Cấp 1</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 560000.00, 100, 1, 0, 0, 999, 4.20, 5, '2026-06-17 07:59:26', '2026-06-17 08:41:17'),
 (394, 308, NULL, 'Giàn Tập - Phiên Bản Cao Cấp 2', 'gian-tap-phien-ban-cao-cap-2-6d142', '<p>Đây là <strong>Giàn Tập - Phiên Bản Cao Cấp 2</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 730000.00, 100, 1, 0, 1, 999, 4.67, 3, '2026-06-17 07:59:26', '2026-06-17 13:25:56'),
 (395, 308, NULL, 'Giàn Tập - Phiên Bản Cao Cấp 3', 'gian-tap-phien-ban-cao-cap-3-4d58a', '<p>Đây là <strong>Giàn Tập - Phiên Bản Cao Cấp 3</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1240000.00, 100, 1, 0, 1, 999, 4.33, 3, '2026-06-17 07:59:26', '2026-06-17 13:25:55'),
-(396, 308, NULL, 'Giàn Tập - Phiên Bản Cao Cấp 4', 'gian-tap-phien-ban-cao-cap-4-7c8f3', '<p>Đây là <strong>Giàn Tập - Phiên Bản Cao Cấp 4</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 280000.00, 100, 1, 0, 0, 999, 4.00, 5, '2026-06-17 07:59:26', '2026-06-17 08:41:17'),
+(396, 308, NULL, 'Giàn Tập - Phiên Bản Cao Cấp 4', 'gian-tap-phien-ban-cao-cap-4-7c8f3', '<p>Đây là <strong>Giàn Tập - Phiên Bản Cao Cấp 4</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 280000.00, 100, 1, 0, 0, 999, 4.00, 4, '2026-06-17 07:59:26', '2026-06-18 00:59:11'),
 (397, 308, NULL, 'Giàn Tập - Phiên Bản Cao Cấp 5', 'gian-tap-phien-ban-cao-cap-5-ce971', '<p>Đây là <strong>Giàn Tập - Phiên Bản Cao Cấp 5</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 490000.00, 100, 1, 0, 1, 999, 4.00, 3, '2026-06-17 07:59:26', '2026-06-17 13:25:54'),
 (398, 308, NULL, 'Giàn Tập - Phiên Bản Cao Cấp 6', 'gian-tap-phien-ban-cao-cap-6-37971', '<p>Đây là <strong>Giàn Tập - Phiên Bản Cao Cấp 6</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1100000.00, 100, 1, 0, 1, 999, 4.75, 4, '2026-06-17 07:59:26', '2026-06-17 13:25:55'),
 (399, 315, NULL, 'Giày Pickleball - Phiên Bản Cao Cấp 1', 'giay-pickleball-phien-ban-cao-cap-1-cb29b', '<p>Đây là <strong>Giày Pickleball - Phiên Bản Cao Cấp 1</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 350000.00, 100, 1, 0, 0, 999, 4.67, 3, '2026-06-17 07:59:26', '2026-06-17 08:41:17'),
@@ -4207,7 +4208,7 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (426, 320, NULL, 'Bộ Bóng Đá Nam - Phiên Bản Cao Cấp 4', 'bo-bong-da-nam-phien-ban-cao-cap-4-a506b', '<p>Đây là <strong>Bộ Bóng Đá Nam - Phiên Bản Cao Cấp 4</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 680000.00, 100, 1, 0, 0, 999, 4.00, 3, '2026-06-17 07:59:26', '2026-06-17 08:41:17'),
 (427, 320, NULL, 'Bộ Bóng Đá Nam - Phiên Bản Cao Cấp 5', 'bo-bong-da-nam-phien-ban-cao-cap-5-5dbe1', '<p>Đây là <strong>Bộ Bóng Đá Nam - Phiên Bản Cao Cấp 5</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1420000.00, 100, 1, 0, 1, 999, 4.50, 4, '2026-06-17 07:59:26', '2026-06-17 08:57:01'),
 (428, 320, NULL, 'Bộ Bóng Đá Nam - Phiên Bản Cao Cấp 6', 'bo-bong-da-nam-phien-ban-cao-cap-6-6de0d', '<p>Đây là <strong>Bộ Bóng Đá Nam - Phiên Bản Cao Cấp 6</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1240000.00, 100, 1, 0, 1, 999, 4.00, 3, '2026-06-17 07:59:26', '2026-06-17 08:57:01'),
-(429, 321, NULL, 'Bộ Cầu Lông Nam - Phiên Bản Cao Cấp 1', 'bo-cau-long-nam-phien-ban-cao-cap-1-80c0b', '<p>Đây là <strong>Bộ Cầu Lông Nam - Phiên Bản Cao Cấp 1</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1110000.00, 100, 1, 0, 1, 999, 4.50, 4, '2026-06-17 07:59:26', '2026-06-17 09:01:41'),
+(429, 321, NULL, 'Bộ Cầu Lông Nam - Phiên Bản Cao Cấp 1', 'bo-cau-long-nam-phien-ban-cao-cap-1-80c0b', '<p>Đây là <strong>Bộ Cầu Lông Nam - Phiên Bản Cao Cấp 1</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1110000.00, 100, 1, 0, 1, 999, 4.67, 3, '2026-06-17 07:59:26', '2026-06-18 01:06:22'),
 (430, 321, NULL, 'Bộ Cầu Lông Nam - Phiên Bản Cao Cấp 2', 'bo-cau-long-nam-phien-ban-cao-cap-2-1df95', '<p>Đây là <strong>Bộ Cầu Lông Nam - Phiên Bản Cao Cấp 2</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 250000.00, 100, 1, 0, 0, 999, 4.67, 3, '2026-06-17 07:59:26', '2026-06-17 08:41:17'),
 (431, 321, NULL, 'Bộ Cầu Lông Nam - Phiên Bản Cao Cấp 3', 'bo-cau-long-nam-phien-ban-cao-cap-3-6d952', '<p>Đây là <strong>Bộ Cầu Lông Nam - Phiên Bản Cao Cấp 3</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 670000.00, 100, 1, 0, 1, 999, 4.67, 3, '2026-06-17 07:59:26', '2026-06-17 09:01:42'),
 (432, 321, NULL, 'Bộ Cầu Lông Nam - Phiên Bản Cao Cấp 4', 'bo-cau-long-nam-phien-ban-cao-cap-4-9d8d5', '<p>Đây là <strong>Bộ Cầu Lông Nam - Phiên Bản Cao Cấp 4</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 440000.00, 100, 1, 0, 1, 999, 4.50, 4, '2026-06-17 07:59:26', '2026-06-17 09:01:42'),
@@ -8844,7 +8845,20 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (859, 2, 277, '2026-06-17 21:40:25'),
 (860, 2, 236, '2026-06-18 00:12:30'),
 (861, 2, 236, '2026-06-18 00:12:49'),
-(862, 2, 236, '2026-06-18 00:19:12');
+(862, 2, 236, '2026-06-18 00:19:12'),
+(863, 2, 16, '2026-06-18 00:59:18'),
+(864, 2, 16, '2026-06-18 00:59:49'),
+(865, 2, 16, '2026-06-18 00:59:50'),
+(866, 2, 16, '2026-06-18 01:00:02'),
+(867, 2, 3, '2026-06-18 01:00:14'),
+(868, 2, 3, '2026-06-18 01:00:18'),
+(869, 2, 3, '2026-06-18 01:01:27'),
+(870, 2, 3, '2026-06-18 01:02:26'),
+(871, 2, 3, '2026-06-18 01:03:23'),
+(872, 2, 236, '2026-06-18 01:05:44'),
+(873, 2, 429, '2026-06-18 01:06:10'),
+(874, 2, 429, '2026-06-18 01:06:24'),
+(875, 2, 245, '2026-06-18 01:06:30');
 
 -- --------------------------------------------------------
 
@@ -9656,7 +9670,7 @@ INSERT INTO `reviews` (`review_id`, `product_id`, `user_id`, `rating`, `comment`
 (226, 236, 31, 4, 'Sản phẩm rất đẹp, đúng như hình.', 'approved', '2026-06-17 08:41:16', '2026-06-17 08:41:16', 0, 50313, 'neutral'),
 (227, 236, 8, 4, 'Giao hàng đúng hẹn, đóng gói cẩn thận.', 'approved', '2026-06-17 08:41:16', '2026-06-17 08:41:16', 0, 50314, 'neutral'),
 (228, 236, 24, 5, 'Form chuẩn, mặc lên rất thoải mái.', 'approved', '2026-06-17 08:41:16', '2026-06-17 08:41:16', 0, 50315, 'neutral'),
-(229, 236, 2, 5, 'Giao hàng đúng hẹn, đóng gói cẩn thận.', 'approved', '2026-06-17 08:41:16', '2026-06-17 08:41:16', 0, 50316, 'neutral'),
+(229, 236, 2, 5, 'Giao hàng đúng hẹn, đóng gói cẩn thận.', 'approved', '2026-06-17 08:41:16', '2026-06-18 01:05:59', 1, 50316, 'neutral'),
 (230, 236, 19, 5, 'Rất ưng ý, đường may chắc chắn.', 'approved', '2026-06-17 08:41:16', '2026-06-17 08:41:16', 0, 50317, 'neutral'),
 (231, 237, 25, 4, 'Form chuẩn, mặc lên rất thoải mái.', 'approved', '2026-06-17 08:41:16', '2026-06-17 08:41:16', 0, 50318, 'neutral'),
 (232, 237, 18, 5, 'Form chuẩn, mặc lên rất thoải mái.', 'approved', '2026-06-17 08:41:16', '2026-06-17 08:41:16', 0, 50319, 'neutral'),
@@ -9695,7 +9709,7 @@ INSERT INTO `reviews` (`review_id`, `product_id`, `user_id`, `rating`, `comment`
 (265, 244, 19, 4, 'Mua tặng bạn và bạn mình rất thích.', 'approved', '2026-06-17 08:41:16', '2026-06-17 08:41:16', 0, 50352, 'neutral'),
 (266, 244, 24, 5, 'Đáng tiền, sẽ ủng hộ shop dài dài.', 'approved', '2026-06-17 08:41:16', '2026-06-17 08:41:16', 0, 50353, 'neutral'),
 (267, 244, 15, 5, 'Form chuẩn, mặc lên rất thoải mái.', 'approved', '2026-06-17 08:41:16', '2026-06-17 08:41:16', 0, 50354, 'neutral'),
-(268, 245, 2, 5, 'Chất lượng tuyệt vời, giao hàng nhanh.', 'approved', '2026-06-17 08:41:16', '2026-06-17 08:41:16', 0, 50355, 'neutral'),
+(268, 245, 2, 5, 'Chất lượng tuyệt vời, giao hàng nhanh.', 'approved', '2026-06-17 08:41:16', '2026-06-18 01:06:47', 1, 50355, 'neutral'),
 (269, 245, 20, 4, 'Rất ưng ý, đường may chắc chắn.', 'approved', '2026-06-17 08:41:16', '2026-06-17 08:41:16', 0, 50356, 'neutral'),
 (270, 245, 14, 5, 'Vải tốt, không bị nhăn sau khi giặt.', 'approved', '2026-06-17 08:41:16', '2026-06-17 08:41:16', 0, 50357, 'neutral'),
 (271, 246, 20, 4, 'Rất ưng ý, đường may chắc chắn.', 'approved', '2026-06-17 08:41:16', '2026-06-17 08:41:16', 0, 50358, 'neutral'),
@@ -10203,7 +10217,7 @@ INSERT INTO `reviews` (`review_id`, `product_id`, `user_id`, `rating`, `comment`
 (771, 368, 10, 5, 'Đáng tiền, sẽ ủng hộ shop dài dài.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50858, 'neutral'),
 (772, 369, 15, 4, 'Form chuẩn, mặc lên rất thoải mái.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50859, 'neutral'),
 (773, 369, 26, 5, 'Chất lượng tuyệt vời, giao hàng nhanh.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50860, 'neutral'),
-(774, 369, 2, 5, 'Màu sắc bên ngoài đẹp hơn trong ảnh.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50861, 'neutral'),
+(774, 369, 2, 5, 'Màu sắc bên ngoài đẹp hơn trong ảnh.', 'approved', '2026-06-17 08:41:17', '2026-06-18 00:59:59', 1, 50861, 'neutral'),
 (775, 369, 12, 4, 'Đáng tiền, sẽ ủng hộ shop dài dài.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50862, 'neutral'),
 (776, 370, 22, 4, 'Hàng chuẩn, giá cả hợp lý.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50863, 'neutral'),
 (777, 370, 19, 4, 'Màu sắc bên ngoài đẹp hơn trong ảnh.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50864, 'neutral'),
@@ -10216,7 +10230,7 @@ INSERT INTO `reviews` (`review_id`, `product_id`, `user_id`, `rating`, `comment`
 (784, 372, 11, 5, 'Giao hàng đúng hẹn, đóng gói cẩn thận.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50871, 'neutral'),
 (785, 372, 31, 5, 'Giao hàng đúng hẹn, đóng gói cẩn thận.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50872, 'neutral'),
 (786, 372, 23, 5, 'Vải tốt, không bị nhăn sau khi giặt.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50873, 'neutral'),
-(787, 372, 2, 5, 'Rất ưng ý, đường may chắc chắn.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50874, 'neutral'),
+(787, 372, 2, 5, 'Rất ưng ý, đường may chắc chắn.', 'approved', '2026-06-17 08:41:17', '2026-06-18 00:59:06', 1, 50874, 'neutral'),
 (788, 373, 33, 5, 'Sản phẩm y chang mô tả, rất hài lòng.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50875, 'neutral'),
 (789, 373, 21, 5, 'Rất ưng ý, đường may chắc chắn.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50876, 'neutral'),
 (790, 373, 15, 5, 'Vải tốt, không bị nhăn sau khi giặt.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50877, 'neutral'),
@@ -10315,7 +10329,7 @@ INSERT INTO `reviews` (`review_id`, `product_id`, `user_id`, `rating`, `comment`
 (883, 396, 21, 4, 'Mua tặng bạn và bạn mình rất thích.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50970, 'neutral'),
 (884, 396, 18, 4, 'Form chuẩn, mặc lên rất thoải mái.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50971, 'neutral'),
 (885, 396, 15, 4, 'Tuyệt vời, 5 sao cho chất lượng dịch vụ.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50972, 'neutral'),
-(886, 396, 2, 4, 'Tuyệt vời, 5 sao cho chất lượng dịch vụ.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50973, 'neutral'),
+(886, 396, 2, 4, 'Tuyệt vời, 5 sao cho chất lượng dịch vụ.', 'approved', '2026-06-17 08:41:17', '2026-06-18 00:59:11', 1, 50973, 'neutral'),
 (887, 397, 33, 4, 'Giao hàng đúng hẹn, đóng gói cẩn thận.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50974, 'neutral'),
 (888, 397, 26, 4, 'Form chuẩn, mặc lên rất thoải mái.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50975, 'neutral'),
 (889, 397, 30, 4, 'Giao hàng đúng hẹn, đóng gói cẩn thận.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 50976, 'neutral'),
@@ -10450,7 +10464,7 @@ INSERT INTO `reviews` (`review_id`, `product_id`, `user_id`, `rating`, `comment`
 (1018, 428, 12, 4, 'Rất ưng ý, đường may chắc chắn.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 51105, 'neutral'),
 (1019, 429, 14, 5, 'Sản phẩm rất đẹp, đúng như hình.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 51106, 'neutral'),
 (1020, 429, 29, 4, 'Form chuẩn, mặc lên rất thoải mái.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 51107, 'neutral'),
-(1021, 429, 2, 4, 'Form chuẩn, mặc lên rất thoải mái.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 51108, 'neutral'),
+(1021, 429, 2, 4, 'Form chuẩn, mặc lên rất thoải mái.', 'approved', '2026-06-17 08:41:17', '2026-06-18 01:06:22', 1, 51108, 'neutral'),
 (1022, 429, 23, 5, 'Tuyệt vời, 5 sao cho chất lượng dịch vụ.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 51109, 'neutral'),
 (1023, 430, 13, 5, 'Vải tốt, không bị nhăn sau khi giặt.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 51110, 'neutral'),
 (1024, 430, 9, 5, 'Rất ưng ý, đường may chắc chắn.', 'approved', '2026-06-17 08:41:17', '2026-06-17 08:41:17', 0, 51111, 'neutral'),
@@ -10833,7 +10847,9 @@ INSERT INTO `reviews` (`review_id`, `product_id`, `user_id`, `rating`, `comment`
 (1400, 16, 2, 1, 'Sản phẩm này thật sự rất tệ,không thể dùng được tôi muốn trả hàng!', 'pending', '2026-06-17 20:26:10', '2026-06-17 20:26:24', 1, 20, 'negative'),
 (1401, 16, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'approved', '2026-06-17 20:36:24', '2026-06-17 20:53:27', 1, 20, 'negative'),
 (1402, 16, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'approved', '2026-06-17 20:41:43', '2026-06-17 20:54:00', 1, 20, 'negative'),
-(1403, 16, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'pending', '2026-06-17 21:00:49', '2026-06-17 21:00:49', 0, 20, 'negative');
+(1403, 16, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'pending', '2026-06-17 21:00:49', '2026-06-18 00:58:26', 1, 20, 'negative'),
+(1404, 16, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'pending', '2026-06-18 00:59:32', '2026-06-18 01:01:22', 1, 20, 'neutral'),
+(1405, 3, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'pending', '2026-06-18 01:01:37', '2026-06-18 01:01:37', 0, 26, 'negative');
 
 -- --------------------------------------------------------
 
@@ -11092,7 +11108,37 @@ INSERT INTO `search_logs` (`log_id`, `user_id`, `keyword`, `result_count`, `sear
 (213, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 0, '2026-06-17 20:57:05'),
 (214, 2, 'đồ mặc để đi đá bóng buổi chiều', 418, '2026-06-17 20:57:21'),
 (215, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-17 20:57:33'),
-(216, 2, 'quần áo tập gym mồ hôi nhiều', 492, '2026-06-17 20:57:41');
+(216, 2, 'quần áo tập gym mồ hôi nhiều', 492, '2026-06-17 20:57:41'),
+(217, 1, 'đồ dùng cho người mới chạy bộ', 0, '2026-06-18 00:28:16'),
+(218, 1, 'đồ dùng cho người mới chạy bộ', 0, '2026-06-18 00:28:16'),
+(219, 1, 'đồ dùng cho người mới chạy bộ', 0, '2026-06-18 00:28:20'),
+(220, 1, 'đồ dùng cho người mới chạy bộ', 498, '2026-06-18 00:28:23'),
+(221, 2, 'đồ mặc để đi đá bóng buổi chiều', 418, '2026-06-18 00:28:44'),
+(222, 2, 'đồ dùng cho người mới chạy bộ', 498, '2026-06-18 00:33:40'),
+(223, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:39:25'),
+(224, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:39:31'),
+(225, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:39:33'),
+(226, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:39:42'),
+(227, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:41:36'),
+(228, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:41:36'),
+(229, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:41:37'),
+(230, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:41:38'),
+(231, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:41:41'),
+(232, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 0, '2026-06-18 00:41:43'),
+(233, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:41:46'),
+(234, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:41:51'),
+(235, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:43:29'),
+(236, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:43:52'),
+(237, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:43:56'),
+(238, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:43:58'),
+(239, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 324, '2026-06-18 00:44:03'),
+(240, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 0, '2026-06-18 00:52:54'),
+(241, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 0, '2026-06-18 00:52:55'),
+(242, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 0, '2026-06-18 00:53:06'),
+(243, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 0, '2026-06-18 00:55:08'),
+(244, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 0, '2026-06-18 00:55:24'),
+(245, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 0, '2026-06-18 00:55:41'),
+(246, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 0, '2026-06-18 00:57:56');
 
 -- --------------------------------------------------------
 
@@ -11763,7 +11809,7 @@ ALTER TABLE `contact_messages`
 -- AUTO_INCREMENT cho bảng `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
@@ -11817,7 +11863,7 @@ ALTER TABLE `product_variants`
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=863;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=876;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
@@ -11841,7 +11887,7 @@ ALTER TABLE `promotion_products`
 -- AUTO_INCREMENT cho bảng `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1404;
+  MODIFY `review_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1406;
 
 --
 -- AUTO_INCREMENT cho bảng `roles`
@@ -11853,7 +11899,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT cho bảng `search_logs`
 --
 ALTER TABLE `search_logs`
-  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=217;
+  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
 
 --
 -- AUTO_INCREMENT cho bảng `shipping_methods`
