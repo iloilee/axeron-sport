@@ -198,7 +198,7 @@ $orders = $db->select("
                             <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Ngày Đặt</th>
                             <th class="text-center px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Sản Phẩm</th>
                             <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Tổng Tiền</th>
-                            <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Phương thức vận chuyển</th>
+                            <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Vận chuyển</th>
                             <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Thanh toán</th>
                             <th class="text-left px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Trạng Thái</th>
                             <th class="text-center px-4 py-4 font-label-lg text-label-lg whitespace-nowrap">Đánh Giá</th>
@@ -225,14 +225,19 @@ $orders = $db->select("
                                     'Nhận tại cửa hàng' => 'text-[#22C55E]',
                                     default => 'text-on-surface'
                                 };
+                                $shippingNameShort = match($shippingName) {
+                                    'Giao hàng tiêu chuẩn' => 'Tiêu chuẩn',
+                                    'Giao nhanh (Express)' => 'Nhanh (Express)',
+                                    default => $shippingName
+                                };
                                 ?>
-                                <span class="<?= $shippingColor ?>"><?= $shippingName ?></span>
+                                <span class="<?= $shippingColor ?>"><?= $shippingNameShort ?></span>
                             </td>
                             <td class="px-4 py-4 font-body-md font-semibold whitespace-nowrap">
                                 <?php
                                 $paymentText = match($order['payment_method']) {
                                     'cod' => 'Thanh toán khi nhận hàng COD',
-                                    'payos', 'bank_transfer' => 'Thanh toán QR/Chuyển khoản',
+                                    'payos', 'bank_transfer' => 'Quét mã QR/Chuyển khoản',
                                     'momo' => 'Ví MoMo',
                                     'vnpay' => 'VNPay',
                                     'zalopay' => 'ZaloPay',
