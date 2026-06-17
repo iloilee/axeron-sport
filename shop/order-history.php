@@ -63,7 +63,12 @@ $orders = $db->select("
          JOIN product_variants pv5 ON oi5.variant_id = pv5.variant_id
          JOIN products p ON pv5.product_id = p.product_id
          WHERE oi5.order_id = o.order_id
-         LIMIT 1) as first_product_slug
+         LIMIT 1) as first_product_slug,
+        (SELECT ROUND(AVG(r.rating))
+         FROM order_items oi6
+         JOIN product_variants pv6 ON oi6.variant_id = pv6.variant_id
+         JOIN reviews r ON r.product_id = pv6.product_id AND r.user_id = o.user_id AND r.is_deleted = 0
+         WHERE oi6.order_id = o.order_id) as average_rating
     FROM orders o
     LEFT JOIN order_items oi ON o.order_id = oi.order_id
     LEFT JOIN shipping_methods sm ON o.shipping_method_id = sm.method_id
@@ -295,11 +300,32 @@ $orders = $db->select("
                             <td class="px-4 py-4 whitespace-nowrap text-center">
                                 <?php if ($order['order_status'] === 'delivered'): ?>
                                     <?php if ($order['reviewed_count'] >= $order['distinct_product_count'] && $order['distinct_product_count'] > 0): ?>
-                                        <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($order['first_product_slug']) ?>#reviews-section" class="text-green-600 hover:text-green-800 font-semibold text-sm flex justify-center items-center gap-1"><span class="material-symbols-outlined text-[16px]">check_circle</span> Đã đánh giá</a>
+                                        <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($order['first_product_slug']) ?>#reviews-section" class="text-green-600 hover:text-green-800 font-semibold text-sm flex flex-col items-center gap-1 group">
+                                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">check_circle</span> Đã đánh giá</span>
+                                            <div class="flex items-center text-[#FFD700] drop-shadow-sm group-hover:scale-105 transition-transform">
+                                                <?php $rating = (int)($order['average_rating'] ?? 5); for ($i = 1; $i <= 5; $i++): ?>
+                                                <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' <?= $i <= $rating ? 1 : 0 ?>;">star</span>
+                                                <?php endfor; ?>
+                                            </div>
+                                        </a>
                                     <?php elseif ($order['reviewed_count'] > 0): ?>
-                                        <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($order['first_unreviewed_slug']) ?>#reviews-section" class="text-yellow-600 hover:text-yellow-800 font-semibold text-sm flex justify-center items-center gap-1"><span class="material-symbols-outlined text-[16px]">star_half</span> Đánh giá tiếp</a>
+                                        <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($order['first_unreviewed_slug']) ?>#reviews-section" class="text-yellow-600 hover:text-yellow-800 font-semibold text-sm flex flex-col items-center gap-1 group">
+                                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">star_half</span> Đánh giá tiếp</span>
+                                            <div class="flex items-center text-[#FFD700] drop-shadow-sm group-hover:scale-105 transition-transform">
+                                                <?php $rating = (int)($order['average_rating'] ?? 0); for ($i = 1; $i <= 5; $i++): ?>
+                                                <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' <?= $i <= $rating ? 1 : 0 ?>;">star</span>
+                                                <?php endfor; ?>
+                                            </div>
+                                        </a>
                                     <?php else: ?>
-                                        <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($order['first_unreviewed_slug']) ?>#reviews-section" class="text-axeron-red hover:text-red-800 hover:underline font-semibold text-sm flex justify-center items-center gap-1"><span class="material-symbols-outlined text-[16px]">rate_review</span> Đánh giá ngay</a>
+                                        <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($order['first_unreviewed_slug']) ?>#reviews-section" class="text-axeron-red hover:text-red-800 hover:underline font-semibold text-sm flex flex-col items-center gap-1 group">
+                                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">rate_review</span> Đánh giá ngay</span>
+                                            <div class="flex items-center text-gray-300 drop-shadow-sm group-hover:text-[#FFD700] transition-colors">
+                                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 0;">star</span>
+                                                <?php endfor; ?>
+                                            </div>
+                                        </a>
                                     <?php endif; ?>
                                 <?php else: ?>
                                     <span class="text-gray-400 text-sm">-</span>

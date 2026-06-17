@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 17, 2026 lúc 04:15 PM
+-- Thời gian đã tạo: Th6 17, 2026 lúc 04:40 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -8834,7 +8834,14 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (849, 2, 16, '2026-06-17 20:53:53'),
 (850, 2, 16, '2026-06-17 20:54:02'),
 (851, 2, 396, '2026-06-17 20:57:52'),
-(852, 2, 16, '2026-06-17 21:00:32');
+(852, 2, 16, '2026-06-17 21:00:32'),
+(853, 2, 366, '2026-06-17 21:22:49'),
+(854, 2, 338, '2026-06-17 21:25:08'),
+(855, 2, 338, '2026-06-17 21:25:21'),
+(856, 2, 277, '2026-06-17 21:25:22'),
+(857, 2, 369, '2026-06-17 21:32:49'),
+(858, 2, 369, '2026-06-17 21:40:19'),
+(859, 2, 277, '2026-06-17 21:40:25');
 
 -- --------------------------------------------------------
 
@@ -11807,7 +11814,7 @@ ALTER TABLE `product_variants`
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=853;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=860;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
