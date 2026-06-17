@@ -11,8 +11,14 @@ $orderCode = '';
 $phone = '';
 
 // Nếu user đã đăng nhập, và không submit form, có thể gợi ý sang trang Lịch sử
-if (isLoggedIn() && $_SERVER['REQUEST_METHOD'] !== 'POST') {
+if (isLoggedIn()) {
     $isLoggedInUser = true;
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $currentUser = $db->selectOne("SELECT phone FROM users WHERE user_id = ?", [getUserId()]);
+        if ($currentUser && !empty($currentUser['phone'])) {
+            $phone = $currentUser['phone'];
+        }
+    }
 } else {
     $isLoggedInUser = false;
 }
