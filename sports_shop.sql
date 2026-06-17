@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 17, 2026 lúc 08:07 PM
+-- Thời gian đã tạo: Th6 17, 2026 lúc 08:41 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -442,7 +442,8 @@ INSERT INTO `notifications` (`id`, `message`, `is_read`, `created_at`) VALUES
 (3, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 16 (Review ID: 1401)', 0, '2026-06-17 13:36:24'),
 (4, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 16 (Review ID: 1402)', 0, '2026-06-17 13:41:43'),
 (5, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 16 (Review ID: 1403)', 0, '2026-06-17 14:00:49'),
-(6, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 3 (Review ID: 1405)', 0, '2026-06-17 18:01:37');
+(6, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 3 (Review ID: 1405)', 0, '2026-06-17 18:01:37'),
+(7, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 236 (Review ID: 1406)', 0, '2026-06-17 18:29:59');
 
 -- --------------------------------------------------------
 
@@ -3782,7 +3783,7 @@ CREATE TABLE `products` (
 INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`, `slug`, `description`, `base_price`, `stock_quantity`, `is_visible`, `is_deleted`, `is_featured`, `featured_sort_order`, `avg_rating`, `total_reviews`, `created_at`, `updated_at`) VALUES
 (1, 101, 1, 'Giày chạy bộ DL Speed Pro X1', 'giay-chay-bo-dl-speed-pro-x1', '<h3>Tổng quan chi tiết về <strong>Giày chạy bộ DL Speed Pro X1</strong></h3>\n<p>Giày chạy bộ chuyên nghiệp với đế giày EVA siêu nhẹ.</p>\n\n        <p>Được thiết kế chuyên biệt để nâng niu từng bước chân, <strong>Giày chạy bộ DL Speed Pro X1</strong> là người bạn đồng hành không thể thiếu cho những tín đồ đam mê vận động. Với kiểu dáng thể thao hiện đại, sản phẩm không chỉ mang lại hiệu suất cao trên sân tập mà còn rất phong cách khi dạo phố.</p>\n        \n        <h4>1. Cấu tạo và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất liệu bề mặt cao cấp:</strong> Thân giày được làm từ vật liệu siêu nhẹ và thoáng khí, giúp đôi chân luôn khô ráo dù hoạt động ở cường độ cao.</li>\n            <li><strong>Bộ đệm êm ái, trợ lực tốt:</strong> Đế giữa hấp thụ lực va đập cực tốt, phản hồi năng lượng mạnh mẽ giúp giảm thiểu chấn thương cơ xương khớp.</li>\n            <li><strong>Đế ngoài chống trượt:</strong> Thiết kế mặt đế bám đường vượt trội, tăng độ ma sát và an toàn trên nhiều địa hình khác nhau.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn vệ sinh và bảo quản</h4>\n        <ul>\n            <li>Không giặt giày bằng máy giặt để tránh làm biến dạng form dáng và hỏng lớp keo dán.</li>\n            <li>Sử dụng bàn chải lông mềm và dung dịch vệ sinh chuyên dụng để làm sạch các vết bẩn.</li>\n            <li>Sau khi giặt, phơi giày ở nơi khô ráo, bóng râm. Tuyệt đối không phơi trực tiếp dưới ánh nắng gắt hoặc dùng máy sấy nhiệt độ cao.</li>\n            <li>Nên nhét thêm giấy báo hoặc cục hút ẩm vào bên trong giày khi không sử dụng để giữ form và khử mùi.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Giày chạy bộ DL Speed Pro X1</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 890000.00, 50, 1, 0, 1, 3, 4.67, 3, '2026-05-29 19:17:55', '2026-06-16 21:10:03'),
 (2, 101, 1, 'Giày chạy bộ DL Runner Air 2024', 'giay-chay-bo-dl-runner-air-2024', '<h3>Tổng quan chi tiết về <strong>Giày chạy bộ DL Runner Air 2024</strong></h3>\n<p>Thiết kế khí động học giúp tăng tốc độ.</p>\n\n        <p>Được thiết kế chuyên biệt để nâng niu từng bước chân, <strong>Giày chạy bộ DL Runner Air 2024</strong> là người bạn đồng hành không thể thiếu cho những tín đồ đam mê vận động. Với kiểu dáng thể thao hiện đại, sản phẩm không chỉ mang lại hiệu suất cao trên sân tập mà còn rất phong cách khi dạo phố.</p>\n        \n        <h4>1. Cấu tạo và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất liệu bề mặt cao cấp:</strong> Thân giày được làm từ vật liệu siêu nhẹ và thoáng khí, giúp đôi chân luôn khô ráo dù hoạt động ở cường độ cao.</li>\n            <li><strong>Bộ đệm êm ái, trợ lực tốt:</strong> Đế giữa hấp thụ lực va đập cực tốt, phản hồi năng lượng mạnh mẽ giúp giảm thiểu chấn thương cơ xương khớp.</li>\n            <li><strong>Đế ngoài chống trượt:</strong> Thiết kế mặt đế bám đường vượt trội, tăng độ ma sát và an toàn trên nhiều địa hình khác nhau.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn vệ sinh và bảo quản</h4>\n        <ul>\n            <li>Không giặt giày bằng máy giặt để tránh làm biến dạng form dáng và hỏng lớp keo dán.</li>\n            <li>Sử dụng bàn chải lông mềm và dung dịch vệ sinh chuyên dụng để làm sạch các vết bẩn.</li>\n            <li>Sau khi giặt, phơi giày ở nơi khô ráo, bóng râm. Tuyệt đối không phơi trực tiếp dưới ánh nắng gắt hoặc dùng máy sấy nhiệt độ cao.</li>\n            <li>Nên nhét thêm giấy báo hoặc cục hút ẩm vào bên trong giày khi không sử dụng để giữ form và khử mùi.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Giày chạy bộ DL Runner Air 2024</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 750000.00, 60, 1, 0, 1, 999, 4.40, 8, '2026-05-29 19:17:55', '2026-06-17 08:35:50'),
-(3, 101, 2, 'Giày Nike Revolution 7', 'giay-nike-revolution-7', '<h3>Tổng quan chi tiết về <strong>Giày Nike Revolution 7</strong></h3>\n<p>Giày chạy bộ phổ biến của Nike với đế giữa foam đen.</p>\n\n        <p>Được thiết kế chuyên biệt để nâng niu từng bước chân, <strong>Giày Nike Revolution 7</strong> là người bạn đồng hành không thể thiếu cho những tín đồ đam mê vận động. Với kiểu dáng thể thao hiện đại, sản phẩm không chỉ mang lại hiệu suất cao trên sân tập mà còn rất phong cách khi dạo phố.</p>\n        \n        <h4>1. Cấu tạo và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất liệu bề mặt cao cấp:</strong> Thân giày được làm từ vật liệu siêu nhẹ và thoáng khí, giúp đôi chân luôn khô ráo dù hoạt động ở cường độ cao.</li>\n            <li><strong>Bộ đệm êm ái, trợ lực tốt:</strong> Đế giữa hấp thụ lực va đập cực tốt, phản hồi năng lượng mạnh mẽ giúp giảm thiểu chấn thương cơ xương khớp.</li>\n            <li><strong>Đế ngoài chống trượt:</strong> Thiết kế mặt đế bám đường vượt trội, tăng độ ma sát và an toàn trên nhiều địa hình khác nhau.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn vệ sinh và bảo quản</h4>\n        <ul>\n            <li>Không giặt giày bằng máy giặt để tránh làm biến dạng form dáng và hỏng lớp keo dán.</li>\n            <li>Sử dụng bàn chải lông mềm và dung dịch vệ sinh chuyên dụng để làm sạch các vết bẩn.</li>\n            <li>Sau khi giặt, phơi giày ở nơi khô ráo, bóng râm. Tuyệt đối không phơi trực tiếp dưới ánh nắng gắt hoặc dùng máy sấy nhiệt độ cao.</li>\n            <li>Nên nhét thêm giấy báo hoặc cục hút ẩm vào bên trong giày khi không sử dụng để giữ form và khử mùi.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Giày Nike Revolution 7</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 1950000.00, 30, 1, 0, 1, 2, 4.50, 15, '2026-05-29 19:17:55', '2026-06-16 21:10:03'),
+(3, 101, 2, 'Giày Nike Revolution 7', 'giay-nike-revolution-7', '<h3>Tổng quan chi tiết về <strong>Giày Nike Revolution 7</strong></h3>\n<p>Giày chạy bộ phổ biến của Nike với đế giữa foam đen.</p>\n\n        <p>Được thiết kế chuyên biệt để nâng niu từng bước chân, <strong>Giày Nike Revolution 7</strong> là người bạn đồng hành không thể thiếu cho những tín đồ đam mê vận động. Với kiểu dáng thể thao hiện đại, sản phẩm không chỉ mang lại hiệu suất cao trên sân tập mà còn rất phong cách khi dạo phố.</p>\n        \n        <h4>1. Cấu tạo và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất liệu bề mặt cao cấp:</strong> Thân giày được làm từ vật liệu siêu nhẹ và thoáng khí, giúp đôi chân luôn khô ráo dù hoạt động ở cường độ cao.</li>\n            <li><strong>Bộ đệm êm ái, trợ lực tốt:</strong> Đế giữa hấp thụ lực va đập cực tốt, phản hồi năng lượng mạnh mẽ giúp giảm thiểu chấn thương cơ xương khớp.</li>\n            <li><strong>Đế ngoài chống trượt:</strong> Thiết kế mặt đế bám đường vượt trội, tăng độ ma sát và an toàn trên nhiều địa hình khác nhau.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn vệ sinh và bảo quản</h4>\n        <ul>\n            <li>Không giặt giày bằng máy giặt để tránh làm biến dạng form dáng và hỏng lớp keo dán.</li>\n            <li>Sử dụng bàn chải lông mềm và dung dịch vệ sinh chuyên dụng để làm sạch các vết bẩn.</li>\n            <li>Sau khi giặt, phơi giày ở nơi khô ráo, bóng râm. Tuyệt đối không phơi trực tiếp dưới ánh nắng gắt hoặc dùng máy sấy nhiệt độ cao.</li>\n            <li>Nên nhét thêm giấy báo hoặc cục hút ẩm vào bên trong giày khi không sử dụng để giữ form và khử mùi.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Giày Nike Revolution 7</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 1950000.00, 30, 1, 0, 1, 2, 4.67, 3, '2026-05-29 19:17:55', '2026-06-18 01:29:19'),
 (4, 101, 3, 'Giày Adidas Runfalcon 3.0', 'giay-adidas-runfalcon-3', '<h3>Tổng quan chi tiết về <strong>Giày Adidas Runfalcon 3.0</strong></h3>\n<p>Dòng giày chạy bộ giá tốt của Adidas.</p>\n\n        <p>Được thiết kế chuyên biệt để nâng niu từng bước chân, <strong>Giày Adidas Runfalcon 3.0</strong> là người bạn đồng hành không thể thiếu cho những tín đồ đam mê vận động. Với kiểu dáng thể thao hiện đại, sản phẩm không chỉ mang lại hiệu suất cao trên sân tập mà còn rất phong cách khi dạo phố.</p>\n        \n        <h4>1. Cấu tạo và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất liệu bề mặt cao cấp:</strong> Thân giày được làm từ vật liệu siêu nhẹ và thoáng khí, giúp đôi chân luôn khô ráo dù hoạt động ở cường độ cao.</li>\n            <li><strong>Bộ đệm êm ái, trợ lực tốt:</strong> Đế giữa hấp thụ lực va đập cực tốt, phản hồi năng lượng mạnh mẽ giúp giảm thiểu chấn thương cơ xương khớp.</li>\n            <li><strong>Đế ngoài chống trượt:</strong> Thiết kế mặt đế bám đường vượt trội, tăng độ ma sát và an toàn trên nhiều địa hình khác nhau.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn vệ sinh và bảo quản</h4>\n        <ul>\n            <li>Không giặt giày bằng máy giặt để tránh làm biến dạng form dáng và hỏng lớp keo dán.</li>\n            <li>Sử dụng bàn chải lông mềm và dung dịch vệ sinh chuyên dụng để làm sạch các vết bẩn.</li>\n            <li>Sau khi giặt, phơi giày ở nơi khô ráo, bóng râm. Tuyệt đối không phơi trực tiếp dưới ánh nắng gắt hoặc dùng máy sấy nhiệt độ cao.</li>\n            <li>Nên nhét thêm giấy báo hoặc cục hút ẩm vào bên trong giày khi không sử dụng để giữ form và khử mùi.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Giày Adidas Runfalcon 3.0</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 1650000.00, 40, 1, 0, 0, 999, 4.30, 10, '2026-05-29 19:17:55', '2026-06-16 21:10:03'),
 (5, 101, 9, 'Giày ASICS Gel-Nimbus 26', 'giay-asics-gel-nimbus-26', '<h3>Tổng quan chi tiết về <strong>Giày ASICS Gel-Nimbus 26</strong></h3>\n<p>Dòng giày cao cấp của ASICS, công nghệ đệm Gel.</p>\n\n        <p>Được thiết kế chuyên biệt để nâng niu từng bước chân, <strong>Giày ASICS Gel-Nimbus 26</strong> là người bạn đồng hành không thể thiếu cho những tín đồ đam mê vận động. Với kiểu dáng thể thao hiện đại, sản phẩm không chỉ mang lại hiệu suất cao trên sân tập mà còn rất phong cách khi dạo phố.</p>\n        \n        <h4>1. Cấu tạo và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất liệu bề mặt cao cấp:</strong> Thân giày được làm từ vật liệu siêu nhẹ và thoáng khí, giúp đôi chân luôn khô ráo dù hoạt động ở cường độ cao.</li>\n            <li><strong>Bộ đệm êm ái, trợ lực tốt:</strong> Đế giữa hấp thụ lực va đập cực tốt, phản hồi năng lượng mạnh mẽ giúp giảm thiểu chấn thương cơ xương khớp.</li>\n            <li><strong>Đế ngoài chống trượt:</strong> Thiết kế mặt đế bám đường vượt trội, tăng độ ma sát và an toàn trên nhiều địa hình khác nhau.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn vệ sinh và bảo quản</h4>\n        <ul>\n            <li>Không giặt giày bằng máy giặt để tránh làm biến dạng form dáng và hỏng lớp keo dán.</li>\n            <li>Sử dụng bàn chải lông mềm và dung dịch vệ sinh chuyên dụng để làm sạch các vết bẩn.</li>\n            <li>Sau khi giặt, phơi giày ở nơi khô ráo, bóng râm. Tuyệt đối không phơi trực tiếp dưới ánh nắng gắt hoặc dùng máy sấy nhiệt độ cao.</li>\n            <li>Nên nhét thêm giấy báo hoặc cục hút ẩm vào bên trong giày khi không sử dụng để giữ form và khử mùi.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Giày ASICS Gel-Nimbus 26</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 3200000.00, 20, 1, 0, 1, 4, 4.80, 18, '2026-05-29 19:17:55', '2026-06-16 21:10:03'),
 (6, 100, 1, 'Giày đá bóng DL Striker FG 2024', 'giay-da-bong-dl-striker-fg-2024', '<h3>Tổng quan chi tiết về <strong>Giày đá bóng DL Striker FG 2024</strong></h3>\n<p>Giày đá bóng sân cỏ, đế cao su tự nhiên.</p>\n\n        <p>Được thiết kế chuyên biệt để nâng niu từng bước chân, <strong>Giày đá bóng DL Striker FG 2024</strong> là người bạn đồng hành không thể thiếu cho những tín đồ đam mê vận động. Với kiểu dáng thể thao hiện đại, sản phẩm không chỉ mang lại hiệu suất cao trên sân tập mà còn rất phong cách khi dạo phố.</p>\n        \n        <h4>1. Cấu tạo và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất liệu bề mặt cao cấp:</strong> Thân giày được làm từ vật liệu siêu nhẹ và thoáng khí, giúp đôi chân luôn khô ráo dù hoạt động ở cường độ cao.</li>\n            <li><strong>Bộ đệm êm ái, trợ lực tốt:</strong> Đế giữa hấp thụ lực va đập cực tốt, phản hồi năng lượng mạnh mẽ giúp giảm thiểu chấn thương cơ xương khớp.</li>\n            <li><strong>Đế ngoài chống trượt:</strong> Thiết kế mặt đế bám đường vượt trội, tăng độ ma sát và an toàn trên nhiều địa hình khác nhau.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn vệ sinh và bảo quản</h4>\n        <ul>\n            <li>Không giặt giày bằng máy giặt để tránh làm biến dạng form dáng và hỏng lớp keo dán.</li>\n            <li>Sử dụng bàn chải lông mềm và dung dịch vệ sinh chuyên dụng để làm sạch các vết bẩn.</li>\n            <li>Sau khi giặt, phơi giày ở nơi khô ráo, bóng râm. Tuyệt đối không phơi trực tiếp dưới ánh nắng gắt hoặc dùng máy sấy nhiệt độ cao.</li>\n            <li>Nên nhét thêm giấy báo hoặc cục hút ẩm vào bên trong giày khi không sử dụng để giữ form và khử mùi.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Giày đá bóng DL Striker FG 2024</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 650000.00, 80, 1, 0, 1, 5, 4.50, 9, '2026-05-29 19:17:55', '2026-06-16 21:10:03'),
@@ -8858,7 +8859,16 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (872, 2, 236, '2026-06-18 01:05:44'),
 (873, 2, 429, '2026-06-18 01:06:10'),
 (874, 2, 429, '2026-06-18 01:06:24'),
-(875, 2, 245, '2026-06-18 01:06:30');
+(875, 2, 245, '2026-06-18 01:06:30'),
+(876, 2, 236, '2026-06-18 01:29:55'),
+(877, 2, 236, '2026-06-18 01:30:01'),
+(878, 2, 429, '2026-06-18 01:30:38'),
+(879, 2, 429, '2026-06-18 01:30:45'),
+(880, 2, 16, '2026-06-18 01:31:03'),
+(881, 2, 16, '2026-06-18 01:31:09'),
+(882, 2, 16, '2026-06-18 01:31:25'),
+(883, 2, 16, '2026-06-18 01:31:31'),
+(884, 2, 16, '2026-06-18 01:31:39');
 
 -- --------------------------------------------------------
 
@@ -10849,7 +10859,10 @@ INSERT INTO `reviews` (`review_id`, `product_id`, `user_id`, `rating`, `comment`
 (1402, 16, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'approved', '2026-06-17 20:41:43', '2026-06-17 20:54:00', 1, 20, 'negative'),
 (1403, 16, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'pending', '2026-06-17 21:00:49', '2026-06-18 00:58:26', 1, 20, 'negative'),
 (1404, 16, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'pending', '2026-06-18 00:59:32', '2026-06-18 01:01:22', 1, 20, 'neutral'),
-(1405, 3, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'pending', '2026-06-18 01:01:37', '2026-06-18 01:01:37', 0, 26, 'negative');
+(1405, 3, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'pending', '2026-06-18 01:01:37', '2026-06-18 01:29:19', 1, 26, 'negative'),
+(1406, 236, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'pending', '2026-06-18 01:29:59', '2026-06-18 01:31:19', 1, 50316, 'negative'),
+(1407, 429, 2, 4, 'Đây là một trong những món đồ tốt nhất mình từng mua.', 'pending', '2026-06-18 01:30:43', '2026-06-18 01:31:15', 1, 51108, 'positive'),
+(1408, 16, 2, 3, 'Tôi chưa có nhiều đánh giá sau khi sử dụng.', 'pending', '2026-06-18 01:31:07', '2026-06-18 01:32:18', 1, 20, 'neutral');
 
 -- --------------------------------------------------------
 
@@ -11138,7 +11151,21 @@ INSERT INTO `search_logs` (`log_id`, `user_id`, `keyword`, `result_count`, `sear
 (243, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 0, '2026-06-18 00:55:08'),
 (244, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 0, '2026-06-18 00:55:24'),
 (245, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 0, '2026-06-18 00:55:41'),
-(246, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 0, '2026-06-18 00:57:56');
+(246, 2, 'mới bắt đầu tập chạy bộ nên mua gì', 0, '2026-06-18 00:57:56'),
+(247, 2, 'mang gì để chạy bộ không bị đau chân', 419, '2026-06-18 01:18:49'),
+(248, 2, 'mang gì để chạy bộ không bị đau chân', 0, '2026-06-18 01:22:09'),
+(249, 2, 'mang gì để chạy bộ không bị đau chân', 0, '2026-06-18 01:22:11'),
+(250, 2, 'mang gì để chạy bộ không bị đau chân', 0, '2026-06-18 01:23:08'),
+(251, 2, 'mang gì để chạy bộ không bị đau chân', 0, '2026-06-18 01:23:29'),
+(252, 2, 'mang gì để chạy bộ không bị đau chân', 0, '2026-06-18 01:23:30'),
+(253, 2, 'mang gì để chạy bộ không bị đau chân', 0, '2026-06-18 01:24:41'),
+(254, 2, 'mang gì để chạy bộ không bị đau chân', 419, '2026-06-18 01:25:19'),
+(255, 2, 'mang gì để chạy bộ không bị đau chân', 0, '2026-06-18 01:26:59'),
+(256, 2, 'mang gì để chạy bộ không bị đau chân', 419, '2026-06-18 01:28:16'),
+(257, 2, 'mới bắt đầu tập đánh cầu lông nên mua gì', 146, '2026-06-18 01:28:42'),
+(258, 1, 'mới bắt đầu tập đánh cầu lông nên mua gì', 146, '2026-06-18 01:39:54'),
+(259, 1, 'giày thể thao đế mềm nhẹ nhàng', 501, '2026-06-18 01:40:10'),
+(260, 1, 'giày thể thao đế mềm nhẹ nhàng', 501, '2026-06-18 01:40:11');
 
 -- --------------------------------------------------------
 
@@ -11809,7 +11836,7 @@ ALTER TABLE `contact_messages`
 -- AUTO_INCREMENT cho bảng `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
@@ -11863,7 +11890,7 @@ ALTER TABLE `product_variants`
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=876;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=885;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
@@ -11887,7 +11914,7 @@ ALTER TABLE `promotion_products`
 -- AUTO_INCREMENT cho bảng `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1406;
+  MODIFY `review_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1409;
 
 --
 -- AUTO_INCREMENT cho bảng `roles`
@@ -11899,7 +11926,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT cho bảng `search_logs`
 --
 ALTER TABLE `search_logs`
-  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
+  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=261;
 
 --
 -- AUTO_INCREMENT cho bảng `shipping_methods`

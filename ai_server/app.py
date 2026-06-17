@@ -14,12 +14,16 @@ load_dotenv(find_dotenv())
 
 app = Flask(__name__)
 
+# Tắt log spam của Prophet (cmdstanpy) nhưng vẫn giữ lại log kết nối 127.0.0.1 của Flask
+import logging
+logging.getLogger('cmdstanpy').disabled = True
+                                                                                                                                                                                                                                                                
 # Tải sẵn mô hình vào RAM khi khởi động server
-print("Đang tải mô hình Qwen/Qwen3-Embedding-0.6B...")
+print("Loading model Qwen/Qwen3-Embedding-0.6B...")
 model = SentenceTransformer('Qwen/Qwen3-Embedding-0.6B', trust_remote_code=True)
-print("Đang tải mô hình PhoBERT Sentiment...")
+print("Loading model PhoBERT Sentiment...")
 sentiment_analyzer = pipeline("sentiment-analysis", model="wonrax/phobert-base-vietnamese-sentiment")
-print("Server AI Python đã sẵn sàng lắng nghe request!")
+print("Server AI Python ready!")
 
 # Cache Vector Database
 VECTOR_CACHE = {
@@ -108,10 +112,10 @@ def search_similar_products():
     results = sorted(results, key=lambda x: x['score'], reverse=True)
     
     # In log ra màn hình CMD theo đúng format
-    print(f"Keyword: \"{keyword}\"", flush=True)
-    print(f"Results: {len(results)}", flush=True)
     if results:
-        print(f"Top 1: ID {results[0]['id']} (Score: {results[0]['score']:.4f})", flush=True)
+        print(f"Keyword: \"{keyword}\" | Results: {len(results)} | Top 1: ID {results[0]['id']} (Score: {results[0]['score']:.4f})", flush=True)
+    else:
+        print(f"Keyword: \"{keyword}\" | Results: 0", flush=True)
     
     return jsonify({'results': results})
 
@@ -148,8 +152,7 @@ def analyze():
         final_sentiment = sentiment_map.get(label, "neutral")
 
         # In log ra màn hình CMD theo đúng format
-        print(f"Nhập: \"{text}\"", flush=True)
-        print(f"AI trả về: {{\"confidence\":{round(score, 4)},\"sentiment\":\"{final_sentiment}\"}}", flush=True)
+        print(f"Text: \"{text}\" | Sentiment: {final_sentiment} | Confidence: {score:.4f}", flush=True)
 
         return jsonify({
             "sentiment": final_sentiment,
@@ -184,6 +187,9 @@ def forecast():
         future_data['yhat'] = future_data['yhat'].round(0)
         future_data['yhat_lower'] = future_data['yhat_lower'].round(0)
         future_data['yhat_upper'] = future_data['yhat_upper'].round(0)
+        
+        # In log ra màn hình CMD theo đúng format
+        print(f"Action: Forecast | Data: {len(df)} days | Forecast: {len(future_data)} days", flush=True)
         
         return future_data.to_json(orient='records')
 
