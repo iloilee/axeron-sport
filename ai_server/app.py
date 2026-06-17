@@ -166,12 +166,12 @@ def forecast():
         model = Prophet(yearly_seasonality=False, weekly_seasonality=True, daily_seasonality=False)
         model.fit(df)
         
-        # Tạo dataframe chứa 30 ngày tiếp theo
-        future = model.make_future_dataframe(periods=30)
+        # Tạo dataframe chứa 90 ngày tiếp theo
+        future = model.make_future_dataframe(periods=90)
         forecast_result = model.predict(future)
         
-        # Lọc lấy 30 ngày tương lai để trả về
-        future_data = forecast_result[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail(30)
+        # Lọc lấy 90 ngày tương lai để trả về
+        future_data = forecast_result[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail(90)
         
         # Format lại ngày và làm tròn số tiền
         future_data['ds'] = future_data['ds'].dt.strftime('%Y-%m-%d')

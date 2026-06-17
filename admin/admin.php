@@ -666,7 +666,7 @@ if ($action === 'dashboard') {
                 <!-- AI Forecast Chart -->
                 <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mb-6 border-l-4 border-indigo-500">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="font-bold text-lg text-indigo-700 flex items-center gap-2"><span class="material-symbols-outlined">auto_graph</span> Biểu Đồ Dự Báo Doanh Thu 30 Ngày Tới (AI Prophet)</h2>
+                        <h2 class="font-bold text-lg text-indigo-700 flex items-center gap-2"><span class="material-symbols-outlined">auto_graph</span> Biểu Đồ Dự Báo Doanh Thu 90 Ngày Tới (AI Prophet)</h2>
                         <button id="btn-load-forecast" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors">
                             <span class="material-symbols-outlined text-[18px]">magic_button</span> Chạy AI Dự Báo
                         </button>
@@ -861,16 +861,20 @@ if ($action === 'dashboard') {
                                                     borderColor: '#2979FF',
                                                     backgroundColor: 'rgba(41, 121, 255, 0.1)',
                                                     borderWidth: 2,
+                                                    pointRadius: 0,
+                                                    pointHoverRadius: 4,
                                                     fill: true,
                                                     tension: 0.3
                                                 },
                                                 {
-                                                    label: 'AI Dự báo (30 ngày tới)',
+                                                    label: 'AI Dự báo (90 ngày tới)',
                                                     data: future_data_padded,
                                                     borderColor: '#BE1E2D',
                                                     borderDash: [5, 5],
                                                     backgroundColor: 'transparent',
                                                     borderWidth: 2,
+                                                    pointRadius: 0,
+                                                    pointHoverRadius: 4,
                                                     tension: 0.3
                                                 }
                                             ]
@@ -878,6 +882,16 @@ if ($action === 'dashboard') {
                                         options: {
                                             responsive: true,
                                             interaction: { mode: 'index', intersect: false },
+                                            scales: {
+                                                x: {
+                                                    ticks: {
+                                                        autoSkip: true,
+                                                        maxTicksLimit: 15,
+                                                        maxRotation: 45,
+                                                        minRotation: 45
+                                                    }
+                                                }
+                                            },
                                             plugins: {
                                                 tooltip: {
                                                     callbacks: {
