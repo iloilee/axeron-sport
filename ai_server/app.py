@@ -1,5 +1,10 @@
 from flask import Flask, request, jsonify
 from sentence_transformers import SentenceTransformer
+import os
+from dotenv import load_dotenv, find_dotenv
+
+# Tự động quét ngược lên các thư mục cha để tìm file .env
+load_dotenv(find_dotenv())
 
 app = Flask(__name__)
 
