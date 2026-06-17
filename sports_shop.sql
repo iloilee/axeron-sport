@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 17, 2026 lúc 08:31 AM
+-- Thời gian đã tạo: Th6 17, 2026 lúc 09:08 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -354,7 +354,24 @@ INSERT INTO `chat_messages` (`message_id`, `session_id`, `sender_type`, `content
 (49, 10, 'user', 'xin chào tôi muốn mua giày', '2026-06-17 02:22:23'),
 (50, 10, 'bot', 'Xin lỗi, hiện tại hệ thống AI đang được bảo trì (Thiếu API Key). Vui lòng thử lại sau.', '2026-06-17 02:22:23'),
 (51, 7, 'user', 'xin chào', '2026-06-17 09:11:43'),
-(52, 7, 'bot', 'Xin lỗi, hiện tại hệ thống AI đang được bảo trì (Thiếu API Key). Vui lòng thử lại sau.', '2026-06-17 09:11:43');
+(52, 7, 'bot', 'Xin lỗi, hiện tại hệ thống AI đang được bảo trì (Thiếu API Key). Vui lòng thử lại sau.', '2026-06-17 09:11:43'),
+(53, 7, 'user', 'Giày chạy bộ nào đang bán chạy nhất bên mình?', '2026-06-17 13:32:43'),
+(54, 7, 'bot', 'Xin lỗi, hiện tại hệ thống AI đang được bảo trì (Thiếu API Key). Vui lòng thử lại sau.', '2026-06-17 13:32:43'),
+(55, 7, 'user', 'Giá của đôi giày bóng đá rẻ nhất hiện tại là bao nhiêu?', '2026-06-17 13:32:52'),
+(56, 7, 'bot', 'Xin lỗi, hiện tại hệ thống AI đang được bảo trì (Thiếu API Key). Vui lòng thử lại sau.', '2026-06-17 13:32:52'),
+(57, 7, 'user', 'Cửa hàng mình có địa chỉ ở đâu và làm việc đến mấy giờ?', '2026-06-17 13:39:45'),
+(58, 7, 'bot', 'Chào bạn, cửa hàng Axeron Sport có địa chỉ tại **123 Nguyễn Trãi, Quận 1, TP.HCM**.\n\nThời gian làm việc của cửa hàng từ **Thứ 2 đến Thứ 7: 8:00 - 20:00**. Rất hân hạnh được đón tiếp bạn!', '2026-06-17 13:40:35'),
+(59, 7, 'user', 'Chào bạn, Axeron Sport đang bán những loại mặt hàng nào?', '2026-06-17 13:41:48'),
+(60, 7, 'bot', 'Chào bạn, **Axeron Sport** là cửa hàng chuyên cung cấp các sản phẩm thể thao. Hiện tại, chúng tôi đang có sẵn các dòng giày chạy bộ chất lượng cao từ các thương hiệu như DL và Nike:\n\n*   **Giày chạy bộ DL Runner Air 2024**: 750.000đ  \n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-chay-bo-dl-runner-air-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660109/axeron-products/product_6a31f9cd2c2fe_1781660109.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày chạy bộ DL Runner Air 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>750.000₫</p></div></div></a>\n*   **Giày chạy bộ DL Speed Pro X1**: 890.000đ  \n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-chay-bo-dl-speed-pro-x1\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày chạy bộ DL Speed Pro X1</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>890.000₫</p></div></div></a>\n*   **Giày Nike Revolution 7**: 1.950.000đ  \n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-nike-revolution-7\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660138/axeron-products/product_6a31f9e998c7f_1781660137.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Nike Revolution 7</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.950.000₫</p></div></div></a>\n\nNếu bạn cần tìm kiếm thêm sản phẩm nào khác, hãy cho mình biết nhé!', '2026-06-17 13:42:15'),
+(61, 7, 'user', 'Mình muốn mua một đôi giày đá bóng, bạn tìm giúp mình nhé.', '2026-06-17 13:42:47'),
+(62, 7, 'bot', 'Dưới đây là các mẫu giày đá bóng hiện đang có sẵn tại Axeron Sport:\n\n1. **Giày đá bóng DL Striker FG 2024**\n   * Giá: **650.000đ**\n   * Số lượng còn lại: 80 đôi\n   * <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-dl-striker-fg-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677833/axeron-products/product_6a323f092b5ea_1781677833.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng DL Striker FG 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>650.000₫</p></div></div></a>\n\n2. **Giày đá bóng DL Futsal Pro F10** (Thích hợp cho sân trong nhà/futsal)\n   * Giá: **550.000đ**\n   * Số lượng còn lại: 70 đôi\n   * <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-dl-futsal-pro-f10\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://cdn.hstatic.net/products/200000278317/giay-da-bong-nike-tiempo-legend-10-pro-tf-dv4336-400-xanh-trang-1r_8ead71187a914a40a0a1c9563644e78d_master.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng DL Futsal Pro F10</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>550.000₫</p></div></div></a>\n\n3. **Giày đá bóng Adidas Predator 24 FG** (Mẫu cao cấp)\n   * Giá: **2.800.000đ**\n   * Số lượng còn lại: 25 đôi\n   * <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-adidas-predator-24\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677841/axeron-products/product_6a323f10316d9_1781677840.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng Adidas Predator 24 FG</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>2.800.000₫</p></div></div></a>\n\nBạn có thể bấm vào thẻ sản phẩm để xem chi tiết hoặc cho mình biết nếu cần tư vấn thêm về size nhé!', '2026-06-17 13:42:56'),
+(63, 7, 'user', 'Kiểm tra giúp mình đơn hàng mã ORDM-2771FA27 với.', '2026-06-17 13:43:57'),
+(64, 7, 'bot', 'Đơn hàng mã **ORDM-2771FA27** của bạn có trạng thái như sau:\n\n*   **Trạng thái:** Đã giao hàng thành công (`delivered`)\n*   **Ngày đặt hàng:** 17/06/2026\n*   **Tổng giá trị đơn hàng:** 400.000đ\n\nNếu bạn cần hỗ trợ thêm thông tin nào khác, vui lòng liên hệ hotline **1900 1234** để được giải đáp nhanh nhất!', '2026-06-17 13:44:59'),
+(65, 7, 'user', 'Tôi muốn tra cứu đơn hàng mã XYZ9999', '2026-06-17 13:45:11'),
+(66, 7, 'bot', 'Hệ thống của Axeron Sport không tìm thấy đơn hàng nào có mã là **XYZ9999**. \n\nBạn vui lòng kiểm tra lại chính xác mã đơn hàng của mình (bao gồm cả chữ hoa, chữ thường và chữ số). Nếu cần hỗ trợ thêm, bạn có thể liên hệ hotline **1900 1234** để nhân viên chăm sóc khách hàng kiểm tra trực tiếp giúp bạn nhé!', '2026-06-17 13:45:24'),
+(67, 7, 'user', 'Tìm cho mình sản phẩm liên quan đến \'Nike\' đi.', '2026-06-17 13:46:21'),
+(68, 7, 'user', 'Bên bạn có bán áo thun chạy bộ nào không? Báo giá cho mình luôn.', '2026-06-17 13:54:46'),
+(69, 7, 'bot', 'Lỗi kết nối AI (Code: 503). Chi tiết: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', '2026-06-17 13:55:06');
 
 -- --------------------------------------------------------
 
@@ -11629,7 +11646,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `chat_messages`
 --
 ALTER TABLE `chat_messages`
-  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_sessions`

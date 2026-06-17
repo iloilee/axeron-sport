@@ -4,15 +4,8 @@
  * Cấu hình API Key và các thiết lập cho Google Gemini AI
  */
 
-// Load .env file for sensitive configurations if it exists
-$envFile = __DIR__ . '/../.env';
-$apiKey = '';
-if (file_exists($envFile)) {
-    $envVars = parse_ini_file($envFile);
-    if ($envVars && isset($envVars['GEMINI_API_KEY'])) {
-        $apiKey = $envVars['GEMINI_API_KEY'];
-    }
-}
+// Lấy API Key từ biến môi trường (đã được nạp sẵn qua config/env.php)
+$apiKey = getenv('GEMINI_API_KEY') ?: '';
 
 // ĐIỀN API KEY CỦA GOOGLE GEMINI TẠI ĐÂY (hoặc sử dụng .env)
 define('GEMINI_API_KEY', $apiKey);
