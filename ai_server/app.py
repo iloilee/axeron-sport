@@ -14,7 +14,7 @@ load_dotenv(find_dotenv())
 
 app = Flask(__name__)
 
-# Tắt log spam của Prophet (cmdstanpy) nhưng vẫn giữ lại log kết nối 127.0.0.1 của Flask
+# Tắt log spam của Prophet (cmdstanpy) 
 import logging
 logging.getLogger('cmdstanpy').disabled = True
                                                                                                                                                                                                                                                                 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 17, 2026 lúc 08:41 PM
+-- Thời gian đã tạo: Th6 17, 2026 lúc 08:46 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -11165,7 +11165,10 @@ INSERT INTO `search_logs` (`log_id`, `user_id`, `keyword`, `result_count`, `sear
 (257, 2, 'mới bắt đầu tập đánh cầu lông nên mua gì', 146, '2026-06-18 01:28:42'),
 (258, 1, 'mới bắt đầu tập đánh cầu lông nên mua gì', 146, '2026-06-18 01:39:54'),
 (259, 1, 'giày thể thao đế mềm nhẹ nhàng', 501, '2026-06-18 01:40:10'),
-(260, 1, 'giày thể thao đế mềm nhẹ nhàng', 501, '2026-06-18 01:40:11');
+(260, 1, 'giày thể thao đế mềm nhẹ nhàng', 501, '2026-06-18 01:40:11'),
+(261, 1, 'giày thể thao đế mềm nhẹ nhàng', 501, '2026-06-18 01:42:54'),
+(262, 1, 'tôi muốn tập cơ bắp', 78, '2026-06-18 01:43:07'),
+(263, 1, 'tôi muốn có thân hình săn chắc', 232, '2026-06-18 01:43:20');
 
 -- --------------------------------------------------------
 
@@ -11926,7 +11929,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT cho bảng `search_logs`
 --
 ALTER TABLE `search_logs`
-  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=261;
+  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=264;
 
 --
 -- AUTO_INCREMENT cho bảng `shipping_methods`

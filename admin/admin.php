@@ -151,18 +151,18 @@ if ($action === 'dashboard') {
 
     // --- NÂNG CẤP DASHBOARD (5 TÍNH NĂNG MỚI) ---
     
-    // 1. Biểu đồ Doanh thu (7 ngày)
+    // 1. Biểu đồ Doanh thu (30 ngày)
     $chartDataRaw = $db->select("
         SELECT DATE(created_at) as date, COALESCE(SUM(total_amount), 0) as revenue
         FROM orders
-        WHERE created_at >= DATE(NOW()) - INTERVAL 6 DAY
+        WHERE created_at >= DATE(NOW()) - INTERVAL 29 DAY
         AND order_status NOT IN ('cancelled', 'returned')
         GROUP BY DATE(created_at)
         ORDER BY date ASC
     ");
     $chartDates = [];
     $chartRevenues = [];
-    for ($i = 6; $i >= 0; $i--) {
+    for ($i = 29; $i >= 0; $i--) {
         $d = date('Y-m-d', strtotime("-$i days"));
         $chartDates[] = date('d/m', strtotime($d));
         $found = false;
@@ -611,8 +611,10 @@ if ($action === 'dashboard') {
                 <!-- Charts & Timelines (New Feature) -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
                     <div class="lg:col-span-2 bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                        <h2 class="font-bold text-lg mb-4">Biểu đồ Doanh thu (7 ngày qua)</h2>
-                        <canvas id="revenueChart" height="100"></canvas>
+                        <h2 class="font-bold text-lg mb-4">Biểu đồ Doanh thu (30 ngày qua)</h2>
+                        <div class="w-full" style="height: 350px;">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
                     </div>
                     <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <h2 class="font-bold text-lg mb-4">Trạng thái đơn hàng</h2>
@@ -786,8 +788,17 @@ if ($action === 'dashboard') {
                                 },
                                 options: {
                                     responsive: true,
+                                    maintainAspectRatio: false,
                                     plugins: { legend: { display: false } },
-                                    scales: { y: { beginAtZero: true } }
+                                    scales: { 
+                                        y: { beginAtZero: true },
+                                        x: { 
+                                            ticks: { 
+                                                autoSkip: true, 
+                                                maxTicksLimit: 15 
+                                            } 
+                                        }
+                                    }
                                 }
                             });
                         }
