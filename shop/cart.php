@@ -301,9 +301,16 @@ $flash = getFlash();
                             </p>
                         </div>
                         <div class="border-t border-outline-variant pt-4 mb-6">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="font-label-lg text-label-lg font-bold text-text-dark">Tổng tiền:</span>
-                                <span class="font-headline-lg text-headline-md font-bold text-axeron-red" id="total-amount"><?= formatPrice($totalAmount) ?></span>
+                            <div id="discount-container" class="flex justify-between items-center mb-2 hidden">
+                                <span class="font-body-md text-on-surface-variant">Mã giảm giá:</span>
+                                <span class="font-semibold text-green-600" id="discount-amount">-0đ</span>
+                            </div>
+                            <div class="flex justify-between items-end mb-2">
+                                <span class="font-label-lg text-label-lg font-bold text-text-dark pb-1">Tổng thanh toán:</span>
+                                <div class="flex flex-col items-end">
+                                    <span class="text-sm line-through text-on-surface-variant hidden" id="original-total"></span>
+                                    <span class="font-headline-lg text-headline-md font-bold text-axeron-red leading-none" id="total-amount"><?= formatPrice($totalAmount) ?></span>
+                                </div>
                             </div>
                             <p class="font-body-md text-xs text-on-surface-variant text-right">(Đã bao gồm VAT nếu có)</p>
                         </div>
@@ -547,9 +554,11 @@ $flash = getFlash();
                 }
             }
 
-            let finalTotal = subtotal + finalShippingFee;
+            let originalTotal = subtotal + finalShippingFee;
+            let finalTotal = originalTotal;
+            let actualDiscount = 0;
+            
             if (appliedPromo) {
-                let actualDiscount = 0;
                 if (appliedPromo.discount_type === 'percent') {
                     actualDiscount = subtotal * (appliedPromo.discount_value / 100);
                     if (appliedPromo.max_discount) {
@@ -558,11 +567,25 @@ $flash = getFlash();
                 } else {
                     actualDiscount = parseInt(appliedPromo.discount_value);
                 }
-                actualDiscount = Math.min(actualDiscount, subtotal + finalShippingFee);
+                actualDiscount = Math.min(actualDiscount, originalTotal);
                 finalTotal -= actualDiscount;
             }
 
             document.getElementById('total-amount').textContent = new Intl.NumberFormat('vi-VN').format(finalTotal) + 'đ';
+            
+            const discountContainer = document.getElementById('discount-container');
+            const discountAmountEl = document.getElementById('discount-amount');
+            const originalTotalEl = document.getElementById('original-total');
+
+            if (actualDiscount > 0) {
+                discountContainer.classList.remove('hidden');
+                discountAmountEl.textContent = '-' + new Intl.NumberFormat('vi-VN').format(actualDiscount) + 'đ';
+                originalTotalEl.textContent = new Intl.NumberFormat('vi-VN').format(originalTotal) + 'đ';
+                originalTotalEl.classList.remove('hidden');
+            } else {
+                discountContainer.classList.add('hidden');
+                originalTotalEl.classList.add('hidden');
+            }
 
             let totalQty = 0;
             items.forEach(item => {
