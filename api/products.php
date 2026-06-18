@@ -91,7 +91,7 @@ function getFeaturedProducts($db) {
         LEFT JOIN brands b ON p.brand_id = b.brand_id
         LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
         LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
-        WHERE p.is_visible = 1 AND p.is_deleted = 0
+        WHERE p.is_visible = 1 AND p.is_deleted = 0 AND p.category_id IN (" . getVisibleCategoryQuery() . ")
         ORDER BY p.is_featured DESC, p.total_reviews DESC
         LIMIT ?
     ", [$limit]);
@@ -211,7 +211,7 @@ function searchProducts($db) {
         FROM products p
         LEFT JOIN brands b ON p.brand_id = b.brand_id
         LEFT JOIN categories c ON p.category_id = c.category_id
-        WHERE p.is_visible = 1 AND p.is_deleted = 0
+        WHERE p.is_visible = 1 AND p.is_deleted = 0 AND p.category_id IN (" . getVisibleCategoryQuery() . ")
         AND (p.product_name LIKE ? OR p.description LIKE ? OR b.brand_name LIKE ? OR c.category_name LIKE ?)
     ", [$searchTerm, $searchTerm, $searchTerm, $searchTerm]);
 
@@ -230,7 +230,7 @@ function searchProducts($db) {
         LEFT JOIN categories c ON p.category_id = c.category_id
         LEFT JOIN brands b ON p.brand_id = b.brand_id
         LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
-        WHERE p.is_visible = 1 AND p.is_deleted = 0
+        WHERE p.is_visible = 1 AND p.is_deleted = 0 AND p.category_id IN (" . getVisibleCategoryQuery() . ")
         AND (p.product_name LIKE ? OR p.description LIKE ? OR b.brand_name LIKE ? OR c.category_name LIKE ?)
         GROUP BY p.product_id
         ORDER BY p.total_reviews DESC, p.avg_rating DESC
@@ -292,7 +292,7 @@ function autocompleteProducts($db) {
         LEFT JOIN categories c ON p.category_id = c.category_id
         LEFT JOIN brands b ON p.brand_id = b.brand_id
         LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
-        WHERE p.is_visible = 1 AND p.is_deleted = 0
+        WHERE p.is_visible = 1 AND p.is_deleted = 0 AND p.category_id IN (" . getVisibleCategoryQuery() . ")
         AND (p.product_name LIKE ? OR c.category_name LIKE ? OR b.brand_name LIKE ? OR p.description LIKE ?)
         GROUP BY p.product_id
         ORDER BY p.is_featured DESC, p.total_reviews DESC, p.avg_rating DESC
@@ -329,7 +329,7 @@ function getProductDetail($db) {
         FROM products p
         LEFT JOIN categories c ON p.category_id = c.category_id
         LEFT JOIN brands b ON p.brand_id = b.brand_id
-        WHERE $where AND p.is_visible = 1 AND p.is_deleted = 0
+        WHERE $where AND p.is_visible = 1 AND p.is_deleted = 0 AND p.category_id IN (" . getVisibleCategoryQuery() . ")
     ", $param);
 
     if (!$product) {

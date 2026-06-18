@@ -18,7 +18,7 @@ $product = $db->selectOne("
     FROM products p
     LEFT JOIN categories c ON p.category_id = c.category_id
     LEFT JOIN brands b ON p.brand_id = b.brand_id
-    WHERE $where AND p.is_visible = 1 AND p.is_deleted = 0
+    WHERE $where AND p.is_visible = 1 AND p.is_deleted = 0 AND p.category_id IN (" . getVisibleCategoryQuery() . ")
 ", $param);
 
 if (!$product) {

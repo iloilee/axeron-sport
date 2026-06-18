@@ -56,7 +56,7 @@ $colorsList = $db->select("SELECT DISTINCT color FROM product_variants WHERE is_
 $sizesList = $db->select("SELECT DISTINCT size FROM product_variants WHERE is_active = 1 AND size IS NOT NULL AND size != '' ORDER BY size");
 
 // Build query
-$where = ["p.is_visible = 1", "p.is_deleted = 0"];
+$where = ["p.is_visible = 1", "p.is_deleted = 0", "p.category_id IN (" . getVisibleCategoryQuery() . ")"];
 $params = [];
 
 if (!empty($selectedCategories)) {

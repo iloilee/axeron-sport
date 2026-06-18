@@ -143,6 +143,19 @@ function sanitize($string) {
     return htmlspecialchars(strip_tags(trim($string)), ENT_QUOTES, 'UTF-8');
 }
 
+// Helper function to get visible category IDs subquery
+function getVisibleCategoryQuery() {
+    return "
+        SELECT c1.category_id 
+        FROM categories c1
+        LEFT JOIN categories c2 ON c1.parent_id = c2.category_id
+        LEFT JOIN categories c3 ON c2.parent_id = c3.category_id
+        WHERE c1.is_visible = 1 
+          AND (c2.is_visible = 1 OR c2.category_id IS NULL)
+          AND (c3.is_visible = 1 OR c3.category_id IS NULL)
+    ";
+}
+
 // Helper function redirect
 function redirect($url) {
     header("Location: $url");
