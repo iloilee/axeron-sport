@@ -1,0 +1,3 @@
+@echo off
+cloudflared tunnel --protocol http2 run --token eyJhIjoiNDgyMzcyZGM2ZDcwZWNlZjE0NjEzZTFhM2QyYjc3NmEiLCJzIjoicCt4YXpITkVTcVdvV1cyUXJjaVVLRU9peGQ3S2ZlYkFtSlJtd2pRNTMzTT0iLCJ0IjoiMWVkZThiZDgtY2I0Zi00OGIwLTkwNGQtMjQ4ODQ1ZDE3MTgwIn0=
+pause

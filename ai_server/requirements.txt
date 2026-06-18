@@ -9,3 +9,6 @@ pymysql
 numpy
 torch
 prophet
+torchvision
+plotly
+waitress

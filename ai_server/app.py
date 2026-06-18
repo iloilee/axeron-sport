@@ -323,6 +323,12 @@ def search_image():
 
 if __name__ == '__main__':
     # Load database into memory first time
-    load_vectors_from_db()
-    # Run the server
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    # (Đã gọi load_vectors_from_db ở trên nên không cần gọi lại, nhưng cứ để đây nếu muốn reload)
+    
+    # Run the server using Waitress (Production server)
+    from waitress import serve
+    print(" * Serving Flask app 'app' (Production Mode via Waitress)")
+    print(" * Running on all addresses (0.0.0.0)")
+    print(" * Running on http://127.0.0.1:5000")
+    print("Press CTRL+C to quit")
+    serve(app, host='0.0.0.0', port=5000)
