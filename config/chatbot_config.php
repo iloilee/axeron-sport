@@ -10,7 +10,8 @@ $apiKey = getenv('GEMINI_API_KEY') ?: '';
 // ĐIỀN API KEY CỦA GOOGLE GEMINI TẠI ĐÂY (hoặc sử dụng .env)
 define('GEMINI_API_KEY', $apiKey);
 // Model sử dụng
-define('GEMINI_MODEL', 'gemini-flash-latest');
+define('GEMINI_MODEL', 'gemini-2.5-flash');
+// define('GEMINI_MODEL', 'gemini-2.5-flash-lite');
 
 // System prompt mặc định để định hình nhân cách và kiến thức cơ bản cho AI
 define('CHATBOT_SYSTEM_PROMPT', '
