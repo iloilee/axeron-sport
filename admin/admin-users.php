@@ -14,7 +14,7 @@ $currentPage = (int)($_GET['page'] ?? 1);
 if ($currentPage < 1) $currentPage = 1;
 $offset = ($currentPage - 1) * $limit;
 
-$where = "WHERE 1=1";
+$where = "WHERE u.is_deleted = 0";
 $params = [];
 
 if ($search) {
@@ -65,17 +65,17 @@ $currentUserId = getUserId();
 $thisMonthStart = date('Y-m-01');
 $lastMonthStart = date('Y-m-01', strtotime('-1 month'));
 
-$totalUsersCurrent = $db->selectOne("SELECT COUNT(*) as count FROM users")['count'];
-$totalUsersPrev = $db->selectOne("SELECT COUNT(*) as count FROM users WHERE created_at < ?", [$thisMonthStart])['count'];
+$totalUsersCurrent = $db->selectOne("SELECT COUNT(*) as count FROM users WHERE is_deleted = 0")['count'];
+$totalUsersPrev = $db->selectOne("SELECT COUNT(*) as count FROM users WHERE is_deleted = 0 AND created_at < ?", [$thisMonthStart])['count'];
 
-$newUsersCurrent = $db->selectOne("SELECT COUNT(*) as count FROM users WHERE created_at >= ?", [$thisMonthStart])['count'];
-$newUsersPrev = $db->selectOne("SELECT COUNT(*) as count FROM users WHERE created_at >= ? AND created_at < ?", [$lastMonthStart, $thisMonthStart])['count'];
+$newUsersCurrent = $db->selectOne("SELECT COUNT(*) as count FROM users WHERE is_deleted = 0 AND created_at >= ?", [$thisMonthStart])['count'];
+$newUsersPrev = $db->selectOne("SELECT COUNT(*) as count FROM users WHERE is_deleted = 0 AND created_at >= ? AND created_at < ?", [$lastMonthStart, $thisMonthStart])['count'];
 
-$staffCurrent = $db->selectOne("SELECT COUNT(*) as count FROM users u JOIN roles r ON u.role_id = r.role_id WHERE r.role_name LIKE 'staff%'")['count'];
-$staffPrev = $db->selectOne("SELECT COUNT(*) as count FROM users u JOIN roles r ON u.role_id = r.role_id WHERE r.role_name LIKE 'staff%' AND u.created_at < ?", [$thisMonthStart])['count'];
+$staffCurrent = $db->selectOne("SELECT COUNT(*) as count FROM users u JOIN roles r ON u.role_id = r.role_id WHERE u.is_deleted = 0 AND r.role_name LIKE 'staff%'")['count'];
+$staffPrev = $db->selectOne("SELECT COUNT(*) as count FROM users u JOIN roles r ON u.role_id = r.role_id WHERE u.is_deleted = 0 AND r.role_name LIKE 'staff%' AND u.created_at < ?", [$thisMonthStart])['count'];
 
-$customerCurrent = $db->selectOne("SELECT COUNT(*) as count FROM users u JOIN roles r ON u.role_id = r.role_id WHERE r.role_name = 'customer'")['count'];
-$customerPrev = $db->selectOne("SELECT COUNT(*) as count FROM users u JOIN roles r ON u.role_id = r.role_id WHERE r.role_name = 'customer' AND u.created_at < ?", [$thisMonthStart])['count'];
+$customerCurrent = $db->selectOne("SELECT COUNT(*) as count FROM users u JOIN roles r ON u.role_id = r.role_id WHERE u.is_deleted = 0 AND r.role_name = 'customer'")['count'];
+$customerPrev = $db->selectOne("SELECT COUNT(*) as count FROM users u JOIN roles r ON u.role_id = r.role_id WHERE u.is_deleted = 0 AND r.role_name = 'customer' AND u.created_at < ?", [$thisMonthStart])['count'];
 
 function calculateUserTrend($current, $prev) {
     if ($prev == 0) return ['trend' => 'up', 'percent' => $current > 0 ? 100 : 0];

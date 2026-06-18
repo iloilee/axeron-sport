@@ -1118,62 +1118,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $db->beginTransaction();
 
-                // 1. Xóa các sản phẩm trong giỏ hàng (cart_items)
-                $db->delete("
-                    DELETE FROM cart_items 
-                    WHERE cart_id IN (SELECT cart_id FROM carts WHERE user_id = ?)
-                ", [$user_id]);
-
-                // 2. Xóa giỏ hàng (carts)
+                // 1. Xóa các dữ liệu không cần thiết / nhạy cảm
+                $db->delete("DELETE FROM cart_items WHERE cart_id IN (SELECT cart_id FROM carts WHERE user_id = ?)", [$user_id]);
                 $db->delete("DELETE FROM carts WHERE user_id = ?", [$user_id]);
-
-                // 3. Xóa tin nhắn chat (chat_messages)
-                $db->delete("
-                    DELETE FROM chat_messages 
-                    WHERE session_id IN (SELECT session_id FROM chat_sessions WHERE user_id = ?)
-                ", [$user_id]);
-
-                // 4. Xóa phiên chat (chat_sessions)
+                $db->delete("DELETE FROM chat_messages WHERE session_id IN (SELECT session_id FROM chat_sessions WHERE user_id = ?)", [$user_id]);
                 $db->delete("DELETE FROM chat_sessions WHERE user_id = ?", [$user_id]);
-
-                // 5. Xóa chi tiết đơn hàng (order_items)
-                $db->delete("
-                    DELETE FROM order_items 
-                    WHERE order_id IN (SELECT order_id FROM orders WHERE user_id = ?)
-                ", [$user_id]);
-
-                // 6. Xóa lịch sử trạng thái đơn hàng (order_status_logs)
-                $db->delete("
-                    DELETE FROM order_status_logs 
-                    WHERE order_id IN (SELECT order_id FROM orders WHERE user_id = ?)
-                ", [$user_id]);
-
-                // 7. Xóa giao dịch thanh toán (payment_transactions)
-                $db->delete("
-                    DELETE FROM payment_transactions 
-                    WHERE order_id IN (SELECT order_id FROM orders WHERE user_id = ?)
-                ", [$user_id]);
-
-                // 8. Xóa các đơn hàng đã hoàn thành/hủy/trả lại (orders)
-                $db->delete("DELETE FROM orders WHERE user_id = ?", [$user_id]);
-
-                // 9. Xóa yêu cầu khôi phục mật khẩu (password_resets)
                 $db->delete("DELETE FROM password_resets WHERE user_id = ?", [$user_id]);
-
-                // 10. Xóa lịch sử xem sản phẩm (product_view_logs)
                 $db->delete("DELETE FROM product_view_logs WHERE user_id = ?", [$user_id]);
-
-                // 11. Xóa các đánh giá (reviews)
-                $db->delete("DELETE FROM reviews WHERE user_id = ?", [$user_id]);
-
-                // 12. Xóa lịch sử tìm kiếm (search_logs)
                 $db->delete("DELETE FROM search_logs WHERE user_id = ?", [$user_id]);
-
-                // 13. Xóa địa chỉ nhận hàng (user_addresses)
                 $db->delete("DELETE FROM user_addresses WHERE user_id = ?", [$user_id]);
+                $db->delete("DELETE FROM user_wishlists WHERE user_id = ?", [$user_id]);
 
-                // 14. Cuối cùng, xóa thông tin người dùng
-                $db->delete("DELETE FROM users WHERE user_id = ?", [$user_id]);
+                // KHÔNG xóa bảng orders, order_items, payment_transactions, order_status_logs, reviews
+                // Các dữ liệu này được giữ lại để đối soát doanh thu và lịch sử
+
+                // 2. Xóa mềm (Soft Delete) & Vô danh hóa thông tin cá nhân trong bảng users
+                $deletedEmail = 'deleted_' . $user_id . '_' . time() . '@deleted.local';
+                
+                $db->update("
+                    UPDATE users 
+                    SET is_deleted = 1, 
+                        is_active = 0, 
+                        full_name = 'Deleted User', 
+                        email = ?, 
+                        phone = NULL,
+                        password_hash = NULL,
+                        google_id = NULL,
+                        facebook_id = NULL,
+                        avatar_url = NULL,
+                        updated_at = NOW() 
+                    WHERE user_id = ?
+                ", [$deletedEmail, $user_id]);
 
                 $db->commit();
                 $response = ['success' => true, 'message' => 'Người dùng đã được xóa thành công!'];
