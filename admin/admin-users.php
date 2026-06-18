@@ -244,11 +244,13 @@ function renderStatCard($title, $value, $trendData, $icon, $colorClass, $bgColor
                     <td class="px-4 py-3 text-sm text-gray-500"><?= date('d/m/Y', strtotime($user['created_at'])) ?></td>
                     <td class="px-4 py-3">
                         <div class="flex gap-2">
+                            <?php if ($user['user_id'] != 1 || $currentUserId == 1): ?>
                             <a href="javascript:void(0)" onclick="openUserModal(<?= $user['user_id'] ?>)"
                                class="p-2 hover:bg-gray-100 rounded-lg transition-colors" title="Sửa">
                                 <span class="material-symbols-outlined text-gray-600">edit</span>
                             </a>
-                            <?php if ($user['user_id'] != $currentUserId): ?>
+                            <?php endif; ?>
+                            <?php if ($user['user_id'] != $currentUserId && $user['user_id'] != 1): ?>
                             <?php if (!$user['is_active'] || (!empty($user['locked_until']) && $user['lockout_seconds'] > 0)): ?>
                             <a href="javascript:void(0)" onclick="toggleUserStatus(<?= $user['user_id'] ?>, 1)"
                                class="p-2 hover:bg-green-50 rounded-lg transition-colors" title="Mở khóa">

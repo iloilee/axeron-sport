@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 18, 2026 lúc 08:22 AM
+-- Thời gian đã tạo: Th6 18, 2026 lúc 08:30 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -11432,7 +11432,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `facebook_id`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `is_deleted`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`, `review_banned`) VALUES
 (1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658732/axeron-products/product_6a31f46c9149a_1781658732.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$gs/.c4YnzU1HlGKf6BbPgeLB3xRYQiuZApc44Vx5nQvkzklsN17sO', 1, '2026-05-29 19:17:55', '2026-06-17 20:10:29', 0),
-(2, 3, 'Bug', 'bug@gmail.com', NULL, NULL, '0987654321', '$2y$10$Gkk3hUDtMjFp.tQVdy0vne4zrVU.2avITZkr87q1AahfN4eccyZJ.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658734/axeron-products/product_6a31f46ea7054_1781658734.png', NULL, '2004-10-21', 1, 0, NULL, 0, '$2y$10$bCFz.2ncCBupiLngWJtu0ugvRm5i46s0AD.yJ20/cLYFoPtNZQXM6', 1, '2026-06-11 01:07:16', '2026-06-18 12:58:38', 0),
+(2, 3, 'Bug', 'bug@gmail.com', NULL, NULL, '0987654321', '$2y$10$Gkk3hUDtMjFp.tQVdy0vne4zrVU.2avITZkr87q1AahfN4eccyZJ.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658734/axeron-products/product_6a31f46ea7054_1781658734.png', NULL, '2004-10-21', 1, 0, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-18 13:23:21', 0),
 (3, 4, 'Staff Tài Khoản', 'nvacc@gmail.com', NULL, NULL, '0901000004', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658736/axeron-products/product_6a31f47043c86_1781658736.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:18', 0),
 (4, 5, 'Staff Sản Phẩm', 'nvsp@gmail.com', NULL, NULL, '0901000005', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658739/axeron-products/product_6a31f472a8677_1781658738.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:20', 0),
 (5, 6, 'Staff Đơn Hàng', 'nvorder@gmail.com', NULL, NULL, '0901000006', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658741/axeron-products/product_6a31f474e2a23_1781658740.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:23', 0),

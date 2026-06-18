@@ -921,6 +921,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $role_id = (int)($_POST['role_id'] ?? 3);
             $is_active = isset($_POST['is_active']) ? 1 : 0;
 
+            if ($role_id == 1 && getUserId() != 1) {
+                $response = ['success' => false, 'message' => 'Chỉ có Quản trị viên gốc mới có quyền tạo tài khoản Admin!'];
+                break;
+            }
+
             $errors = [];
             if (empty(trim($full_name))) {
                 $errors[] = 'Vui lòng nhập họ tên';
@@ -969,11 +974,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         case 'update_user':
             $user_id = (int)($_POST['user_id'] ?? 0);
+            if ($user_id == 1 && getUserId() != 1) {
+                $response = ['success' => false, 'message' => 'Chỉ có Quản trị viên gốc mới có quyền sửa đổi tài khoản này!'];
+                break;
+            }
             $full_name = trim($_POST['full_name'] ?? '');
             $email = trim($_POST['email'] ?? '');
             $phone = trim($_POST['phone'] ?? '');
             $role_id = (int)($_POST['role_id'] ?? 3);
             $is_active = isset($_POST['is_active']) ? 1 : 0;
+            
+            if ($role_id == 1 && getUserId() != 1) {
+                $response = ['success' => false, 'message' => 'Bạn không có quyền thăng cấp tài khoản lên Admin!'];
+                break;
+            }
+            
+            $target_user = $db->selectOne("SELECT role_id FROM users WHERE user_id = ?", [$user_id]);
+            if ($target_user && $target_user['role_id'] == 1 && getUserId() != 1) {
+                $response = ['success' => false, 'message' => 'Bạn không có quyền sửa đổi tài khoản của Quản trị viên!'];
+                break;
+            }
+
             $new_password = $_POST['new_password'] ?? '';
             $confirm_password = $_POST['confirm_password'] ?? '';
 
@@ -1025,6 +1046,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user_id = (int)($_POST['user_id'] ?? 0);
             $new_status = (int)($_POST['new_status'] ?? 0);
 
+            if ($user_id == 1) {
+                $response = ['success' => false, 'message' => 'Không thể khóa tài khoản Quản trị viên gốc!'];
+                break;
+            }
+
+            $target_user = $db->selectOne("SELECT role_id FROM users WHERE user_id = ?", [$user_id]);
+            if ($target_user && $target_user['role_id'] == 1 && getUserId() != 1) {
+                $response = ['success' => false, 'message' => 'Bạn không có quyền khóa tài khoản của Quản trị viên!'];
+                break;
+            }
+
             if ($user_id <= 0) {
                 $response = ['success' => false, 'message' => 'ID người dùng không hợp lệ!'];
                 break;
@@ -1050,6 +1082,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         case 'delete_user':
             $user_id = (int)($_POST['user_id'] ?? 0);
+            if ($user_id == 1) {
+                $response = ['success' => false, 'message' => 'Không thể xóa tài khoản Quản trị viên gốc!'];
+                break;
+            }
+
+            $target_user = $db->selectOne("SELECT role_id FROM users WHERE user_id = ?", [$user_id]);
+            if ($target_user && $target_user['role_id'] == 1 && getUserId() != 1) {
+                $response = ['success' => false, 'message' => 'Bạn không có quyền xóa tài khoản của Quản trị viên!'];
+                break;
+            }
+
             if ($user_id <= 0) {
                 $response = ['success' => false, 'message' => 'ID người dùng không hợp lệ!'];
                 break;
