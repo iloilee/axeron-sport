@@ -1,0 +1,8 @@
+# Chặn truy cập vào file .env và các file cấu hình ẩn khác
+<FilesMatch "^\.env(.*)$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
