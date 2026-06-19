@@ -9,6 +9,11 @@ $db = db();
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!verifyCsrfToken($_POST['csrf_token'] ?? '')) {
+        setFlash('error', 'Yêu cầu không hợp lệ. Vui lòng tải lại trang và thử lại.');
+        redirect(BASE_URL . '/shop/checkout.php');
+    }
+
     $userId = isLoggedIn() ? getUserId() : null;
     $userValid = false;
     
@@ -616,6 +621,7 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
             </div>
         <?php else: ?>
             <form method="POST">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generateCsrfToken()) ?>">
                 <div class="flex flex-col lg:flex-row gap-gutter lg:gap-8 items-start">
                     <!-- Left Column: Forms -->
                     <div class="w-full lg:w-2/3 flex flex-col gap-8">

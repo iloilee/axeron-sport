@@ -60,6 +60,10 @@ $requestAction = '';
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $requestAction = $_GET['action'] ?? '';
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!verifyCsrfToken($_POST['csrf_token'] ?? '')) {
+        echo json_encode(['success' => false, 'message' => 'Lỗi bảo mật (CSRF). Vui lòng tải lại trang và thử lại.']);
+        exit;
+    }
     $requestAction = $_POST['ajax_action'] ?? '';
 }
 

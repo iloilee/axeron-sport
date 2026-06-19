@@ -16,12 +16,15 @@ $success = '';
 
 // Xử lý form đổi mật khẩu
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $currentPassword = $_POST['current_password'] ?? '';
-    $newPassword = $_POST['new_password'] ?? '';
-    $confirmPassword = $_POST['confirm_password'] ?? '';
+    if (!verifyCsrfToken($_POST['csrf_token'] ?? '')) {
+        $error = 'Yêu cầu không hợp lệ. Vui lòng tải lại trang và thử lại.';
+    } else {
+        $currentPassword = $_POST['current_password'] ?? '';
+        $newPassword = $_POST['new_password'] ?? '';
+        $confirmPassword = $_POST['confirm_password'] ?? '';
 
-    // Validate
-    if (empty($currentPassword)) {
+        // Validate
+        if (empty($currentPassword)) {
         $error = 'Vui lòng nhập mật khẩu hiện tại';
     } elseif (empty($newPassword)) {
         $error = 'Vui lòng nhập mật khẩu mới';
@@ -50,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Clear form on success
             $_POST = [];
         }
+    }
     }
 }
 
@@ -119,9 +123,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p class="text-sm"><?= htmlspecialchars($error) ?></p>
             </div>
             <?php endif; ?>
-
-            <form action="" method="POST" class="space-y-6">
-                <!-- Current Password -->
+            <form action="<?= BASE_URL ?>/auth/change-password.php" class="space-y-6" id="change-password-form" method="POST">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generateCsrfToken()) ?>">
+                <!-- Current Password Input -->
                 <div>
                     <label class="block text-sm font-semibold text-[#1b1c1c] mb-2" for="current_password">Mật khẩu hiện tại</label>
                     <div class="relative">

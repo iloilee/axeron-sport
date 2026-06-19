@@ -248,6 +248,17 @@ if ($action === 'update_profile') {
 
 if ($action === 'verify_email_otp') {
     $otp = $_POST['otp'] ?? '';
+
+    if (!isset($_SESSION['email_change_otp_attempts'])) {
+        $_SESSION['email_change_otp_attempts'] = 0;
+    }
+
+    if ($_SESSION['email_change_otp_attempts'] >= 5) {
+        unset($_SESSION['email_change_otp'], $_SESSION['email_change_new_email'], $_SESSION['show_email_otp_modal'], $_SESSION['email_change_otp_attempts']);
+        setFlash('error', 'Bạn đã nhập sai mã xác thực quá 5 lần. Quá trình đổi email đã bị hủy.');
+        axRedirect(BASE_URL . '/auth/account.php');
+    }
+
     if (isset($_SESSION['email_change_otp']) && $_SESSION['email_change_otp'] === $otp) {
         $newEmail = $_SESSION['email_change_new_email'];
         
@@ -261,18 +272,20 @@ if ($action === 'verify_email_otp') {
         );
         loginUser($user);
         
-        unset($_SESSION['email_change_otp'], $_SESSION['email_change_new_email'], $_SESSION['show_email_otp_modal']);
+        unset($_SESSION['email_change_otp'], $_SESSION['email_change_new_email'], $_SESSION['show_email_otp_modal'], $_SESSION['email_change_otp_attempts']);
         setFlash('success', 'Đổi email thành công!');
         axRedirect(BASE_URL . '/auth/account.php');
     } else {
+        $_SESSION['email_change_otp_attempts']++;
         $_SESSION['show_email_otp_modal'] = true; // Keep modal open
-        setFlash('error', 'Mã xác thực không chính xác.');
+        $remaining = 5 - $_SESSION['email_change_otp_attempts'];
+        setFlash('error', 'Mã xác thực không chính xác. Bạn còn ' . $remaining . ' lần thử.');
         axRedirect(BASE_URL . '/auth/account.php');
     }
 }
 
 if ($action === 'cancel_email_change') {
-    unset($_SESSION['email_change_otp'], $_SESSION['email_change_new_email'], $_SESSION['show_email_otp_modal']);
+    unset($_SESSION['email_change_otp'], $_SESSION['email_change_new_email'], $_SESSION['show_email_otp_modal'], $_SESSION['email_change_otp_attempts']);
     axRedirect(BASE_URL . '/auth/account.php');
 }
 

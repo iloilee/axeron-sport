@@ -30,6 +30,9 @@ try {
             handleGet($db);
             break;
         case 'POST':
+            if (!verifyCsrfToken($_POST['csrf_token'] ?? '')) {
+                jsonResponse(false, 'Lỗi bảo mật (CSRF). Vui lòng tải lại trang và thử lại.');
+            }
             handlePost($db);
             break;
         default:

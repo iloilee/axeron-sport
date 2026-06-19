@@ -316,11 +316,38 @@ if ($action === 'dashboard') {
     </script>
     <script>
         window.BASE_URL = '<?= BASE_URL ?>';
+        window.CSRF_TOKEN = '<?= htmlspecialchars(generateCsrfToken()) ?>';
         window.getImageUrl = function(url, defaultUrl = '') {
             if (!url) return defaultUrl;
             if (/^https?:\/\//i.test(url)) return url;
             let cleanUrl = url.replace(/^\/+/, '');
             return window.BASE_URL.replace(/\/+$/, '') + '/' + cleanUrl;
+        };
+
+        // CSRF Fetch Interceptor
+        const originalFetch = window.fetch;
+        window.fetch = async function() {
+            let [resource, config] = arguments;
+            if (config && config.method && config.method.toUpperCase() === 'POST') {
+                if (config.body instanceof FormData) {
+                    if (!config.body.has('csrf_token')) {
+                        config.body.append('csrf_token', window.CSRF_TOKEN);
+                    }
+                } else if (typeof config.body === 'string' && config.headers && config.headers['Content-Type'] === 'application/x-www-form-urlencoded') {
+                    if (!config.body.includes('csrf_token=')) {
+                        config.body += '&csrf_token=' + encodeURIComponent(window.CSRF_TOKEN);
+                    }
+                } else if (typeof config.body === 'string' && config.body.startsWith('{')) {
+                    try {
+                        let bodyObj = JSON.parse(config.body);
+                        if (!bodyObj.csrf_token) {
+                            bodyObj.csrf_token = window.CSRF_TOKEN;
+                            config.body = JSON.stringify(bodyObj);
+                        }
+                    } catch (e) {}
+                }
+            }
+            return originalFetch(resource, config);
         };
     </script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>

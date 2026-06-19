@@ -354,14 +354,27 @@ if ($action === 'verify_otp') {
         axRedirect(BASE_URL . '/auth/verify-otp.php');
     }
 
-    // Kiểm tra token và OTP
+    // Tìm token
     $resetRequest = $db->selectOne(
-        "SELECT * FROM password_resets WHERE reset_token = ? AND otp_code = ? AND verified_at IS NULL AND used_at IS NULL",
-        [$resetToken, $otp]
+        "SELECT * FROM password_resets WHERE reset_token = ? AND verified_at IS NULL AND used_at IS NULL",
+        [$resetToken]
     );
 
     if (!$resetRequest) {
-        setFlash('error', 'Mã xác thực không đúng hoặc đã hết hạn');
+        setFlash('error', 'Yêu cầu không hợp lệ hoặc đã được xử lý');
+        axRedirect(BASE_URL . '/auth/verify-otp.php');
+    }
+
+    if ($resetRequest['otp_attempts'] >= 5) {
+        $db->update("UPDATE password_resets SET used_at = NOW() WHERE id = ?", [$resetRequest['id']]);
+        setFlash('error', 'Bạn đã nhập sai OTP quá 5 lần. Yêu cầu đã bị hủy.');
+        axRedirect(BASE_URL . '/auth/forgot-password.php');
+    }
+
+    if ($resetRequest['otp_code'] !== $otp) {
+        $db->update("UPDATE password_resets SET otp_attempts = otp_attempts + 1 WHERE id = ?", [$resetRequest['id']]);
+        $remaining = 4 - $resetRequest['otp_attempts'];
+        setFlash('error', 'Mã xác thực không đúng. Bạn còn ' . $remaining . ' lần thử.');
         axRedirect(BASE_URL . '/auth/verify-otp.php');
     }
 
@@ -392,12 +405,25 @@ if ($action === 'verify_register_otp') {
     }
 
     $resetRequest = $db->selectOne(
-        "SELECT * FROM password_resets WHERE reset_token = ? AND otp_code = ? AND verified_at IS NULL AND used_at IS NULL",
-        [$resetToken, $otp]
+        "SELECT * FROM password_resets WHERE reset_token = ? AND verified_at IS NULL AND used_at IS NULL",
+        [$resetToken]
     );
 
     if (!$resetRequest) {
-        setFlash('error', 'Mã xác thực không đúng hoặc đã hết hạn');
+        setFlash('error', 'Yêu cầu không hợp lệ hoặc đã được xử lý');
+        axRedirect(BASE_URL . '/auth/verify-register-otp.php');
+    }
+
+    if ($resetRequest['otp_attempts'] >= 5) {
+        $db->update("UPDATE password_resets SET used_at = NOW() WHERE id = ?", [$resetRequest['id']]);
+        setFlash('error', 'Bạn đã nhập sai OTP quá 5 lần. Vui lòng đăng nhập lại để nhận mã mới.');
+        axRedirect(BASE_URL . '/auth/login.php');
+    }
+
+    if ($resetRequest['otp_code'] !== $otp) {
+        $db->update("UPDATE password_resets SET otp_attempts = otp_attempts + 1 WHERE id = ?", [$resetRequest['id']]);
+        $remaining = 4 - $resetRequest['otp_attempts'];
+        setFlash('error', 'Mã xác thực không đúng. Bạn còn ' . $remaining . ' lần thử.');
         axRedirect(BASE_URL . '/auth/verify-register-otp.php');
     }
 
