@@ -4,7 +4,7 @@
  * Cấu hình API Key và các thiết lập cho Google Gemini AI
  */
 
-// Lấy API Key từ biến môi trường (đã được nạp sẵn qua config/env.php)
+// Lấy API Key từ biến môi trường
 $apiKey = getenv('GEMINI_API_KEY') ?: '';
 
 // ĐIỀN API KEY CỦA GOOGLE GEMINI TẠI ĐÂY (hoặc sử dụng .env)

@@ -532,7 +532,7 @@ function submitReview($db) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_to_send);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
     // Thêm timeout tránh treo web nếu AI Server lỗi
-    curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 1.5);
 
     $response = @curl_exec($ch);
     curl_close($ch);
