@@ -5,62 +5,75 @@
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/config/session.php';
 require_once __DIR__ . '/config/recommendation.php';
+require_once __DIR__ . '/config/cache.php';
 
 $db = db();
 
 // Load featured products
-$featuredProducts = $db->select("
-    SELECT
-        p.product_id,
-        p.category_id,
-        p.product_name,
-        p.slug,
-        p.base_price,
-        p.avg_rating,
-        p.total_reviews,
-        c.category_name,
-        b.brand_name,
-        pi.image_url,
-        p.is_featured
-    FROM products p
-    LEFT JOIN categories c ON p.category_id = c.category_id
-    LEFT JOIN brands b ON p.brand_id = b.brand_id
-    LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
-    WHERE p.is_visible = 1 AND p.is_deleted = 0 AND p.is_featured = 1
-    AND p.category_id IN (" . getVisibleCategoryQuery() . ")
-    ORDER BY p.featured_sort_order ASC, p.updated_at DESC, p.created_at DESC
-    LIMIT 10
-");
+$featuredProducts = cache()->get('index_featured_products');
+if ($featuredProducts === null) {
+    $featuredProducts = $db->select("
+        SELECT
+            p.product_id,
+            p.category_id,
+            p.product_name,
+            p.slug,
+            p.base_price,
+            p.avg_rating,
+            p.total_reviews,
+            c.category_name,
+            b.brand_name,
+            pi.image_url,
+            p.is_featured
+        FROM products p
+        LEFT JOIN categories c ON p.category_id = c.category_id
+        LEFT JOIN brands b ON p.brand_id = b.brand_id
+        LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
+        WHERE p.is_visible = 1 AND p.is_deleted = 0 AND p.is_featured = 1
+        AND p.category_id IN (" . getVisibleCategoryQuery() . ")
+        ORDER BY p.featured_sort_order ASC, p.updated_at DESC, p.created_at DESC
+        LIMIT 10
+    ");
+    cache()->set('index_featured_products', $featuredProducts, 300);
+}
 
 // Load shoes for new section
-$shoesProducts = $db->select("
-    SELECT
-        p.product_id,
-        p.category_id,
-        p.product_name,
-        p.slug,
-        p.base_price,
-        c.slug as category_slug,
-        pi.image_url,
-        p.is_featured
-    FROM products p
-    LEFT JOIN categories c ON p.category_id = c.category_id
-    LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
-    WHERE p.is_visible = 1 AND p.is_deleted = 0 AND c.slug IN ('giay-pickleball', 'giay-da-bong', 'giay-cau-long', 'giay-chay-bo')
-    AND p.category_id IN (" . getVisibleCategoryQuery() . ")
-    ORDER BY p.updated_at DESC
-");
+$shoesProducts = cache()->get('index_shoes_products');
+if ($shoesProducts === null) {
+    $shoesProducts = $db->select("
+        SELECT
+            p.product_id,
+            p.category_id,
+            p.product_name,
+            p.slug,
+            p.base_price,
+            c.slug as category_slug,
+            pi.image_url,
+            p.is_featured
+        FROM products p
+        LEFT JOIN categories c ON p.category_id = c.category_id
+        LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
+        WHERE p.is_visible = 1 AND p.is_deleted = 0 AND c.slug IN ('giay-pickleball', 'giay-da-bong', 'giay-cau-long', 'giay-chay-bo')
+        AND p.category_id IN (" . getVisibleCategoryQuery() . ")
+        ORDER BY p.updated_at DESC
+    ");
+    cache()->set('index_shoes_products', $shoesProducts, 300);
+}
 
 // Load banners dynamically
-$banners = $db->select("
-    SELECT banner_id, title, subtitle, image_url, image_url_mobile, link_url, link_type, button_text
-    FROM banners
-    WHERE is_active = 1
-    AND (start_date IS NULL OR start_date <= NOW())
-    AND (end_date IS NULL OR end_date >= NOW())
-    ORDER BY position ASC
-    LIMIT 20
-");
+$banners = cache()->get('index_banners');
+if ($banners === null) {
+    $banners = $db->select("
+        SELECT banner_id, title, subtitle, image_url, image_url_mobile, link_url, link_type, button_text
+        FROM banners
+        WHERE is_active = 1
+        AND (start_date IS NULL OR start_date <= NOW())
+        AND (end_date IS NULL OR end_date >= NOW())
+        ORDER BY position ASC
+        LIMIT 20
+    ");
+    cache()->set('index_banners', $banners, 3600);
+}
 
 $heroBanners = array_slice($banners, 0, 6);
 $marqueeBanners = array_slice($banners, 6);
@@ -149,7 +162,7 @@ if ($flashSalePromo) {
             <!-- Slide <?= $index + 1 ?> -->
             <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out <?= $index === 0 ? 'opacity-100' : 'opacity-0' ?>" id="slide-<?= $index + 1 ?>" <?php if (!empty($banner['link_url'])): ?>onclick="window.location.href='<?= BASE_URL ?><?= htmlspecialchars(str_replace(BASE_URL, '', $banner['link_url'])) ?>'" style="cursor: pointer;"<?php endif; ?> title="<?= htmlspecialchars($banner['title']) ?>">
                 <?php $src = strpos($banner['image_url'], 'http') === 0 ? htmlspecialchars($banner['image_url']) : BASE_URL . '/' . htmlspecialchars(ltrim($banner['image_url'], '/')); ?>
-                <img alt="<?= htmlspecialchars($banner['title']) ?>" class="w-full h-full object-cover" src="<?= $src ?>"/>
+                <img loading="lazy" alt="<?= htmlspecialchars($banner['title']) ?>" class="w-full h-full object-cover" src="<?= $src ?>"/>
             </div>
             <?php endforeach; ?>
         </section>
@@ -198,7 +211,7 @@ if ($flashSalePromo) {
                     <?php $src = strpos($banner['image_url'], 'http') === 0 ? htmlspecialchars($banner['image_url']) : BASE_URL . '/' . htmlspecialchars(ltrim($banner['image_url'], '/')); ?>
                     <div class="img-marquee-item">
                         <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= $link ?>" title="<?= htmlspecialchars($banner['title']) ?>">
-                            <img alt="<?= htmlspecialchars($banner['title']) ?>" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            <img loading="lazy" alt="<?= htmlspecialchars($banner['title']) ?>" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 src="<?= $src ?>"/>
                         </a>
                     </div>
@@ -209,7 +222,7 @@ if ($flashSalePromo) {
                     <?php $src = strpos($banner['image_url'], 'http') === 0 ? htmlspecialchars($banner['image_url']) : BASE_URL . '/' . htmlspecialchars(ltrim($banner['image_url'], '/')); ?>
                     <div class="img-marquee-item">
                         <a class="relative block w-full h-[250px] md:h-[300px] rounded-xl overflow-hidden group" href="<?= $link ?>" title="<?= htmlspecialchars($banner['title']) ?>">
-                            <img alt="<?= htmlspecialchars($banner['title']) ?>" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            <img loading="lazy" alt="<?= htmlspecialchars($banner['title']) ?>" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 src="<?= $src ?>"/>
                         </a>
                     </div>
@@ -256,7 +269,7 @@ if ($flashSalePromo) {
                     ?>
                     <a href="<?= BASE_URL ?>/shop/product-catalog.php?brand=<?= urlencode($brand['brand_name']) ?>" class="flex-shrink-0 opacity-40 hover:opacity-100 grayscale hover:grayscale-0 transition-all duration-300 hover:scale-105 flex items-center justify-center min-w-[80px] md:min-w-[120px]">
                         <?php if (!empty($brand['logo_url'])): ?>
-                            <img src="<?= htmlspecialchars(getImageUrl($brand['logo_url'], '')) ?>" alt="<?= htmlspecialchars($brand['brand_name']) ?>" class="h-6 md:h-9 object-contain opacity-80 hover:opacity-100" />
+                            <img loading="lazy" src="<?= htmlspecialchars(getImageUrl($brand['logo_url'], '')) ?>" alt="<?= htmlspecialchars($brand['brand_name']) ?>" class="h-6 md:h-9 object-contain opacity-80 hover:opacity-100" />
                         <?php else: ?>
                             <div class="h-6 md:h-9 flex items-center justify-center font-label-lg text-on-surface-variant font-black tracking-widest italic uppercase opacity-80 hover:opacity-100">
                                 <?= $brand['brand_name'] ?>
@@ -320,7 +333,7 @@ if ($flashSalePromo) {
                                     onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(<?= $fsProduct['product_id'] ?>, this)">
                                     <span class="material-symbols-outlined text-[20px] <?= $favColor ?>" style="font-variation-settings: 'FILL' <?= $favFill ?>;">favorite</span>
                                 </button>
-                                <img alt="<?= htmlspecialchars($fsProduct['product_name']) ?>"
+                                <img loading="lazy" alt="<?= htmlspecialchars($fsProduct['product_name']) ?>"
                                     class="w-full h-full object-cover group-hover/fs:scale-110 transition-transform duration-500"
                                     src="<?= htmlspecialchars(getImageUrl($fsProduct['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($fsProduct['product_name'], 0, 20)))) ?>"/>
                                 
@@ -392,7 +405,7 @@ if ($flashSalePromo) {
                             onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(<?= $product['product_id'] ?>, this)">
                             <span class="material-symbols-outlined text-[20px] <?= $favColor ?>" style="font-variation-settings: 'FILL' <?= $favFill ?>;">favorite</span>
                         </button>
-                        <img alt="<?= htmlspecialchars($product['product_name']) ?>"
+                        <img loading="lazy" alt="<?= htmlspecialchars($product['product_name']) ?>"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
                         
@@ -467,7 +480,7 @@ if ($flashSalePromo) {
                             onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(<?= $product['product_id'] ?>, this)">
                             <span class="material-symbols-outlined text-[20px] <?= $favColor ?>" style="font-variation-settings: 'FILL' <?= $favFill ?>;">favorite</span>
                         </button>
-                        <img alt="<?= htmlspecialchars($product['product_name']) ?>"
+                        <img loading="lazy" alt="<?= htmlspecialchars($product['product_name']) ?>"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
                         
@@ -539,7 +552,7 @@ if ($flashSalePromo) {
                             onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(<?= $rProduct['product_id'] ?>, this)">
                             <span class="material-symbols-outlined text-[20px] <?= $favColor ?>" style="font-variation-settings: 'FILL' <?= $favFill ?>;">favorite</span>
                         </button>
-                        <img alt="<?= htmlspecialchars($rProduct['product_name']) ?>"
+                        <img loading="lazy" alt="<?= htmlspecialchars($rProduct['product_name']) ?>"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             src="<?= htmlspecialchars(getImageUrl($rProduct['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($rProduct['product_name'], 0, 20)))) ?>"/>
                             
@@ -595,7 +608,7 @@ if ($flashSalePromo) {
                         class="flex-shrink-0 w-[85vw] sm:w-[350px] snap-center group/card border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col">
                         <?php $delay += 100; ?>
                         <div class="aspect-[16/10] bg-surface-container-low overflow-hidden">
-                            <img alt="<?= htmlspecialchars($article['title']) ?>"
+                            <img loading="lazy" alt="<?= htmlspecialchars($article['title']) ?>"
                                 class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500"
                                 src="<?= htmlspecialchars(getImageUrl($article['featured_image'], 'https://placehold.co/800x500/e5e2e1/5b403f?text=Tin+Tuc')) ?>" />
                         </div>
@@ -658,28 +671,28 @@ if ($flashSalePromo) {
                         <div class="w-16 h-[3px] bg-axeron-red mb-6"></div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
                             <a href="<?= BASE_URL ?>/blog/stadiums.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
-                                <img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
+                                <img loading="lazy" src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
                                 <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
                                 <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
                                     <h3 class="text-[18px] md:text-xl font-extrabold text-white text-center uppercase tracking-wider drop-shadow-md">SÂN VẬN ĐỘNG</h3>
                                 </div>
                             </a>
                             <a href="<?= BASE_URL ?>/blog/arenas.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
-                                <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
+                                <img loading="lazy" src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
                                 <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
                                 <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
                                     <h3 class="text-[18px] md:text-xl font-extrabold text-white text-center uppercase tracking-wider drop-shadow-md">NHÀ THI ĐẤU</h3>
                                 </div>
                             </a>
                             <a href="<?= BASE_URL ?>/blog/school-uniforms.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
-                                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
+                                <img loading="lazy" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
                                 <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
                                 <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
                                     <h3 class="text-[18px] md:text-xl font-extrabold text-white text-center uppercase tracking-wider drop-shadow-md">ĐỒNG PHỤC HỌC SINH</h3>
                                 </div>
                             </a>
                             <a href="<?= BASE_URL ?>/blog/gym-equipment.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
-                                <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
+                                <img loading="lazy" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
                                 <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
                                 <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
                                     <h3 class="text-[18px] md:text-xl font-extrabold text-white text-center uppercase tracking-wider drop-shadow-md">THIẾT BỊ PHÒNG TẬP</h3>

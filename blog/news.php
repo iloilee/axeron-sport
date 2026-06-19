@@ -136,7 +136,7 @@ $featuredArticles = $db->select("
             <!-- Featured Image -->
             <?php if (!empty($article['featured_image'])): ?>
             <figure class="mb-8 rounded-xl overflow-hidden">
-                <img src="<?= htmlspecialchars($article['featured_image']) ?>"
+                <img loading="lazy" src="<?= htmlspecialchars($article['featured_image']) ?>"
                      alt="<?= htmlspecialchars($article['title']) ?>"
                      class="w-full h-auto">
             </figure>
@@ -204,7 +204,7 @@ $featuredArticles = $db->select("
                         <article class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group cursor-pointer"
                                  onclick="window.location.href='<?= BASE_URL ?>/blog/news.php?slug=<?= htmlspecialchars($article['slug']) ?>'">
                             <div class="aspect-[16/10] overflow-hidden bg-gray-100">
-                                <img src="<?= $article['featured_image'] ?: 'https://placehold.co/600x400/e5e2e1/5b403f?text=Tin+Tuc' ?>"
+                                <img loading="lazy" src="<?= $article['featured_image'] ?: 'https://placehold.co/600x400/e5e2e1/5b403f?text=Tin+Tuc' ?>"
                                      alt="<?= htmlspecialchars($article['title']) ?>"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             </div>
@@ -276,7 +276,7 @@ $featuredArticles = $db->select("
                             <a href="<?= BASE_URL ?>/blog/news.php?slug=<?= htmlspecialchars($featured['slug']) ?>"
                                class="flex gap-3 group">
                                 <?php if (!empty($featured['featured_image'])): ?>
-                                <img src="<?= htmlspecialchars($featured['featured_image']) ?>"
+                                <img loading="lazy" src="<?= htmlspecialchars($featured['featured_image']) ?>"
                                      alt=""
                                      class="w-20 h-16 object-cover rounded-lg flex-shrink-0">
                                 <?php else: ?>

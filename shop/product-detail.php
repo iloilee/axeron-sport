@@ -226,7 +226,7 @@ if (isLoggedIn()) {
             <div class="md:col-span-7 flex flex-col gap-4">
                 <!-- Main Image -->
                 <div id="img-container" class="w-full bg-surface-container rounded-xl overflow-hidden relative group aspect-square flex-grow min-h-[400px]">
-                    <img id="main-image" alt="<?= htmlspecialchars($product['product_name']) ?>"
+                    <img loading="lazy" id="main-image" alt="<?= htmlspecialchars($product['product_name']) ?>"
                          class="w-full h-full object-cover object-center"
                          src="<?= htmlspecialchars(getImageUrl(!empty($images) ? $images[0]['image_url'] : null, 'https://placehold.co/600x600/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
                     <?php if ($product['is_featured']): ?>
@@ -241,7 +241,7 @@ if (isLoggedIn()) {
                     <?php foreach (array_slice($images, 0, 4) as $idx => $img): ?>
                     <button onclick="changeMainImage('<?= htmlspecialchars($img['image_url']) ?>')"
                             class="rounded-lg overflow-hidden border-2 <?= $idx === 0 ? 'border-axeron-red' : 'border-outline-variant hover:border-axeron-red' ?> transition-colors aspect-square">
-                        <img alt="<?= htmlspecialchars($img['alt_text'] ?? '') ?>" class="w-full h-full object-cover" src="<?= htmlspecialchars(getImageUrl($img['image_url'])) ?>"/>
+                        <img loading="lazy" alt="<?= htmlspecialchars($img['alt_text'] ?? '') ?>" class="w-full h-full object-cover" src="<?= htmlspecialchars(getImageUrl($img['image_url'])) ?>"/>
                     </button>
                     <?php endforeach; ?>
                 </div>
@@ -647,7 +647,7 @@ if (isLoggedIn()) {
                             onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(<?= $rel['product_id'] ?>, this)">
                             <span class="material-symbols-outlined text-[20px] <?= $favColor ?>" style="font-variation-settings: 'FILL' <?= $favFill ?>;">favorite</span>
                         </button>
-                        <img alt="<?= htmlspecialchars($rel['product_name']) ?>"
+                        <img loading="lazy" alt="<?= htmlspecialchars($rel['product_name']) ?>"
                              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                              src="<?= htmlspecialchars(getImageUrl($rel['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($rel['product_name'], 0, 15)))) ?>"/>
                              
@@ -1149,7 +1149,7 @@ if (isLoggedIn()) {
                     <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant mb-4">
                         <div class="flex items-start gap-4">
                             ${avatarUrl
-                                ? `<img src="${avatarUrl}" alt="${review.full_name}" class="w-12 h-12 rounded-full object-cover">`
+                                ? `<img loading="lazy" src="${avatarUrl}" alt="${review.full_name}" class="w-12 h-12 rounded-full object-cover">`
                                 : `<div class="w-12 h-12 rounded-full bg-axeron-red text-white flex items-center justify-center font-bold text-lg">${avatarInitial}</div>`
                             }
                             <div class="flex-1">

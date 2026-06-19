@@ -493,7 +493,7 @@ if (isLoggedIn()) {
         </aside>
 
         <!-- Product Grid Area -->
-        <div class="flex-grow flex flex-col">
+        <div id="product-list-container" class="flex-grow flex flex-col">
             <!-- Header -->
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-4 border-b border-outline-variant gap-4">
                 <div>
@@ -609,7 +609,7 @@ if (isLoggedIn()) {
                             <?php if ($product['is_featured']): ?>
                             <span class="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_10px_rgba(239,68,68,0.5)] text-white font-label-sm text-label-sm px-3 py-1 rounded-full uppercase tracking-wider z-10">Nổi bật</span>
                             <?php endif; ?>
-                             <img alt="<?= htmlspecialchars($product['product_name']) ?>"
+                             <img loading="lazy" alt="<?= htmlspecialchars($product['product_name']) ?>"
                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                 src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 15)))) ?>"/>
                                 
@@ -730,39 +730,143 @@ if (isLoggedIn()) {
 
     <script src="<?= BASE_URL ?>/js/main.js?v=<?= time() ?>"></script>
     <script>
-        // Chuyển đổi price_range thành min_price và max_price trước khi submit form
+        function getSkeletonHtml() {
+            let html = '<div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter mb-12">';
+            for(let i=0; i<8; i++) {
+                html += `
+                <div class="bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden shadow-sm flex flex-col relative animate-pulse">
+                    <div class="w-full aspect-square bg-gray-200"></div>
+                    <div class="p-4 flex flex-col flex-grow space-y-3">
+                        <div class="h-3 bg-gray-200 rounded w-1/3"></div>
+                        <div class="h-5 bg-gray-200 rounded w-full"></div>
+                        <div class="h-5 bg-gray-200 rounded w-2/3"></div>
+                        <div class="mt-auto pt-2">
+                            <div class="h-6 bg-gray-200 rounded w-1/2"></div>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        async function fetchProducts(url) {
+            const container = document.getElementById('product-list-container');
+            // Show Skeleton Loader
+            container.innerHTML = getSkeletonHtml();
+            
+            try {
+                const response = await fetch(url);
+                const htmlText = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, "text/html");
+                const newContainer = doc.getElementById('product-list-container');
+                if (newContainer) {
+                    container.innerHTML = newContainer.innerHTML;
+                    // Re-init AOS
+                    if (typeof AOS !== 'undefined') AOS.init({once:true, offset:50, duration:800});
+                }
+                // Cập nhật URL trình duyệt
+                window.history.pushState({path: url}, '', url);
+                
+                // Lắng nghe lại các sự kiện phân trang
+                attachPaginationEvents();
+            } catch(e) {
+                console.error("Lỗi khi tải dữ liệu", e);
+                container.innerHTML = '<div class="text-center py-16">Lỗi tải dữ liệu. Vui lòng thử lại.</div>';
+            }
+        }
+
+        function attachPaginationEvents() {
+            const paginationLinks = document.querySelectorAll('#product-list-container a[href*="page="]');
+            paginationLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    fetchProducts(this.href);
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                });
+            });
+        }
+
         document.getElementById('filter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
             var selectedPrice = document.querySelector('input[name="price_range"]:checked');
+            var form = this;
+            
+            ['min_price', 'max_price'].forEach(function(name) {
+                var existing = form.querySelector('input[name="' + name + '"]');
+                if (existing) existing.remove();
+            });
+
             if (selectedPrice && selectedPrice.value) {
                 var parts = selectedPrice.value.split('-');
                 var minPrice = parseInt(parts[0]) || 0;
                 var maxPrice = parseInt(parts[1]) || 0;
 
-                // Xóa các hidden inputs cũ nếu có
-                var form = this;
-                ['min_price', 'max_price'].forEach(function(name) {
-                    var existing = form.querySelector('input[name="' + name + '"]');
-                    if (existing) existing.remove();
-                });
-
-                // Thêm hidden inputs mới
                 if (minPrice > 0) {
                     var minInput = document.createElement('input');
-                    minInput.type = 'hidden';
-                    minInput.name = 'min_price';
-                    minInput.value = minPrice;
+                    minInput.type = 'hidden'; minInput.name = 'min_price'; minInput.value = minPrice;
                     form.appendChild(minInput);
                 }
-
                 if (maxPrice > 0) {
                     var maxInput = document.createElement('input');
-                    maxInput.type = 'hidden';
-                    maxInput.name = 'max_price';
-                    maxInput.value = maxPrice;
+                    maxInput.type = 'hidden'; maxInput.name = 'max_price'; maxInput.value = maxPrice;
                     form.appendChild(maxInput);
                 }
             }
+            
+            const formData = new FormData(form);
+            const params = new URLSearchParams(formData);
+            const url = window.location.pathname + '?' + params.toString();
+            fetchProducts(url);
+            
+            // Xóa min_price / max_price khỏi form DOM để tránh rác
+            ['min_price', 'max_price'].forEach(function(name) {
+                var existing = form.querySelector('input[name="' + name + '"]');
+                if (existing) existing.remove();
+            });
+            
+            // Ẩn bộ lọc trên mobile
+            document.getElementById('mobile-filter-container').classList.add('hidden');
         });
+
+        // Tự động submit khi thay đổi checkbox/radio/select
+        document.querySelectorAll('#filter-form input[type="checkbox"], #filter-form input[type="radio"]').forEach(el => {
+            el.addEventListener('change', () => {
+                document.getElementById('filter-form').dispatchEvent(new Event('submit'));
+            });
+        });
+
+        // Xử lý select sort
+        const sortSelect = document.querySelector('select[onchange="window.location.href=this.value"]');
+        if (sortSelect) {
+            sortSelect.removeAttribute('onchange');
+            sortSelect.addEventListener('change', function(e) {
+                const sortVal = new URL(this.value, window.location.origin).searchParams.get('sort');
+                const form = document.getElementById('filter-form');
+                
+                let sortInput = form.querySelector('input[name="sort"]');
+                if (!sortInput) {
+                    sortInput = document.createElement('input');
+                    sortInput.type = 'hidden';
+                    sortInput.name = 'sort';
+                    form.appendChild(sortInput);
+                }
+                sortInput.value = sortVal;
+                
+                form.dispatchEvent(new Event('submit'));
+            });
+        }
+
+        // Handle back/forward navigation
+        window.addEventListener('popstate', function(e) {
+            if(e.state !== null) {
+                fetchProducts(location.href);
+            }
+        });
+
+        // Initialize pagination ajax
+        attachPaginationEvents();
     </script>
 </body>
 </html>
