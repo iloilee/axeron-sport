@@ -108,6 +108,36 @@ if (isLoggedIn()) {
     $wl = $db->select("SELECT product_id FROM user_wishlists WHERE user_id = ?", [getUserId()]);
     $userWishlistIds = array_column($wl, 'product_id');
 }
+
+// Load active Flash Sale
+$flashSalePromo = $db->selectOne("
+    SELECT promo_id, promo_name, discount_type, discount_value, end_date
+    FROM promotions
+    WHERE type = 'flashsale' 
+      AND is_active = 1 
+      AND start_date <= NOW() 
+      AND end_date >= NOW()
+    ORDER BY end_date ASC
+    LIMIT 1
+");
+
+$flashSaleProducts = [];
+if ($flashSalePromo) {
+    $flashSaleProducts = $db->select("
+        SELECT
+            p.product_id,
+            p.category_id,
+            p.product_name,
+            p.slug,
+            p.base_price,
+            pi.image_url
+        FROM products p
+        JOIN promotion_products pp ON p.product_id = pp.product_id
+        LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
+        WHERE pp.promo_id = ? AND p.is_visible = 1 AND p.is_deleted = 0
+        LIMIT 10
+    ", [$flashSalePromo['promo_id']]);
+}
 ?>
 <?php require_once __DIR__ . '/includes/head.php'; ?>
     <?php include __DIR__ . '/includes/header.php'; ?>
@@ -235,6 +265,97 @@ if (isLoggedIn()) {
                     </a>
                     <?php endforeach; ?>
                 </div>
+            </div>
+        </section>
+        <?php endif; ?>
+
+        <!-- Section: Flash Sale -->
+        <?php if (!empty($flashSalePromo) && !empty($flashSaleProducts)): ?>
+        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8" data-aos="fade-up">
+            <div class="rounded-2xl overflow-hidden bg-gradient-to-r from-orange-500 via-red-500 to-red-600 shadow-[0_10px_30px_rgba(239,68,68,0.4)] relative group p-4 md:p-6 lg:p-8">
+                <!-- Decor background -->
+                <div class="absolute top-0 right-0 -mr-16 -mt-16 text-white opacity-10 pointer-events-none transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-700">
+                    <span class="material-symbols-outlined text-[300px]">bolt</span>
+                </div>
+                <div class="absolute bottom-0 left-0 -ml-16 -mb-16 text-white opacity-[0.05] pointer-events-none transform group-hover:scale-110 transition-transform duration-700">
+                    <span class="material-symbols-outlined text-[300px]">timer</span>
+                </div>
+
+                <div class="flex flex-col lg:flex-row justify-between items-center mb-8 gap-4 relative z-10">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-5xl text-yellow-300 animate-pulse drop-shadow-[0_0_10px_rgba(253,224,71,0.8)]" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+                        <h2 class="font-headline-lg text-4xl uppercase text-white font-black tracking-[0.1em] drop-shadow-md">FLASH SALE</h2>
+                    </div>
+                    
+                    <!-- Countdown Timer -->
+                    <div class="flex items-center gap-2 font-mono text-2xl md:text-3xl font-black" id="flashsale-timer" data-end-time="<?= htmlspecialchars($flashSalePromo['end_date']) ?>">
+                        <div class="bg-white text-red-600 px-3 py-2 rounded-lg shadow-[0_4px_10px_rgba(0,0,0,0.2)] min-w-[4rem] text-center" id="fs-hours">00</div>
+                        <span class="font-bold text-white animate-pulse">:</span>
+                        <div class="bg-white text-red-600 px-3 py-2 rounded-lg shadow-[0_4px_10px_rgba(0,0,0,0.2)] min-w-[4rem] text-center" id="fs-minutes">00</div>
+                        <span class="font-bold text-white animate-pulse">:</span>
+                        <div class="bg-white text-red-600 px-3 py-2 rounded-lg shadow-[0_4px_10px_rgba(0,0,0,0.2)] min-w-[4rem] text-center" id="fs-seconds">00</div>
+                    </div>
+                </div>
+
+                    <!-- Products Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-gutter relative z-10">
+                        <?php $delay = 0; foreach ($flashSaleProducts as $fsProduct): ?>
+                        <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($fsProduct['slug']) ?>"
+                            data-aos="fade-up" data-aos-delay="<?= $delay ?>"
+                            class="group/fs border border-transparent rounded-xl overflow-hidden bg-white hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 flex flex-col relative">
+                            <?php $delay += 50; ?>
+                            
+                            <div class="absolute top-0 left-0 bg-yellow-400 text-red-700 text-[10px] font-bold px-2 py-1 rounded-br-lg z-20 uppercase tracking-widest shadow-sm">
+                                ⚡ <?= htmlspecialchars($flashSalePromo['promo_name']) ?>
+                            </div>
+
+                            <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
+                                <?php
+                                $isFav = isLoggedIn() && in_array($fsProduct['product_id'], $userWishlistIds);
+                                $favColor = $isFav ? 'text-axeron-red' : 'text-on-surface-variant hover:text-axeron-red';
+                                $favFill = $isFav ? 1 : 0;
+                                $favOpacity = $isFav ? 'opacity-100' : 'opacity-0 group-hover/fs:opacity-100';
+                                ?>
+                                <button class="absolute top-2 right-2 p-2 bg-white/80 rounded-full hover:text-axeron-red hover:bg-white transition-colors <?= $favOpacity ?> z-10"
+                                    onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(<?= $fsProduct['product_id'] ?>, this)">
+                                    <span class="material-symbols-outlined text-[20px] <?= $favColor ?>" style="font-variation-settings: 'FILL' <?= $favFill ?>;">favorite</span>
+                                </button>
+                                <img alt="<?= htmlspecialchars($fsProduct['product_name']) ?>"
+                                    class="w-full h-full object-cover group-hover/fs:scale-110 transition-transform duration-500"
+                                    src="<?= htmlspecialchars(getImageUrl($fsProduct['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($fsProduct['product_name'], 0, 20)))) ?>"/>
+                                
+                                <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover/fs:translate-y-0 transition-transform duration-300 ease-in-out z-20 flex justify-center">
+                                    <button class="bg-black/90 backdrop-blur-sm hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-600 text-white font-label-md text-label-md px-6 py-2.5 rounded-full shadow-lg transition-all flex items-center gap-2 hover:scale-105 w-[90%] justify-center" onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?= $fsProduct['product_id'] ?>, 0, 1)">
+                                        <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                                        Mua Ngay
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-4 flex flex-col flex-grow bg-white">
+                                <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover/fs:text-orange-600 transition-colors">
+                                    <?= htmlspecialchars($fsProduct['product_name']) ?>
+                                </h3>
+                                <div class="mt-auto flex flex-col">
+                                    <?php 
+                                    $promoInfo = getBestPromotionForProduct($fsProduct['product_id'], $fsProduct['category_id'] ?? 0, $fsProduct['base_price']);
+                                    if ($promoInfo['discount_amount'] > 0): ?>
+                                        <div class="flex items-center justify-between w-full">
+                                            <div class="flex flex-col">
+                                                <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
+                                                <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($fsProduct['base_price']) ?></span>
+                                            </div>
+                                            <?php if (isset($promoInfo['promotion']['discount_type']) && $promoInfo['promotion']['discount_type'] === 'percent'): ?>
+                                                <span class="text-[10px] bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_8px_rgba(249,115,22,0.4)] text-white font-bold px-2 py-0.5 rounded-sm uppercase tracking-widest ml-2">GIẢM <?= (float)$promoInfo['promotion']['discount_value'] ?>%</span>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php else: ?>
+                                        <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($fsProduct['base_price']) ?></span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </a>
+                        <?php endforeach; ?>
+                    </div>
             </div>
         </section>
         <?php endif; ?>
@@ -676,6 +797,54 @@ if (isLoggedIn()) {
                 prevBtn.addEventListener('mouseleave', startAutoScroll);
                 nextBtn.addEventListener('mouseleave', startAutoScroll);
             }
+        });
+
+        // Flash Sale Countdown Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const timerEl = document.getElementById('flashsale-timer');
+            if (!timerEl) return;
+
+            const endTimeStr = timerEl.getAttribute('data-end-time');
+            if (!endTimeStr) return;
+
+            // Chuyển chuỗi datetime MySQL (YYYY-MM-DD HH:MM:SS) thành định dạng chuẩn cho Date object
+            const endTimeParts = endTimeStr.split(/[- :]/);
+            // JS months are 0-indexed
+            const endTime = new Date(endTimeParts[0], endTimeParts[1] - 1, endTimeParts[2], endTimeParts[3] || 0, endTimeParts[4] || 0, endTimeParts[5] || 0).getTime();
+
+            const hEl = document.getElementById('fs-hours');
+            const mEl = document.getElementById('fs-minutes');
+            const sEl = document.getElementById('fs-seconds');
+
+            function updateTimer() {
+                const now = new Date().getTime();
+                const distance = endTime - now;
+
+                if (distance < 0) {
+                    clearInterval(interval);
+                    hEl.textContent = "00";
+                    mEl.textContent = "00";
+                    sEl.textContent = "00";
+                    // Tùy chọn: Ẩn hoặc báo hết hạn
+                    timerEl.innerHTML = '<span class="text-axeron-red font-bold text-lg">Đã Kết Thúc</span>';
+                    return;
+                }
+
+                // Tính toán giờ, phút, giây
+                const hours = Math.floor(distance / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Thêm số 0 ở trước nếu nhỏ hơn 10
+                hEl.textContent = hours.toString().padStart(2, '0');
+                mEl.textContent = minutes.toString().padStart(2, '0');
+                sEl.textContent = seconds.toString().padStart(2, '0');
+            }
+
+            // Gọi ngay 1 lần để tránh delay 1 giây
+            updateTimer();
+            // Cập nhật mỗi giây
+            const interval = setInterval(updateTimer, 1000);
         });
     </script>
 </body>
