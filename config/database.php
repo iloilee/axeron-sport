@@ -5,6 +5,11 @@
  */
 require_once __DIR__ . '/env.php';
 
+// Bảo mật hiển thị lỗi (Security Misconfiguration)
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+error_reporting(E_ALL);
+
 define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1'); // Có thể giữ localhost làm mặc định
 define('DB_USER', getenv('DB_USER') ?: 'root');
 define('DB_PASS', getenv('DB_PASS') ?: '');

@@ -132,7 +132,7 @@ if ($id <= 0) {
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const productId = <?= $id ?>;

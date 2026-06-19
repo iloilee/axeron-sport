@@ -109,9 +109,11 @@ if ($action === 'login') {
                 [$attempts, $user['user_id']]
             );
             $_SESSION['lockout_remaining'] = 900;
+            error_log("SECURITY ALERT: Account locked due to brute-force for email: $email from IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN'));
             setFlash('error', 'Tài khoản bị khóa.');
         } else {
             $db->update("UPDATE users SET login_attempts = ? WHERE user_id = ?", [$attempts, $user['user_id']]);
+            error_log("SECURITY WARNING: Failed login attempt for email: $email from IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN'));
             setFlash('error', 'Email hoặc mật khẩu không đúng (' . $attempts . '/5)');
         }
         axRedirect(BASE_URL . '/auth/login.php');
@@ -367,6 +369,7 @@ if ($action === 'verify_otp') {
 
     if ($resetRequest['otp_attempts'] >= 5) {
         $db->update("UPDATE password_resets SET used_at = NOW() WHERE id = ?", [$resetRequest['id']]);
+        error_log("SECURITY ALERT: OTP brute-force locked for token: $resetToken from IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN'));
         setFlash('error', 'Bạn đã nhập sai OTP quá 5 lần. Yêu cầu đã bị hủy.');
         axRedirect(BASE_URL . '/auth/forgot-password.php');
     }
@@ -416,6 +419,7 @@ if ($action === 'verify_register_otp') {
 
     if ($resetRequest['otp_attempts'] >= 5) {
         $db->update("UPDATE password_resets SET used_at = NOW() WHERE id = ?", [$resetRequest['id']]);
+        error_log("SECURITY ALERT: OTP register brute-force locked for token: $resetToken from IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN'));
         setFlash('error', 'Bạn đã nhập sai OTP quá 5 lần. Vui lòng đăng nhập lại để nhận mã mới.');
         axRedirect(BASE_URL . '/auth/login.php');
     }

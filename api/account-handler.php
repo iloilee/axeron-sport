@@ -255,6 +255,7 @@ if ($action === 'verify_email_otp') {
 
     if ($_SESSION['email_change_otp_attempts'] >= 5) {
         unset($_SESSION['email_change_otp'], $_SESSION['email_change_new_email'], $_SESSION['show_email_otp_modal'], $_SESSION['email_change_otp_attempts']);
+        error_log("SECURITY ALERT: Email change OTP brute-force locked for user ID: $userId from IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN'));
         setFlash('error', 'Bạn đã nhập sai mã xác thực quá 5 lần. Quá trình đổi email đã bị hủy.');
         axRedirect(BASE_URL . '/auth/account.php');
     }
