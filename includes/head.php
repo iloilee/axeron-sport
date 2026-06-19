@@ -41,7 +41,7 @@ if (strpos($siteFaviconUrl, 'http') !== 0 && !empty($siteFaviconUrl)) {
             color: #e8eaed !important;
         }
         html.dark .bg-surface, html.dark .bg-white {
-            background-color: #303134 !important;
+            background-color: #2D2E30 !important;
             color: #e8eaed !important;
             border-color: #5f6368 !important;
         }
@@ -51,14 +51,18 @@ if (strpos($siteFaviconUrl, 'http') !== 0 && !empty($siteFaviconUrl)) {
         html.dark .border-outline-variant, html.dark .border-gray-200, html.dark .border-gray-100 {
             border-color: #5f6368 !important;
         }
-        html.dark .bg-surface-container-lowest, html.dark .bg-gray-50 {
-            background-color: #2a2b2e !important;
+        html.dark .bg-surface-container-lowest, html.dark .bg-gray-50, html.dark .bg-surface-container, html.dark .bg-surface-container-high {
+            background-color: #2D2E30 !important;
         }
-        html.dark .hover\:bg-surface-container:hover {
+        html.dark footer, html.dark .bg-inverse-surface, html.dark .bg-black {
+            background-color: #202124 !important;
+            border-color: #303134 !important;
+        }
+        html.dark .hover\:bg-surface-container:hover, html.dark .hover\:bg-surface-container-low:hover {
             background-color: #4a4d51 !important;
         }
         html.dark input, html.dark textarea, html.dark select {
-            background-color: #303134 !important;
+            background-color: #2D2E30 !important;
             color: #e8eaed !important;
             border-color: #5f6368 !important;
         }

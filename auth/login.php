@@ -62,6 +62,7 @@ unset($_SESSION['old_input']);
         .material-symbols-outlined { font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; }
         .fill-icon { font-variation-settings: "FILL" 1; }
     </style>
+    <?php include __DIR__ . '/../includes/dark-mode.php'; ?>
 </head>
 <body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col">
     <!-- Header -->

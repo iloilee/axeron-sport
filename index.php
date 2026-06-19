@@ -647,7 +647,7 @@ if ($flashSalePromo) {
         <!-- Info Sections -->
         <section class="relative py-20 md:py-24 bg-center bg-cover" data-aos="fade-up" style="background-image: url('https://images.unsplash.com/photo-1508344928928-7137b29de216?q=80&w=1920&auto=format&fit=crop');">
             <!-- Lớp phủ trắng mờ để nổi bật nội dung chữ -->
-            <div class="absolute inset-0 bg-[#fcf9f8]/90 backdrop-blur-[2px]"></div>
+            <div class="absolute inset-0 bg-[#fcf9f8]/90 dark:bg-[#202124]/90 backdrop-blur-[2px]"></div>
             
             <div class="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
@@ -655,10 +655,10 @@ if ($flashSalePromo) {
                     <div class="text-left">
                         <h2 class="text-2xl md:text-3xl font-bold mb-3 uppercase text-axeron-red">GIỚI THIỆU</h2>
                         <div class="w-16 h-[3px] bg-axeron-red mb-6"></div>
-                        <p class="text-[#4a4a4a] leading-[1.8] mb-5 text-[15px] md:text-base">
+                        <p class="text-[#4a4a4a] dark:text-gray-300 leading-[1.8] mb-5 text-[15px] md:text-base">
                             Công ty Cổ phần Axeron tự hào là tập đoàn hàng đầu Việt Nam với hơn 32 năm kinh nghiệm trong lĩnh vực sản xuất, phân phối và xuất nhập khẩu trang phục thể thao.
                         </p>
-                        <p class="text-[#4a4a4a] leading-[1.8] mb-8 text-[15px] md:text-base">
+                        <p class="text-[#4a4a4a] dark:text-gray-300 leading-[1.8] mb-8 text-[15px] md:text-base">
                             Axeron hiện có chi nhánh tại Hà Nội, Vinh và TP.HCM với hệ thống phân phối hơn 800 đại lý trên toàn quốc.
                         </p>
                         <a href="<?= BASE_URL ?>/pages/about.php" class="bg-[#222222] hover:bg-axeron-red text-white px-8 py-3 rounded-sm font-semibold transition-colors duration-300 inline-block shadow-sm">

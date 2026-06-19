@@ -39,6 +39,7 @@ $flash = getFlash();
         .fill-icon { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
         .otp-input:focus { border-color: #BE1E2D; box-shadow: 0 0 0 3px rgba(190, 30, 45, 0.2); }
     </style>
+    <?php include __DIR__ . '/../includes/dark-mode.php'; ?>
 </head>
 <body class="bg-[#fcf9f8] text-[#1b1c1c] antialiased min-h-screen flex flex-col items-center justify-center relative bg-cover bg-center py-12" style="font-family: 'Noto Sans', sans-serif; background-image: url('<?= BASE_URL ?>/assets/images/auth-banner.png');">
     <!-- Background Overlays -->

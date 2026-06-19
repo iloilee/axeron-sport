@@ -300,7 +300,9 @@ $siteNameDisplay = $settings['site_name'] ?? 'Axeron';
         0%   { transform: translate(0, 0); }
         100% { transform: translate(-100%, 0); }
     }
+
 </style>
+<?php include __DIR__ . '/dark-mode.php'; ?>
 
 <!-- TopAppBar Component -->
 <header class="bg-surface dark:bg-on-background sticky top-0 z-50 border-b border-outline-variant dark:border-outline" id="main-header">
@@ -404,7 +406,7 @@ $siteNameDisplay = $settings['site_name'] ?? 'Axeron';
 
             <!-- User Account -->
             <?php if (isLoggedIn()): ?>
-                <div class="relative group">
+                <div class="relative group flex items-center">
                     <button aria-label="Account" class="hover:text-axeron-red transition-colors duration-200 flex items-center gap-1.5">
                         <?php if (!empty($_SESSION['avatar_url'])): ?>
                             <img src="<?= (strpos($_SESSION['avatar_url'], 'http') === 0) ? htmlspecialchars($_SESSION['avatar_url']) : BASE_URL . htmlspecialchars($_SESSION['avatar_url']) ?>" alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-outline-variant" referrerpolicy="no-referrer">
@@ -463,20 +465,25 @@ $siteNameDisplay = $settings['site_name'] ?? 'Axeron';
                     </div>
                 </div>
             <?php else: ?>
-                <a href="<?= BASE_URL ?>/auth/login.php" aria-label="Account" class="hover:text-axeron-red transition-colors duration-200">
+                <a href="<?= BASE_URL ?>/auth/login.php" aria-label="Account" class="hover:text-axeron-red transition-colors duration-200 flex items-center">
                     <span class="material-symbols-outlined text-[28px]">person</span>
                 </a>
             <?php endif; ?>
 
             <!-- Wishlist -->
             <?php if (isLoggedIn()): ?>
-            <a href="<?= BASE_URL ?>/shop/wishlist.php" aria-label="Wishlist" class="hover:text-axeron-red transition-colors relative mt-1">
+            <a href="<?= BASE_URL ?>/shop/wishlist.php" aria-label="Wishlist" class="hover:text-axeron-red transition-colors relative flex items-center">
                 <span class="material-symbols-outlined text-[28px]" data-icon="favorite">favorite</span>
             </a>
             <?php endif; ?>
 
+            <!-- Dark Mode Toggle (Global Icon) -->
+            <button onclick="toggleDarkMode()" aria-label="Toggle Dark Mode" class="hover:text-axeron-red transition-colors duration-200 focus:outline-none flex items-center justify-center">
+                <span class="material-symbols-outlined text-[28px]" id="dark-mode-icon-header">dark_mode</span>
+            </button>
+
             <!-- Shopping Cart -->
-            <a href="<?= BASE_URL ?>/shop/cart.php" aria-label="Shopping Cart" class="hover:text-axeron-red transition-colors relative mt-1">
+            <a href="<?= BASE_URL ?>/shop/cart.php" aria-label="Shopping Cart" class="hover:text-axeron-red transition-colors relative flex items-center">
                 <span class="material-symbols-outlined text-[28px]" data-icon="shopping_cart">shopping_cart</span>
                 <?php if ($cartCount > 0): ?>
                     <span class="absolute -top-1.5 -right-1.5 bg-axeron-red text-white text-xs font-bold h-5 w-5 rounded-full flex items-center justify-center cart-badge">
@@ -817,6 +824,11 @@ $siteNameDisplay = $settings['site_name'] ?? 'Axeron';
                 track.classList.replace('bg-axeron-red', 'bg-gray-300');
                 knob.style.transform = 'translateX(0)';
             }
+        }
+        
+        const headerIcon = document.getElementById('dark-mode-icon-header');
+        if (headerIcon) {
+            headerIcon.textContent = isDark ? 'light_mode' : 'dark_mode';
         }
     }
 

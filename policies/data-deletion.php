@@ -39,9 +39,10 @@ require_once __DIR__ . '/config/session.php';
     <style>
         .material-symbols-outlined { font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; }
     </style>
+    <?php include __DIR__ . '/../includes/dark-mode.php'; ?>
 </head>
 <body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col">
-    <?php include __DIR__ . '/includes/header.php'; ?>
+    <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="flex-grow w-full max-w-4xl mx-auto px-4 py-12">
         <div class="bg-white rounded-2xl shadow-sm border border-outline-variant p-8 md:p-12">
@@ -94,6 +95,6 @@ require_once __DIR__ . '/config/session.php';
         </div>
     </main>
 
-    <?php include __DIR__ . '/includes/footer.php'; ?>
+    <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
 </html>
