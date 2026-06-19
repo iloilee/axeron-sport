@@ -78,10 +78,10 @@ def load_vectors_from_db():
     print("Đang nạp Vector từ MariaDB vào RAM...")
     try:
         conn = pymysql.connect(
-            host='127.0.0.1',
-            user='root',
-            password='',
-            database='sports_shop',
+            host=os.environ.get('DB_HOST', '127.0.0.1'),
+            user=os.environ.get('DB_USERNAME', 'root'),
+            password=os.environ.get('DB_PASSWORD', ''),
+            database=os.environ.get('DB_DATABASE', 'sports_shop'),
             cursorclass=pymysql.cursors.DictCursor
         )
         with conn.cursor() as cursor:
