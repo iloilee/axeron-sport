@@ -69,13 +69,19 @@ if (empty(GEMINI_API_KEY)) {
     jsonResponse(true, 'Success', ['reply' => $errorMsg, 'session_id' => $session_id]);
 }
 
-// 3. Chuẩn bị Context từ Database
+// 3. Chuẩn bị Context từ Database (Sử dụng Cache Session)
 $context = [];
-$settings = $db->select("SELECT setting_key, setting_value FROM site_settings WHERE group_name = 'contact'");
-$contactInfo = [];
-foreach ($settings as $s) {
-    $contactInfo[$s['setting_key']] = $s['setting_value'];
+if (!isset($_SESSION['chat_contact_info'])) {
+    $settings = $db->select("SELECT setting_key, setting_value FROM site_settings WHERE group_name = 'contact'");
+    $contactInfo = [];
+    foreach ($settings as $s) {
+        $contactInfo[$s['setting_key']] = $s['setting_value'];
+    }
+    $_SESSION['chat_contact_info'] = $contactInfo;
+} else {
+    $contactInfo = $_SESSION['chat_contact_info'];
 }
+
 $context[] = "Thông tin liên hệ cửa hàng:";
 $context[] = "- Tên cửa hàng: " . ($contactInfo['site_name'] ?? 'Axeron Sport');
 $context[] = "- Số điện thoại: " . ($contactInfo['contact_phone'] ?? '1800 0021');
@@ -113,43 +119,73 @@ $geminiHistory[] = [
     "parts" => [["text" => $message]]
 ];
 
+// Zero-shot Tool Execution: Tra cứu DB trước khi gửi cho AI để giảm API Roundtrip
+$msgLower = mb_strtolower($message, 'UTF-8');
+$needSearch = preg_match('/(sản phẩm|áo|quần|giày|vợt|bóng|tìm|mua|có bán|giá|size|màu|axeron)/i', $msgLower);
+$needOrder = preg_match('/(đơn hàng|đơn|order|tình trạng|kiểm tra|tra cứu|ax\d+|ordm-[a-z0-9]+|ord-[a-z0-9]+|\b[a-f0-9]{8}\b)/i', $msgLower);
+
+if ($needSearch) {
+    // Loại bỏ dấu câu để tách từ chính xác
+    $cleanMsg = preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $msgLower);
+    
+    // Lọc từ khóa thông minh bằng Stop Words mở rộng
+    $stopWords = ['tìm', 'mua', 'xem', 'có', 'bán', 'cho', 'mình', 'tôi', 'bạn', 'ơi', 'nhé', 'không', 'hỏi', 'sản', 'phẩm', 'các', 'loại', 'những', 'một', 'chiếc', 'đôi', 'cái', 'thử', 'chào', 'shop', 'ở', 'đâu', 'giá', 'bao', 'nhiêu', 'vậy', 'ạ', 'bên', 'nào', 'luôn', 'rồi', 'chưa', 'làm', 'sao', 'tư', 'vấn', 'giúp'];
+    $words = explode(' ', $cleanMsg);
+    $keywords = [];
+    foreach ($words as $w) {
+        $w = trim($w);
+        if (mb_strlen($w, 'UTF-8') >= 2 && !in_array($w, $stopWords)) {
+            $keywords[] = $w;
+        }
+    }
+    
+    if (empty($keywords)) {
+        $keywords[] = trim($cleanMsg);
+    }
+    
+    // Tìm kiếm dựa trên thuật toán Tính điểm liên quan (Relevance Score)
+    $relevanceParts = [];
+    $params = [];
+    foreach ($keywords as $kw) {
+        $relevanceParts[] = "(IF(product_name LIKE ?, 3, 0) + IF(description LIKE ?, 1, 0))";
+        $params[] = '%' . $kw . '%';
+        $params[] = '%' . $kw . '%';
+    }
+    $relevanceSql = implode(' + ', $relevanceParts);
+    
+    $results = $db->select("
+        SELECT product_name, slug, base_price, stock_quantity,
+        ($relevanceSql) as relevance
+        FROM products 
+        WHERE is_visible = 1 
+        HAVING relevance > 0
+        ORDER BY relevance DESC
+        LIMIT 5
+    ", $params);
+    
+    if ($results) {
+        $searchStr = implode(' ', $keywords);
+        $fullPrompt .= "\n\n[HỆ THỐNG TỰ ĐỘNG TRA CỨU SẢN PHẨM: " . $searchStr . "]\nKết quả: " . json_encode($results, JSON_UNESCAPED_UNICODE) . "\nNếu có kết quả phù hợp, hãy format đẹp, kèm ảnh (dùng [PRODUCT_CARD:slug]).";
+    } else {
+        $fullPrompt .= "\n\n[HỆ THỐNG TỰ ĐỘNG TRA CỨU SẢN PHẨM]\nKết quả: Không tìm thấy sản phẩm.";
+    }
+}
+
+if ($needOrder) {
+    if (preg_match('/(ORDM-[A-Z0-9]+|ORD-[A-Z0-9]+|AX\d+|\b[A-F0-9]{8}\b)/i', $msgLower, $matches)) {
+        $code = strtoupper($matches[1]);
+        $order = $db->selectOne("SELECT order_status, total_amount, created_at FROM orders WHERE order_code = ?", [$code]);
+        if ($order) {
+            $fullPrompt .= "\n\n[HỆ THỐNG TỰ ĐỘNG TRA CỨU ĐƠN HÀNG: " . $code . "]\nKết quả: " . json_encode($order, JSON_UNESCAPED_UNICODE) . "\nHãy tóm tắt tình trạng đơn hàng cho khách.";
+        } else {
+            $fullPrompt .= "\n\n[HỆ THỐNG TỰ ĐỘNG TRA CỨU ĐƠN HÀNG: " . $code . "]\nKết quả: Không tìm thấy mã đơn hàng này.";
+        }
+    }
+}
+
 $payload = [
     "system_instruction" => [
         "parts" => [["text" => $fullPrompt]]
-    ],
-    "tools" => [
-        [
-            "function_declarations" => [
-                [
-                    "name" => "search_products",
-                    "description" => "Tìm kiếm sản phẩm trong database theo tên, loại hoặc thương hiệu.",
-                    "parameters" => [
-                        "type" => "OBJECT",
-                        "properties" => [
-                            "keyword" => [
-                                "type" => "STRING",
-                                "description" => "Từ khóa tìm kiếm (ví dụ: 'giày nike', 'áo thun')"
-                            ]
-                        ],
-                        "required" => ["keyword"]
-                    ]
-                ],
-                [
-                    "name" => "check_order",
-                    "description" => "Kiểm tra tình trạng đơn hàng bằng mã đơn hàng.",
-                    "parameters" => [
-                        "type" => "OBJECT",
-                        "properties" => [
-                            "order_code" => [
-                                "type" => "STRING",
-                                "description" => "Mã đơn hàng (ví dụ: AX12345)"
-                            ]
-                        ],
-                        "required" => ["order_code"]
-                    ]
-                ]
-            ]
-        ]
     ],
     "contents" => $geminiHistory
 ];
@@ -163,6 +199,12 @@ function callGeminiAPI($payload) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     
+    // Tối ưu hóa kết nối cURL
+    curl_setopt($ch, CURLOPT_ENCODING, ""); // Hỗ trợ gzip
+    curl_setopt($ch, CURLOPT_TCP_KEEPALIVE, 1);
+    curl_setopt($ch, CURLOPT_TCP_KEEPIDLE, 120);
+    curl_setopt($ch, CURLOPT_TCP_KEEPINTVL, 60);
+    
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
@@ -170,88 +212,25 @@ function callGeminiAPI($payload) {
     return [$httpCode, json_decode($response, true)];
 }
 
-// Lặp tối đa 3 lần để xử lý function calling
-$max_turns = 3;
+// Vì đã tiêm kết quả DB vào Prompt, chỉ cần gọi 1 lần
+list($httpCode, $data) = callGeminiAPI($payload);
 $replyMsg = "Xin lỗi, tôi đang gặp lỗi kỹ thuật khi kết nối đến AI.";
 
-for ($i = 0; $i < $max_turns; $i++) {
-    list($httpCode, $data) = callGeminiAPI($payload);
-    
-    if ($httpCode == 200 && isset($data['candidates'][0]['content']['parts'])) {
-        $parts = $data['candidates'][0]['content']['parts'];
-        $functionCall = null;
-        $responseText = "";
-        
-        foreach ($parts as $part) {
-            if (isset($part['functionCall'])) {
-                $functionCall = $part['functionCall'];
-            }
-            if (isset($part['text'])) {
-                $responseText .= $part['text'];
-            }
+if ($httpCode == 200 && isset($data['candidates'][0]['content']['parts'])) {
+    $parts = $data['candidates'][0]['content']['parts'];
+    $responseText = "";
+    foreach ($parts as $part) {
+        if (isset($part['text'])) {
+            $responseText .= $part['text'];
         }
-        
-        if ($functionCall) {
-            $funcName = $functionCall['name'];
-            $args = $functionCall['args'] ?? [];
-            $funcResponse = [];
-            
-            // Xử lý logic nội bộ
-            if ($funcName === 'search_products') {
-                $kw = '%' . ($args['keyword'] ?? '') . '%';
-                $results = $db->select("
-                    SELECT product_name, slug, base_price, stock_quantity 
-                    FROM products 
-                    WHERE is_visible = 1 AND (product_name LIKE ? OR description LIKE ?)
-                    LIMIT 3
-                ", [$kw, $kw]);
-                
-                if ($results) {
-                    $funcResponse = ["status" => "success", "products" => $results];
-                } else {
-                    $funcResponse = ["status" => "not_found", "message" => "Không tìm thấy sản phẩm nào phù hợp."];
-                }
-            } elseif ($funcName === 'check_order') {
-                $code = $args['order_code'] ?? '';
-                $order = $db->selectOne("SELECT order_status, total_amount, created_at FROM orders WHERE order_code = ?", [$code]);
-                if ($order) {
-                    $funcResponse = ["status" => "success", "order" => $order];
-                } else {
-                    $funcResponse = ["status" => "not_found", "message" => "Không tìm thấy mã đơn hàng này."];
-                }
-            }
-            
-            // Thêm phản hồi của function vào lịch sử
-            $payload['contents'][] = [
-                "role" => "model",
-                "parts" => $parts
-            ];
-            $payload['contents'][] = [
-                "role" => "function",
-                "parts" => [
-                    [
-                        "functionResponse" => [
-                            "name" => $funcName,
-                            "response" => ["name" => $funcName, "content" => $funcResponse]
-                        ]
-                    ]
-                ]
-            ];
-            
-            continue; // Gọi lại Gemini với kết quả
-        } else {
-            // Không có function call, trả về text
-            $replyMsg = $responseText;
-            break;
-        }
+    }
+    $replyMsg = $responseText;
+} else {
+    if ($httpCode == 429) {
+        $replyMsg = "Hệ thống AI đang bị quá tải (Quota Exceeded). Vui lòng thử lại sau!";
     } else {
-        if ($httpCode == 429) {
-            $replyMsg = "Hệ thống AI đang bị quá tải (Quota Exceeded). Vui lòng thử lại sau!";
-        } else {
-            error_log("Gemini API Error $httpCode: " . json_encode($data));
-            $replyMsg = "Lỗi kết nối AI (Code: $httpCode). Chi tiết: " . ($data['error']['message'] ?? 'Unknown');
-        }
-        break;
+        error_log("Gemini API Error $httpCode: " . json_encode($data));
+        $replyMsg = "Lỗi kết nối AI (Code: $httpCode). Chi tiết: " . ($data['error']['message'] ?? 'Unknown');
     }
 }
 

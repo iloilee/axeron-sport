@@ -182,9 +182,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Create order code
-        $orderCode = 'ORD-' . strtoupper(bin2hex(random_bytes(3)));
+        $orderCode = 'ORDM-' . strtoupper(bin2hex(random_bytes(4)));
         while ($db->selectOne("SELECT order_id FROM orders WHERE order_code = ?", [$orderCode])) {
-            $orderCode = 'ORD-' . strtoupper(bin2hex(random_bytes(3)));
+            $orderCode = 'ORDM-' . strtoupper(bin2hex(random_bytes(4)));
         }
         $guestToken = bin2hex(random_bytes(16));
 
