@@ -315,10 +315,10 @@ if ($flashSalePromo) {
                         <?php $delay = 0; foreach ($flashSaleProducts as $fsProduct): ?>
                         <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($fsProduct['slug']) ?>"
                             data-aos="fade-up" data-aos-delay="<?= $delay ?>"
-                            class="group/fs border border-transparent rounded-xl overflow-hidden bg-white hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 flex flex-col relative">
+                            class="group/fs border border-transparent rounded-xl overflow-hidden bg-white dark:bg-gray-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 flex flex-col relative">
                             <?php $delay += 50; ?>
                             
-                            <div class="absolute top-0 left-0 bg-yellow-400 text-red-700 text-[13px] font-black px-3 py-1.5 rounded-br-lg z-20 uppercase tracking-widest shadow-sm">
+                            <div class="absolute top-0 left-0 bg-yellow-400 text-red-700 text-[15px] font-black px-4 py-2 rounded-br-lg z-20 uppercase tracking-widest shadow-md">
                                 ⚡ <?= htmlspecialchars($flashSalePromo['promo_name']) ?>
                             </div>
 
@@ -344,7 +344,7 @@ if ($flashSalePromo) {
                                     </button>
                                 </div>
                             </div>
-                            <div class="p-4 flex flex-col flex-grow bg-white">
+                            <div class="p-4 flex flex-col flex-grow bg-white dark:bg-gray-800">
                                 <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover/fs:text-orange-600 transition-colors">
                                     <?= htmlspecialchars($fsProduct['product_name']) ?>
                                 </h3>
@@ -389,7 +389,7 @@ if ($flashSalePromo) {
                 <?php $delay = 0; foreach ($featuredProducts as $product): ?>
                 <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
                     data-aos="fade-up" data-aos-delay="<?= $delay ?>"
-                    class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col relative">
+                    class="group border border-outline-variant rounded-xl overflow-hidden bg-white dark:bg-gray-800 hover:shadow-lg transition-all duration-300 flex flex-col relative">
                     <?php $delay += 50; ?>
                     <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
                         <?php if ($product['is_featured'] ?? false): ?>
@@ -465,7 +465,7 @@ if ($flashSalePromo) {
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-gutter" id="shoes-container">
                 <?php foreach ($shoesProducts as $product): ?>
                 <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
-                    class="shoe-item <?= htmlspecialchars($product['category_slug']) ?> hidden group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex-col relative">
+                    class="shoe-item <?= htmlspecialchars($product['category_slug']) ?> hidden group border border-outline-variant rounded-xl overflow-hidden bg-white dark:bg-gray-800 hover:shadow-lg transition-all duration-300 flex-col relative">
                     <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
                         <?php if ($product['is_featured'] ?? false): ?>
                         <span class="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_10px_rgba(239,68,68,0.5)] text-white font-label-sm text-label-sm px-3 py-1 rounded-full uppercase tracking-wider z-10">Nổi bật</span>
@@ -536,7 +536,7 @@ if ($flashSalePromo) {
                 <?php $delay = 0; foreach ($recommendedProducts as $rProduct): ?>
                 <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($rProduct['slug']) ?>"
                     data-aos="fade-up" data-aos-delay="<?= $delay ?>"
-                    class="group border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col relative">
+                    class="group border border-outline-variant rounded-xl overflow-hidden bg-white dark:bg-gray-800 hover:shadow-lg transition-all duration-300 flex flex-col relative">
                     <?php $delay += 50; ?>
                     <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
                         <?php if ($rProduct['is_featured'] ?? false): ?>
@@ -605,7 +605,7 @@ if ($flashSalePromo) {
                     <?php $delay = 0; foreach ($articles as $article): ?>
                     <a href="<?= BASE_URL ?>/blog/news.php?slug=<?= htmlspecialchars($article['slug']) ?>"
                         data-aos="fade-up" data-aos-delay="<?= $delay ?>"
-                        class="flex-shrink-0 w-[85vw] sm:w-[350px] snap-center group/card border border-outline-variant rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col">
+                        class="flex-shrink-0 w-[85vw] sm:w-[350px] snap-center group/card border border-outline-variant rounded-xl overflow-hidden bg-white dark:bg-gray-800 hover:shadow-lg transition-all duration-300 flex flex-col">
                         <?php $delay += 100; ?>
                         <div class="aspect-[16/10] bg-surface-container-low overflow-hidden">
                             <img loading="lazy" alt="<?= htmlspecialchars($article['title']) ?>"

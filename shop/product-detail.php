@@ -136,64 +136,10 @@ if (isLoggedIn()) {
 ?>
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <meta name="csrf-token" content="<?= htmlspecialchars(generateCsrfToken()) ?>">
-    <title><?= htmlspecialchars($product['product_name']) ?> - Axeron</title>
-    <link rel="icon" type="image/jpeg" href="<?= defined('BASE_URL') ? BASE_URL : '' ?>/assets/images/logo-axeron.jpg" />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "on-background": "#1b1c1c",
-                        "inverse-surface": "#303030",
-                        "text-dark": "#212121",
-                        "background": "#fcf9f8",
-                        "axeron-red": "#BE1E2D",
-                        "axeron-blue": "#2979FF",
-                        "on-surface": "#1b1c1c",
-                        "on-surface-variant": "#5b403f",
-                        surface: "#fcf9f8",
-                        "surface-container": "#f0eded",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-container-highest": "#e5e2e1",
-                        "surface-container-high": "#eae7e7",
-                        "surface-container-low": "#f6f3f2",
-                        "outline-variant": "#e3bebb",
-                        outline: "#8f6f6e",
-                        primary: "#98001b",
-                        secondary: "#0056c5",
-                        white: "#FFFFFF",
-                        tertiary: "#005066",
-                        "primary-fixed": "#ffdad8",
-                        "on-primary": "#ffffff",
-                        "secondary-fixed": "#d9e2ff",
-                        "on-secondary": "#ffffff"
-                    },
-                    borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
-                    spacing: { "margin-desktop": "24px", gutter: "16px", "container-max": "1200px", base: "8px", "margin-mobile": "16px" },
-                    fontFamily: { "body-lg": ["Noto Sans", "sans-serif"], "label-sm": ["Noto Sans", "sans-serif"], "body-md": ["Noto Sans", "sans-serif"], "label-lg": ["Noto Sans", "sans-serif"], "headline-md": ["Montserrat", "sans-serif"], "headline-lg": ["Montserrat", "sans-serif"] },
-                    fontSize: {
-                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
-                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
-                        "label-lg": ["14px", {"lineHeight": "20px", "fontWeight": "700"}],
-                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}]
-                    }
-                }
-            }
-        };
-    </script>
-    <style>
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-    </style>
+<?php $pageTitle = $product['product_name']; include __DIR__ . '/../includes/head.php'; ?>
+    <!-- Drift.js Magnifier -->
+    <script src="https://cdn.jsdelivr.net/npm/drift-zoom@1.4.1/dist/Drift.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/drift-zoom@1.4.1/dist/drift-basic.min.css">
 </head>
 <body class="bg-surface text-on-surface font-body-md antialiased">
     <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -228,7 +174,8 @@ if (isLoggedIn()) {
                 <div id="img-container" class="w-full bg-surface-container rounded-xl overflow-hidden relative group aspect-square flex-grow min-h-[400px]">
                     <img loading="lazy" id="main-image" alt="<?= htmlspecialchars($product['product_name']) ?>"
                          class="w-full h-full object-cover object-center"
-                         src="<?= htmlspecialchars(getImageUrl(!empty($images) ? $images[0]['image_url'] : null, 'https://placehold.co/600x600/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
+                         src="<?= htmlspecialchars(getImageUrl(!empty($images) ? $images[0]['image_url'] : null, 'https://placehold.co/600x600/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"
+                         data-zoom="<?= htmlspecialchars(getImageUrl(!empty($images) ? $images[0]['image_url'] : null, 'https://placehold.co/1200x1200/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
                     <?php if ($product['is_featured']): ?>
                     <div class="absolute top-4 left-4 bg-axeron-red text-white px-3 py-1 rounded font-label-sm text-label-sm uppercase font-bold tracking-wider">
                         Nổi bật
@@ -706,7 +653,9 @@ if (isLoggedIn()) {
         const totalStock = <?= $totalStock ?>;
 
         function changeMainImage(url) {
-            document.getElementById('main-image').src = window.getImageUrl(url);
+            const fullUrl = window.getImageUrl(url);
+            document.getElementById('main-image').src = fullUrl;
+            document.getElementById('main-image').setAttribute('data-zoom', fullUrl);
             // Xóa viền đỏ ở tất cả các thumbnail
             const thumbs = document.querySelectorAll('.grid.grid-cols-4 button');
             thumbs.forEach(btn => {
@@ -1205,6 +1154,20 @@ if (isLoggedIn()) {
                 }
             }, 200);
         }
+
+        // Initialize Drift zoom
+        document.addEventListener('DOMContentLoaded', function() {
+            var mainImage = document.getElementById('main-image');
+            if (mainImage && typeof Drift !== 'undefined') {
+                new Drift(mainImage, {
+                    paneContainer: document.getElementById('img-container'),
+                    inlinePane: 900,
+                    inlineOffsetY: -85,
+                    containInline: true,
+                    hoverBoundingBox: true
+                });
+            }
+        });
     </script>
 </body>
 </html>

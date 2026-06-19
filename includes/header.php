@@ -443,6 +443,19 @@ $siteNameDisplay = $settings['site_name'] ?? 'Axeron';
                         </a>
                         <?php endif; ?>
                         <hr class="border-outline-variant my-1">
+                        
+                        <!-- Dark Mode Toggle -->
+                        <div class="px-4 py-3 text-sm text-on-surface hover:bg-surface-container transition-colors flex items-center justify-between cursor-pointer" onclick="toggleDarkMode()">
+                            <div>
+                                <span class="material-symbols-outlined text-lg align-middle mr-2" id="dark-mode-icon">dark_mode</span>
+                                <span id="dark-mode-text">Giao diện Tối</span>
+                            </div>
+                            <div class="relative inline-block w-8 h-4 rounded-full bg-gray-300 transition-colors" id="dark-mode-track">
+                                <div class="absolute left-0.5 top-0.5 w-3 h-3 rounded-full bg-white transition-transform duration-200" id="dark-mode-knob"></div>
+                            </div>
+                        </div>
+                        
+                        <hr class="border-outline-variant my-1">
                         <a href="<?= BASE_URL ?>/auth/logout.php" class="block px-4 py-3 text-sm text-error hover:bg-error-container transition-colors rounded-b-lg">
                             <span class="material-symbols-outlined text-lg align-middle mr-2">logout</span>
                             Đăng xuất
@@ -779,9 +792,42 @@ $siteNameDisplay = $settings['site_name'] ?? 'Axeron';
         });
     }
 
-    // Khởi tạo cho cả Desktop và Mobile
+    // Dark Mode Toggle Logic
+    function toggleDarkMode() {
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateDarkModeUI(isDark);
+    }
+    
+    function updateDarkModeUI(isDark) {
+        const icon = document.getElementById('dark-mode-icon');
+        const text = document.getElementById('dark-mode-text');
+        const track = document.getElementById('dark-mode-track');
+        const knob = document.getElementById('dark-mode-knob');
+        
+        if (icon && text && track && knob) {
+            if (isDark) {
+                icon.textContent = 'light_mode';
+                text.textContent = 'Giao diện Sáng';
+                track.classList.replace('bg-gray-300', 'bg-axeron-red');
+                knob.style.transform = 'translateX(16px)';
+            } else {
+                icon.textContent = 'dark_mode';
+                text.textContent = 'Giao diện Tối';
+                track.classList.replace('bg-axeron-red', 'bg-gray-300');
+                knob.style.transform = 'translateX(0)';
+            }
+        }
+    }
+
+    // Initialize for both Desktop and Mobile
     document.addEventListener('DOMContentLoaded', () => {
         setupAutocomplete('search-input', 'desktop-search-dropdown');
         setupAutocomplete('mobile-search-input', 'mobile-search-dropdown');
+        
+        // Sync Dark Mode UI on load
+        if (document.documentElement.classList.contains('dark')) {
+            updateDarkModeUI(true);
+        }
     });
 </script>

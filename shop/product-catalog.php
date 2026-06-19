@@ -22,9 +22,9 @@ $page = max(1, (int)($_GET['page'] ?? 1));
 $isFeatured = isset($_GET['featured']) && $_GET['featured'] == '1';
 $perPage = 12;
 
-$selectedCategories = isset($_GET['cat_id']) && is_array($_GET['cat_id']) ? $_GET['cat_id'] : [];
-$selectedColors = isset($_GET['color']) && is_array($_GET['color']) ? $_GET['color'] : [];
-$selectedSizes = isset($_GET['size']) && is_array($_GET['size']) ? $_GET['size'] : [];
+$selectedCategories = isset($_GET['cat_id']) && is_array($_GET['cat_id']) ? array_filter($_GET['cat_id'], fn($v) => $v !== '') : [];
+$selectedColors = isset($_GET['color']) && is_array($_GET['color']) ? array_filter($_GET['color'], fn($v) => $v !== '') : [];
+$selectedSizes = isset($_GET['size']) && is_array($_GET['size']) ? array_filter($_GET['size'], fn($v) => $v !== '') : [];
 
 // Current category info
 $currentCategory = null;
@@ -276,59 +276,26 @@ if (isLoggedIn()) {
     $wishlistIds = array_column($wl, 'product_id');
 }
 ?>
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <meta name="csrf-token" content="<?= htmlspecialchars(generateCsrfToken()) ?>">
-    <title><?= htmlspecialchars($currentCategory['category_name'] ?? 'Danh mục sản phẩm') ?> - Axeron</title>
-    <link rel="icon" type="image/jpeg" href="<?= defined('BASE_URL') ? BASE_URL : '' ?>/assets/images/logo-axeron.jpg" />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "on-background": "#1b1c1c", "inverse-surface": "#303030", "text-dark": "#212121",
-                        "tertiary-container": "#006a85", background: "#fcf9f8", "on-primary-fixed-variant": "#930019",
-                        "inverse-primary": "#ffb3b0", "secondary-fixed-dim": "#b0c6ff", "error-container": "#ffdad6",
-                        "outline-variant": "#e3bebb", "tertiary-fixed": "#baeaff", "on-secondary": "#ffffff",
-                        "secondary-fixed": "#d9e2ff", "on-primary-fixed": "#410006", "surface-container": "#f0eded",
-                        error: "#ba1a1a", "axeron-red": "#BE1E2D", "on-tertiary": "#ffffff",
-                        "surface-dim": "#dcd9d9", "on-primary-container": "#ffd3d1", "secondary-container": "#0f6df3",
-                        "surface-tint": "#b91a2a", primary: "#98001b", "surface-gray": "#F5F5F5",
-                        "surface-bright": "#fcf9f8", "surface-container-highest": "#e5e2e1", "on-surface": "#1b1c1c",
-                        white: "#FFFFFF", tertiary: "#005066", "surface-container-high": "#eae7e7",
-                        "on-error-container": "#93000a", "primary-container": "#be1e2d", "primary-fixed": "#ffdad8",
-                        "surface-container-lowest": "#ffffff", "inverse-on-surface": "#f3f0ef",
-                        "on-tertiary-container": "#abe6ff", "surface-variant": "#e5e2e1",
-                        "on-secondary-container": "#fefcff", secondary: "#0056c5", outline: "#8f6f6e",
-                        "axeron-blue": "#2979FF", "tertiary-fixed-dim": "#85d1ef", surface: "#fcf9f8",
-                        "on-secondary-fixed-variant": "#00429b", "on-tertiary-fixed": "#001f29",
-                        "on-tertiary-fixed-variant": "#004d62", "surface-container-low": "#f6f3f2",
-                        "on-secondary-fixed": "#001945", "primary-fixed-dim": "#ffb3b0",
-                        "on-surface-variant": "#5b403f", "on-primary": "#ffffff", "on-error": "#ffffff"
-                    },
-                    borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
-                    spacing: { "margin-desktop": "24px", gutter: "16px", "container-max": "1200px", base: "8px", "margin-mobile": "16px" },
-                    fontFamily: { "body-lg": ["Noto Sans", "sans-serif"], "headline-lg-mobile": ["Montserrat", "sans-serif"], "label-sm": ["Noto Sans", "sans-serif"], "display-lg": ["Montserrat", "sans-serif"], "body-md": ["Noto Sans", "sans-serif"], "headline-md": ["Montserrat", "sans-serif"], "headline-lg": ["Montserrat", "sans-serif"], "label-lg": ["Noto Sans", "sans-serif"] },
-                    fontSize: { "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }], "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "700" }], "label-sm": ["12px", { lineHeight: "16px", fontWeight: "500" }], "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "800" }], "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }], "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }], "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "700" }], "label-lg": ["14px", { lineHeight: "20px", fontWeight: "700" }] }
-                }
-            }
-        };
-    </script>
+<?php
+$pageTitle = 'Tất cả sản phẩm';
+if (!empty($selectedCategories) && count($selectedCategories) === 1) {
+    $sc = $db->selectOne("SELECT category_name FROM categories WHERE category_id = ?", [$selectedCategories[0]]);
+    if ($sc) $pageTitle = $sc['category_name'];
+} elseif ($brand) {
+    $pageTitle = 'Thương hiệu: ' . $brand;
+} elseif ($isFeatured) {
+    $pageTitle = 'Sản Phẩm Nổi Bật';
+} elseif ($currentCategory) {
+    $pageTitle = $currentCategory['category_name'];
+}
+$bodyClass = 'bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col';
+include __DIR__ . '/../includes/head.php'; 
+?>
     <style>
-        .material-symbols-outlined { font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     </style>
-</head>
-<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col">
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 flex flex-col md:flex-row gap-gutter">
@@ -340,10 +307,10 @@ if (isLoggedIn()) {
 
         <!-- Sidebar Filter -->
         <aside id="mobile-filter-container" class="hidden md:block w-full md:w-64 flex-shrink-0 mb-8 md:mb-0">
-            <div class="bg-surface-container-lowest rounded-lg border border-outline-variant shadow-sm sticky top-24 flex flex-col max-h-[calc(100vh-120px)] overflow-hidden">
+            <div class="bg-surface-container-lowest dark:bg-gray-800 rounded-lg border border-outline-variant shadow-sm sticky top-24 flex flex-col max-h-[calc(100vh-120px)] overflow-hidden">
                 <form id="filter-form" method="GET" class="flex flex-col flex-grow overflow-hidden min-h-0" autocomplete="off">
                     <!-- Sticky Header Row -->
-                    <div class="flex items-center justify-between p-5 border-b border-surface-container-high bg-surface-container-lowest z-10 flex-shrink-0">
+                    <div class="flex items-center justify-between p-5 border-b border-surface-container-high bg-surface-container-lowest dark:bg-gray-800 z-10 flex-shrink-0">
                         <h2 class="font-headline-md text-[18px] font-bold text-on-surface m-0">Bộ lọc</h2>
                         <button type="submit" class="bg-axeron-red text-white px-3 py-1.5 rounded-full hover:bg-primary transition-colors shadow-sm flex items-center justify-center gap-1 mx-2 flex-shrink-0 font-label-sm text-[13px]" title="Áp dụng bộ lọc">
                             <span class="material-symbols-outlined text-[18px]">filter_alt</span>
@@ -546,7 +513,7 @@ if (isLoggedIn()) {
                 <div class="flex flex-col items-end gap-3 mt-4 sm:mt-0 w-full sm:w-auto">
                     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
                         <span class="font-body-md text-body-md text-on-surface-variant whitespace-nowrap">Sắp xếp:</span>
-                        <select onchange="window.location.href=this.value" class="form-select font-body-md text-body-md border-outline-variant rounded-md bg-surface-container-lowest text-on-surface focus:ring-axeron-red focus:border-axeron-red px-3 py-2 w-full sm:w-auto">
+                        <select onchange="window.location.href=this.value" class="form-select font-body-md text-body-md border-outline-variant rounded-md bg-surface-container-lowest dark:bg-gray-800 text-on-surface focus:ring-axeron-red focus:border-axeron-red px-3 py-2 w-full sm:w-auto">
                             <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'popular', 'page' => null])) ?>" <?= $sortBy == 'popular' ? 'selected' : '' ?>>Phổ biến nhất</option>
                             <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'newest', 'page' => null])) ?>" <?= $sortBy == 'newest' ? 'selected' : '' ?>>Mới nhất</option>
                             <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'price_asc', 'page' => null])) ?>" <?= $sortBy == 'price_asc' ? 'selected' : '' ?>>Giá: Thấp đến Cao</option>
@@ -557,7 +524,7 @@ if (isLoggedIn()) {
 
                     <!-- Nút Debug bật/tắt AI Semantic Search -->
                     <?php $showAiAsOn = !$disableAi && $aiServerStatus; ?>
-                    <div class="flex items-center gap-2 bg-surface-container-lowest border <?= $showAiAsOn ? 'border-purple-300' : 'border-outline-variant' ?> px-3 py-2.5 rounded-lg shadow-sm h-full" <?= !$aiServerStatus ? 'title="Server AI hiện đang không hoạt động"' : '' ?>>
+                    <div class="flex items-center gap-2 bg-surface-container-lowest dark:bg-gray-800 border <?= $showAiAsOn ? 'border-purple-300' : 'border-outline-variant' ?> px-3 py-2.5 rounded-lg shadow-sm h-full" <?= !$aiServerStatus ? 'title="Server AI hiện đang không hoạt động"' : '' ?>>
                         <span class="font-bold text-[14px] text-on-surface flex items-center gap-1">
                             <span class="material-symbols-outlined text-[18px]" style="color: <?= $showAiAsOn ? '#8b5cf6' : '#9ca3af' ?>;">smart_toy</span>
                             AI Search
@@ -575,7 +542,7 @@ if (isLoggedIn()) {
 
             <!-- Product Grid -->
             <?php if (empty($products)): ?>
-                <div class="text-center py-16 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm mb-12">
+                <div class="text-center py-16 bg-surface-container-lowest dark:bg-gray-800 rounded-xl border border-outline-variant shadow-sm mb-12">
                     <span class="material-symbols-outlined text-7xl text-on-surface-variant opacity-50 mb-6 block">search_off</span>
                     <h3 class="font-headline-md text-2xl text-on-surface mb-3">Không tìm thấy kết quả phù hợp</h3>
                     <p class="text-on-surface-variant text-base max-w-md mx-auto mb-6">
@@ -605,7 +572,7 @@ if (isLoggedIn()) {
                     <?php foreach ($products as $product): ?>
                     <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
                         data-aos="fade-up"
-                        class="group bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col relative">
+                        class="group bg-surface-container-lowest dark:bg-gray-800 rounded-lg border border-outline-variant overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col relative">
 
                         <div class="relative w-full aspect-square overflow-hidden bg-surface-container-low flex items-center justify-center">
                             <?php if ($product['is_featured']): ?>
@@ -736,7 +703,7 @@ if (isLoggedIn()) {
             let html = '<div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter mb-12">';
             for(let i=0; i<8; i++) {
                 html += `
-                <div class="bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden shadow-sm flex flex-col relative animate-pulse">
+                <div class="bg-surface-container-lowest dark:bg-gray-800 rounded-lg border border-outline-variant overflow-hidden shadow-sm flex flex-col relative animate-pulse">
                     <div class="w-full aspect-square bg-gray-200"></div>
                     <div class="p-4 flex flex-col flex-grow space-y-3">
                         <div class="h-3 bg-gray-200 rounded w-1/3"></div>

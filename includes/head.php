@@ -35,7 +35,42 @@ if (strpos($siteFaviconUrl, 'http') !== 0 && !empty($siteFaviconUrl)) {
     <link href="https://fonts.gstatic.com" rel="preconnect"/>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        html.dark body {
+            background-color: #202124 !important;
+            color: #e8eaed !important;
+        }
+        html.dark .bg-surface, html.dark .bg-white {
+            background-color: #303134 !important;
+            color: #e8eaed !important;
+            border-color: #5f6368 !important;
+        }
+        html.dark .text-on-surface, html.dark .text-gray-800, html.dark .text-gray-700, html.dark .text-gray-600, html.dark .text-gray-500 {
+            color: #e8eaed !important;
+        }
+        html.dark .border-outline-variant, html.dark .border-gray-200, html.dark .border-gray-100 {
+            border-color: #5f6368 !important;
+        }
+        html.dark .bg-surface-container-lowest, html.dark .bg-gray-50 {
+            background-color: #2a2b2e !important;
+        }
+        html.dark .hover\:bg-surface-container:hover {
+            background-color: #4a4d51 !important;
+        }
+        html.dark input, html.dark textarea, html.dark select {
+            background-color: #303134 !important;
+            color: #e8eaed !important;
+            border-color: #5f6368 !important;
+        }
+    </style>
     <script>
+        // Init Dark Mode early to prevent FOUC
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -116,4 +151,5 @@ if (strpos($siteFaviconUrl, 'http') !== 0 && !empty($siteFaviconUrl)) {
         .text-truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     </style>
 </head>
-<body class="bg-background text-on-background font-body-md antialiased">
+<?php $bodyClass = $bodyClass ?? 'bg-background text-on-background font-body-md antialiased'; ?>
+<body class="<?= htmlspecialchars($bodyClass) ?>">
