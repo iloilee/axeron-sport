@@ -667,7 +667,7 @@ if (isLoggedIn()) {
                         <div class="flex items-center justify-between gap-2 mb-2 min-h-[24px]">
                             <div></div>
                             <?php if ($promoInfo['discount_amount'] > 0): ?>
-                            <span class="text-[10px] bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-2 py-0.5 rounded-sm uppercase tracking-widest text-center max-w-[80px] leading-tight flex-shrink-0"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                            <span class="text-[12px] font-bold bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-3 py-1 rounded-sm uppercase tracking-widest text-center max-w-[100px] leading-tight flex-shrink-0"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
                             <?php endif; ?>
                         </div>
                         <div class="mt-auto pt-2 flex items-center justify-between">

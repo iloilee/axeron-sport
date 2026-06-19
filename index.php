@@ -318,7 +318,7 @@ if ($flashSalePromo) {
                             class="group/fs border border-transparent rounded-xl overflow-hidden bg-white hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 flex flex-col relative">
                             <?php $delay += 50; ?>
                             
-                            <div class="absolute top-0 left-0 bg-yellow-400 text-red-700 text-[10px] font-bold px-2 py-1 rounded-br-lg z-20 uppercase tracking-widest shadow-sm">
+                            <div class="absolute top-0 left-0 bg-yellow-400 text-red-700 text-[13px] font-black px-3 py-1.5 rounded-br-lg z-20 uppercase tracking-widest shadow-sm">
                                 ⚡ <?= htmlspecialchars($flashSalePromo['promo_name']) ?>
                             </div>
 
@@ -429,7 +429,7 @@ if ($flashSalePromo) {
                                     <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
                                     <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($product['base_price']) ?></span>
                                 </div>
-                                <span class="text-[10px] bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-2 py-0.5 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                                <span class="text-[12px] font-bold bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-3 py-1 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
                             <?php else: ?>
                                 <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($product['base_price']) ?></span>
                             <?php endif; ?>
@@ -504,7 +504,7 @@ if ($flashSalePromo) {
                                     <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
                                     <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($product['base_price']) ?></span>
                                 </div>
-                                <span class="text-[10px] bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-2 py-0.5 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                                <span class="text-[12px] font-bold bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-3 py-1 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
                             <?php else: ?>
                                 <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($product['base_price']) ?></span>
                             <?php endif; ?>
@@ -576,7 +576,7 @@ if ($flashSalePromo) {
                                     <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
                                     <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($rProduct['base_price']) ?></span>
                                 </div>
-                                <span class="text-[10px] bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-2 py-0.5 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                                <span class="text-[12px] font-bold bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-3 py-1 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
                             <?php else: ?>
                                 <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($rProduct['base_price']) ?></span>
                             <?php endif; ?>
