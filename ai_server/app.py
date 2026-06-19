@@ -79,9 +79,9 @@ def load_vectors_from_db():
     try:
         conn = pymysql.connect(
             host=os.environ.get('DB_HOST', '127.0.0.1'),
-            user=os.environ.get('DB_USERNAME', 'root'),
-            password=os.environ.get('DB_PASSWORD', ''),
-            database=os.environ.get('DB_DATABASE', 'sports_shop'),
+            user=os.environ.get('DB_USER', 'root'),
+            password=os.environ.get('DB_PASS', ''),
+            database=os.environ.get('DB_NAME', 'sports_shop'),
             cursorclass=pymysql.cursors.DictCursor
         )
         with conn.cursor() as cursor:
