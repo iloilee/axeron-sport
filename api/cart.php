@@ -49,6 +49,13 @@ switch ($action) {
         handleApplyPromo($input);
         break;
 
+    case 'remove_promo':
+        if (isset($_SESSION['checkout_promo'])) {
+            unset($_SESSION['checkout_promo']);
+        }
+        jsonResponse(true, 'Đã xóa mã khuyến mãi');
+        break;
+
     default:
         jsonResponse(false, 'Invalid action');
 }

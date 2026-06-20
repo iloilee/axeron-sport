@@ -132,6 +132,12 @@ $freeshipThreshold = $fsSetting ? (int)$fsSetting['setting_value'] : 2000000;
 $shippingFee = $cartSubtotal >= $freeshipThreshold ? 0 : $baseShippingFee;
 $totalAmount = $cartSubtotal + $shippingFee;
 
+// Load applied promo from session
+$appliedPromoSession = null;
+if (isset($_SESSION['checkout_promo'])) {
+    $appliedPromoSession = $_SESSION['checkout_promo'];
+}
+
 // Lấy flash message nếu có (từ trang checkout đá về)
 $flash = getFlash();
 ?>
@@ -322,7 +328,11 @@ $flash = getFlash();
                                 <input class="flex-grow bg-surface border border-outline-variant rounded-lg px-4 py-2 font-body-md focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors" id="discount-code" placeholder="Nhập mã..." type="text"/>
                                 <button onclick="applyPromo()" class="bg-surface-variant text-on-surface font-label-lg text-label-lg font-semibold px-4 py-2 rounded-lg hover:bg-surface-container-high transition-colors">Áp dụng</button>
                             </div>
-                            <p id="promo-message" class="text-sm mt-2 hidden"></p>
+                            <div id="applied-promo-info" class="mt-2 hidden items-center justify-between bg-green-50 border border-green-200 px-3 py-2 rounded-lg">
+                                <span id="promo-message" class="text-sm text-green-700 font-medium"></span>
+                                <button onclick="removePromo()" class="text-red-500 hover:text-red-700 text-sm font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-sm">close</span>Xóa</button>
+                            </div>
+                            <p id="promo-error" class="text-sm mt-2 text-red-600 hidden"></p>
                         </div>
 
                         <button onclick="proceedToCheckout()" class="w-full bg-axeron-red text-white font-label-lg text-label-lg font-bold uppercase py-4 rounded-lg hover:bg-primary transition-colors flex items-center justify-center gap-2">
@@ -366,7 +376,7 @@ $flash = getFlash();
 
     <script>
         let currentSubtotal = <?= $cartSubtotal ?>;
-        let appliedPromo = null;
+        let appliedPromo = <?= $appliedPromoSession ? json_encode($appliedPromoSession) : 'null' ?>;
         const isUserLoggedIn = <?= isLoggedIn() ? 'true' : 'false' ?>;
 
         // Debounce utility
@@ -391,6 +401,7 @@ $flash = getFlash();
 
         // Theo dõi trạng thái đang cập nhật của từng item
         const updatingItems = new Set();
+        const debounceTimers = {};
 
         async function updateQuantityItem(cartItemId, quantity) {
             if (quantity < 1) return;
@@ -403,7 +414,7 @@ $flash = getFlash();
             if (updatingItems.has(cartItemId)) return;
             updatingItems.add(cartItemId);
 
-            const btns = itemElement.querySelectorAll('.quantity-btn');
+            const btns = itemElement.querySelectorAll('.qty-btn');
             btns.forEach(btn => btn.disabled = true);
 
             try {
@@ -420,6 +431,10 @@ $flash = getFlash();
                     recalculateTotals();
                 } else {
                     showToast(result.message || 'Có lỗi xảy ra', 'error');
+                    // Reset input to previous value if API fails
+                    const inputEl = itemElement.querySelector('.quantity-input');
+                    // We don't have the previous value easily accessible here without more tracking,
+                    // but recalculating or reloading might be needed if it fails often.
                 }
             } catch (error) {
                 console.error('Update quantity error:', error);
@@ -427,15 +442,21 @@ $flash = getFlash();
             } finally {
                 // Re-enable buttons
                 updatingItems.delete(cartItemId);
-                btns[0].disabled = quantity <= 1;
-                // Không disable nút + để khi user bấm sẽ hiện thông báo
+                if (btns.length > 0) {
+                    btns[0].disabled = quantity <= 1;
+                    btns[1].disabled = false;
+                }
             }
         }
 
-        // Debounced version for input change
-        const debouncedUpdateQuantity = debounce((cartItemId, quantity) => {
-            updateQuantityItem(cartItemId, quantity);
-        }, 300);
+        function debouncedUpdateQuantity(cartItemId, quantity) {
+            if (debounceTimers[cartItemId]) {
+                clearTimeout(debounceTimers[cartItemId]);
+            }
+            debounceTimers[cartItemId] = setTimeout(() => {
+                updateQuantityItem(cartItemId, quantity);
+            }, 300);
+        }
 
         // Tăng số lượng
         function increaseQty(cartItemId) {
@@ -447,6 +468,7 @@ $flash = getFlash();
             const maxQty = parseInt(input.max) || 999;
 
             if (currentQty < maxQty) {
+                input.value = currentQty + 1;
                 debouncedUpdateQuantity(cartItemId, currentQty + 1);
             } else {
                 showToast('Số lượng sản phẩm vượt quá tồn kho hiện có.', 'error');
@@ -462,6 +484,7 @@ $flash = getFlash();
             const currentQty = parseInt(input.value) || 1;
 
             if (currentQty > 1) {
+                input.value = currentQty - 1;
                 debouncedUpdateQuantity(cartItemId, currentQty - 1);
             } else if (currentQty === 1) {
                 removeItem(cartItemId);
@@ -612,19 +635,58 @@ $flash = getFlash();
 
                 if (data.success) {
                     appliedPromo = data.data.promo;
-                    document.getElementById('promo-message').textContent = 'Áp dụng thành công: ' + appliedPromo.promo_name;
-                    document.getElementById('promo-message').className = 'text-sm mt-2 text-green-600';
-                    document.getElementById('promo-message').classList.remove('hidden');
+                    document.getElementById('discount-code').value = '';
+                    updatePromoUI();
                     showToast('Áp dụng mã giảm giá thành công!', 'success');
                     recalculateTotals();
                 } else {
-                    document.getElementById('promo-message').textContent = data.message;
-                    document.getElementById('promo-message').className = 'text-sm mt-2 text-red-600';
-                    document.getElementById('promo-message').classList.remove('hidden');
+                    document.getElementById('promo-error').textContent = data.message;
+                    document.getElementById('promo-error').classList.remove('hidden');
+                    document.getElementById('applied-promo-info').classList.add('hidden');
                     showToast(data.message || 'Có lỗi xảy ra', 'error');
                 }
             } catch (error) {
                 showToast('Có lỗi xảy ra', 'error');
+            }
+        }
+
+        async function removePromo() {
+            try {
+                const response = await fetch(BASE_URL + '/api/cart.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'remove_promo' })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    appliedPromo = null;
+                    updatePromoUI();
+                    showToast('Đã xóa mã giảm giá', 'success');
+                    recalculateTotals();
+                } else {
+                    showToast('Có lỗi xảy ra khi xóa mã', 'error');
+                }
+            } catch (error) {
+                showToast('Có lỗi xảy ra', 'error');
+            }
+        }
+
+        function updatePromoUI() {
+            const infoContainer = document.getElementById('applied-promo-info');
+            const errorEl = document.getElementById('promo-error');
+            const messageEl = document.getElementById('promo-message');
+
+            errorEl.classList.add('hidden');
+
+            if (appliedPromo) {
+                infoContainer.classList.remove('hidden');
+                infoContainer.classList.add('flex');
+                messageEl.textContent = 'Đã áp dụng: ' + appliedPromo.promo_name;
+            } else {
+                infoContainer.classList.add('hidden');
+                infoContainer.classList.remove('flex');
             }
         }
 
@@ -643,6 +705,13 @@ $flash = getFlash();
                 this.value = quantity;
                 debouncedUpdateQuantity(cartItemId, quantity);
             });
+        });
+        // DOMContentLoaded initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePromoUI();
+            if (appliedPromo) {
+                recalculateTotals();
+            }
         });
     </script>
 </body>

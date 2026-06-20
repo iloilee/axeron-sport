@@ -777,9 +777,14 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
                                     <span id="checkout-subtotal"><?= formatPrice($subtotal) ?></span>
                                 </div>
                                 <?php if ($discountAmount > 0): ?>
-                                <div class="flex justify-between font-body-md text-body-md text-green-600 font-semibold">
-                                    <span>Khuyến mãi (<?= htmlspecialchars($promoCode) ?>)</span>
-                                    <span id="checkout-discount">-<?= formatPrice($discountAmount) ?></span>
+                                <div class="flex flex-col gap-1">
+                                    <div class="flex justify-between font-body-md text-body-md text-green-600 font-semibold">
+                                        <span>Khuyến mãi (<?= htmlspecialchars($promoCode) ?>)</span>
+                                        <span id="checkout-discount">-<?= formatPrice($discountAmount) ?></span>
+                                    </div>
+                                    <div class="text-right">
+                                        <button type="button" onclick="removePromoCheckout()" class="text-xs text-red-500 hover:text-red-700 hover:underline">Xóa mã giảm giá</button>
+                                    </div>
                                 </div>
                                 <?php endif; ?>
                                 <div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
@@ -995,6 +1000,26 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
                     loadDistricts(this.value);
                 });
             }
+
+        async function removePromoCheckout() {
+            try {
+                const response = await fetch('<?= BASE_URL ?>/api/cart.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'remove_promo' })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    window.location.reload();
+                } else {
+                    alert('Có lỗi xảy ra khi xóa mã giảm giá');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Có lỗi xảy ra khi xóa mã giảm giá');
+            }
+        }
     </script>
 </body>
 </html>
