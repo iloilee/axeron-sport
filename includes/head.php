@@ -127,6 +127,8 @@ if (strpos($siteFaviconUrl, 'http') !== 0 && !empty($siteFaviconUrl)) {
     <style>
         .material-symbols-outlined { font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; }
         .text-truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <?php $bodyClass = $bodyClass ?? 'bg-background text-on-background font-body-md antialiased'; ?>

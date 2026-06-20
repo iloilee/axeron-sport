@@ -586,7 +586,7 @@ if (isLoggedIn()) {
                         <?php endif; ?>
                         <?php
                         $isFav = isLoggedIn() && in_array($rel['product_id'], $userWishlistIds);
-                        $favColor = $isFav ? 'text-axeron-red' : 'text-on-surface-variant hover:text-axeron-red';
+                        $favColor = $isFav ? 'text-axeron-red' : 'text-gray-400 hover:text-axeron-red';
                         $favFill = $isFav ? 1 : 0;
                         $favOpacity = $isFav ? 'opacity-100' : 'opacity-0 group-hover:opacity-100';
                         ?>

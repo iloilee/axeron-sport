@@ -502,7 +502,7 @@ $siteNameDisplay = $settings['site_name'] ?? 'Axeron';
             <?php endif; ?>
 
             <!-- Dark Mode Toggle (Global Icon) -->
-            <button onclick="toggleDarkMode()" aria-label="Toggle Dark Mode" class="hover:text-axeron-red transition-colors duration-200 focus:outline-none flex items-center justify-center">
+            <button onclick="toggleDarkMode()" aria-label="Toggle Dark Mode" class="hidden md:flex hover:text-axeron-red transition-colors duration-200 focus:outline-none items-center justify-center">
                 <span class="material-symbols-outlined text-[28px]" id="dark-mode-icon-header">dark_mode</span>
             </button>
 

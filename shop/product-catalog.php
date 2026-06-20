@@ -592,7 +592,7 @@ include __DIR__ . '/../includes/head.php';
                             <?php
                             $isFav = in_array($product['product_id'], $wishlistIds);
                             $favFill = $isFav ? "'FILL' 1" : "'FILL' 0";
-                            $favColor = $isFav ? "text-axeron-red" : "text-on-surface-variant";
+                            $favColor = $isFav ? "text-axeron-red" : "text-gray-400 hover:text-axeron-red";
                             $favOpacity = $isFav ? "opacity-100" : "opacity-0 group-hover:opacity-100";
                             ?>
                             <button class="absolute top-2 right-2 p-2 bg-white/80 rounded-full hover:text-axeron-red hover:bg-white transition-colors <?= $favOpacity ?> z-10"
@@ -638,7 +638,7 @@ include __DIR__ . '/../includes/head.php';
                                 <?php endif; ?>
 
                                 <?php if ($promoInfo['discount_amount'] > 0): ?>
-                                <span class="text-[12px] font-bold bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-3 py-1 rounded-sm uppercase tracking-widest text-center max-w-[100px] leading-tight flex-shrink-0"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                                <span class="text-[10px] md:text-[12px] font-bold bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-2 py-1 rounded-sm uppercase tracking-wider whitespace-nowrap shrink-0 ml-auto"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
                                 <?php endif; ?>
                             </div>
                             <div class="mt-auto pt-2 flex items-center justify-between">

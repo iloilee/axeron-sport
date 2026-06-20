@@ -60,6 +60,30 @@ if ($shoesProducts === null) {
     cache()->set('index_shoes_products', $shoesProducts, 300);
 }
 
+// Load clothes dynamically
+$clothesProducts = cache()->get('index_clothes_products');
+if ($clothesProducts === null) {
+    $clothesProducts = $db->select("
+        SELECT 
+            p.product_id, 
+            p.product_name, 
+            p.slug, 
+            p.base_price, 
+            c.category_name, 
+            c.slug as category_slug,
+            pi.image_url,
+            p.is_featured
+        FROM products p
+        LEFT JOIN categories c ON p.category_id = c.category_id
+        LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
+        WHERE p.is_visible = 1 AND p.is_deleted = 0 AND c.slug IN ('ao-polo-nam', 'ao-tshirt-nam', 'ao-khoac-nam', 'quan-short-nam', 'quan-dai-nam')
+        AND p.category_id IN (" . getVisibleCategoryQuery() . ")
+        ORDER BY p.updated_at DESC
+    ");
+    cache()->set('index_clothes_products', $clothesProducts, 300);
+}
+
+
 // Load banners dynamically
 $banners = cache()->get('index_banners');
 if ($banners === null) {
@@ -271,7 +295,7 @@ if ($flashSalePromo) {
                         <?php if (!empty($brand['logo_url'])): ?>
                             <img loading="lazy" src="<?= htmlspecialchars(getImageUrl($brand['logo_url'], '')) ?>" alt="<?= htmlspecialchars($brand['brand_name']) ?>" class="h-6 md:h-9 object-contain opacity-80 hover:opacity-100" />
                         <?php else: ?>
-                            <div class="h-6 md:h-9 flex items-center justify-center font-label-lg text-on-surface-variant font-black tracking-widest italic uppercase opacity-80 hover:opacity-100">
+                            <div class="h-6 md:h-9 flex items-center justify-center font-label-lg text-on-surface-variant font-black tracking-wider italic uppercase opacity-80 hover:opacity-100">
                                 <?= $brand['brand_name'] ?>
                             </div>
                         <?php endif; ?>
@@ -318,14 +342,14 @@ if ($flashSalePromo) {
                             class="group/fs border border-transparent rounded-xl overflow-hidden bg-white dark:bg-gray-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 flex flex-col relative">
                             <?php $delay += 50; ?>
                             
-                            <div class="absolute top-0 left-0 bg-yellow-400 text-red-700 text-[15px] font-black px-4 py-2 rounded-br-lg z-20 uppercase tracking-widest shadow-md">
+                            <div class="absolute top-0 left-0 bg-yellow-400 text-red-700 text-[15px] font-black px-4 py-2 rounded-br-lg z-20 uppercase tracking-wider shadow-md">
                                 ⚡ <?= htmlspecialchars($flashSalePromo['promo_name']) ?>
                             </div>
 
                             <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
                                 <?php
                                 $isFav = isLoggedIn() && in_array($fsProduct['product_id'], $userWishlistIds);
-                                $favColor = $isFav ? 'text-axeron-red' : 'text-on-surface-variant hover:text-axeron-red';
+                                $favColor = $isFav ? 'text-axeron-red' : 'text-gray-400 hover:text-axeron-red';
                                 $favFill = $isFav ? 1 : 0;
                                 $favOpacity = $isFav ? 'opacity-100' : 'opacity-0 group-hover/fs:opacity-100';
                                 ?>
@@ -352,17 +376,17 @@ if ($flashSalePromo) {
                                     <?php 
                                     $promoInfo = getBestPromotionForProduct($fsProduct['product_id'], $fsProduct['category_id'] ?? 0, $fsProduct['base_price']);
                                     if ($promoInfo['discount_amount'] > 0): ?>
-                                        <div class="flex items-center justify-between w-full">
+                                        <div class="flex items-center justify-between w-full gap-2">
                                             <div class="flex flex-col">
-                                                <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
+                                                <span class="font-headline-md text-[16px] md:text-[17px] text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
                                                 <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($fsProduct['base_price']) ?></span>
                                             </div>
                                             <?php if (isset($promoInfo['promotion']['discount_type']) && $promoInfo['promotion']['discount_type'] === 'percent'): ?>
-                                                <span class="text-[10px] bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_8px_rgba(249,115,22,0.4)] text-white font-bold px-2 py-0.5 rounded-sm uppercase tracking-widest ml-2">GIẢM <?= (float)$promoInfo['promotion']['discount_value'] ?>%</span>
+                                                <span class="text-[10px] md:text-[12px] bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_8px_rgba(249,115,22,0.4)] text-white font-bold px-1.5 md:px-2 py-1 rounded-sm uppercase tracking-wider whitespace-nowrap shrink-0 ml-auto">GIẢM <?= (float)$promoInfo['promotion']['discount_value'] ?>%</span>
                                             <?php endif; ?>
                                         </div>
                                     <?php else: ?>
-                                        <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($fsProduct['base_price']) ?></span>
+                                        <span class="font-headline-md text-[16px] md:text-[17px] text-axeron-red font-bold"><?= formatPrice($fsProduct['base_price']) ?></span>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -376,7 +400,8 @@ if ($flashSalePromo) {
         <!-- Section: Sản phẩm nổi bật -->
         <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12" data-aos="fade-up">
             <div class="flex flex-row justify-between items-center mb-8 border-b border-surface-dim pb-4 gap-2">
-                <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative shrink truncate">
+                <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative shrink truncate flex items-center gap-2">
+                    <span class="material-symbols-outlined text-axeron-red text-3xl">workspace_premium</span>
                     Sản Phẩm Nổi Bật
                     <span class="absolute -bottom-4 left-0 w-1/2 h-1 bg-axeron-red"></span>
                 </h2>
@@ -397,7 +422,7 @@ if ($flashSalePromo) {
                         <?php endif; ?>
                         <?php
                         $isFav = isLoggedIn() && in_array($product['product_id'], $userWishlistIds);
-                        $favColor = $isFav ? 'text-axeron-red' : 'text-on-surface-variant hover:text-axeron-red';
+                        $favColor = $isFav ? 'text-axeron-red' : 'text-gray-400 hover:text-axeron-red';
                         $favFill = $isFav ? 1 : 0;
                         $favOpacity = $isFav ? 'opacity-100' : 'opacity-0 group-hover:opacity-100';
                         ?>
@@ -421,98 +446,22 @@ if ($flashSalePromo) {
                         <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors">
                             <?= htmlspecialchars($product['product_name']) ?>
                         </h3>
-                        <div class="mt-auto flex items-center justify-between">
+                        <div class="mt-auto flex items-center justify-between gap-2">
                             <?php 
                             $promoInfo = getBestPromotionForProduct($product['product_id'], $product['category_id'] ?? 0, $product['base_price']);
                             if ($promoInfo['discount_amount'] > 0): ?>
                                 <div class="flex flex-col">
-                                    <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
+                                    <span class="font-headline-md text-[16px] md:text-[17px] text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
                                     <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($product['base_price']) ?></span>
                                 </div>
-                                <span class="text-[12px] font-bold bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-3 py-1 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                                <span class="text-[10px] md:text-[12px] font-bold bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-2 py-1 rounded-sm uppercase tracking-wider whitespace-nowrap shrink-0 ml-auto"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
                             <?php else: ?>
-                                <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($product['base_price']) ?></span>
+                                <span class="font-headline-md text-[16px] md:text-[17px] text-axeron-red font-bold"><?= formatPrice($product['base_price']) ?></span>
                             <?php endif; ?>
                         </div>
                     </div>
                 </a>
                 <?php endforeach; ?>
-            </div>
-        </section>
-
-        <!-- Section: Giày Thể Thao -->
-        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 bg-surface-container-low md:bg-transparent rounded-2xl md:rounded-none" data-aos="fade-up">
-            <div class="flex flex-row justify-between items-center mb-6 border-b border-surface-dim pb-4 gap-2">
-                <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative shrink truncate">
-                    Giày Thể Thao
-                    <span class="absolute -bottom-4 left-0 w-1/2 h-1 bg-axeron-red"></span>
-                </h2>
-                
-                <a class="flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-red transition-colors shrink-0 whitespace-nowrap" href="<?= BASE_URL ?>/shop/product-catalog.php?category=giay-the-thao" id="shoes-view-all">
-                    <span class="hidden md:inline">Xem tất cả</span> 
-                    <span class="material-symbols-outlined text-xl md:text-lg bg-surface-container-high md:bg-transparent rounded-full p-1.5 md:p-0">chevron_right</span>
-                </a>
-            </div>
-            
-            <!-- Category Tabs -->
-            <div class="flex gap-4 md:gap-6 mb-8 overflow-x-auto w-full no-scrollbar">
-                <button class="shoe-tab-btn active text-axeron-red font-bold border-b-2 border-axeron-red pb-1 whitespace-nowrap" data-target="giay-pickleball">Giày Pickleball</button>
-                <button class="shoe-tab-btn text-on-surface-variant hover:text-axeron-red font-medium whitespace-nowrap" data-target="giay-da-bong">Giày đá bóng</button>
-                <button class="shoe-tab-btn text-on-surface-variant hover:text-axeron-red font-medium whitespace-nowrap" data-target="giay-cau-long">Giày cầu lông</button>
-                <button class="shoe-tab-btn text-on-surface-variant hover:text-axeron-red font-medium whitespace-nowrap" data-target="giay-chay-bo">Giày chạy bộ</button>
-            </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-gutter" id="shoes-container">
-                <?php foreach ($shoesProducts as $product): ?>
-                <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
-                    class="shoe-item <?= htmlspecialchars($product['category_slug']) ?> hidden group border border-outline-variant rounded-xl overflow-hidden bg-white dark:bg-gray-800 hover:shadow-lg transition-all duration-300 flex-col relative">
-                    <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
-                        <?php if ($product['is_featured'] ?? false): ?>
-                        <span class="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_10px_rgba(239,68,68,0.5)] text-white font-label-sm text-label-sm px-3 py-1 rounded-full uppercase tracking-wider z-10">Nổi bật</span>
-                        <?php endif; ?>
-                        <?php
-                        $isFav = isLoggedIn() && in_array($product['product_id'], $userWishlistIds);
-                        $favColor = $isFav ? 'text-axeron-red' : 'text-on-surface-variant hover:text-axeron-red';
-                        $favFill = $isFav ? 1 : 0;
-                        $favOpacity = $isFav ? 'opacity-100' : 'opacity-0 group-hover:opacity-100';
-                        ?>
-                        <button class="absolute top-2 right-2 p-2 bg-white/80 rounded-full hover:text-axeron-red hover:bg-white transition-colors <?= $favOpacity ?> z-10"
-                            onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(<?= $product['product_id'] ?>, this)">
-                            <span class="material-symbols-outlined text-[20px] <?= $favColor ?>" style="font-variation-settings: 'FILL' <?= $favFill ?>;">favorite</span>
-                        </button>
-                        <img loading="lazy" alt="<?= htmlspecialchars($product['product_name']) ?>"
-                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
-                        
-                        <!-- Quick Add Overlay -->
-                        <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-20 flex justify-center">
-                            <button class="bg-on-surface/90 backdrop-blur-sm hover:bg-axeron-red text-white font-label-md text-label-md px-6 py-2.5 rounded-full shadow-lg transition-all flex items-center gap-2 hover:scale-105 w-[90%] justify-center" onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?= $product['product_id'] ?>, 0, 1)">
-                                <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
-                                Mua Ngay
-                            </button>
-                        </div>
-                    </div>
-                    <div class="p-4 flex flex-col flex-grow">
-                        <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors">
-                            <?= htmlspecialchars($product['product_name']) ?>
-                        </h3>
-                        <div class="mt-auto flex items-center justify-between">
-                            <?php 
-                            $promoInfo = getBestPromotionForProduct($product['product_id'], $product['category_id'] ?? 0, $product['base_price']);
-                            if ($promoInfo['discount_amount'] > 0): ?>
-                                <div class="flex flex-col">
-                                    <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
-                                    <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($product['base_price']) ?></span>
-                                </div>
-                                <span class="text-[12px] font-bold bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-3 py-1 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
-                            <?php else: ?>
-                                <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($product['base_price']) ?></span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                </a>
-                <?php endforeach; ?>
-                <div class="col-span-full text-center text-on-surface-variant py-8 hidden" id="empty-shoes-msg">Chưa có sản phẩm nào trong danh mục này.</div>
             </div>
         </section>
 
@@ -544,7 +493,7 @@ if ($flashSalePromo) {
                         <?php endif; ?>
                         <?php
                         $isFav = isLoggedIn() && in_array($rProduct['product_id'], $userWishlistIds);
-                        $favColor = $isFav ? 'text-axeron-red' : 'text-on-surface-variant hover:text-axeron-red';
+                        $favColor = $isFav ? 'text-axeron-red' : 'text-gray-400 hover:text-axeron-red';
                         $favFill = $isFav ? 1 : 0;
                         $favOpacity = $isFav ? 'opacity-100' : 'opacity-0 group-hover:opacity-100';
                         ?>
@@ -568,17 +517,17 @@ if ($flashSalePromo) {
                         <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors">
                             <?= htmlspecialchars($rProduct['product_name']) ?>
                         </h3>
-                        <div class="mt-auto flex items-center justify-between">
+                        <div class="mt-auto flex items-center justify-between gap-2">
                             <?php 
                             $promoInfo = getBestPromotionForProduct($rProduct['product_id'], $rProduct['category_id'] ?? 0, $rProduct['base_price']);
                             if ($promoInfo['discount_amount'] > 0): ?>
                                 <div class="flex flex-col">
-                                    <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
+                                    <span class="font-headline-md text-[16px] md:text-[17px] text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
                                     <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($rProduct['base_price']) ?></span>
                                 </div>
-                                <span class="text-[12px] font-bold bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-3 py-1 rounded-sm uppercase tracking-widest ml-2"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                                <span class="text-[10px] md:text-[12px] font-bold bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-2 py-1 rounded-sm uppercase tracking-wider whitespace-nowrap shrink-0 ml-auto"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
                             <?php else: ?>
-                                <span class="font-headline-md text-body-lg text-axeron-red font-bold"><?= formatPrice($rProduct['base_price']) ?></span>
+                                <span class="font-headline-md text-[16px] md:text-[17px] text-axeron-red font-bold"><?= formatPrice($rProduct['base_price']) ?></span>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -588,11 +537,166 @@ if ($flashSalePromo) {
         </section>
         <?php endif; ?>
 
+        <!-- Section: Giày Thể Thao -->
+        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12" data-aos="fade-up">
+            <div class="flex flex-row justify-between items-center mb-6 border-b border-surface-dim pb-4 gap-2">
+                <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative shrink truncate">
+                    Giày Thể Thao
+                    <span class="absolute -bottom-4 left-0 w-1/2 h-1 bg-axeron-red"></span>
+                </h2>
+                
+                <a class="flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-red transition-colors shrink-0 whitespace-nowrap" href="<?= BASE_URL ?>/shop/product-catalog.php?category=giay-the-thao" id="shoes-view-all">
+                    <span class="hidden md:inline">Xem tất cả</span> 
+                    <span class="material-symbols-outlined text-xl md:text-lg bg-surface-container-high md:bg-transparent rounded-full p-1.5 md:p-0">chevron_right</span>
+                </a>
+            </div>
+            
+            <!-- Category Tabs -->
+            <div class="flex gap-4 md:gap-6 mb-8 overflow-x-auto w-full no-scrollbar">
+                <button class="shoe-tab-btn active text-axeron-red font-bold border-b-2 border-axeron-red pb-1 whitespace-nowrap" data-target="giay-pickleball">Giày Pickleball</button>
+                <button class="shoe-tab-btn text-on-surface-variant hover:text-axeron-red font-medium whitespace-nowrap" data-target="giay-da-bong">Giày đá bóng</button>
+                <button class="shoe-tab-btn text-on-surface-variant hover:text-axeron-red font-medium whitespace-nowrap" data-target="giay-cau-long">Giày cầu lông</button>
+                <button class="shoe-tab-btn text-on-surface-variant hover:text-axeron-red font-medium whitespace-nowrap" data-target="giay-chay-bo">Giày chạy bộ</button>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-gutter" id="shoes-container">
+                <?php foreach ($shoesProducts as $product): ?>
+                <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
+                    class="shoe-item <?= htmlspecialchars($product['category_slug']) ?> hidden group border border-outline-variant rounded-xl overflow-hidden bg-white dark:bg-gray-800 hover:shadow-lg transition-all duration-300 flex-col relative">
+                    <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
+                        <?php if ($product['is_featured'] ?? false): ?>
+                        <span class="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_10px_rgba(239,68,68,0.5)] text-white font-label-sm text-label-sm px-3 py-1 rounded-full uppercase tracking-wider z-10">Nổi bật</span>
+                        <?php endif; ?>
+                        <?php
+                        $isFav = isLoggedIn() && in_array($product['product_id'], $userWishlistIds);
+                        $favColor = $isFav ? 'text-axeron-red' : 'text-gray-400 hover:text-axeron-red';
+                        $favFill = $isFav ? 1 : 0;
+                        $favOpacity = $isFav ? 'opacity-100' : 'opacity-0 group-hover:opacity-100';
+                        ?>
+                        <button class="absolute top-2 right-2 p-2 bg-white/80 rounded-full hover:text-axeron-red hover:bg-white transition-colors <?= $favOpacity ?> z-10"
+                            onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(<?= $product['product_id'] ?>, this)">
+                            <span class="material-symbols-outlined text-[20px] <?= $favColor ?>" style="font-variation-settings: 'FILL' <?= $favFill ?>;">favorite</span>
+                        </button>
+                        <img loading="lazy" alt="<?= htmlspecialchars($product['product_name']) ?>"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
+                        
+                        <!-- Quick Add Overlay -->
+                        <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-20 flex justify-center">
+                            <button class="bg-on-surface/90 backdrop-blur-sm hover:bg-axeron-red text-white font-label-md text-label-md px-6 py-2.5 rounded-full shadow-lg transition-all flex items-center gap-2 hover:scale-105 w-[90%] justify-center" onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?= $product['product_id'] ?>, 0, 1)">
+                                <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                                Mua Ngay
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors">
+                            <?= htmlspecialchars($product['product_name']) ?>
+                        </h3>
+                        <div class="mt-auto flex items-center justify-between gap-2">
+                            <?php 
+                            $promoInfo = getBestPromotionForProduct($product['product_id'], $product['category_id'] ?? 0, $product['base_price']);
+                            if ($promoInfo['discount_amount'] > 0): ?>
+                                <div class="flex flex-col">
+                                    <span class="font-headline-md text-[16px] md:text-[17px] text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
+                                    <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($product['base_price']) ?></span>
+                                </div>
+                                <span class="text-[10px] md:text-[12px] font-bold bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-2 py-1 rounded-sm uppercase tracking-wider whitespace-nowrap shrink-0 ml-auto"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                            <?php else: ?>
+                                <span class="font-headline-md text-[16px] md:text-[17px] text-axeron-red font-bold"><?= formatPrice($product['base_price']) ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </a>
+                <?php endforeach; ?>
+                <div class="col-span-full text-center text-on-surface-variant py-8 hidden" id="empty-shoes-msg">Chưa có sản phẩm nào trong danh mục này.</div>
+            </div>
+        </section>
+
+                <!-- Section: Quần Áo Nam -->
+        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12" data-aos="fade-up">
+            <div class="flex flex-row justify-between items-center mb-6 border-b border-surface-dim pb-4 gap-2">
+                <h2 class="font-headline-lg text-headline-lg text-on-background uppercase relative shrink truncate">
+                    Quần Áo Nam
+                    <span class="absolute -bottom-4 left-0 w-1/2 h-1 bg-axeron-red"></span>
+                </h2>
+                
+                <a class="flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-red transition-colors shrink-0 whitespace-nowrap" href="<?= BASE_URL ?>/shop/product-catalog.php?category=quan-ao-nam" id="clothes-view-all">
+                    <span class="hidden md:inline">Xem tất cả</span> 
+                    <span class="material-symbols-outlined text-xl md:text-lg bg-surface-container-high md:bg-transparent rounded-full p-1.5 md:p-0">chevron_right</span>
+                </a>
+            </div>
+            
+            <!-- Category Tabs -->
+            <div class="flex gap-4 md:gap-6 mb-8 overflow-x-auto w-full no-scrollbar">
+                <button class="clothes-tab-btn active text-axeron-red font-bold border-b-2 border-axeron-red pb-1 whitespace-nowrap" data-target="ao-polo-nam">Áo Polo Nam</button>
+                <button class="clothes-tab-btn text-on-surface-variant hover:text-axeron-red font-medium whitespace-nowrap" data-target="ao-tshirt-nam">Áo T-shirt Nam</button>
+                <button class="clothes-tab-btn text-on-surface-variant hover:text-axeron-red font-medium whitespace-nowrap" data-target="ao-khoac-nam">Áo Khoác Nam</button>
+                <button class="clothes-tab-btn text-on-surface-variant hover:text-axeron-red font-medium whitespace-nowrap" data-target="quan-short-nam">Quần Short Nam</button>
+                <button class="clothes-tab-btn text-on-surface-variant hover:text-axeron-red font-medium whitespace-nowrap" data-target="quan-dai-nam">Quần Dài Nam</button>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-gutter" id="clothes-container">
+                <?php $delay = 0; foreach ($clothesProducts as $product): ?>
+                <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($product['slug']) ?>"
+                    data-aos="fade-up" data-aos-delay="<?= $delay ?>"
+                    class="clothes-item <?= htmlspecialchars($product['category_slug']) ?> hidden group border border-outline-variant rounded-xl overflow-hidden bg-white dark:bg-gray-800 hover:shadow-lg transition-all duration-300 flex-col relative">
+                    <?php $delay += 50; ?>
+                    <div class="aspect-square bg-surface-container-low relative overflow-hidden flex items-center justify-center">
+                        <?php if ($product['is_featured'] ?? false): ?>
+                        <span class="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-600 shadow-[0_0_10px_rgba(239,68,68,0.5)] text-white font-label-sm text-label-sm px-3 py-1 rounded-full uppercase tracking-wider z-10">Nổi bật</span>
+                        <?php endif; ?>
+                        <?php
+                        $isFav = isLoggedIn() && in_array($product['product_id'], $userWishlistIds);
+                        $favColor = $isFav ? 'text-axeron-red' : 'text-gray-400 hover:text-axeron-red';
+                        $favFill = $isFav ? 1 : 0;
+                        $favOpacity = $isFav ? 'opacity-100' : 'opacity-0 group-hover:opacity-100';
+                        ?>
+                        <button class="absolute top-2 right-2 p-2 bg-white/80 rounded-full hover:text-axeron-red hover:bg-white transition-colors <?= $favOpacity ?> z-10"
+                            onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(<?= $product['product_id'] ?>, this)">
+                            <span class="material-symbols-outlined text-[20px] <?= $favColor ?>" style="font-variation-settings: 'FILL' <?= $favFill ?>;">favorite</span>
+                        </button>
+                        <img loading="lazy" alt="<?= htmlspecialchars($product['product_name']) ?>"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            src="<?= htmlspecialchars(getImageUrl($product['image_url'], 'https://placehold.co/400x400/f0eded/5b403f?text=' . urlencode(substr($product['product_name'], 0, 20)))) ?>"/>
+                        
+                        <!-- Quick Add Overlay -->
+                        <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-20 flex justify-center">
+                            <button class="bg-on-surface/90 backdrop-blur-sm hover:bg-axeron-red text-white font-label-md text-label-md px-6 py-2.5 rounded-full shadow-lg transition-all flex items-center gap-2 hover:scale-105 w-[90%] justify-center" onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?= $product['product_id'] ?>, 0, 1)">
+                                <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                                Mua Ngay
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <h3 class="font-label-lg text-label-lg text-on-background mb-2 text-truncate-2 group-hover:text-axeron-red transition-colors">
+                            <?= htmlspecialchars($product['product_name']) ?>
+                        </h3>
+                        <div class="mt-auto flex items-center justify-between gap-2">
+                            <?php 
+                            $promoInfo = getBestPromotionForProduct($product['product_id'], $product['category_id'] ?? 0, $product['base_price']);
+                            if ($promoInfo['discount_amount'] > 0): ?>
+                                <div class="flex flex-col">
+                                    <span class="font-headline-md text-[16px] md:text-[17px] text-axeron-red font-bold"><?= formatPrice($promoInfo['discounted_price']) ?></span>
+                                    <span class="text-on-surface-variant line-through text-xs font-medium"><?= formatPrice($product['base_price']) ?></span>
+                                </div>
+                                <span class="text-[10px] md:text-[12px] font-bold bg-gradient-to-r from-red-600 to-orange-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] text-white px-2 py-1 rounded-sm uppercase tracking-wider whitespace-nowrap shrink-0 ml-auto"><?= htmlspecialchars($promoInfo['promotion']['promo_name']) ?></span>
+                            <?php else: ?>
+                                <span class="font-headline-md text-[16px] md:text-[17px] text-axeron-red font-bold"><?= formatPrice($product['base_price']) ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </a>
+                <?php endforeach; ?>
+                <div class="col-span-full text-center text-on-surface-variant py-8 hidden" id="empty-clothes-msg">Chưa có sản phẩm nào trong danh mục này.</div>
+            </div>
+        </section>
+
         <!-- Latest News / Articles -->
         <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16 md:py-24" data-aos="fade-up">
             <div class="flex flex-row justify-between items-end mb-12 gap-2">
                 <div class="flex flex-col shrink truncate">
-                    <span class="text-axeron-red font-label-sm md:font-label-lg uppercase tracking-widest mb-1 md:mb-2 truncate">Cập nhật xu hướng</span>
+                    <span class="text-axeron-red font-label-sm md:font-label-lg uppercase tracking-wider mb-1 md:mb-2 truncate">Cập nhật xu hướng</span>
                     <h2 class="font-headline-md md:font-headline-lg text-headline-md md:text-headline-lg uppercase truncate">Tin Tức Mới Nhất</h2>
                 </div>
                 <a class="flex items-center gap-1 text-label-lg font-label-lg text-on-surface-variant hover:text-axeron-red shrink-0 whitespace-nowrap mb-1" href="<?= BASE_URL ?>/blog/news.php">
@@ -670,28 +774,28 @@ if ($flashSalePromo) {
                         <h2 class="text-2xl md:text-3xl font-bold mb-3 uppercase text-axeron-red">CÁC DỰ ÁN</h2>
                         <div class="w-16 h-[3px] bg-axeron-red mb-6"></div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-                            <a href="<?= BASE_URL ?>/blog/stadiums.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
+                            <a href="<?= BASE_URL ?>/blog/stadiums.php" class="relative rounded-xl overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
                                 <img loading="lazy" src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
                                 <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
                                 <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
                                     <h3 class="text-[18px] md:text-xl font-extrabold text-white text-center uppercase tracking-wider drop-shadow-md">SÂN VẬN ĐỘNG</h3>
                                 </div>
                             </a>
-                            <a href="<?= BASE_URL ?>/blog/arenas.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
+                            <a href="<?= BASE_URL ?>/blog/arenas.php" class="relative rounded-xl overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
                                 <img loading="lazy" src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
                                 <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
                                 <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
                                     <h3 class="text-[18px] md:text-xl font-extrabold text-white text-center uppercase tracking-wider drop-shadow-md">NHÀ THI ĐẤU</h3>
                                 </div>
                             </a>
-                            <a href="<?= BASE_URL ?>/blog/school-uniforms.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
+                            <a href="<?= BASE_URL ?>/blog/school-uniforms.php" class="relative rounded-xl overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
                                 <img loading="lazy" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
                                 <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
                                 <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
                                     <h3 class="text-[18px] md:text-xl font-extrabold text-white text-center uppercase tracking-wider drop-shadow-md">ĐỒNG PHỤC HỌC SINH</h3>
                                 </div>
                             </a>
-                            <a href="<?= BASE_URL ?>/blog/gym-equipment.php" class="relative rounded-sm overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
+                            <a href="<?= BASE_URL ?>/blog/gym-equipment.php" class="relative rounded-xl overflow-hidden group cursor-pointer aspect-[3/2] block shadow-sm">
                                 <img loading="lazy" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"/>
                                 <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
                                 <div class="absolute inset-0 flex items-center justify-center z-10 px-4">
@@ -722,7 +826,56 @@ if ($flashSalePromo) {
     <script>
 
 
-        // Tab logic for Giày thể thao
+// Tab logic for Quần áo nam
+        document.addEventListener('DOMContentLoaded', function() {
+            const clothesTabs = document.querySelectorAll('.clothes-tab-btn');
+            const clothesItems = document.querySelectorAll('.clothes-item');
+            const emptyClothesMsg = document.getElementById('empty-clothes-msg');
+
+            function showClothes(category) {
+                let count = 0;
+                clothesItems.forEach(item => {
+                    if (item.classList.contains(category) && count < 10) {
+                        item.classList.remove('hidden');
+                        item.classList.add('flex');
+                        count++;
+                    } else {
+                        item.classList.add('hidden');
+                        item.classList.remove('flex');
+                    }
+                });
+                
+                if (count === 0 && emptyClothesMsg) {
+                    emptyClothesMsg.classList.remove('hidden');
+                } else if (emptyClothesMsg) {
+                    emptyClothesMsg.classList.add('hidden');
+                }
+                if (typeof AOS !== 'undefined') setTimeout(() => AOS.refresh(), 10);
+            }
+
+            clothesTabs.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    clothesTabs.forEach(b => {
+                        b.classList.remove('active', 'text-axeron-red', 'font-bold', 'border-b-2', 'border-axeron-red', 'pb-1');
+                        b.classList.add('text-on-surface-variant', 'font-medium');
+                    });
+                    
+                    this.classList.remove('text-on-surface-variant', 'font-medium');
+                    this.classList.add('active', 'text-axeron-red', 'font-bold', 'border-b-2', 'border-axeron-red', 'pb-1');
+                    
+                    const target = this.getAttribute('data-target');
+                    showClothes(target);
+                });
+            });
+
+            // Initialize clothes
+            if (clothesTabs.length > 0) {
+                const initialTarget = clothesTabs[0].getAttribute('data-target');
+                showClothes(initialTarget);
+            }
+        });
+
+                // Tab logic for Giày thể thao
         document.addEventListener('DOMContentLoaded', function() {
             const shoeTabs = document.querySelectorAll('.shoe-tab-btn');
             const shoeItems = document.querySelectorAll('.shoe-item');
