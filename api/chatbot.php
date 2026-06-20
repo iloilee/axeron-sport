@@ -121,7 +121,8 @@ $geminiHistory[] = [
 
 // Zero-shot Tool Execution: Tra cứu DB trước khi gửi cho AI để giảm API Roundtrip
 $msgLower = mb_strtolower($message, 'UTF-8');
-$needSearch = preg_match('/(sản phẩm|áo|quần|giày|vợt|bóng|tìm|mua|có bán|giá|size|màu|axeron)/i', $msgLower);
+// Mở rộng bộ nhận diện Intent để bao quát mọi nhu cầu mua sắm, hỏi giá, hỏi size, thương hiệu, danh mục...
+$needSearch = preg_match('/(sản phẩm|áo|quần|giày|vợt|bóng|balo|túi|vớ|tất|phụ kiện|cầu lông|bóng đá|chạy bộ|gym|yoga|thể thao|tìm|mua|có bán|giá|size|màu|axeron|lining|yonex|victor|mizuno|nike|adidas|puma|kamito|mẫu|loại|dòng|hãng|thương hiệu|còn hàng|hết hàng|sale|khuyến mãi|giảm giá|rẻ|đẹp|mới)/i', $msgLower);
 $needOrder = preg_match('/(đơn hàng|đơn|order|tình trạng|kiểm tra|tra cứu|ax\d+|ordm-[a-z0-9]+|ord-[a-z0-9]+|\b[a-f0-9]{8}\b)/i', $msgLower);
 
 if ($needSearch) {
@@ -129,35 +130,49 @@ if ($needSearch) {
     $cleanMsg = preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $msgLower);
     
     // Lọc từ khóa thông minh bằng Stop Words mở rộng
-    $stopWords = ['tìm', 'mua', 'xem', 'có', 'bán', 'cho', 'mình', 'tôi', 'bạn', 'ơi', 'nhé', 'không', 'hỏi', 'sản', 'phẩm', 'các', 'loại', 'những', 'một', 'chiếc', 'đôi', 'cái', 'thử', 'chào', 'shop', 'ở', 'đâu', 'giá', 'bao', 'nhiêu', 'vậy', 'ạ', 'bên', 'nào', 'luôn', 'rồi', 'chưa', 'làm', 'sao', 'tư', 'vấn', 'giúp'];
+    $stopWords = [
+        'tìm', 'mua', 'xem', 'có', 'bán', 'cho', 'mình', 'tôi', 'bạn', 'ơi', 'nhé', 'không', 'hỏi', 'sản', 'phẩm', 
+        'các', 'loại', 'những', 'một', 'chiếc', 'đôi', 'cái', 'thử', 'chào', 'shop', 'ở', 'đâu', 'giá', 'bao', 'nhiêu', 
+        'vậy', 'ạ', 'bên', 'nào', 'luôn', 'rồi', 'chưa', 'làm', 'sao', 'tư', 'vấn', 'giúp', 'muốn', 'xin', 'về',
+        'anh', 'chị', 'em', 'chú', 'bác', 'cô', 'dì', 'này', 'kia', 'đó', 'đây', 'rất', 'nhiều', 'ít', 'quá', 'nhất', 
+        'hơn', 'với', 'và', 'của', 'để', 'thì', 'mà', 'như', 'là', 'được', 'ra', 'vào', 'lên', 'xuống', 'qua', 'lại', 
+        'tới', 'lui', 'nữa', 'nhỉ', 'nha', 'đấy', 'thế', 'đang', 'đã', 'sẽ', 'hãy', 'đừng', 'chớ', 'cần', 'phải', 
+        'nên', 'chỉ', 'cũng', 'còn', 'đều', 'vừa', 'mới', 'từng', 'vẫn', 'cứ', 'tự', 'khi', 'nếu', 'dù', 'vì', 'tại', 
+        'bởi', 'bằng', 'từ', 'đến', 'sang', 'trong', 'ngoài', 'giữa', 'dưới', 'trên', 'trước', 'sau', 'cùng', 'khác'
+    ];
     $words = explode(' ', $cleanMsg);
     $keywords = [];
     foreach ($words as $w) {
         $w = trim($w);
-        if (mb_strlen($w, 'UTF-8') >= 2 && !in_array($w, $stopWords)) {
+        if (mb_strlen($w, 'UTF-8') >= 2 && !in_array($w, $stopWords) && !is_numeric($w)) {
             $keywords[] = $w;
         }
     }
+    
+    // Giới hạn tối đa 8 từ khóa quan trọng nhất để tránh query quá nặng
+    $keywords = array_slice(array_unique($keywords), 0, 8);
     
     if (empty($keywords)) {
         $keywords[] = trim($cleanMsg);
     }
     
-    // Tìm kiếm dựa trên thuật toán Tính điểm liên quan (Relevance Score)
+    // Tìm kiếm dựa trên thuật toán Tính điểm liên quan (Relevance Score) mở rộng cho cả Category
     $relevanceParts = [];
     $params = [];
     foreach ($keywords as $kw) {
-        $relevanceParts[] = "(IF(product_name LIKE ?, 3, 0) + IF(description LIKE ?, 1, 0))";
+        $relevanceParts[] = "(IF(p.product_name LIKE ?, 3, 0) + IF(p.description LIKE ?, 1, 0) + IF(c.category_name LIKE ?, 2, 0))";
+        $params[] = '%' . $kw . '%';
         $params[] = '%' . $kw . '%';
         $params[] = '%' . $kw . '%';
     }
     $relevanceSql = implode(' + ', $relevanceParts);
     
     $results = $db->select("
-        SELECT product_name, slug, base_price, stock_quantity,
+        SELECT p.product_name, p.slug, p.base_price, p.stock_quantity, c.category_name,
         ($relevanceSql) as relevance
-        FROM products 
-        WHERE is_visible = 1 
+        FROM products p
+        LEFT JOIN categories c ON p.category_id = c.category_id
+        WHERE p.is_visible = 1 
         HAVING relevance > 0
         ORDER BY relevance DESC
         LIMIT 5
@@ -165,9 +180,11 @@ if ($needSearch) {
     
     if ($results) {
         $searchStr = implode(' ', $keywords);
-        $fullPrompt .= "\n\n[HỆ THỐNG TỰ ĐỘNG TRA CỨU SẢN PHẨM: " . $searchStr . "]\nKết quả: " . json_encode($results, JSON_UNESCAPED_UNICODE) . "\nNếu có kết quả phù hợp, hãy format đẹp, kèm ảnh (dùng [PRODUCT_CARD:slug]).";
+        $fullPrompt .= "\n\n--- THÔNG TIN SẢN PHẨM (Tự động tra cứu từ database theo từ khóa: {$searchStr}) ---\n";
+        $fullPrompt .= json_encode($results, JSON_UNESCAPED_UNICODE);
+        $fullPrompt .= "\nLƯU Ý QUAN TRỌNG: Bạn PHẢI dựa vào danh sách trên để giới thiệu cho khách. Với mỗi sản phẩm bạn nhắc tới, BẮT BUỘC chèn đoạn mã [PRODUCT_CARD:slug_của_sản_phẩm] vào câu trả lời để hiển thị thẻ sản phẩm. TUYỆT ĐỐI KHÔNG BÊ NGUYÊN SI CHUỖI JSON HOẶC CÂU LỆNH HỆ THỐNG VÀO CÂU TRẢ LỜI CHO KHÁCH.";
     } else {
-        $fullPrompt .= "\n\n[HỆ THỐNG TỰ ĐỘNG TRA CỨU SẢN PHẨM]\nKết quả: Không tìm thấy sản phẩm.";
+        $fullPrompt .= "\n\n--- THÔNG TIN SẢN PHẨM ---\nKhông tìm thấy sản phẩm nào khớp với từ khóa của khách trong database.";
     }
 }
 
