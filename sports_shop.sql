@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 19, 2026 lúc 12:08 PM
+-- Thời gian đã tạo: Th6 20, 2026 lúc 09:06 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -55,8 +55,8 @@ CREATE TABLE `articles` (
 --
 
 INSERT INTO `articles` (`article_id`, `title`, `slug`, `excerpt`, `content`, `featured_image`, `category`, `tags`, `author_id`, `author_name`, `is_featured`, `is_published`, `published_at`, `view_count`, `meta_title`, `meta_description`, `meta_keywords`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024', 'top-10-giay-chay-bo-2024', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024 với công nghệ tiên tiến nhất.', '<h2>Giới thiệu</h2><p>Năm 2024 hứa hẹn là năm của những đôi giày chạy bộ công nghệ cao với nhiều cải tiến vượt bậc. Dưới đây là top 10 sản phẩm đáng mua nhất.</p><h2>1. Nike Alphafly 3</h2><p>Đôi giày định hình lại ngành giày chạy bộ với công nghệ ZoomX foam và Air Zoom pods.</p><h2>2. Adidas Ultraboost Light</h2><p>Phiên bản nhẹ hơn, êm hơn với Boost foam thế hệ mới.</p>', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', 'blog', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 6, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024 | Axeron Sport', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024.', NULL, 0, '2026-06-05 12:54:12', '2026-06-16 04:33:23'),
-(2, 'Hướng Dẫn Chọn Size Giày Thể Thao', 'huong-dan-chon-size-giay', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ, mẹo đo chân tại nhà để chọn được đôi giày vừa vặn.', '<h2>Tại sao chọn đúng size quan trọng?</h2><p>Giày vừa vặn giúp bạn thoải mái khi vận động, tránh chấn thương và tối ưu hiệu suất tập luyện.</p><h2>Cách đo chân</h2><p>1. Đứng lên tờ giấy và vẽ viền chân<br>2. Đo khoảng cách từ gót đến ngón dài nhất<br>3. Cộng thêm 0.5-1cm để có không gian thoải mái</p>', 'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=800&auto=format&fit=crop', 'guide', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 5, 'Hướng Dẫn Chọn Size Giày Thể Thao | Axeron Sport', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ.', NULL, 0, '2026-06-05 12:54:12', '2026-06-16 04:32:32'),
+(1, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024', 'top-10-giay-chay-bo-2024', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024 với công nghệ tiên tiến nhất.', '<h2>Giới thiệu</h2><p>Năm 2024 hứa hẹn là năm của những đôi giày chạy bộ công nghệ cao với nhiều cải tiến vượt bậc. Dưới đây là top 10 sản phẩm đáng mua nhất.</p><h2>1. Nike Alphafly 3</h2><p>Đôi giày định hình lại ngành giày chạy bộ với công nghệ ZoomX foam và Air Zoom pods.</p><h2>2. Adidas Ultraboost Light</h2><p>Phiên bản nhẹ hơn, êm hơn với Boost foam thế hệ mới.</p>', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', 'blog', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 7, 'Top 10 Giày Chạy Bộ Tốt Nhất 2024 | Axeron Sport', 'Cập nhật danh sách những đôi giày chạy bộ được đánh giá cao nhất năm 2024.', NULL, 0, '2026-06-05 12:54:12', '2026-06-19 18:51:42'),
+(2, 'Hướng Dẫn Chọn Size Giày Thể Thao', 'huong-dan-chon-size-giay', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ, mẹo đo chân tại nhà để chọn được đôi giày vừa vặn.', '<h2>Tại sao chọn đúng size quan trọng?</h2><p>Giày vừa vặn giúp bạn thoải mái khi vận động, tránh chấn thương và tối ưu hiệu suất tập luyện.</p><h2>Cách đo chân</h2><p>1. Đứng lên tờ giấy và vẽ viền chân<br>2. Đo khoảng cách từ gót đến ngón dài nhất<br>3. Cộng thêm 0.5-1cm để có không gian thoải mái</p>', 'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=800&auto=format&fit=crop', 'guide', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 8, 'Hướng Dẫn Chọn Size Giày Thể Thao | Axeron Sport', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ.', NULL, 0, '2026-06-05 12:54:12', '2026-06-19 18:48:42'),
 (3, 'Axeron Khai Trương Cửa Hàng Mới', 'axeron-khai-truong-cua-hang-moi', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi hấp dẫn dành cho khách hàng.', '<h2>Grand Opening Event</h2><p>Axeron Sport hân hạnh thông báo khai trương cửa hàng mới tại 456 Nguyễn Thị Thập, Quận 7, TP.HCM.</p><h2>Ưu đãi khai trương</h2><ul><li>Giảm 20% toàn bộ sản phẩm</li><li>Miễn phí vận chuyển cho đơn từ 500K</li><li>Tặng voucher 200K cho 100 khách hàng đầu tiên</li></ul>', 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=800&auto=format&fit=crop', 'announcement', NULL, NULL, 'Axeron Team', 0, 1, '2026-06-05 12:54:12', 3, 'Axeron Khai Trương Cửa Hàng Mới | Axeron Sport', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi.', NULL, 0, '2026-06-05 12:54:12', '2026-06-16 04:32:00'),
 (4, 'Sân vận động', 'stadiums', 'Khám phá các dự án sân vận động tiêu chuẩn quốc tế mà Axeron đã tham gia thi công và cung cấp trang thiết bị.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 2, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:33:05'),
 (5, 'Nhà thi đấu', 'arenas', 'Các dự án nhà thi đấu đa năng được trang bị hệ thống ánh sáng, âm thanh và sàn gỗ thể thao cao cấp từ Axeron.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 2, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:31:44'),
@@ -160,8 +160,7 @@ INSERT INTO `carts` (`cart_id`, `user_id`, `created_at`, `updated_at`) VALUES
 (13, 1, '2026-06-05 15:51:29', '2026-06-11 01:04:10'),
 (16, 2, '2026-06-11 01:07:17', '2026-06-11 01:07:17'),
 (17, 3, '2026-06-11 01:10:11', '2026-06-11 01:10:11'),
-(19, 34, '2026-06-13 14:40:33', '2026-06-13 14:40:33'),
-(30, 50, '2026-06-19 14:47:08', '2026-06-19 14:47:08');
+(19, 34, '2026-06-13 14:40:33', '2026-06-13 14:40:33');
 
 -- --------------------------------------------------------
 
@@ -472,7 +471,11 @@ INSERT INTO `chat_messages` (`message_id`, `session_id`, `sender_type`, `content
 (162, 13, 'user', 'Mình muốn mua một đôi giày đá bóng, bạn tìm giúp mình 1 đôi nhé.', '2026-06-19 23:13:15'),
 (163, 13, 'bot', 'Chào bạn! Axeron Sport có nhiều mẫu giày đá bóng chất lượng để bạn lựa chọn. Dưới đây là một số mẫu nổi bật:\n\n*   **Giày đá bóng DL Striker FG 2024** - Giá: 650.000 VNĐ. Số lượng còn: 80 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-dl-striker-fg-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677833/axeron-products/product_6a323f092b5ea_1781677833.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng DL Striker FG 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>650.000₫</p></div></div></a>\n*   **Giày đá bóng DL Futsal Pro F10** - Giá: 550.000 VNĐ. Số lượng còn: 70 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-dl-futsal-pro-f10\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://cdn.hstatic.net/products/200000278317/giay-da-bong-nike-tiempo-legend-10-pro-tf-dv4336-400-xanh-trang-1r_8ead71187a914a40a0a1c9563644e78d_master.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng DL Futsal Pro F10</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>550.000₫</p></div></div></a>\n*   **Giày đá bóng Adidas Predator 24 FG** - Giá: 2.800.000 VNĐ. Số lượng còn: 25 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-adidas-predator-24\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677841/axeron-products/product_6a323f10316d9_1781677840.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng Adidas Predator 24 FG</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>2.800.000₫</p></div></div></a>\n*   **Giày đá bóng Nike Phantom GX2** - Giá: 3.100.000 VNĐ. Số lượng còn: 20 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-nike-phantom-gx2\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://bizweb.dktcdn.net/thumb/large/100/108/842/products/8-7.jpg?v=1780477421603\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng Nike Phantom GX2</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>3.100.000₫</p></div></div></a>\n*   **Giày đá bóng DL Speed FG Jr** - Giá: 420.000 VNĐ. Số lượng còn: 100 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-dl-speed-fg-jr\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://sumstore.vn/wp-content/uploads/2024/10/Lefus-Z001-FG-den.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng DL Speed FG Jr</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>420.000₫</p></div></div></a>\n\nBạn có thể xem thêm chi tiết từng sản phẩm và đặt hàng trực tiếp trên website axeron.vn hoặc ghé cửa hàng của chúng tôi tại 123 Nguyễn Trãi, Quận 1, TP.HCM để thử trực tiếp nhé!', '2026-06-19 23:13:18'),
 (164, 13, 'user', 'Bên bạn có bán áo polo nào không? Báo giá cho mình luôn.', '2026-06-19 23:13:19'),
-(165, 13, 'bot', 'Hệ thống AI đang bị quá tải (Quota Exceeded). Vui lòng thử lại sau!', '2026-06-19 23:13:20');
+(165, 13, 'bot', 'Hệ thống AI đang bị quá tải (Quota Exceeded). Vui lòng thử lại sau!', '2026-06-19 23:13:20'),
+(166, 14, 'user', 'tôi muốn mua giày', '2026-06-19 18:34:00'),
+(167, 14, 'bot', 'Chào bạn! Axeron Sport có rất nhiều mẫu giày thể thao chất lượng. Dưới đây là một số mẫu giày mà bạn có thể tham khảo:\n\n*   **Giày chạy bộ DL Speed Pro X1** với giá 890.000 VNĐ.\n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-chay-bo-dl-speed-pro-x1\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày chạy bộ DL Speed Pro X1</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>890.000₫</p></div></div></a>\n*   **Giày chạy bộ DL Runner Air 2024** với giá 750.000 VNĐ.\n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-chay-bo-dl-runner-air-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660109/axeron-products/product_6a31f9cd2c2fe_1781660109.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày chạy bộ DL Runner Air 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>750.000₫</p></div></div></a>\n*   **Giày Nike Revolution 7** với giá 1.950.000 VNĐ.\n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-nike-revolution-7\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660138/axeron-products/product_6a31f9e998c7f_1781660137.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Nike Revolution 7</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.950.000₫</p></div></div></a>\n*   **Giày Adidas Runfalcon 3.0** với giá 1.650.000 VNĐ.\n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-adidas-runfalcon-3\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660124/axeron-products/product_6a31f9dc94d20_1781660124.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Adidas Runfalcon 3.0</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.650.000₫</p></div></div></a>\n*   **Giày ASICS Gel-Nimbus 26** với giá 3.200.000 VNĐ.\n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-asics-gel-nimbus-26\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày ASICS Gel-Nimbus 26</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>3.200.000₫</p></div></div></a>\n\nBạn muốn tìm giày cho bộ môn thể thao nào hay có thương hiệu yêu thích không ạ?', '2026-06-19 18:34:03'),
+(168, 14, 'user', 'xin chào', '2026-06-19 19:01:05'),
+(169, 14, 'bot', 'Lỗi kết nối AI (Code: 503). Chi tiết: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', '2026-06-19 19:01:06');
 
 -- --------------------------------------------------------
 
@@ -3838,8 +3841,7 @@ CREATE TABLE `password_resets` (
 --
 
 INSERT INTO `password_resets` (`id`, `user_id`, `email`, `reset_token`, `otp_code`, `otp_attempts`, `expires_at`, `verified_at`, `used_at`, `ip_address`, `created_at`) VALUES
-(16, 2, 'vancedloile@gmail.com', 'f289ae79e2d5a1eb5c473e3164183f955c20d3d7e652db1ddc2b646c7c478adf', '574360', 0, '2026-06-16 18:58:46', '2026-06-16 23:54:17', '2026-06-16 23:54:51', '::1', '2026-06-16 23:53:46'),
-(21, 50, 'hoduykhang060@gmail.com', '5b521e636846d50c85582412aacd185888042971030b6d9997ff42210ee7fa7c', '361114', 0, '2026-06-19 09:52:08', '2026-06-19 14:47:32', '2026-06-19 14:47:32', '::1', '2026-06-19 14:47:08');
+(16, 2, 'vancedloile@gmail.com', 'f289ae79e2d5a1eb5c473e3164183f955c20d3d7e652db1ddc2b646c7c478adf', '574360', 0, '2026-06-16 18:58:46', '2026-06-16 23:54:17', '2026-06-16 23:54:51', '::1', '2026-06-16 23:53:46');
 
 -- --------------------------------------------------------
 
@@ -8229,7 +8231,9 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (2271, 521, 'AXE-NEW-8bd19ed4', 'Đỏ', 'S', 0.00, 7, 1, 0),
 (2272, 521, 'AXE-NEW-0e162d04', 'Đỏ', 'M', 0.00, 14, 1, 0),
 (2273, 521, 'AXE-NEW-3bc7ea40', 'Đỏ', 'L', 0.00, 16, 1, 0),
-(2274, 522, 'sky-ad-pickle', 'Đen', '12', 0.00, 0, 1, 0);
+(2274, 522, 'sky-ad-pickle', 'Đen', '12', 0.00, 0, 1, 0),
+(2275, 77, 'DEFAULT-77-1781934732', 'default', 'default', 0.00, 16, 1, 0),
+(2276, 76, 'DEFAULT-76-1781934735', 'default', 'default', 0.00, 10, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -9004,9 +9008,18 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (896, 2, 174, '2026-06-19 11:35:05'),
 (897, 2, 176, '2026-06-19 11:35:35'),
 (898, 1, 6, '2026-06-19 14:35:18'),
-(899, 50, 25, '2026-06-19 14:47:43'),
-(900, 50, 25, '2026-06-19 14:50:57'),
-(901, 50, 25, '2026-06-19 14:51:15');
+(902, 2, 176, '2026-06-19 17:22:55'),
+(903, 2, 74, '2026-06-19 17:23:16'),
+(904, 2, 16, '2026-06-19 17:23:18'),
+(905, 2, 399, '2026-06-19 17:23:20'),
+(906, 2, 75, '2026-06-19 18:08:38'),
+(907, 2, 26, '2026-06-19 18:10:45'),
+(908, 2, 26, '2026-06-19 18:10:47'),
+(909, 2, 26, '2026-06-19 18:10:54'),
+(910, 2, 17, '2026-06-19 18:11:04'),
+(911, 2, 176, '2026-06-19 18:27:34'),
+(912, 2, 74, '2026-06-19 18:28:48'),
+(913, 2, 402, '2026-06-19 18:47:40');
 
 -- --------------------------------------------------------
 
@@ -9039,7 +9052,7 @@ CREATE TABLE `promotions` (
 
 INSERT INTO `promotions` (`promo_id`, `promo_code`, `promo_name`, `description`, `type`, `discount_type`, `discount_value`, `min_order_value`, `max_discount`, `usage_limit`, `used_count`, `start_date`, `end_date`, `is_active`, `created_at`, `updated_at`) VALUES
 (10, 'DISCOUNT5', 'Giảm 5%', NULL, 'product', 'percent', 5.00, 0.00, NULL, NULL, 0, '2026-06-14 00:15:15', '2027-06-14 00:15:15', 1, '2026-06-14 05:15:15', '2026-06-14 05:20:26'),
-(11, 'FLASH10', 'KM 10%', NULL, 'flashsale', 'percent', 10.00, 0.00, NULL, NULL, 0, '2026-06-14 00:00:00', '2027-06-14 00:00:00', 1, '2026-06-14 05:15:15', '2026-06-14 05:36:51'),
+(11, 'FLASH10', 'SIÊU SALE 40%', NULL, 'flashsale', 'percent', 40.00, 0.00, NULL, NULL, 0, '2026-06-14 00:00:00', '2027-06-14 00:00:00', 1, '2026-06-14 05:15:15', '2026-06-20 14:05:01'),
 (12, 'TEST-BANK', 'test banking', NULL, 'voucher', 'fixed', 25000.00, 0.00, NULL, NULL, 4, '2026-06-14 00:00:00', '2027-06-14 00:00:00', 1, '2026-06-14 22:35:34', '2026-06-19 11:36:23'),
 (14, 'DISCOUNT30', 'GIẢM 30%', NULL, 'voucher', 'percent', 30.00, 0.00, NULL, NULL, 0, '2026-06-18 00:00:00', '2027-06-18 00:00:00', 1, '2026-06-18 12:59:10', '2026-06-18 12:59:24'),
 (15, 'DISCOUNT20', 'GIẢM 20%', NULL, 'voucher', 'percent', 20.00, 0.00, NULL, NULL, 0, '2026-06-18 00:00:00', '2027-06-18 00:00:00', 1, '2026-06-18 12:59:49', '2026-06-18 13:00:01');
@@ -11325,7 +11338,8 @@ INSERT INTO `search_logs` (`log_id`, `user_id`, `keyword`, `result_count`, `sear
 (275, 2, 'áo thun', 468, '2026-06-19 22:44:00'),
 (276, 2, 'áo polo', 503, '2026-06-19 22:46:51'),
 (277, 2, 'áo polo', 10, '2026-06-19 22:46:54'),
-(278, 2, 'áo polo', 10, '2026-06-19 22:49:34');
+(278, 2, 'áo polo', 10, '2026-06-19 22:49:34'),
+(279, 2, 'mới chơi cầu lông', 445, '2026-06-19 18:30:37');
 
 -- --------------------------------------------------------
 
@@ -11515,8 +11529,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `facebook_id`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `is_deleted`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`, `review_banned`) VALUES
-(1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658732/axeron-products/product_6a31f46c9149a_1781658732.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$zZTOBGQkfLXRuaNqyo0vB.oCZjjfsP/VjP/73jTr6jj6p7.ZbbsuS', 1, '2026-05-29 19:17:55', '2026-06-19 22:50:20', 0),
-(2, 3, 'Bug', 'bug@gmail.com', NULL, NULL, '0987654321', '$2y$10$Gkk3hUDtMjFp.tQVdy0vne4zrVU.2avITZkr87q1AahfN4eccyZJ.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658734/axeron-products/product_6a31f46ea7054_1781658734.png', NULL, '2004-10-21', 1, 0, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-19 13:28:43', 0),
+(1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658732/axeron-products/product_6a31f46c9149a_1781658732.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$zMH9LE2zsSASaTc0yVh9GuUTVbfanslzkfjKgXAMTQ34jhUNhfZyS', 1, '2026-05-29 19:17:55', '2026-06-20 12:28:34', 0),
+(2, 3, 'Bug', 'bug@gmail.com', NULL, NULL, '0987654321', '$2y$10$Gkk3hUDtMjFp.tQVdy0vne4zrVU.2avITZkr87q1AahfN4eccyZJ.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658734/axeron-products/product_6a31f46ea7054_1781658734.png', NULL, '2004-10-21', 1, 0, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-20 12:28:18', 0),
 (3, 4, 'Staff Tài Khoản', 'nvacc@gmail.com', NULL, NULL, '0901000004', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658736/axeron-products/product_6a31f47043c86_1781658736.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:18', 0),
 (4, 5, 'Staff Sản Phẩm', 'nvsp@gmail.com', NULL, NULL, '0901000005', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658739/axeron-products/product_6a31f472a8677_1781658738.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:20', 0),
 (5, 6, 'Staff Đơn Hàng', 'nvorder@gmail.com', NULL, NULL, '0901000006', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658741/axeron-products/product_6a31f474e2a23_1781658740.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:23', 0),
@@ -11552,7 +11566,8 @@ INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `f
 (47, 3, 'Deleted User', 'deleted_47_1781843632@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-19 11:32:24', '2026-06-19 11:33:52', 0),
 (48, 3, 'Deleted User', 'deleted_48_1781843625@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-19 11:32:57', '2026-06-19 11:33:45', 0),
 (49, 3, 'Deleted User', 'deleted_49_1781843679@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-19 11:34:24', '2026-06-19 11:34:39', 0),
-(50, 3, 'khang', 'hoduykhang060@gmail.com', NULL, NULL, '0123456789', '$2y$10$RQGBNGyuvMYAAUhgZCQ2uuVdmYd47F02bZsKH7wTDw7iclqpDAuz2', NULL, NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-19 14:47:08', '2026-06-19 14:48:34', 0);
+(50, 3, 'Deleted User', 'deleted_50_1781938586@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-19 14:47:08', '2026-06-20 13:56:26', 0),
+(51, 3, 'Deleted User', 'deleted_51_1781936649@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-20 12:29:27', '2026-06-20 13:24:09', 0);
 
 -- --------------------------------------------------------
 
@@ -11584,8 +11599,7 @@ INSERT INTO `user_addresses` (`address_id`, `user_id`, `recipient_name`, `phone`
 (4, 10, 'Phạm Thị Dung', '0945678901', 'Đà Nẵng', 'Hải Châu', 'Phường Hải Châu 1', '23 Trần Phú', 1, '2026-05-29 19:17:55'),
 (5, 11, 'Hoàng Văn Em', '0956789012', 'TP Hồ Chí Minh', 'Quận 7', 'Phường Tân Phong', '5 Nguyễn Văn Linh', 1, '2026-05-29 19:17:55'),
 (6, 13, 'Nguyễn Thị Phương', '0967890123', 'TP Hồ Chí Minh', 'Thủ Đức', 'Phường Linh Trung', '100 Võ Văn Ngân', 1, '2026-05-29 19:17:55'),
-(13, 2, 'Tester User', '0987654321', 'TP. Hồ Chí Minh', 'Huyện Nhà Bè', '', '6/21 Huỳnh Tấn Phát', 1, '2026-06-11 01:23:24'),
-(16, 50, 'khang', '0123456789', 'Bạc Liêu', 'Thị xã Giá Rai', '', '77/5a phường 4 tpvl', 1, '2026-06-19 14:48:34');
+(13, 2, 'Tester User', '0987654321', 'TP. Hồ Chí Minh', 'Huyện Nhà Bè', '', '6/21 Huỳnh Tấn Phát', 1, '2026-06-11 01:23:24');
 
 -- --------------------------------------------------------
 
@@ -11614,7 +11628,8 @@ INSERT INTO `user_wishlists` (`wishlist_id`, `user_id`, `product_id`, `created_a
 (8, 3, 1, '2026-06-11 17:05:38'),
 (9, 3, 56, '2026-06-12 04:47:53'),
 (10, 43, 1, '2026-06-14 15:30:38'),
-(11, 43, 3, '2026-06-14 15:30:39');
+(11, 43, 3, '2026-06-14 15:30:39'),
+(12, 2, 74, '2026-06-19 11:28:51');
 
 -- --------------------------------------------------------
 
@@ -11965,13 +11980,13 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT cho bảng `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -11983,7 +11998,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `chat_messages`
 --
 ALTER TABLE `chat_messages`
-  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_sessions`
@@ -12025,7 +12040,7 @@ ALTER TABLE `order_status_logs`
 -- AUTO_INCREMENT cho bảng `password_resets`
 --
 ALTER TABLE `password_resets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT cho bảng `payment_transactions`
@@ -12049,19 +12064,19 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT cho bảng `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2275;
+  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2277;
 
 --
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=902;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=920;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
 --
 ALTER TABLE `promotions`
-  MODIFY `promo_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `promo_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT cho bảng `promotion_categories`
@@ -12091,7 +12106,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT cho bảng `search_logs`
 --
 ALTER TABLE `search_logs`
-  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=279;
+  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=280;
 
 --
 -- AUTO_INCREMENT cho bảng `shipping_methods`
@@ -12115,7 +12130,7 @@ ALTER TABLE `site_settings`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT cho bảng `user_addresses`
@@ -12127,7 +12142,7 @@ ALTER TABLE `user_addresses`
 -- AUTO_INCREMENT cho bảng `user_wishlists`
 --
 ALTER TABLE `user_wishlists`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
