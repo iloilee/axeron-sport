@@ -111,9 +111,9 @@ $policyTermsUrl = formatFooterUrl($policyTermsUrl);
     </a>
     <?php endif; ?>
     <?php if (!empty($contactPhone)): ?>
-    <a aria-label="Hotline" class="w-12 h-12 flex items-center justify-center bg-[#00A651] rounded-full text-white hover:scale-110 transition-transform shadow-md group relative" href="tel:<?= preg_replace('/[^0-9]/', '', $contactPhone) ?>">
+    <a aria-label="Hotline" class="w-12 h-12 flex items-center justify-center bg-gray-800 dark:bg-gray-600 rounded-full text-white hover:scale-110 transition-transform shadow-md group relative" href="tel:<?= preg_replace('/[^0-9]/', '', $contactPhone) ?>">
         <span class="material-symbols-outlined text-2xl">call</span>
-        <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-[#00A651] text-white font-label-sm text-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"><?= htmlspecialchars($contactPhone) ?></span>
+        <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-800 dark:bg-gray-600 text-white font-label-sm text-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"><?= htmlspecialchars($contactPhone) ?></span>
     </a>
     <?php endif; ?>
 </div>
