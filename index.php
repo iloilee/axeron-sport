@@ -309,7 +309,7 @@ if ($flashSalePromo) {
         <!-- Section: Flash Sale -->
         <?php if (!empty($flashSalePromo) && !empty($flashSaleProducts)): ?>
         <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8" data-aos="fade-up">
-            <div class="rounded-2xl overflow-hidden bg-gradient-to-r from-orange-500 via-red-500 to-red-600 shadow-[0_10px_30px_rgba(239,68,68,0.4)] relative group p-4 md:p-6 lg:p-8">
+            <div class="rounded-2xl overflow-hidden bg-gradient-to-r from-orange-400 via-red-400 to-red-500 shadow-[0_10px_30px_rgba(239,68,68,0.4)] relative group p-4 md:p-6 lg:p-8">
                 <!-- Decor background -->
                 <div class="absolute top-0 right-0 -mr-16 -mt-16 text-white opacity-10 pointer-events-none transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-700">
                     <span class="material-symbols-outlined text-[300px]">bolt</span>
