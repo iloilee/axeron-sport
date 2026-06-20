@@ -320,7 +320,7 @@ if ($flashSalePromo) {
 
                 <div class="flex flex-col lg:flex-row justify-between items-center mb-8 gap-4 relative z-10">
                     <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-5xl text-yellow-300 animate-pulse drop-shadow-[0_0_10px_rgba(253,224,71,0.8)]" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+                        <span class="material-symbols-outlined text-7xl text-yellow-300 animate-pulse drop-shadow-[0_0_10px_rgba(253,224,71,0.8)]" style="font-variation-settings: 'FILL' 1;">bolt</span>
                         <h2 class="font-headline-lg text-4xl uppercase text-white font-black tracking-[0.1em] drop-shadow-md">FLASH SALE</h2>
                     </div>
                     
