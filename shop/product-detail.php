@@ -328,12 +328,12 @@ if (isLoggedIn()) {
 
                 <!-- Actions -->
                 <div class="flex flex-col sm:flex-row gap-4 mt-auto">
-                    <button onclick="buyNow()" class="flex-1 bg-axeron-red text-white font-label-lg text-label-lg uppercase font-bold py-4 rounded-lg hover:bg-primary transition-colors flex items-center justify-center gap-2 shadow-sm">
+                    <button onclick="buyNow()" class="flex-1 bg-axeron-red text-white font-label-lg text-label-lg uppercase font-bold py-4 rounded-lg hover:bg-primary transition-colors active:scale-95 flex items-center justify-center gap-2 shadow-sm">
                         <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
                         Mua Ngay
                     </button>
                     <div class="flex-1 flex gap-2">
-                        <button onclick="addToCartFromDetail()" class="flex-1 border-2 border-axeron-blue text-axeron-blue font-label-lg text-label-lg uppercase font-bold py-4 rounded-lg hover:bg-axeron-blue hover:text-white transition-colors flex items-center justify-center gap-2">
+                        <button onclick="addToCartFromDetail()" class="flex-1 border-2 border-axeron-blue text-axeron-blue font-label-lg text-label-lg uppercase font-bold py-4 rounded-lg hover:bg-axeron-blue hover:text-white transition-colors active:scale-95 flex items-center justify-center gap-2">
                             <span class="material-symbols-outlined">add_shopping_cart</span>
                             Thêm Vào Giỏ
                         </button>

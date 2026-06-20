@@ -304,6 +304,30 @@ $siteNameDisplay = $settings['site_name'] ?? 'Axeron';
 </style>
 <?php include __DIR__ . '/dark-mode.php'; ?>
 
+<!-- Page Progress Bar -->
+<div id="page-progress-bar" class="fixed top-0 left-0 h-[2px] bg-axeron-red z-[100] transition-all duration-300 ease-out" style="width: 0%"></div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const progressBar = document.getElementById('page-progress-bar');
+        if (progressBar) {
+            progressBar.style.width = '100%';
+            setTimeout(() => {
+                progressBar.style.opacity = '0';
+            }, 300);
+        }
+    });
+    window.addEventListener('beforeunload', () => {
+        const progressBar = document.getElementById('page-progress-bar');
+        if (progressBar) {
+            progressBar.style.opacity = '1';
+            progressBar.style.width = '30%';
+            setTimeout(() => {
+                progressBar.style.width = '80%';
+            }, 100);
+        }
+    });
+</script>
+
 <!-- TopAppBar Component -->
 <header class="bg-surface dark:bg-on-background sticky top-0 z-50 border-b border-outline-variant dark:border-outline" id="main-header">
     <div class="flex justify-between items-center w-full max-w-[1400px] px-4 lg:px-8 py-5 mx-auto">

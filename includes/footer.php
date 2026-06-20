@@ -116,10 +116,6 @@ $policyTermsUrl = formatFooterUrl($policyTermsUrl);
         <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-[#00A651] text-white font-label-sm text-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"><?= htmlspecialchars($contactPhone) ?></span>
     </a>
     <?php endif; ?>
-    <button aria-label="Lên đầu trang" class="w-12 h-12 flex items-center justify-center bg-inverse-surface rounded-full text-white hover:scale-110 transition-transform shadow-md group relative" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-        <span class="material-symbols-outlined text-2xl">arrow_upward</span>
-        <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-inverse-surface text-white font-label-sm text-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Lên đầu</span>
-    </button>
 </div>
 
 <!-- Footer Component -->
@@ -542,3 +538,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 </script>
+
+<?php require_once __DIR__ . '/back-to-top.php'; ?>

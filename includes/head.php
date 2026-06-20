@@ -32,41 +32,15 @@ if (strpos($siteFaviconUrl, 'http') !== 0 && !empty($siteFaviconUrl)) {
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
-    <link href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin/>
+    <link href="https://cdn.tailwindcss.com" rel="preconnect"/>
+    <link href="https://unpkg.com" rel="preconnect"/>
+    <link href="https://res.cloudinary.com" rel="preconnect"/>
+    <link rel="dns-prefetch" href="https://res.cloudinary.com"/>
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com"/>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <style>
-        html.dark body {
-            background-color: #202124 !important;
-            color: #e8eaed !important;
-        }
-        html.dark .bg-surface, html.dark .bg-white {
-            background-color: #2D2E30 !important;
-            color: #e8eaed !important;
-            border-color: #5f6368 !important;
-        }
-        html.dark .text-on-surface, html.dark .text-gray-800, html.dark .text-gray-700, html.dark .text-gray-600, html.dark .text-gray-500 {
-            color: #e8eaed !important;
-        }
-        html.dark .border-outline-variant, html.dark .border-gray-200, html.dark .border-gray-100 {
-            border-color: #5f6368 !important;
-        }
-        html.dark .bg-surface-container-lowest, html.dark .bg-gray-50, html.dark .bg-surface-container, html.dark .bg-surface-container-high {
-            background-color: #2D2E30 !important;
-        }
-        html.dark footer, html.dark .bg-inverse-surface, html.dark .bg-black {
-            background-color: #202124 !important;
-            border-color: #303134 !important;
-        }
-        html.dark .hover\:bg-surface-container:hover, html.dark .hover\:bg-surface-container-low:hover {
-            background-color: #4a4d51 !important;
-        }
-        html.dark input, html.dark textarea, html.dark select {
-            background-color: #2D2E30 !important;
-            color: #e8eaed !important;
-            border-color: #5f6368 !important;
-        }
-    </style>
+
     <script>
         // Init Dark Mode early to prevent FOUC
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
