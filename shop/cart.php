@@ -240,7 +240,7 @@ $flash = getFlash();
                             </div>
                             <div class="flex justify-between items-end mt-4">
                                 <div class="font-headline-md text-body-lg font-bold text-axeron-red">
-                                    <span class="item-price" data-price="<?= $item['unit_price'] ?>"><?= formatPrice($item['item_total']) ?></span>
+                                    <span class="item-price" data-price="<?= $item['unit_price'] ?>"><?= formatPrice($item['unit_price']) ?></span>
                                     <?php if (!empty($item['promo'])): ?>
                                     <span class="text-xs bg-axeron-red text-white px-2 py-0.5 rounded-sm uppercase tracking-widest ml-2 align-middle font-normal"><?= htmlspecialchars($item['promo']['promo_name']) ?></span>
                                     <?php endif; ?>
@@ -421,12 +421,9 @@ $flash = getFlash();
                 const result = await updateCartItem(cartItemId, quantity);
 
                 if (result.success) {
-                    const priceEl = itemElement.querySelector('.item-price');
                     const inputEl = itemElement.querySelector('.quantity-input');
-                    const unitPrice = parseInt(priceEl.dataset.price);
 
                     inputEl.value = quantity;
-                    priceEl.textContent = new Intl.NumberFormat('vi-VN').format(unitPrice * quantity) + 'đ';
 
                     recalculateTotals();
                 } else {
@@ -435,9 +432,6 @@ $flash = getFlash();
                     if (result.data && result.data.current_quantity) {
                         const inputEl = itemElement.querySelector('.quantity-input');
                         inputEl.value = result.data.current_quantity;
-                        const priceEl = itemElement.querySelector('.item-price');
-                        const unitPrice = parseInt(priceEl.dataset.price);
-                        priceEl.textContent = new Intl.NumberFormat('vi-VN').format(unitPrice * result.data.current_quantity) + 'đ';
                         recalculateTotals();
                     }
                 }
