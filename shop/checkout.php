@@ -131,7 +131,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rawDiscount = 0;
     if (isset($_SESSION['checkout_promo'])) {
         $sessionPromoId = $_SESSION['checkout_promo']['promo_id'];
-        $checkPromo = $db->selectOne("SELECT promo_id FROM promotions WHERE promo_id = ?", [$sessionPromoId]);
+        $checkPromo = $db->selectOne("
+            SELECT promo_id FROM promotions 
+            WHERE promo_id = ? 
+            AND is_active = 1 
+            AND start_date <= NOW() 
+            AND end_date >= NOW()
+            AND (usage_limit IS NULL OR used_count < usage_limit)
+        ", [$sessionPromoId]);
+        
         if (!$checkPromo) {
             unset($_SESSION['checkout_promo']);
         } else {

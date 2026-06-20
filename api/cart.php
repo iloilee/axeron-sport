@@ -217,7 +217,7 @@ function handleUpdateCart($input, $userId) {
         }
 
         if ($quantity > $item['stock_quantity']) {
-            jsonResponse(false, 'Số lượng sản phẩm vượt quá tồn kho hiện có.');
+            jsonResponse(false, 'Số lượng sản phẩm vượt quá tồn kho hiện có.', ['current_quantity' => $item['quantity']]);
         }
 
         $db->update("UPDATE cart_items SET quantity = ? WHERE cart_item_id = ?", [$quantity, $cartItemId]);
@@ -259,6 +259,10 @@ function handleUpdateCart($input, $userId) {
         $found = false;
         foreach ($_SESSION['cart'] as &$item) {
             if ($item['variant_id'] == $cartItemId) {
+                $variant = $db->selectOne("SELECT stock_quantity FROM product_variants WHERE variant_id = ?", [$cartItemId]);
+                if ($variant && $quantity > $variant['stock_quantity']) {
+                    jsonResponse(false, 'Số lượng sản phẩm vượt quá tồn kho hiện có.', ['current_quantity' => $item['quantity']]);
+                }
                 $item['quantity'] = $quantity;
                 $found = true;
                 break;

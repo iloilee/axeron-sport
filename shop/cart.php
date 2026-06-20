@@ -432,9 +432,14 @@ $flash = getFlash();
                 } else {
                     showToast(result.message || 'Có lỗi xảy ra', 'error');
                     // Reset input to previous value if API fails
-                    const inputEl = itemElement.querySelector('.quantity-input');
-                    // We don't have the previous value easily accessible here without more tracking,
-                    // but recalculating or reloading might be needed if it fails often.
+                    if (result.data && result.data.current_quantity) {
+                        const inputEl = itemElement.querySelector('.quantity-input');
+                        inputEl.value = result.data.current_quantity;
+                        const priceEl = itemElement.querySelector('.item-price');
+                        const unitPrice = parseInt(priceEl.dataset.price);
+                        priceEl.textContent = new Intl.NumberFormat('vi-VN').format(unitPrice * result.data.current_quantity) + 'đ';
+                        recalculateTotals();
+                    }
                 }
             } catch (error) {
                 console.error('Update quantity error:', error);
@@ -581,7 +586,7 @@ $flash = getFlash();
             let finalTotal = originalTotal;
             let actualDiscount = 0;
             
-            if (appliedPromo) {
+            if (appliedPromo && subtotal >= (parseFloat(appliedPromo.min_order_value) || 0)) {
                 if (appliedPromo.discount_type === 'percent') {
                     actualDiscount = subtotal * (appliedPromo.discount_value / 100);
                     if (appliedPromo.max_discount) {
