@@ -14,6 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/session.php';
+require_once __DIR__ . '/../config/rate_limit.php';
+
+// Giới hạn thao tác giỏ hàng tránh Spam database
+checkRateLimit('cart_api', 40, 60);
 
 $db = db();
 

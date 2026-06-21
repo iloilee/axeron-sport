@@ -8,6 +8,10 @@ session_start();
 require_once '../config/session.php';
 require_once '../config/database.php';
 require_once '../config/chatbot_config.php';
+require_once '../config/rate_limit.php';
+
+// Giới hạn 15 tin nhắn / phút cho mỗi IP để chống lạm dụng AI
+checkRateLimit('chatbot_api', 15, 60);
 
 header('Content-Type: application/json; charset=utf-8');
 

@@ -5,6 +5,10 @@
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/session.php';
+require_once __DIR__ . '/../config/rate_limit.php';
+
+// Giới hạn chống Brute Force / Spam Đăng nhập
+checkRateLimit('auth_api', 20, 60);
 
 $db = db();
 $input = $_POST;
