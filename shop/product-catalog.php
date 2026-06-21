@@ -33,7 +33,10 @@ if ($categorySlug) {
         SELECT category_id, category_name, slug FROM categories WHERE slug = ? AND is_visible = 1
     ", [$categorySlug]);
     
-    // Removed auto-check logic to allow users to clear all filters visually
+    // Tự động tick vào bộ lọc nếu user đi từ Menu (chưa submit filter form)
+    if ($currentCategory && !isset($_GET['cat_id'])) {
+        $selectedCategories[] = $currentCategory['category_id'];
+    }
 }
 
 // Get categories for sidebar (cây danh mục 2 cấp)
@@ -347,7 +350,7 @@ include __DIR__ . '/../includes/head.php';
                                     <?php foreach ($rootCat['children'] as $childCat): ?>
                                     <div class="flex flex-col space-y-1">
                                         <label class="flex items-center space-x-3 cursor-pointer group">
-                                            <input type="checkbox" name="cat_id[]" value="<?= $childCat['category_id'] ?>" class="form-checkbox h-4 w-4 text-axeron-red rounded" <?= in_array($childCat['category_id'], $selectedCategories) ? 'checked' : '' ?>/>
+                                            <input type="checkbox" name="cat_id[]" value="<?= $childCat['category_id'] ?>" class="parent-checkbox form-checkbox h-4 w-4 text-axeron-red rounded" <?= in_array($childCat['category_id'], $selectedCategories) ? 'checked' : '' ?>/>
                                             <span class="font-body-sm text-sm text-on-surface-variant group-hover:text-axeron-red transition-colors font-medium"><?= htmlspecialchars($childCat['category_name']) ?></span>
                                         </label>
                                         
@@ -356,7 +359,7 @@ include __DIR__ . '/../includes/head.php';
                                         <div class="flex flex-col space-y-1 pl-7">
                                             <?php foreach ($childCat['children'] as $grandChild): ?>
                                             <label class="flex items-center space-x-3 cursor-pointer group">
-                                                <input type="checkbox" name="cat_id[]" value="<?= $grandChild['category_id'] ?>" class="form-checkbox h-3.5 w-3.5 text-axeron-red rounded opacity-70" <?= in_array($grandChild['category_id'], $selectedCategories) ? 'checked' : '' ?>/>
+                                                <input type="checkbox" name="cat_id[]" value="<?= $grandChild['category_id'] ?>" class="child-checkbox form-checkbox h-3.5 w-3.5 text-axeron-red rounded opacity-70" <?= in_array($grandChild['category_id'], $selectedCategories) ? 'checked' : '' ?>/>
                                                 <span class="font-body-sm text-[13px] text-on-surface-variant group-hover:text-axeron-red transition-colors"><?= htmlspecialchars($grandChild['category_name']) ?></span>
                                             </label>
                                             <?php endforeach; ?>
@@ -801,7 +804,25 @@ include __DIR__ . '/../includes/head.php';
 
         // Tự động submit khi thay đổi checkbox/radio/select
         document.querySelectorAll('#filter-form input[type="checkbox"], #filter-form input[type="radio"]').forEach(el => {
-            el.addEventListener('change', () => {
+            el.addEventListener('change', function() {
+                // Cascade check logic
+                if (this.classList.contains('parent-checkbox')) {
+                    const container = this.closest('.flex-col').querySelector('.pl-7');
+                    if (container) {
+                        container.querySelectorAll('.child-checkbox').forEach(child => {
+                            child.checked = this.checked;
+                        });
+                    }
+                } else if (this.classList.contains('child-checkbox')) {
+                    const parentContainer = this.closest('.flex-col.space-y-1').parentElement.closest('.flex-col.space-y-1');
+                    if (parentContainer) {
+                        const parentCheckbox = parentContainer.querySelector('.parent-checkbox');
+                        if (parentCheckbox && !this.checked) {
+                            parentCheckbox.checked = false;
+                        }
+                    }
+                }
+                
                 document.getElementById('filter-form').dispatchEvent(new Event('submit'));
             });
         });
@@ -836,6 +857,9 @@ include __DIR__ . '/../includes/head.php';
 
         // Initialize pagination ajax
         attachPaginationEvents();
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>
