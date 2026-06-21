@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 20, 2026 lúc 09:06 AM
+-- Thời gian đã tạo: Th6 21, 2026 lúc 04:02 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -124,17 +124,17 @@ CREATE TABLE `brands` (
 --
 
 INSERT INTO `brands` (`brand_id`, `brand_name`, `logo_url`, `description`, `is_active`) VALUES
-(1, 'Động Lực', '', '', 1),
-(2, 'Nike', NULL, NULL, 1),
-(3, 'Adidas', NULL, NULL, 1),
-(4, 'Yonex', NULL, NULL, 1),
-(5, 'Lining', NULL, NULL, 1),
-(6, 'Puma', NULL, NULL, 1),
-(7, 'Under Armour', NULL, NULL, 1),
-(8, 'Mizuno', NULL, NULL, 1),
-(9, 'Asics', NULL, NULL, 1),
-(10, 'Head', NULL, NULL, 1),
-(11, 'Axeron', NULL, NULL, 1);
+(1, 'Động Lực', 'https://theme.hstatic.net/1000288768/1000753028/14/logo.png?v=4619', '', 1),
+(2, 'Nike', 'https://inkythuatso.com/uploads/images/2021/11/logo-nike-inkythuatso-2-01-04-15-42-44.jpg', '', 1),
+(3, 'Adidas', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmStM3vFwE5aGBh5-K7f0XKFCpBIE_tSWEHj1gASmAu1LFgvJ5LA4ERSms&s=10', '', 1),
+(4, 'Yonex', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXfiUlVrFTisDz6FgVs6An_zn45pTd3sY-rH4sNkFHuyX0JwOICDEUHm8_&s=10', '', 1),
+(5, 'Lining', 'https://inkythuatso.com/uploads/thumbnails/800/2021/12/logo-lining-inkythuatso-21-14-57-44.jpg', '', 1),
+(6, 'Puma', 'https://rubee.com.vn/admin/webroot/upload/image//images/tin-tuc/puma-logo-3.jpg', '', 1),
+(7, 'Under Armour', 'https://upload.wikimedia.org/wikipedia/commons/4/44/Under_armour_logo.svg', '', 1),
+(8, 'Mizuno', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/MIZUNO_logo.svg/3840px-MIZUNO_logo.svg.png', '', 1),
+(9, 'Asics', 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Asics_Logo.svg/1280px-Asics_Logo.svg.png', '', 1),
+(10, 'Head', 'https://1000logos.net/wp-content/uploads/2024/02/Head-Logo.png', '', 1),
+(11, 'Axeron', 'https://www.axeronsport.xyz/assets/images/logo-brand.png', '', 1);
 
 -- --------------------------------------------------------
 
@@ -190,11 +190,7 @@ INSERT INTO `cart_items` (`cart_item_id`, `cart_id`, `variant_id`, `quantity`, `
 (26, 1, 249, 2, '2026-06-11 00:44:13'),
 (27, 17, 6, 1, '2026-06-11 01:10:12'),
 (33, 13, 250, 1, '2026-06-11 03:03:11'),
-(70, 13, 264, 1, '2026-06-17 06:49:34'),
-(73, 16, 61, 1, '2026-06-19 13:03:48'),
-(74, 16, 93, 1, '2026-06-19 13:03:50'),
-(75, 16, 13, 1, '2026-06-19 13:03:52'),
-(76, 16, 147, 1, '2026-06-19 13:03:53');
+(70, 13, 264, 1, '2026-06-17 06:49:34');
 
 -- --------------------------------------------------------
 
@@ -475,7 +471,28 @@ INSERT INTO `chat_messages` (`message_id`, `session_id`, `sender_type`, `content
 (166, 14, 'user', 'tôi muốn mua giày', '2026-06-19 18:34:00'),
 (167, 14, 'bot', 'Chào bạn! Axeron Sport có rất nhiều mẫu giày thể thao chất lượng. Dưới đây là một số mẫu giày mà bạn có thể tham khảo:\n\n*   **Giày chạy bộ DL Speed Pro X1** với giá 890.000 VNĐ.\n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-chay-bo-dl-speed-pro-x1\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày chạy bộ DL Speed Pro X1</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>890.000₫</p></div></div></a>\n*   **Giày chạy bộ DL Runner Air 2024** với giá 750.000 VNĐ.\n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-chay-bo-dl-runner-air-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660109/axeron-products/product_6a31f9cd2c2fe_1781660109.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày chạy bộ DL Runner Air 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>750.000₫</p></div></div></a>\n*   **Giày Nike Revolution 7** với giá 1.950.000 VNĐ.\n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-nike-revolution-7\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660138/axeron-products/product_6a31f9e998c7f_1781660137.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Nike Revolution 7</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.950.000₫</p></div></div></a>\n*   **Giày Adidas Runfalcon 3.0** với giá 1.650.000 VNĐ.\n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-adidas-runfalcon-3\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660124/axeron-products/product_6a31f9dc94d20_1781660124.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Adidas Runfalcon 3.0</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.650.000₫</p></div></div></a>\n*   **Giày ASICS Gel-Nimbus 26** với giá 3.200.000 VNĐ.\n    <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-asics-gel-nimbus-26\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày ASICS Gel-Nimbus 26</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>3.200.000₫</p></div></div></a>\n\nBạn muốn tìm giày cho bộ môn thể thao nào hay có thương hiệu yêu thích không ạ?', '2026-06-19 18:34:03'),
 (168, 14, 'user', 'xin chào', '2026-06-19 19:01:05'),
-(169, 14, 'bot', 'Lỗi kết nối AI (Code: 503). Chi tiết: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', '2026-06-19 19:01:06');
+(169, 14, 'bot', 'Lỗi kết nối AI (Code: 503). Chi tiết: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', '2026-06-19 19:01:06'),
+(170, 14, 'user', 'xin chào', '2026-06-20 14:10:47'),
+(171, 14, 'bot', 'Chào bạn! Axeron Sport xin chào bạn. Tôi có thể hỗ trợ gì cho bạn hôm nay ạ?', '2026-06-20 14:10:49'),
+(172, 14, 'user', 'Mình muốn mua một đôi giày đá bóng, bạn tìm giúp mình 1 đôi nhé.', '2026-06-20 14:10:56'),
+(173, 14, 'bot', 'Tuyệt vời! Tôi sẽ giúp bạn tìm giày đá bóng.\n\n[HỆ THỐNG TỰ ĐỘNG TRA CỨU SẢN PHẨM: muốn giày đá bóng]', '2026-06-20 14:10:58'),
+(174, 14, 'user', 'Bên bạn có bán áo polo nào không? Báo giá cho mình luôn.', '2026-06-20 14:11:19'),
+(175, 14, 'bot', 'Chào bạn! Axeron Sport có một số mẫu áo polo thể thao rất đẹp. Dưới đây là thông tin và giá của một số sản phẩm để bạn tham khảo:\n\n*   **Áo polo thể thao DL Classic 2024**\n    *   Giá: 280.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=ao-polo-dl-classic-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658653/axeron-products/product_6a31f41dd9d92_1781658653.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Áo polo thể thao DL Classic 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>280.000₫</p></div></div></a>\n*   **Áo polo DL Pro Team 2024**\n    *   Giá: 320.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=ao-polo-dl-pro-team-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658655/axeron-products/product_6a31f41f8cf8b_1781658655.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Áo polo DL Pro Team 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>320.000₫</p></div></div></a>\n*   **Áo Polo Nam Adidas Performance**\n    *   Giá: 1.500.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=ao-polo-nam-adidas-performance-74ac2\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660195/axeron-products/product_6a31fa23e9496_1781660195.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Áo Polo Nam Adidas Performance</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.500.000₫</p></div></div></a>\n\nBạn có muốn xem chi tiết hơn về mẫu nào không ạ?', '2026-06-20 14:11:21'),
+(176, 14, 'user', 'Mình muốn mua một đôi giày đá bóng, bạn tìm giúp mình 1 đôi nhé.', '2026-06-20 14:16:59'),
+(177, 14, 'bot', 'Chào bạn! Axeron Sport có nhiều mẫu giày đá bóng chất lượng. Bạn có thể tham khảo một số mẫu dưới đây:\n\n*   **Giày đá bóng DL Striker FG 2024**\n    *   Giá: 650.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-dl-striker-fg-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677833/axeron-products/product_6a323f092b5ea_1781677833.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng DL Striker FG 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>650.000₫</p></div></div></a>\n*   **Giày đá bóng DL Futsal Pro F10**\n    *   Giá: 550.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-dl-futsal-pro-f10\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://cdn.hstatic.net/products/200000278317/giay-da-bong-nike-tiempo-legend-10-pro-tf-dv4336-400-xanh-trang-1r_8ead71187a914a40a0a1c9563644e78d_master.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng DL Futsal Pro F10</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>550.000₫</p></div></div></a>\n*   **Giày đá bóng Adidas Predator 24 FG**\n    *   Giá: 2.800.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-adidas-predator-24\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677841/axeron-products/product_6a323f10316d9_1781677840.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng Adidas Predator 24 FG</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>2.800.000₫</p></div></div></a>\n*   **Giày đá bóng Nike Phantom GX2**\n    *   Giá: 3.100.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-nike-phantom-gx2\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://bizweb.dktcdn.net/thumb/large/100/108/842/products/8-7.jpg?v=1780477421603\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng Nike Phantom GX2</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>3.100.000₫</p></div></div></a>\n*   **Giày đá bóng DL Speed FG Jr** (dành cho trẻ em)\n    *   Giá: 420.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-dl-speed-fg-jr\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://sumstore.vn/wp-content/uploads/2024/10/Lefus-Z001-FG-den.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng DL Speed FG Jr</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>420.000₫</p></div></div></a>\n\nBạn quan tâm đến loại sân nào (sân cỏ tự nhiên, sân cỏ nhân tạo, sân futsal) hoặc có ngân sách cụ thể không để tôi tư vấn phù hợp hơn ạ?', '2026-06-20 14:17:03'),
+(178, 14, 'user', 'Chào bạn, Axeron Sport đang bán những loại mặt hàng nào?', '2026-06-20 14:17:13'),
+(179, 14, 'bot', 'Chào bạn! Axeron Sport hiện đang cung cấp nhiều mặt hàng thể thao đa dạng, bao gồm:\n\n*   **Áo phông và Áo Sport Bra:**\n    *   Áo phông nữ DL Sport Lite <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=ao-phong-nu-dl-sport-lite\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658662/axeron-products/product_6a31f42630687_1781658662.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Áo phông nữ DL Sport Lite</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>230.000₫</p></div></div></a>\n    *   Áo sport bra Adidas Powerreact <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=ao-sport-bra-adidas\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSWs14SungTS0EfUErNDyoOW2PQq-GzZylKjPKze0vGCwvNuBu81Q72lmzZEBIp6ZYAUEdSNfdDj-6mTRu6kPv1LtPGcMwY4Tf7F8vuvCPSVGkb_R6ql9UXOA\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Áo sport bra Adidas Powerreact</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>680.000₫</p></div></div></a>\n    *   Áo sport bra Nike Indy <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=ao-sport-bra-nike-indy\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658667/axeron-products/product_6a31f42a6ba90_1781658666.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Áo sport bra Nike Indy</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>750.000₫</p></div></div></a>\n*   **Balo thể thao:**\n    *   Balo thể thao DL Sport 20L <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=balo-dl-sport-20l\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Balo thể thao DL Sport 20L</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>420.000₫</p></div></div></a>\n*   **Phụ kiện khác:**\n    *   Tất thể thao DL Sport (5 đôi) <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=tat-the-thao-dl-sport-5doi\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658671/axeron-products/product_6a31f42f0e3e5_1781658671.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Tất thể thao DL Sport (5 doi)</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>95.000₫</p></div></div></a>\n\nBạn đang tìm kiếm loại sản phẩm nào cụ thể không ạ?', '2026-06-20 14:17:16'),
+(180, 14, 'user', 'Cửa hàng mình chi nhánh chính ở đâu và làm việc đến mấy giờ?', '2026-06-20 14:17:17'),
+(181, 14, 'bot', 'Chào bạn,\n\nCửa hàng Axeron Sport có chi nhánh chính tại **123 Nguyễn Trãi, Quận 1, TP.HCM**.\n\nGiờ làm việc của chúng tôi là từ **Thứ Hai đến Thứ Bảy, từ 8:00 sáng đến 8:00 tối**.', '2026-06-20 14:17:20'),
+(182, 14, 'user', 'bán cho mình 1 cái áo polo', '2026-06-20 14:17:32'),
+(183, 14, 'bot', 'Chào bạn! Axeron Sport có một số mẫu áo polo chất lượng mà bạn có thể tham khảo:\n\n*   **Áo polo thể thao DL Classic 2024**\n    *   Giá: 280.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=ao-polo-dl-classic-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658653/axeron-products/product_6a31f41dd9d92_1781658653.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Áo polo thể thao DL Classic 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>280.000₫</p></div></div></a>\n*   **Áo polo DL Pro Team 2024**\n    *   Giá: 320.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=ao-polo-dl-pro-team-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658655/axeron-products/product_6a31f41f8cf8b_1781658655.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Áo polo DL Pro Team 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>320.000₫</p></div></div></a>\n*   **Áo Polo Nam Adidas Performance**\n    *   Giá: 1.500.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=ao-polo-nam-adidas-performance-74ac2\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660195/axeron-products/product_6a31fa23e9496_1781660195.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Áo Polo Nam Adidas Performance</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.500.000₫</p></div></div></a>\n\nBạn thích mẫu nào hoặc có câu hỏi gì thêm không ạ?', '2026-06-20 14:17:34'),
+(184, 14, 'user', 'tư vấn cho mình 1 đến 2 cây vợt picklebal', '2026-06-20 14:17:52'),
+(185, 14, 'bot', 'Chào bạn! Rất vui được hỗ trợ bạn tìm vợt pickleball. Dưới đây là 2 cây vợt phổ biến mà Axeron Sport đang có:\n\n1.  **Vợt Pickleball 13D4**\n    *   Đây là lựa chọn tuyệt vời cho người mới bắt đầu hoặc những ai muốn một cây vợt có giá phải chăng để trải nghiệm.\n    *   Giá: **550.000 VNĐ**\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=vot-pickleball-13d4-1781112741-5\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677050/axeron-products/product_6a323bf905163_1781677049.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Vợt Pickleball 13D4</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>550.000₫</p></div></div></a>\n\n2.  **Vợt Pickleball 784A**\n    *   Cây vợt này có chất lượng tốt hơn, phù hợp cho người chơi ở trình độ trung cấp muốn cải thiện khả năng kiểm soát và sức mạnh.\n    *   Giá: **950.000 VNĐ**\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=vot-pickleball-784a-1781112741-1\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677018/axeron-products/product_6a323bd978191_1781677017.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Vợt Pickleball 784A</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>950.000₫</p></div></div></a>\n\nBạn có muốn tìm hiểu thêm về đặc điểm cụ thể của từng cây vợt không ạ?', '2026-06-20 14:17:57'),
+(186, 14, 'user', 'chị muốn mua 1 đôi giày', '2026-06-20 14:20:25');
+INSERT INTO `chat_messages` (`message_id`, `session_id`, `sender_type`, `content`, `sent_at`) VALUES
+(187, 14, 'bot', 'Chào bạn! Axeron Sport có rất nhiều mẫu giày thể thao chất lượng. Dưới đây là một số lựa chọn nổi bật mà bạn có thể tham khảo:\n\n*   **Giày chạy bộ DL Speed Pro X1**\n    *   Giá: 890.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-chay-bo-dl-speed-pro-x1\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày chạy bộ DL Speed Pro X1</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>890.000₫</p></div></div></a>\n*   **Giày chạy bộ DL Runner Air 2024**\n    *   Giá: 750.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-chay-bo-dl-runner-air-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660109/axeron-products/product_6a31f9cd2c2fe_1781660109.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày chạy bộ DL Runner Air 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>750.000₫</p></div></div></a>\n*   **Giày Nike Revolution 7**\n    *   Giá: 1.950.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-nike-revolution-7\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660138/axeron-products/product_6a31f9e998c7f_1781660137.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Nike Revolution 7</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.950.000₫</p></div></div></a>\n*   **Giày Adidas Runfalcon 3.0**\n    *   Giá: 1.650.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-adidas-runfalcon-3\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660124/axeron-products/product_6a31f9dc94d20_1781660124.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Adidas Runfalcon 3.0</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.650.000₫</p></div></div></a>\n*   **Giày ASICS Gel-Nimbus 26**\n    *   Giá: 3.200.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-asics-gel-nimbus-26\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày ASICS Gel-Nimbus 26</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>3.200.000₫</p></div></div></a>\n\nBạn đang tìm giày cho mục đích gì (chạy bộ, đi bộ, tập gym,...) hay có yêu cầu về thương hiệu, mức giá nào không ạ? Hãy cho Axeron Sport biết thêm để tư vấn chính xác hơn nhé!', '2026-06-20 14:20:28'),
+(188, 13, 'user', 'ông muốn mua một đôi giày đá bóng, bạn tìm giúp mình 1 đôi nhé.', '2026-06-20 14:23:26'),
+(189, 13, 'bot', 'Chào bạn! Axeron Sport có một số mẫu giày đá bóng để bạn tham khảo đây ạ:\n\n*   **Giày đá bóng DL Speed FG Jr** - Giá: 420.000 VNĐ. Số lượng còn: 100 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-dl-speed-fg-jr\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://sumstore.vn/wp-content/uploads/2024/10/Lefus-Z001-FG-den.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng DL Speed FG Jr</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>420.000₫</p></div></div></a>\n*   **Giày bóng đá Axeron V5-C9CD** - Giá: 1.591.000 VNĐ. Số lượng còn: 82 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-v5-c9cd\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677858/axeron-products/product_6a323f214b7d5_1781677857.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Bóng Đá Axeron V5-C9CD</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.591.000₫</p></div></div></a>\n*   **Giày Đá Bóng - Phiên Bản Cao Cấp 4** - Giá: 1.000.000 VNĐ. Số lượng còn: 100 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-phien-ban-cao-cap-4-9e40f\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677820/axeron-products/product_6a323efab1911_1781677818.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Đá Bóng - Phiên Bản Cao Cấp 4</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.000.000₫</p></div></div></a>\n*   **Giày đá bóng DL Striker FG 2024** - Giá: 650.000 VNĐ. Số lượng còn: 80 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-dl-striker-fg-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677833/axeron-products/product_6a323f092b5ea_1781677833.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng DL Striker FG 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>650.000₫</p></div></div></a>\n*   **Giày Bóng Đá Axeron V1-FF6F** - Giá: 1.677.000 VNĐ. Số lượng còn: 19 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-v1-ff6f\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677844/axeron-products/product_6a323f132f174_1781677843.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Bóng Đá Axeron V1-FF6F</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.677.000₫</p></div></div></a>\n\nBạn có thể xem chi tiết từng sản phẩm và đặt hàng trên website axeron.vn, hoặc ghé trực tiếp cửa hàng tại 123 Nguyễn Trãi, Quận 1, TP.HCM để thử và lựa chọn nhé!', '2026-06-20 14:23:32');
 
 -- --------------------------------------------------------
 
@@ -2098,7 +2115,8 @@ INSERT INTO `orders` (`order_id`, `order_code`, `user_id`, `shipping_id`, `shipp
 (51484, 'ORDM-4409557D', 34, NULL, 1, NULL, 'Test Lock', '0988000123', 'lockme_123@axeron.com', NULL, 'Địa chỉ test sinh tự động', 370000.00, 0.00, 30000.00, 400000.00, 'delivered', 'cod', 'paid', NULL, '2026-04-20 15:43:01', '2026-04-21 20:17:06'),
 (51485, 'ORDM-928262D2', 2, NULL, 1, NULL, 'Bug', '0987654321', 'bug@gmail.com', NULL, 'Địa chỉ test sinh tự động', 370000.00, 0.00, 30000.00, 400000.00, 'delivered', 'cod', 'paid', NULL, '2026-04-08 17:40:22', '2026-04-08 21:04:20'),
 (51486, 'ORDM-117AA8C2', 2, 1, 1, 12, 'Bug', '0987654321', '', '26cc45575e2da4034ecd81835e4f75c8', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 9500.00, 25000.00, 20000.00, 4500.00, 'delivered', 'payos', 'paid', '', '2026-06-19 11:36:22', '2026-06-19 16:59:53'),
-(51487, 'ORDM-4874A552', 50, 10, 1, NULL, 'khang', '0123456789', '', '6c5897cf99807b64bef2452c3de2762f', '77/5a phường 4 tpvl, , Thị xã Giá Rai, Bạc Liêu', 4750000.00, 0.00, 0.00, 4750000.00, 'delivered', 'cod', 'paid', 'abcxyz', '2026-06-19 14:48:59', '2026-06-19 16:59:53');
+(51487, 'ORDM-4874A552', 50, 10, 1, NULL, 'khang', '0123456789', '', '6c5897cf99807b64bef2452c3de2762f', '77/5a phường 4 tpvl, , Thị xã Giá Rai, Bạc Liêu', 4750000.00, 0.00, 0.00, 4750000.00, 'delivered', 'cod', 'paid', 'abcxyz', '2026-06-19 14:48:59', '2026-06-19 16:59:53'),
+(51488, 'ORDM-C6F91F82', 2, 1, 2, NULL, 'Bug', '0987654321', '', 'f67bb7c24ef8ccd97bc784ba25b4ec2f', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 6385600.00, 0.00, 0.00, 6385600.00, 'pending', 'payos', 'unpaid', '', '2026-06-21 08:29:55', '2026-06-21 08:29:55');
 
 -- --------------------------------------------------------
 
@@ -3713,7 +3731,11 @@ INSERT INTO `order_items` (`order_item_id`, `order_id`, `variant_id`, `product_n
 (1603, 51484, 2268, 'Bộ Pickleball Nữ - Mẫu Mới Cập Nhật 279', 'Xanh - S', 370000.00, 1, 370000.00),
 (1604, 51485, 2268, 'Bộ Pickleball Nữ - Mẫu Mới Cập Nhật 279', 'Xanh - S', 370000.00, 1, 370000.00),
 (1605, 51486, 256, 'BANKING 10K', 'Mặc định - Size Free Size', 9500.00, 1, 9500.00),
-(1606, 51487, 270, 'Vợt cầu lông Yonex Astrox 99 Pro', 'Đỏ - Size G5', 4750000.00, 1, 4750000.00);
+(1606, 51487, 270, 'Vợt cầu lông Yonex Astrox 99 Pro', 'Đỏ - Size G5', 4750000.00, 1, 4750000.00),
+(1607, 51488, 1, 'Giày chạy bộ DL Speed Pro X1', 'Đen - Size 39', 845500.00, 1, 845500.00),
+(1608, 51488, 13, 'Giày Nike Revolution 7', 'Đen - Size 39', 1852500.00, 1, 1852500.00),
+(1609, 51488, 25, 'Giày ASICS Gel-Nimbus 26', 'Xanh - Size 39', 3135000.00, 1, 3135000.00),
+(1610, 51488, 2278, 'Giày Cầu Lông Axeron Smash V2-28A4', 'default - Size default', 552600.00, 1, 552600.00);
 
 -- --------------------------------------------------------
 
@@ -3814,7 +3836,8 @@ INSERT INTO `order_status_logs` (`log_id`, `order_id`, `changed_by`, `old_status
 (97, 51486, 1, 'pending', 'delivered', NULL, '2026-06-19 11:39:32'),
 (98, 51487, NULL, NULL, 'pending', NULL, '2026-06-19 14:48:59'),
 (99, 51487, 1, 'unpaid', 'paid', 'Cập nhật thanh toán bởi admin', '2026-06-19 14:49:42'),
-(100, 51487, 1, 'pending', 'delivered', NULL, '2026-06-19 14:49:48');
+(100, 51487, 1, 'pending', 'delivered', NULL, '2026-06-19 14:49:48'),
+(101, 51488, NULL, NULL, 'pending', NULL, '2026-06-21 08:29:56');
 
 -- --------------------------------------------------------
 
@@ -5964,7 +5987,7 @@ CREATE TABLE `product_variants` (
 --
 
 INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `size`, `extra_price`, `stock_quantity`, `is_active`, `is_deleted`) VALUES
-(1, 1, 'DL-SPX1-DEN-39', 'Đen', '39', 0.00, 7, 1, 0),
+(1, 1, 'DL-SPX1-DEN-39', 'Đen', '39', 0.00, 6, 1, 0),
 (2, 1, 'DL-SPX1-DEN-40', 'Đen', '40', 0.00, 10, 1, 0),
 (3, 1, 'DL-SPX1-DEN-41', 'Đen', '41', 0.00, 10, 1, 0),
 (4, 1, 'DL-SPX1-DEN-42', 'Đen', '42', 0.00, 8, 1, 0),
@@ -5976,7 +5999,7 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (10, 2, 'DL-RAR-XANH-42', 'Xanh navy', '42', 0.00, 8, 1, 0),
 (11, 2, 'DL-RAR-DO-40', 'Đỏ', '40', 0.00, 7, 1, 0),
 (12, 2, 'DL-RAR-DO-41', 'Đỏ', '41', 0.00, 7, 1, 0),
-(13, 3, 'NK-REV7-DEN-39', 'Đen', '39', 0.00, 5, 1, 0),
+(13, 3, 'NK-REV7-DEN-39', 'Đen', '39', 0.00, 4, 1, 0),
 (14, 3, 'NK-REV7-DEN-40', 'Đen', '40', 0.00, 6, 1, 0),
 (15, 3, 'NK-REV7-DEN-41', 'Đen', '41', 0.00, 6, 1, 0),
 (16, 3, 'NK-REV7-DEN-42', 'Đen', '42', 0.00, 5, 1, 0),
@@ -5988,7 +6011,7 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (22, 4, 'AD-RF3-DEN-42', 'Đen', '42', 0.00, 7, 1, 0),
 (23, 4, 'AD-RF3-TRANG-40', 'Trắng', '40', 0.00, 5, 1, 0),
 (24, 4, 'AD-RF3-TRANG-41', 'Trắng', '41', 0.00, 5, 1, 0),
-(25, 5, 'AS-GN26-XANH-39', 'Xanh', '39', 100000.00, 3, 1, 0),
+(25, 5, 'AS-GN26-XANH-39', 'Xanh', '39', 100000.00, 2, 1, 0),
 (26, 5, 'AS-GN26-XANH-40', 'Xanh', '40', 100000.00, 4, 1, 0),
 (27, 5, 'AS-GN26-XANH-41', 'Xanh', '41', 100000.00, 4, 1, 0),
 (28, 5, 'AS-GN26-XANH-42', 'Xanh', '42', 100000.00, 3, 1, 0),
@@ -8233,7 +8256,9 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (2273, 521, 'AXE-NEW-3bc7ea40', 'Đỏ', 'L', 0.00, 16, 1, 0),
 (2274, 522, 'sky-ad-pickle', 'Đen', '12', 0.00, 0, 1, 0),
 (2275, 77, 'DEFAULT-77-1781934732', 'default', 'default', 0.00, 16, 1, 0),
-(2276, 76, 'DEFAULT-76-1781934735', 'default', 'default', 0.00, 10, 1, 0);
+(2276, 76, 'DEFAULT-76-1781934735', 'default', 'default', 0.00, 10, 1, 0),
+(2277, 75, 'DEFAULT-75-1781976945', 'default', 'default', 0.00, 35, 1, 0),
+(2278, 74, 'DEFAULT-74-1781978496', 'default', 'default', 0.00, 78, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -9019,7 +9044,9 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (910, 2, 17, '2026-06-19 18:11:04'),
 (911, 2, 176, '2026-06-19 18:27:34'),
 (912, 2, 74, '2026-06-19 18:28:48'),
-(913, 2, 402, '2026-06-19 18:47:40');
+(913, 2, 402, '2026-06-19 18:47:40'),
+(920, 2, 75, '2026-06-21 00:43:24'),
+(921, 2, 25, '2026-06-21 00:56:07');
 
 -- --------------------------------------------------------
 
@@ -11339,7 +11366,9 @@ INSERT INTO `search_logs` (`log_id`, `user_id`, `keyword`, `result_count`, `sear
 (276, 2, 'áo polo', 503, '2026-06-19 22:46:51'),
 (277, 2, 'áo polo', 10, '2026-06-19 22:46:54'),
 (278, 2, 'áo polo', 10, '2026-06-19 22:49:34'),
-(279, 2, 'mới chơi cầu lông', 445, '2026-06-19 18:30:37');
+(279, 2, 'mới chơi cầu lông', 445, '2026-06-19 18:30:37'),
+(280, 2, 'mới chơi cầu lông nên mua gì', 381, '2026-06-20 17:08:55'),
+(281, 2, 'mua gì để chạy bộ không bị đau chân', 481, '2026-06-20 17:09:19');
 
 -- --------------------------------------------------------
 
@@ -11986,7 +12015,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -11998,7 +12027,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `chat_messages`
 --
 ALTER TABLE `chat_messages`
-  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
+  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=190;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_sessions`
@@ -12022,19 +12051,19 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51488;
+  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51489;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1607;
+  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1611;
 
 --
 -- AUTO_INCREMENT cho bảng `order_status_logs`
 --
 ALTER TABLE `order_status_logs`
-  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT cho bảng `password_resets`
@@ -12064,13 +12093,13 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT cho bảng `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2277;
+  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2279;
 
 --
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=920;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=922;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
@@ -12106,7 +12135,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT cho bảng `search_logs`
 --
 ALTER TABLE `search_logs`
-  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=280;
+  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=282;
 
 --
 -- AUTO_INCREMENT cho bảng `shipping_methods`

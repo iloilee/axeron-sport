@@ -21,10 +21,9 @@ if ($cancel === 'true' || $status === 'CANCELLED') {
     setFlash('error', 'Bạn đã hủy thanh toán. Đơn hàng vẫn được ghi nhận (Chờ xử lý) nhưng chưa được thanh toán.');
 } elseif ($code === '00' || $status === 'PAID') {
     setFlash('success', 'Thanh toán thành công! Cảm ơn bạn đã mua sắm.');
-    
-    // Cập nhật trạng thái thanh toán thành công vào database
-    $db = db();
-    $db->update("UPDATE orders SET payment_status = 'paid' WHERE order_id = ?", [$orderId]);
+    // Bỏ cập nhật CSDL ở đây vì đã xử lý qua webhook (api/payos_webhook.php) để đảm bảo bảo mật.
+    // Việc cập nhật trạng thái đơn hàng chỉ được thực hiện khi nhận webhook có signature hợp lệ từ PayOS.
+    // setFlash('info', 'Thanh toán đang được xử lý. Trạng thái đơn hàng sẽ được cập nhật trong giây lát.');
     
 } else {
     setFlash('error', 'Giao dịch thanh toán chưa hoàn tất hoặc có lỗi xảy ra.');

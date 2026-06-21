@@ -57,9 +57,21 @@ if ($calculatedSignature === $signature) {
         // Do lúc gửi API lên PayOS, ta truyền orderCode = order_id
         $orderId = (int)$orderCode;
         
-        $db->update("UPDATE orders SET payment_status = 'paid', updated_at = NOW() WHERE order_id = ?", [$orderId]);
+        $order = $db->selectOne("SELECT total_amount FROM orders WHERE order_id = ?", [$orderId]);
         
-        echo json_encode(['success' => true, 'message' => 'Order updated successfully']);
+        if ($order) {
+            // Kiểm tra số tiền nhận được so với tổng đơn hàng
+            if ((int)$data['amount'] >= (int)$order['total_amount']) {
+                $db->update("UPDATE orders SET payment_status = 'paid', updated_at = NOW() WHERE order_id = ?", [$orderId]);
+                echo json_encode(['success' => true, 'message' => 'Order updated successfully']);
+            } else {
+                // Thanh toán thiếu
+                $db->update("UPDATE orders SET payment_status = 'partial_paid', note = CONCAT(COALESCE(note, ''), '\n[PayOS]: Thanh toán thiếu (', ?, ' / ', ?, ')'), updated_at = NOW() WHERE order_id = ?", [(int)$data['amount'], (int)$order['total_amount'], $orderId]);
+                echo json_encode(['success' => true, 'message' => 'Partial payment recorded']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Order not found']);
+        }
     } else {
         echo json_encode(['success' => true, 'message' => 'Payment not successful, ignoring']);
     }

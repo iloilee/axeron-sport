@@ -189,6 +189,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
+        // Kiểm tra lại mã khuyến mãi với FOR UPDATE để tránh Race Condition
+        if ($promoId) {
+            $currentPromo = $db->selectOne("SELECT usage_limit, used_count FROM promotions WHERE promo_id = ? FOR UPDATE", [$promoId]);
+            if ($currentPromo && $currentPromo['usage_limit'] !== null && $currentPromo['used_count'] >= $currentPromo['usage_limit']) {
+                if (isset($_SESSION['checkout_promo'])) unset($_SESSION['checkout_promo']);
+                throw new Exception("Mã khuyến mãi đã hết lượt sử dụng trong lúc bạn đang thanh toán. Vui lòng thử lại.");
+            }
+        }
+
         // Create order code
         $orderCode = 'ORDM-' . strtoupper(bin2hex(random_bytes(4)));
         while ($db->selectOne("SELECT order_id FROM orders WHERE order_code = ?", [$orderCode])) {

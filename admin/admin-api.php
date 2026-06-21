@@ -1476,9 +1476,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             try {
-                // Lấy trạng thái cũ
-                $order = $db->selectOne("SELECT order_code, order_status, recipient_email FROM orders WHERE order_id = ?", [$order_id]);
+                $db->beginTransaction();
+
+                // Lấy trạng thái cũ với FOR UPDATE
+                $order = $db->selectOne("SELECT order_code, order_status, recipient_email, promo_id FROM orders WHERE order_id = ? FOR UPDATE", [$order_id]);
                 if (!$order) {
+                    $db->rollback();
                     $response = ['success' => false, 'message' => 'Không tìm thấy đơn hàng!'];
                     break;
                 }
@@ -1487,6 +1490,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 // Tránh update nếu giống trạng thái cũ
                 if ($old_status === $new_status) {
+                    $db->rollback();
                     $response = ['success' => false, 'message' => 'Trạng thái không thay đổi!'];
                     break;
                 }
@@ -1503,11 +1507,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ];
                 
                 if (!in_array($new_status, $statusFlow[$old_status] ?? [])) {
+                    $db->rollback();
                     $response = ['success' => false, 'message' => 'Không thể chuyển từ trạng thái ' . $old_status . ' sang ' . $new_status];
                     break;
                 }
-
-                $db->beginTransaction();
 
                 // Cập nhật trạng thái
                 $db->update("UPDATE orders SET order_status = ?, updated_at = NOW() WHERE order_id = ?", [$new_status, $order_id]);
@@ -1525,6 +1528,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     foreach ($items as $item) {
                         $db->update("UPDATE product_variants SET stock_quantity = stock_quantity + ? WHERE variant_id = ?", [$item['quantity'], $item['variant_id']]);
                     }
+                    if (!empty($order['promo_id'])) {
+                        $db->update("UPDATE promotions SET used_count = GREATEST(0, used_count - 1) WHERE promo_id = ?", [$order['promo_id']]);
+                    }
                 }
 
                 // Trừ lại tồn kho nếu khôi phục đơn
@@ -1535,6 +1541,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $items = $db->select("SELECT variant_id, quantity FROM order_items WHERE order_id = ?", [$order_id]);
                     foreach ($items as $item) {
                         $db->update("UPDATE product_variants SET stock_quantity = stock_quantity - ? WHERE variant_id = ?", [$item['quantity'], $item['variant_id']]);
+                    }
+                    if (!empty($order['promo_id'])) {
+                        $db->update("UPDATE promotions SET used_count = used_count + 1 WHERE promo_id = ?", [$order['promo_id']]);
                     }
                 }
 

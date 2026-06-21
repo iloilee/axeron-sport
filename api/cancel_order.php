@@ -28,21 +28,23 @@ if (!$orderId || empty($reason)) {
 $db = db();
 $userId = getUserId();
 
-// Lấy thông tin đơn hàng và kiểm tra quyền sở hữu
-$order = $db->selectOne("SELECT * FROM orders WHERE order_id = ? AND user_id = ?", [$orderId, $userId]);
+$db->beginTransaction();
+
+// Lấy thông tin đơn hàng và kiểm tra quyền sở hữu với FOR UPDATE để chống Race Condition
+$order = $db->selectOne("SELECT * FROM orders WHERE order_id = ? AND user_id = ? FOR UPDATE", [$orderId, $userId]);
 
 if (!$order) {
+    $db->rollback();
     echo json_encode(['success' => false, 'message' => 'Không tìm thấy đơn hàng hoặc bạn không có quyền hủy đơn này.']);
     exit;
 }
 
 // Chỉ cho phép hủy khi pending hoặc confirmed
 if (!in_array($order['order_status'], ['pending', 'confirmed'])) {
+    $db->rollback();
     echo json_encode(['success' => false, 'message' => 'Không thể hủy đơn hàng ở trạng thái hiện tại.']);
     exit;
 }
-
-$db->beginTransaction();
 
 try {
     $noteAppend = "";
@@ -75,6 +77,11 @@ try {
             
             $db->update("UPDATE products SET stock_quantity = ? WHERE product_id = ?", [$stockSum, $productId]);
         }
+    }
+    
+    // Hoàn lại lượt sử dụng Khuyến Mãi nếu có
+    if (!empty($order['promo_id'])) {
+        $db->update("UPDATE promotions SET used_count = GREATEST(0, used_count - 1) WHERE promo_id = ?", [$order['promo_id']]);
     }
     
     // Ghi log trạng thái

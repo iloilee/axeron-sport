@@ -43,6 +43,12 @@ if ($action === 'login') {
         // Tài khoản chưa xác thực, gửi lại OTP
         require_once __DIR__ . '/../config/smtp_config.php';
         
+        // Kiểm tra rate limit
+        if (isset($_SESSION['last_otp_time_' . $user['email']]) && (time() - $_SESSION['last_otp_time_' . $user['email']]) < 60) {
+            setFlash('error', 'Vui lòng chờ 60 giây trước khi yêu cầu gửi lại mã xác thực.');
+            axRedirect(BASE_URL . '/auth/login.php');
+        }
+
         $db->delete("DELETE FROM password_resets WHERE user_id = ?", [$user['user_id']]);
         
         $otpCode = generateOTP(OTP_LENGTH);
@@ -56,6 +62,7 @@ if ($action === 'login') {
         
         $_SESSION['reg_reset_token'] = $resetToken;
         $_SESSION['reg_email'] = $user['email'];
+        $_SESSION['last_otp_time_' . $user['email']] = time();
         
         $subject = 'Mã xác thực tài khoản - Axeron Sports';
         $body = '
@@ -248,6 +255,7 @@ if ($action === 'register') {
 
     $_SESSION['reg_reset_token'] = $resetToken;
     $_SESSION['reg_email'] = $email;
+    $_SESSION['last_otp_time_' . $email] = time();
 
     $subject = 'Mã xác thực đăng ký tài khoản - Axeron Sports';
     $body = '
@@ -286,6 +294,12 @@ if ($action === 'forgot_password') {
         axRedirect(BASE_URL . '/auth/forgot-password.php');
     }
 
+    // Kiểm tra rate limit
+    if (isset($_SESSION['last_otp_time_' . $email]) && (time() - $_SESSION['last_otp_time_' . $email]) < 60) {
+        setFlash('error', 'Vui lòng chờ 60 giây trước khi yêu cầu gửi lại mã xác thực.');
+        axRedirect(BASE_URL . '/auth/forgot-password.php');
+    }
+
     // Kiểm tra email có tồn tại không
     $user = $db->selectOne("SELECT user_id, full_name FROM users WHERE email = ?", [$email]);
 
@@ -313,6 +327,7 @@ if ($action === 'forgot_password') {
     // Lưu token vào session để verify
     $_SESSION['reset_token'] = $resetToken;
     $_SESSION['reset_email'] = $email;
+    $_SESSION['last_otp_time_' . $email] = time();
 
     // Gửi email
     $subject = 'Mã xác thực đặt lại mật khẩu - Axeron Sports';
@@ -356,45 +371,59 @@ if ($action === 'verify_otp') {
         axRedirect(BASE_URL . '/auth/verify-otp.php');
     }
 
-    // Tìm token
-    $resetRequest = $db->selectOne(
-        "SELECT * FROM password_resets WHERE reset_token = ? AND verified_at IS NULL AND used_at IS NULL",
-        [$resetToken]
-    );
+    try {
+        $db->beginTransaction();
 
-    if (!$resetRequest) {
-        setFlash('error', 'Yêu cầu không hợp lệ hoặc đã được xử lý');
+        // Tìm token, sử dụng FOR UPDATE để tránh race condition
+        $resetRequest = $db->selectOne(
+            "SELECT * FROM password_resets WHERE reset_token = ? AND verified_at IS NULL AND used_at IS NULL FOR UPDATE",
+            [$resetToken]
+        );
+
+        if (!$resetRequest) {
+            $db->commit();
+            setFlash('error', 'Yêu cầu không hợp lệ hoặc đã được xử lý');
+            axRedirect(BASE_URL . '/auth/verify-otp.php');
+        }
+
+        if ($resetRequest['otp_attempts'] >= 5) {
+            $db->update("UPDATE password_resets SET used_at = NOW() WHERE id = ?", [$resetRequest['id']]);
+            $db->commit();
+            error_log("SECURITY ALERT: OTP brute-force locked for token: $resetToken from IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN'));
+            setFlash('error', 'Bạn đã nhập sai OTP quá 5 lần. Yêu cầu đã bị hủy.');
+            axRedirect(BASE_URL . '/auth/forgot-password.php');
+        }
+
+        if ($resetRequest['otp_code'] !== $otp) {
+            $db->update("UPDATE password_resets SET otp_attempts = otp_attempts + 1 WHERE id = ?", [$resetRequest['id']]);
+            $db->commit();
+            $remaining = 4 - $resetRequest['otp_attempts'];
+            setFlash('error', 'Mã xác thực không đúng. Bạn còn ' . $remaining . ' lần thử.');
+            axRedirect(BASE_URL . '/auth/verify-otp.php');
+        }
+
+        // Kiểm tra hết hạn
+        if (strtotime($resetRequest['expires_at']) < time()) {
+            $db->commit();
+            setFlash('error', 'Mã xác thực đã hết hạn. Vui lòng yêu cầu mã mới.');
+            axRedirect(BASE_URL . '/auth/forgot-password.php');
+        }
+
+        // Đánh dấu đã xác thực
+        $db->update("UPDATE password_resets SET verified_at = NOW() WHERE id = ?", [$resetRequest['id']]);
+        $db->commit();
+
+        // Lưu vào session để reset password
+        $_SESSION['reset_user_id'] = $resetRequest['user_id'];
+        $_SESSION['reset_verified'] = true;
+
+        axRedirect(BASE_URL . '/auth/reset-password.php');
+
+    } catch (Exception $e) {
+        $db->rollback();
+        setFlash('error', 'Đã xảy ra lỗi, vui lòng thử lại.');
         axRedirect(BASE_URL . '/auth/verify-otp.php');
     }
-
-    if ($resetRequest['otp_attempts'] >= 5) {
-        $db->update("UPDATE password_resets SET used_at = NOW() WHERE id = ?", [$resetRequest['id']]);
-        error_log("SECURITY ALERT: OTP brute-force locked for token: $resetToken from IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN'));
-        setFlash('error', 'Bạn đã nhập sai OTP quá 5 lần. Yêu cầu đã bị hủy.');
-        axRedirect(BASE_URL . '/auth/forgot-password.php');
-    }
-
-    if ($resetRequest['otp_code'] !== $otp) {
-        $db->update("UPDATE password_resets SET otp_attempts = otp_attempts + 1 WHERE id = ?", [$resetRequest['id']]);
-        $remaining = 4 - $resetRequest['otp_attempts'];
-        setFlash('error', 'Mã xác thực không đúng. Bạn còn ' . $remaining . ' lần thử.');
-        axRedirect(BASE_URL . '/auth/verify-otp.php');
-    }
-
-    // Kiểm tra hết hạn
-    if (strtotime($resetRequest['expires_at']) < time()) {
-        setFlash('error', 'Mã xác thực đã hết hạn. Vui lòng yêu cầu mã mới.');
-        axRedirect(BASE_URL . '/auth/forgot-password.php');
-    }
-
-    // Đánh dấu đã xác thực
-    $db->update("UPDATE password_resets SET verified_at = NOW() WHERE id = ?", [$resetRequest['id']]);
-
-    // Lưu vào session để reset password
-    $_SESSION['reset_user_id'] = $resetRequest['user_id'];
-    $_SESSION['reset_verified'] = true;
-
-    axRedirect(BASE_URL . '/auth/reset-password.php');
 }
 
 // Xử lý VERIFY REGISTER OTP
@@ -407,82 +436,96 @@ if ($action === 'verify_register_otp') {
         axRedirect(BASE_URL . '/auth/verify-register-otp.php');
     }
 
-    $resetRequest = $db->selectOne(
-        "SELECT * FROM password_resets WHERE reset_token = ? AND verified_at IS NULL AND used_at IS NULL",
-        [$resetToken]
-    );
+    try {
+        $db->beginTransaction();
 
-    if (!$resetRequest) {
-        setFlash('error', 'Yêu cầu không hợp lệ hoặc đã được xử lý');
-        axRedirect(BASE_URL . '/auth/verify-register-otp.php');
-    }
+        $resetRequest = $db->selectOne(
+            "SELECT * FROM password_resets WHERE reset_token = ? AND verified_at IS NULL AND used_at IS NULL FOR UPDATE",
+            [$resetToken]
+        );
 
-    if ($resetRequest['otp_attempts'] >= 5) {
-        $db->update("UPDATE password_resets SET used_at = NOW() WHERE id = ?", [$resetRequest['id']]);
-        error_log("SECURITY ALERT: OTP register brute-force locked for token: $resetToken from IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN'));
-        setFlash('error', 'Bạn đã nhập sai OTP quá 5 lần. Vui lòng đăng nhập lại để nhận mã mới.');
-        axRedirect(BASE_URL . '/auth/login.php');
-    }
+        if (!$resetRequest) {
+            $db->commit();
+            setFlash('error', 'Yêu cầu không hợp lệ hoặc đã được xử lý');
+            axRedirect(BASE_URL . '/auth/verify-register-otp.php');
+        }
 
-    if ($resetRequest['otp_code'] !== $otp) {
-        $db->update("UPDATE password_resets SET otp_attempts = otp_attempts + 1 WHERE id = ?", [$resetRequest['id']]);
-        $remaining = 4 - $resetRequest['otp_attempts'];
-        setFlash('error', 'Mã xác thực không đúng. Bạn còn ' . $remaining . ' lần thử.');
-        axRedirect(BASE_URL . '/auth/verify-register-otp.php');
-    }
+        if ($resetRequest['otp_attempts'] >= 5) {
+            $db->update("UPDATE password_resets SET used_at = NOW() WHERE id = ?", [$resetRequest['id']]);
+            $db->commit();
+            error_log("SECURITY ALERT: OTP register brute-force locked for token: $resetToken from IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN'));
+            setFlash('error', 'Bạn đã nhập sai OTP quá 5 lần. Vui lòng đăng nhập lại để nhận mã mới.');
+            axRedirect(BASE_URL . '/auth/login.php');
+        }
 
-    if (strtotime($resetRequest['expires_at']) < time()) {
-        setFlash('error', 'Mã xác thực đã hết hạn. Vui lòng đăng nhập lại để nhận mã mới.');
-        axRedirect(BASE_URL . '/auth/login.php');
-    }
+        if ($resetRequest['otp_code'] !== $otp) {
+            $db->update("UPDATE password_resets SET otp_attempts = otp_attempts + 1 WHERE id = ?", [$resetRequest['id']]);
+            $db->commit();
+            $remaining = 4 - $resetRequest['otp_attempts'];
+            setFlash('error', 'Mã xác thực không đúng. Bạn còn ' . $remaining . ' lần thử.');
+            axRedirect(BASE_URL . '/auth/verify-register-otp.php');
+        }
 
-    $db->update("UPDATE password_resets SET verified_at = NOW(), used_at = NOW() WHERE id = ?", [$resetRequest['id']]);
-    $db->update("UPDATE users SET email_verified = 1 WHERE user_id = ?", [$resetRequest['user_id']]);
+        if (strtotime($resetRequest['expires_at']) < time()) {
+            $db->commit();
+            setFlash('error', 'Mã xác thực đã hết hạn. Vui lòng đăng nhập lại để nhận mã mới.');
+            axRedirect(BASE_URL . '/auth/login.php');
+        }
 
-    unset($_SESSION['reg_token']);
-    unset($_SESSION['reg_email']);
-    unset($_SESSION['reg_reset_token']);
+        $db->update("UPDATE password_resets SET verified_at = NOW(), used_at = NOW() WHERE id = ?", [$resetRequest['id']]);
+        $db->update("UPDATE users SET email_verified = 1 WHERE user_id = ?", [$resetRequest['user_id']]);
+        $db->commit();
 
-    $user = $db->selectOne(
-        "SELECT u.user_id, u.full_name, u.email, u.role_id, r.role_name
-         FROM users u JOIN roles r ON u.role_id = r.role_id WHERE u.user_id = ?",
-        [$resetRequest['user_id']]
-    );
-    loginUser($user);
+        unset($_SESSION['reg_token']);
+        unset($_SESSION['reg_email']);
+        unset($_SESSION['reg_reset_token']);
 
-    if (!empty($_SESSION['cart'])) {
-        $cart = $db->selectOne("SELECT cart_id FROM carts WHERE user_id = ?", [$user['user_id']]);
-        if ($cart) {
-            foreach ($_SESSION['cart'] as $item) {
-                $existing = $db->selectOne(
-                    "SELECT cart_item_id, quantity FROM cart_items WHERE cart_id = ? AND variant_id = ?",
-                    [$cart['cart_id'], $item['variant_id']]
-                );
-                $variant = $db->selectOne("SELECT stock_quantity FROM product_variants WHERE variant_id = ? AND is_deleted = 0", [$item['variant_id']]);
-                $maxQty = $variant ? $variant['stock_quantity'] : 0;
-                if ($existing) {
-                    $newQty = min($existing['quantity'] + $item['quantity'], $maxQty);
-                    $db->update("UPDATE cart_items SET quantity = ? WHERE cart_item_id = ?", [$newQty, $existing['cart_item_id']]);
-                } else {
-                    $qty = min($item['quantity'], $maxQty);
-                    if ($qty > 0) {
-                        $db->insert("INSERT INTO cart_items (cart_id, variant_id, quantity) VALUES (?, ?, ?)", [$cart['cart_id'], $item['variant_id'], $qty]);
+        $user = $db->selectOne(
+            "SELECT u.user_id, u.full_name, u.email, u.role_id, r.role_name
+             FROM users u JOIN roles r ON u.role_id = r.role_id WHERE u.user_id = ?",
+            [$resetRequest['user_id']]
+        );
+        loginUser($user);
+
+        if (!empty($_SESSION['cart'])) {
+            $cart = $db->selectOne("SELECT cart_id FROM carts WHERE user_id = ?", [$user['user_id']]);
+            if ($cart) {
+                foreach ($_SESSION['cart'] as $item) {
+                    $existing = $db->selectOne(
+                        "SELECT cart_item_id, quantity FROM cart_items WHERE cart_id = ? AND variant_id = ?",
+                        [$cart['cart_id'], $item['variant_id']]
+                    );
+                    $variant = $db->selectOne("SELECT stock_quantity FROM product_variants WHERE variant_id = ? AND is_deleted = 0", [$item['variant_id']]);
+                    $maxQty = $variant ? $variant['stock_quantity'] : 0;
+                    if ($existing) {
+                        $newQty = min($existing['quantity'] + $item['quantity'], $maxQty);
+                        $db->update("UPDATE cart_items SET quantity = ? WHERE cart_item_id = ?", [$newQty, $existing['cart_item_id']]);
+                    } else {
+                        $qty = min($item['quantity'], $maxQty);
+                        if ($qty > 0) {
+                            $db->insert("INSERT INTO cart_items (cart_id, variant_id, quantity) VALUES (?, ?, ?)", [$cart['cart_id'], $item['variant_id'], $qty]);
+                        }
                     }
                 }
             }
+            unset($_SESSION['cart']);
         }
-        unset($_SESSION['cart']);
-    }
 
-    updateCartCount();
-    setFlash('success', 'Xác thực thành công!');
+        updateCartCount();
+        setFlash('success', 'Xác thực thành công!');
 
-    $targetRedirect = BASE_URL . '/';
-    if (!empty($_SESSION['register_redirect'])) {
-        $targetRedirect = $_SESSION['register_redirect'];
-        unset($_SESSION['register_redirect']);
+        $targetRedirect = BASE_URL . '/';
+        if (!empty($_SESSION['register_redirect'])) {
+            $targetRedirect = $_SESSION['register_redirect'];
+            unset($_SESSION['register_redirect']);
+        }
+        axRedirect($targetRedirect);
+
+    } catch (Exception $e) {
+        $db->rollback();
+        setFlash('error', 'Đã xảy ra lỗi, vui lòng thử lại.');
+        axRedirect(BASE_URL . '/auth/verify-register-otp.php');
     }
-    axRedirect($targetRedirect);
 }
 
 // Xử lý RESET PASSWORD

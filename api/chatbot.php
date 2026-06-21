@@ -191,11 +191,15 @@ if ($needSearch) {
 if ($needOrder) {
     if (preg_match('/(ORDM-[A-Z0-9]+|ORD-[A-Z0-9]+|AX\d+|\b[A-F0-9]{8}\b)/i', $msgLower, $matches)) {
         $code = strtoupper($matches[1]);
-        $order = $db->selectOne("SELECT order_status, total_amount, created_at FROM orders WHERE order_code = ?", [$code]);
-        if ($order) {
-            $fullPrompt .= "\n\n[HỆ THỐNG TỰ ĐỘNG TRA CỨU ĐƠN HÀNG: " . $code . "]\nKết quả: " . json_encode($order, JSON_UNESCAPED_UNICODE) . "\nHãy tóm tắt tình trạng đơn hàng cho khách.";
+        if ($user_id) {
+            $order = $db->selectOne("SELECT order_status, total_amount, created_at FROM orders WHERE order_code = ? AND user_id = ?", [$code, $user_id]);
+            if ($order) {
+                $fullPrompt .= "\n\n[HỆ THỐNG TỰ ĐỘNG TRA CỨU ĐƠN HÀNG: " . $code . "]\nKết quả: " . json_encode($order, JSON_UNESCAPED_UNICODE) . "\nHãy tóm tắt tình trạng đơn hàng cho khách.";
+            } else {
+                $fullPrompt .= "\n\n[HỆ THỐNG TỰ ĐỘNG TRA CỨU ĐƠN HÀNG: " . $code . "]\nKết quả: Không tìm thấy mã đơn hàng này trong tài khoản của khách.";
+            }
         } else {
-            $fullPrompt .= "\n\n[HỆ THỐNG TỰ ĐỘNG TRA CỨU ĐƠN HÀNG: " . $code . "]\nKết quả: Không tìm thấy mã đơn hàng này.";
+            $fullPrompt .= "\n\n[HỆ THỐNG TỰ ĐỘNG TRA CỨU ĐƠN HÀNG: " . $code . "]\nKết quả: Khách chưa đăng nhập. Hãy yêu cầu khách đăng nhập hoặc liên hệ tổng đài để tra cứu.";
         }
     }
 }
