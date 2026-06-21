@@ -1352,6 +1352,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $response = ['success' => false, 'message' => 'Vui lòng điền đầy đủ thông tin!'];
                 break;
             }
+            // Validate: % discount không được vượt quá 100%
+            if ($discount_type === 'percent' && $discount_value > 100) {
+                $response = ['success' => false, 'message' => 'Giá trị giảm theo phần trăm không được vượt quá 100%!'];
+                break;
+            }
 
             // Kiểm tra mã trùng
             $exists = $db->selectOne("SELECT promo_id FROM promotions WHERE promo_code = ?", [$promo_code]);
@@ -1389,6 +1394,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($promo_id <= 0 || empty($promo_code) || empty($promo_name) || $discount_value <= 0) {
                 $response = ['success' => false, 'message' => 'Dữ liệu không hợp lệ!'];
+                break;
+            }
+            // Validate: % discount không được vượt quá 100%
+            if ($discount_type === 'percent' && $discount_value > 100) {
+                $response = ['success' => false, 'message' => 'Giá trị giảm theo phần trăm không được vượt quá 100%!'];
                 break;
             }
 
@@ -2139,6 +2149,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $response = ['success' => false, 'message' => 'Mã Voucher không được để trống!'];
                 break;
             }
+            // Validate: % discount không được vượt quá 100%
+            if ($discount_type === 'percent' && ($discount_value <= 0 || $discount_value > 100)) {
+                $response = ['success' => false, 'message' => 'Giá trị giảm theo phần trăm phải từ 0.01% đến 100%!'];
+                break;
+            }
 
             if ($promo_code) {
                 $exists = $db->selectOne("SELECT promo_id FROM promotions WHERE promo_code = ?", [$promo_code]);
@@ -2200,6 +2215,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             if ($type === 'voucher' && empty($promo_code)) {
                 $response = ['success' => false, 'message' => 'Mã Voucher không được để trống!'];
+                break;
+            }
+            // Validate: % discount không được vượt quá 100%
+            if ($discount_type === 'percent' && ($discount_value <= 0 || $discount_value > 100)) {
+                $response = ['success' => false, 'message' => 'Giá trị giảm theo phần trăm phải từ 0.01% đến 100%!'];
                 break;
             }
 
