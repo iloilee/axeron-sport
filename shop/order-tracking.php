@@ -47,9 +47,26 @@ require_once __DIR__ . '/../includes/head.php';
 <div class="flex flex-col min-h-screen w-full bg-surface">
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
-    <main class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md w-full space-y-8 bg-surface-container-lowest p-8 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-surface-container">
-            <div class="text-center">
+    <main class="flex-grow w-full max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-12">
+        <?php if ($isLoggedInUser): ?>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4 border-b border-surface-variant pb-4">
+            <div class="flex gap-6 relative top-[17px] overflow-x-auto no-scrollbar w-full">
+                <a href="<?= BASE_URL ?>/shop/order-history.php" class="pb-3 md:pb-4 text-lg md:text-xl font-bold uppercase text-on-surface-variant hover:text-axeron-red border-b-[3px] border-transparent tracking-wide transition-colors whitespace-nowrap">
+                    Đơn Hàng
+                </a>
+                <a href="<?= BASE_URL ?>/shop/my-reviews.php" class="pb-3 md:pb-4 text-lg md:text-xl font-bold uppercase text-on-surface-variant hover:text-axeron-red border-b-[3px] border-transparent tracking-wide transition-colors whitespace-nowrap">
+                    Đánh Giá
+                </a>
+                <a href="<?= BASE_URL ?>/shop/order-tracking.php" class="pb-3 md:pb-4 text-lg md:text-xl font-bold uppercase text-axeron-red border-b-[3px] border-axeron-red tracking-wide whitespace-nowrap">
+                    Tra Cứu
+                </a>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <div class="flex justify-center w-full">
+            <div class="max-w-md w-full space-y-8 bg-surface-container-lowest p-8 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-surface-container <?= $isLoggedInUser ? 'mt-8' : 'mt-12' ?>">
+                <div class="text-center">
                 <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span class="material-symbols-outlined text-4xl text-axeron-red">manage_search</span>
                 </div>
@@ -105,14 +122,7 @@ require_once __DIR__ . '/../includes/head.php';
                 </div>
             </form>
             
-            <?php if ($isLoggedInUser): ?>
-            <div class="mt-6 text-center">
-                <p class="text-sm text-on-surface-variant">Hoặc xem danh sách tất cả đơn hàng của bạn</p>
-                <a href="<?= BASE_URL ?>/shop/order-history.php" class="mt-2 inline-block font-medium text-axeron-blue hover:text-blue-800 transition-colors">
-                    Đơn hàng của tôi &rarr;
-                </a>
             </div>
-            <?php endif; ?>
         </div>
     </main>
 

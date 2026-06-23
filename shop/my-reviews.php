@@ -114,10 +114,19 @@ $reviews = $db->select("
 <body class="bg-surface text-on-surface font-body-md antialiased flex flex-col min-h-screen">
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
-    <main class="flex-grow w-full max-w-[1000px] mx-auto px-margin-mobile md:px-margin-desktop py-12">
-        <div class="mb-8 border-b border-surface-variant pb-4">
-            <h1 class="text-xl md:text-2xl font-bold uppercase text-text-dark m-0">Đánh giá của tôi</h1>
-            <p class="text-on-surface-variant mt-2">Quản lý các đánh giá bạn đã chia sẻ về sản phẩm.</p>
+    <main class="flex-grow w-full max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-12">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4 border-b border-surface-variant pb-4">
+            <div class="flex gap-6 relative top-[17px] overflow-x-auto no-scrollbar">
+                <a href="<?= BASE_URL ?>/shop/order-history.php" class="pb-3 md:pb-4 text-lg md:text-xl font-bold uppercase text-on-surface-variant hover:text-axeron-red border-b-[3px] border-transparent tracking-wide transition-colors whitespace-nowrap">
+                    Đơn Hàng
+                </a>
+                <a href="<?= BASE_URL ?>/shop/my-reviews.php" class="pb-3 md:pb-4 text-lg md:text-xl font-bold uppercase text-axeron-red border-b-[3px] border-axeron-red tracking-wide whitespace-nowrap">
+                    Đánh Giá
+                </a>
+                <a href="<?= BASE_URL ?>/shop/order-tracking.php" class="pb-3 md:pb-4 text-lg md:text-xl font-bold uppercase text-on-surface-variant hover:text-axeron-red border-b-[3px] border-transparent tracking-wide transition-colors whitespace-nowrap">
+                    Tra Cứu
+                </a>
+            </div>
         </div>
 
         <?php if (empty($reviews)): ?>
