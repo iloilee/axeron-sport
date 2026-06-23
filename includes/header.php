@@ -461,6 +461,10 @@ $siteNameDisplay = $settings['site_name'] ?? 'Axeron';
                             <span class="material-symbols-outlined text-lg align-middle mr-2">favorite</span>
                             Yêu thích
                         </a>
+                        <a href="<?= BASE_URL ?>/shop/recently-viewed.php" class="block px-4 py-3 text-sm text-on-surface hover:bg-surface-container transition-colors">
+                            <span class="material-symbols-outlined text-lg align-middle mr-2">history</span>
+                            Sản phẩm đã xem
+                        </a>
                         <?php if (isAdmin()): ?>
                         <hr class="border-outline-variant my-1">
                         <a href="<?= BASE_URL ?>/admin/admin.php" class="block px-4 py-3 text-sm text-on-surface hover:bg-surface-container transition-colors">
@@ -626,6 +630,9 @@ $siteNameDisplay = $settings['site_name'] ?? 'Axeron';
             </a>
             <a href="<?= BASE_URL ?>/shop/wishlist.php" class="flex items-center gap-3 py-2.5 text-sm text-gray-700 hover:text-axeron-red">
                 <span class="material-symbols-outlined text-lg">favorite</span> Yêu thích
+            </a>
+            <a href="<?= BASE_URL ?>/shop/recently-viewed.php" class="flex items-center gap-3 py-2.5 text-sm text-gray-700 hover:text-axeron-red">
+                <span class="material-symbols-outlined text-lg">history</span> Sản phẩm đã xem
             </a>
             <?php if (isAdmin()): ?>
             <a href="<?= BASE_URL ?>/admin/admin.php" class="flex items-center gap-3 py-2.5 text-sm text-gray-700 hover:text-axeron-red">

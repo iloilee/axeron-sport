@@ -26,6 +26,18 @@ if (!$product) {
     exit;
 }
 
+// Track recently viewed
+if (isLoggedIn()) {
+    $userId = $_SESSION['user_id'] ?? 0;
+    if ($userId > 0) {
+        $db->query("
+            INSERT INTO user_recently_viewed (user_id, product_id, viewed_at)
+            VALUES (?, ?, NOW())
+            ON DUPLICATE KEY UPDATE viewed_at = NOW()
+        ", [$userId, $product['product_id']]);
+    }
+}
+
 // Get images
 $images = $db->select("
     SELECT image_id, image_url, alt_text, is_primary, color
