@@ -53,7 +53,7 @@ $products = $db->select("
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8">
-        <h1 class="font-headline-lg text-headline-lg md:text-display-lg font-bold mb-8 uppercase text-text-dark text-center">Sản Phẩm Đã Xem</h1>
+        <h1 class="font-headline-lg text-headline md:text-headline-lg font-bold mb-8 uppercase text-text-dark text-center">Sản Phẩm Đã Xem</h1>
 
         <?php if (empty($products)): ?>
             <div class="text-center py-16 bg-surface-container-lowest rounded-xl border border-surface-variant">

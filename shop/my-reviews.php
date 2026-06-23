@@ -115,18 +115,18 @@ $reviews = $db->select("
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="flex-grow w-full max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-12">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4 border-b border-surface-variant pb-4">
-            <div class="flex gap-6 relative top-[17px] overflow-x-auto no-scrollbar">
-                <a href="<?= BASE_URL ?>/shop/order-history.php" class="pb-3 md:pb-4 text-lg md:text-xl font-bold uppercase text-on-surface-variant hover:text-axeron-red border-b-[3px] border-transparent tracking-wide transition-colors whitespace-nowrap">
+        <div class="border-b border-outline-variant mb-8">
+            <nav class="-mb-px flex space-x-6 md:space-x-8 overflow-x-auto no-scrollbar" aria-label="Tabs">
+                <a href="<?= BASE_URL ?>/shop/order-history.php" class="whitespace-nowrap border-b-[3px] py-4 px-1 text-lg md:text-xl font-bold uppercase tracking-wide border-transparent text-on-surface-variant hover:border-outline-variant hover:text-on-surface transition-colors">
                     Đơn Hàng
                 </a>
-                <a href="<?= BASE_URL ?>/shop/my-reviews.php" class="pb-3 md:pb-4 text-lg md:text-xl font-bold uppercase text-axeron-red border-b-[3px] border-axeron-red tracking-wide whitespace-nowrap">
+                <a href="<?= BASE_URL ?>/shop/my-reviews.php" class="whitespace-nowrap border-b-[3px] py-4 px-1 text-lg md:text-xl font-bold uppercase tracking-wide border-axeron-red text-axeron-red transition-colors">
                     Đánh Giá
                 </a>
-                <a href="<?= BASE_URL ?>/shop/order-tracking.php" class="pb-3 md:pb-4 text-lg md:text-xl font-bold uppercase text-on-surface-variant hover:text-axeron-red border-b-[3px] border-transparent tracking-wide transition-colors whitespace-nowrap">
-                    Tra Cứu
+                <a href="<?= BASE_URL ?>/shop/order-tracking.php" class="whitespace-nowrap border-b-[3px] py-4 px-1 text-lg md:text-xl font-bold uppercase tracking-wide border-transparent text-on-surface-variant hover:border-outline-variant hover:text-on-surface transition-colors">
+                    Tra Cứu Đơn Hàng
                 </a>
-            </div>
+            </nav>
         </div>
 
         <?php if (empty($reviews)): ?>
@@ -156,7 +156,7 @@ $reviews = $db->select("
                             <div class="text-sm text-on-surface-variant mt-1"><?= date('d/m/Y H:i', strtotime($review['created_at'])) ?></div>
                         </div>
                         
-                        <div>
+                        <div class="flex flex-col items-end gap-2">
                             <?php
                             $statusClass = match($review['status']) {
                                 'approved' => 'bg-green-100 text-green-800',
@@ -183,6 +183,11 @@ $reviews = $db->select("
                                 <?php endif; ?>
                                 <?= $statusText ?>
                             </span>
+                            
+                            <a href="<?= BASE_URL ?>/shop/product-detail.php?slug=<?= htmlspecialchars($review['slug']) ?>#reviews-section" class="text-axeron-blue hover:text-blue-800 transition-colors py-1.5 px-3 rounded-lg hover:bg-blue-50 inline-flex items-center gap-1.5 text-sm font-medium border border-blue-100 bg-white mt-1" title="Xem trên trang sản phẩm">
+                                <span class="material-symbols-outlined text-[18px]">visibility</span>
+                                Xem lại
+                            </a>
                         </div>
                     </div>
                     

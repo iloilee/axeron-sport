@@ -49,18 +49,18 @@ require_once __DIR__ . '/../includes/head.php';
 
     <main class="flex-grow w-full max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-12">
         <?php if ($isLoggedInUser): ?>
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4 border-b border-surface-variant pb-4">
-            <div class="flex gap-6 relative top-[17px] overflow-x-auto no-scrollbar w-full">
-                <a href="<?= BASE_URL ?>/shop/order-history.php" class="pb-3 md:pb-4 text-lg md:text-xl font-bold uppercase text-on-surface-variant hover:text-axeron-red border-b-[3px] border-transparent tracking-wide transition-colors whitespace-nowrap">
+        <div class="border-b border-outline-variant mb-8 w-full">
+            <nav class="-mb-px flex space-x-6 md:space-x-8 overflow-x-auto no-scrollbar w-full" aria-label="Tabs">
+                <a href="<?= BASE_URL ?>/shop/order-history.php" class="whitespace-nowrap border-b-[3px] py-4 px-1 text-lg md:text-xl font-bold uppercase tracking-wide border-transparent text-on-surface-variant hover:border-outline-variant hover:text-on-surface transition-colors">
                     Đơn Hàng
                 </a>
-                <a href="<?= BASE_URL ?>/shop/my-reviews.php" class="pb-3 md:pb-4 text-lg md:text-xl font-bold uppercase text-on-surface-variant hover:text-axeron-red border-b-[3px] border-transparent tracking-wide transition-colors whitespace-nowrap">
+                <a href="<?= BASE_URL ?>/shop/my-reviews.php" class="whitespace-nowrap border-b-[3px] py-4 px-1 text-lg md:text-xl font-bold uppercase tracking-wide border-transparent text-on-surface-variant hover:border-outline-variant hover:text-on-surface transition-colors">
                     Đánh Giá
                 </a>
-                <a href="<?= BASE_URL ?>/shop/order-tracking.php" class="pb-3 md:pb-4 text-lg md:text-xl font-bold uppercase text-axeron-red border-b-[3px] border-axeron-red tracking-wide whitespace-nowrap">
-                    Tra Cứu
+                <a href="<?= BASE_URL ?>/shop/order-tracking.php" class="whitespace-nowrap border-b-[3px] py-4 px-1 text-lg md:text-xl font-bold uppercase tracking-wide border-axeron-red text-axeron-red transition-colors">
+                    Tra Cứu Đơn Hàng
                 </a>
-            </div>
+            </nav>
         </div>
         <?php endif; ?>
 

@@ -162,20 +162,22 @@ $orders = $db->select("
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="flex-grow w-full max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-12">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4 border-b border-surface-variant pb-4">
-            <div class="flex gap-6 relative top-[17px] overflow-x-auto no-scrollbar">
-                <a href="<?= BASE_URL ?>/shop/order-history.php" class="pb-3 md:pb-4 text-lg md:text-xl font-bold uppercase text-axeron-red border-b-[3px] border-axeron-red tracking-wide whitespace-nowrap">
+        <div class="border-b border-outline-variant mb-6">
+            <nav class="-mb-px flex space-x-6 md:space-x-8 overflow-x-auto no-scrollbar" aria-label="Tabs">
+                <a href="<?= BASE_URL ?>/shop/order-history.php" class="whitespace-nowrap border-b-[3px] py-4 px-1 text-lg md:text-xl font-bold uppercase tracking-wide border-axeron-red text-axeron-red transition-colors">
                     Đơn Hàng
                 </a>
-                <a href="<?= BASE_URL ?>/shop/my-reviews.php" class="pb-3 md:pb-4 text-lg md:text-xl font-bold uppercase text-on-surface-variant hover:text-axeron-red border-b-[3px] border-transparent tracking-wide transition-colors whitespace-nowrap">
+                <a href="<?= BASE_URL ?>/shop/my-reviews.php" class="whitespace-nowrap border-b-[3px] py-4 px-1 text-lg md:text-xl font-bold uppercase tracking-wide border-transparent text-on-surface-variant hover:border-outline-variant hover:text-on-surface transition-colors">
                     Đánh Giá
                 </a>
-                <a href="<?= BASE_URL ?>/shop/order-tracking.php" class="pb-3 md:pb-4 text-lg md:text-xl font-bold uppercase text-on-surface-variant hover:text-axeron-red border-b-[3px] border-transparent tracking-wide transition-colors whitespace-nowrap">
-                    Tra Cứu
+                <a href="<?= BASE_URL ?>/shop/order-tracking.php" class="whitespace-nowrap border-b-[3px] py-4 px-1 text-lg md:text-xl font-bold uppercase tracking-wide border-transparent text-on-surface-variant hover:border-outline-variant hover:text-on-surface transition-colors">
+                    Tra Cứu Đơn Hàng
                 </a>
-            </div>
-            
-            <form action="" method="GET" class="flex flex-col sm:flex-row gap-3 w-full md:w-auto relative z-10">
+            </nav>
+        </div>
+        
+        <div class="flex flex-col md:flex-row justify-end items-start md:items-center mb-6 gap-4">
+            <form action="" method="GET" class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                 <input type="text" name="code" value="<?= htmlspecialchars($searchCode) ?>" placeholder="Mã đơn hàng..." class="border border-outline-variant rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-axeron-red outline-none min-w-[200px]">
                 <select name="status" class="border border-outline-variant rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-axeron-red outline-none min-w-[165px]">
                     <option value="">Tất cả trạng thái</option>
