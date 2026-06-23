@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 21, 2026 lúc 04:02 AM
+-- Thời gian đã tạo: Th6 23, 2026 lúc 07:20 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -59,10 +59,10 @@ INSERT INTO `articles` (`article_id`, `title`, `slug`, `excerpt`, `content`, `fe
 (2, 'Hướng Dẫn Chọn Size Giày Thể Thao', 'huong-dan-chon-size-giay', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ, mẹo đo chân tại nhà để chọn được đôi giày vừa vặn.', '<h2>Tại sao chọn đúng size quan trọng?</h2><p>Giày vừa vặn giúp bạn thoải mái khi vận động, tránh chấn thương và tối ưu hiệu suất tập luyện.</p><h2>Cách đo chân</h2><p>1. Đứng lên tờ giấy và vẽ viền chân<br>2. Đo khoảng cách từ gót đến ngón dài nhất<br>3. Cộng thêm 0.5-1cm để có không gian thoải mái</p>', 'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=800&auto=format&fit=crop', 'guide', NULL, NULL, 'Axeron Team', 1, 1, '2026-06-05 12:54:12', 8, 'Hướng Dẫn Chọn Size Giày Thể Thao | Axeron Sport', 'Bảng hướng dẫn chọn size giày chuẩn cho nam và nữ.', NULL, 0, '2026-06-05 12:54:12', '2026-06-19 18:48:42'),
 (3, 'Axeron Khai Trương Cửa Hàng Mới', 'axeron-khai-truong-cua-hang-moi', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi hấp dẫn dành cho khách hàng.', '<h2>Grand Opening Event</h2><p>Axeron Sport hân hạnh thông báo khai trương cửa hàng mới tại 456 Nguyễn Thị Thập, Quận 7, TP.HCM.</p><h2>Ưu đãi khai trương</h2><ul><li>Giảm 20% toàn bộ sản phẩm</li><li>Miễn phí vận chuyển cho đơn từ 500K</li><li>Tặng voucher 200K cho 100 khách hàng đầu tiên</li></ul>', 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=800&auto=format&fit=crop', 'announcement', NULL, NULL, 'Axeron Team', 0, 1, '2026-06-05 12:54:12', 3, 'Axeron Khai Trương Cửa Hàng Mới | Axeron Sport', 'Chính thức khai trương chi nhánh mới tại Quận 7 với nhiều ưu đãi.', NULL, 0, '2026-06-05 12:54:12', '2026-06-16 04:32:00'),
 (4, 'Sân vận động', 'stadiums', 'Khám phá các dự án sân vận động tiêu chuẩn quốc tế mà Axeron đã tham gia thi công và cung cấp trang thiết bị.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 2, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:33:05'),
-(5, 'Nhà thi đấu', 'arenas', 'Các dự án nhà thi đấu đa năng được trang bị hệ thống ánh sáng, âm thanh và sàn gỗ thể thao cao cấp từ Axeron.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 2, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:31:44'),
+(5, 'Nhà thi đấu', 'arenas', 'Các dự án nhà thi đấu đa năng được trang bị hệ thống ánh sáng, âm thanh và sàn gỗ thể thao cao cấp từ Axeron.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 3, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-22 16:41:28'),
 (6, 'Đồng phục học sinh - sinh viên', 'school-uniforms', 'Thiết kế và sản xuất đồng phục thể dục, đồng phục lớp cho các trường đại học và phổ thông trên toàn quốc.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 2, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 21:40:10'),
 (7, 'Thiết bị phòng tập', 'gym-equipment', 'Cung cấp và lắp đặt thiết bị gym chuyên nghiệp cho các trung tâm thể hình với công nghệ hiện đại nhất.', '<p>Nội dung chi tiết đang được cập nhật...</p>', 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop', '', NULL, NULL, NULL, 0, 1, NULL, 3, NULL, NULL, NULL, 0, '2026-06-10 00:25:12', '2026-06-16 04:32:16'),
-(8, 'Axeron ra mắt công nghệ đệm Aero-Foam mới', 'axeron-ra-mat-cong-nghe-dem-aero-foam-moi', 'Axeron Sport tự hào giới thiệu thế hệ đệm giảm chấn hoàn toàn mới mang tên Aero-Foam. Đây là bước đột phá công nghệ...', '<p class=\"font-headline-md text-[20px] leading-relaxed text-on-surface font-semibold border-l-4 border-axeron-red pl-4\">Axeron Sport tự hào giới thiệu thế hệ đệm giảm chấn hoàn toàn mới mang tên Aero-Foam. Đây là bước đột phá công nghệ hướng đến sự cân bằng hoàn hảo giữa trọng lượng siêu nhẹ, khả năng phản hồi lực và độ bền bỉ đáng kinh ngạc.</p><p>Được phát triển trong hơn 2 năm tại phòng nghiên cứu hiệu suất cao của Axeron, Aero-Foam không chỉ đơn thuần là một bản cập nhật vật liệu. Chúng tôi đã tái cấu trúc lại hoàn toàn các phân tử bọt xốp, tích hợp các khoang khí siêu vi cấu trúc tổ ong để tạo ra một lớp đệm có khả năng hấp thụ chấn động tức thì và hoàn trả năng lượng vượt trội trong mỗi bước chạy.</p><h3 class=\"font-headline-md text-headline-md text-on-surface mt-8 mb-4\">Các điểm mạnh vượt trội của Aero-Foam:</h3><div class=\"grid grid-cols-1 md:grid-cols-2 gap-4 mb-8\"><div class=\"bg-surface-container-low p-6 rounded-lg border border-outline-variant hover:shadow-md transition-shadow\"><div class=\"text-axeron-red mb-3\"><span class=\"material-symbols-outlined text-[32px]\" data-icon=\"speed\" data-weight=\"fill\">speed</span></div><h4 class=\"font-label-lg text-[16px] font-bold text-on-surface mb-2\">Trọng lượng nhẹ hơn 30%</h4><p class=\"font-body-md text-[14px] text-on-surface-variant\">So với vật liệu EVA truyền thống, cấu trúc vi bọt giúp giảm thiểu tối đa khối lượng vật lý mà không làm mất đi form dáng tổng thể.</p></div><div class=\"bg-surface-container-low p-6 rounded-lg border border-outline-variant hover:shadow-md transition-shadow\"><div class=\"text-axeron-blue mb-3\"><span class=\"material-symbols-outlined text-[32px]\" data-icon=\"bolt\" data-weight=\"fill\">bolt</span></div><h4 class=\"font-label-lg text-[16px] font-bold text-on-surface mb-2\">Hoàn trả năng lượng lên đến 75%</h4><p class=\"font-body-md text-[14px] text-on-surface-variant\">Mỗi bước chạm đất, Aero-Foam lưu trữ lực tác động và giải phóng ngay lập tức để đẩy người chạy về phía trước.</p></div><div class=\"bg-surface-container-low p-6 rounded-lg border border-outline-variant hover:shadow-md transition-shadow\"><div class=\"text-secondary mb-3\"><span class=\"material-symbols-outlined text-[32px]\">shield</span></div><h4 class=\"font-label-lg text-[16px] font-bold text-on-surface mb-2\">Độ bền bỉ theo thời gian</h4><p class=\"font-body-md text-[14px] text-on-surface-variant\">Khả năng chống xẹp lún cực tốt, duy trì được 90% hiệu suất ban đầu sau 500km chạy liên tục.</p></div><div class=\"bg-surface-container-low p-6 rounded-lg border border-outline-variant hover:shadow-md transition-shadow\"><div class=\"text-tertiary mb-3\"><span class=\"material-symbols-outlined text-[32px]\">thermostat</span></div><h4 class=\"font-label-lg text-[16px] font-bold text-on-surface mb-2\">Thích ứng nhiệt độ đa dạng</h4><p class=\"font-body-md text-[14px] text-on-surface-variant\">Vật liệu không bị cứng lại trong thời tiết lạnh giá hay biến dạng dưới sức nóng mặt đường khắc nghiệt.</p></div></div><p>Sự kết hợp giữa Aero-Foam và thiết kế khí động học đặc trưng của Axeron hứa hẹn sẽ mang đến những kỷ lục mới trên đường chạy. Công nghệ này sẽ lần lượt được áp dụng trên các dòng giày flagship sắp ra mắt trong quý tới, mở đầu là dòng Axeron Phantom 3.0.</p><figure class=\"my-8 rounded-xl overflow-hidden shadow-sm border border-outline-variant max-w-[600px] mx-auto\"><img alt=\"Cận cảnh kết cấu bọt xốp đệm Aero-Foam trên đế giày\" class=\"w-full h-auto object-cover aspect-square\" src=\"https://cdn.shopify.com/s/files/1/0456/5070/6581/files/dem-giay-chay-bo-la-gi-co-nhung-loai-nao-cach-chon-dem-giay-chay-bo-phu-hop-5.jpg?v=1710472525\"/><figcaption class=\"text-center font-label-sm text-label-sm text-on-surface-variant mt-2 p-2\">Kết cấu vi bọt tổ ong siêu nhỏ của Aero-Foam dưới kính hiển vi.</figcaption></figure><p>Chúng tôi không thỏa hiệp giữa sự thoải mái và tốc độ. Aero-Foam là câu trả lời của Axeron dành cho những người không ngừng theo đuổi sự hoàn hảo, - Giám đốc R&D của Axeron chia sẻ trong sự kiện ra mắt kín tuần qua.</p>', 'https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/970e4055732d4fd7937421b1ae2c4b5c~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&t=555f072d&ps=933b5bde&shp=a3510d86&shcp=6ce186a1&idc=my2&from=2739998086', '', NULL, NULL, 'Đội ngũ Axeron', 1, 1, '2026-06-17 00:15:51', 1511, NULL, NULL, NULL, 0, '2026-06-17 00:15:51', '2026-06-17 00:26:45');
+(8, 'Axeron ra mắt công nghệ đệm Aero-Foam mới', 'axeron-ra-mat-cong-nghe-dem-aero-foam-moi', 'Axeron Sport tự hào giới thiệu thế hệ đệm giảm chấn hoàn toàn mới mang tên Aero-Foam. Đây là bước đột phá công nghệ...', '<p class=\"font-headline-md text-[20px] leading-relaxed text-on-surface font-semibold border-l-4 border-axeron-red pl-4\">Axeron Sport tự hào giới thiệu thế hệ đệm giảm chấn hoàn toàn mới mang tên Aero-Foam. Đây là bước đột phá công nghệ hướng đến sự cân bằng hoàn hảo giữa trọng lượng siêu nhẹ, khả năng phản hồi lực và độ bền bỉ đáng kinh ngạc.</p><p>Được phát triển trong hơn 2 năm tại phòng nghiên cứu hiệu suất cao của Axeron, Aero-Foam không chỉ đơn thuần là một bản cập nhật vật liệu. Chúng tôi đã tái cấu trúc lại hoàn toàn các phân tử bọt xốp, tích hợp các khoang khí siêu vi cấu trúc tổ ong để tạo ra một lớp đệm có khả năng hấp thụ chấn động tức thì và hoàn trả năng lượng vượt trội trong mỗi bước chạy.</p><h3 class=\"font-headline-md text-headline-md text-on-surface mt-8 mb-4\">Các điểm mạnh vượt trội của Aero-Foam:</h3><div class=\"grid grid-cols-1 md:grid-cols-2 gap-4 mb-8\"><div class=\"bg-surface-container-low p-6 rounded-lg border border-outline-variant hover:shadow-md transition-shadow\"><div class=\"text-axeron-red mb-3\"><span class=\"material-symbols-outlined text-[32px]\" data-icon=\"speed\" data-weight=\"fill\">speed</span></div><h4 class=\"font-label-lg text-[16px] font-bold text-on-surface mb-2\">Trọng lượng nhẹ hơn 30%</h4><p class=\"font-body-md text-[14px] text-on-surface-variant\">So với vật liệu EVA truyền thống, cấu trúc vi bọt giúp giảm thiểu tối đa khối lượng vật lý mà không làm mất đi form dáng tổng thể.</p></div><div class=\"bg-surface-container-low p-6 rounded-lg border border-outline-variant hover:shadow-md transition-shadow\"><div class=\"text-axeron-blue mb-3\"><span class=\"material-symbols-outlined text-[32px]\" data-icon=\"bolt\" data-weight=\"fill\">bolt</span></div><h4 class=\"font-label-lg text-[16px] font-bold text-on-surface mb-2\">Hoàn trả năng lượng lên đến 75%</h4><p class=\"font-body-md text-[14px] text-on-surface-variant\">Mỗi bước chạm đất, Aero-Foam lưu trữ lực tác động và giải phóng ngay lập tức để đẩy người chạy về phía trước.</p></div><div class=\"bg-surface-container-low p-6 rounded-lg border border-outline-variant hover:shadow-md transition-shadow\"><div class=\"text-secondary mb-3\"><span class=\"material-symbols-outlined text-[32px]\">shield</span></div><h4 class=\"font-label-lg text-[16px] font-bold text-on-surface mb-2\">Độ bền bỉ theo thời gian</h4><p class=\"font-body-md text-[14px] text-on-surface-variant\">Khả năng chống xẹp lún cực tốt, duy trì được 90% hiệu suất ban đầu sau 500km chạy liên tục.</p></div><div class=\"bg-surface-container-low p-6 rounded-lg border border-outline-variant hover:shadow-md transition-shadow\"><div class=\"text-tertiary mb-3\"><span class=\"material-symbols-outlined text-[32px]\">thermostat</span></div><h4 class=\"font-label-lg text-[16px] font-bold text-on-surface mb-2\">Thích ứng nhiệt độ đa dạng</h4><p class=\"font-body-md text-[14px] text-on-surface-variant\">Vật liệu không bị cứng lại trong thời tiết lạnh giá hay biến dạng dưới sức nóng mặt đường khắc nghiệt.</p></div></div><p>Sự kết hợp giữa Aero-Foam và thiết kế khí động học đặc trưng của Axeron hứa hẹn sẽ mang đến những kỷ lục mới trên đường chạy. Công nghệ này sẽ lần lượt được áp dụng trên các dòng giày flagship sắp ra mắt trong quý tới, mở đầu là dòng Axeron Phantom 3.0.</p><figure class=\"my-8 rounded-xl overflow-hidden shadow-sm border border-outline-variant max-w-[600px] mx-auto\"><img alt=\"Cận cảnh kết cấu bọt xốp đệm Aero-Foam trên đế giày\" class=\"w-full h-auto object-cover aspect-square\" src=\"https://cdn.shopify.com/s/files/1/0456/5070/6581/files/dem-giay-chay-bo-la-gi-co-nhung-loai-nao-cach-chon-dem-giay-chay-bo-phu-hop-5.jpg?v=1710472525\"/><figcaption class=\"text-center font-label-sm text-label-sm text-on-surface-variant mt-2 p-2\">Kết cấu vi bọt tổ ong siêu nhỏ của Aero-Foam dưới kính hiển vi.</figcaption></figure><p>Chúng tôi không thỏa hiệp giữa sự thoải mái và tốc độ. Aero-Foam là câu trả lời của Axeron dành cho những người không ngừng theo đuổi sự hoàn hảo, - Giám đốc R&D của Axeron chia sẻ trong sự kiện ra mắt kín tuần qua.</p>', 'https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/970e4055732d4fd7937421b1ae2c4b5c~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&t=555f072d&ps=933b5bde&shp=a3510d86&shcp=6ce186a1&idc=my2&from=2739998086', '', NULL, NULL, 'Đội ngũ Axeron', 1, 1, '2026-06-17 00:15:51', 1512, NULL, NULL, NULL, 0, '2026-06-17 00:15:51', '2026-06-21 19:51:07');
 
 -- --------------------------------------------------------
 
@@ -190,7 +190,10 @@ INSERT INTO `cart_items` (`cart_item_id`, `cart_id`, `variant_id`, `quantity`, `
 (26, 1, 249, 2, '2026-06-11 00:44:13'),
 (27, 17, 6, 1, '2026-06-11 01:10:12'),
 (33, 13, 250, 1, '2026-06-11 03:03:11'),
-(70, 13, 264, 1, '2026-06-17 06:49:34');
+(70, 13, 264, 1, '2026-06-17 06:49:34'),
+(106, 16, 2280, 3, '2026-06-23 22:54:52'),
+(107, 16, 1, 3, '2026-06-23 23:16:43'),
+(108, 16, 2276, 4, '2026-06-23 23:17:01');
 
 -- --------------------------------------------------------
 
@@ -492,7 +495,19 @@ INSERT INTO `chat_messages` (`message_id`, `session_id`, `sender_type`, `content
 INSERT INTO `chat_messages` (`message_id`, `session_id`, `sender_type`, `content`, `sent_at`) VALUES
 (187, 14, 'bot', 'Chào bạn! Axeron Sport có rất nhiều mẫu giày thể thao chất lượng. Dưới đây là một số lựa chọn nổi bật mà bạn có thể tham khảo:\n\n*   **Giày chạy bộ DL Speed Pro X1**\n    *   Giá: 890.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-chay-bo-dl-speed-pro-x1\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày chạy bộ DL Speed Pro X1</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>890.000₫</p></div></div></a>\n*   **Giày chạy bộ DL Runner Air 2024**\n    *   Giá: 750.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-chay-bo-dl-runner-air-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660109/axeron-products/product_6a31f9cd2c2fe_1781660109.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày chạy bộ DL Runner Air 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>750.000₫</p></div></div></a>\n*   **Giày Nike Revolution 7**\n    *   Giá: 1.950.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-nike-revolution-7\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660138/axeron-products/product_6a31f9e998c7f_1781660137.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Nike Revolution 7</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.950.000₫</p></div></div></a>\n*   **Giày Adidas Runfalcon 3.0**\n    *   Giá: 1.650.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-adidas-runfalcon-3\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781660124/axeron-products/product_6a31f9dc94d20_1781660124.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Adidas Runfalcon 3.0</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.650.000₫</p></div></div></a>\n*   **Giày ASICS Gel-Nimbus 26**\n    *   Giá: 3.200.000 VNĐ\n    *   <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-asics-gel-nimbus-26\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&amp;w=800&amp;auto=format&amp;fit=crop\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày ASICS Gel-Nimbus 26</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>3.200.000₫</p></div></div></a>\n\nBạn đang tìm giày cho mục đích gì (chạy bộ, đi bộ, tập gym,...) hay có yêu cầu về thương hiệu, mức giá nào không ạ? Hãy cho Axeron Sport biết thêm để tư vấn chính xác hơn nhé!', '2026-06-20 14:20:28'),
 (188, 13, 'user', 'ông muốn mua một đôi giày đá bóng, bạn tìm giúp mình 1 đôi nhé.', '2026-06-20 14:23:26'),
-(189, 13, 'bot', 'Chào bạn! Axeron Sport có một số mẫu giày đá bóng để bạn tham khảo đây ạ:\n\n*   **Giày đá bóng DL Speed FG Jr** - Giá: 420.000 VNĐ. Số lượng còn: 100 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-dl-speed-fg-jr\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://sumstore.vn/wp-content/uploads/2024/10/Lefus-Z001-FG-den.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng DL Speed FG Jr</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>420.000₫</p></div></div></a>\n*   **Giày bóng đá Axeron V5-C9CD** - Giá: 1.591.000 VNĐ. Số lượng còn: 82 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-v5-c9cd\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677858/axeron-products/product_6a323f214b7d5_1781677857.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Bóng Đá Axeron V5-C9CD</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.591.000₫</p></div></div></a>\n*   **Giày Đá Bóng - Phiên Bản Cao Cấp 4** - Giá: 1.000.000 VNĐ. Số lượng còn: 100 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-phien-ban-cao-cap-4-9e40f\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677820/axeron-products/product_6a323efab1911_1781677818.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Đá Bóng - Phiên Bản Cao Cấp 4</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.000.000₫</p></div></div></a>\n*   **Giày đá bóng DL Striker FG 2024** - Giá: 650.000 VNĐ. Số lượng còn: 80 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-dl-striker-fg-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677833/axeron-products/product_6a323f092b5ea_1781677833.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng DL Striker FG 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>650.000₫</p></div></div></a>\n*   **Giày Bóng Đá Axeron V1-FF6F** - Giá: 1.677.000 VNĐ. Số lượng còn: 19 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-v1-ff6f\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677844/axeron-products/product_6a323f132f174_1781677843.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Bóng Đá Axeron V1-FF6F</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.677.000₫</p></div></div></a>\n\nBạn có thể xem chi tiết từng sản phẩm và đặt hàng trên website axeron.vn, hoặc ghé trực tiếp cửa hàng tại 123 Nguyễn Trãi, Quận 1, TP.HCM để thử và lựa chọn nhé!', '2026-06-20 14:23:32');
+(189, 13, 'bot', 'Chào bạn! Axeron Sport có một số mẫu giày đá bóng để bạn tham khảo đây ạ:\n\n*   **Giày đá bóng DL Speed FG Jr** - Giá: 420.000 VNĐ. Số lượng còn: 100 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-dl-speed-fg-jr\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://sumstore.vn/wp-content/uploads/2024/10/Lefus-Z001-FG-den.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng DL Speed FG Jr</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>420.000₫</p></div></div></a>\n*   **Giày bóng đá Axeron V5-C9CD** - Giá: 1.591.000 VNĐ. Số lượng còn: 82 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-v5-c9cd\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677858/axeron-products/product_6a323f214b7d5_1781677857.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Bóng Đá Axeron V5-C9CD</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.591.000₫</p></div></div></a>\n*   **Giày Đá Bóng - Phiên Bản Cao Cấp 4** - Giá: 1.000.000 VNĐ. Số lượng còn: 100 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-phien-ban-cao-cap-4-9e40f\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677820/axeron-products/product_6a323efab1911_1781677818.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Đá Bóng - Phiên Bản Cao Cấp 4</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.000.000₫</p></div></div></a>\n*   **Giày đá bóng DL Striker FG 2024** - Giá: 650.000 VNĐ. Số lượng còn: 80 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-dl-striker-fg-2024\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677833/axeron-products/product_6a323f092b5ea_1781677833.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng DL Striker FG 2024</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>650.000₫</p></div></div></a>\n*   **Giày Bóng Đá Axeron V1-FF6F** - Giá: 1.677.000 VNĐ. Số lượng còn: 19 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-v1-ff6f\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677844/axeron-products/product_6a323f132f174_1781677843.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Bóng Đá Axeron V1-FF6F</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.677.000₫</p></div></div></a>\n\nBạn có thể xem chi tiết từng sản phẩm và đặt hàng trên website axeron.vn, hoặc ghé trực tiếp cửa hàng tại 123 Nguyễn Trãi, Quận 1, TP.HCM để thử và lựa chọn nhé!', '2026-06-20 14:23:32'),
+(190, 13, 'user', 'xin chào', '2026-06-21 09:38:03'),
+(191, 13, 'bot', 'Chào bạn! Axeron Sport có thể giúp gì cho bạn hôm nay ạ?', '2026-06-21 09:38:05'),
+(198, 16, 'user', 'Kiem tra don hang ORDM-C5F31F80', '2026-06-21 09:55:34'),
+(199, 16, 'bot', 'Chào bạn,\n\nĐể kiểm tra đơn hàng **ORDM-C5F31F80**, Axeron Sport cần bạn đăng nhập vào tài khoản của mình trên website.\n\nNếu bạn chưa đăng nhập hoặc gặp khó khăn, vui lòng liên hệ hotline **1900 1234** để được hỗ trợ kiểm tra chi tiết nhé.\n\nCảm ơn bạn!', '2026-06-21 09:55:35'),
+(200, 13, 'user', '<script>alert(\'XSS\')</script>', '2026-06-21 10:32:49'),
+(201, 13, 'bot', 'Chào bạn! Axeron Sport rất vui được hỗ trợ bạn. Bạn có câu hỏi nào về sản phẩm, chính sách hay thông tin cửa hàng không ạ?', '2026-06-21 10:32:51'),
+(202, 13, 'user', 'Cho tôi xem giày bóng đá', '2026-06-21 10:33:00'),
+(203, 13, 'bot', 'Chào bạn! Axeron Sport có một số mẫu giày đá bóng để bạn tham khảo đây ạ:\n\n*   **Giày đá bóng Nike Phantom GX2** - Giá: 3.100.000 VNĐ. Số lượng còn: 20 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-nike-phantom-gx2\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://bizweb.dktcdn.net/thumb/large/100/108/842/products/8-7.jpg?v=1780477421603\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng Nike Phantom GX2</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>3.100.000₫</p></div></div></a>\n*   **Giày Bóng Đá Axeron V4-7620** - Giá: 1.204.000 VNĐ. Số lượng còn: 25 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-v4-7620\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677855/axeron-products/product_6a323f1e25497_1781677854.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Bóng Đá Axeron V4-7620</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.204.000₫</p></div></div></a>\n*   **Giày Đá Bóng - Phiên Bản Cao Cấp 3** - Giá: 1.010.000 VNĐ. Số lượng còn: 100 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-phien-ban-cao-cap-3-2ebfd\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677810/axeron-products/product_6a323ef014dbc_1781677808.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Đá Bóng - Phiên Bản Cao Cấp 3</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.010.000₫</p></div></div></a>\n*   **Giày đá bóng DL Speed FG Jr** - Giá: 420.000 VNĐ. Số lượng còn: 100 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-dl-speed-fg-jr\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://sumstore.vn/wp-content/uploads/2024/10/Lefus-Z001-FG-den.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày đá bóng DL Speed FG Jr</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>420.000₫</p></div></div></a>\n*   **Giày Bóng Đá Axeron V5-C9CD** - Giá: 1.591.000 VNĐ. Số lượng còn: 82 đôi. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=giay-da-bong-v5-c9cd\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781677858/axeron-products/product_6a323f214b7d5_1781677857.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Giày Bóng Đá Axeron V5-C9CD</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>1.591.000₫</p></div></div></a>\n\nBạn có muốn tìm hiểu thêm về mẫu nào không ạ?', '2026-06-21 10:33:03'),
+(204, 13, 'user', 'Đồ mặc đi gym mùa hè', '2026-06-21 10:33:13'),
+(205, 13, 'bot', 'Chào bạn, Axeron Sport hiện không có sản phẩm nào được phân loại cụ thể là \"đồ mặc đi gym mùa hè\" trong danh mục sản phẩm hiện có của tôi.\n\nTuy nhiên, chúng tôi có các sản phẩm thể thao khác mà bạn có thể quan tâm như:\n*   **Bộ Cầu Lông Nữ Thể Thao 0143** với giá 800.000 VNĐ. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=bo-cau-long-nu-the-thao-0143-1781112128-2\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658715/axeron-products/product_6a31f45b85464_1781658715.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Bộ Cầu Lông Nữ Thể Thao 0143</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>800.000₫</p></div></div></a>\n*   **Bộ Suvec Nam Thể Thao E1F4** với giá 600.000 VNĐ. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=bo-suvec-nam-the-thao-e1f4-1781112128-2\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658673/axeron-products/product_6a31f4313dfb5_1781658673.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Bộ Suvec Nam Thể Thao E1F4</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>600.000₫</p></div></div></a>\n*   **Bộ Bóng Chuyền Nam Thể Thao F2AD** với giá 250.000 VNĐ. <a href=\'https://www.axeronsport.xyz/shop/product-detail.php?slug=bo-bong-chuyen-nam-the-thao-f2ad-1781112128-1\' class=\'block mt-2 bg-surface-container rounded-lg p-2 border border-outline-variant hover:border-axeron-red transition-colors no-underline\' target=\'_blank\'><div class=\'flex gap-3 items-center\'><img src=\'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658685/axeron-products/product_6a31f43dae2cb_1781658685.jpg\' alt=\'img\' class=\'w-12 h-12 object-cover rounded-md\'><div><h4 class=\'font-bold text-xs text-on-surface line-clamp-1\'>Bộ Bóng Chuyền Nam Thể Thao F2AD</h4><p class=\'text-axeron-red font-bold text-xs m-0\'>250.000₫</p></div></div></a>\n\nNếu bạn muốn tìm các sản phẩm chuyên dụng hơn cho việc tập gym hoặc đồ phù hợp cho mùa hè, bạn có thể liên hệ trực tiếp hotline **1900 1234** hoặc ghé thăm cửa hàng tại **123 Nguyễn Trãi, Quận 1, TP.HCM** để được tư vấn chi tiết hơn nhé.', '2026-06-21 10:33:17'),
+(206, 17, 'user', 'xin chào', '2026-06-23 23:46:16'),
+(207, 17, 'bot', 'Xin chào! Tôi là trợ lý AI từ Axeron Sport. Rất vui được hỗ trợ bạn. Bạn cần tìm hiểu thông tin gì về sản phẩm hoặc dịch vụ của chúng tôi ạ?', '2026-06-23 23:46:18');
 
 -- --------------------------------------------------------
 
@@ -526,7 +541,9 @@ INSERT INTO `chat_sessions` (`session_id`, `user_id`, `status`, `started_at`, `e
 (11, NULL, 'open', '2026-06-19 13:35:30', NULL),
 (12, NULL, 'open', '2026-06-19 14:11:05', NULL),
 (13, NULL, 'open', '2026-06-19 22:27:30', NULL),
-(14, 2, 'open', '2026-06-19 22:43:44', NULL);
+(14, 2, 'open', '2026-06-19 22:43:44', NULL),
+(16, NULL, 'open', '2026-06-21 09:55:34', NULL),
+(17, NULL, 'open', '2026-06-23 23:46:16', NULL);
 
 -- --------------------------------------------------------
 
@@ -570,7 +587,8 @@ INSERT INTO `notifications` (`id`, `message`, `is_read`, `created_at`) VALUES
 (6, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 3 (Review ID: 1405)', 0, '2026-06-17 18:01:37'),
 (7, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 236 (Review ID: 1406)', 0, '2026-06-17 18:29:59'),
 (8, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 236 (Review ID: 1409)', 0, '2026-06-17 19:17:17'),
-(9, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 25 (Review ID: 1410)', 0, '2026-06-19 07:51:13');
+(9, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 25 (Review ID: 1410)', 0, '2026-06-19 07:51:13'),
+(10, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 176 (Review ID: 1411)', 0, '2026-06-21 09:22:09');
 
 -- --------------------------------------------------------
 
@@ -2116,7 +2134,13 @@ INSERT INTO `orders` (`order_id`, `order_code`, `user_id`, `shipping_id`, `shipp
 (51485, 'ORDM-928262D2', 2, NULL, 1, NULL, 'Bug', '0987654321', 'bug@gmail.com', NULL, 'Địa chỉ test sinh tự động', 370000.00, 0.00, 30000.00, 400000.00, 'delivered', 'cod', 'paid', NULL, '2026-04-08 17:40:22', '2026-04-08 21:04:20'),
 (51486, 'ORDM-117AA8C2', 2, 1, 1, 12, 'Bug', '0987654321', '', '26cc45575e2da4034ecd81835e4f75c8', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 9500.00, 25000.00, 20000.00, 4500.00, 'delivered', 'payos', 'paid', '', '2026-06-19 11:36:22', '2026-06-19 16:59:53'),
 (51487, 'ORDM-4874A552', 50, 10, 1, NULL, 'khang', '0123456789', '', '6c5897cf99807b64bef2452c3de2762f', '77/5a phường 4 tpvl, , Thị xã Giá Rai, Bạc Liêu', 4750000.00, 0.00, 0.00, 4750000.00, 'delivered', 'cod', 'paid', 'abcxyz', '2026-06-19 14:48:59', '2026-06-19 16:59:53'),
-(51488, 'ORDM-C6F91F82', 2, 1, 2, NULL, 'Bug', '0987654321', '', 'f67bb7c24ef8ccd97bc784ba25b4ec2f', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 6385600.00, 0.00, 0.00, 6385600.00, 'pending', 'payos', 'unpaid', '', '2026-06-21 08:29:55', '2026-06-21 08:29:55');
+(51488, 'ORDM-C6F91F82', 2, 1, 2, NULL, 'Bug', '0987654321', '', 'f67bb7c24ef8ccd97bc784ba25b4ec2f', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 6385600.00, 0.00, 0.00, 6385600.00, 'delivered', 'payos', 'paid', '', '2026-06-21 08:29:55', '2026-06-21 14:05:30'),
+(51489, 'ORDM-C5F31F80', 54, 7, 1, NULL, 'Vanced QA', '0988771122', '', 'aeee14f4ba46396fe7c815c6b9d2b4ac', '123 Automation Street, , Thành phố Vũng Tàu, Bà Rịa - Vũng Tàu', 2476500.00, 0.00, 0.00, 2476500.00, 'delivered', 'cod', 'paid', '', '2026-06-21 09:35:22', '2026-06-21 14:03:27'),
+(51490, 'ORDM-8DFF112E', 2, 1, 1, NULL, 'Bug', '0987654321', '', '269c75fccedf182ffeb625669c06e1c0', '6/21 Huỳnh Tấn Phát, , , TP. Hồ Chí Minh', 1341100.00, 0.00, 20000.00, 1361100.00, 'delivered', 'payos', 'paid', '', '2026-06-21 10:54:37', '2026-06-21 14:03:40'),
+(51491, 'ORDM-8F176A18', 2, 1, 1, 12, 'Bug', '0987654321', '', '5c0cbfe1015ddf72a8d3caa88da0bafd', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 2850.00, 22850.00, 20000.00, 0.00, 'pending', 'payos', 'unpaid', '', '2026-06-21 16:29:32', '2026-06-21 16:29:32'),
+(51492, 'ORDM-F9311EAE', 2, 1, 2, 12, 'Bug', '0987654321', '', '53090e40e6ed33fb603bb2c3a587c8fd', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 2850.00, 25000.00, 35000.00, 12850.00, 'pending', 'payos', 'unpaid', '', '2026-06-21 16:30:47', '2026-06-21 16:30:47'),
+(51493, 'ORDM-32A827C4', 2, 1, 1, NULL, 'Bug', '0987654321', '', 'e4511f91fdc3d2580b5ef0c4273cb366', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 152000.00, 0.00, 20000.00, 172000.00, 'pending', 'cod', 'unpaid', '', '2026-06-21 16:34:19', '2026-06-21 16:34:19'),
+(51494, 'ORDM-6E458117', 2, 1, 1, NULL, 'Bug', '0987654321', '', '84a4eb29bcab9867901058a8cca07412', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 152000.00, 0.00, 20000.00, 172000.00, 'cancelled', 'cod', 'unpaid', '', '2026-06-21 16:34:53', '2026-06-21 16:35:02');
 
 -- --------------------------------------------------------
 
@@ -3735,7 +3759,15 @@ INSERT INTO `order_items` (`order_item_id`, `order_id`, `variant_id`, `product_n
 (1607, 51488, 1, 'Giày chạy bộ DL Speed Pro X1', 'Đen - Size 39', 845500.00, 1, 845500.00),
 (1608, 51488, 13, 'Giày Nike Revolution 7', 'Đen - Size 39', 1852500.00, 1, 1852500.00),
 (1609, 51488, 25, 'Giày ASICS Gel-Nimbus 26', 'Xanh - Size 39', 3135000.00, 1, 3135000.00),
-(1610, 51488, 2278, 'Giày Cầu Lông Axeron Smash V2-28A4', 'default - Size default', 552600.00, 1, 552600.00);
+(1610, 51488, 2278, 'Giày Cầu Lông Axeron Smash V2-28A4', 'default - Size default', 552600.00, 1, 552600.00),
+(1611, 51489, 15, 'Giày Nike Revolution 7', 'Đen - Size 41', 1852500.00, 1, 1852500.00),
+(1612, 51489, 2279, 'Giày Cầu Lông Axeron Smash V1-5FD8', 'default - Size default', 624000.00, 1, 624000.00),
+(1613, 51490, 1620, 'Giày chạy bộ - Phiên Bản Cao Cấp 3', 'Đen - Size S', 788500.00, 1, 788500.00),
+(1614, 51490, 2278, 'Giày Cầu Lông Axeron Smash V2-28A4', 'default - Size default', 552600.00, 1, 552600.00),
+(1615, 51491, 254, 'BANKING 3K', 'Mặc định - Size Free Size', 2850.00, 1, 2850.00),
+(1616, 51492, 254, 'BANKING 3K', 'Mặc định - Size Free Size', 2850.00, 1, 2850.00),
+(1617, 51493, 171, 'Cầu lông Yonex AS-05 (hop 12 qua)', 'Vàng - Size Lop 76', 152000.00, 1, 152000.00),
+(1618, 51494, 171, 'Cầu lông Yonex AS-05 (hop 12 qua)', 'Vàng - Size Lop 76', 152000.00, 1, 152000.00);
 
 -- --------------------------------------------------------
 
@@ -3837,7 +3869,20 @@ INSERT INTO `order_status_logs` (`log_id`, `order_id`, `changed_by`, `old_status
 (98, 51487, NULL, NULL, 'pending', NULL, '2026-06-19 14:48:59'),
 (99, 51487, 1, 'unpaid', 'paid', 'Cập nhật thanh toán bởi admin', '2026-06-19 14:49:42'),
 (100, 51487, 1, 'pending', 'delivered', NULL, '2026-06-19 14:49:48'),
-(101, 51488, NULL, NULL, 'pending', NULL, '2026-06-21 08:29:56');
+(101, 51488, NULL, NULL, 'pending', NULL, '2026-06-21 08:29:56'),
+(102, 51489, NULL, NULL, 'pending', NULL, '2026-06-21 09:35:22'),
+(103, 51489, 1, 'pending', 'delivered', NULL, '2026-06-21 10:23:14'),
+(104, 51490, NULL, NULL, 'pending', NULL, '2026-06-21 10:54:38'),
+(105, 51489, 1, 'unpaid', 'paid', 'Cập nhật thanh toán bởi admin', '2026-06-21 14:03:27'),
+(106, 51490, 1, 'pending', 'delivered', NULL, '2026-06-21 14:03:36'),
+(107, 51490, 1, 'unpaid', 'paid', 'Cập nhật thanh toán bởi admin', '2026-06-21 14:03:40'),
+(108, 51488, 1, 'unpaid', 'paid', 'Cập nhật thanh toán bởi admin', '2026-06-21 14:05:28'),
+(109, 51488, 1, 'pending', 'delivered', NULL, '2026-06-21 14:05:30'),
+(110, 51491, NULL, NULL, 'pending', NULL, '2026-06-21 16:29:32'),
+(111, 51492, NULL, NULL, 'pending', NULL, '2026-06-21 16:30:48'),
+(112, 51493, NULL, NULL, 'pending', NULL, '2026-06-21 16:34:19'),
+(113, 51494, NULL, NULL, 'pending', NULL, '2026-06-21 16:34:53'),
+(114, 51494, 2, 'pending', 'cancelled', 'Lý do: Tìm được sản phẩm khác', '2026-06-21 16:35:02');
 
 -- --------------------------------------------------------
 
@@ -3924,7 +3969,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`, `slug`, `description`, `base_price`, `stock_quantity`, `is_visible`, `is_deleted`, `is_featured`, `featured_sort_order`, `avg_rating`, `total_reviews`, `created_at`, `updated_at`) VALUES
-(1, 101, 1, 'Giày chạy bộ DL Speed Pro X1', 'giay-chay-bo-dl-speed-pro-x1', '<h3>Tổng quan chi tiết về <strong>Giày chạy bộ DL Speed Pro X1</strong></h3>\n<p>Giày chạy bộ chuyên nghiệp với đế giày EVA siêu nhẹ.</p>\n\n        <p>Được thiết kế chuyên biệt để nâng niu từng bước chân, <strong>Giày chạy bộ DL Speed Pro X1</strong> là người bạn đồng hành không thể thiếu cho những tín đồ đam mê vận động. Với kiểu dáng thể thao hiện đại, sản phẩm không chỉ mang lại hiệu suất cao trên sân tập mà còn rất phong cách khi dạo phố.</p>\n        \n        <h4>1. Cấu tạo và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất liệu bề mặt cao cấp:</strong> Thân giày được làm từ vật liệu siêu nhẹ và thoáng khí, giúp đôi chân luôn khô ráo dù hoạt động ở cường độ cao.</li>\n            <li><strong>Bộ đệm êm ái, trợ lực tốt:</strong> Đế giữa hấp thụ lực va đập cực tốt, phản hồi năng lượng mạnh mẽ giúp giảm thiểu chấn thương cơ xương khớp.</li>\n            <li><strong>Đế ngoài chống trượt:</strong> Thiết kế mặt đế bám đường vượt trội, tăng độ ma sát và an toàn trên nhiều địa hình khác nhau.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn vệ sinh và bảo quản</h4>\n        <ul>\n            <li>Không giặt giày bằng máy giặt để tránh làm biến dạng form dáng và hỏng lớp keo dán.</li>\n            <li>Sử dụng bàn chải lông mềm và dung dịch vệ sinh chuyên dụng để làm sạch các vết bẩn.</li>\n            <li>Sau khi giặt, phơi giày ở nơi khô ráo, bóng râm. Tuyệt đối không phơi trực tiếp dưới ánh nắng gắt hoặc dùng máy sấy nhiệt độ cao.</li>\n            <li>Nên nhét thêm giấy báo hoặc cục hút ẩm vào bên trong giày khi không sử dụng để giữ form và khử mùi.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Giày chạy bộ DL Speed Pro X1</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 890000.00, 50, 1, 0, 1, 3, 4.67, 3, '2026-05-29 19:17:55', '2026-06-16 21:10:03'),
+(1, 101, 1, 'Giày chạy bộ DL Speed Pro X1', 'giay-chay-bo-dl-speed-pro-x1', '<h3>Tổng quan chi tiết về <strong>Giày chạy bộ DL Speed Pro X1</strong></h3>\n<p>Giày chạy bộ chuyên nghiệp với đế giày EVA siêu nhẹ.</p>\n\n        <p>Được thiết kế chuyên biệt để nâng niu từng bước chân, <strong>Giày chạy bộ DL Speed Pro X1</strong> là người bạn đồng hành không thể thiếu cho những tín đồ đam mê vận động. Với kiểu dáng thể thao hiện đại, sản phẩm không chỉ mang lại hiệu suất cao trên sân tập mà còn rất phong cách khi dạo phố.</p>\n        \n        <h4>1. Cấu tạo và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất liệu bề mặt cao cấp:</strong> Thân giày được làm từ vật liệu siêu nhẹ và thoáng khí, giúp đôi chân luôn khô ráo dù hoạt động ở cường độ cao.</li>\n            <li><strong>Bộ đệm êm ái, trợ lực tốt:</strong> Đế giữa hấp thụ lực va đập cực tốt, phản hồi năng lượng mạnh mẽ giúp giảm thiểu chấn thương cơ xương khớp.</li>\n            <li><strong>Đế ngoài chống trượt:</strong> Thiết kế mặt đế bám đường vượt trội, tăng độ ma sát và an toàn trên nhiều địa hình khác nhau.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn vệ sinh và bảo quản</h4>\n        <ul>\n            <li>Không giặt giày bằng máy giặt để tránh làm biến dạng form dáng và hỏng lớp keo dán.</li>\n            <li>Sử dụng bàn chải lông mềm và dung dịch vệ sinh chuyên dụng để làm sạch các vết bẩn.</li>\n            <li>Sau khi giặt, phơi giày ở nơi khô ráo, bóng râm. Tuyệt đối không phơi trực tiếp dưới ánh nắng gắt hoặc dùng máy sấy nhiệt độ cao.</li>\n            <li>Nên nhét thêm giấy báo hoặc cục hút ẩm vào bên trong giày khi không sử dụng để giữ form và khử mùi.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Giày chạy bộ DL Speed Pro X1</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 890000.00, 50, 1, 0, 1, 3, 4.67, 3, '2026-05-29 19:17:55', '2026-06-21 16:24:42'),
 (2, 101, 1, 'Giày chạy bộ DL Runner Air 2024', 'giay-chay-bo-dl-runner-air-2024', '<h3>Tổng quan chi tiết về <strong>Giày chạy bộ DL Runner Air 2024</strong></h3>\n<p>Thiết kế khí động học giúp tăng tốc độ.</p>\n\n        <p>Được thiết kế chuyên biệt để nâng niu từng bước chân, <strong>Giày chạy bộ DL Runner Air 2024</strong> là người bạn đồng hành không thể thiếu cho những tín đồ đam mê vận động. Với kiểu dáng thể thao hiện đại, sản phẩm không chỉ mang lại hiệu suất cao trên sân tập mà còn rất phong cách khi dạo phố.</p>\n        \n        <h4>1. Cấu tạo và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất liệu bề mặt cao cấp:</strong> Thân giày được làm từ vật liệu siêu nhẹ và thoáng khí, giúp đôi chân luôn khô ráo dù hoạt động ở cường độ cao.</li>\n            <li><strong>Bộ đệm êm ái, trợ lực tốt:</strong> Đế giữa hấp thụ lực va đập cực tốt, phản hồi năng lượng mạnh mẽ giúp giảm thiểu chấn thương cơ xương khớp.</li>\n            <li><strong>Đế ngoài chống trượt:</strong> Thiết kế mặt đế bám đường vượt trội, tăng độ ma sát và an toàn trên nhiều địa hình khác nhau.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn vệ sinh và bảo quản</h4>\n        <ul>\n            <li>Không giặt giày bằng máy giặt để tránh làm biến dạng form dáng và hỏng lớp keo dán.</li>\n            <li>Sử dụng bàn chải lông mềm và dung dịch vệ sinh chuyên dụng để làm sạch các vết bẩn.</li>\n            <li>Sau khi giặt, phơi giày ở nơi khô ráo, bóng râm. Tuyệt đối không phơi trực tiếp dưới ánh nắng gắt hoặc dùng máy sấy nhiệt độ cao.</li>\n            <li>Nên nhét thêm giấy báo hoặc cục hút ẩm vào bên trong giày khi không sử dụng để giữ form và khử mùi.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Giày chạy bộ DL Runner Air 2024</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 750000.00, 60, 1, 0, 1, 999, 4.40, 8, '2026-05-29 19:17:55', '2026-06-17 08:35:50'),
 (3, 101, 2, 'Giày Nike Revolution 7', 'giay-nike-revolution-7', '<h3>Tổng quan chi tiết về <strong>Giày Nike Revolution 7</strong></h3>\n<p>Giày chạy bộ phổ biến của Nike với đế giữa foam đen.</p>\n\n        <p>Được thiết kế chuyên biệt để nâng niu từng bước chân, <strong>Giày Nike Revolution 7</strong> là người bạn đồng hành không thể thiếu cho những tín đồ đam mê vận động. Với kiểu dáng thể thao hiện đại, sản phẩm không chỉ mang lại hiệu suất cao trên sân tập mà còn rất phong cách khi dạo phố.</p>\n        \n        <h4>1. Cấu tạo và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất liệu bề mặt cao cấp:</strong> Thân giày được làm từ vật liệu siêu nhẹ và thoáng khí, giúp đôi chân luôn khô ráo dù hoạt động ở cường độ cao.</li>\n            <li><strong>Bộ đệm êm ái, trợ lực tốt:</strong> Đế giữa hấp thụ lực va đập cực tốt, phản hồi năng lượng mạnh mẽ giúp giảm thiểu chấn thương cơ xương khớp.</li>\n            <li><strong>Đế ngoài chống trượt:</strong> Thiết kế mặt đế bám đường vượt trội, tăng độ ma sát và an toàn trên nhiều địa hình khác nhau.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn vệ sinh và bảo quản</h4>\n        <ul>\n            <li>Không giặt giày bằng máy giặt để tránh làm biến dạng form dáng và hỏng lớp keo dán.</li>\n            <li>Sử dụng bàn chải lông mềm và dung dịch vệ sinh chuyên dụng để làm sạch các vết bẩn.</li>\n            <li>Sau khi giặt, phơi giày ở nơi khô ráo, bóng râm. Tuyệt đối không phơi trực tiếp dưới ánh nắng gắt hoặc dùng máy sấy nhiệt độ cao.</li>\n            <li>Nên nhét thêm giấy báo hoặc cục hút ẩm vào bên trong giày khi không sử dụng để giữ form và khử mùi.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Giày Nike Revolution 7</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 1950000.00, 30, 1, 0, 1, 2, 4.67, 3, '2026-05-29 19:17:55', '2026-06-18 01:29:19'),
 (4, 101, 3, 'Giày Adidas Runfalcon 3.0', 'giay-adidas-runfalcon-3', '<h3>Tổng quan chi tiết về <strong>Giày Adidas Runfalcon 3.0</strong></h3>\n<p>Dòng giày chạy bộ giá tốt của Adidas.</p>\n\n        <p>Được thiết kế chuyên biệt để nâng niu từng bước chân, <strong>Giày Adidas Runfalcon 3.0</strong> là người bạn đồng hành không thể thiếu cho những tín đồ đam mê vận động. Với kiểu dáng thể thao hiện đại, sản phẩm không chỉ mang lại hiệu suất cao trên sân tập mà còn rất phong cách khi dạo phố.</p>\n        \n        <h4>1. Cấu tạo và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất liệu bề mặt cao cấp:</strong> Thân giày được làm từ vật liệu siêu nhẹ và thoáng khí, giúp đôi chân luôn khô ráo dù hoạt động ở cường độ cao.</li>\n            <li><strong>Bộ đệm êm ái, trợ lực tốt:</strong> Đế giữa hấp thụ lực va đập cực tốt, phản hồi năng lượng mạnh mẽ giúp giảm thiểu chấn thương cơ xương khớp.</li>\n            <li><strong>Đế ngoài chống trượt:</strong> Thiết kế mặt đế bám đường vượt trội, tăng độ ma sát và an toàn trên nhiều địa hình khác nhau.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn vệ sinh và bảo quản</h4>\n        <ul>\n            <li>Không giặt giày bằng máy giặt để tránh làm biến dạng form dáng và hỏng lớp keo dán.</li>\n            <li>Sử dụng bàn chải lông mềm và dung dịch vệ sinh chuyên dụng để làm sạch các vết bẩn.</li>\n            <li>Sau khi giặt, phơi giày ở nơi khô ráo, bóng râm. Tuyệt đối không phơi trực tiếp dưới ánh nắng gắt hoặc dùng máy sấy nhiệt độ cao.</li>\n            <li>Nên nhét thêm giấy báo hoặc cục hút ẩm vào bên trong giày khi không sử dụng để giữ form và khử mùi.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Giày Adidas Runfalcon 3.0</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 1650000.00, 40, 1, 0, 0, 999, 4.30, 10, '2026-05-29 19:17:55', '2026-06-16 21:10:03'),
@@ -3955,7 +4000,7 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (28, 302, 1, 'Vợt cầu lông DL Pro 500', 'vot-cl-dl-pro-500', '<h3>Tổng quan chi tiết về <strong>Vợt cầu lông DL Pro 500</strong></h3>\n<p>Vợt cầu lông thương hiệu Đồng Lực dành cho người chơi phổ thông.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>Vợt cầu lông DL Pro 500</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>Vợt cầu lông DL Pro 500</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Vợt cầu lông DL Pro 500</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 480000.00, 60, 1, 0, 0, 999, 4.20, 7, '2026-05-29 19:17:55', '2026-06-16 21:10:03'),
 (29, 302, 1, 'Vợt cầu lông DL Fighter 200', 'vot-cl-dl-fighter-200', '<h3>Tổng quan chi tiết về <strong>Vợt cầu lông DL Fighter 200</strong></h3>\n<p>Vợt dành cho người mới bắt đầu, dễ cầm tay.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>Vợt cầu lông DL Fighter 200</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>Vợt cầu lông DL Fighter 200</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Vợt cầu lông DL Fighter 200</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 280000.00, 80, 1, 0, 0, 999, 4.10, 5, '2026-05-29 19:17:55', '2026-06-16 21:10:03'),
 (30, 302, 10, 'Vợt cầu lông Head Zephyr Pro', 'vot-cl-head-zephyr-pro', '<h3>Tổng quan chi tiết về <strong>Vợt cầu lông Head Zephyr Pro</strong></h3>\n<p>Head Zephyr Pro trọng lượng 78g, phù hợp trung-cao cấp.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>Vợt cầu lông Head Zephyr Pro</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>Vợt cầu lông Head Zephyr Pro</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Vợt cầu lông Head Zephyr Pro</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 2100000.00, 28, 1, 0, 0, 999, 4.60, 12, '2026-05-29 19:17:55', '2026-06-16 21:10:03'),
-(31, 303, 4, 'Cầu lông Yonex AS-05 (hop 12 qua)', 'cau-long-yonex-as05-12', '<h3>Tổng quan chi tiết về <strong>Cầu lông Yonex AS-05 (hop 12 qua)</strong></h3>\n<p>Cầu lông lưới ngắn Yonex AS-05.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>Cầu lông Yonex AS-05 (hop 12 qua)</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>Cầu lông Yonex AS-05 (hop 12 qua)</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Cầu lông Yonex AS-05 (hop 12 qua)</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 160000.00, 200, 1, 0, 1, 15, 4.70, 20, '2026-05-29 19:17:55', '2026-06-16 21:10:03'),
+(31, 303, 4, 'Cầu lông Yonex AS-05 (hop 12 qua)', 'cau-long-yonex-as05-12', '<h3>Tổng quan chi tiết về <strong>Cầu lông Yonex AS-05 (hop 12 qua)</strong></h3>\n<p>Cầu lông lưới ngắn Yonex AS-05.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>Cầu lông Yonex AS-05 (hop 12 qua)</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>Cầu lông Yonex AS-05 (hop 12 qua)</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Cầu lông Yonex AS-05 (hop 12 qua)</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 160000.00, 199, 1, 0, 1, 15, 4.70, 20, '2026-05-29 19:17:55', '2026-06-21 16:35:02'),
 (32, 303, 4, 'Cầu lông Yonex AS-30 (hop 12 qua)', 'cau-long-yonex-as30-12', '<h3>Tổng quan chi tiết về <strong>Cầu lông Yonex AS-30 (hop 12 qua)</strong></h3>\n<p>Cầu lông lưới vit cấp cao Yonex AS-30.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>Cầu lông Yonex AS-30 (hop 12 qua)</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>Cầu lông Yonex AS-30 (hop 12 qua)</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Cầu lông Yonex AS-30 (hop 12 qua)</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 280000.00, 150, 1, 0, 1, 999, 4.80, 15, '2026-05-29 19:17:55', '2026-06-17 13:15:58'),
 (33, 303, 1, 'Cầu lông DL Training (hop 12 qua)', 'cau-long-dl-training-12', '<h3>Tổng quan chi tiết về <strong>Cầu lông DL Training (hop 12 qua)</strong></h3>\n<p>Cầu lông Đồng Lực dùng tập luyện hàng ngày.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>Cầu lông DL Training (hop 12 qua)</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>Cầu lông DL Training (hop 12 qua)</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Cầu lông DL Training (hop 12 qua)</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 85000.00, 300, 1, 0, 1, 999, 4.20, 8, '2026-05-29 19:17:55', '2026-06-17 13:15:58'),
 (34, 303, 5, 'Cầu lông Lining A+90D (hop 12 qua)', 'cau-long-lining-a90d', '<h3>Tổng quan chi tiết về <strong>Cầu lông Lining A+90D (hop 12 qua)</strong></h3>\n<p>Cầu lông lưới vit Lining A+90D, lớp 76 - 78.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>Cầu lông Lining A+90D (hop 12 qua)</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>Cầu lông Lining A+90D (hop 12 qua)</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Cầu lông Lining A+90D (hop 12 qua)</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 210000.00, 180, 1, 0, 0, 999, 4.60, 11, '2026-05-29 19:17:55', '2026-06-16 21:10:03'),
@@ -4096,7 +4141,7 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (169, 112, 11, 'San pham test QA live', 'san-pham-test-qa-live', '<h3>Tổng quan chi tiết về <strong>San pham test QA live</strong></h3>\n<p>Sản phẩm San pham test QA live mang đến trải nghiệm tuyệt vời và hỗ trợ tối đa dành cho người yêu thể thao.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm kết hợp hoàn hảo giữa phong cách năng động và hiệu năng thể thao vượt trội, thì <strong>San pham test QA live</strong> chính là lựa chọn hàng đầu. Chiếc áo này được tinh chỉnh để đáp ứng mọi nhu cầu khắt khe nhất của quá trình tập luyện.</p>\n        \n        <h4>1. Thiết kế và Chất liệu</h4>\n        <ul>\n            <li><strong>Công nghệ vải thoáng khí:</strong> Giúp luồng không khí lưu thông tối đa, kiểm soát mồ hôi hiệu quả, giữ cơ thể luôn mát mẻ.</li>\n            <li><strong>Co giãn 4 chiều linh hoạt:</strong> Đảm bảo sự đàn hồi tuyệt đối, không gây gò bó, cho phép bạn tự do thực hiện các động tác vươn người, chạy nhảy.</li>\n            <li><strong>Đường may tỉ mỉ:</strong> Từng chi tiết được gia công chắc chắn, không gây cọ xát hay kích ứng da trong quá trình vận động mạnh.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Giặt máy ở nhiệt độ thường (hoặc nước lạnh), lộn trái trang phục trước khi giặt để bảo vệ bề mặt vải và logo.</li>\n            <li>Tuyệt đối không dùng chất tẩy rửa mạnh để tránh làm phai màu và phá vỡ cấu trúc sợi vải.</li>\n            <li>Phơi ở nơi thoáng mát, có gió tự nhiên. Tránh ánh nắng gắt chiếu trực tiếp.</li>\n            <li>Không nên ủi ở nhiệt độ cao vì chất liệu thun thể thao rất nhạy cảm với nhiệt độ lớn.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>San pham test QA live</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 250000.00, 10, 1, 1, 0, 999, NULL, 0, '2026-06-11 03:00:42', '2026-06-16 21:10:03'),
 (174, 1, 3, 'BANKING 3K', 'san-pham-3k', '<h3>Tổng quan chi tiết về <strong>BANKING 3K</strong></h3>\n<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>BANKING 3K</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>BANKING 3K</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>BANKING 3K</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 3000.00, 992, 1, 0, 0, 999, 0.00, 0, '2026-06-11 23:39:07', '2026-06-17 20:32:24'),
 (175, 1, 3, 'BANKING 5K', 'san-pham-5k', '<h3>Tổng quan chi tiết về <strong>BANKING 5K</strong></h3>\n<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>BANKING 5K</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>BANKING 5K</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>BANKING 5K</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 5000.00, 999, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-16 21:10:03'),
-(176, 1, 3, 'BANKING 10K', 'san-pham-10k', '<h3>Tổng quan chi tiết về <strong>BANKING 10K</strong></h3>\n<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>BANKING 10K</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>BANKING 10K</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>BANKING 10K</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 10000.00, 995, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-16 21:10:03'),
+(176, 1, 3, 'BANKING 10K', 'san-pham-10k', '<h3>Tổng quan chi tiết về <strong>BANKING 10K</strong></h3>\n<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>BANKING 10K</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>BANKING 10K</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>BANKING 10K</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 10000.00, 995, 1, 0, 0, 999, 0.00, 0, '2026-06-11 23:39:07', '2026-06-21 16:23:28'),
 (177, 112, 10, 'test san pham', 'test-san-pham', '<h3>Tổng quan chi tiết về <strong>test san pham</strong></h3>\n<p>test mo tatest mo tatest mo tatest mo ta</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm kết hợp hoàn hảo giữa phong cách năng động và hiệu năng thể thao vượt trội, thì <strong>test san pham</strong> chính là lựa chọn hàng đầu. Chiếc áo này được tinh chỉnh để đáp ứng mọi nhu cầu khắt khe nhất của quá trình tập luyện.</p>\n        \n        <h4>1. Thiết kế và Chất liệu</h4>\n        <ul>\n            <li><strong>Công nghệ vải thoáng khí:</strong> Giúp luồng không khí lưu thông tối đa, kiểm soát mồ hôi hiệu quả, giữ cơ thể luôn mát mẻ.</li>\n            <li><strong>Co giãn 4 chiều linh hoạt:</strong> Đảm bảo sự đàn hồi tuyệt đối, không gây gò bó, cho phép bạn tự do thực hiện các động tác vươn người, chạy nhảy.</li>\n            <li><strong>Đường may tỉ mỉ:</strong> Từng chi tiết được gia công chắc chắn, không gây cọ xát hay kích ứng da trong quá trình vận động mạnh.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Giặt máy ở nhiệt độ thường (hoặc nước lạnh), lộn trái trang phục trước khi giặt để bảo vệ bề mặt vải và logo.</li>\n            <li>Tuyệt đối không dùng chất tẩy rửa mạnh để tránh làm phai màu và phá vỡ cấu trúc sợi vải.</li>\n            <li>Phơi ở nơi thoáng mát, có gió tự nhiên. Tránh ánh nắng gắt chiếu trực tiếp.</li>\n            <li>Không nên ủi ở nhiệt độ cao vì chất liệu thun thể thao rất nhạy cảm với nhiệt độ lớn.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>test san pham</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 100000.00, 200, 1, 1, 0, 999, NULL, 0, '2026-06-14 22:53:04', '2026-06-16 21:10:03'),
 (178, 112, 9, 'test san phamxxxxxxxx', 'test-san-pham-1781452421', '<h3>Tổng quan chi tiết về <strong>test san phamxxxxxxxx</strong></h3>\n<p>test san phamtest san phamtest san phamxxxxxxxx</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm kết hợp hoàn hảo giữa phong cách năng động và hiệu năng thể thao vượt trội, thì <strong>test san phamxxxxxxxx</strong> chính là lựa chọn hàng đầu. Chiếc áo này được tinh chỉnh để đáp ứng mọi nhu cầu khắt khe nhất của quá trình tập luyện.</p>\n        \n        <h4>1. Thiết kế và Chất liệu</h4>\n        <ul>\n            <li><strong>Công nghệ vải thoáng khí:</strong> Giúp luồng không khí lưu thông tối đa, kiểm soát mồ hôi hiệu quả, giữ cơ thể luôn mát mẻ.</li>\n            <li><strong>Co giãn 4 chiều linh hoạt:</strong> Đảm bảo sự đàn hồi tuyệt đối, không gây gò bó, cho phép bạn tự do thực hiện các động tác vươn người, chạy nhảy.</li>\n            <li><strong>Đường may tỉ mỉ:</strong> Từng chi tiết được gia công chắc chắn, không gây cọ xát hay kích ứng da trong quá trình vận động mạnh.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Giặt máy ở nhiệt độ thường (hoặc nước lạnh), lộn trái trang phục trước khi giặt để bảo vệ bề mặt vải và logo.</li>\n            <li>Tuyệt đối không dùng chất tẩy rửa mạnh để tránh làm phai màu và phá vỡ cấu trúc sợi vải.</li>\n            <li>Phơi ở nơi thoáng mát, có gió tự nhiên. Tránh ánh nắng gắt chiếu trực tiếp.</li>\n            <li>Không nên ủi ở nhiệt độ cao vì chất liệu thun thể thao rất nhạy cảm với nhiệt độ lớn.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>test san phamxxxxxxxx</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 100000.00, 200, 1, 1, 0, 999, NULL, 0, '2026-06-14 22:53:41', '2026-06-16 21:10:03'),
 (179, 334, NULL, 'SP Test Gợi Ý Thứ 1', 'sp-test-goi-y-thu-1', '<p>Đây là sản phẩm test gợi ý 1. Nội dung mô tả của SP Test Gợi Ý Thứ 1.</p>', 1000000.00, 100, 1, 0, 0, 999, 5.00, 10, '2026-06-14 23:44:19', '2026-06-17 07:12:46'),
@@ -6001,7 +6046,7 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (12, 2, 'DL-RAR-DO-41', 'Đỏ', '41', 0.00, 7, 1, 0),
 (13, 3, 'NK-REV7-DEN-39', 'Đen', '39', 0.00, 4, 1, 0),
 (14, 3, 'NK-REV7-DEN-40', 'Đen', '40', 0.00, 6, 1, 0),
-(15, 3, 'NK-REV7-DEN-41', 'Đen', '41', 0.00, 6, 1, 0),
+(15, 3, 'NK-REV7-DEN-41', 'Đen', '41', 0.00, 5, 1, 0),
 (16, 3, 'NK-REV7-DEN-42', 'Đen', '42', 0.00, 5, 1, 0),
 (17, 3, 'NK-REV7-XANH-40', 'Xanh đường', '40', 50000.00, 2, 1, 0),
 (18, 3, 'NK-REV7-XANH-41', 'Xanh đường', '41', 50000.00, 4, 1, 0),
@@ -6156,7 +6201,7 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (168, 30, 'HE-ZP-TRANG-3U', 'Trắng', '3U', 0.00, 8, 1, 0),
 (169, 30, 'HE-ZP-DEN-4U', 'Đen', '4U', 0.00, 6, 1, 0),
 (170, 30, 'HE-ZP-DEN-3U', 'Đen', '3U', 0.00, 6, 1, 0),
-(171, 31, 'YNX-AS05-L76', 'Vàng', 'Lop 76', 0.00, 60, 1, 0),
+(171, 31, 'YNX-AS05-L76', 'Vàng', 'Lop 76', 0.00, 59, 1, 0),
 (172, 31, 'YNX-AS05-L77', 'Vàng', 'Lop 77', 0.00, 80, 1, 0),
 (173, 31, 'YNX-AS05-L78', 'Vàng', 'Lop 78', 0.00, 60, 1, 0),
 (174, 32, 'YNX-AS30-L76', 'Trắng', 'Lop 76', 0.00, 45, 1, 0),
@@ -6233,7 +6278,7 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (248, 144, 'DEFAULT-144-1781113313', 'default', 'default', 0.00, 21, 1, 0),
 (249, 165, 'DEFAULT-165-1781113453', 'default', 'default', 0.00, 10, 1, 0),
 (250, 169, 'SP-TEST-01', 'Xanh', 'XL', 0.00, 10, 1, 0),
-(254, 174, 'TEST-84B78D', 'Mặc định', 'Free Size', 0.00, 993, 1, 0),
+(254, 174, 'TEST-84B78D', 'Mặc định', 'Free Size', 0.00, 991, 1, 0),
 (255, 175, 'TEST-F66E00', 'Mặc định', 'Free Size', 0.00, 999, 1, 0),
 (256, 176, 'TEST-B404DD', 'Mặc định', 'Free Size', 0.00, 995, 1, 0),
 (257, 63, 'DEFAULT-63-1781233659', 'default', 'default', 0.00, 67, 1, 0),
@@ -7599,7 +7644,7 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (1617, 412, 'AXE-9178f660', 'Trắng', 'S', 0.00, 38, 1, 0),
 (1618, 412, 'AXE-53910cd3', 'Trắng', 'M', 0.00, 10, 1, 0),
 (1619, 412, 'AXE-c9b0672a', 'Trắng', 'L', 0.00, 38, 1, 0),
-(1620, 413, 'AXE-bcf387ca', 'Đen', 'S', 0.00, 29, 1, 0),
+(1620, 413, 'AXE-bcf387ca', 'Đen', 'S', 0.00, 28, 1, 0),
 (1621, 413, 'AXE-3b86c169', 'Đen', 'M', 0.00, 22, 1, 0),
 (1622, 413, 'AXE-289e5a3c', 'Đen', 'L', 0.00, 30, 1, 0),
 (1623, 413, 'AXE-1c3b64a7', 'Trắng', 'S', 0.00, 45, 1, 0),
@@ -8258,7 +8303,10 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (2275, 77, 'DEFAULT-77-1781934732', 'default', 'default', 0.00, 16, 1, 0),
 (2276, 76, 'DEFAULT-76-1781934735', 'default', 'default', 0.00, 10, 1, 0),
 (2277, 75, 'DEFAULT-75-1781976945', 'default', 'default', 0.00, 35, 1, 0),
-(2278, 74, 'DEFAULT-74-1781978496', 'default', 'default', 0.00, 78, 1, 0);
+(2278, 74, 'DEFAULT-74-1781978496', 'default', 'default', 0.00, 77, 1, 0),
+(2279, 73, 'DEFAULT-73-1782007949', 'default', 'default', 0.00, 65, 1, 0),
+(2280, 79, 'DEFAULT-79-1782011137', 'default', 'default', 0.00, 98, 1, 0),
+(2281, 81, 'DEFAULT-81-1782033995', 'default', 'default', 0.00, 45, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -9046,7 +9094,83 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (912, 2, 74, '2026-06-19 18:28:48'),
 (913, 2, 402, '2026-06-19 18:47:40'),
 (920, 2, 75, '2026-06-21 00:43:24'),
-(921, 2, 25, '2026-06-21 00:56:07');
+(921, 2, 25, '2026-06-21 00:56:07'),
+(929, 2, 17, '2026-06-21 11:53:21'),
+(930, 2, 75, '2026-06-21 14:00:43'),
+(931, 2, 1, '2026-06-21 14:01:36'),
+(932, 2, 74, '2026-06-21 14:03:49'),
+(933, 2, 176, '2026-06-21 14:03:55'),
+(934, 2, 74, '2026-06-21 14:18:34'),
+(935, 2, 74, '2026-06-21 14:19:00'),
+(936, 2, 74, '2026-06-21 16:10:44'),
+(937, 2, 13, '2026-06-21 16:15:19'),
+(938, 2, 24, '2026-06-21 16:16:46'),
+(939, 2, 49, '2026-06-21 16:16:51'),
+(940, 2, 21, '2026-06-21 16:16:59'),
+(941, 2, 13, '2026-06-21 16:17:36'),
+(942, 2, 13, '2026-06-21 16:17:42'),
+(943, 2, 513, '2026-06-21 16:20:20'),
+(944, 2, 176, '2026-06-21 16:21:43'),
+(945, 2, 176, '2026-06-21 16:22:11'),
+(946, 2, 176, '2026-06-21 16:22:12'),
+(947, 2, 1, '2026-06-21 16:22:42'),
+(948, 2, 1, '2026-06-21 16:23:02'),
+(949, 2, 1, '2026-06-21 16:23:04'),
+(950, 2, 1, '2026-06-21 16:23:58'),
+(951, 2, 1, '2026-06-21 16:24:13'),
+(952, 2, 1, '2026-06-21 16:24:29'),
+(953, 2, 1, '2026-06-21 16:24:51'),
+(954, 2, 16, '2026-06-21 16:25:17'),
+(955, 2, 16, '2026-06-21 16:25:20'),
+(956, 2, 14, '2026-06-21 16:25:25'),
+(957, 2, 3, '2026-06-21 16:26:56'),
+(958, 2, 19, '2026-06-21 16:27:31'),
+(959, 2, 19, '2026-06-21 16:27:39'),
+(960, 2, 19, '2026-06-21 16:27:54'),
+(961, 2, 174, '2026-06-21 16:28:14'),
+(962, 2, 174, '2026-06-21 16:28:19'),
+(963, 2, 174, '2026-06-21 16:30:15'),
+(964, 2, 31, '2026-06-21 16:34:39'),
+(965, 2, 31, '2026-06-21 16:34:45'),
+(966, 2, 31, '2026-06-21 16:34:55'),
+(967, 2, 31, '2026-06-21 16:35:15'),
+(968, 2, 5, '2026-06-21 16:44:24'),
+(969, 2, 31, '2026-06-21 16:46:09'),
+(970, 2, 5, '2026-06-21 16:47:03'),
+(971, 2, 5, '2026-06-21 16:47:55'),
+(972, 2, 5, '2026-06-21 16:48:25'),
+(973, 2, 40, '2026-06-21 16:53:00'),
+(974, 2, 5, '2026-06-22 00:18:12'),
+(975, 2, 5, '2026-06-22 00:18:31'),
+(976, 2, 229, '2026-06-22 00:25:37'),
+(977, 2, 16, '2026-06-23 23:03:20'),
+(978, 2, 1, '2026-06-23 23:03:41'),
+(979, 2, 3, '2026-06-23 23:04:09'),
+(980, 2, 11, '2026-06-23 23:06:28'),
+(981, 2, 14, '2026-06-23 23:06:30'),
+(982, 2, 214, '2026-06-23 23:06:47'),
+(983, 2, 14, '2026-06-23 23:10:55'),
+(984, 2, 1, '2026-06-23 23:12:05'),
+(985, 2, 11, '2026-06-23 23:23:35'),
+(986, 2, 69, '2026-06-23 23:40:33'),
+(987, 2, 202, '2026-06-23 23:40:33'),
+(988, 2, 79, '2026-06-24 00:09:13'),
+(989, 2, 76, '2026-06-24 00:09:17'),
+(990, 2, 74, '2026-06-24 00:09:20'),
+(991, 2, 78, '2026-06-24 00:09:22'),
+(992, 2, 11, '2026-06-24 00:09:29'),
+(993, 2, 215, '2026-06-24 00:09:32'),
+(994, 2, 214, '2026-06-24 00:09:34'),
+(995, 2, 14, '2026-06-24 00:09:42'),
+(996, 2, 14, '2026-06-24 00:10:25'),
+(997, 2, 11, '2026-06-24 00:10:25'),
+(998, 2, 8, '2026-06-24 00:10:27'),
+(999, 2, 16, '2026-06-24 00:10:28'),
+(1000, 2, 19, '2026-06-24 00:10:29'),
+(1001, 2, 11, '2026-06-24 00:11:01'),
+(1002, 2, 14, '2026-06-24 00:11:02'),
+(1003, 2, 30, '2026-06-24 00:11:03'),
+(1004, 2, 2, '2026-06-24 00:11:03');
 
 -- --------------------------------------------------------
 
@@ -9080,7 +9204,7 @@ CREATE TABLE `promotions` (
 INSERT INTO `promotions` (`promo_id`, `promo_code`, `promo_name`, `description`, `type`, `discount_type`, `discount_value`, `min_order_value`, `max_discount`, `usage_limit`, `used_count`, `start_date`, `end_date`, `is_active`, `created_at`, `updated_at`) VALUES
 (10, 'DISCOUNT5', 'Giảm 5%', NULL, 'product', 'percent', 5.00, 0.00, NULL, NULL, 0, '2026-06-14 00:15:15', '2027-06-14 00:15:15', 1, '2026-06-14 05:15:15', '2026-06-14 05:20:26'),
 (11, 'FLASH10', 'SIÊU SALE 40%', NULL, 'flashsale', 'percent', 40.00, 0.00, NULL, NULL, 0, '2026-06-14 00:00:00', '2027-06-14 00:00:00', 1, '2026-06-14 05:15:15', '2026-06-20 14:05:01'),
-(12, 'TEST-BANK', 'test banking', NULL, 'voucher', 'fixed', 25000.00, 0.00, NULL, NULL, 4, '2026-06-14 00:00:00', '2027-06-14 00:00:00', 1, '2026-06-14 22:35:34', '2026-06-19 11:36:23'),
+(12, 'TEST-BANK', 'test banking', NULL, 'voucher', 'fixed', 25000.00, 0.00, NULL, NULL, 6, '2026-06-14 00:00:00', '2027-06-14 00:00:00', 1, '2026-06-14 22:35:34', '2026-06-21 16:30:48'),
 (14, 'DISCOUNT30', 'GIẢM 30%', NULL, 'voucher', 'percent', 30.00, 0.00, NULL, NULL, 0, '2026-06-18 00:00:00', '2027-06-18 00:00:00', 1, '2026-06-18 12:59:10', '2026-06-18 12:59:24'),
 (15, 'DISCOUNT20', 'GIẢM 20%', NULL, 'voucher', 'percent', 20.00, 0.00, NULL, NULL, 0, '2026-06-18 00:00:00', '2027-06-18 00:00:00', 1, '2026-06-18 12:59:49', '2026-06-18 13:00:01');
 
@@ -11044,7 +11168,10 @@ INSERT INTO `reviews` (`review_id`, `product_id`, `user_id`, `rating`, `comment`
 (1407, 429, 2, 4, 'Đây là một trong những món đồ tốt nhất mình từng mua.', 'pending', '2026-06-18 01:30:43', '2026-06-18 01:31:15', 1, 51108, 'positive'),
 (1408, 16, 2, 3, 'Tôi chưa có nhiều đánh giá sau khi sử dụng.', 'pending', '2026-06-18 01:31:07', '2026-06-18 01:32:18', 1, 20, 'neutral'),
 (1409, 236, 2, 1, 'Sản phẩm quá tệ, chất lượng không như quảng cáo, mình muốn trả hàng!', 'pending', '2026-06-18 02:17:17', '2026-06-18 02:17:40', 1, 50316, 'negative'),
-(1410, 25, 50, 1, 'sản phẩm tệ, không nên mua', 'approved', '2026-06-19 14:51:13', '2026-06-19 14:52:00', 0, 51487, 'negative');
+(1410, 25, 50, 1, 'sản phẩm tệ, không nên mua', 'approved', '2026-06-19 14:51:13', '2026-06-19 14:52:00', 0, 51487, 'negative'),
+(1411, 176, 2, 5, 'đồ xấu, không mua lại', 'pending', '2026-06-21 16:22:09', '2026-06-21 16:23:28', 1, 33, 'negative'),
+(1412, 1, 2, 1, 'đồ đẹp, chất lượng', 'pending', '2026-06-21 16:22:59', '2026-06-21 16:23:21', 1, 51488, 'positive'),
+(1413, 1, 2, 1, 'sản phẩm tốt, chất lượng', 'approved', '2026-06-21 16:24:10', '2026-06-21 16:24:42', 1, 51488, 'positive');
 
 -- --------------------------------------------------------
 
@@ -11368,7 +11495,18 @@ INSERT INTO `search_logs` (`log_id`, `user_id`, `keyword`, `result_count`, `sear
 (278, 2, 'áo polo', 10, '2026-06-19 22:49:34'),
 (279, 2, 'mới chơi cầu lông', 445, '2026-06-19 18:30:37'),
 (280, 2, 'mới chơi cầu lông nên mua gì', 381, '2026-06-20 17:08:55'),
-(281, 2, 'mua gì để chạy bộ không bị đau chân', 481, '2026-06-20 17:09:19');
+(281, 2, 'mua gì để chạy bộ không bị đau chân', 481, '2026-06-20 17:09:19'),
+(286, 2, 'console.log(&amp;quot;XSS_SUCCESS&amp;quot;)', 32, '2026-06-21 11:00:10'),
+(287, 2, 'giày cầu lông', 507, '2026-06-21 16:18:19'),
+(288, 2, 'đồ dùng pickleball cho nữ', 471, '2026-06-21 16:19:21'),
+(289, 2, 'đồ dùng pickleball cho nữ', 471, '2026-06-21 16:20:10'),
+(290, 2, 'đồ dùng pickleball cho nữ', 471, '2026-06-21 16:20:42'),
+(291, 2, 'đồ dùng pickleball cho nữ', 0, '2026-06-21 16:21:00'),
+(292, 2, 'đồ dùng pickleball cho nữ', 471, '2026-06-21 16:21:03'),
+(293, 2, 'áo mặc để đánh pickleball', 491, '2026-06-21 16:36:36'),
+(294, 2, 'mới bắt đầu tập đánh cầu lông nên mua gì', 144, '2026-06-22 14:35:06'),
+(295, 2, 'quần áo tập gym mồ hôi nhiều', 491, '2026-06-22 14:35:11'),
+(296, 2, 'vợt cầu lông siêu nhẹ trợ lực tốt', 507, '2026-06-22 14:35:17');
 
 -- --------------------------------------------------------
 
@@ -11558,7 +11696,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `facebook_id`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `is_deleted`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`, `review_banned`) VALUES
-(1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658732/axeron-products/product_6a31f46c9149a_1781658732.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$zMH9LE2zsSASaTc0yVh9GuUTVbfanslzkfjKgXAMTQ34jhUNhfZyS', 1, '2026-05-29 19:17:55', '2026-06-20 12:28:34', 0),
+(1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658732/axeron-products/product_6a31f46c9149a_1781658732.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$61wIc0EK/OXtal7FiIjV7eiz/CMBYAFCUy5s97kGIg0yc0/vE4DIy', 1, '2026-05-29 19:17:55', '2026-06-21 14:03:11', 0),
 (2, 3, 'Bug', 'bug@gmail.com', NULL, NULL, '0987654321', '$2y$10$Gkk3hUDtMjFp.tQVdy0vne4zrVU.2avITZkr87q1AahfN4eccyZJ.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658734/axeron-products/product_6a31f46ea7054_1781658734.png', NULL, '2004-10-21', 1, 0, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-20 12:28:18', 0),
 (3, 4, 'Staff Tài Khoản', 'nvacc@gmail.com', NULL, NULL, '0901000004', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658736/axeron-products/product_6a31f47043c86_1781658736.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:18', 0),
 (4, 5, 'Staff Sản Phẩm', 'nvsp@gmail.com', NULL, NULL, '0901000005', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658739/axeron-products/product_6a31f472a8677_1781658738.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:20', 0),
@@ -11596,7 +11734,11 @@ INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `f
 (48, 3, 'Deleted User', 'deleted_48_1781843625@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-19 11:32:57', '2026-06-19 11:33:45', 0),
 (49, 3, 'Deleted User', 'deleted_49_1781843679@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-19 11:34:24', '2026-06-19 11:34:39', 0),
 (50, 3, 'Deleted User', 'deleted_50_1781938586@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-19 14:47:08', '2026-06-20 13:56:26', 0),
-(51, 3, 'Deleted User', 'deleted_51_1781936649@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-20 12:29:27', '2026-06-20 13:24:09', 0);
+(51, 3, 'Deleted User', 'deleted_51_1781936649@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-20 12:29:27', '2026-06-20 13:24:09', 0),
+(52, 3, 'Deleted User', 'deleted_52_1782008147@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-21 09:09:23', '2026-06-21 09:15:47', 0),
+(53, 3, 'Deleted User', 'deleted_53_1782008608@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 0, '2026-06-21 09:21:46', '2026-06-21 09:23:28', 0),
+(54, 3, 'Deleted User', 'deleted_54_1782012205@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-21 09:31:15', '2026-06-21 10:23:25', 0),
+(55, 3, 'Deleted User', 'deleted_55_1782034758@deleted.local', NULL, NULL, NULL, NULL, NULL, 'female', '2004-07-20', 0, 1, NULL, 0, NULL, 1, '2026-06-21 15:59:45', '2026-06-21 16:39:18', 0);
 
 -- --------------------------------------------------------
 
@@ -11633,6 +11775,37 @@ INSERT INTO `user_addresses` (`address_id`, `user_id`, `recipient_name`, `phone`
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `user_recently_viewed`
+--
+
+CREATE TABLE `user_recently_viewed` (
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `product_id` int(10) UNSIGNED NOT NULL,
+  `viewed_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `user_recently_viewed`
+--
+
+INSERT INTO `user_recently_viewed` (`user_id`, `product_id`, `viewed_at`) VALUES
+(2, 2, '2026-06-24 00:11:03'),
+(2, 8, '2026-06-24 00:10:27'),
+(2, 11, '2026-06-24 00:11:01'),
+(2, 14, '2026-06-24 00:11:02'),
+(2, 16, '2026-06-24 00:10:28'),
+(2, 19, '2026-06-24 00:10:29'),
+(2, 30, '2026-06-24 00:11:03'),
+(2, 74, '2026-06-24 00:09:20'),
+(2, 76, '2026-06-24 00:09:17'),
+(2, 78, '2026-06-24 00:09:22'),
+(2, 79, '2026-06-24 00:09:13'),
+(2, 214, '2026-06-24 00:09:34'),
+(2, 215, '2026-06-24 00:09:32');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `user_wishlists`
 --
 
@@ -11658,7 +11831,9 @@ INSERT INTO `user_wishlists` (`wishlist_id`, `user_id`, `product_id`, `created_a
 (9, 3, 56, '2026-06-12 04:47:53'),
 (10, 43, 1, '2026-06-14 15:30:38'),
 (11, 43, 3, '2026-06-14 15:30:39'),
-(12, 2, 74, '2026-06-19 11:28:51');
+(12, 2, 74, '2026-06-19 11:28:51'),
+(14, 2, 244, '2026-06-21 04:53:14'),
+(15, 2, 251, '2026-06-21 04:53:25');
 
 -- --------------------------------------------------------
 
@@ -11977,6 +12152,14 @@ ALTER TABLE `user_addresses`
   ADD KEY `idx_user` (`user_id`);
 
 --
+-- Chỉ mục cho bảng `user_recently_viewed`
+--
+ALTER TABLE `user_recently_viewed`
+  ADD PRIMARY KEY (`user_id`,`product_id`),
+  ADD KEY `idx_recently_viewed_user` (`user_id`),
+  ADD KEY `fk_recently_viewed_product` (`product_id`);
+
+--
 -- Chỉ mục cho bảng `user_wishlists`
 --
 ALTER TABLE `user_wishlists`
@@ -12009,13 +12192,13 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT cho bảng `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -12027,13 +12210,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `chat_messages`
 --
 ALTER TABLE `chat_messages`
-  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=190;
+  MODIFY `message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=208;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_sessions`
 --
 ALTER TABLE `chat_sessions`
-  MODIFY `session_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `session_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `contact_messages`
@@ -12045,31 +12228,31 @@ ALTER TABLE `contact_messages`
 -- AUTO_INCREMENT cho bảng `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51489;
+  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51495;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1611;
+  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1619;
 
 --
 -- AUTO_INCREMENT cho bảng `order_status_logs`
 --
 ALTER TABLE `order_status_logs`
-  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT cho bảng `password_resets`
 --
 ALTER TABLE `password_resets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT cho bảng `payment_transactions`
@@ -12093,19 +12276,19 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT cho bảng `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2279;
+  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2282;
 
 --
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=922;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1005;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
 --
 ALTER TABLE `promotions`
-  MODIFY `promo_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `promo_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `promotion_categories`
@@ -12123,7 +12306,7 @@ ALTER TABLE `promotion_products`
 -- AUTO_INCREMENT cho bảng `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1411;
+  MODIFY `review_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1414;
 
 --
 -- AUTO_INCREMENT cho bảng `roles`
@@ -12135,7 +12318,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT cho bảng `search_logs`
 --
 ALTER TABLE `search_logs`
-  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=282;
+  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=297;
 
 --
 -- AUTO_INCREMENT cho bảng `shipping_methods`
@@ -12159,19 +12342,19 @@ ALTER TABLE `site_settings`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT cho bảng `user_addresses`
 --
 ALTER TABLE `user_addresses`
-  MODIFY `address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `user_wishlists`
 --
 ALTER TABLE `user_wishlists`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -12298,6 +12481,13 @@ ALTER TABLE `users`
 --
 ALTER TABLE `user_addresses`
   ADD CONSTRAINT `fk_address_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `user_recently_viewed`
+--
+ALTER TABLE `user_recently_viewed`
+  ADD CONSTRAINT `fk_recently_viewed_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_recently_viewed_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
