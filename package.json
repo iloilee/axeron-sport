@@ -1,0 +1,36 @@
+{
+  "name": "axeron-sport-website-master",
+  "version": "1.0.0",
+  "description": "**Axeron Sport** là một hệ thống website thương mại điện tử chuyên cung cấp và bán lẻ dụng cụ, trang phục, và phụ kiện thể thao cao cấp. Hệ thống được thiết kế với giao diện hiện đại, tối ưu hóa trải nghiệm người dùng (UX/UI) và đi kèm một hệ thống quản trị (Admin Dashboard) mạnh mẽ giúp chủ cửa hàng dễ dàng vận hành và theo dõi hoạt động kinh doanh.",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "postcss assets/css/input.css -o assets/css/output.css --env production",
+    "build:js": "terser js/main.js -o js/main.min.js -c -m",
+    "build": "npm-run-all build:css build:js",
+    "watch": "postcss assets/css/input.css -o assets/css/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iloilee/axeron-sport.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/iloilee/axeron-sport/issues"
+  },
+  "homepage": "https://github.com/iloilee/axeron-sport#readme",
+  "devDependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.11",
+    "@tailwindcss/postcss": "^4.3.1",
+    "autoprefixer": "^10.5.0",
+    "cssnano": "^8.0.2",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.5.15",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^3.4.19",
+    "terser": "^5.48.0"
+  }
+}

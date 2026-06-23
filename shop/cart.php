@@ -372,7 +372,7 @@ $flash = getFlash();
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
     <!-- Load main.js TRƯỚC inline script -->
-    <script src="<?= BASE_URL ?>/js/main.js?v=<?= time() ?>"></script>
+    <script src="<?= BASE_URL ?>/js/main.min.js?v=<?= filemtime(__DIR__ . '/../js/main.min.js') ?>"></script>
 
     <script>
         let currentSubtotal = <?= $cartSubtotal ?>;

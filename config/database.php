@@ -179,11 +179,31 @@ function jsonResponse($success, $message = '', $data = []) {
     exit;
 }
 
-// Helper function to resolve image url
-function getImageUrl($url, $default = null) {
+// Helper function to resolve image url with Cloudinary optimization support
+function getImageUrl($url, $default = null, $transform = 'q_auto,f_auto') {
     if (empty($url)) {
         return $default;
     }
+    
+    // Optimize Cloudinary URLs
+    if (strpos($url, 'res.cloudinary.com') !== false && !empty($transform)) {
+        if (strpos($url, '/upload/') !== false && strpos($url, $transform) === false) {
+            // Check if it has a version tag directly after upload (e.g., /upload/v12345/)
+            if (preg_match('/\/upload\/v\d+\//i', $url)) {
+                return preg_replace('/\/upload\/v(\d+)\//i', '/upload/' . $transform . '/v$1/', $url, 1);
+            } 
+            // If it already has transformations (e.g., /upload/w_500/v123...), we avoid overwriting
+            elseif (preg_match('/\/upload\/[a-z_0-9,]+\/v\d+\//i', $url)) {
+                return $url;
+            } 
+            // Fallback for URLs without version tags
+            else {
+                return preg_replace('/\/upload\//i', '/upload/' . $transform . '/', $url, 1);
+            }
+        }
+        return $url;
+    }
+
     // Check if it is an absolute URL (starting with http:// or https://)
     if (preg_match('/^https?:\/\//i', $url)) {
         return $url;

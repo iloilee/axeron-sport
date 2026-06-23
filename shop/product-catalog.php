@@ -700,7 +700,7 @@ include __DIR__ . '/../includes/head.php';
     }
     </script>
 
-    <script src="<?= BASE_URL ?>/js/main.js?v=<?= time() ?>"></script>
+    <script src="<?= BASE_URL ?>/js/main.min.js?v=<?= filemtime(__DIR__ . '/../js/main.min.js') ?>"></script>
     <script>
         function getSkeletonHtml() {
             let html = '<div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter mb-12">';

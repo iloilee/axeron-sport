@@ -1,15 +1,19 @@
 <?php
 /**
- * Simple File-Based Cache System
+ * Advanced Cache System (APCu + File fallback)
  */
 class Cache {
     private $cacheDir;
     private static $instance = null;
+    private $useApcu = false;
 
     private function __construct() {
-        $this->cacheDir = __DIR__ . '/../storage/cache/';
-        if (!is_dir($this->cacheDir)) {
-            mkdir($this->cacheDir, 0777, true);
+        $this->useApcu = function_exists('apcu_fetch') && ini_get('apc.enabled');
+        if (!$this->useApcu) {
+            $this->cacheDir = __DIR__ . '/../storage/cache/';
+            if (!is_dir($this->cacheDir)) {
+                @mkdir($this->cacheDir, 0777, true);
+            }
         }
     }
 
@@ -25,39 +29,64 @@ class Cache {
     }
 
     public function get($key) {
+        if ($this->useApcu) {
+            $success = false;
+            $data = apcu_fetch($key, $success);
+            return $success ? $data : null;
+        }
+
         $file = $this->getCacheFilePath($key);
         if (file_exists($file)) {
-            $data = file_get_contents($file);
-            $cache = unserialize($data);
-            if ($cache !== false && $cache['expires'] > time()) {
-                return $cache['data'];
+            $data = @file_get_contents($file);
+            if ($data) {
+                $cache = @unserialize($data);
+                if ($cache !== false && $cache['expires'] > time()) {
+                    return $cache['data'];
+                }
             }
-            // Expired
-            unlink($file);
+            // Expired or corrupt
+            @unlink($file);
         }
         return null;
     }
 
     public function set($key, $data, $ttl = 3600) {
+        if ($this->useApcu) {
+            apcu_store($key, $data, $ttl);
+            return;
+        }
+
         $file = $this->getCacheFilePath($key);
         $cache = [
             'data' => $data,
             'expires' => time() + $ttl
         ];
-        file_put_contents($file, serialize($cache));
+        @file_put_contents($file, serialize($cache));
     }
 
     public function delete($key) {
+        if ($this->useApcu) {
+            apcu_delete($key);
+            return;
+        }
+
         $file = $this->getCacheFilePath($key);
         if (file_exists($file)) {
-            unlink($file);
+            @unlink($file);
         }
     }
 
     public function clear() {
+        if ($this->useApcu) {
+            apcu_clear_cache();
+            return;
+        }
+
         $files = glob($this->cacheDir . '*.cache');
-        foreach ($files as $file) {
-            unlink($file);
+        if ($files) {
+            foreach ($files as $file) {
+                @unlink($file);
+            }
         }
     }
 }

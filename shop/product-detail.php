@@ -637,7 +637,7 @@ if (isLoggedIn()) {
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
-    <script src="<?= BASE_URL ?>/js/main.js?v=<?= time() ?>"></script>
+    <script src="<?= BASE_URL ?>/js/main.min.js?v=<?= filemtime(__DIR__ . '/../js/main.min.js') ?>"></script>
 
     <script>
         const productId = <?= $product['product_id'] ?>;

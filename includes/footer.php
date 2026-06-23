@@ -540,3 +540,4 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <?php require_once __DIR__ . '/back-to-top.php'; ?>
+<?php require_once __DIR__ . '/mobile-nav.php'; ?>
