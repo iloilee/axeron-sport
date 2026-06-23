@@ -738,6 +738,17 @@ include __DIR__ . '/../includes/head.php';
                     // Re-init AOS
                     if (typeof AOS !== 'undefined') AOS.init({once:true, offset:50, duration:800});
                 }
+                
+                // Cập nhật sidebar bộ lọc từ response AJAX
+                const sidebar = document.getElementById('mobile-filter-container');
+                const newSidebar = doc.getElementById('mobile-filter-container');
+                if (sidebar && newSidebar) {
+                    sidebar.innerHTML = newSidebar.innerHTML;
+                    // Re-attach các sự kiện cho sidebar mới
+                    attachFilterEvents();
+                    attachSortEvents();
+                }
+                
                 // Cập nhật URL trình duyệt
                 window.history.pushState({path: url}, '', url);
                 
@@ -760,92 +771,102 @@ include __DIR__ . '/../includes/head.php';
             });
         }
 
-        document.getElementById('filter-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var selectedPrice = document.querySelector('input[name="price_range"]:checked');
-            var form = this;
+        function attachFilterEvents() {
+            // Form submit handler
+            const filterForm = document.getElementById('filter-form');
+            if (!filterForm) return;
             
-            ['min_price', 'max_price'].forEach(function(name) {
-                var existing = form.querySelector('input[name="' + name + '"]');
-                if (existing) existing.remove();
-            });
+            filterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var selectedPrice = document.querySelector('input[name="price_range"]:checked');
+                var form = this;
+                
+                ['min_price', 'max_price'].forEach(function(name) {
+                    var existing = form.querySelector('input[name="' + name + '"]');
+                    if (existing) existing.remove();
+                });
 
-            if (selectedPrice && selectedPrice.value) {
-                var parts = selectedPrice.value.split('-');
-                var minPrice = parseInt(parts[0]) || 0;
-                var maxPrice = parseInt(parts[1]) || 0;
+                if (selectedPrice && selectedPrice.value) {
+                    var parts = selectedPrice.value.split('-');
+                    var minPrice = parseInt(parts[0]) || 0;
+                    var maxPrice = parseInt(parts[1]) || 0;
 
-                if (minPrice > 0) {
-                    var minInput = document.createElement('input');
-                    minInput.type = 'hidden'; minInput.name = 'min_price'; minInput.value = minPrice;
-                    form.appendChild(minInput);
-                }
-                if (maxPrice > 0) {
-                    var maxInput = document.createElement('input');
-                    maxInput.type = 'hidden'; maxInput.name = 'max_price'; maxInput.value = maxPrice;
-                    form.appendChild(maxInput);
-                }
-            }
-            
-            const formData = new FormData(form);
-            const params = new URLSearchParams(formData);
-            const url = window.location.pathname + '?' + params.toString();
-            fetchProducts(url);
-            
-            // Xóa min_price / max_price khỏi form DOM để tránh rác
-            ['min_price', 'max_price'].forEach(function(name) {
-                var existing = form.querySelector('input[name="' + name + '"]');
-                if (existing) existing.remove();
-            });
-            
-            // Ẩn bộ lọc trên mobile
-            document.getElementById('mobile-filter-container').classList.add('hidden');
-        });
-
-        // Tự động submit khi thay đổi checkbox/radio/select
-        document.querySelectorAll('#filter-form input[type="checkbox"], #filter-form input[type="radio"]').forEach(el => {
-            el.addEventListener('change', function() {
-                // Cascade check logic
-                if (this.classList.contains('parent-checkbox')) {
-                    const container = this.closest('.flex-col').querySelector('.pl-7');
-                    if (container) {
-                        container.querySelectorAll('.child-checkbox').forEach(child => {
-                            child.checked = this.checked;
-                        });
+                    if (minPrice > 0) {
+                        var minInput = document.createElement('input');
+                        minInput.type = 'hidden'; minInput.name = 'min_price'; minInput.value = minPrice;
+                        form.appendChild(minInput);
                     }
-                } else if (this.classList.contains('child-checkbox')) {
-                    const parentContainer = this.closest('.flex-col.space-y-1').parentElement.closest('.flex-col.space-y-1');
-                    if (parentContainer) {
-                        const parentCheckbox = parentContainer.querySelector('.parent-checkbox');
-                        if (parentCheckbox && !this.checked) {
-                            parentCheckbox.checked = false;
+                    if (maxPrice > 0) {
+                        var maxInput = document.createElement('input');
+                        maxInput.type = 'hidden'; maxInput.name = 'max_price'; maxInput.value = maxPrice;
+                        form.appendChild(maxInput);
+                    }
+                }
+                
+                const formData = new FormData(form);
+                const params = new URLSearchParams(formData);
+                const url = window.location.pathname + '?' + params.toString();
+                fetchProducts(url);
+                
+                // Xóa min_price / max_price khỏi form DOM để tránh rác
+                ['min_price', 'max_price'].forEach(function(name) {
+                    var existing = form.querySelector('input[name="' + name + '"]');
+                    if (existing) existing.remove();
+                });
+                
+                // Ẩn bộ lọc chỉ trên mobile (< 768px)
+                if (window.innerWidth < 768) {
+                    document.getElementById('mobile-filter-container').classList.add('hidden');
+                }
+            });
+
+            // Tự động submit khi thay đổi checkbox/radio
+            document.querySelectorAll('#filter-form input[type="checkbox"], #filter-form input[type="radio"]').forEach(el => {
+                el.addEventListener('change', function() {
+                    // Cascade check logic
+                    if (this.classList.contains('parent-checkbox')) {
+                        const container = this.closest('.flex-col').querySelector('.pl-7');
+                        if (container) {
+                            container.querySelectorAll('.child-checkbox').forEach(child => {
+                                child.checked = this.checked;
+                            });
+                        }
+                    } else if (this.classList.contains('child-checkbox')) {
+                        const parentContainer = this.closest('.flex-col.space-y-1').parentElement.closest('.flex-col.space-y-1');
+                        if (parentContainer) {
+                            const parentCheckbox = parentContainer.querySelector('.parent-checkbox');
+                            if (parentCheckbox && !this.checked) {
+                                parentCheckbox.checked = false;
+                            }
                         }
                     }
-                }
-                
-                document.getElementById('filter-form').dispatchEvent(new Event('submit'));
+                    
+                    document.getElementById('filter-form').dispatchEvent(new Event('submit'));
+                });
             });
-        });
+        }
 
-        // Xử lý select sort
-        const sortSelect = document.querySelector('select[onchange="window.location.href=this.value"]');
-        if (sortSelect) {
-            sortSelect.removeAttribute('onchange');
-            sortSelect.addEventListener('change', function(e) {
-                const sortVal = new URL(this.value, window.location.origin).searchParams.get('sort');
-                const form = document.getElementById('filter-form');
-                
-                let sortInput = form.querySelector('input[name="sort"]');
-                if (!sortInput) {
-                    sortInput = document.createElement('input');
-                    sortInput.type = 'hidden';
-                    sortInput.name = 'sort';
-                    form.appendChild(sortInput);
-                }
-                sortInput.value = sortVal;
-                
-                form.dispatchEvent(new Event('submit'));
-            });
+        function attachSortEvents() {
+            // Xử lý select sort
+            const sortSelect = document.querySelector('#product-list-container select[onchange]');
+            if (sortSelect) {
+                sortSelect.removeAttribute('onchange');
+                sortSelect.addEventListener('change', function(e) {
+                    const sortVal = new URL(this.value, window.location.origin).searchParams.get('sort');
+                    const form = document.getElementById('filter-form');
+                    
+                    let sortInput = form.querySelector('input[name="sort"]');
+                    if (!sortInput) {
+                        sortInput = document.createElement('input');
+                        sortInput.type = 'hidden';
+                        sortInput.name = 'sort';
+                        form.appendChild(sortInput);
+                    }
+                    sortInput.value = sortVal;
+                    
+                    form.dispatchEvent(new Event('submit'));
+                });
+            }
         }
 
         // Handle back/forward navigation
@@ -855,11 +876,10 @@ include __DIR__ . '/../includes/head.php';
             }
         });
 
-        // Initialize pagination ajax
+        // Khởi tạo lần đầu
+        attachFilterEvents();
+        attachSortEvents();
         attachPaginationEvents();
-    </script>
-</body>
-</html>
     </script>
 </body>
 </html>
