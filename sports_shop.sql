@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 23, 2026 lúc 07:20 PM
+-- Thời gian đã tạo: Th6 23, 2026 lúc 07:49 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -9170,7 +9170,9 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (1001, 2, 11, '2026-06-24 00:11:01'),
 (1002, 2, 14, '2026-06-24 00:11:02'),
 (1003, 2, 30, '2026-06-24 00:11:03'),
-(1004, 2, 2, '2026-06-24 00:11:03');
+(1004, 2, 2, '2026-06-24 00:11:03'),
+(1005, 2, 368, '2026-06-24 00:37:07'),
+(1006, 2, 368, '2026-06-24 00:38:52');
 
 -- --------------------------------------------------------
 
@@ -11696,7 +11698,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `facebook_id`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `is_deleted`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`, `review_banned`) VALUES
-(1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658732/axeron-products/product_6a31f46c9149a_1781658732.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$61wIc0EK/OXtal7FiIjV7eiz/CMBYAFCUy5s97kGIg0yc0/vE4DIy', 1, '2026-05-29 19:17:55', '2026-06-21 14:03:11', 0),
+(1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658732/axeron-products/product_6a31f46c9149a_1781658732.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$bPoB5BDe7Gjx0mbBmyZKbuHjkin5qsktAQD2HpnqSsdiTINo9EVVW', 1, '2026-05-29 19:17:55', '2026-06-24 00:41:42', 0),
 (2, 3, 'Bug', 'bug@gmail.com', NULL, NULL, '0987654321', '$2y$10$Gkk3hUDtMjFp.tQVdy0vne4zrVU.2avITZkr87q1AahfN4eccyZJ.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658734/axeron-products/product_6a31f46ea7054_1781658734.png', NULL, '2004-10-21', 1, 0, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-20 12:28:18', 0),
 (3, 4, 'Staff Tài Khoản', 'nvacc@gmail.com', NULL, NULL, '0901000004', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658736/axeron-products/product_6a31f47043c86_1781658736.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:18', 0),
 (4, 5, 'Staff Sản Phẩm', 'nvsp@gmail.com', NULL, NULL, '0901000005', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658739/axeron-products/product_6a31f472a8677_1781658738.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:20', 0),
@@ -11801,7 +11803,8 @@ INSERT INTO `user_recently_viewed` (`user_id`, `product_id`, `viewed_at`) VALUES
 (2, 78, '2026-06-24 00:09:22'),
 (2, 79, '2026-06-24 00:09:13'),
 (2, 214, '2026-06-24 00:09:34'),
-(2, 215, '2026-06-24 00:09:32');
+(2, 215, '2026-06-24 00:09:32'),
+(2, 368, '2026-06-24 00:38:52');
 
 -- --------------------------------------------------------
 
@@ -12282,7 +12285,7 @@ ALTER TABLE `product_variants`
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1005;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1007;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`

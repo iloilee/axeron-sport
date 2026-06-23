@@ -11,6 +11,14 @@ requireLogin();
 $userId = getUserId();
 $db = db();
 
+$limit = 10;
+$page = max(1, (int)($_GET['page'] ?? 1));
+$offset = ($page - 1) * $limit;
+
+$totalResult = $db->selectOne("SELECT COUNT(*) as total FROM reviews r WHERE r.user_id = ? AND r.is_deleted = 0", [$userId]);
+$totalItems = $totalResult['total'] ?? 0;
+$totalPages = ceil($totalItems / $limit);
+
 // Get user reviews
 $reviews = $db->select("
     SELECT 
@@ -28,7 +36,8 @@ $reviews = $db->select("
     LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
     WHERE r.user_id = ? AND r.is_deleted = 0
     ORDER BY r.created_at DESC
-", [$userId]);
+    LIMIT ? OFFSET ?
+", [$userId, $limit, $offset]);
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -201,7 +210,76 @@ $reviews = $db->select("
                 </div>
             </div>
             <?php endforeach; ?>
-        </div>
+            </div>
+
+            <!-- Pagination -->
+            <?php if ($totalPages > 1): ?>
+            <div class="flex justify-center items-center space-x-2 mt-8 pb-4">
+                <!-- First Page -->
+                <?php if ($page > 1): ?>
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => 1])) ?>" class="p-2 border border-outline-variant rounded-md text-on-surface hover:border-axeron-red hover:text-axeron-red transition-colors" title="Trang đầu">
+                        <span class="material-symbols-outlined">keyboard_double_arrow_left</span>
+                    </a>
+                <?php else: ?>
+                    <span class="p-2 border border-outline-variant rounded-md text-gray-300 cursor-not-allowed">
+                        <span class="material-symbols-outlined">keyboard_double_arrow_left</span>
+                    </span>
+                <?php endif; ?>
+
+                <!-- Prev Page -->
+                <?php if ($page > 1): ?>
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => $page - 1])) ?>" class="p-2 border border-outline-variant rounded-md text-on-surface hover:border-axeron-red hover:text-axeron-red transition-colors" title="Trang trước">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </a>
+                <?php else: ?>
+                    <span class="p-2 border border-outline-variant rounded-md text-gray-300 cursor-not-allowed">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </span>
+                <?php endif; ?>
+
+                <!-- Page Numbers -->
+                <?php
+                $start = max(1, $page - 2);
+                $end = min($totalPages, $page + 2);
+                if ($start > 1) {
+                    echo '<span class="px-2 text-gray-500">...</span>';
+                }
+                for ($i = $start; $i <= $end; $i++):
+                ?>
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>"
+                        class="w-10 h-10 flex items-center justify-center rounded-md <?= $i == $page ? 'bg-axeron-red text-white' : 'border border-outline-variant text-on-surface hover:border-axeron-red hover:text-axeron-red' ?> transition-colors font-bold">
+                        <?= $i ?>
+                    </a>
+                <?php endfor; ?>
+                <?php
+                if ($end < $totalPages) {
+                    echo '<span class="px-2 text-gray-500">...</span>';
+                }
+                ?>
+
+                <!-- Next Page -->
+                <?php if ($page < $totalPages): ?>
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => $page + 1])) ?>" class="p-2 border border-outline-variant rounded-md text-on-surface hover:border-axeron-red hover:text-axeron-red transition-colors" title="Trang sau">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </a>
+                <?php else: ?>
+                    <span class="p-2 border border-outline-variant rounded-md text-gray-300 cursor-not-allowed">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </span>
+                <?php endif; ?>
+
+                <!-- Last Page -->
+                <?php if ($page < $totalPages): ?>
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => $totalPages])) ?>" class="p-2 border border-outline-variant rounded-md text-on-surface hover:border-axeron-red hover:text-axeron-red transition-colors" title="Trang cuối">
+                        <span class="material-symbols-outlined">keyboard_double_arrow_right</span>
+                    </a>
+                <?php else: ?>
+                    <span class="p-2 border border-outline-variant rounded-md text-gray-300 cursor-not-allowed">
+                        <span class="material-symbols-outlined">keyboard_double_arrow_right</span>
+                    </span>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
         <?php endif; ?>
     </main>
 

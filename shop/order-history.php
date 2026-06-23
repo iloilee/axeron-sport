@@ -28,6 +28,14 @@ if ($searchCode) {
     $whereParams[] = '%' . $searchCode . '%';
 }
 
+$limit = 10;
+$page = max(1, (int)($_GET['page'] ?? 1));
+$offset = ($page - 1) * $limit;
+
+$totalResult = $db->selectOne("SELECT COUNT(*) as total FROM orders o $whereClause", $whereParams);
+$totalItems = $totalResult['total'] ?? 0;
+$totalPages = ceil($totalItems / $limit);
+
 // Get user orders
 $orders = $db->select("
     SELECT
@@ -75,7 +83,8 @@ $orders = $db->select("
     $whereClause
     GROUP BY o.order_id
     ORDER BY o.created_at DESC
-", $whereParams);
+    LIMIT ? OFFSET ?
+", array_merge($whereParams, [$limit, $offset]));
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -162,8 +171,8 @@ $orders = $db->select("
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="flex-grow w-full max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-12">
-        <div class="border-b border-outline-variant mb-6">
-            <nav class="-mb-px flex space-x-6 md:space-x-8 overflow-x-auto no-scrollbar" aria-label="Tabs">
+        <div class="border-b border-outline-variant mb-6 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4">
+            <nav class="-mb-px flex space-x-6 md:space-x-8 overflow-x-auto no-scrollbar w-full xl:w-auto" aria-label="Tabs">
                 <a href="<?= BASE_URL ?>/shop/order-history.php" class="whitespace-nowrap border-b-[3px] py-4 px-1 text-lg md:text-xl font-bold uppercase tracking-wide border-axeron-red text-axeron-red transition-colors">
                     Đơn Hàng
                 </a>
@@ -174,10 +183,8 @@ $orders = $db->select("
                     Tra Cứu Đơn Hàng
                 </a>
             </nav>
-        </div>
-        
-        <div class="flex flex-col md:flex-row justify-end items-start md:items-center mb-6 gap-4">
-            <form action="" method="GET" class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+            
+            <form action="" method="GET" class="flex flex-col sm:flex-row gap-3 w-full xl:w-auto pb-4 xl:pb-0 xl:mb-1">
                 <input type="text" name="code" value="<?= htmlspecialchars($searchCode) ?>" placeholder="Mã đơn hàng..." class="border border-outline-variant rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-axeron-red outline-none min-w-[200px]">
                 <select name="status" class="border border-outline-variant rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-axeron-red outline-none min-w-[165px]">
                     <option value="">Tất cả trạng thái</option>
@@ -362,7 +369,76 @@ $orders = $db->select("
                     </tbody>
                 </table>
             </div>
-        </div>
+            </div>
+
+            <!-- Pagination -->
+            <?php if ($totalPages > 1): ?>
+            <div class="flex justify-center items-center space-x-2 mt-8 pb-4">
+                <!-- First Page -->
+                <?php if ($page > 1): ?>
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => 1])) ?>" class="p-2 border border-outline-variant rounded-md text-on-surface hover:border-axeron-red hover:text-axeron-red transition-colors" title="Trang đầu">
+                        <span class="material-symbols-outlined">keyboard_double_arrow_left</span>
+                    </a>
+                <?php else: ?>
+                    <span class="p-2 border border-outline-variant rounded-md text-gray-300 cursor-not-allowed">
+                        <span class="material-symbols-outlined">keyboard_double_arrow_left</span>
+                    </span>
+                <?php endif; ?>
+
+                <!-- Prev Page -->
+                <?php if ($page > 1): ?>
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => $page - 1])) ?>" class="p-2 border border-outline-variant rounded-md text-on-surface hover:border-axeron-red hover:text-axeron-red transition-colors" title="Trang trước">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </a>
+                <?php else: ?>
+                    <span class="p-2 border border-outline-variant rounded-md text-gray-300 cursor-not-allowed">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </span>
+                <?php endif; ?>
+
+                <!-- Page Numbers -->
+                <?php
+                $start = max(1, $page - 2);
+                $end = min($totalPages, $page + 2);
+                if ($start > 1) {
+                    echo '<span class="px-2 text-gray-500">...</span>';
+                }
+                for ($i = $start; $i <= $end; $i++):
+                ?>
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>"
+                        class="w-10 h-10 flex items-center justify-center rounded-md <?= $i == $page ? 'bg-axeron-red text-white' : 'border border-outline-variant text-on-surface hover:border-axeron-red hover:text-axeron-red' ?> transition-colors font-bold">
+                        <?= $i ?>
+                    </a>
+                <?php endfor; ?>
+                <?php
+                if ($end < $totalPages) {
+                    echo '<span class="px-2 text-gray-500">...</span>';
+                }
+                ?>
+
+                <!-- Next Page -->
+                <?php if ($page < $totalPages): ?>
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => $page + 1])) ?>" class="p-2 border border-outline-variant rounded-md text-on-surface hover:border-axeron-red hover:text-axeron-red transition-colors" title="Trang sau">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </a>
+                <?php else: ?>
+                    <span class="p-2 border border-outline-variant rounded-md text-gray-300 cursor-not-allowed">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </span>
+                <?php endif; ?>
+
+                <!-- Last Page -->
+                <?php if ($page < $totalPages): ?>
+                    <a href="?<?= http_build_query(array_merge($_GET, ['page' => $totalPages])) ?>" class="p-2 border border-outline-variant rounded-md text-on-surface hover:border-axeron-red hover:text-axeron-red transition-colors" title="Trang cuối">
+                        <span class="material-symbols-outlined">keyboard_double_arrow_right</span>
+                    </a>
+                <?php else: ?>
+                    <span class="p-2 border border-outline-variant rounded-md text-gray-300 cursor-not-allowed">
+                        <span class="material-symbols-outlined">keyboard_double_arrow_right</span>
+                    </span>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
         <?php endif; ?>
         
         <!-- Cancel Order Modal -->
