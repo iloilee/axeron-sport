@@ -166,15 +166,15 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
     <?= renderOrderStatCard('Trả hàng', $orderStats['returned']['count'], $orderStats['returned']['trend'], 'keyboard_return', 'text-gray-600', 'bg-gray-50') ?>
 </div>
 
-<div class="mb-6 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
-    <div class="flex flex-col xl:flex-row gap-3 items-start xl:items-center">
-        <form method="GET" class="flex gap-3 flex-wrap items-center" id="filter-form">
+<div class="mb-6 flex flex-col xl:flex-row gap-2 justify-between items-start xl:items-center w-full">
+    <div class="flex flex-col xl:flex-row gap-2 items-start xl:items-center flex-1 w-full">
+        <form method="GET" class="flex gap-2 flex-wrap items-center" id="filter-form">
         <input type="hidden" name="action" value="orders">
         
-        <input type="text" name="search" placeholder="Tìm mã đơn, tên, SĐT, Email..." value="<?= htmlspecialchars($search) ?>"
-               class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent outline-none w-full md:w-auto">
+        <input type="text" name="search" placeholder="Tìm mã đơn, tên, SĐT..." value="<?= htmlspecialchars($search) ?>"
+               class="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent outline-none w-full md:w-48 xl:w-56">
                
-        <select name="status" onchange="this.form.submit()" class="px-4 py-2 border border-gray-300 rounded-lg">
+        <select name="status" onchange="this.form.submit()" class="px-3 py-1.5 text-sm border border-gray-300 rounded-lg">
             <option value="">Tất cả trạng thái</option>
             <?php foreach ($statuses as $status): ?>
             <option value="<?= $status ?>" <?= $statusFilter === $status ? 'selected' : '' ?>>
@@ -192,7 +192,7 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
             <?php endforeach; ?>
         </select>
 
-        <select name="time" onchange="toggleCustomDate(this.value); if(this.value !== 'custom') this.form.submit();" class="px-4 py-2 border border-gray-300 rounded-lg">
+        <select name="time" onchange="toggleCustomDate(this.value); if(this.value !== 'custom') this.form.submit();" class="px-3 py-1.5 text-sm border border-gray-300 rounded-lg">
             <option value="">Toàn thời gian</option>
             <option value="today" <?= $timeFilter === 'today' ? 'selected' : '' ?>>Hôm nay</option>
             <option value="7days" <?= $timeFilter === '7days' ? 'selected' : '' ?>>7 ngày qua</option>
@@ -201,15 +201,15 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
         </select>
 
         <div id="custom-date-inputs" class="flex items-center gap-2 <?= $timeFilter === 'custom' ? '' : 'hidden' ?>">
-            <input type="date" name="start_date" value="<?= htmlspecialchars($startDate) ?>" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
-            <span>-</span>
-            <input type="date" name="end_date" value="<?= htmlspecialchars($endDate) ?>" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
-            <button type="submit" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium">Lọc</button>
+            <input type="date" name="start_date" value="<?= htmlspecialchars($startDate) ?>" class="px-2 py-1.5 border border-gray-300 rounded-lg text-sm">
+            <span class="text-gray-500">-</span>
+            <input type="date" name="end_date" value="<?= htmlspecialchars($endDate) ?>" class="px-2 py-1.5 border border-gray-300 rounded-lg text-sm">
+            <button type="submit" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium">Lọc</button>
         </div>
     </form>
     
-    <div class="px-4 py-2 bg-red-50 border border-red-100 rounded-lg text-sm font-medium text-axeron-red whitespace-nowrap">
-        Tổng số: <strong class="text-base"><?= number_format($totalRecords) ?></strong> đơn hàng
+    <div class="px-3 py-1.5 bg-red-50 border border-red-100 rounded-lg text-sm font-medium text-axeron-red whitespace-nowrap">
+        Tổng: <strong class="text-base"><?= number_format($totalRecords) ?></strong> đơn
     </div>
 </div>
     
@@ -224,16 +224,16 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
     }
     </script>
     
-    <div class="flex gap-2 w-full md:w-auto mt-3 md:mt-0">
+    <div class="flex gap-2 w-full xl:w-auto mt-3 xl:mt-0 flex-shrink-0">
         <button onclick="printSelectedPackingSlips()"
-       class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2">
-        <span class="material-symbols-outlined text-xl">local_shipping</span>
-        In Đơn Hàng <span id="selected-print-count">0</span>
+       class="px-3 py-1.5 text-sm bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-1.5 whitespace-nowrap flex-shrink-0">
+        <span class="material-symbols-outlined text-lg">local_shipping</span>
+        In Đơn <span id="selected-print-count" class="bg-white/20 px-1.5 py-0.5 rounded-full text-xs ml-0.5">0</span>
         </button>
         <button onclick="exportSelectedOrders()"
-       class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2">
-        <span class="material-symbols-outlined text-xl">download</span>
-        Xuất Excel <span id="selected-count">0</span>
+       class="px-3 py-1.5 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-1.5 whitespace-nowrap flex-shrink-0">
+        <span class="material-symbols-outlined text-lg">download</span>
+        Xuất Excel <span id="selected-count" class="bg-white/20 px-1.5 py-0.5 rounded-full text-xs ml-0.5">0</span>
         </button>
     </div>
 </div>
