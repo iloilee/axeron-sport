@@ -452,7 +452,7 @@ $flash = getFlash();
                 }
             };
 
-            fetch('https://provinces.open-api.vn/api/?depth=3')
+            fetch('<?= BASE_URL ?>/assets/provinces_data.js')
                 .then(response => response.json())
                 .then(data => {
                     provincesData = data;
