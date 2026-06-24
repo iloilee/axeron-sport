@@ -486,7 +486,7 @@ include __DIR__ . '/../includes/head.php';
                                     AI Tìm kiếm ngữ nghĩa (<?= $searchTimeMs ?> ms)
                                 </span>
                             <?php else: ?>
-                                <span class="ml-2 inline-flex items-center gap-1 bg-gray-200 text-gray-700 text-[12px] px-2.5 py-0.5 rounded-full align-middle whitespace-nowrap">
+                                <span class="ml-2 inline-flex items-center gap-1 bg-surface-variant text-on-surface-variant border border-outline-variant text-[12px] px-2.5 py-0.5 rounded-full align-middle whitespace-nowrap">
                                     <span class="material-symbols-outlined text-[16px]">search</span>
                                     Tìm kiếm từ khóa thường (<?= $searchTimeMs ?> ms)
                                 </span>
