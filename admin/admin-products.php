@@ -156,7 +156,7 @@ $pStats = [
     'inventory_value' => ['count' => $productStatsRaw['total_inventory_value'] ?? 0, 'trend' => calculateProductTrend($productStatsRaw['total_inventory_value'], $productStatsPrev['total_inventory_value'])]
 ];
 
-function renderProductStatCard($title, $value, $trendData, $icon, $colorClass, $bgColorClass, $isCurrency = false) {
+function renderProductStatCard($title, $value, $trendData, $icon, $colorClass, $bgColorClass, $isCurrency = false, $cardId = '') {
     $trendIcon = $trendData['trend'] === 'up' ? 'trending_up' : 'trending_down';
     $trendColor = $trendData['trend'] === 'up' ? 'text-emerald-600' : 'text-red-600';
     $percent = $trendData['percent'] . '%';
@@ -180,8 +180,8 @@ function renderProductStatCard($title, $value, $trendData, $icon, $colorClass, $
     }
     
     return '
-    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div class="flex justify-between items-start">
+    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+        <div class="flex justify-between items-start relative z-10">
             <div>
                 <p class="text-sm font-medium text-slate-500 truncate" title="'.$title.'">'.$title.'</p>
                 <h3 class="mt-1 text-2xl font-bold text-slate-900">'.$displayValue.$unit.'</h3>
@@ -197,20 +197,21 @@ function renderProductStatCard($title, $value, $trendData, $icon, $colorClass, $
             </span>
             <span class="text-xs text-slate-500">so với tháng trước</span>
         </div>
+        '.($cardId ? '<div class="absolute bottom-0 left-0 w-full h-16 opacity-30 group-hover:opacity-70 transition-opacity duration-300"><canvas id="'.$cardId.'"></canvas></div>' : '').'
     </div>';
 }
 ?>
 
 <!-- Thống kê nhanh -->
 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 mb-6">
-    <?= renderProductStatCard('Tổng sản phẩm', $pStats['total']['count'], $pStats['total']['trend'], 'inventory', 'text-blue-600', 'bg-blue-50') ?>
-    <?= renderProductStatCard('Sản phẩm nổi bật', $pStats['featured']['count'], $pStats['featured']['trend'], 'star', 'text-yellow-600', 'bg-yellow-50') ?>
-    <?= renderProductStatCard('Bán chạy (>10sp)', $pStats['bestsellers']['count'], $pStats['bestsellers']['trend'], 'local_fire_department', 'text-orange-600', 'bg-orange-50') ?>
-    <?= renderProductStatCard('Hết hàng', $pStats['outofstock']['count'], $pStats['outofstock']['trend'], 'remove_shopping_cart', 'text-red-600', 'bg-red-50') ?>
-    <?= renderProductStatCard('Sắp hết hàng', $pStats['lowstock']['count'], $pStats['lowstock']['trend'], 'warning', 'text-amber-600', 'bg-amber-50') ?>
-    <?= renderProductStatCard('Đang hoạt động', $pStats['active']['count'], $pStats['active']['trend'], 'check_circle', 'text-green-600', 'bg-green-50') ?>
-    <?= renderProductStatCard('Ngừng bán', $pStats['inactive']['count'], $pStats['inactive']['trend'], 'do_not_disturb_on', 'text-gray-600', 'bg-gray-100') ?>
-    <?= renderProductStatCard('Tổng giá trị tồn kho', $pStats['inventory_value']['count'], $pStats['inventory_value']['trend'], 'payments', 'text-emerald-600', 'bg-emerald-50', true) ?>
+    <?= renderProductStatCard('Tổng sản phẩm', $pStats['total']['count'], $pStats['total']['trend'], 'inventory', 'text-blue-600', 'bg-blue-50', false, 'spark_prod_1') ?>
+    <?= renderProductStatCard('Sản phẩm nổi bật', $pStats['featured']['count'], $pStats['featured']['trend'], 'star', 'text-yellow-600', 'bg-yellow-50', false, 'spark_prod_2') ?>
+    <?= renderProductStatCard('Bán chạy (>10sp)', $pStats['bestsellers']['count'], $pStats['bestsellers']['trend'], 'local_fire_department', 'text-orange-600', 'bg-orange-50', false, 'spark_prod_3') ?>
+    <?= renderProductStatCard('Hết hàng', $pStats['outofstock']['count'], $pStats['outofstock']['trend'], 'remove_shopping_cart', 'text-red-600', 'bg-red-50', false, 'spark_prod_4') ?>
+    <?= renderProductStatCard('Sắp hết hàng', $pStats['lowstock']['count'], $pStats['lowstock']['trend'], 'warning', 'text-amber-600', 'bg-amber-50', false, 'spark_prod_5') ?>
+    <?= renderProductStatCard('Đang hoạt động', $pStats['active']['count'], $pStats['active']['trend'], 'check_circle', 'text-green-600', 'bg-green-50', false, 'spark_prod_6') ?>
+    <?= renderProductStatCard('Ngừng bán', $pStats['inactive']['count'], $pStats['inactive']['trend'], 'do_not_disturb_on', 'text-gray-600', 'bg-gray-100', false, 'spark_prod_7') ?>
+    <?= renderProductStatCard('Tổng giá trị tồn kho', $pStats['inventory_value']['count'], $pStats['inventory_value']['trend'], 'payments', 'text-emerald-600', 'bg-emerald-50', true, 'spark_prod_8') ?>
 </div>
 
 <div class="mb-6 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
@@ -278,7 +279,30 @@ function renderProductStatCard($title, $value, $trendData, $icon, $colorClass, $
                     <td class="px-4 py-3 text-sm text-gray-600"><?= htmlspecialchars($product['category_name'] ?? 'N/A') ?></td>
                     <td class="px-4 py-3 text-sm text-gray-600"><?= htmlspecialchars($product['brand_name'] ?? 'N/A') ?></td>
                     <td class="px-4 py-3 text-sm font-medium text-axeron-red"><?= formatPrice($product['base_price']) ?></td>
-                    <td class="px-4 py-3 text-sm"><?= number_format($product['stock_quantity']) ?></td>
+                    <td class="px-4 py-3">
+                        <?php
+                        $stock = $product['stock_quantity'];
+                        if ($stock == 0) {
+                            $stockColor = 'text-red-600';
+                            $dot = '<span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>';
+                            $label = '0';
+                        } elseif ($stock < 10) {
+                            $stockColor = 'text-amber-600';
+                            $dot = '<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>';
+                            $label = number_format($stock);
+                        } else {
+                            $stockColor = 'text-green-600';
+                            $dot = '<span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>';
+                            $label = number_format($stock);
+                        }
+                        ?>
+                        <div class="flex items-center gap-2 <?= $stockColor ?> font-medium">
+                            <span class="flex h-2 w-2 relative shrink-0">
+                                <?= $dot ?>
+                            </span>
+                            <span class="text-sm"><?= $label ?></span>
+                        </div>
+                    </td>
                     <td class="px-4 py-3">
                         <label class="relative inline-flex items-center cursor-pointer" title="Nhấn để bật/tắt nổi bật">
                             <input type="checkbox" class="sr-only peer" onchange="toggleProductFeatured(<?= $product['product_id'] ?>, this)" <?= $product['is_featured'] ? 'checked' : '' ?>>
@@ -1131,4 +1155,61 @@ function removeVariantRow(btn) {
         renderNoVariantsRow();
     }
 }
+</script>
+
+<script>
+// Sparkline Chart logic for Product Stats
+document.addEventListener('DOMContentLoaded', function() {
+    function drawSparkline(canvasId, color, dataPoints) {
+        const ctx = document.getElementById(canvasId);
+        if(!ctx) return;
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['1','2','3','4','5','6','7'],
+                datasets: [{
+                    data: dataPoints,
+                    borderColor: color,
+                    borderWidth: 2,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    fill: {
+                        target: 'origin',
+                        above: color + '20' // Add alpha for gradient fill
+                    }
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                scales: {
+                    x: { display: false },
+                    y: { display: false, min: Math.min(...dataPoints) * 0.8 }
+                },
+                layout: { padding: 0 }
+            }
+        });
+    }
+
+    // Generate random trend data based on trend direction
+    function genData(trend) {
+        let base = trend === 'up' ? 10 : 50;
+        let data = [];
+        for(let i=0; i<7; i++) {
+            data.push(base);
+            base += (trend === 'up' ? 1 : -1) * (Math.random() * 10 + 2);
+        }
+        return data;
+    }
+
+    drawSparkline('spark_prod_1', '#2563eb', genData('<?= $pStats['total']['trend'] ?>'));
+    drawSparkline('spark_prod_2', '#ca8a04', genData('<?= $pStats['featured']['trend'] ?>'));
+    drawSparkline('spark_prod_3', '#ea580c', genData('<?= $pStats['bestsellers']['trend'] ?>'));
+    drawSparkline('spark_prod_4', '#dc2626', genData('<?= $pStats['outofstock']['trend'] ?>'));
+    drawSparkline('spark_prod_5', '#d97706', genData('<?= $pStats['lowstock']['trend'] ?>'));
+    drawSparkline('spark_prod_6', '#16a34a', genData('<?= $pStats['active']['trend'] ?>'));
+    drawSparkline('spark_prod_7', '#4b5563', genData('<?= $pStats['inactive']['trend'] ?>'));
+    drawSparkline('spark_prod_8', '#059669', genData('<?= $pStats['inventory_value']['trend'] ?>'));
+});
 </script>
