@@ -388,6 +388,14 @@ if ($action === 'dashboard') {
                 clip-path: inset(0 -50px 0 0);
                 box-shadow: 4px 0 15px rgba(0,0,0,0.3);
             }
+            #sidebar.collapsed:not(:hover) .sidebar-link {
+                width: 40px;
+                height: 40px;
+                padding: 0 !important;
+                padding-left: 8px !important;
+                overflow: hidden;
+                margin-left: 0;
+            }
             #sidebar.collapsed:not(:hover) .sidebar-link > span:not(.material-symbols-outlined),
             #sidebar.collapsed:not(:hover) .logo-text,
             #sidebar.collapsed:not(:hover) .cms-text {
