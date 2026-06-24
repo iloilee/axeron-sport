@@ -1,72 +1,98 @@
 # Axeron Sport Website
 
-**Axeron Sport** là một hệ thống website thương mại điện tử chuyên cung cấp và bán lẻ dụng cụ, trang phục, và phụ kiện thể thao cao cấp. Hệ thống được thiết kế với giao diện hiện đại, tối ưu hóa trải nghiệm người dùng (UX/UI) và đi kèm một hệ thống quản trị (Admin Dashboard) mạnh mẽ giúp chủ cửa hàng dễ dàng vận hành và theo dõi hoạt động kinh doanh.
+**Axeron Sport** là một hệ thống website thương mại điện tử chuyên cung cấp và bán lẻ dụng cụ, trang phục, và phụ kiện thể thao cao cấp. Hệ thống được thiết kế với giao diện hiện đại, áp dụng những công nghệ tiên tiến nhất bao gồm cả Trí tuệ Nhân tạo (AI) để nâng cao trải nghiệm mua sắm của khách hàng, đồng thời đi kèm một hệ thống quản trị (Admin Dashboard) mạnh mẽ.
+
+---
 
 ## 🚀 Tính năng nổi bật
 
-### Dành cho Khách hàng (Storefront)
-- **Giao diện hiện đại, thân thiện:** Thiết kế đáp ứng (Responsive) hiển thị mượt mà trên cả điện thoại, máy tính bảng và desktop.
-- **Tìm kiếm và Lọc sản phẩm:** Tìm kiếm thông minh theo danh mục, thương hiệu, mức giá.
-- **Giỏ hàng & Thanh toán:** Hệ thống giỏ hàng tiện lợi, tính toán phí vận chuyển, áp dụng mã giảm giá (Promo Code) tự động.
-- **Đánh giá Sản phẩm:** Cho phép khách hàng để lại bình luận và đánh giá sao cho sản phẩm.
-- **Chính sách Freeship:** Thanh thông báo (Top bar) hiển thị động mức tiền còn thiếu để đạt điều kiện miễn phí vận chuyển.
+### 1. Dành cho Khách hàng (Storefront)
+- **Giao diện & UX/UI Hiện đại:** Sử dụng Tailwind CSS với các hiệu ứng chuyển cảnh mượt mà, Mega Menu đa cấp trực quan, và thiết kế đáp ứng (Responsive) 100% trên thiết bị di động.
+- **Tích hợp Trí tuệ Nhân tạo (AI Search):**
+  - **Tìm kiếm bằng hình ảnh (Visual Search):** Cho phép người dùng tải ảnh lên để tìm kiếm các sản phẩm tương tự.
+  - **Tìm kiếm ngữ nghĩa (Semantic Search):** Hệ thống phân tích ý nghĩa từ khóa thay vì chỉ tìm theo cụm từ chính xác (được xử lý qua Python/Flask API).
+- **Trải nghiệm mua sắm cá nhân hóa:**
+  - Danh mục sản phẩm (Product Catalog) với bộ lọc đa dạng (Khoảng giá, màu sắc, kích cỡ, nhãn hiệu).
+  - Quản lý sản phẩm yêu thích (Wishlist).
+  - **Sản phẩm đã xem (Recently Viewed):** Ghi nhớ và gợi ý lại các sản phẩm khách hàng đã tương tác.
+- **Quản lý Đơn hàng & Đánh giá:** 
+  - Khách hàng có thể tra cứu đơn hàng (Order Tracking), xem lịch sử mua hàng chi tiết.
+  - Hệ thống khuyến khích đánh giá (Review) thông minh nhắc nhở người dùng đánh giá từng sản phẩm cụ thể trong đơn hàng.
 
-### Dành cho Quản trị viên (Admin Dashboard)
+### 2. Dành cho Quản trị viên (Admin Dashboard)
 - **Trung tâm Điều khiển (Dashboard):** 
   - Biểu đồ trực quan (Chart.js) theo dõi doanh thu và trạng thái đơn hàng.
   - Thống kê thời gian thực (Real-time Activity Log).
   - Tự động cảnh báo hàng sắp hết và hàng tồn kho quá hạn (Dead Stock).
 - **Phân tích Dữ liệu (Analytics):** Thống kê chi tiết tỷ lệ chuyển đổi, giá trị trung bình/đơn, xếp hạng khách hàng VIP và phân tích hiệu suất bán hàng.
-- **Quản lý Đơn hàng (Order Management):** Cập nhật trạng thái đơn hàng, thanh toán, xuất file báo cáo Excel/PDF, và in phiếu giao hàng loạt.
-- **Quản lý Sản phẩm & Tồn kho:** Thêm, sửa, xóa sản phẩm, hình ảnh và các biến thể (variants).
+- **Quản lý Đơn hàng & Sản phẩm:** Thêm, sửa, xóa sản phẩm, hình ảnh, biến thể (variants). Xử lý trạng thái đơn hàng.
 - **Quản lý Cài đặt:** Đồng bộ hóa Logo, Favicon, Tagline và các thiết lập chung ngay lập tức trên toàn hệ thống.
+
+---
 
 ## 🛠 Công nghệ sử dụng
 
-- **Backend:** PHP (Raw / Custom Framework)
-- **Cơ sở dữ liệu:** MySQL (sử dụng Database Helper class)
+- **Backend (Core):** PHP (Raw / Custom Architecture)
+- **AI / Microservice:** Python, Flask (Xử lý Semantic Search và Image Search thông qua cổng 5000).
+- **Cơ sở dữ liệu:** MySQL (`sports_shop.sql`)
 - **Frontend & UI:** 
-  - HTML5, Vanilla CSS
-  - [Tailwind CSS](https://tailwindcss.com/) (Styling framework chính yếu)
-  - [Chart.js](https://www.chartjs.org/) (Dựng biểu đồ thống kê)
-  - Google Material Symbols
-- **Export Data:** SheetJS (Xuất Excel), jsPDF (Xuất PDF)
+  - HTML5, Vanilla JavaScript.
+  - **Tailwind CSS** (Được cấu hình để compile qua Node.js/PostCSS).
+  - **Google Material Symbols** cho hệ thống Icon.
+  - [Chart.js](https://www.chartjs.org/) (Dựng biểu đồ thống kê).
+- **Công cụ hỗ trợ:** Node.js, npm (Dùng cho lệnh `npm run build:css`).
 
-## 📁 Cấu trúc thư mục
+---
+
+## 📁 Cấu trúc thư mục (Tóm tắt)
 
 ```text
 axeron-sport-website-master/
 ├── admin/                  # Khu vực dành riêng cho Quản trị viên
-│   ├── admin.php           # File điều hướng & layout chính của Admin
-│   ├── admin-api.php       # API xử lý cho admin (AJAX)
-│   ├── admin-analytics.php # Báo cáo và thống kê nâng cao
-│   ├── admin-orders.php    # Quản lý đơn hàng
-│   └── ...                 # Các modules khác của admin
+├── assets/                 # CSS (input.css, output.css), JS, Images tĩnh
+├── config/                 # Các file cấu hình hệ thống (Database, Session)
+├── includes/               # Các component dùng chung (Header, Footer, Head)
 ├── shop/                   # Giao diện cửa hàng dành cho Khách mua
-│   ├── cart.php            # Giỏ hàng & Xử lý Freeship
+│   ├── product-catalog.php # Trang danh sách sản phẩm (có AI Search)
+│   ├── product-detail.php  # Chi tiết sản phẩm
+│   ├── order-history.php   # Lịch sử đơn hàng có phân trang
+│   ├── my-reviews.php      # Đánh giá sản phẩm của tôi
 │   └── ...                 
-├── uploads/                # Hình ảnh sản phẩm, banner, logo
-├── .env                    # File cấu hình môi trường (DB, Constants)
+├── uploads/                # Nơi lưu trữ hình ảnh tải lên của sản phẩm, logo
+├── package.json            # File cấu hình Node.js cho Tailwind/PostCSS
+├── tailwind.config.js      # Cấu hình UI theme, màu sắc của Tailwind
+├── sports_shop.sql         # File cấu trúc Cơ sở dữ liệu MySQL
 └── README.md               # Tài liệu dự án
 ```
 
-## ⚙️ Hướng dẫn cài đặt
+---
 
-1. **Clone repository về máy local:**
-   Đảm bảo bạn đã cài đặt XAMPP/WAMP (hoặc môi trường PHP/MySQL tương đương).
-   Clone source code vào thư mục `htdocs` (nếu dùng XAMPP).
+## ⚙️ Hướng dẫn cài đặt & Khởi chạy
 
-2. **Cấu hình Cơ sở dữ liệu:**
-   - Tạo một database mới trong MySQL (ví dụ: `axeron_sport`).
-   - Import file CSDL (thường có đuôi `.sql` đi kèm dự án) vào database vừa tạo.
+### 1. Yêu cầu hệ thống
+- XAMPP / WAMP (Apache & MySQL).
+- PHP 8.0 trở lên.
+- Node.js (Để compile CSS nếu bạn muốn tùy chỉnh giao diện).
+- Python 3.x (Bắt buộc nếu muốn chạy các tính năng AI Search).
 
-3. **Cập nhật file cấu hình:**
-   - Mở file cấu hình Database của bạn (hoặc `.env` nếu có).
-   - Điền thông tin kết nối Database tương ứng (`DB_HOST`, `DB_USER`, `DB_PASS`, `DB_NAME`).
+### 2. Cài đặt Web (PHP/MySQL)
+1. **Clone/Copy dự án** vào thư mục `htdocs` (nếu dùng XAMPP).
+2. **Import Cơ sở dữ liệu:** Mở phpMyAdmin, tạo một database tên là `axeron_sport`, sau đó import file `sports_shop.sql` vào database này.
+3. **Cấu hình DB:** Mở thư mục `config/database.php` (hoặc `.env` nếu có) và đảm bảo thông tin kết nối đúng với MySQL của bạn.
+4. Truy cập trang web qua: `http://localhost/axeron-sport-website-master`
 
-4. **Chạy ứng dụng:**
-   - Khởi động Apache và MySQL trên XAMPP.
-   - Truy cập vào trang web thông qua trình duyệt: `http://localhost/axeron-sport-website-master`
+### 3. Cài đặt giao diện (Tailwind CSS)
+Nếu bạn thay đổi cấu trúc HTML hoặc thêm class mới, hãy chạy lệnh sau trong thư mục gốc của dự án để build lại CSS:
+```bash
+npm install
+npm run build:css
+```
+
+### 4. Khởi chạy AI Microservice (Tùy chọn)
+Để tính năng **Tìm kiếm bằng hình ảnh** và **Tìm kiếm ngữ nghĩa** hoạt động, bạn cần khởi chạy Server Python:
+1. Mở terminal, điều hướng đến thư mục chứa mã nguồn Python AI (thường nằm ở một thư mục backend riêng hoặc trong dự án).
+2. Chạy server Flask (mặc định lắng nghe ở `http://127.0.0.1:5000`).
+*(Hệ thống PHP đã được lập trình sẵn để tự động fallback về tìm kiếm truyền thống nếu Server AI này không được bật).*
 
 ---
 
