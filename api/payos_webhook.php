@@ -62,7 +62,7 @@ if ($calculatedSignature === $signature) {
         if ($order) {
             // Kiểm tra số tiền nhận được so với tổng đơn hàng
             if ((int)$data['amount'] >= (int)$order['total_amount']) {
-                $db->update("UPDATE orders SET payment_status = 'paid', updated_at = NOW() WHERE order_id = ?", [$orderId]);
+                $db->update("UPDATE orders SET payment_status = 'paid', order_status = 'confirmed', updated_at = NOW() WHERE order_id = ?", [$orderId]);
                 echo json_encode(['success' => true, 'message' => 'Order updated successfully']);
             } else {
                 // Thanh toán thiếu
