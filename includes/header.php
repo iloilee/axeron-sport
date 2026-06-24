@@ -410,13 +410,13 @@ $siteNameDisplay = $settings['site_name'] ?? 'Axeron';
                     name="search"
                 />
                 
-                <label class="absolute right-10 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-axeron-red cursor-pointer mb-0">
-                    <span class="material-symbols-outlined text-xl">photo_camera</span>
+                <label class="absolute right-10 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-axeron-red cursor-pointer mb-0 flex items-center justify-center h-6 w-6" title="Tìm kiếm bằng hình ảnh">
+                    <span class="material-symbols-outlined text-[22px] leading-none">photo_camera</span>
                     <input type="file" name="search_image" accept="image/*" class="hidden" onchange="this.form.submit()">
                 </label>
 
-                <button type="submit" id="search-btn" class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-axeron-red cursor-pointer text-xl bg-transparent border-none p-0">
-                    search
+                <button type="submit" id="search-btn" class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-axeron-red cursor-pointer bg-transparent border-none p-0 flex items-center justify-center h-6 w-6" title="Tìm kiếm">
+                    <span class="material-symbols-outlined text-[24px] leading-none">search</span>
                 </button>
                 <!-- Autocomplete Dropdown -->
                 <div id="desktop-search-dropdown" class="absolute left-0 right-0 top-full mt-2 bg-white border border-outline-variant rounded-xl shadow-lg z-50 hidden max-h-[400px] overflow-y-auto custom-scrollbar"></div>
