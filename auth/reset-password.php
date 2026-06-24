@@ -51,21 +51,21 @@ $user = $db->selectOne("SELECT full_name, email FROM users WHERE user_id = ?", [
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 flex items-center justify-center w-full min-h-screen p-4 pt-24 md:pt-0">
+    <main class="flex-1 flex flex-col items-center w-full min-h-screen p-4 pt-24 md:pt-28 pb-8">
         <!-- Form Container -->
-        <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-[#e5e2e1]">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-[#e5e2e1] my-auto">
             <!-- Flash Message -->
             <?php if ($flash): ?>
-            <div class="mb-6 p-4 rounded-xl <?= $flash['type'] === 'error' ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-green-50 border border-green-200 text-green-700' ?>">
+            <div class="mb-5 sm:mb-6 p-3 sm:p-4 rounded-xl <?= $flash['type'] === 'error' ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-green-50 border border-green-200 text-green-700' ?>">
                 <?= htmlspecialchars($flash['message']) ?>
             </div>
             <?php endif; ?>
 
-            <div class="mb-8 text-center">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#e8f0fe] text-[#2979FF] mb-5 shadow-sm border border-[#b0c6ff]">
-                    <span class="material-symbols-outlined fill-icon text-3xl">check_circle</span>
+            <div class="mb-6 sm:mb-8 text-center">
+                <div class="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#ffdad6] text-[#93000a] mb-4 sm:mb-5 shadow-sm border border-[#ffb3b0]">
+                    <span class="material-symbols-outlined fill-icon text-2xl sm:text-3xl">lock_reset</span>
                 </div>
-                <h2 class="text-2xl font-bold text-[#1b1c1c] mb-3" style="font-family: 'Montserrat', sans-serif;">Đặt mật khẩu mới</h2>
+                <h2 class="text-xl sm:text-2xl font-bold text-[#1b1c1c] mb-2 sm:mb-3" style="font-family: 'Montserrat', sans-serif;">Đặt mật khẩu mới</h2>
                 <p class="text-sm text-[#5b403f] leading-relaxed">
                     <?php if ($user): ?>
                     Xin chào <strong class="text-[#1b1c1c]"><?= htmlspecialchars($user['full_name']) ?></strong>, vui lòng nhập mật khẩu mới cho tài khoản của bạn.
@@ -75,7 +75,7 @@ $user = $db->selectOne("SELECT full_name, email FROM users WHERE user_id = ?", [
                 </p>
             </div>
 
-            <form method="POST" action="<?= BASE_URL ?>/api/auth-handler.php" class="space-y-6">
+            <form method="POST" action="<?= BASE_URL ?>/api/auth-handler.php" class="space-y-5 sm:space-y-6">
                 <input type="hidden" name="action" value="reset_password">
                 <input type="hidden" name="reset_token" value="<?= htmlspecialchars($_SESSION['reset_token'] ?? '') ?>">
 
@@ -86,12 +86,33 @@ $user = $db->selectOne("SELECT full_name, email FROM users WHERE user_id = ?", [
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                             <span class="material-symbols-outlined text-[#8f6f6e] text-[20px]">lock</span>
                         </div>
-                        <input class="w-full pl-11 pr-10 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="new_password" name="new_password" placeholder="Nhập mật khẩu mới" required type="password" minlength="6"/>
+                        <input class="w-full pl-11 pr-10 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="new_password" name="new_password" placeholder="Nhập mật khẩu mới" required type="password" minlength="8"/>
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-[#8f6f6e] hover:text-[#1b1c1c] transition-colors" onclick="togglePasswordVisibility('new_password', 'toggle-new-password-icon')">
                             <span class="material-symbols-outlined" id="toggle-new-password-icon">visibility_off</span>
                         </div>
                     </div>
-                    <p class="mt-2 text-xs text-[#8f6f6e]">Ít nhất 6 ký tự</p>
+                    <!-- Password Requirements -->
+                    <div id="password-requirements" class="mt-2 p-3 bg-[#fcf9f8] rounded-xl border border-[#e3bebb] text-sm" style="display:none;">
+                        <p class="font-semibold text-sm text-[#5b403f] mb-1.5">Mật khẩu phải có:</p>
+                        <ul class="space-y-1">
+                            <li id="req-length" class="flex items-center gap-1.5 text-[#5b403f]">
+                                <span class="material-symbols-outlined text-base" id="icon-length">circle</span>
+                                <span>Ít nhất 8 ký tự</span>
+                            </li>
+                            <li id="req-uppercase" class="flex items-center gap-1.5 text-[#5b403f]">
+                                <span class="material-symbols-outlined text-base" id="icon-uppercase">circle</span>
+                                <span>Ít nhất 1 chữ hoa (A-Z)</span>
+                            </li>
+                            <li id="req-number" class="flex items-center gap-1.5 text-[#5b403f]">
+                                <span class="material-symbols-outlined text-base" id="icon-number">circle</span>
+                                <span>Ít nhất 1 chữ số (0-9)</span>
+                            </li>
+                            <li id="req-special" class="flex items-center gap-1.5 text-[#5b403f]">
+                                <span class="material-symbols-outlined text-base" id="icon-special">circle</span>
+                                <span>Ít nhất 1 ký tự đặc biệt (!@#$%...)</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- Confirm Password Input -->
@@ -101,23 +122,12 @@ $user = $db->selectOne("SELECT full_name, email FROM users WHERE user_id = ?", [
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                             <span class="material-symbols-outlined text-[#8f6f6e] text-[20px]">lock</span>
                         </div>
-                        <input class="w-full pl-11 pr-10 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="confirm_password" name="confirm_password" placeholder="Nhập lại mật khẩu mới" required type="password" minlength="6"/>
+                        <input class="w-full pl-11 pr-10 py-3 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all" id="confirm_password" name="confirm_password" placeholder="Nhập lại mật khẩu mới" required type="password" minlength="8"/>
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-[#8f6f6e] hover:text-[#1b1c1c] transition-colors" onclick="togglePasswordVisibility('confirm_password', 'toggle-confirm-password-icon')">
                             <span class="material-symbols-outlined" id="toggle-confirm-password-icon">visibility_off</span>
                         </div>
                     </div>
                     <p class="mt-2 text-xs text-[#8f6f6e]">Nhập lại mật khẩu để xác nhận</p>
-                </div>
-
-                <!-- Password Strength Indicator -->
-                <div id="password-strength" class="hidden">
-                    <div class="flex gap-2 mb-2">
-                        <div id="strength-1" class="h-1.5 flex-1 rounded-full bg-[#e5e2e1]"></div>
-                        <div id="strength-2" class="h-1.5 flex-1 rounded-full bg-[#e5e2e1]"></div>
-                        <div id="strength-3" class="h-1.5 flex-1 rounded-full bg-[#e5e2e1]"></div>
-                        <div id="strength-4" class="h-1.5 flex-1 rounded-full bg-[#e5e2e1]"></div>
-                    </div>
-                    <p id="strength-text" class="text-xs font-semibold text-[#5b403f]"></p>
                 </div>
 
                 <!-- Submit Button -->
@@ -149,43 +159,74 @@ $user = $db->selectOne("SELECT full_name, email FROM users WHERE user_id = ?", [
             }
         }
 
-        // Password strength indicator
+        // Real-time password requirements check
         const newPasswordInput = document.getElementById('new_password');
-        const strengthDiv = document.getElementById('password-strength');
-        const strengthText = document.getElementById('strength-text');
+        const reqBox = document.getElementById('password-requirements');
+
+        const requirements = [
+            { id: 'length',    test: v => v.length >= 8 },
+            { id: 'uppercase', test: v => /[A-Z]/.test(v) },
+            { id: 'number',    test: v => /[0-9]/.test(v) },
+            { id: 'special',   test: v => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(v) }
+        ];
+
+        newPasswordInput.addEventListener('focus', () => reqBox.style.display = 'block');
+        newPasswordInput.addEventListener('blur', () => {
+            if (newPasswordInput.value === '') reqBox.style.display = 'none';
+        });
 
         newPasswordInput.addEventListener('input', function() {
-            const password = this.value;
-            if (password.length === 0) {
-                strengthDiv.classList.add('hidden');
-                return;
-            }
-            strengthDiv.classList.remove('hidden');
-
-            let strength = 0;
-            if (password.length >= 6) strength++;
-            if (password.length >= 8) strength++;
-            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
-            if (/[0-9]/.test(password)) strength++;
-            if (/[^a-zA-Z0-9]/.test(password)) strength++;
-
-            const colors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500'];
-            const labels = ['Yếu', 'Trung bình', 'Khá mạnh', 'Mạnh'];
-            const level = Math.min(Math.floor(strength / 1.5), 4);
-
-            for (let i = 1; i <= 4; i++) {
-                const bar = document.getElementById('strength-' + i);
-                if (i <= level) {
-                    bar.className = 'h-1.5 flex-1 rounded-full ' + colors[level - 1];
+            const val = this.value;
+            requirements.forEach(req => {
+                const li   = document.getElementById('req-' + req.id);
+                const icon = document.getElementById('icon-' + req.id);
+                if (req.test(val)) {
+                    li.classList.remove('text-[#5b403f]', 'text-red-600');
+                    li.classList.add('text-green-600');
+                    icon.textContent = 'check_circle';
+                    icon.style.fontVariationSettings = "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24";
                 } else {
-                    bar.className = 'h-1.5 flex-1 rounded-full bg-[#e5e2e1]';
+                    li.classList.remove('text-green-600');
+                    li.classList.add('text-[#5b403f]');
+                    icon.textContent = 'circle';
+                    icon.style.fontVariationSettings = "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24";
                 }
-            }
+            });
+        });
 
-            if (level > 0) {
-                strengthText.textContent = 'Độ mạnh: ' + labels[level - 1];
-            } else {
-                strengthText.textContent = '';
+        // Form submit validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const password = newPasswordInput.value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+            const errors = [];
+            let focusedField = null;
+
+            if (password.length < 8) { errors.push('Mật khẩu phải có ít nhất 8 ký tự'); if (!focusedField) focusedField = newPasswordInput; }
+            if (!/[A-Z]/.test(password)) { errors.push('Mật khẩu phải có ít nhất 1 chữ hoa'); if (!focusedField) focusedField = newPasswordInput; }
+            if (!/[0-9]/.test(password)) { errors.push('Mật khẩu phải có ít nhất 1 chữ số'); if (!focusedField) focusedField = newPasswordInput; }
+            if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(password)) { errors.push('Mật khẩu phải có ít nhất 1 ký tự đặc biệt'); if (!focusedField) focusedField = newPasswordInput; }
+            if (password !== confirmPassword) { errors.push('Mật khẩu xác nhận không khớp'); if (!focusedField) focusedField = document.getElementById('confirm_password'); }
+
+            if (errors.length > 0) {
+                e.preventDefault();
+                // Highlight unmet requirements in red
+                requirements.forEach(req => {
+                    if (!req.test(password)) {
+                        const li   = document.getElementById('req-' + req.id);
+                        const icon = document.getElementById('icon-' + req.id);
+                        li.classList.remove('text-[#5b403f]', 'text-green-600');
+                        li.classList.add('text-red-600');
+                        icon.textContent = 'cancel';
+                        icon.style.fontVariationSettings = "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24";
+                    }
+                });
+                reqBox.style.display = 'block';
+                
+                if (focusedField) {
+                    focusedField.focus(); // Focus on the first invalid field
+                }
+                
+                alert(errors[0]); // Show native alert for errors
             }
         });
     </script>

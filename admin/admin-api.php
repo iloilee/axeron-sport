@@ -283,6 +283,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if ($id > 0) {
                 $order = $db->selectOne("SELECT o.*, u.full_name, u.email FROM orders o LEFT JOIN users u ON o.user_id = u.user_id WHERE o.order_id = ?", [$id]);
                 if ($order) {
+                    $order['shipping_address'] = trim(preg_replace('/(,\s*)+/', ', ', $order['shipping_address'] ?? ''), ', ');
                     $items = $db->select("SELECT * FROM order_items WHERE order_id = ?", [$id]);
                     $logs = $db->select("
                         SELECT l.*, u.full_name as changed_by_name 
@@ -346,6 +347,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $data = [];
             foreach ($orders as $order) {
+                $order['shipping_address'] = trim(preg_replace('/(,\s*)+/', ', ', $order['shipping_address'] ?? ''), ', ');
                 $items = $db->select("SELECT * FROM order_items WHERE order_id = ?", [$order['order_id']]);
 
                 $paymentStatusText = match($order['payment_status']) {

@@ -41,27 +41,27 @@ $flash = getFlash();
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 flex items-center justify-center w-full min-h-screen p-4 pt-24 md:pt-0">
+    <main class="flex-1 flex flex-col items-center w-full min-h-screen p-4 pt-24 md:pt-28 pb-8">
         <!-- Form Container -->
-        <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 border border-[#e5e2e1]">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-[#e5e2e1] my-auto">
             <!-- Flash Message -->
             <?php if ($flash): ?>
-            <div class="mb-6 p-4 rounded-xl <?= $flash['type'] === 'error' ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-green-50 border border-green-200 text-green-700' ?>">
+            <div class="mb-5 sm:mb-6 p-3 sm:p-4 rounded-xl <?= $flash['type'] === 'error' ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-green-50 border border-green-200 text-green-700' ?>">
                 <?= htmlspecialchars($flash['message']) ?>
             </div>
             <?php endif; ?>
 
-            <div class="mb-8 text-center">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#ffdad6] text-[#93000a] mb-5 shadow-sm border border-[#ffb3b0]">
-                    <span class="material-symbols-outlined fill-icon text-3xl">lock_reset</span>
+            <div class="mb-6 sm:mb-8 text-center">
+                <div class="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#ffdad6] text-[#93000a] mb-4 sm:mb-5 shadow-sm border border-[#ffb3b0]">
+                    <span class="material-symbols-outlined fill-icon text-2xl sm:text-3xl">lock_reset</span>
                 </div>
-                <h2 class="text-2xl font-bold text-[#1b1c1c] mb-3" style="font-family: 'Montserrat', sans-serif;">Quên Mật Khẩu?</h2>
+                <h2 class="text-xl sm:text-2xl font-bold text-[#1b1c1c] mb-2 sm:mb-3" style="font-family: 'Montserrat', sans-serif;">Quên Mật Khẩu?</h2>
                 <p class="text-sm text-[#5b403f] leading-relaxed">
                     Nhập địa chỉ email liên kết với tài khoản của bạn và chúng tôi sẽ gửi cho bạn một liên kết để đặt lại mật khẩu.
                 </p>
             </div>
 
-            <form method="POST" action="<?= BASE_URL ?>/api/auth-handler.php" class="space-y-6">
+            <form method="POST" action="<?= BASE_URL ?>/api/auth-handler.php" class="space-y-5 sm:space-y-6">
                 <input type="hidden" name="action" value="forgot_password">
 
                 <!-- Email Input -->

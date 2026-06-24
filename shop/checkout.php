@@ -163,7 +163,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
 
     // Create order
-    $shippingAddress = "$streetAddress, $ward, $district, $province";
+    $addressParts = array_filter([$streetAddress, $ward, $district, $province], function($val) { return trim($val) !== ''; });
+    $shippingAddress = implode(', ', $addressParts);
 
     // Save address if requested
     $saveAddress = isset($_POST['save_address']) && $_POST['save_address'] == '1';

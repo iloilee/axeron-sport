@@ -41,47 +41,32 @@ $flash = getFlash();
     </style>
     <?php include __DIR__ . '/../includes/dark-mode.php'; ?>
 </head>
-<body class="bg-[#fcf9f8] text-[#1b1c1c] antialiased min-h-screen flex flex-col items-center justify-center relative bg-cover bg-center py-12" style="font-family: 'Noto Sans', sans-serif; background-image: url('<?= BASE_URL ?>/assets/images/auth-banner.png');">
-    <!-- Background Overlays -->
-    <div class="absolute inset-0 bg-axeron-red/40 mix-blend-multiply"></div>
-    <div class="absolute inset-0 bg-black/60"></div>
-
-    <!-- Navigation to Homepage -->
-    <a href="<?= BASE_URL ?>/" class="absolute top-6 left-6 z-20 flex items-center gap-2 text-white hover:text-[#ffb3b0] transition-colors bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm border border-white/20">
-        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-        <span class="font-medium text-sm">Quay lại trang chủ</span>
-    </a>
+<body class="bg-[#fcf9f8] text-[#1b1c1c] font-body-md antialiased min-h-screen flex flex-col" style="font-family: 'Noto Sans', sans-serif;">
+    <!-- Header -->
+    <header class="w-full py-4 px-margin-mobile md:px-margin-desktop border-b border-[#e5e2e1] bg-[#fcf9f8] flex justify-center items-center absolute top-0 z-10">
+        <a class="flex items-center gap-2 flex-shrink-0" href="<?= BASE_URL ?>/">
+            <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover">
+            <span class="font-display-lg text-[#BE1E2D] uppercase tracking-tight text-xl md:text-2xl" style="font-family: 'Montserrat', sans-serif;">Axeron Sport</span>
+        </a>
+    </header>
 
     <!-- Main Content -->
-    <main class="relative z-10 w-full max-w-md px-4 py-8">
-        <!-- Logo -->
-        <div class="flex justify-center mb-6">
-            <a class="flex items-center gap-3 flex-shrink-0 bg-white/10 p-3 px-5 rounded-2xl backdrop-blur-md border border-white/20 hover:bg-white/20 transition-colors" href="<?= BASE_URL ?>/">
-                <img src="<?= BASE_URL ?>/assets/images/logo-axeron.jpg" alt="Logo" class="w-10 h-10 rounded-lg object-cover shadow-sm">
-                <span class="font-display-lg text-white uppercase tracking-tight text-2xl font-black drop-shadow-sm" style="font-family: 'Montserrat', sans-serif;">Axeron</span>
-            </a>
-        </div>
-
+    <main class="flex-1 flex flex-col items-center w-full min-h-screen p-4 pt-24 md:pt-28 pb-8">
         <!-- Form Container -->
-        <div class="bg-white rounded-2xl shadow-2xl p-8 w-full border border-[#e5e2e1]">
-            <!-- Flash Message -->
-            <?php if ($flash): ?>
-            <div class="mb-6 p-4 rounded-xl <?= $flash['type'] === 'error' ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-green-50 border border-green-200 text-green-700' ?>">
-                <?= htmlspecialchars($flash['message']) ?>
-            </div>
-            <?php endif; ?>
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-[#e5e2e1] my-auto">
 
-            <div class="mb-8 text-center">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#ffdad6] text-[#93000a] mb-5 shadow-sm border border-[#ffb3b0]">
-                    <span class="material-symbols-outlined fill-icon text-3xl">pin</span>
+
+            <div class="mb-6 sm:mb-8 text-center">
+                <div class="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#ffdad6] text-[#93000a] mb-4 sm:mb-5 shadow-sm border border-[#ffb3b0]">
+                    <span class="material-symbols-outlined fill-icon text-2xl sm:text-3xl">pin</span>
                 </div>
-                <h2 class="text-2xl font-bold text-[#1b1c1c] mb-3" style="font-family: 'Montserrat', sans-serif;">Nhập mã xác thực</h2>
+                <h2 class="text-xl sm:text-2xl font-bold text-[#1b1c1c] mb-2 sm:mb-3" style="font-family: 'Montserrat', sans-serif;">Nhập mã xác thực</h2>
                 <p class="text-sm text-[#5b403f] leading-relaxed">
                     Mã xác thực đã được gửi đến <strong class="text-[#1b1c1c]"><?= htmlspecialchars($resetEmail) ?></strong>
                 </p>
             </div>
 
-            <form method="POST" action="<?= BASE_URL ?>/api/auth-handler.php" class="space-y-6">
+            <form method="POST" action="<?= BASE_URL ?>/api/auth-handler.php" class="space-y-5 sm:space-y-6">
                 <input type="hidden" name="action" value="verify_register_otp">
                 <input type="hidden" name="reset_token" value="<?= htmlspecialchars($resetToken) ?>">
 
@@ -92,7 +77,7 @@ $flash = getFlash();
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                             <span class="material-symbols-outlined text-[#8f6f6e] text-[20px]">lock</span>
                         </div>
-                        <input class="w-full pl-11 pr-4 py-3.5 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all text-center text-2xl tracking-[1em] otp-input font-bold" id="otp" name="otp" placeholder="------" required type="text" maxlength="6" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]{6}"/>
+                        <input class="w-full pl-10 sm:pl-11 pr-3 sm:pr-4 py-3 sm:py-3.5 border border-[#e3bebb] rounded-xl bg-[#fcf9f8] text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#BE1E2D] focus:border-transparent transition-all text-center text-xl sm:text-2xl tracking-[0.5em] sm:tracking-[1em] otp-input font-bold" id="otp" name="otp" placeholder="------" required type="text" maxlength="6" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]{6}"/>
                     </div>
                     <p class="mt-2 text-xs text-center text-[#8f6f6e]">Mã có hiệu lực trong <span id="otp-timer" class="font-bold text-[#BE1E2D]">05:00</span></p>
                 </div>
@@ -137,6 +122,39 @@ $flash = getFlash();
         document.addEventListener('DOMContentLoaded', function() {
             const otpInput = document.getElementById('otp');
             otpInput.focus();
+
+            <?php if ($flash): ?>
+            // Show floating toast notification
+            const toastContainer = document.createElement('div');
+            toastContainer.className = 'fixed top-24 right-4 z-[100] flex flex-col gap-2';
+            document.body.appendChild(toastContainer);
+
+            const toast = document.createElement('div');
+            const flashType = '<?= $flash['type'] ?>';
+            const flashMsg = <?= json_encode($flash['message']) ?>;
+            const bgColor = flashType === 'success' ? 'bg-green-600' : (flashType === 'error' ? 'bg-red-600' : 'bg-blue-600');
+            const icon = flashType === 'success' ? 'check_circle' : (flashType === 'error' ? 'error' : 'info');
+
+            toast.className = `${bgColor} text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 transform transition-all duration-300 translate-x-full opacity-0`;
+            toast.innerHTML = `
+                <span class="material-symbols-outlined">${icon}</span>
+                <span class="font-medium">${flashMsg}</span>
+            `;
+            toastContainer.appendChild(toast);
+
+            // Animate in
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    toast.classList.remove('translate-x-full', 'opacity-0');
+                }, 10);
+            });
+
+            // Animate out and remove after 3s
+            setTimeout(() => {
+                toast.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+            <?php endif; ?>
 
             // Countdown Timer
             let timeLeft = 300; // 5 minutes in seconds
