@@ -283,14 +283,14 @@ function renderProductStatCard($title, $value, $trendData, $icon, $colorClass, $
                         <label class="relative inline-flex items-center cursor-pointer" title="Nhấn để bật/tắt nổi bật">
                             <input type="checkbox" class="sr-only peer" onchange="toggleProductFeatured(<?= $product['product_id'] ?>, this)" <?= $product['is_featured'] ? 'checked' : '' ?>>
                             <div class="w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-yellow-500"></div>
-                            <span class="ml-2 text-xs font-medium text-gray-700 featured-label"><?= $product['is_featured'] ? 'Nổi bật' : '-' ?></span>
+                            <span class="ml-2 text-xs font-medium text-gray-700 featured-label whitespace-nowrap"><?= $product['is_featured'] ? 'Nổi bật' : '-' ?></span>
                         </label>
                     </td>
                     <td class="px-4 py-3">
                         <label class="relative inline-flex items-center cursor-pointer" title="Nhấn để ẩn/hiện sản phẩm">
                             <input type="checkbox" class="sr-only peer" onchange="toggleProductVisibility(<?= $product['product_id'] ?>, this)" <?= $product['is_visible'] ? 'checked' : '' ?>>
                             <div class="w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-green-500"></div>
-                            <span class="ml-2 text-xs font-medium text-gray-700 visibility-label"><?= $product['is_visible'] ? 'Hiển thị' : 'Đang ẩn' ?></span>
+                            <span class="ml-2 text-xs font-medium text-gray-700 visibility-label whitespace-nowrap"><?= $product['is_visible'] ? 'Hiển thị' : 'Đang ẩn' ?></span>
                         </label>
                     </td>
                     <td class="px-4 py-3">

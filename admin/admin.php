@@ -364,7 +364,7 @@ if ($action === 'dashboard') {
         /* Desktop Sidebar Collapse */
         @media (min-width: 1024px) {
             #sidebar {
-                transition: width 0.3s ease;
+                transition: width 0.3s ease, margin-right 0.3s ease;
                 overflow-x: hidden;
                 white-space: nowrap;
             }
@@ -383,8 +383,7 @@ if ($action === 'dashboard') {
             }
             #sidebar.collapsed:hover {
                 width: 16rem !important;
-                position: absolute;
-                height: 100vh;
+                margin-right: -11rem !important;
                 z-index: 100;
                 box-shadow: 4px 0 15px rgba(0,0,0,0.3);
             }
@@ -403,8 +402,8 @@ if ($action === 'dashboard') {
                 <a href="<?= BASE_URL ?>/admin/admin.php" class="flex items-center gap-3">
                     <img src="<?= htmlspecialchars($adminSiteLogo) ?>" alt="Logo" class="w-10 h-10 rounded-lg object-cover bg-white">
                     <div class="logo-text whitespace-nowrap overflow-hidden">
-                        <div class="font-bold text-lg leading-tight uppercase"><?= htmlspecialchars($adminSettings['site_name'] ?? 'Axeron Sports') ?></div>
-                        <div class="text-xs text-gray-400">Admin Panel</div>
+                        <div class="font-light font-display-lg text-xl leading-tight uppercase text-axeron-red tracking-widest"><?= htmlspecialchars($adminSettings['site_name'] ?? 'Axeron Sports') ?></div>
+                        <div class="text-xs text-gray-400">Admin Dashboard</div>
                     </div>
                 </a>
             </div>
@@ -534,7 +533,7 @@ if ($action === 'dashboard') {
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-4 sm:p-6 w-full lg:w-auto overflow-hidden">
+        <main class="flex-1 px-4 sm:px-6 pb-4 sm:pb-6 pt-4 w-full lg:w-auto overflow-hidden">
             <!-- Header -->
             <header class="flex justify-between items-center mb-6">
                 <div class="flex items-center gap-3">
