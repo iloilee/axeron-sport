@@ -357,6 +357,38 @@ if ($action === 'dashboard') {
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
         .sidebar-link.active { background: linear-gradient(90deg, #BE1E2D 0%, #d32f2f 100%); color: white; }
         .sidebar-link:hover:not(.active) { background-color: #2d2d2d; }
+        /* Hide scrollbar for sidebar */
+        #sidebar::-webkit-scrollbar { display: none; }
+        #sidebar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Desktop Sidebar Collapse */
+        @media (min-width: 1024px) {
+            #sidebar {
+                transition: width 0.3s ease;
+                overflow-x: hidden;
+                white-space: nowrap;
+            }
+            #sidebar.collapsed {
+                width: 5rem !important; /* w-20 */
+            }
+            #sidebar.collapsed:not(:hover) .sidebar-link > span:not(.material-symbols-outlined),
+            #sidebar.collapsed:not(:hover) .logo-text,
+            #sidebar.collapsed:not(:hover) .cms-text {
+                display: none !important;
+            }
+            #sidebar.collapsed:not(:hover) .sidebar-link {
+                justify-content: center;
+                padding-left: 0;
+                padding-right: 0;
+            }
+            #sidebar.collapsed:hover {
+                width: 16rem !important;
+                position: absolute;
+                height: 100vh;
+                z-index: 100;
+                box-shadow: 4px 0 15px rgba(0,0,0,0.3);
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -370,7 +402,7 @@ if ($action === 'dashboard') {
             <div class="p-4 border-b border-gray-700">
                 <a href="<?= BASE_URL ?>/admin/admin.php" class="flex items-center gap-3">
                     <img src="<?= htmlspecialchars($adminSiteLogo) ?>" alt="Logo" class="w-10 h-10 rounded-lg object-cover bg-white">
-                    <div>
+                    <div class="logo-text whitespace-nowrap overflow-hidden">
                         <div class="font-bold text-lg leading-tight uppercase"><?= htmlspecialchars($adminSettings['site_name'] ?? 'Axeron Sports') ?></div>
                         <div class="text-xs text-gray-400">Admin Panel</div>
                     </div>
@@ -458,7 +490,7 @@ if ($action === 'dashboard') {
                 <?php if (hasPermission('banners') || hasPermission('articles') || hasPermission('featured') || hasPermission('settings')): ?>
                 <div class="border-t border-gray-700 my-4"></div>
                 <!-- CMS Section -->
-                <p class="px-4 text-xs text-gray-500 uppercase tracking-wider mb-2">Nội dung CMS</p>
+                <p class="cms-text px-4 text-xs text-gray-500 uppercase tracking-wider mb-2 whitespace-nowrap overflow-hidden">Nội dung CMS</p>
 
                 <?php if (hasPermission('banners')): ?>
                 <a href="<?= BASE_URL ?>/admin/admin.php?action=banners" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all <?= $action === 'banners' ? 'active' : '' ?>">
@@ -507,6 +539,9 @@ if ($action === 'dashboard') {
             <header class="flex justify-between items-center mb-6">
                 <div class="flex items-center gap-3">
                     <button class="lg:hidden p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-lg" onclick="toggleSidebar()">
+                        <span class="material-symbols-outlined text-2xl">menu</span>
+                    </button>
+                    <button class="hidden lg:block p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors" onclick="toggleSidebarDesktop()">
                         <span class="material-symbols-outlined text-2xl">menu</span>
                     </button>
                     <div>
@@ -1044,13 +1079,33 @@ if ($action === 'dashboard') {
     <div id="toast-container" class="fixed inset-0 pointer-events-none z-[9999] flex flex-col items-center justify-center gap-4"></div>
 
     <script>
-        // Toggle Sidebar
+        // Toggle Sidebar Mobile
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
             sidebar.classList.toggle('-translate-x-full');
             overlay.classList.toggle('hidden');
         }
+
+        // Toggle Sidebar Desktop
+        function toggleSidebarDesktop() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+            
+            // Lưu trạng thái vào localStorage để ghi nhớ
+            if (sidebar.classList.contains('collapsed')) {
+                localStorage.setItem('admin_sidebar_collapsed', 'true');
+            } else {
+                localStorage.setItem('admin_sidebar_collapsed', 'false');
+            }
+        }
+        
+        // Khôi phục trạng thái sidebar khi load trang
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('admin_sidebar_collapsed') === 'true' && window.innerWidth >= 1024) {
+                document.getElementById('sidebar').classList.add('collapsed');
+            }
+        });
 
         // Toast notification (Centered Modal Style)
         function showToast(message, type = 'success') {
