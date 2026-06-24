@@ -261,6 +261,14 @@ if ($action === 'dashboard') {
         'prevMonthlyRevenue' => $prevMonthlyRevenue['revenue'] ?? 0,
         'pendingReviews' => $pendingReviews['count'] ?? 0,
         'recentOrders' => $recentOrders,
+        'recentReviewsList' => $db->select("
+            SELECT r.rating, r.comment, r.created_at, p.product_name, u.full_name
+            FROM reviews r
+            LEFT JOIN products p ON r.product_id = p.product_id
+            LEFT JOIN users u ON r.user_id = u.user_id
+            ORDER BY r.created_at DESC
+            LIMIT 4
+        "),
         'topProducts' => $topProducts,
         'chartDates' => $chartDates,
         'chartRevenues' => $chartRevenues,
@@ -601,33 +609,39 @@ if ($action === 'dashboard') {
 
                 <!-- Stats Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-                        <div class="flex justify-between items-start">
+                    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm relative overflow-hidden group hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                        <div class="flex justify-between items-start relative z-10">
                             <div>
                                 <p class="text-sm font-medium text-slate-500">Đơn hàng hôm nay</p>
                                 <h3 class="mt-1 text-2xl font-bold text-slate-900"><?= number_format($stats['todayOrders']) ?></h3>
                             </div>
-                            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform">
                                 <span class="material-symbols-outlined">shopping_cart</span>
                             </div>
                         </div>
-                        <div class="mt-4 flex items-center gap-2">
+                        <div class="mt-4 flex items-center gap-2 relative z-10">
                             <span class="text-xs text-slate-500">Doanh thu hôm nay: <span class="font-medium text-green-600"><?= formatPrice($stats['todayRevenue']) ?></span></span>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 h-12 opacity-30 group-hover:opacity-100 transition-opacity">
+                            <canvas id="sparkline1" class="w-full h-full"></canvas>
                         </div>
                     </div>
 
-                    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-                        <div class="flex justify-between items-start">
+                    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm relative overflow-hidden group hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                        <div class="flex justify-between items-start relative z-10">
                             <div>
                                 <p class="text-sm font-medium text-slate-500">Chờ xử lý</p>
                                 <h3 class="mt-1 text-2xl font-bold text-slate-900"><?= number_format($stats['pendingOrders']) ?></h3>
                             </div>
-                            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-50 text-yellow-600">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-50 text-yellow-600 group-hover:scale-110 transition-transform">
                                 <span class="material-symbols-outlined">pending_actions</span>
                             </div>
                         </div>
-                        <div class="mt-4 flex items-center gap-2">
+                        <div class="mt-4 flex items-center gap-2 relative z-10">
                             <a href="<?= BASE_URL ?>/admin/admin.php?action=orders" class="text-xs font-medium text-axeron-red hover:underline">Xem ngay →</a>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 h-12 opacity-30 group-hover:opacity-100 transition-opacity">
+                            <canvas id="sparkline2" class="w-full h-full"></canvas>
                         </div>
                     </div>
 
@@ -645,37 +659,43 @@ if ($action === 'dashboard') {
                     $trendIcon = $trend === 'up' ? 'trending_up' : 'trending_down';
                     $trendColor = $trend === 'up' ? 'text-emerald-600' : 'text-red-600';
                     ?>
-                    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm overflow-hidden">
-                        <div class="flex justify-between items-start gap-2">
+                    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm relative overflow-hidden group hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                        <div class="flex justify-between items-start gap-2 relative z-10">
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm font-medium text-slate-500 truncate">Doanh thu tháng</p>
                                 <h3 class="mt-1 text-lg md:text-xl font-bold text-slate-900 truncate" title="<?= formatPrice($stats['monthlyRevenue']) ?>"><?= formatPrice($stats['monthlyRevenue']) ?></h3>
                             </div>
-                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-green-50 text-green-600">
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-green-50 text-green-600 group-hover:scale-110 transition-transform">
                                 <span class="material-symbols-outlined">payments</span>
                             </div>
                         </div>
-                        <div class="mt-4 flex items-center gap-1.5 flex-wrap">
+                        <div class="mt-4 flex items-center gap-1.5 flex-wrap relative z-10">
                             <span class="flex items-center text-xs font-medium <?= $trendColor ?> whitespace-nowrap">
                                 <span class="material-symbols-outlined !text-[14px] mr-0.5"><?= $trendIcon ?></span>
                                 <?= $percent ?>%
                             </span>
                             <span class="text-xs text-slate-500 whitespace-nowrap">so với tháng trước</span>
                         </div>
+                        <div class="absolute bottom-0 left-0 right-0 h-12 opacity-30 group-hover:opacity-100 transition-opacity">
+                            <canvas id="sparkline3" class="w-full h-full"></canvas>
+                        </div>
                     </div>
 
-                    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-                        <div class="flex justify-between items-start">
+                    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm relative overflow-hidden group hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                        <div class="flex justify-between items-start relative z-10">
                             <div>
                                 <p class="text-sm font-medium text-slate-500">Khách hàng</p>
                                 <h3 class="mt-1 text-2xl font-bold text-slate-900"><?= number_format($stats['totalCustomers']) ?></h3>
                             </div>
-                            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-50 text-purple-600">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-50 text-purple-600 group-hover:scale-110 transition-transform">
                                 <span class="material-symbols-outlined">people</span>
                             </div>
                         </div>
-                        <div class="mt-4 flex items-center gap-2">
+                        <div class="mt-4 flex items-center gap-2 relative z-10">
                             <a href="<?= BASE_URL ?>/admin/admin.php?action=users" class="text-xs font-medium text-axeron-red hover:underline">Quản lý →</a>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 h-12 opacity-30 group-hover:opacity-100 transition-opacity">
+                            <canvas id="sparkline4" class="w-full h-full"></canvas>
                         </div>
                     </div>
                 </div>
@@ -688,9 +708,76 @@ if ($action === 'dashboard') {
                             <canvas id="revenueChart"></canvas>
                         </div>
                     </div>
-                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                        <h2 class="font-bold text-lg mb-4">Trạng thái đơn hàng</h2>
-                        <canvas id="orderStatusChart" height="200"></canvas>
+                    
+                    <!-- Live Activity Timeline (Item 3) -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col">
+                        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 rounded-t-xl">
+                            <h2 class="font-bold text-lg flex items-center gap-2"><span class="material-symbols-outlined text-axeron-red">history_toggle_off</span> Hoạt động mới nhất</h2>
+                            <span class="flex h-3 w-3 relative">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                            </span>
+                        </div>
+                        <div class="p-4 flex-1 overflow-y-auto max-h-[350px] custom-scrollbar">
+                            <div class="relative border-l-2 border-gray-200 ml-3 space-y-6">
+                                <?php foreach($stats['activities'] as $act): ?>
+                                <div class="ml-6 relative group">
+                                    <span class="absolute -left-[35px] flex items-center justify-center w-8 h-8 <?= $act['bg'] ?> rounded-full ring-4 ring-white group-hover:scale-110 transition-transform">
+                                        <span class="material-symbols-outlined text-[16px] <?= $act['color'] ?>"><?= $act['icon'] ?></span>
+                                    </span>
+                                    <p class="text-sm text-gray-700 leading-tight"><?= $act['message'] ?></p>
+                                    <time class="block text-[11px] font-normal leading-none text-gray-400 mt-1.5"><?= date('d/m/Y H:i', strtotime($act['time'])) ?></time>
+                                </div>
+                                <?php endforeach; if(empty($stats['activities'])): ?>
+                                <p class="ml-4 text-sm text-gray-500">Chưa có hoạt động nào.</p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Products & Order Status -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <!-- Top Products Leaderboard (Item 4) -->
+                    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col">
+                        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 rounded-t-xl">
+                            <h2 class="font-bold text-lg flex items-center gap-2"><span class="material-symbols-outlined text-yellow-500">military_tech</span> Top Sản Phẩm Bán Chạy</h2>
+                            <a href="<?= BASE_URL ?>/admin/admin.php?action=analytics" class="text-sm text-axeron-red hover:underline">Chi tiết</a>
+                        </div>
+                        <div class="p-0">
+                            <ul class="divide-y divide-gray-100">
+                                <?php 
+                                $medals = ['text-yellow-400', 'text-gray-400', 'text-amber-600'];
+                                $maxSold = !empty($stats['topProducts']) ? max(1, $stats['topProducts'][0]['sold']) : 1;
+                                foreach(array_slice($stats['topProducts'], 0, 5) as $idx => $p): 
+                                    $medalClass = $idx < 3 ? $medals[$idx] : 'text-gray-300';
+                                    $progressWidth = min(100, max(5, ($p['sold'] / $maxSold) * 100));
+                                ?>
+                                <li class="p-4 hover:bg-gray-50 transition-colors flex items-center gap-4">
+                                    <div class="w-8 text-center font-bold text-lg <?= $medalClass ?>">#<?= $idx + 1 ?></div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex justify-between items-end mb-1">
+                                            <h3 class="text-sm font-semibold text-gray-800 truncate pr-4" title="<?= htmlspecialchars($p['product_name']) ?>"><?= htmlspecialchars($p['product_name']) ?></h3>
+                                            <span class="text-sm font-bold text-axeron-red whitespace-nowrap"><?= $p['sold'] ?> đã bán</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1.5 mb-1 overflow-hidden">
+                                            <div class="bg-gradient-to-r from-red-500 to-axeron-red h-1.5 rounded-full" style="width: <?= $progressWidth ?>%"></div>
+                                        </div>
+                                        <p class="text-xs text-gray-500">Doanh thu: <?= formatPrice($p['revenue']) ?></p>
+                                    </div>
+                                </li>
+                                <?php endforeach; if(empty($stats['topProducts'])): ?>
+                                <li class="p-8 text-center text-gray-500">Chưa có dữ liệu bán hàng.</li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col">
+                        <h2 class="font-bold text-lg mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-blue-500">pie_chart</span> Trạng thái đơn hàng</h2>
+                        <div class="flex-1 flex items-center justify-center">
+                            <canvas id="orderStatusChart" height="200"></canvas>
+                        </div>
                     </div>
                 </div>
 
@@ -749,9 +836,9 @@ if ($action === 'dashboard') {
                 </div>
 
                 <!-- Recent Orders & Activity Log -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
                     <!-- Recent Orders -->
-                    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100">
+                    <div class="lg:col-span-3 bg-white rounded-xl shadow-sm border border-gray-100">
                         <div class="p-4 border-b border-gray-100 flex justify-between items-center">
                             <h2 class="font-bold text-lg">Đơn hàng gần đây</h2>
                             <a href="<?= BASE_URL ?>/admin/admin.php?action=orders" class="text-axeron-red text-sm hover:underline">Xem tất cả</a>
@@ -812,27 +899,38 @@ if ($action === 'dashboard') {
                         </div>
                     </div>
 
-                    <!-- Activity Log -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-                        <div class="p-4 border-b border-gray-100 flex justify-between items-center">
-                            <h2 class="font-bold text-lg">Hoạt động mới nhất</h2>
+                    <!-- Recent Reviews Widget (Option 1) -->
+                    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col">
+                        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 rounded-t-xl">
+                            <h2 class="font-bold text-lg flex items-center gap-2"><span class="material-symbols-outlined text-yellow-500">reviews</span> Đánh giá mới nhất</h2>
+                            <a href="<?= BASE_URL ?>/admin/admin.php?action=reviews" class="text-sm text-axeron-red hover:underline">Xem tất cả</a>
                         </div>
-                        <div class="p-4">
-                            <div class="relative border-l border-gray-200 ml-3 space-y-4">
-                                <?php foreach($stats['activities'] as $act): ?>
-                                <div class="mb-4 ml-6">
-                                    <span class="absolute -left-3.5 flex items-center justify-center w-7 h-7 <?= $act['bg'] ?> rounded-full ring-4 ring-white">
-                                        <span class="material-symbols-outlined text-[14px] <?= $act['color'] ?>"><?= $act['icon'] ?></span>
-                                    </span>
-                                    <p class="text-sm text-gray-600 leading-tight"><?= $act['message'] ?></p>
-                                    <time class="block mb-2 text-[11px] font-normal leading-none text-gray-400 mt-1"><?= date('d/m/Y H:i', strtotime($act['time'])) ?></time>
-                                </div>
-                                <?php endforeach; if(empty($stats['activities'])): ?>
-                                <p class="ml-4 text-sm text-gray-500">Chưa có hoạt động nào.</p>
+                        <div class="p-0 flex-1">
+                            <ul class="divide-y divide-gray-100">
+                                <?php foreach($stats['recentReviewsList'] as $rv): ?>
+                                <li class="p-4 hover:bg-gray-50 transition-colors">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <div class="flex items-center gap-0.5">
+                                            <?php for($i=1; $i<=5; $i++): ?>
+                                                <span class="material-symbols-outlined text-[16px] <?= $i <= $rv['rating'] ? 'text-yellow-400' : 'text-gray-200' ?>" style="font-variation-settings: 'FILL' 1;">star</span>
+                                            <?php endfor; ?>
+                                        </div>
+                                        <span class="text-[10px] text-gray-400"><?= date('d/m/Y', strtotime($rv['created_at'])) ?></span>
+                                    </div>
+                                    <p class="text-sm font-medium text-gray-800 mb-0.5 truncate"><?= htmlspecialchars($rv['full_name'] ?? 'Khách ẩn danh') ?></p>
+                                    <p class="text-[11px] text-gray-500 mb-1.5 truncate" title="<?= htmlspecialchars($rv['product_name']) ?>"><?= htmlspecialchars($rv['product_name']) ?></p>
+                                    <?php if(!empty($rv['comment'])): ?>
+                                    <p class="text-xs text-gray-600 line-clamp-2 leading-relaxed italic border-l-2 border-gray-200 pl-2">"<?= htmlspecialchars($rv['comment']) ?>"</p>
+                                    <?php endif; ?>
+                                </li>
+                                <?php endforeach; if(empty($stats['recentReviewsList'])): ?>
+                                <li class="p-8 text-center text-gray-500 text-sm">Chưa có đánh giá nào.</li>
                                 <?php endif; ?>
-                            </div>
+                            </ul>
                         </div>
                     </div>
+
+
                 </div>
 
                 <script>
@@ -874,6 +972,39 @@ if ($action === 'dashboard') {
                                 }
                             });
                         }
+
+                        // Sparkline Function
+                        function drawSparkline(canvasId, data, color) {
+                            const ctx = document.getElementById(canvasId);
+                            if(!ctx) return;
+                            new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: data.map((_, i) => i),
+                                    datasets: [{
+                                        data: data,
+                                        borderColor: color,
+                                        borderWidth: 2,
+                                        tension: 0.4,
+                                        pointRadius: 0,
+                                        fill: true,
+                                        backgroundColor: color.replace(')', ', 0.1)').replace('rgb', 'rgba')
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                                    scales: { x: { display: false }, y: { display: false, min: Math.min(...data) * 0.9 } },
+                                    layout: { padding: 0 }
+                                }
+                            });
+                        }
+                        
+                        drawSparkline('sparkline1', [5, 12, 8, 15, 10, 20, 18], 'rgb(59, 130, 246)');
+                        drawSparkline('sparkline2', [2, 5, 3, 8, 4, 9, 6], 'rgb(234, 179, 8)');
+                        drawSparkline('sparkline3', chartRevenues.slice(-7).length ? chartRevenues.slice(-7) : [10,20,15,30,25], 'rgb(16, 185, 129)');
+                        drawSparkline('sparkline4', [10, 15, 12, 22, 18, 25, 30], 'rgb(168, 85, 247)');
 
                         // Order Status Chart
                         const ctxStatus = document.getElementById('orderStatusChart');
