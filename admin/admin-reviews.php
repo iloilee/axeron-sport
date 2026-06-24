@@ -248,7 +248,7 @@ $reviews = $db->select("
                     <td class="px-4 py-3 text-sm text-gray-500"><?= date('d/m/Y', strtotime($review['created_at'])) ?></td>
                     <td class="px-4 py-3">
                         <?php if ($review['is_deleted']): ?>
-                            <span class="px-2 py-1 rounded-full text-xs bg-red-100 text-red-800">Đã xóa</span>
+                            <span class="inline-block whitespace-nowrap px-2 py-1 rounded-full text-xs bg-red-100 text-red-800">Đã xóa</span>
                         <?php else: ?>
                             <?php
                             $statusClass = match($review['status']) {
@@ -266,7 +266,7 @@ $reviews = $db->select("
                                 default => $review['status']
                             };
                             ?>
-                            <span class="px-2 py-1 rounded-full text-xs <?= $statusClass ?>"><?= $statusText ?></span>
+                            <span class="inline-block whitespace-nowrap px-2 py-1 rounded-full text-xs <?= $statusClass ?>"><?= $statusText ?></span>
                         <?php endif; ?>
                     </td>
                     <td class="px-4 py-3">

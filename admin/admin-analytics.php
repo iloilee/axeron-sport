@@ -60,15 +60,15 @@
             <!-- Tab Navigation (Moved) -->
             <div class="flex-1 flex justify-center">
                 <div class="flex gap-2">
-                    <button class="tab-btn px-4 py-2 font-medium text-sm transition-all border rounded-lg hover:text-axeron-red <?= ($tab ?? 'revenue') === 'revenue' ? 'active border-axeron-red text-axeron-red' : 'border-transparent text-gray-500 hover:bg-gray-50' ?>" data-tab="revenue" onclick="switchTab('revenue')">
+                    <button class="tab-btn px-3 py-2 font-medium text-sm transition-all border rounded-lg hover:text-axeron-red whitespace-nowrap flex-shrink-0 <?= ($tab ?? 'revenue') === 'revenue' ? 'active border-axeron-red text-axeron-red' : 'border-transparent text-gray-500 hover:bg-gray-50' ?>" data-tab="revenue" onclick="switchTab('revenue')">
                         <span class="material-symbols-outlined text-lg align-middle mr-1">trending_up</span>
                         Doanh Thu
                     </button>
-                    <button class="tab-btn px-4 py-2 font-medium text-sm transition-all border rounded-lg hover:text-axeron-red <?= ($tab ?? '') === 'customers' ? 'active border-axeron-red text-axeron-red' : 'border-transparent text-gray-500 hover:bg-gray-50' ?>" data-tab="customers" onclick="switchTab('customers')">
+                    <button class="tab-btn px-3 py-2 font-medium text-sm transition-all border rounded-lg hover:text-axeron-red whitespace-nowrap flex-shrink-0 <?= ($tab ?? '') === 'customers' ? 'active border-axeron-red text-axeron-red' : 'border-transparent text-gray-500 hover:bg-gray-50' ?>" data-tab="customers" onclick="switchTab('customers')">
                         <span class="material-symbols-outlined text-lg align-middle mr-1">people</span>
                         Khách Hàng
                     </button>
-                    <button class="tab-btn px-4 py-2 font-medium text-sm transition-all border rounded-lg hover:text-axeron-red <?= ($tab ?? '') === 'products' ? 'active border-axeron-red text-axeron-red' : 'border-transparent text-gray-500 hover:bg-gray-50' ?>" data-tab="products" onclick="switchTab('products')">
+                    <button class="tab-btn px-3 py-2 font-medium text-sm transition-all border rounded-lg hover:text-axeron-red whitespace-nowrap flex-shrink-0 <?= ($tab ?? '') === 'products' ? 'active border-axeron-red text-axeron-red' : 'border-transparent text-gray-500 hover:bg-gray-50' ?>" data-tab="products" onclick="switchTab('products')">
                         <span class="material-symbols-outlined text-lg align-middle mr-1">inventory_2</span>
                         Sản Phẩm
                     </button>
@@ -77,11 +77,11 @@
 
             <!-- Export Buttons -->
             <div class="flex gap-2">
-                <button onclick="exportData('excel')" class="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                <button onclick="exportData('excel')" class="flex items-center gap-1.5 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors whitespace-nowrap flex-shrink-0 text-sm">
                     <span class="material-symbols-outlined text-lg">table_chart</span>
                     Xuất Excel
                 </button>
-                <button onclick="exportData('pdf')" class="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                <button onclick="exportData('pdf')" class="flex items-center gap-1.5 px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors whitespace-nowrap flex-shrink-0 text-sm">
                     <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
                     Xuất PDF
                 </button>

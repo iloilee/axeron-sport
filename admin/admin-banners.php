@@ -5,11 +5,10 @@
 ?>
 
 <div class="mb-6 flex justify-between items-center">
-    <h2 class="text-lg font-semibold text-gray-800">Quản lý Banner/Slider</h2>
     <a href="javascript:void(0)" onclick="openBannerModal()"
        class="px-4 py-2 bg-axeron-red text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2">
         <span class="material-symbols-outlined text-xl">add</span>
-        Thêm Banner Mới
+        Thêm
     </a>
 </div>
 
