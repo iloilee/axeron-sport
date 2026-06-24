@@ -3,6 +3,21 @@
  * Admin Featured Products Management - Drag and Drop Reordering
  */
 
+// Pagination
+$limit = (int)($_GET['limit'] ?? 10);
+if (!in_array($limit, [10, 20, 50, 100])) $limit = 10;
+$currentPage = (int)($_GET['page'] ?? 1);
+if ($currentPage < 1) $currentPage = 1;
+$offset = ($currentPage - 1) * $limit;
+
+$totalRecordsQuery = "
+    SELECT COUNT(*) as count 
+    FROM products p 
+    WHERE p.is_visible = 1 AND p.is_featured = 1
+";
+$totalRecords = $db->selectOne($totalRecordsQuery)['count'] ?? 0;
+$totalPages = $totalRecords > 0 ? ceil($totalRecords / $limit) : 0;
+
 // Load currently featured products
 $featuredProducts = $db->select("
     SELECT p.*, c.category_name, b.brand_name,
@@ -12,6 +27,7 @@ $featuredProducts = $db->select("
     LEFT JOIN brands b ON p.brand_id = b.brand_id
     WHERE p.is_visible = 1 AND p.is_featured = 1
     ORDER BY p.featured_sort_order ASC, p.updated_at DESC
+    LIMIT $limit OFFSET $offset
 ");
 ?>
 
@@ -106,6 +122,9 @@ $featuredProducts = $db->select("
                 <?php endif; ?>
             </tbody>
         </table>
+    </div>
+    <div class="p-4 border-t border-gray-100">
+        <?php include __DIR__ . '/includes/pagination.php'; ?>
     </div>
 </div>
 

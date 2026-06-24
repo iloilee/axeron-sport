@@ -392,7 +392,6 @@ if ($action === 'dashboard') {
                 opacity: 1;
                 transition: opacity 0.3s 0.1s;
             }
-        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -536,6 +535,13 @@ if ($action === 'dashboard') {
                 </a>
             </nav>
         </aside>
+
+        <!-- Inline script to set collapsed state synchronously before first paint -->
+        <script>
+            if (localStorage.getItem('admin_sidebar_collapsed') === 'true' && window.innerWidth >= 1024) {
+                document.getElementById('sidebar').classList.add('collapsed');
+            }
+        </script>
 
         <!-- Main Content -->
         <main class="flex-1 px-4 sm:px-6 pb-4 sm:pb-6 pt-4 w-full lg:w-auto overflow-hidden">
@@ -1103,13 +1109,6 @@ if ($action === 'dashboard') {
                 localStorage.setItem('admin_sidebar_collapsed', 'false');
             }
         }
-        
-        // Khôi phục trạng thái sidebar khi load trang
-        document.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('admin_sidebar_collapsed') === 'true' && window.innerWidth >= 1024) {
-                document.getElementById('sidebar').classList.add('collapsed');
-            }
-        });
 
         // Toast notification (Centered Modal Style)
         function showToast(message, type = 'success') {
