@@ -191,9 +191,9 @@ function renderStatCard($title, $value, $trendData, $icon, $colorClass, $bgColor
                                 <?php 
                                     $avatarPath = strpos($user['avatar_url'], 'http') === 0 ? htmlspecialchars($user['avatar_url']) : BASE_URL . '/' . ltrim(htmlspecialchars($user['avatar_url']), '/');
                                 ?>
-                                <img src="<?= $avatarPath ?>" alt="<?= htmlspecialchars($user['full_name']) ?>" class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                                <img src="<?= $avatarPath ?>" alt="<?= htmlspecialchars($user['full_name']) ?>" class="w-10 h-10 flex-shrink-0 rounded-full object-cover border border-gray-200">
                             <?php else: ?>
-                                <div class="w-10 h-10 bg-axeron-red rounded-full flex items-center justify-center text-white font-bold">
+                                <div class="w-10 h-10 flex-shrink-0 bg-axeron-red rounded-full flex items-center justify-center text-white font-bold">
                                     <?= strtoupper(substr($user['full_name'], 0, 1)) ?>
                                 </div>
                             <?php endif; ?>

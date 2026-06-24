@@ -4,10 +4,31 @@
  */
 
 // Load shipping prices
+$search = trim($_GET['search'] ?? '');
+
 $shippingPrices = $db->select("
     SELECT * FROM shipping_prices
     ORDER BY province_city ASC
 ");
+
+if ($search) {
+    $remove_accents = function($str) {
+        $str = preg_replace("/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/i", 'a', $str);
+        $str = preg_replace("/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/i", 'e', $str);
+        $str = preg_replace("/(ì|í|ị|ỉ|ĩ)/i", 'i', $str);
+        $str = preg_replace("/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/i", 'o', $str);
+        $str = preg_replace("/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/i", 'u', $str);
+        $str = preg_replace("/(ỳ|ý|ỵ|ỷ|ỹ)/i", 'y', $str);
+        $str = preg_replace("/(đ)/i", 'd', $str);
+        return mb_strtolower($str, 'UTF-8');
+    };
+
+    $searchClean = $remove_accents($search);
+    $shippingPrices = array_filter($shippingPrices, function($sp) use ($searchClean, $remove_accents) {
+        $cityClean = $remove_accents($sp['province_city']);
+        return mb_strpos($cityClean, $searchClean, 0, 'UTF-8') !== false;
+    });
+}
 
 // List of all Vietnam provinces/cities for the dropdown filter
 $provinces = [
@@ -29,7 +50,18 @@ $provinces = [
 $configuredCities = array_column($shippingPrices, 'province_city');
 ?>
 
-<div class="mb-6">
+<div class="mb-6 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
+    <div class="flex gap-3 items-center">
+        <form method="GET" class="flex gap-3">
+            <input type="hidden" name="action" value="shipping_price">
+            <input type="text" name="search" placeholder="Tìm Tỉnh / Thành phố..." value="<?= htmlspecialchars($search) ?>"
+                   class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red focus:border-transparent outline-none w-64">
+            <button type="submit" class="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors font-medium">Tìm</button>
+            <?php if ($search): ?>
+            <a href="?action=shipping_price" class="px-4 py-2 text-gray-500 hover:text-gray-800 font-medium">Xóa</a>
+            <?php endif; ?>
+        </form>
+    </div>
     <a href="javascript:void(0)" onclick="openShippingPriceModal()"
        class="px-4 py-2 bg-axeron-red text-white rounded-lg hover:bg-red-700 transition-colors inline-flex items-center gap-2">
         <span class="material-symbols-outlined text-xl">add_location</span>
