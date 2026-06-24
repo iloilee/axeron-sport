@@ -364,28 +364,33 @@ if ($action === 'dashboard') {
         /* Desktop Sidebar Collapse */
         @media (min-width: 1024px) {
             #sidebar {
-                transition: width 0.3s ease, margin-right 0.3s ease;
+                transition: clip-path 0.3s ease, width 0.3s ease, margin-right 0.3s ease;
                 overflow-x: hidden;
                 white-space: nowrap;
+                z-index: 100;
             }
             #sidebar.collapsed {
-                width: 5rem !important; /* w-20 */
+                width: 16rem !important;
+                margin-right: -11rem !important;
+            }
+            #sidebar.collapsed:not(:hover) {
+                clip-path: inset(0 11rem 0 0);
+            }
+            #sidebar.collapsed:hover {
+                clip-path: inset(0 -50px 0 0);
+                box-shadow: 4px 0 15px rgba(0,0,0,0.3);
             }
             #sidebar.collapsed:not(:hover) .sidebar-link > span:not(.material-symbols-outlined),
             #sidebar.collapsed:not(:hover) .logo-text,
             #sidebar.collapsed:not(:hover) .cms-text {
-                display: none !important;
+                opacity: 0;
+                transition: opacity 0.2s;
             }
-            #sidebar.collapsed:not(:hover) .sidebar-link {
-                justify-content: center;
-                padding-left: 0;
-                padding-right: 0;
-            }
-            #sidebar.collapsed:hover {
-                width: 16rem !important;
-                margin-right: -11rem !important;
-                z-index: 100;
-                box-shadow: 4px 0 15px rgba(0,0,0,0.3);
+            #sidebar.collapsed:hover .sidebar-link > span:not(.material-symbols-outlined),
+            #sidebar.collapsed:hover .logo-text,
+            #sidebar.collapsed:hover .cms-text {
+                opacity: 1;
+                transition: opacity 0.3s 0.1s;
             }
         }
     </style>
