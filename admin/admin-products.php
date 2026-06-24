@@ -55,7 +55,8 @@ $totalPages = $totalRecords > 0 ? ceil($totalRecords / $limit) : 0;
 
 $products = $db->select("
     SELECT p.*, c.category_name, b.brand_name,
-           (SELECT image_url FROM product_images WHERE product_id = p.product_id AND is_primary = 1 LIMIT 1) as image_url
+           (SELECT image_url FROM product_images WHERE product_id = p.product_id AND is_primary = 1 LIMIT 1) as image_url,
+           (SELECT SUM(oi.quantity) FROM order_items oi JOIN product_variants pv ON oi.variant_id = pv.variant_id WHERE pv.product_id = p.product_id) as total_sold
     FROM products p
     LEFT JOIN categories c ON p.category_id = c.category_id
     LEFT JOIN brands b ON p.brand_id = b.brand_id
@@ -271,7 +272,12 @@ function renderProductStatCard($title, $value, $trendData, $icon, $colorClass, $
                             <img src="<?= getImageUrl($product['image_url'], 'https://placehold.co/60x60') ?>"
                                  alt="" class="w-12 h-12 object-cover rounded-lg bg-gray-100">
                             <div>
-                                <p class="font-medium text-gray-800"><?= htmlspecialchars($product['product_name']) ?></p>
+                                <p class="font-medium text-gray-800 flex items-center gap-2">
+                                    <?= htmlspecialchars($product['product_name']) ?>
+                                    <?php if (($product['total_sold'] ?? 0) >= 10): ?>
+                                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-orange-100 text-orange-800 whitespace-nowrap border border-orange-200">🔥 Bán chạy</span>
+                                    <?php endif; ?>
+                                </p>
                                 <p class="text-xs text-gray-500">ID: <?= $product['product_id'] ?></p>
                             </div>
                         </div>
