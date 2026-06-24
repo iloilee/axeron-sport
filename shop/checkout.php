@@ -680,9 +680,9 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
                                     </select>
                                 </div>
                                 <div class="flex flex-col gap-1">
-                                    <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="district">Quận/Huyện *</label>
+                                    <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="district">Phường/Xã *</label>
                                     <select id="district" name="district" required class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors font-body-md w-full appearance-none disabled:opacity-50 disabled:bg-surface-variant" disabled>
-                                        <option value="">Chọn Quận/Huyện</option>
+                                        <option value="">Chọn Phường/Xã</option>
                                     </select>
                                     <input type="hidden" id="current_district" value="<?= htmlspecialchars($defaultAddress['district'] ?? '') ?>">
                                 </div>
@@ -950,25 +950,25 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
             updateShippingFee();
         }
 
-        // Xử lý API Tỉnh/Thành - Quận/Huyện
-        const districtSelect = document.getElementById('district');
-        const currentDistrict = document.getElementById('current_district').value;
+        // Xử lý API Tỉnh/Thành - Phường/Xã
+        const wardSelect = document.getElementById('district');
+        const currentWard = document.getElementById('current_district').value;
         let provincesData = [];
 
             const normalizeString = (str) => {
                 return str.toLowerCase().replace(/^(tỉnh|thành phố|tp\.|tp )\s*/, '').trim();
             };
 
-            const loadDistricts = (selectedProvinceName) => {
-                let distEl = document.getElementById('district');
-                if (!distEl) return;
+            const loadWards = (selectedProvinceName) => {
+                let wardEl = document.getElementById('district');
+                if (!wardEl) return;
                 
-                if (distEl.tagName.toLowerCase() === 'input') {
+                if (wardEl.tagName.toLowerCase() === 'input') {
                     return; // Đã chuyển thành text input
                 }
 
-                distEl.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
-                distEl.disabled = true;
+                wardEl.innerHTML = '<option value="">Chọn Phường/Xã</option>';
+                wardEl.disabled = true;
 
                 if (!selectedProvinceName) return;
 
@@ -979,43 +979,50 @@ $totalAmount = max(0, $subtotal + $shippingFee - $discountAmount);
                 });
 
                 if (province && province.districts) {
+                    const allWards = [];
                     province.districts.forEach(d => {
+                        if (d.wards) {
+                            d.wards.forEach(w => allWards.push(w.name));
+                        }
+                    });
+                    const uniqueWards = [...new Set(allWards)].sort((a, b) => a.localeCompare(b, 'vi'));
+                    uniqueWards.forEach(wardName => {
                         const option = document.createElement('option');
-                        option.value = d.name;
-                        option.textContent = d.name;
-                        if (d.name === currentDistrict) {
+                        option.value = wardName;
+                        option.textContent = wardName;
+                        if (wardName === currentWard) {
                             option.selected = true;
                         }
-                        distEl.appendChild(option);
+                        wardEl.appendChild(option);
                     });
-                    distEl.disabled = false;
+                    wardEl.disabled = false;
                 } else {
                     // Fallback: Chuyển sang ô nhập text nếu API lỗi hoặc không tìm thấy
                     const input = document.createElement('input');
                     input.type = 'text';
                     input.id = 'district';
                     input.name = 'district';
-                    input.className = distEl.className.replace('appearance-none', '');
-                    input.placeholder = 'Nhập Quận/Huyện';
+                    input.className = wardEl.className.replace('appearance-none', '');
+                    input.placeholder = 'Nhập Phường/Xã';
                     input.required = true;
-                    input.value = currentDistrict;
-                    distEl.parentNode.replaceChild(input, distEl);
+                    input.value = currentWard;
+                    wardEl.parentNode.replaceChild(input, wardEl);
                 }
             };
 
-            fetch('https://provinces.open-api.vn/api/v1/?depth=2')
+            fetch('https://provinces.open-api.vn/api/?depth=3')
                 .then(response => response.json())
                 .then(data => {
                     provincesData = data;
                     if (provinceSelect) {
-                        loadDistricts(provinceSelect.value);
+                        loadWards(provinceSelect.value);
                     }
                 })
                 .catch(error => console.error('Error fetching provinces:', error));
 
             if (provinceSelect) {
                 provinceSelect.addEventListener('change', function() {
-                    loadDistricts(this.value);
+                    loadWards(this.value);
                 });
             }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 23, 2026 lúc 07:49 PM
+-- Thời gian đã tạo: Th6 24, 2026 lúc 06:02 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -160,7 +160,8 @@ INSERT INTO `carts` (`cart_id`, `user_id`, `created_at`, `updated_at`) VALUES
 (13, 1, '2026-06-05 15:51:29', '2026-06-11 01:04:10'),
 (16, 2, '2026-06-11 01:07:17', '2026-06-11 01:07:17'),
 (17, 3, '2026-06-11 01:10:11', '2026-06-11 01:10:11'),
-(19, 34, '2026-06-13 14:40:33', '2026-06-13 14:40:33');
+(19, 34, '2026-06-13 14:40:33', '2026-06-13 14:40:33'),
+(38, 59, '2026-06-24 13:50:08', '2026-06-24 13:50:08');
 
 -- --------------------------------------------------------
 
@@ -190,10 +191,7 @@ INSERT INTO `cart_items` (`cart_item_id`, `cart_id`, `variant_id`, `quantity`, `
 (26, 1, 249, 2, '2026-06-11 00:44:13'),
 (27, 17, 6, 1, '2026-06-11 01:10:12'),
 (33, 13, 250, 1, '2026-06-11 03:03:11'),
-(70, 13, 264, 1, '2026-06-17 06:49:34'),
-(106, 16, 2280, 3, '2026-06-23 22:54:52'),
-(107, 16, 1, 3, '2026-06-23 23:16:43'),
-(108, 16, 2276, 4, '2026-06-23 23:17:01');
+(70, 13, 264, 1, '2026-06-17 06:49:34');
 
 -- --------------------------------------------------------
 
@@ -588,7 +586,8 @@ INSERT INTO `notifications` (`id`, `message`, `is_read`, `created_at`) VALUES
 (7, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 236 (Review ID: 1406)', 0, '2026-06-17 18:29:59'),
 (8, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 236 (Review ID: 1409)', 0, '2026-06-17 19:17:17'),
 (9, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 25 (Review ID: 1410)', 0, '2026-06-19 07:51:13'),
-(10, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 176 (Review ID: 1411)', 0, '2026-06-21 09:22:09');
+(10, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 176 (Review ID: 1411)', 0, '2026-06-21 09:22:09'),
+(11, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 176 (Review ID: 1414)', 0, '2026-06-24 06:58:22');
 
 -- --------------------------------------------------------
 
@@ -633,25 +632,25 @@ INSERT INTO `orders` (`order_id`, `order_code`, `user_id`, `shipping_id`, `shipp
 (6, 'ORDM-E5E1A68B', 12, 1, 1, NULL, 'Nguyễn Văn An', '0912345678', NULL, NULL, '12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP HCM', 3200000.00, 0.00, 0.00, 3200000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-01 11:02:48', '2026-06-19 16:59:53'),
 (7, 'ORDM-F3544A9D', 13, 2, 1, NULL, 'Nguyễn Thị Phương', '0967890123', NULL, NULL, '100 Võ Văn Ngân, Phường Linh Trung, Thủ Đức, TP HCM', 1570000.00, 0.00, 50000.00, 1620000.00, 'processing', 'vnpay', 'paid', NULL, '2026-04-12 23:05:08', '2026-06-19 16:59:53'),
 (8, 'ORDM-5EA6DB12', 8, 1, 1, NULL, 'Trần Thị Bích', '0923456789', NULL, NULL, '45 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP HCM', 750000.00, 50000.00, 0.00, 700000.00, 'cancelled', 'cod', 'unpaid', 'Khách hủy vì sai size', '2026-04-16 13:31:10', '2026-06-19 16:59:53'),
-(16, 'ORDM-38C0D95D', 1, 2, 1, NULL, 'Quản Trị Viên', '0123456789', NULL, NULL, '77/5a phường 4 tpvl, , , Vĩnh Long', 4500000.00, 225000.00, 0.00, 4275000.00, 'cancelled', 'cod', 'refunded', '', '2026-04-17 14:18:08', '2026-06-19 16:59:53'),
-(17, 'ORDM-21F61FB6', 1, 14, 1, NULL, 'Quản Trị Viên', '0123456789', NULL, NULL, '77/5a phường 4 tpvl, , , Bình Dương', 4500000.00, 225000.00, 25000.00, 4300000.00, 'delivered', 'bank_transfer', 'paid', '', '2026-05-27 17:45:46', '2026-06-19 16:59:53'),
-(20, 'ORDM-2FE1E050', 2, 1, 3, NULL, 'Tester User', '0987654321', NULL, NULL, '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 1680000.00, 100000.00, 0.00, 1580000.00, 'delivered', 'cod', 'unpaid', '', '2026-06-05 14:01:06', '2026-06-19 16:59:53'),
-(21, 'ORDM-62879622', 2, 1, 1, NULL, 'Tester User', '0987654321', NULL, NULL, '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3300000.00, 0.00, 0.00, 3300000.00, 'delivered', 'bank_transfer', 'unpaid', '', '2026-04-03 19:23:37', '2026-06-19 16:59:53'),
-(22, 'ORDM-B5FAF818', 2, 1, 2, NULL, 'Tester User', '0987654321', NULL, NULL, '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 1170000.00, 0.00, 35000.00, 1205000.00, 'delivered', 'cod', 'unpaid', '', '2026-04-04 12:23:04', '2026-06-19 16:59:53'),
-(23, 'ORDM-0E02972F', NULL, 7, 1, NULL, 'Guest Tester', '0901234567', 'guest@example.com', '03b5c61831f9b657e798be62a1eca990', '123 Guest Street, , , Bà Rịa - Vũng Tàu', 160000.00, 0.00, 35000.00, 195000.00, 'cancelled', 'cod', 'unpaid', '', '2026-05-30 13:00:14', '2026-06-19 16:59:53'),
-(24, 'ORDM-26A58AD0', NULL, 11, 1, NULL, 'khach vang lai', '0987912342', 'guest@gmail.com', 'a88b452293120863fce434c3cd11789e', 'Tam Bình, , , Bắc Ninh', 2000000.00, 0.00, 0.00, 2000000.00, 'confirmed', 'cod', 'unpaid', '', '2026-03-25 17:45:17', '2026-06-19 16:59:53'),
-(25, 'ORDM-F72F5195', NULL, 61, 2, NULL, 'khach van lai 2', '0987654333', 'vanglai2@gmail.com', '50aae7b27431865f8ce289ef3abefa7f', '6/71 Nguyễn Huệ, , Huyện Trà Ôn, Vĩnh Long', 890000.00, 0.00, 40000.00, 930000.00, 'processing', 'cod', 'refunded', '', '2026-02-20 19:05:17', '2026-06-19 16:59:53'),
-(26, 'ORDM-4B3BBDB0', 2, 1, 1, NULL, 'Bug', '0987654321', '', '74c772bce67e10207be806715d4da1ad', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 2003000.00, 0.00, 0.00, 2003000.00, 'delivered', 'payos', 'unpaid', '', '2026-05-31 15:39:49', '2026-06-19 16:59:53'),
-(27, 'ORDM-3F0AFCEF', 2, 1, 2, NULL, 'Bug', '0987654321', '', '56bdf4aeb8c3778bebb3791a8ea092ea', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'delivered', 'cod', 'paid', '', '2026-05-23 12:47:58', '2026-06-19 16:59:53'),
-(28, 'ORDM-3AA55673', 2, 1, 2, NULL, 'Bug', '0987654321', '', 'afbcacfef26b531db7314cae38ba0e7d', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'cancelled', 'payos', 'unpaid', '', '2026-05-02 09:31:40', '2026-06-19 16:59:53'),
-(29, 'ORDM-5A3371AD', 2, 1, 2, NULL, 'Bug', '0987654321', '', '4420568facd9fa393f9b1db5d8e54492', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'cancelled', 'payos', 'unpaid', '', '2026-06-12 19:20:27', '2026-06-19 16:59:53'),
-(30, 'ORDM-5320140E', 2, 1, 1, NULL, 'Bug', '0987654321', '', '5f9c1b2cdc890502e20fdfb1e0e55d5e', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 15000.00, 35000.00, 20000.00, 0.00, 'cancelled', 'cod', 'unpaid', '', '2026-04-05 09:17:17', '2026-06-19 16:59:53'),
-(31, 'ORDM-352013B4', 2, 51, 1, NULL, 'Bug', '0987654321', '', '5cad99fa3a25bcaa22726a6ef1e55a23', '6/21 Huỳnh Tấn Phát, , Huyện Long Phú, Sóc Trăng', 3000.00, 35000.00, 35000.00, 3000.00, 'cancelled', 'payos', 'paid', '', '2026-05-02 13:17:16', '2026-06-19 16:59:53'),
-(32, 'ORDM-7A2B2BE2', 2, 1, 2, NULL, 'Bug', '0987654321', '', '616dbcd74003072cc1edaa313b6eeb20', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'cancelled', 'payos', 'unpaid', '', '2026-04-28 09:17:25', '2026-06-19 16:59:53'),
-(33, 'ORDM-EF1294E9', 2, 1, 2, NULL, 'Bug', '0987654321', '', '1a50e4122371386e1a4f5bd91822eeee', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'delivered', 'payos', 'unpaid', '', '2026-05-01 23:30:16', '2026-06-19 16:59:53'),
-(50000, 'ORDM-B5041767', 2, 1, 2, NULL, 'Bug', '0987654321', '', '0ce0a5f3da2b4039dfb4e869c44dd3c3', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'cancelled', 'payos', 'unpaid', '', '2026-03-01 19:22:50', '2026-06-19 16:59:53'),
-(50001, 'ORDM-95F53235', 2, 1, 2, NULL, 'Bug', '0987654321', '', '20f94ea939bfbf98d3857d27ecd0ac04', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 20000.00, 35000.00, 35000.00, 20000.00, 'delivered', 'payos', 'paid', '', '2026-01-03 16:57:52', '2026-06-19 16:59:53'),
-(50002, 'ORDM-4760F0BE', 2, 1, 2, NULL, 'Bug', '0987654321', '', '84fdd338d5e2b2828baa82fb3b239d68', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'delivered', 'payos', 'paid', 'day la ghi chu', '2026-03-22 10:30:30', '2026-06-19 16:59:53'),
+(16, 'ORDM-38C0D95D', 1, 2, 1, NULL, 'Quản Trị Viên', '0123456789', NULL, NULL, '77/5a phường 4 tpvl, Vĩnh Long', 4500000.00, 225000.00, 0.00, 4275000.00, 'cancelled', 'cod', 'refunded', '', '2026-04-17 14:18:08', '2026-06-24 14:20:25'),
+(17, 'ORDM-21F61FB6', 1, 14, 1, NULL, 'Quản Trị Viên', '0123456789', NULL, NULL, '77/5a phường 4 tpvl, Bình Dương', 4500000.00, 225000.00, 25000.00, 4300000.00, 'delivered', 'bank_transfer', 'paid', '', '2026-05-27 17:45:46', '2026-06-24 14:20:25'),
+(20, 'ORDM-2FE1E050', 2, 1, 3, NULL, 'Tester User', '0987654321', NULL, NULL, '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 1680000.00, 100000.00, 0.00, 1580000.00, 'delivered', 'cod', 'unpaid', '', '2026-06-05 14:01:06', '2026-06-24 14:20:25'),
+(21, 'ORDM-62879622', 2, 1, 1, NULL, 'Tester User', '0987654321', NULL, NULL, '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 3300000.00, 0.00, 0.00, 3300000.00, 'delivered', 'bank_transfer', 'unpaid', '', '2026-04-03 19:23:37', '2026-06-24 14:20:25'),
+(22, 'ORDM-B5FAF818', 2, 1, 2, NULL, 'Tester User', '0987654321', NULL, NULL, '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 1170000.00, 0.00, 35000.00, 1205000.00, 'delivered', 'cod', 'unpaid', '', '2026-04-04 12:23:04', '2026-06-24 14:20:25'),
+(23, 'ORDM-0E02972F', NULL, 7, 1, NULL, 'Guest Tester', '0901234567', 'guest@example.com', '03b5c61831f9b657e798be62a1eca990', '123 Guest Street, Bà Rịa - Vũng Tàu', 160000.00, 0.00, 35000.00, 195000.00, 'cancelled', 'cod', 'unpaid', '', '2026-05-30 13:00:14', '2026-06-24 14:20:25'),
+(24, 'ORDM-26A58AD0', NULL, 11, 1, NULL, 'khach vang lai', '0987912342', 'guest@gmail.com', 'a88b452293120863fce434c3cd11789e', 'Tam Bình, Bắc Ninh', 2000000.00, 0.00, 0.00, 2000000.00, 'confirmed', 'cod', 'unpaid', '', '2026-03-25 17:45:17', '2026-06-24 14:20:25'),
+(25, 'ORDM-F72F5195', NULL, 61, 2, NULL, 'khach van lai 2', '0987654333', 'vanglai2@gmail.com', '50aae7b27431865f8ce289ef3abefa7f', '6/71 Nguyễn Huệ, Huyện Trà Ôn, Vĩnh Long', 890000.00, 0.00, 40000.00, 930000.00, 'processing', 'cod', 'refunded', '', '2026-02-20 19:05:17', '2026-06-24 14:20:25'),
+(26, 'ORDM-4B3BBDB0', 2, 1, 1, NULL, 'Bug', '0987654321', '', '74c772bce67e10207be806715d4da1ad', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 2003000.00, 0.00, 0.00, 2003000.00, 'delivered', 'payos', 'unpaid', '', '2026-05-31 15:39:49', '2026-06-24 14:20:25'),
+(27, 'ORDM-3F0AFCEF', 2, 1, 2, NULL, 'Bug', '0987654321', '', '56bdf4aeb8c3778bebb3791a8ea092ea', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'delivered', 'cod', 'paid', '', '2026-05-23 12:47:58', '2026-06-24 14:20:25'),
+(28, 'ORDM-3AA55673', 2, 1, 2, NULL, 'Bug', '0987654321', '', 'afbcacfef26b531db7314cae38ba0e7d', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'cancelled', 'payos', 'unpaid', '', '2026-05-02 09:31:40', '2026-06-24 14:20:25'),
+(29, 'ORDM-5A3371AD', 2, 1, 2, NULL, 'Bug', '0987654321', '', '4420568facd9fa393f9b1db5d8e54492', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'cancelled', 'payos', 'unpaid', '', '2026-06-12 19:20:27', '2026-06-24 14:20:25'),
+(30, 'ORDM-5320140E', 2, 1, 1, NULL, 'Bug', '0987654321', '', '5f9c1b2cdc890502e20fdfb1e0e55d5e', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 15000.00, 35000.00, 20000.00, 0.00, 'cancelled', 'cod', 'unpaid', '', '2026-04-05 09:17:17', '2026-06-24 14:20:25'),
+(31, 'ORDM-352013B4', 2, 51, 1, NULL, 'Bug', '0987654321', '', '5cad99fa3a25bcaa22726a6ef1e55a23', '6/21 Huỳnh Tấn Phát, Huyện Long Phú, Sóc Trăng', 3000.00, 35000.00, 35000.00, 3000.00, 'cancelled', 'payos', 'paid', '', '2026-05-02 13:17:16', '2026-06-24 14:20:25'),
+(32, 'ORDM-7A2B2BE2', 2, 1, 2, NULL, 'Bug', '0987654321', '', '616dbcd74003072cc1edaa313b6eeb20', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'cancelled', 'payos', 'unpaid', '', '2026-04-28 09:17:25', '2026-06-24 14:20:25'),
+(33, 'ORDM-EF1294E9', 2, 1, 2, NULL, 'Bug', '0987654321', '', '1a50e4122371386e1a4f5bd91822eeee', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'delivered', 'payos', 'unpaid', '', '2026-05-01 23:30:16', '2026-06-24 14:20:25'),
+(50000, 'ORDM-B5041767', 2, 1, 2, NULL, 'Bug', '0987654321', '', '0ce0a5f3da2b4039dfb4e869c44dd3c3', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 10000.00, 35000.00, 35000.00, 10000.00, 'cancelled', 'payos', 'unpaid', '', '2026-03-01 19:22:50', '2026-06-24 14:20:25'),
+(50001, 'ORDM-95F53235', 2, 1, 2, NULL, 'Bug', '0987654321', '', '20f94ea939bfbf98d3857d27ecd0ac04', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 20000.00, 35000.00, 35000.00, 20000.00, 'delivered', 'payos', 'paid', '', '2026-01-03 16:57:52', '2026-06-24 14:20:25'),
+(50002, 'ORDM-4760F0BE', 2, 1, 2, NULL, 'Bug', '0987654321', '', '84fdd338d5e2b2828baa82fb3b239d68', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 3000.00, 35000.00, 35000.00, 3000.00, 'delivered', 'payos', 'paid', 'day la ghi chu', '2026-03-22 10:30:30', '2026-06-24 14:20:25'),
 (50003, 'ORDM-01CBEE3E', 11, NULL, 1, NULL, 'Test User', '0987654321', NULL, NULL, 'Dia chi test', 1500000.00, 0.00, 30000.00, 1530000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-15 17:51:08', '2026-06-19 16:59:53'),
 (50004, 'ORDM-3B235687', 13, NULL, 1, NULL, 'Test User', '0987654321', NULL, NULL, 'Dia chi test', 3900000.00, 0.00, 30000.00, 3930000.00, 'delivered', 'cod', 'paid', NULL, '2026-06-12 22:32:48', '2026-06-19 16:59:53'),
 (50005, 'ORDM-66AC5EBA', 10, NULL, 1, NULL, 'Test User', '0987654321', NULL, NULL, 'Dia chi test', 890000.00, 0.00, 30000.00, 920000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-04 12:07:24', '2026-06-19 16:59:53'),
@@ -756,7 +755,7 @@ INSERT INTO `orders` (`order_id`, `order_code`, `user_id`, `shipping_id`, `shipp
 (50104, 'ORDM-6D0510F0', 24, NULL, 1, NULL, '', '', NULL, NULL, '123 Đường Axeron, TP.HCM', 0.00, 0.00, 0.00, 1570000.00, 'delivered', 'cod', 'paid', NULL, '2026-06-14 09:30:59', '2026-06-19 23:08:25'),
 (50105, 'ORDM-8A134395', 25, NULL, 1, NULL, '', '', NULL, NULL, '123 Đường Axeron, TP.HCM', 0.00, 0.00, 0.00, 890000.00, 'shipped', 'cod', 'paid', NULL, '2026-06-14 13:26:09', '2026-06-19 23:08:25'),
 (50106, 'ORDM-0D899FC4', 28, NULL, 1, NULL, '', '', NULL, NULL, '123 Đường Axeron, TP.HCM', 0.00, 0.00, 0.00, 11530000.00, 'delivered', 'cod', 'paid', NULL, '2026-04-14 22:28:37', '2026-06-19 23:08:25'),
-(50107, 'ORDM-E9E798B7', NULL, 9, 1, NULL, 'khach vang lai', '0987655555', 'vanlai@gmail.com', '4c609cb2dd34363262e6a5dce9c3ba2c', '7/21, , Huyện Ba Bể, Bắc Kạn', 3100000.00, 0.00, 0.00, 3100000.00, 'pending', 'cod', 'unpaid', '[Yêu cầu hủy từ khách]: Tìm được sản phẩm khác', '2026-03-06 21:29:53', '2026-06-19 16:59:53'),
+(50107, 'ORDM-E9E798B7', NULL, 9, 1, NULL, 'khach vang lai', '0987655555', 'vanlai@gmail.com', '4c609cb2dd34363262e6a5dce9c3ba2c', '7/21, Huyện Ba Bể, Bắc Kạn', 3100000.00, 0.00, 0.00, 3100000.00, 'pending', 'cod', 'unpaid', '[Yêu cầu hủy từ khách]: Tìm được sản phẩm khác', '2026-03-06 21:29:53', '2026-06-24 14:20:25'),
 (50115, 'ORDM-E1781453', NULL, NULL, 1, NULL, 'Test Name', '0123456789', NULL, NULL, 'Test Address', 0.00, 0.00, 0.00, 0.00, 'delivered', 'cod', 'unpaid', NULL, '2026-03-15 17:42:26', '2026-06-19 16:59:53'),
 (50119, 'ORDM-EBA91E21', 12, NULL, 1, NULL, 'Nguyễn Văn An', '0912345678', 'user@gmail.com', NULL, 'Địa chỉ test sinh tự động', 1080000.00, 0.00, 30000.00, 1110000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-30 23:33:36', '2026-06-01 18:46:34'),
 (50120, 'ORDM-2F2ED973', 28, NULL, 1, NULL, 'Khách hàng số 15', '0957758089', 'khachhang_15_1781310134@example.com', NULL, 'Địa chỉ test sinh tự động', 1080000.00, 0.00, 30000.00, 1110000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-07 09:53:08', '2026-05-08 18:10:59'),
@@ -2132,15 +2131,17 @@ INSERT INTO `orders` (`order_id`, `order_code`, `user_id`, `shipping_id`, `shipp
 (51483, 'ORDM-A6AEAE2C', 23, NULL, 1, NULL, 'Khách hàng số 10', '0955243733', 'khachhang_10_1781308683@example.com', NULL, 'Địa chỉ test sinh tự động', 370000.00, 0.00, 30000.00, 400000.00, 'delivered', 'cod', 'paid', NULL, '2026-05-22 16:59:28', '2026-05-23 12:12:02'),
 (51484, 'ORDM-4409557D', 34, NULL, 1, NULL, 'Test Lock', '0988000123', 'lockme_123@axeron.com', NULL, 'Địa chỉ test sinh tự động', 370000.00, 0.00, 30000.00, 400000.00, 'delivered', 'cod', 'paid', NULL, '2026-04-20 15:43:01', '2026-04-21 20:17:06'),
 (51485, 'ORDM-928262D2', 2, NULL, 1, NULL, 'Bug', '0987654321', 'bug@gmail.com', NULL, 'Địa chỉ test sinh tự động', 370000.00, 0.00, 30000.00, 400000.00, 'delivered', 'cod', 'paid', NULL, '2026-04-08 17:40:22', '2026-04-08 21:04:20'),
-(51486, 'ORDM-117AA8C2', 2, 1, 1, 12, 'Bug', '0987654321', '', '26cc45575e2da4034ecd81835e4f75c8', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 9500.00, 25000.00, 20000.00, 4500.00, 'delivered', 'payos', 'paid', '', '2026-06-19 11:36:22', '2026-06-19 16:59:53'),
-(51487, 'ORDM-4874A552', 50, 10, 1, NULL, 'khang', '0123456789', '', '6c5897cf99807b64bef2452c3de2762f', '77/5a phường 4 tpvl, , Thị xã Giá Rai, Bạc Liêu', 4750000.00, 0.00, 0.00, 4750000.00, 'delivered', 'cod', 'paid', 'abcxyz', '2026-06-19 14:48:59', '2026-06-19 16:59:53'),
-(51488, 'ORDM-C6F91F82', 2, 1, 2, NULL, 'Bug', '0987654321', '', 'f67bb7c24ef8ccd97bc784ba25b4ec2f', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 6385600.00, 0.00, 0.00, 6385600.00, 'delivered', 'payos', 'paid', '', '2026-06-21 08:29:55', '2026-06-21 14:05:30'),
-(51489, 'ORDM-C5F31F80', 54, 7, 1, NULL, 'Vanced QA', '0988771122', '', 'aeee14f4ba46396fe7c815c6b9d2b4ac', '123 Automation Street, , Thành phố Vũng Tàu, Bà Rịa - Vũng Tàu', 2476500.00, 0.00, 0.00, 2476500.00, 'delivered', 'cod', 'paid', '', '2026-06-21 09:35:22', '2026-06-21 14:03:27'),
-(51490, 'ORDM-8DFF112E', 2, 1, 1, NULL, 'Bug', '0987654321', '', '269c75fccedf182ffeb625669c06e1c0', '6/21 Huỳnh Tấn Phát, , , TP. Hồ Chí Minh', 1341100.00, 0.00, 20000.00, 1361100.00, 'delivered', 'payos', 'paid', '', '2026-06-21 10:54:37', '2026-06-21 14:03:40'),
-(51491, 'ORDM-8F176A18', 2, 1, 1, 12, 'Bug', '0987654321', '', '5c0cbfe1015ddf72a8d3caa88da0bafd', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 2850.00, 22850.00, 20000.00, 0.00, 'pending', 'payos', 'unpaid', '', '2026-06-21 16:29:32', '2026-06-21 16:29:32'),
-(51492, 'ORDM-F9311EAE', 2, 1, 2, 12, 'Bug', '0987654321', '', '53090e40e6ed33fb603bb2c3a587c8fd', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 2850.00, 25000.00, 35000.00, 12850.00, 'pending', 'payos', 'unpaid', '', '2026-06-21 16:30:47', '2026-06-21 16:30:47'),
-(51493, 'ORDM-32A827C4', 2, 1, 1, NULL, 'Bug', '0987654321', '', 'e4511f91fdc3d2580b5ef0c4273cb366', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 152000.00, 0.00, 20000.00, 172000.00, 'pending', 'cod', 'unpaid', '', '2026-06-21 16:34:19', '2026-06-21 16:34:19'),
-(51494, 'ORDM-6E458117', 2, 1, 1, NULL, 'Bug', '0987654321', '', '84a4eb29bcab9867901058a8cca07412', '6/21 Huỳnh Tấn Phát, , Huyện Nhà Bè, TP. Hồ Chí Minh', 152000.00, 0.00, 20000.00, 172000.00, 'cancelled', 'cod', 'unpaid', '', '2026-06-21 16:34:53', '2026-06-21 16:35:02');
+(51486, 'ORDM-117AA8C2', 2, 1, 1, 12, 'Bug', '0987654321', '', '26cc45575e2da4034ecd81835e4f75c8', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 9500.00, 25000.00, 20000.00, 4500.00, 'delivered', 'payos', 'paid', '', '2026-06-19 11:36:22', '2026-06-24 14:20:25'),
+(51487, 'ORDM-4874A552', 50, 10, 1, NULL, 'khang', '0123456789', '', '6c5897cf99807b64bef2452c3de2762f', '77/5a phường 4 tpvl, Thị xã Giá Rai, Bạc Liêu', 4750000.00, 0.00, 0.00, 4750000.00, 'delivered', 'cod', 'paid', 'abcxyz', '2026-06-19 14:48:59', '2026-06-24 14:20:25'),
+(51488, 'ORDM-C6F91F82', 2, 1, 2, NULL, 'Bug', '0987654321', '', 'f67bb7c24ef8ccd97bc784ba25b4ec2f', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 6385600.00, 0.00, 0.00, 6385600.00, 'delivered', 'payos', 'paid', '', '2026-06-21 08:29:55', '2026-06-24 14:20:25'),
+(51489, 'ORDM-C5F31F80', 54, 7, 1, NULL, 'Vanced QA', '0988771122', '', 'aeee14f4ba46396fe7c815c6b9d2b4ac', '123 Automation Street, Thành phố Vũng Tàu, Bà Rịa - Vũng Tàu', 2476500.00, 0.00, 0.00, 2476500.00, 'delivered', 'cod', 'paid', '', '2026-06-21 09:35:22', '2026-06-24 14:20:25'),
+(51490, 'ORDM-8DFF112E', 2, 1, 1, NULL, 'Bug', '0987654321', '', '269c75fccedf182ffeb625669c06e1c0', '6/21 Huỳnh Tấn Phát, TP. Hồ Chí Minh', 1341100.00, 0.00, 20000.00, 1361100.00, 'delivered', 'payos', 'paid', '', '2026-06-21 10:54:37', '2026-06-24 14:20:25'),
+(51491, 'ORDM-8F176A18', 2, 1, 1, 12, 'Bug', '0987654321', '', '5c0cbfe1015ddf72a8d3caa88da0bafd', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 2850.00, 22850.00, 20000.00, 0.00, 'pending', 'payos', 'unpaid', '', '2026-06-21 16:29:32', '2026-06-24 14:20:25'),
+(51492, 'ORDM-F9311EAE', 2, 1, 2, 12, 'Bug', '0987654321', '', '53090e40e6ed33fb603bb2c3a587c8fd', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 2850.00, 25000.00, 35000.00, 12850.00, 'pending', 'payos', 'unpaid', '', '2026-06-21 16:30:47', '2026-06-24 14:20:25'),
+(51493, 'ORDM-32A827C4', 2, 1, 1, NULL, 'Bug', '0987654321', '', 'e4511f91fdc3d2580b5ef0c4273cb366', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 152000.00, 0.00, 20000.00, 172000.00, 'pending', 'cod', 'unpaid', '', '2026-06-21 16:34:19', '2026-06-24 14:20:25'),
+(51494, 'ORDM-6E458117', 2, 1, 1, NULL, 'Bug', '0987654321', '', '84a4eb29bcab9867901058a8cca07412', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 152000.00, 0.00, 20000.00, 172000.00, 'cancelled', 'cod', 'unpaid', '', '2026-06-21 16:34:53', '2026-06-24 14:20:25'),
+(51495, 'ORDM-F11E1796', 2, 1, 1, NULL, 'Bug', '0987654321', '', 'f088452556cb84fc26b164c90a65acbc', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 507600.00, 0.00, 20000.00, 527600.00, 'pending', 'cod', 'unpaid', '', '2026-06-24 14:01:21', '2026-06-24 14:20:25'),
+(51496, 'ORDM-74B7D6AA', 2, 1, 1, NULL, 'Bug', '0987654321', '', '3510303d8e74aab323e6f8d966c1d19f', '6/21 Huỳnh Tấn Phát, Thị trấn Nhà Bè, TP. Hồ Chí Minh', 845500.00, 0.00, 20000.00, 865500.00, 'pending', 'cod', 'unpaid', 'day la ghi chu', '2026-06-24 22:12:39', '2026-06-24 22:12:39');
 
 -- --------------------------------------------------------
 
@@ -3767,7 +3768,9 @@ INSERT INTO `order_items` (`order_item_id`, `order_id`, `variant_id`, `product_n
 (1615, 51491, 254, 'BANKING 3K', 'Mặc định - Size Free Size', 2850.00, 1, 2850.00),
 (1616, 51492, 254, 'BANKING 3K', 'Mặc định - Size Free Size', 2850.00, 1, 2850.00),
 (1617, 51493, 171, 'Cầu lông Yonex AS-05 (hop 12 qua)', 'Vàng - Size Lop 76', 152000.00, 1, 152000.00),
-(1618, 51494, 171, 'Cầu lông Yonex AS-05 (hop 12 qua)', 'Vàng - Size Lop 76', 152000.00, 1, 152000.00);
+(1618, 51494, 171, 'Cầu lông Yonex AS-05 (hop 12 qua)', 'Vàng - Size Lop 76', 152000.00, 1, 152000.00),
+(1619, 51495, 2280, 'Giày Cầu Lông Axeron Smash V7-C6A6', 'default - Size default', 507600.00, 1, 507600.00),
+(1620, 51496, 6, 'Giày chạy bộ DL Speed Pro X1', 'Trắng - Size 40', 845500.00, 1, 845500.00);
 
 -- --------------------------------------------------------
 
@@ -3882,7 +3885,9 @@ INSERT INTO `order_status_logs` (`log_id`, `order_id`, `changed_by`, `old_status
 (111, 51492, NULL, NULL, 'pending', NULL, '2026-06-21 16:30:48'),
 (112, 51493, NULL, NULL, 'pending', NULL, '2026-06-21 16:34:19'),
 (113, 51494, NULL, NULL, 'pending', NULL, '2026-06-21 16:34:53'),
-(114, 51494, 2, 'pending', 'cancelled', 'Lý do: Tìm được sản phẩm khác', '2026-06-21 16:35:02');
+(114, 51494, 2, 'pending', 'cancelled', 'Lý do: Tìm được sản phẩm khác', '2026-06-21 16:35:02'),
+(115, 51495, NULL, NULL, 'pending', NULL, '2026-06-24 14:01:21'),
+(116, 51496, NULL, NULL, 'pending', NULL, '2026-06-24 22:12:39');
 
 -- --------------------------------------------------------
 
@@ -3909,7 +3914,8 @@ CREATE TABLE `password_resets` (
 --
 
 INSERT INTO `password_resets` (`id`, `user_id`, `email`, `reset_token`, `otp_code`, `otp_attempts`, `expires_at`, `verified_at`, `used_at`, `ip_address`, `created_at`) VALUES
-(16, 2, 'vancedloile@gmail.com', 'f289ae79e2d5a1eb5c473e3164183f955c20d3d7e652db1ddc2b646c7c478adf', '574360', 0, '2026-06-16 18:58:46', '2026-06-16 23:54:17', '2026-06-16 23:54:51', '::1', '2026-06-16 23:53:46');
+(16, 2, 'vancedloile@gmail.com', 'f289ae79e2d5a1eb5c473e3164183f955c20d3d7e652db1ddc2b646c7c478adf', '574360', 0, '2026-06-16 18:58:46', '2026-06-16 23:54:17', '2026-06-16 23:54:51', '::1', '2026-06-16 23:53:46'),
+(37, 59, 'vancedloile@gmail.com', '4b006720eda1cb12c3e01efb903fd6f4856813a0da681a8615a85917979b4981', '832316', 0, '2026-06-24 08:55:37', '2026-06-24 13:50:51', '2026-06-24 13:50:59', '::1', '2026-06-24 13:50:37');
 
 -- --------------------------------------------------------
 
@@ -4141,7 +4147,7 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (169, 112, 11, 'San pham test QA live', 'san-pham-test-qa-live', '<h3>Tổng quan chi tiết về <strong>San pham test QA live</strong></h3>\n<p>Sản phẩm San pham test QA live mang đến trải nghiệm tuyệt vời và hỗ trợ tối đa dành cho người yêu thể thao.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm kết hợp hoàn hảo giữa phong cách năng động và hiệu năng thể thao vượt trội, thì <strong>San pham test QA live</strong> chính là lựa chọn hàng đầu. Chiếc áo này được tinh chỉnh để đáp ứng mọi nhu cầu khắt khe nhất của quá trình tập luyện.</p>\n        \n        <h4>1. Thiết kế và Chất liệu</h4>\n        <ul>\n            <li><strong>Công nghệ vải thoáng khí:</strong> Giúp luồng không khí lưu thông tối đa, kiểm soát mồ hôi hiệu quả, giữ cơ thể luôn mát mẻ.</li>\n            <li><strong>Co giãn 4 chiều linh hoạt:</strong> Đảm bảo sự đàn hồi tuyệt đối, không gây gò bó, cho phép bạn tự do thực hiện các động tác vươn người, chạy nhảy.</li>\n            <li><strong>Đường may tỉ mỉ:</strong> Từng chi tiết được gia công chắc chắn, không gây cọ xát hay kích ứng da trong quá trình vận động mạnh.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Giặt máy ở nhiệt độ thường (hoặc nước lạnh), lộn trái trang phục trước khi giặt để bảo vệ bề mặt vải và logo.</li>\n            <li>Tuyệt đối không dùng chất tẩy rửa mạnh để tránh làm phai màu và phá vỡ cấu trúc sợi vải.</li>\n            <li>Phơi ở nơi thoáng mát, có gió tự nhiên. Tránh ánh nắng gắt chiếu trực tiếp.</li>\n            <li>Không nên ủi ở nhiệt độ cao vì chất liệu thun thể thao rất nhạy cảm với nhiệt độ lớn.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>San pham test QA live</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 250000.00, 10, 1, 1, 0, 999, NULL, 0, '2026-06-11 03:00:42', '2026-06-16 21:10:03'),
 (174, 1, 3, 'BANKING 3K', 'san-pham-3k', '<h3>Tổng quan chi tiết về <strong>BANKING 3K</strong></h3>\n<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>BANKING 3K</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>BANKING 3K</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>BANKING 3K</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 3000.00, 992, 1, 0, 0, 999, 0.00, 0, '2026-06-11 23:39:07', '2026-06-17 20:32:24'),
 (175, 1, 3, 'BANKING 5K', 'san-pham-5k', '<h3>Tổng quan chi tiết về <strong>BANKING 5K</strong></h3>\n<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>BANKING 5K</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>BANKING 5K</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>BANKING 5K</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 5000.00, 999, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-16 21:10:03'),
-(176, 1, 3, 'BANKING 10K', 'san-pham-10k', '<h3>Tổng quan chi tiết về <strong>BANKING 10K</strong></h3>\n<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>BANKING 10K</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>BANKING 10K</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>BANKING 10K</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 10000.00, 995, 1, 0, 0, 999, 0.00, 0, '2026-06-11 23:39:07', '2026-06-21 16:23:28'),
+(176, 1, 3, 'BANKING 10K', 'san-pham-10k', '<h3>Tổng quan chi tiết về <strong>BANKING 10K</strong></h3>\n<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>BANKING 10K</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>BANKING 10K</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>BANKING 10K</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 10000.00, 995, 1, 0, 0, 999, 0.00, 0, '2026-06-11 23:39:07', '2026-06-24 13:59:18'),
 (177, 112, 10, 'test san pham', 'test-san-pham', '<h3>Tổng quan chi tiết về <strong>test san pham</strong></h3>\n<p>test mo tatest mo tatest mo tatest mo ta</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm kết hợp hoàn hảo giữa phong cách năng động và hiệu năng thể thao vượt trội, thì <strong>test san pham</strong> chính là lựa chọn hàng đầu. Chiếc áo này được tinh chỉnh để đáp ứng mọi nhu cầu khắt khe nhất của quá trình tập luyện.</p>\n        \n        <h4>1. Thiết kế và Chất liệu</h4>\n        <ul>\n            <li><strong>Công nghệ vải thoáng khí:</strong> Giúp luồng không khí lưu thông tối đa, kiểm soát mồ hôi hiệu quả, giữ cơ thể luôn mát mẻ.</li>\n            <li><strong>Co giãn 4 chiều linh hoạt:</strong> Đảm bảo sự đàn hồi tuyệt đối, không gây gò bó, cho phép bạn tự do thực hiện các động tác vươn người, chạy nhảy.</li>\n            <li><strong>Đường may tỉ mỉ:</strong> Từng chi tiết được gia công chắc chắn, không gây cọ xát hay kích ứng da trong quá trình vận động mạnh.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Giặt máy ở nhiệt độ thường (hoặc nước lạnh), lộn trái trang phục trước khi giặt để bảo vệ bề mặt vải và logo.</li>\n            <li>Tuyệt đối không dùng chất tẩy rửa mạnh để tránh làm phai màu và phá vỡ cấu trúc sợi vải.</li>\n            <li>Phơi ở nơi thoáng mát, có gió tự nhiên. Tránh ánh nắng gắt chiếu trực tiếp.</li>\n            <li>Không nên ủi ở nhiệt độ cao vì chất liệu thun thể thao rất nhạy cảm với nhiệt độ lớn.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>test san pham</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 100000.00, 200, 1, 1, 0, 999, NULL, 0, '2026-06-14 22:53:04', '2026-06-16 21:10:03'),
 (178, 112, 9, 'test san phamxxxxxxxx', 'test-san-pham-1781452421', '<h3>Tổng quan chi tiết về <strong>test san phamxxxxxxxx</strong></h3>\n<p>test san phamtest san phamtest san phamxxxxxxxx</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm kết hợp hoàn hảo giữa phong cách năng động và hiệu năng thể thao vượt trội, thì <strong>test san phamxxxxxxxx</strong> chính là lựa chọn hàng đầu. Chiếc áo này được tinh chỉnh để đáp ứng mọi nhu cầu khắt khe nhất của quá trình tập luyện.</p>\n        \n        <h4>1. Thiết kế và Chất liệu</h4>\n        <ul>\n            <li><strong>Công nghệ vải thoáng khí:</strong> Giúp luồng không khí lưu thông tối đa, kiểm soát mồ hôi hiệu quả, giữ cơ thể luôn mát mẻ.</li>\n            <li><strong>Co giãn 4 chiều linh hoạt:</strong> Đảm bảo sự đàn hồi tuyệt đối, không gây gò bó, cho phép bạn tự do thực hiện các động tác vươn người, chạy nhảy.</li>\n            <li><strong>Đường may tỉ mỉ:</strong> Từng chi tiết được gia công chắc chắn, không gây cọ xát hay kích ứng da trong quá trình vận động mạnh.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Giặt máy ở nhiệt độ thường (hoặc nước lạnh), lộn trái trang phục trước khi giặt để bảo vệ bề mặt vải và logo.</li>\n            <li>Tuyệt đối không dùng chất tẩy rửa mạnh để tránh làm phai màu và phá vỡ cấu trúc sợi vải.</li>\n            <li>Phơi ở nơi thoáng mát, có gió tự nhiên. Tránh ánh nắng gắt chiếu trực tiếp.</li>\n            <li>Không nên ủi ở nhiệt độ cao vì chất liệu thun thể thao rất nhạy cảm với nhiệt độ lớn.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>test san phamxxxxxxxx</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 100000.00, 200, 1, 1, 0, 999, NULL, 0, '2026-06-14 22:53:41', '2026-06-16 21:10:03'),
 (179, 334, NULL, 'SP Test Gợi Ý Thứ 1', 'sp-test-goi-y-thu-1', '<p>Đây là sản phẩm test gợi ý 1. Nội dung mô tả của SP Test Gợi Ý Thứ 1.</p>', 1000000.00, 100, 1, 0, 0, 999, 5.00, 10, '2026-06-14 23:44:19', '2026-06-17 07:12:46'),
@@ -6037,7 +6043,7 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (3, 1, 'DL-SPX1-DEN-41', 'Đen', '41', 0.00, 10, 1, 0),
 (4, 1, 'DL-SPX1-DEN-42', 'Đen', '42', 0.00, 8, 1, 0),
 (5, 1, 'DL-SPX1-DEN-43', 'Đen', '43', 0.00, 7, 1, 0),
-(6, 1, 'DL-SPX1-TRANG-40', 'Trắng', '40', 0.00, 2, 1, 0),
+(6, 1, 'DL-SPX1-TRANG-40', 'Trắng', '40', 0.00, 1, 1, 0),
 (7, 2, 'DL-RAR-XANH-39', 'Xanh navy', '39', 0.00, 6, 1, 0),
 (8, 2, 'DL-RAR-XANH-40', 'Xanh navy', '40', 0.00, 10, 1, 0),
 (9, 2, 'DL-RAR-XANH-41', 'Xanh navy', '41', 0.00, 10, 1, 0),
@@ -8305,8 +8311,9 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (2277, 75, 'DEFAULT-75-1781976945', 'default', 'default', 0.00, 35, 1, 0),
 (2278, 74, 'DEFAULT-74-1781978496', 'default', 'default', 0.00, 77, 1, 0),
 (2279, 73, 'DEFAULT-73-1782007949', 'default', 'default', 0.00, 65, 1, 0),
-(2280, 79, 'DEFAULT-79-1782011137', 'default', 'default', 0.00, 98, 1, 0),
-(2281, 81, 'DEFAULT-81-1782033995', 'default', 'default', 0.00, 45, 1, 0);
+(2280, 79, 'DEFAULT-79-1782011137', 'default', 'default', 0.00, 97, 1, 0),
+(2281, 81, 'DEFAULT-81-1782033995', 'default', 'default', 0.00, 45, 1, 0),
+(2282, 80, 'DEFAULT-80-1782284378', 'default', 'default', 0.00, 52, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -9172,7 +9179,15 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (1003, 2, 30, '2026-06-24 00:11:03'),
 (1004, 2, 2, '2026-06-24 00:11:03'),
 (1005, 2, 368, '2026-06-24 00:37:07'),
-(1006, 2, 368, '2026-06-24 00:38:52');
+(1006, 2, 368, '2026-06-24 00:38:52'),
+(1007, 2, 368, '2026-06-24 13:19:22'),
+(1009, 2, 176, '2026-06-24 13:58:00'),
+(1010, 2, 176, '2026-06-24 13:58:25'),
+(1011, 2, 176, '2026-06-24 13:58:25'),
+(1012, 2, 176, '2026-06-24 13:59:13'),
+(1013, 2, 176, '2026-06-24 13:59:19'),
+(1014, 2, 80, '2026-06-24 13:59:36'),
+(1015, 2, 1, '2026-06-24 22:12:20');
 
 -- --------------------------------------------------------
 
@@ -11173,7 +11188,8 @@ INSERT INTO `reviews` (`review_id`, `product_id`, `user_id`, `rating`, `comment`
 (1410, 25, 50, 1, 'sản phẩm tệ, không nên mua', 'approved', '2026-06-19 14:51:13', '2026-06-19 14:52:00', 0, 51487, 'negative'),
 (1411, 176, 2, 5, 'đồ xấu, không mua lại', 'pending', '2026-06-21 16:22:09', '2026-06-21 16:23:28', 1, 33, 'negative'),
 (1412, 1, 2, 1, 'đồ đẹp, chất lượng', 'pending', '2026-06-21 16:22:59', '2026-06-21 16:23:21', 1, 51488, 'positive'),
-(1413, 1, 2, 1, 'sản phẩm tốt, chất lượng', 'approved', '2026-06-21 16:24:10', '2026-06-21 16:24:42', 1, 51488, 'positive');
+(1413, 1, 2, 1, 'sản phẩm tốt, chất lượng', 'approved', '2026-06-21 16:24:10', '2026-06-21 16:24:42', 1, 51488, 'positive'),
+(1414, 176, 2, 3, 'sản phẩm tệ, không nên mua chút nào', 'approved', '2026-06-24 13:58:22', '2026-06-24 13:59:18', 1, 33, 'negative');
 
 -- --------------------------------------------------------
 
@@ -11508,7 +11524,10 @@ INSERT INTO `search_logs` (`log_id`, `user_id`, `keyword`, `result_count`, `sear
 (293, 2, 'áo mặc để đánh pickleball', 491, '2026-06-21 16:36:36'),
 (294, 2, 'mới bắt đầu tập đánh cầu lông nên mua gì', 144, '2026-06-22 14:35:06'),
 (295, 2, 'quần áo tập gym mồ hôi nhiều', 491, '2026-06-22 14:35:11'),
-(296, 2, 'vợt cầu lông siêu nhẹ trợ lực tốt', 507, '2026-06-22 14:35:17');
+(296, 2, 'vợt cầu lông siêu nhẹ trợ lực tốt', 507, '2026-06-22 14:35:17'),
+(297, 2, 'đồ dùng cho người mới chơi cầu lông', 484, '2026-06-24 13:57:25'),
+(298, 2, 'đồ dùng cho việc chạy bộ', 497, '2026-06-24 13:57:38'),
+(299, 2, 'đồ dùng cho việc chạy bộ', 0, '2026-06-24 13:57:44');
 
 -- --------------------------------------------------------
 
@@ -11699,7 +11718,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `facebook_id`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `is_deleted`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`, `review_banned`) VALUES
 (1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658732/axeron-products/product_6a31f46c9149a_1781658732.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$bPoB5BDe7Gjx0mbBmyZKbuHjkin5qsktAQD2HpnqSsdiTINo9EVVW', 1, '2026-05-29 19:17:55', '2026-06-24 00:41:42', 0),
-(2, 3, 'Bug', 'bug@gmail.com', NULL, NULL, '0987654321', '$2y$10$Gkk3hUDtMjFp.tQVdy0vne4zrVU.2avITZkr87q1AahfN4eccyZJ.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658734/axeron-products/product_6a31f46ea7054_1781658734.png', NULL, '2004-10-21', 1, 0, NULL, 0, NULL, 1, '2026-06-11 01:07:16', '2026-06-20 12:28:18', 0),
+(2, 3, 'Bug', 'bug@gmail.com', NULL, NULL, '0987654321', '$2y$10$Gkk3hUDtMjFp.tQVdy0vne4zrVU.2avITZkr87q1AahfN4eccyZJ.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658734/axeron-products/product_6a31f46ea7054_1781658734.png', NULL, '2004-10-21', 1, 0, NULL, 0, '$2y$10$pJR5i04DFgZWQb4VYtAnBO0d2DQx1Q./oGRg8asO7W5IUaiKslS.i', 1, '2026-06-11 01:07:16', '2026-06-24 22:08:07', 0),
 (3, 4, 'Staff Tài Khoản', 'nvacc@gmail.com', NULL, NULL, '0901000004', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658736/axeron-products/product_6a31f47043c86_1781658736.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:18', 0),
 (4, 5, 'Staff Sản Phẩm', 'nvsp@gmail.com', NULL, NULL, '0901000005', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658739/axeron-products/product_6a31f472a8677_1781658738.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:20', 0),
 (5, 6, 'Staff Đơn Hàng', 'nvorder@gmail.com', NULL, NULL, '0901000006', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658741/axeron-products/product_6a31f474e2a23_1781658740.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:23', 0),
@@ -11740,7 +11759,11 @@ INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `f
 (52, 3, 'Deleted User', 'deleted_52_1782008147@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-21 09:09:23', '2026-06-21 09:15:47', 0),
 (53, 3, 'Deleted User', 'deleted_53_1782008608@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 0, '2026-06-21 09:21:46', '2026-06-21 09:23:28', 0),
 (54, 3, 'Deleted User', 'deleted_54_1782012205@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-21 09:31:15', '2026-06-21 10:23:25', 0),
-(55, 3, 'Deleted User', 'deleted_55_1782034758@deleted.local', NULL, NULL, NULL, NULL, NULL, 'female', '2004-07-20', 0, 1, NULL, 0, NULL, 1, '2026-06-21 15:59:45', '2026-06-21 16:39:18', 0);
+(55, 3, 'Deleted User', 'deleted_55_1782034758@deleted.local', NULL, NULL, NULL, NULL, NULL, 'female', '2004-07-20', 0, 1, NULL, 0, NULL, 1, '2026-06-21 15:59:45', '2026-06-21 16:39:18', 0),
+(56, 3, 'Deleted User', 'deleted_56_1782282815@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-24 13:20:39', '2026-06-24 13:33:35', 0),
+(57, 3, 'Deleted User', 'deleted_57_1782283203@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 0, '2026-06-24 13:34:04', '2026-06-24 13:40:03', 0),
+(58, 3, 'Deleted User', 'deleted_58_1782283661@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-24 13:40:26', '2026-06-24 13:47:41', 0),
+(59, 3, 'Lê Hữu Lợi', 'vancedloile@gmail.com', NULL, NULL, '0772130908', '$2y$10$dN8bJqoMXvGbmbHlX8bsZunwY4VKxVP2I/44Va2gL/v9mkqoYhmdy', '/assets/uploads/avatars/avatar_59_1782284106.png', 'male', '2004-01-21', 1, 0, NULL, 0, NULL, 1, '2026-06-24 13:50:08', '2026-06-24 13:55:42', 0);
 
 -- --------------------------------------------------------
 
@@ -11766,13 +11789,14 @@ CREATE TABLE `user_addresses` (
 --
 
 INSERT INTO `user_addresses` (`address_id`, `user_id`, `recipient_name`, `phone`, `province`, `district`, `ward`, `street_address`, `is_default`, `created_at`) VALUES
-(1, 12, 'Nguyễn Văn An', '0912345678', 'TP Hồ Chí Minh', 'Quận 1', 'Phường Bến Nghé', '12 Nguyễn Huệ', 1, '2026-05-29 19:17:55'),
-(2, 8, 'Trần Thị Bích', '0923456789', 'TP Hồ Chí Minh', 'Quận Bình Thạnh', 'Phường 25', '45 Xô Viết Nghệ Tĩnh', 1, '2026-05-29 19:17:55'),
-(3, 9, 'Lê Minh Cường', '0934567890', 'Hà Nội', 'Cầu Giấy', 'Phường Dịch Vọng', '88 Trần Thái Tông', 1, '2026-05-29 19:17:55'),
-(4, 10, 'Phạm Thị Dung', '0945678901', 'Đà Nẵng', 'Hải Châu', 'Phường Hải Châu 1', '23 Trần Phú', 1, '2026-05-29 19:17:55'),
-(5, 11, 'Hoàng Văn Em', '0956789012', 'TP Hồ Chí Minh', 'Quận 7', 'Phường Tân Phong', '5 Nguyễn Văn Linh', 1, '2026-05-29 19:17:55'),
-(6, 13, 'Nguyễn Thị Phương', '0967890123', 'TP Hồ Chí Minh', 'Thủ Đức', 'Phường Linh Trung', '100 Võ Văn Ngân', 1, '2026-05-29 19:17:55'),
-(13, 2, 'Tester User', '0987654321', 'TP. Hồ Chí Minh', 'Huyện Nhà Bè', '', '6/21 Huỳnh Tấn Phát', 1, '2026-06-11 01:23:24');
+(1, 12, 'Nguyễn Văn An', '0912345678', 'TP Hồ Chí Minh', 'Phường Bến Nghé', '', '12 Nguyễn Huệ', 1, '2026-05-29 19:17:55'),
+(2, 8, 'Trần Thị Bích', '0923456789', 'TP Hồ Chí Minh', 'Phường 25', '', '45 Xô Viết Nghệ Tĩnh', 1, '2026-05-29 19:17:55'),
+(3, 9, 'Lê Minh Cường', '0934567890', 'Hà Nội', 'Phường Dịch Vọng', '', '88 Trần Thái Tông', 1, '2026-05-29 19:17:55'),
+(4, 10, 'Phạm Thị Dung', '0945678901', 'Đà Nẵng', 'Phường Hải Châu 1', '', '23 Trần Phú', 1, '2026-05-29 19:17:55'),
+(5, 11, 'Hoàng Văn Em', '0956789012', 'TP Hồ Chí Minh', 'Phường Tân Phong', '', '5 Nguyễn Văn Linh', 1, '2026-05-29 19:17:55'),
+(6, 13, 'Nguyễn Thị Phương', '0967890123', 'TP Hồ Chí Minh', 'Phường Linh Trung', '', '100 Võ Văn Ngân', 1, '2026-05-29 19:17:55'),
+(13, 2, 'Bug', '0987654321', 'TP. Hồ Chí Minh', 'Thị trấn Nhà Bè', '', '6/21 Huỳnh Tấn Phát', 1, '2026-06-11 01:23:24'),
+(18, 59, 'Lê Hữu Lợi', '0772130908', 'Yên Bái', 'Phường Long Châu', '', '192 Nguyễn Huệ, phường Long Châu, tỉnh Vĩnh Long', 1, '2026-06-24 13:55:06');
 
 -- --------------------------------------------------------
 
@@ -11791,6 +11815,7 @@ CREATE TABLE `user_recently_viewed` (
 --
 
 INSERT INTO `user_recently_viewed` (`user_id`, `product_id`, `viewed_at`) VALUES
+(2, 1, '2026-06-24 22:12:20'),
 (2, 2, '2026-06-24 00:11:03'),
 (2, 8, '2026-06-24 00:10:27'),
 (2, 11, '2026-06-24 00:11:01'),
@@ -11802,9 +11827,12 @@ INSERT INTO `user_recently_viewed` (`user_id`, `product_id`, `viewed_at`) VALUES
 (2, 76, '2026-06-24 00:09:17'),
 (2, 78, '2026-06-24 00:09:22'),
 (2, 79, '2026-06-24 00:09:13'),
+(2, 80, '2026-06-24 13:59:36'),
+(2, 176, '2026-06-24 13:59:19'),
 (2, 214, '2026-06-24 00:09:34'),
 (2, 215, '2026-06-24 00:09:32'),
-(2, 368, '2026-06-24 00:38:52');
+(2, 368, '2026-06-24 13:19:22'),
+(56, 74, '2026-06-24 13:21:32');
 
 -- --------------------------------------------------------
 
@@ -12195,13 +12223,13 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT cho bảng `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -12231,31 +12259,31 @@ ALTER TABLE `contact_messages`
 -- AUTO_INCREMENT cho bảng `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51495;
+  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51497;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1619;
+  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1621;
 
 --
 -- AUTO_INCREMENT cho bảng `order_status_logs`
 --
 ALTER TABLE `order_status_logs`
-  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 
 --
 -- AUTO_INCREMENT cho bảng `password_resets`
 --
 ALTER TABLE `password_resets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT cho bảng `payment_transactions`
@@ -12279,13 +12307,13 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT cho bảng `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2282;
+  MODIFY `variant_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2283;
 
 --
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1007;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1016;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
@@ -12309,7 +12337,7 @@ ALTER TABLE `promotion_products`
 -- AUTO_INCREMENT cho bảng `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1414;
+  MODIFY `review_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1415;
 
 --
 -- AUTO_INCREMENT cho bảng `roles`
@@ -12321,7 +12349,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT cho bảng `search_logs`
 --
 ALTER TABLE `search_logs`
-  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=297;
+  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=300;
 
 --
 -- AUTO_INCREMENT cho bảng `shipping_methods`
@@ -12345,13 +12373,13 @@ ALTER TABLE `site_settings`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT cho bảng `user_addresses`
 --
 ALTER TABLE `user_addresses`
-  MODIFY `address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `user_wishlists`

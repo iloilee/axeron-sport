@@ -217,9 +217,9 @@ $flash = getFlash();
                     </div>
                     
                     <div class="flex flex-col gap-2">
-                        <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="district">Quận/Huyện</label>
+                        <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide" for="district">Phường/Xã</label>
                         <select id="district" name="district" class="px-4 py-3 bg-surface border border-outline-variant rounded focus:outline-none focus:border-axeron-blue focus:ring-1 focus:ring-axeron-blue transition-colors font-body-md w-full appearance-none disabled:opacity-50 disabled:bg-surface-variant" disabled>
-                            <option value="">Chọn Quận/Huyện</option>
+                            <option value="">Chọn Phường/Xã</option>
                         </select>
                         <input type="hidden" id="current_district" value="<?= htmlspecialchars($defaultAddress['district'] ?? '') ?>">
                     </div>
@@ -349,38 +349,42 @@ $flash = getFlash();
     <div id="toast-container"></div>
 
     <script>
-        // Hiển thị thông báo dạng cửa sổ nổi (Modal)
+        // Hiển thị thông báo nổi góc trên bên phải
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             container.innerHTML = '';
 
-            const icon = type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info';
-            const iconBg = type === 'success' ? 'bg-green-50 text-green-500 border-green-100' : type === 'error' ? 'bg-red-50 text-red-500 border-red-100' : 'bg-blue-50 text-blue-500 border-blue-100';
+            const isSuccess = type === 'success';
+            const icon = isSuccess ? 'check_circle' : 'error';
+            const bgColor = isSuccess ? 'bg-green-500' : 'bg-red-500';
 
-            const modalHtml = `
-                <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 transition-opacity duration-300" id="alert-modal-backdrop">
-                    <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-8 text-center transform transition-transform duration-300 scale-95" id="alert-modal-content">
-                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full ${iconBg} mb-5 border shadow-sm">
-                            <span class="material-symbols-outlined text-[40px]">${icon}</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3" style="font-family: 'Montserrat', sans-serif;">Thông báo</h3>
-                        <p class="text-gray-600 mb-8 text-base px-2">${message}</p>
-                        <button onclick="document.getElementById('toast-container').innerHTML=''" class="px-8 py-3 bg-axeron-red text-white rounded-xl hover:bg-red-700 font-semibold transition-colors shadow-md w-full">
-                            Đóng
-                        </button>
-                    </div>
+            const toastHtml = `
+                <div id="toast-message" class="fixed top-24 right-4 z-[9999] flex items-center gap-3 px-6 py-4 rounded-xl shadow-2xl text-white ${bgColor} transform translate-x-full transition-transform duration-300">
+                    <span class="material-symbols-outlined text-2xl">${icon}</span>
+                    <p class="font-body-md font-medium text-base m-0">${message}</p>
                 </div>
             `;
             
-            container.innerHTML = modalHtml;
+            container.innerHTML = toastHtml;
 
+            const toastElement = document.getElementById('toast-message');
+            
             requestAnimationFrame(() => {
-                const wrapper = document.getElementById('alert-modal-content');
-                if (wrapper) {
-                    wrapper.classList.remove('scale-95');
-                    wrapper.classList.add('scale-100');
-                }
+                setTimeout(() => {
+                    toastElement.classList.remove('translate-x-full');
+                }, 50);
             });
+
+            setTimeout(() => {
+                if (toastElement) {
+                    toastElement.classList.add('translate-x-full');
+                    setTimeout(() => {
+                        if (container.contains(toastElement)) {
+                            container.innerHTML = '';
+                        }
+                    }, 300);
+                }
+            }, 3000);
         }
 
         <?php if ($flash && $flash['message'] !== 'Chào mừng test register!'): ?>
@@ -401,20 +405,20 @@ $flash = getFlash();
             }
         }
 
-        // Xử lý API Tỉnh/Thành - Quận/Huyện
+        // Xử lý API Tỉnh/Thành - Phường/Xã
         document.addEventListener('DOMContentLoaded', function() {
             const provinceSelect = document.getElementById('province');
-            const districtSelect = document.getElementById('district');
-            const currentDistrict = document.getElementById('current_district').value;
+            const wardSelect = document.getElementById('district');
+            const currentWard = document.getElementById('current_district').value;
             let provincesData = [];
 
             const normalizeString = (str) => {
                 return str.toLowerCase().replace(/^(tỉnh|thành phố|tp\.|tp )\s*/, '').trim();
             };
 
-            const loadDistricts = (selectedProvinceName) => {
-                districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
-                districtSelect.disabled = true;
+            const loadWards = (selectedProvinceName) => {
+                wardSelect.innerHTML = '<option value="">Chọn Phường/Xã</option>';
+                wardSelect.disabled = true;
 
                 if (!selectedProvinceName) return;
 
@@ -425,31 +429,39 @@ $flash = getFlash();
                 });
 
                 if (province && province.districts) {
+                    const allWards = [];
                     province.districts.forEach(d => {
+                        if (d.wards) {
+                            d.wards.forEach(w => allWards.push(w.name));
+                        }
+                    });
+                    // Sắp xếp theo tên và loại bỏ trùng lặp
+                    const uniqueWards = [...new Set(allWards)].sort((a, b) => a.localeCompare(b, 'vi'));
+                    uniqueWards.forEach(wardName => {
                         const option = document.createElement('option');
-                        option.value = d.name;
-                        option.textContent = d.name;
-                        if (d.name === currentDistrict) {
+                        option.value = wardName;
+                        option.textContent = wardName;
+                        if (wardName === currentWard) {
                             option.selected = true;
                         }
-                        districtSelect.appendChild(option);
+                        wardSelect.appendChild(option);
                     });
-                    districtSelect.disabled = false;
+                    wardSelect.disabled = false;
                 } else {
-                    districtSelect.disabled = false; // Fallback
+                    wardSelect.disabled = false; // Fallback
                 }
             };
 
-            fetch('https://provinces.open-api.vn/api/?depth=2')
+            fetch('https://provinces.open-api.vn/api/?depth=3')
                 .then(response => response.json())
                 .then(data => {
                     provincesData = data;
-                    loadDistricts(provinceSelect.value);
+                    loadWards(provinceSelect.value);
                 })
                 .catch(error => console.error('Error fetching provinces:', error));
 
             provinceSelect.addEventListener('change', function() {
-                loadDistricts(this.value);
+                loadWards(this.value);
             });
         });
 
