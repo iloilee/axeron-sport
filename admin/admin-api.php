@@ -2328,6 +2328,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             break;
 
+        case 'toggle_promotion_status':
+            $promo_id = (int)($_POST['promo_id'] ?? 0);
+            if ($promo_id > 0) {
+                $status = (int)($_POST['is_active'] ?? 0);
+                $db->update("UPDATE promotions SET is_active = ? WHERE promo_id = ?", [$status, $promo_id]);
+                $response = ['success' => true, 'message' => $status ? 'Đã bật khuyến mãi!' : 'Đã tạm ngưng khuyến mãi!'];
+            } else {
+                $response = ['success' => false, 'message' => 'ID không hợp lệ!'];
+            }
+            break;
+
+        case 'extend_promotion':
+            $promo_id = (int)($_POST['promo_id'] ?? 0);
+            if ($promo_id > 0) {
+                $days = (int)($_POST['days'] ?? 7);
+                $db->query("UPDATE promotions SET end_date = DATE_ADD(end_date, INTERVAL ? DAY), is_active = 1 WHERE promo_id = ?", [$days, $promo_id]);
+                $response = ['success' => true, 'message' => "Đã gia hạn thêm $days ngày!"];
+            } else {
+                $response = ['success' => false, 'message' => 'ID không hợp lệ!'];
+            }
+            break;
+
         case 'add_featured_product':
             $product_id = (int)($_POST['product_id'] ?? 0);
             if ($product_id <= 0) {
