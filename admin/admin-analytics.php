@@ -9,6 +9,25 @@
 
 
 
+    <!-- Smart Insights Alerts (AI Suggestions) -->
+    <div class="bg-gradient-to-r from-red-50 via-rose-50 to-red-50 rounded-xl p-4 shadow-sm border border-red-100 flex items-start gap-3">
+        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shrink-0 shadow-sm">
+            <span class="material-symbols-outlined text-axeron-red animate-pulse">tips_and_updates</span>
+        </div>
+        <div class="flex-1">
+            <h4 class="text-sm font-bold text-red-900 flex items-center gap-2">
+                Smart Insights <span class="bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Tự động</span>
+            </h4>
+            <div class="mt-1 text-sm text-red-800 space-y-1" id="smart-insights-content">
+                <div class="flex items-center gap-2 animate-pulse">
+                    <div class="h-4 bg-red-200 rounded w-3/4"></div>
+                </div>
+                <div class="flex items-center gap-2 animate-pulse">
+                    <div class="h-4 bg-red-200 rounded w-1/2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Filter Bar -->
     <div class="bg-white rounded-xl p-4 shadow-sm border">

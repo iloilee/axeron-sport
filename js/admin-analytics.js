@@ -469,6 +469,7 @@ async function loadData() {
             }
 
             updateSummaryCards(result.data);
+            if (typeof updateSmartInsights === 'function') updateSmartInsights(result.data);
             updateTable(result.data);
             updateChart(result.data);
             updateCustomerCharts(result.data);
@@ -1114,4 +1115,56 @@ function showToast(message, type = 'success') {
             setTimeout(() => toast.remove(), 300);
         }, 3000);
     }
+}
+
+/**
+ * Update Smart Insights automatically based on data
+ */
+function updateSmartInsights(data) {
+    const container = document.getElementById('smart-insights-content');
+    if (!container) return;
+    
+    let insights = [];
+    
+    if (currentTab === 'revenue') {
+        if (data.summary && data.summary.total_revenue > 0) {
+            insights.push(`<div class="flex items-start gap-2"><span class="text-green-500 mt-0.5">💰</span> <span>Doanh thu kỳ này đạt <b>${formatCurrency(data.summary.total_revenue)}</b> với <b>${data.summary.total_orders}</b> đơn hàng.</span></div>`);
+            if (data.summary.aov) {
+                insights.push(`<div class="flex items-start gap-2"><span class="text-blue-500 mt-0.5">📈</span> <span>Giá trị trung bình mỗi đơn hàng là <b>${formatCurrency(data.summary.aov)}</b>.</span></div>`);
+            }
+        } else {
+            insights.push(`<div class="flex items-start gap-2"><span class="text-orange-500 mt-0.5">⚠️</span> <span>Chưa có doanh thu trong khoảng thời gian này. Hãy thử tạo thêm khuyến mãi!</span></div>`);
+        }
+    } else if (currentTab === 'customers') {
+        if (data.customer_summary) {
+            if (data.customer_summary.new_customers > 0) {
+                insights.push(`<div class="flex items-start gap-2"><span class="text-green-500 mt-0.5">🎉</span> <span>Hệ thống ghi nhận <b>${data.customer_summary.new_customers}</b> khách hàng mới.</span></div>`);
+            }
+            if (data.customer_summary.returning_customers > 0) {
+                insights.push(`<div class="flex items-start gap-2"><span class="text-purple-500 mt-0.5">🔄</span> <span>Tỷ lệ giữ chân khá tốt với <b>${data.customer_summary.returning_customers}</b> khách hàng quay lại.</span></div>`);
+            } else {
+                insights.push(`<div class="flex items-start gap-2"><span class="text-orange-500 mt-0.5">⚠️</span> <span>Khách hàng có xu hướng mua 1 lần. Cân nhắc chạy chiến dịch Remarketing.</span></div>`);
+            }
+        }
+    } else if (currentTab === 'products') {
+        if (data.product_summary) {
+            if (data.product_summary.best_seller_name) {
+                insights.push(`<div class="flex items-start gap-2"><span class="text-red-500 mt-0.5">🔥</span> <span>Sản phẩm <b>${data.product_summary.best_seller_name}</b> đang gánh doanh số tốt nhất.</span></div>`);
+            }
+            if (data.product_summary.slow_mover_count > 0) {
+                insights.push(`<div class="flex items-start gap-2"><span class="text-orange-500 mt-0.5">📉</span> <span>Có <b>${data.product_summary.slow_mover_count}</b> sản phẩm bán chậm. Cân nhắc xả kho hoặc Flash Sale.</span></div>`);
+            }
+        }
+    }
+    
+    if (insights.length === 0) {
+        insights.push(`<div class="flex items-start gap-2"><span class="text-gray-500 mt-0.5">ℹ️</span> <span>Hệ thống đang thu thập thêm dữ liệu để phân tích.</span></div>`);
+    }
+    
+    container.style.opacity = 0;
+    setTimeout(() => {
+        container.innerHTML = insights.join('');
+        container.style.transition = 'opacity 0.5s';
+        container.style.opacity = 1;
+    }, 200);
 }
