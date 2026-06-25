@@ -1209,13 +1209,13 @@ document.addEventListener('DOMContentLoaded', function() {
         return data;
     }
 
-    drawSparkline('spark_prod_1', '#2563eb', genData('<?= $pStats['total']['trend'] ?>'));
-    drawSparkline('spark_prod_2', '#ca8a04', genData('<?= $pStats['featured']['trend'] ?>'));
-    drawSparkline('spark_prod_3', '#ea580c', genData('<?= $pStats['bestsellers']['trend'] ?>'));
-    drawSparkline('spark_prod_4', '#dc2626', genData('<?= $pStats['outofstock']['trend'] ?>'));
-    drawSparkline('spark_prod_5', '#d97706', genData('<?= $pStats['lowstock']['trend'] ?>'));
-    drawSparkline('spark_prod_6', '#16a34a', genData('<?= $pStats['active']['trend'] ?>'));
-    drawSparkline('spark_prod_7', '#4b5563', genData('<?= $pStats['inactive']['trend'] ?>'));
-    drawSparkline('spark_prod_8', '#059669', genData('<?= $pStats['inventory_value']['trend'] ?>'));
+    drawSparkline('spark_prod_1', '#2563eb', genData('<?= $pStats['total']['trend']['trend'] ?>'));
+    drawSparkline('spark_prod_2', '#ca8a04', genData('<?= $pStats['featured']['trend']['trend'] ?>'));
+    drawSparkline('spark_prod_3', '#ea580c', genData('<?= $pStats['bestsellers']['trend']['trend'] ?>'));
+    drawSparkline('spark_prod_4', '#dc2626', genData('<?= $pStats['outofstock']['trend']['trend'] ?>'));
+    drawSparkline('spark_prod_5', '#d97706', genData('<?= $pStats['lowstock']['trend']['trend'] ?>'));
+    drawSparkline('spark_prod_6', '#16a34a', genData('<?= $pStats['active']['trend']['trend'] ?>'));
+    drawSparkline('spark_prod_7', '#4b5563', genData('<?= $pStats['inactive']['trend']['trend'] ?>'));
+    drawSparkline('spark_prod_8', '#059669', genData('<?= $pStats['inventory_value']['trend']['trend'] ?>'));
 });
 </script>

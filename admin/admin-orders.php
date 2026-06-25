@@ -125,14 +125,14 @@ $orderStats = [
     'returned' => ['count' => $statusCounts['returned_count'] ?? 0, 'trend' => calculateOrderTrend($statusCounts['returned_count'], $statusCountsPrev['returned_count'])]
 ];
 
-function renderOrderStatCard($title, $value, $trendData, $icon, $colorClass, $bgColorClass) {
+function renderOrderStatCard($title, $value, $trendData, $icon, $colorClass, $bgColorClass, $cardId = '') {
     $trendIcon = $trendData['trend'] === 'up' ? 'trending_up' : 'trending_down';
     $trendColor = $trendData['trend'] === 'up' ? 'text-emerald-600' : 'text-red-600';
     $percent = $trendData['percent'] . '%';
     
     return '
-    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div class="flex justify-between items-start">
+    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+        <div class="flex justify-between items-start relative z-10">
             <div>
                 <p class="text-sm font-medium text-slate-500">'.$title.'</p>
                 <h3 class="mt-1 text-2xl font-bold text-slate-900">'.number_format($value).'</h3>
@@ -148,6 +148,7 @@ function renderOrderStatCard($title, $value, $trendData, $icon, $colorClass, $bg
             </span>
             <span class="text-xs text-slate-500">so với tháng trước</span>
         </div>
+        '.($cardId ? '<div class="absolute bottom-0 left-0 w-full h-16 opacity-30 group-hover:opacity-70 transition-opacity duration-300"><canvas id="'.$cardId.'"></canvas></div>' : '').'
     </div>';
 }
 
@@ -156,14 +157,14 @@ $statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'canc
 
 <!-- Thống kê nhanh -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-    <?= renderOrderStatCard('Tổng đơn hàng', $orderStats['total']['count'], $orderStats['total']['trend'], 'receipt_long', 'text-blue-600', 'bg-blue-50') ?>
-    <?= renderOrderStatCard('Chờ xử lý', $orderStats['pending']['count'], $orderStats['pending']['trend'], 'pending_actions', 'text-yellow-600', 'bg-yellow-50') ?>
-    <?= renderOrderStatCard('Đã xác nhận', $orderStats['confirmed']['count'], $orderStats['confirmed']['trend'], 'done', 'text-teal-600', 'bg-teal-50') ?>
-    <?= renderOrderStatCard('Đang xử lý', $orderStats['processing']['count'], $orderStats['processing']['trend'], 'inventory_2', 'text-purple-600', 'bg-purple-50') ?>
-    <?= renderOrderStatCard('Đang giao', $orderStats['shipped']['count'], $orderStats['shipped']['trend'], 'local_shipping', 'text-indigo-600', 'bg-indigo-50') ?>
-    <?= renderOrderStatCard('Đã giao', $orderStats['delivered']['count'], $orderStats['delivered']['trend'], 'check_circle', 'text-green-600', 'bg-green-50') ?>
-    <?= renderOrderStatCard('Đã hủy', $orderStats['cancelled']['count'], $orderStats['cancelled']['trend'], 'cancel', 'text-red-600', 'bg-red-50') ?>
-    <?= renderOrderStatCard('Trả hàng', $orderStats['returned']['count'], $orderStats['returned']['trend'], 'keyboard_return', 'text-gray-600', 'bg-gray-50') ?>
+    <?= renderOrderStatCard('Tổng đơn hàng', $orderStats['total']['count'], $orderStats['total']['trend'], 'receipt_long', 'text-blue-600', 'bg-blue-50', 'spark_order_1') ?>
+    <?= renderOrderStatCard('Chờ xử lý', $orderStats['pending']['count'], $orderStats['pending']['trend'], 'pending_actions', 'text-yellow-600', 'bg-yellow-50', 'spark_order_2') ?>
+    <?= renderOrderStatCard('Đã xác nhận', $orderStats['confirmed']['count'], $orderStats['confirmed']['trend'], 'done', 'text-teal-600', 'bg-teal-50', 'spark_order_3') ?>
+    <?= renderOrderStatCard('Đang xử lý', $orderStats['processing']['count'], $orderStats['processing']['trend'], 'inventory_2', 'text-purple-600', 'bg-purple-50', 'spark_order_4') ?>
+    <?= renderOrderStatCard('Đang giao', $orderStats['shipped']['count'], $orderStats['shipped']['trend'], 'local_shipping', 'text-indigo-600', 'bg-indigo-50', 'spark_order_5') ?>
+    <?= renderOrderStatCard('Đã giao', $orderStats['delivered']['count'], $orderStats['delivered']['trend'], 'check_circle', 'text-green-600', 'bg-green-50', 'spark_order_6') ?>
+    <?= renderOrderStatCard('Đã hủy', $orderStats['cancelled']['count'], $orderStats['cancelled']['trend'], 'cancel', 'text-red-600', 'bg-red-50', 'spark_order_7') ?>
+    <?= renderOrderStatCard('Trả hàng', $orderStats['returned']['count'], $orderStats['returned']['trend'], 'keyboard_return', 'text-gray-600', 'bg-gray-50', 'spark_order_8') ?>
 </div>
 
 <div class="mb-6 flex flex-col xl:flex-row gap-2 justify-between items-start xl:items-center w-full">
@@ -1067,4 +1068,61 @@ function updatePaymentStatus(orderId, newStatus) {
         }
     });
 }
+</script>
+
+<script>
+// Sparkline Chart logic for Order Stats
+document.addEventListener('DOMContentLoaded', function() {
+    function drawSparkline(canvasId, color, dataPoints) {
+        const ctx = document.getElementById(canvasId);
+        if(!ctx) return;
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['1','2','3','4','5','6','7'],
+                datasets: [{
+                    data: dataPoints,
+                    borderColor: color,
+                    borderWidth: 2,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    fill: {
+                        target: 'origin',
+                        above: color + '20' // Add alpha for gradient fill
+                    }
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                scales: {
+                    x: { display: false },
+                    y: { display: false, min: Math.min(...dataPoints) * 0.8 }
+                },
+                layout: { padding: 0 }
+            }
+        });
+    }
+
+    // Generate random trend data based on trend direction
+    function genData(trend) {
+        let base = trend === 'up' ? 10 : 50;
+        let data = [];
+        for(let i=0; i<7; i++) {
+            data.push(base);
+            base += (trend === 'up' ? 1 : -1) * (Math.random() * 10 + 2);
+        }
+        return data;
+    }
+
+    drawSparkline('spark_order_1', '#2563eb', genData('<?= $orderStats['total']['trend']['trend'] ?>'));
+    drawSparkline('spark_order_2', '#ca8a04', genData('<?= $orderStats['pending']['trend']['trend'] ?>'));
+    drawSparkline('spark_order_3', '#0d9488', genData('<?= $orderStats['confirmed']['trend']['trend'] ?>'));
+    drawSparkline('spark_order_4', '#9333ea', genData('<?= $orderStats['processing']['trend']['trend'] ?>'));
+    drawSparkline('spark_order_5', '#4f46e5', genData('<?= $orderStats['shipped']['trend']['trend'] ?>'));
+    drawSparkline('spark_order_6', '#16a34a', genData('<?= $orderStats['delivered']['trend']['trend'] ?>'));
+    drawSparkline('spark_order_7', '#dc2626', genData('<?= $orderStats['cancelled']['trend']['trend'] ?>'));
+    drawSparkline('spark_order_8', '#4b5563', genData('<?= $orderStats['returned']['trend']['trend'] ?>'));
+});
 </script>
