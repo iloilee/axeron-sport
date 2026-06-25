@@ -150,6 +150,9 @@ function handlePost($db) {
         case 'delete_banner':
             deleteBanner($db);
             break;
+        case 'update_banner_positions':
+            updateBannerPositions($db);
+            break;
         case 'upload_banner_image':
             uploadBannerImage($db);
             break;
@@ -677,4 +680,27 @@ function uploadArticleImage($db) {
     }
 
     jsonResponse(false, 'Upload failed');
+}
+
+function updateBannerPositions($db) {
+    $positions = json_decode($_POST['positions'] ?? '[]', true);
+    if (empty($positions)) {
+        jsonResponse(false, 'Dữ liệu không hợp lệ!');
+    }
+
+    try {
+        $db->beginTransaction();
+        foreach ($positions as $p) {
+            $id = (int)($p['id'] ?? 0);
+            $pos = (int)($p['position'] ?? 0);
+            if ($id > 0) {
+                $db->update("UPDATE banners SET position = ? WHERE banner_id = ?", [$pos, $id]);
+            }
+        }
+        $db->commit();
+        jsonResponse(true, 'Đã cập nhật vị trí!');
+    } catch (Exception $e) {
+        $db->rollback();
+        jsonResponse(false, 'Lỗi cập nhật: ' . $e->getMessage());
+    }
 }

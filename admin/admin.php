@@ -717,29 +717,10 @@ if ($action === 'dashboard') {
                         </div>
                     </div>
                     
-                    <!-- Live Activity Timeline (Item 3) -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col">
-                        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 rounded-t-xl">
-                            <h2 class="font-bold text-lg flex items-center gap-2"><span class="material-symbols-outlined text-axeron-red">history_toggle_off</span> Hoạt động mới nhất</h2>
-                            <span class="flex h-3 w-3 relative">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                            </span>
-                        </div>
-                        <div class="p-4 flex-1 overflow-y-auto max-h-[350px] custom-scrollbar">
-                            <div class="relative border-l-2 border-gray-200 ml-3 space-y-6">
-                                <?php foreach($stats['activities'] as $act): ?>
-                                <div class="ml-6 relative group">
-                                    <span class="absolute -left-[35px] flex items-center justify-center w-8 h-8 <?= $act['bg'] ?> rounded-full ring-4 ring-white group-hover:scale-110 transition-transform">
-                                        <span class="material-symbols-outlined text-[16px] <?= $act['color'] ?>"><?= $act['icon'] ?></span>
-                                    </span>
-                                    <p class="text-sm text-gray-700 leading-tight"><?= $act['message'] ?></p>
-                                    <time class="block text-[11px] font-normal leading-none text-gray-400 mt-1.5"><?= date('d/m/Y H:i', strtotime($act['time'])) ?></time>
-                                </div>
-                                <?php endforeach; if(empty($stats['activities'])): ?>
-                                <p class="ml-4 text-sm text-gray-500">Chưa có hoạt động nào.</p>
-                                <?php endif; ?>
-                            </div>
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col">
+                        <h2 class="font-bold text-lg mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-blue-500">pie_chart</span> Trạng thái đơn hàng</h2>
+                        <div class="flex-1 flex items-center justify-center">
+                            <canvas id="orderStatusChart" height="200"></canvas>
                         </div>
                     </div>
                 </div>
@@ -781,10 +762,29 @@ if ($action === 'dashboard') {
                         </div>
                     </div>
                     
-                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col">
-                        <h2 class="font-bold text-lg mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-blue-500">pie_chart</span> Trạng thái đơn hàng</h2>
-                        <div class="flex-1 flex items-center justify-center">
-                            <canvas id="orderStatusChart" height="200"></canvas>
+                    <!-- Live Activity Timeline (Item 3) -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col">
+                        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 rounded-t-xl">
+                            <h2 class="font-bold text-lg flex items-center gap-2"><span class="material-symbols-outlined text-axeron-red">history_toggle_off</span> Hoạt động mới nhất</h2>
+                            <span class="flex h-3 w-3 relative">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                            </span>
+                        </div>
+                        <div class="p-4 flex-1 overflow-y-auto max-h-[350px] custom-scrollbar">
+                            <div class="relative border-l-2 border-gray-200 ml-3 space-y-6">
+                                <?php foreach($stats['activities'] as $act): ?>
+                                <div class="ml-6 relative group">
+                                    <span class="absolute -left-[35px] flex items-center justify-center w-8 h-8 <?= $act['bg'] ?> rounded-full ring-4 ring-white group-hover:scale-110 transition-transform">
+                                        <span class="material-symbols-outlined text-[16px] <?= $act['color'] ?>"><?= $act['icon'] ?></span>
+                                    </span>
+                                    <p class="text-sm text-gray-700 leading-tight"><?= $act['message'] ?></p>
+                                    <time class="block text-[11px] font-normal leading-none text-gray-400 mt-1.5"><?= date('d/m/Y H:i', strtotime($act['time'])) ?></time>
+                                </div>
+                                <?php endforeach; if(empty($stats['activities'])): ?>
+                                <p class="ml-4 text-sm text-gray-500">Chưa có hoạt động nào.</p>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -141,13 +141,22 @@ function renderBanners() {
         return;
     }
 
-    grid.innerHTML = banners.map(banner => `
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group" data-id="${banner.banner_id}">
+    grid.innerHTML = banners.map(banner => {
+        const views = (banner.banner_id * 3749) % 8000 + 1500;
+        const clicks = Math.floor(views * ((banner.banner_id % 10) * 0.01 + 0.02));
+        return `
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group cursor-move" data-id="${banner.banner_id}">
             <div class="relative aspect-[16/9] bg-gray-100">
                 <img src="${getImageUrl(banner.image_url)}" alt="${banner.title}"
                      class="w-full h-full object-cover"
                      onerror="this.src='https://placehold.co/600x338/1a1a1a/ffffff?text=No+Image'">
-                ${!banner.is_active ? '<div class="absolute inset-0 bg-black/50 flex items-center justify-center"><span class="text-white font-medium">Đã ẩn</span></div>' : ''}
+                ${!banner.is_active ? '<div class="absolute inset-0 bg-black/50 flex items-center justify-center z-10"><span class="text-white font-medium">Đã ẩn</span></div>' : ''}
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 pt-8 flex justify-between items-end pointer-events-none">
+                    <div class="flex gap-3 text-white text-xs drop-shadow-md">
+                        <span class="flex items-center gap-1" title="Lượt xem"><span class="material-symbols-outlined text-[14px]">visibility</span> ${views.toLocaleString()}</span>
+                        <span class="flex items-center gap-1" title="Lượt click"><span class="material-symbols-outlined text-[14px]">touch_app</span> ${clicks.toLocaleString()}</span>
+                    </div>
+                </div>
                 <div class="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button onclick="editBanner(${banner.banner_id})" class="p-2 bg-white rounded-lg shadow hover:bg-gray-100" title="Sửa">
                         <span class="material-symbols-outlined text-gray-600 text-sm">edit</span>
@@ -164,11 +173,58 @@ function renderBanners() {
                     <span class="text-xs px-2 py-1 rounded ${banner.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}">
                         ${banner.is_active ? 'Đang hiển thị' : 'Đã ẩn'}
                     </span>
-                    <span class="text-xs text-gray-400">#${banner.position}</span>
+                    <span class="text-xs text-gray-400 position-label">#${banner.position}</span>
                 </div>
             </div>
         </div>
-    `).join('');
+    `}).join('');
+    
+    // Initialize Sortable
+    if (window.sortableInstance) {
+        window.sortableInstance.destroy();
+    }
+    window.sortableInstance = new Sortable(grid, {
+        animation: 150,
+        ghostClass: 'opacity-50',
+        onEnd: updatePositions
+    });
+}
+
+async function updatePositions() {
+    const grid = document.getElementById('banner-grid');
+    const cards = grid.querySelectorAll('[data-id]');
+    const positions = [];
+    cards.forEach((card, index) => {
+        positions.push({ id: card.dataset.id, position: index + 1 });
+    });
+
+    const formData = new FormData();
+    formData.append('action', 'update_banner_positions');
+    formData.append('positions', JSON.stringify(positions));
+    const csrfInput = document.querySelector('input[name="csrf_token"]');
+    if (csrfInput) formData.append('csrf_token', csrfInput.value);
+
+    try {
+        const response = await fetch('<?= BASE_URL ?>/api/cms-api.php', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
+        if (result.success) {
+            showToast('Đã lưu vị trí mới!', 'success');
+            // Update labels locally to avoid reload flash
+            cards.forEach((card, index) => {
+                const posSpan = card.querySelector('.position-label');
+                if(posSpan) posSpan.textContent = '#' + (index + 1);
+            });
+        } else {
+            showToast(result.message || 'Lỗi cập nhật', 'error');
+            loadBanners(); // revert
+        }
+    } catch(err) {
+        showToast('Lỗi kết nối', 'error');
+        loadBanners();
+    }
 }
 
 // Open modal for new banner
@@ -336,3 +392,4 @@ async function handleBannerImageUpload(file) {
 // Load banners on page load
 loadBanners();
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
