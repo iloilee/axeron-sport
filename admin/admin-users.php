@@ -94,14 +94,14 @@ $userStats = [
     'customer' => ['count' => $customerCurrent, 'trend' => calculateUserTrend($customerCurrent, $customerPrev)]
 ];
 
-function renderStatCard($title, $value, $trendData, $icon, $colorClass, $bgColorClass) {
+function renderStatCard($title, $value, $trendData, $icon, $colorClass, $bgColorClass, $cardId = '') {
     $trendIcon = $trendData['trend'] === 'up' ? 'trending_up' : 'trending_down';
     $trendColor = $trendData['trend'] === 'up' ? 'text-emerald-600' : 'text-red-600';
     $percent = $trendData['percent'] . '%';
     
     return '
-    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div class="flex justify-between items-start">
+    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+        <div class="flex justify-between items-start relative z-10">
             <div>
                 <p class="text-sm font-medium text-slate-500">'.$title.'</p>
                 <h3 class="mt-1 text-2xl font-bold text-slate-900">'.number_format($value).'</h3>
@@ -117,16 +117,17 @@ function renderStatCard($title, $value, $trendData, $icon, $colorClass, $bgColor
             </span>
             <span class="text-xs text-slate-500">so với tháng trước</span>
         </div>
+        '.($cardId ? '<div class="absolute bottom-0 left-0 w-full h-16 opacity-30 group-hover:opacity-70 transition-opacity duration-300"><canvas id="'.$cardId.'"></canvas></div>' : '').'
     </div>';
 }
 ?>
 
 <!-- Thống kê nhanh -->
 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-    <?= renderStatCard('Tổng người dùng', $userStats['total']['count'], $userStats['total']['trend'], 'group', 'text-blue-600', 'bg-blue-50') ?>
-    <?= renderStatCard('Người dùng mới', $userStats['new']['count'], $userStats['new']['trend'], 'person_add', 'text-green-600', 'bg-green-50') ?>
-    <?= renderStatCard('Nhân viên', $userStats['staff']['count'], $userStats['staff']['trend'], 'badge', 'text-purple-600', 'bg-purple-50') ?>
-    <?= renderStatCard('Khách hàng', $userStats['customer']['count'], $userStats['customer']['trend'], 'person', 'text-orange-600', 'bg-orange-50') ?>
+    <?= renderStatCard('Tổng người dùng', $userStats['total']['count'], $userStats['total']['trend'], 'group', 'text-blue-600', 'bg-blue-50', 'spark_user_1') ?>
+    <?= renderStatCard('Người dùng mới', $userStats['new']['count'], $userStats['new']['trend'], 'person_add', 'text-green-600', 'bg-green-50', 'spark_user_2') ?>
+    <?= renderStatCard('Nhân viên', $userStats['staff']['count'], $userStats['staff']['trend'], 'badge', 'text-purple-600', 'bg-purple-50', 'spark_user_3') ?>
+    <?= renderStatCard('Khách hàng', $userStats['customer']['count'], $userStats['customer']['trend'], 'person', 'text-orange-600', 'bg-orange-50', 'spark_user_4') ?>
 </div>
 
 <div class="mb-6 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
@@ -244,6 +245,10 @@ function renderStatCard($title, $value, $trendData, $icon, $colorClass, $bgColor
                     <td class="px-4 py-3 text-sm text-gray-500"><?= date('d/m/Y', strtotime($user['created_at'])) ?></td>
                     <td class="px-4 py-3">
                         <div class="flex gap-2">
+                            <button onclick="openAuditTrail(<?= $user['user_id'] ?>)"
+                               class="p-2 hover:bg-gray-100 rounded-lg transition-colors group relative" title="Lịch sử hoạt động">
+                                <span class="material-symbols-outlined text-indigo-500 group-hover:text-indigo-700">history</span>
+                            </button>
                             <?php if ($user['user_id'] != 1 || $currentUserId == 1): ?>
                             <a href="javascript:void(0)" onclick="openUserModal(<?= $user['user_id'] ?>)"
                                class="p-2 hover:bg-gray-100 rounded-lg transition-colors" title="Sửa">
@@ -571,4 +576,139 @@ function deleteUser(userId) {
         }
     });
 }
+</script>
+
+
+<!-- Audit Trail Drawer -->
+<div id="auditTrailDrawer" class="fixed inset-y-0 right-0 w-full md:w-[450px] bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-[60] flex flex-col">
+    <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+        <div>
+            <h2 class="text-lg font-bold text-gray-800" id="auditTitle">Lịch Sử Hoạt Động</h2>
+            <p class="text-sm text-gray-500" id="auditSubtitle">Đang tải...</p>
+        </div>
+        <button onclick="closeAuditTrail()" class="p-2 hover:bg-gray-200 rounded-full transition-colors text-gray-500">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    <div class="flex-1 overflow-y-auto p-6" id="auditContent">
+        <!-- Content injected here -->
+        <div class="flex justify-center items-center h-full text-gray-400">
+            <span class="material-symbols-outlined animate-spin text-4xl">refresh</span>
+        </div>
+    </div>
+</div>
+<!-- Overlay -->
+<div id="auditOverlay" onclick="closeAuditTrail()" class="fixed inset-0 bg-black/30 backdrop-blur-sm z-[50] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+<script>
+function openAuditTrail(userId) {
+    const drawer = document.getElementById('auditTrailDrawer');
+    const overlay = document.getElementById('auditOverlay');
+    const content = document.getElementById('auditContent');
+    
+    drawer.classList.remove('translate-x-full');
+    overlay.classList.remove('opacity-0', 'pointer-events-none');
+    
+    content.innerHTML = '<div class="flex justify-center items-center h-full text-gray-400"><span class="material-symbols-outlined animate-spin text-4xl">refresh</span></div>';
+    
+    fetch('<?= BASE_URL ?>/admin/admin-api.php?action=get_user_activity&id=' + userId)
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                document.getElementById('auditTitle').innerText = data.user_name;
+                document.getElementById('auditSubtitle').innerText = data.user_email;
+                
+                if(data.activities.length === 0) {
+                    content.innerHTML = '<div class="text-center text-gray-500 py-10">Chưa có hoạt động nào.</div>';
+                    return;
+                }
+                
+                let html = '<div class="relative border-l-2 border-gray-200 ml-4 space-y-8">';
+                data.activities.forEach(act => {
+                    // Format date (assuming YYYY-MM-DD HH:MM:SS)
+                    let d = new Date(act.time);
+                    let timeStr = d.toLocaleDateString('vi-VN') + ' ' + d.toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'});
+                    
+                    html += `
+                    <div class="relative pl-6">
+                        <div class="absolute -left-[17px] top-1 h-8 w-8 rounded-full ${act.color} flex items-center justify-center border-4 border-white shadow-sm">
+                            <span class="material-symbols-outlined !text-sm">${act.icon}</span>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                            <h4 class="font-bold text-gray-800 text-sm">${act.title}</h4>
+                            <p class="text-gray-600 text-sm mt-1">${act.description}</p>
+                            <p class="text-gray-400 text-xs mt-2 flex items-center gap-1">
+                                <span class="material-symbols-outlined !text-[14px]">schedule</span> ${timeStr}
+                            </p>
+                        </div>
+                    </div>
+                    `;
+                });
+                html += '</div>';
+                content.innerHTML = html;
+            } else {
+                content.innerHTML = `<div class="text-red-500 p-4 bg-red-50 rounded-lg">${data.message || 'Lỗi tải dữ liệu'}</div>`;
+            }
+        })
+        .catch(err => {
+            content.innerHTML = `<div class="text-red-500 p-4 bg-red-50 rounded-lg">Lỗi kết nối. Vui lòng thử lại!</div>`;
+        });
+}
+
+function closeAuditTrail() {
+    document.getElementById('auditTrailDrawer').classList.add('translate-x-full');
+    document.getElementById('auditOverlay').classList.add('opacity-0', 'pointer-events-none');
+}
+</script>
+
+<script>
+// Sparkline Chart logic for User Stats
+document.addEventListener('DOMContentLoaded', function() {
+    function drawSparkline(canvasId, color, dataPoints) {
+        const ctx = document.getElementById(canvasId);
+        if(!ctx) return;
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['1','2','3','4','5','6','7'],
+                datasets: [{
+                    data: dataPoints,
+                    borderColor: color,
+                    borderWidth: 2,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    fill: {
+                        target: 'origin',
+                        above: color + '20' 
+                    }
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                scales: {
+                    x: { display: false },
+                    y: { display: false, min: Math.min(...dataPoints) * 0.8 }
+                },
+                layout: { padding: 0 }
+            }
+        });
+    }
+
+    function genData(trend) {
+        let base = trend === 'up' ? 10 : 50;
+        let data = [];
+        for(let i=0; i<7; i++) {
+            data.push(base);
+            base += (trend === 'up' ? 1 : -1) * (Math.random() * 10 + 2);
+        }
+        return data;
+    }
+
+    drawSparkline('spark_user_1', '#2563eb', genData('<?= $userStats['total']['trend']['trend'] ?>'));
+    drawSparkline('spark_user_2', '#16a34a', genData('<?= $userStats['new']['trend']['trend'] ?>'));
+    drawSparkline('spark_user_3', '#9333ea', genData('<?= $userStats['staff']['trend']['trend'] ?>'));
+    drawSparkline('spark_user_4', '#ea580c', genData('<?= $userStats['customer']['trend']['trend'] ?>'));
+});
 </script>

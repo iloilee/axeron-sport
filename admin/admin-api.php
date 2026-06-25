@@ -199,6 +199,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             }
             break;
 
+
+        case 'get_user_activity':
+            if ($id > 0) {
+                $user = $db->selectOne("SELECT created_at, full_name, email FROM users WHERE user_id = ?", [$id]);
+                if (!$user) {
+                    $response = ['success' => false, 'message' => 'Không tìm thấy người dùng!'];
+                    break;
+                }
+                
+                $activities = [];
+                // Account creation
+                $activities[] = [
+                    'type' => 'account_created',
+                    'title' => 'Tạo tài khoản',
+                    'description' => 'Tài khoản được tạo trên hệ thống.',
+                    'time' => $user['created_at'],
+                    'icon' => 'person_add',
+                    'color' => 'bg-blue-50 text-blue-600'
+                ];
+                
+                // Orders placed
+                $orders = $db->select("SELECT order_id, order_code, created_at, total_amount FROM orders WHERE user_id = ?", [$id]);
+                foreach($orders as $o) {
+                    $activities[] = [
+                        'type' => 'order_placed',
+                        'title' => 'Đặt đơn hàng mới',
+                        'description' => 'Đã đặt đơn hàng #' . $o['order_code'] . ' trị giá ' . number_format($o['total_amount'], 0, ',', '.') . 'đ',
+                        'time' => $o['created_at'],
+                        'icon' => 'shopping_cart',
+                        'color' => 'bg-green-50 text-green-600'
+                    ];
+                }
+                
+                // Reviews posted
+                $reviews = $db->select("SELECT r.created_at, r.rating, p.product_name FROM reviews r JOIN products p ON r.product_id = p.product_id WHERE r.user_id = ?", [$id]);
+                foreach($reviews as $r) {
+                    $activities[] = [
+                        'type' => 'review_posted',
+                        'title' => 'Đánh giá sản phẩm',
+                        'description' => 'Đã đánh giá ' . $r['rating'] . ' sao cho sản phẩm "' . $r['product_name'] . '"',
+                        'time' => $r['created_at'],
+                        'icon' => 'star',
+                        'color' => 'bg-yellow-50 text-yellow-600'
+                    ];
+                }
+                
+                // Sort by time DESC
+                usort($activities, function($a, $b) {
+                    return strtotime($b['time']) - strtotime($a['time']);
+                });
+                
+                $response = ['success' => true, 'activities' => $activities, 'user_name' => $user['full_name'], 'user_email' => $user['email']];
+            }
+            break;
+
         case 'get_user':
             if ($id > 0) {
                 $user = $db->selectOne("SELECT user_id, full_name, email, phone, role_id, is_active, review_banned FROM users WHERE user_id = ?", [$id]);
