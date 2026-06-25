@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 24, 2026 lúc 06:02 PM
+-- Thời gian đã tạo: Th6 25, 2026 lúc 07:41 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -160,8 +160,7 @@ INSERT INTO `carts` (`cart_id`, `user_id`, `created_at`, `updated_at`) VALUES
 (13, 1, '2026-06-05 15:51:29', '2026-06-11 01:04:10'),
 (16, 2, '2026-06-11 01:07:17', '2026-06-11 01:07:17'),
 (17, 3, '2026-06-11 01:10:11', '2026-06-11 01:10:11'),
-(19, 34, '2026-06-13 14:40:33', '2026-06-13 14:40:33'),
-(38, 59, '2026-06-24 13:50:08', '2026-06-24 13:50:08');
+(19, 34, '2026-06-13 14:40:33', '2026-06-13 14:40:33');
 
 -- --------------------------------------------------------
 
@@ -587,7 +586,9 @@ INSERT INTO `notifications` (`id`, `message`, `is_read`, `created_at`) VALUES
 (8, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 236 (Review ID: 1409)', 0, '2026-06-17 19:17:17'),
 (9, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 25 (Review ID: 1410)', 0, '2026-06-19 07:51:13'),
 (10, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 176 (Review ID: 1411)', 0, '2026-06-21 09:22:09'),
-(11, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 176 (Review ID: 1414)', 0, '2026-06-24 06:58:22');
+(11, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 176 (Review ID: 1414)', 0, '2026-06-24 06:58:22'),
+(12, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 175 (Review ID: 1415)', 0, '2026-06-24 18:14:07'),
+(13, 'Cảnh báo: Có đánh giá tiêu cực mới tại sản phẩm ID 372 (Review ID: 1418)', 0, '2026-06-25 05:39:16');
 
 -- --------------------------------------------------------
 
@@ -2136,12 +2137,16 @@ INSERT INTO `orders` (`order_id`, `order_code`, `user_id`, `shipping_id`, `shipp
 (51488, 'ORDM-C6F91F82', 2, 1, 2, NULL, 'Bug', '0987654321', '', 'f67bb7c24ef8ccd97bc784ba25b4ec2f', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 6385600.00, 0.00, 0.00, 6385600.00, 'delivered', 'payos', 'paid', '', '2026-06-21 08:29:55', '2026-06-24 14:20:25'),
 (51489, 'ORDM-C5F31F80', 54, 7, 1, NULL, 'Vanced QA', '0988771122', '', 'aeee14f4ba46396fe7c815c6b9d2b4ac', '123 Automation Street, Thành phố Vũng Tàu, Bà Rịa - Vũng Tàu', 2476500.00, 0.00, 0.00, 2476500.00, 'delivered', 'cod', 'paid', '', '2026-06-21 09:35:22', '2026-06-24 14:20:25'),
 (51490, 'ORDM-8DFF112E', 2, 1, 1, NULL, 'Bug', '0987654321', '', '269c75fccedf182ffeb625669c06e1c0', '6/21 Huỳnh Tấn Phát, TP. Hồ Chí Minh', 1341100.00, 0.00, 20000.00, 1361100.00, 'delivered', 'payos', 'paid', '', '2026-06-21 10:54:37', '2026-06-24 14:20:25'),
-(51491, 'ORDM-8F176A18', 2, 1, 1, 12, 'Bug', '0987654321', '', '5c0cbfe1015ddf72a8d3caa88da0bafd', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 2850.00, 22850.00, 20000.00, 0.00, 'pending', 'payos', 'unpaid', '', '2026-06-21 16:29:32', '2026-06-24 14:20:25'),
-(51492, 'ORDM-F9311EAE', 2, 1, 2, 12, 'Bug', '0987654321', '', '53090e40e6ed33fb603bb2c3a587c8fd', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 2850.00, 25000.00, 35000.00, 12850.00, 'pending', 'payos', 'unpaid', '', '2026-06-21 16:30:47', '2026-06-24 14:20:25'),
-(51493, 'ORDM-32A827C4', 2, 1, 1, NULL, 'Bug', '0987654321', '', 'e4511f91fdc3d2580b5ef0c4273cb366', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 152000.00, 0.00, 20000.00, 172000.00, 'pending', 'cod', 'unpaid', '', '2026-06-21 16:34:19', '2026-06-24 14:20:25'),
-(51494, 'ORDM-6E458117', 2, 1, 1, NULL, 'Bug', '0987654321', '', '84a4eb29bcab9867901058a8cca07412', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 152000.00, 0.00, 20000.00, 172000.00, 'cancelled', 'cod', 'unpaid', '', '2026-06-21 16:34:53', '2026-06-24 14:20:25'),
-(51495, 'ORDM-F11E1796', 2, 1, 1, NULL, 'Bug', '0987654321', '', 'f088452556cb84fc26b164c90a65acbc', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 507600.00, 0.00, 20000.00, 527600.00, 'pending', 'cod', 'unpaid', '', '2026-06-24 14:01:21', '2026-06-24 14:20:25'),
-(51496, 'ORDM-74B7D6AA', 2, 1, 1, NULL, 'Bug', '0987654321', '', '3510303d8e74aab323e6f8d966c1d19f', '6/21 Huỳnh Tấn Phát, Thị trấn Nhà Bè, TP. Hồ Chí Minh', 845500.00, 0.00, 20000.00, 865500.00, 'pending', 'cod', 'unpaid', 'day la ghi chu', '2026-06-24 22:12:39', '2026-06-24 22:12:39');
+(51491, 'ORDM-8F176A18', 2, 1, 1, 12, 'Bug', '0987654321', '', '5c0cbfe1015ddf72a8d3caa88da0bafd', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 2850.00, 22850.00, 20000.00, 0.00, 'cancelled', 'payos', 'refunded', '', '2026-06-21 16:29:32', '2026-06-25 12:40:38'),
+(51492, 'ORDM-F9311EAE', 2, 1, 2, 12, 'Bug', '0987654321', '', '53090e40e6ed33fb603bb2c3a587c8fd', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 2850.00, 25000.00, 35000.00, 12850.00, 'delivered', 'payos', 'paid', '', '2026-06-21 16:30:47', '2026-06-25 12:40:32'),
+(51493, 'ORDM-32A827C4', 2, 1, 1, NULL, 'Bug', '0987654321', '', 'e4511f91fdc3d2580b5ef0c4273cb366', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 152000.00, 0.00, 20000.00, 172000.00, 'delivered', 'cod', 'paid', '', '2026-06-21 16:34:19', '2026-06-25 12:40:23'),
+(51494, 'ORDM-6E458117', 2, 1, 1, NULL, 'Bug', '0987654321', '', '84a4eb29bcab9867901058a8cca07412', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 152000.00, 0.00, 20000.00, 172000.00, 'cancelled', 'cod', 'refunded', '', '2026-06-21 16:34:53', '2026-06-25 12:40:18'),
+(51495, 'ORDM-F11E1796', 2, 1, 1, NULL, 'Bug', '0987654321', '', 'f088452556cb84fc26b164c90a65acbc', '6/21 Huỳnh Tấn Phát, Huyện Nhà Bè, TP. Hồ Chí Minh', 507600.00, 0.00, 20000.00, 527600.00, 'delivered', 'cod', 'paid', '', '2026-06-24 14:01:21', '2026-06-25 12:40:02'),
+(51496, 'ORDM-74B7D6AA', 2, 1, 1, NULL, 'Bug', '0987654321', '', '3510303d8e74aab323e6f8d966c1d19f', '6/21 Huỳnh Tấn Phát, Thị trấn Nhà Bè, TP. Hồ Chí Minh', 845500.00, 0.00, 20000.00, 865500.00, 'delivered', 'cod', 'paid', 'day la ghi chu', '2026-06-24 22:12:39', '2026-06-25 12:39:58'),
+(51497, 'ORDM-B30B983C', 62, 61, 1, NULL, 'Lê Hữu Lợi', '0772130908', '', '47d3f23b6ccb417a571773c699f63b76', '192 Nguyễn Huệ, tỉnh Vĩnh Long, Phường 8, Vĩnh Long', 643200.00, 0.00, 25000.00, 668200.00, 'cancelled', 'cod', 'unpaid', 'shop giao nhanh giup minh nha', '2026-06-25 00:12:07', '2026-06-25 02:01:44'),
+(51498, 'ORDM-4380E320', 62, 61, 1, 12, 'Lê Hữu Lợi', '0772130908', '', '4bde24d30e0259b2e57204340361d063', '62/4 Nguyễn Huệ, Phường 8, Vĩnh Long', 2850.00, 25000.00, 25000.00, 2850.00, 'cancelled', 'payos', 'unpaid', '', '2026-06-25 00:14:40', '2026-06-25 00:52:39'),
+(51499, 'ORDM-B88CC3F4', 62, 61, 1, 12, 'Lê Hữu Lợi', '0772130908', '', '43a5fe08ce41e1f1be1762854900805e', '62/4 Nguyễn Huệ, Phường 8, Vĩnh Long', 4750.00, 25000.00, 25000.00, 4750.00, 'delivered', 'payos', 'paid', '', '2026-06-25 00:49:07', '2026-06-25 01:11:07'),
+(51500, 'ORDM-BFBD6468', 62, 61, 1, NULL, 'Lê Hữu Lợi', '0772130908', '', '008a674259e1f2a2aa9f3d314e1c17de', '62/4 Nguyễn Huệ, Phường 8, Vĩnh Long', 9500.00, 0.00, 25000.00, 34500.00, 'delivered', 'cod', 'unpaid', '', '2026-06-25 00:51:24', '2026-06-25 02:01:34');
 
 -- --------------------------------------------------------
 
@@ -3770,7 +3775,11 @@ INSERT INTO `order_items` (`order_item_id`, `order_id`, `variant_id`, `product_n
 (1617, 51493, 171, 'Cầu lông Yonex AS-05 (hop 12 qua)', 'Vàng - Size Lop 76', 152000.00, 1, 152000.00),
 (1618, 51494, 171, 'Cầu lông Yonex AS-05 (hop 12 qua)', 'Vàng - Size Lop 76', 152000.00, 1, 152000.00),
 (1619, 51495, 2280, 'Giày Cầu Lông Axeron Smash V7-C6A6', 'default - Size default', 507600.00, 1, 507600.00),
-(1620, 51496, 6, 'Giày chạy bộ DL Speed Pro X1', 'Trắng - Size 40', 845500.00, 1, 845500.00);
+(1620, 51496, 6, 'Giày chạy bộ DL Speed Pro X1', 'Trắng - Size 40', 845500.00, 1, 845500.00),
+(1621, 51497, 2282, 'Giày Cầu Lông Axeron Smash V8-AC76', 'default - Size default', 643200.00, 1, 643200.00),
+(1622, 51498, 254, 'BANKING 3K', 'Mặc định - Size Free Size', 2850.00, 1, 2850.00),
+(1623, 51499, 255, 'BANKING 5K', 'Mặc định - Size Free Size', 4750.00, 1, 4750.00),
+(1624, 51500, 256, 'BANKING 10K', 'Mặc định - Size Free Size', 9500.00, 1, 9500.00);
 
 -- --------------------------------------------------------
 
@@ -3887,7 +3896,27 @@ INSERT INTO `order_status_logs` (`log_id`, `order_id`, `changed_by`, `old_status
 (113, 51494, NULL, NULL, 'pending', NULL, '2026-06-21 16:34:53'),
 (114, 51494, 2, 'pending', 'cancelled', 'Lý do: Tìm được sản phẩm khác', '2026-06-21 16:35:02'),
 (115, 51495, NULL, NULL, 'pending', NULL, '2026-06-24 14:01:21'),
-(116, 51496, NULL, NULL, 'pending', NULL, '2026-06-24 22:12:39');
+(116, 51496, NULL, NULL, 'pending', NULL, '2026-06-24 22:12:39'),
+(117, 51497, NULL, NULL, 'pending', NULL, '2026-06-25 00:12:07'),
+(118, 51498, NULL, NULL, 'pending', NULL, '2026-06-25 00:14:41'),
+(119, 51499, NULL, NULL, 'pending', NULL, '2026-06-25 00:49:08'),
+(120, 51500, NULL, NULL, 'pending', NULL, '2026-06-25 00:51:24'),
+(121, 51498, 62, 'pending', 'cancelled', 'Lý do: Tìm được sản phẩm khác', '2026-06-25 00:52:39'),
+(122, 51499, 1, 'confirmed', 'delivered', NULL, '2026-06-25 01:11:07'),
+(123, 51500, 1, 'pending', 'delivered', NULL, '2026-06-25 02:01:34'),
+(124, 51497, 1, 'pending', 'cancelled', NULL, '2026-06-25 02:01:44'),
+(125, 51496, 1, 'pending', 'delivered', NULL, '2026-06-25 12:39:56'),
+(126, 51496, 1, 'unpaid', 'paid', 'Cập nhật thanh toán bởi admin', '2026-06-25 12:39:58'),
+(127, 51495, 1, 'unpaid', 'paid', 'Cập nhật thanh toán bởi admin', '2026-06-25 12:40:00'),
+(128, 51495, 1, 'pending', 'delivered', NULL, '2026-06-25 12:40:02'),
+(129, 51494, 1, 'unpaid', 'paid', 'Cập nhật thanh toán bởi admin', '2026-06-25 12:40:06'),
+(130, 51494, 1, 'paid', 'refunded', 'Cập nhật thanh toán bởi admin', '2026-06-25 12:40:18'),
+(131, 51493, 1, 'unpaid', 'paid', 'Cập nhật thanh toán bởi admin', '2026-06-25 12:40:20'),
+(132, 51493, 1, 'pending', 'delivered', NULL, '2026-06-25 12:40:23'),
+(133, 51492, 1, 'unpaid', 'paid', 'Cập nhật thanh toán bởi admin', '2026-06-25 12:40:29'),
+(134, 51492, 1, 'pending', 'delivered', NULL, '2026-06-25 12:40:32'),
+(135, 51491, 1, 'pending', 'cancelled', NULL, '2026-06-25 12:40:36'),
+(136, 51491, 1, 'unpaid', 'refunded', 'Cập nhật thanh toán bởi admin', '2026-06-25 12:40:38');
 
 -- --------------------------------------------------------
 
@@ -3914,8 +3943,7 @@ CREATE TABLE `password_resets` (
 --
 
 INSERT INTO `password_resets` (`id`, `user_id`, `email`, `reset_token`, `otp_code`, `otp_attempts`, `expires_at`, `verified_at`, `used_at`, `ip_address`, `created_at`) VALUES
-(16, 2, 'vancedloile@gmail.com', 'f289ae79e2d5a1eb5c473e3164183f955c20d3d7e652db1ddc2b646c7c478adf', '574360', 0, '2026-06-16 18:58:46', '2026-06-16 23:54:17', '2026-06-16 23:54:51', '::1', '2026-06-16 23:53:46'),
-(37, 59, 'vancedloile@gmail.com', '4b006720eda1cb12c3e01efb903fd6f4856813a0da681a8615a85917979b4981', '832316', 0, '2026-06-24 08:55:37', '2026-06-24 13:50:51', '2026-06-24 13:50:59', '::1', '2026-06-24 13:50:37');
+(16, 2, 'vancedloile@gmail.com', 'f289ae79e2d5a1eb5c473e3164183f955c20d3d7e652db1ddc2b646c7c478adf', '574360', 0, '2026-06-16 18:58:46', '2026-06-16 23:54:17', '2026-06-16 23:54:51', '::1', '2026-06-16 23:53:46');
 
 -- --------------------------------------------------------
 
@@ -4145,9 +4173,9 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (167, 308, 9, 'Giàn Tập BBDF', 'gian-tap-bbdf-1781112741-4', '<h3>Tổng quan chi tiết về <strong>Giàn Tập BBDF</strong></h3>\n<p>Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>Giàn Tập BBDF</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>Giàn Tập BBDF</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Giàn Tập BBDF</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 2000000.00, 47, 1, 0, 1, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-17 13:25:53'),
 (168, 308, 1, 'Giàn Tập 2AD4', 'gian-tap-2ad4-1781112741-5', '<h3>Tổng quan chi tiết về <strong>Giàn Tập 2AD4</strong></h3>\n<p>Đây là sản phẩm Giàn Tập chính hãng, độ bền cao, hỗ trợ tốt nhất cho bạn.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>Giàn Tập 2AD4</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>Giàn Tập 2AD4</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>Giàn Tập 2AD4</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 1400000.00, 87, 1, 0, 0, 999, 5.00, 1, '2026-06-11 00:32:21', '2026-06-16 21:10:03'),
 (169, 112, 11, 'San pham test QA live', 'san-pham-test-qa-live', '<h3>Tổng quan chi tiết về <strong>San pham test QA live</strong></h3>\n<p>Sản phẩm San pham test QA live mang đến trải nghiệm tuyệt vời và hỗ trợ tối đa dành cho người yêu thể thao.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm kết hợp hoàn hảo giữa phong cách năng động và hiệu năng thể thao vượt trội, thì <strong>San pham test QA live</strong> chính là lựa chọn hàng đầu. Chiếc áo này được tinh chỉnh để đáp ứng mọi nhu cầu khắt khe nhất của quá trình tập luyện.</p>\n        \n        <h4>1. Thiết kế và Chất liệu</h4>\n        <ul>\n            <li><strong>Công nghệ vải thoáng khí:</strong> Giúp luồng không khí lưu thông tối đa, kiểm soát mồ hôi hiệu quả, giữ cơ thể luôn mát mẻ.</li>\n            <li><strong>Co giãn 4 chiều linh hoạt:</strong> Đảm bảo sự đàn hồi tuyệt đối, không gây gò bó, cho phép bạn tự do thực hiện các động tác vươn người, chạy nhảy.</li>\n            <li><strong>Đường may tỉ mỉ:</strong> Từng chi tiết được gia công chắc chắn, không gây cọ xát hay kích ứng da trong quá trình vận động mạnh.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Giặt máy ở nhiệt độ thường (hoặc nước lạnh), lộn trái trang phục trước khi giặt để bảo vệ bề mặt vải và logo.</li>\n            <li>Tuyệt đối không dùng chất tẩy rửa mạnh để tránh làm phai màu và phá vỡ cấu trúc sợi vải.</li>\n            <li>Phơi ở nơi thoáng mát, có gió tự nhiên. Tránh ánh nắng gắt chiếu trực tiếp.</li>\n            <li>Không nên ủi ở nhiệt độ cao vì chất liệu thun thể thao rất nhạy cảm với nhiệt độ lớn.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>San pham test QA live</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 250000.00, 10, 1, 1, 0, 999, NULL, 0, '2026-06-11 03:00:42', '2026-06-16 21:10:03'),
-(174, 1, 3, 'BANKING 3K', 'san-pham-3k', '<h3>Tổng quan chi tiết về <strong>BANKING 3K</strong></h3>\n<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>BANKING 3K</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>BANKING 3K</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>BANKING 3K</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 3000.00, 992, 1, 0, 0, 999, 0.00, 0, '2026-06-11 23:39:07', '2026-06-17 20:32:24'),
-(175, 1, 3, 'BANKING 5K', 'san-pham-5k', '<h3>Tổng quan chi tiết về <strong>BANKING 5K</strong></h3>\n<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>BANKING 5K</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>BANKING 5K</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>BANKING 5K</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 5000.00, 999, 1, 0, 0, 999, NULL, 0, '2026-06-11 23:39:07', '2026-06-16 21:10:03'),
-(176, 1, 3, 'BANKING 10K', 'san-pham-10k', '<h3>Tổng quan chi tiết về <strong>BANKING 10K</strong></h3>\n<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>BANKING 10K</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>BANKING 10K</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>BANKING 10K</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 10000.00, 995, 1, 0, 0, 999, 0.00, 0, '2026-06-11 23:39:07', '2026-06-24 13:59:18'),
+(174, 1, 3, 'BANKING 3K', 'san-pham-3k', '<h3>Tổng quan chi tiết về <strong>BANKING 3K</strong></h3>\n<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>BANKING 3K</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>BANKING 3K</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>BANKING 3K</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 3000.00, 991, 1, 0, 0, 999, 0.00, 0, '2026-06-11 23:39:07', '2026-06-25 01:32:23'),
+(175, 1, 3, 'BANKING 5K', 'san-pham-5k', '<h3>Tổng quan chi tiết về <strong>BANKING 5K</strong></h3>\n<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>BANKING 5K</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>BANKING 5K</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>BANKING 5K</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 5000.00, 999, 1, 0, 0, 999, 0.00, 0, '2026-06-11 23:39:07', '2026-06-25 12:38:15'),
+(176, 1, 3, 'BANKING 10K', 'san-pham-10k', '<h3>Tổng quan chi tiết về <strong>BANKING 10K</strong></h3>\n<p>Đây là sản phẩm giả lập dùng để thử hệ thống thanh toán qua cổng PayOS.</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm thể thao kết hợp hoàn hảo giữa phong cách hiện đại, sự bền bỉ và hiệu năng vượt trội, thì <strong>BANKING 10K</strong> chính là sự lựa chọn hàng đầu. Được nghiên cứu và phát triển để đáp ứng những nhu cầu khắt khe nhất của người dùng, sản phẩm này chắc chắn sẽ làm bạn hài lòng trong từng chuyển động.</p>\n        \n        <h4>1. Thiết kế và Công nghệ nổi bật</h4>\n        <ul>\n            <li><strong>Chất lượng cao cấp:</strong> Được chế tác từ những vật liệu tuyển chọn, mang lại trải nghiệm sử dụng êm ái và thoải mái.</li>\n            <li><strong>Tính ứng dụng cao:</strong> Bạn có thể dễ dàng sử dụng <strong>BANKING 10K</strong> cho nhiều mục đích khác nhau, từ tập gym, chạy bộ cho đến dạo phố.</li>\n            <li><strong>Độ bền bỉ theo thời gian:</strong> Từng chi tiết được gia công một cách tỉ mỉ, chắc chắn, giúp sản phẩm giữ được form dáng nguyên thủy dù trải qua thời gian dài sử dụng.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Làm sạch sản phẩm theo đúng hướng dẫn của nhà sản xuất đính kèm trên nhãn mác.</li>\n            <li>Tuyệt đối không sử dụng các loại hóa chất tẩy rửa có nồng độ mạnh.</li>\n            <li>Nên phơi hoặc bảo quản ở những nơi thoáng mát, tránh để ánh nắng trực tiếp gay gắt chiếu vào trong thời gian dài.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>BANKING 10K</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 10000.00, 995, 1, 0, 0, 999, 5.00, 1, '2026-06-11 23:39:07', '2026-06-25 12:38:53'),
 (177, 112, 10, 'test san pham', 'test-san-pham', '<h3>Tổng quan chi tiết về <strong>test san pham</strong></h3>\n<p>test mo tatest mo tatest mo tatest mo ta</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm kết hợp hoàn hảo giữa phong cách năng động và hiệu năng thể thao vượt trội, thì <strong>test san pham</strong> chính là lựa chọn hàng đầu. Chiếc áo này được tinh chỉnh để đáp ứng mọi nhu cầu khắt khe nhất của quá trình tập luyện.</p>\n        \n        <h4>1. Thiết kế và Chất liệu</h4>\n        <ul>\n            <li><strong>Công nghệ vải thoáng khí:</strong> Giúp luồng không khí lưu thông tối đa, kiểm soát mồ hôi hiệu quả, giữ cơ thể luôn mát mẻ.</li>\n            <li><strong>Co giãn 4 chiều linh hoạt:</strong> Đảm bảo sự đàn hồi tuyệt đối, không gây gò bó, cho phép bạn tự do thực hiện các động tác vươn người, chạy nhảy.</li>\n            <li><strong>Đường may tỉ mỉ:</strong> Từng chi tiết được gia công chắc chắn, không gây cọ xát hay kích ứng da trong quá trình vận động mạnh.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Giặt máy ở nhiệt độ thường (hoặc nước lạnh), lộn trái trang phục trước khi giặt để bảo vệ bề mặt vải và logo.</li>\n            <li>Tuyệt đối không dùng chất tẩy rửa mạnh để tránh làm phai màu và phá vỡ cấu trúc sợi vải.</li>\n            <li>Phơi ở nơi thoáng mát, có gió tự nhiên. Tránh ánh nắng gắt chiếu trực tiếp.</li>\n            <li>Không nên ủi ở nhiệt độ cao vì chất liệu thun thể thao rất nhạy cảm với nhiệt độ lớn.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>test san pham</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 100000.00, 200, 1, 1, 0, 999, NULL, 0, '2026-06-14 22:53:04', '2026-06-16 21:10:03'),
 (178, 112, 9, 'test san phamxxxxxxxx', 'test-san-pham-1781452421', '<h3>Tổng quan chi tiết về <strong>test san phamxxxxxxxx</strong></h3>\n<p>test san phamtest san phamtest san phamxxxxxxxx</p>\n\n        <p>Nếu bạn đang tìm kiếm một sản phẩm kết hợp hoàn hảo giữa phong cách năng động và hiệu năng thể thao vượt trội, thì <strong>test san phamxxxxxxxx</strong> chính là lựa chọn hàng đầu. Chiếc áo này được tinh chỉnh để đáp ứng mọi nhu cầu khắt khe nhất của quá trình tập luyện.</p>\n        \n        <h4>1. Thiết kế và Chất liệu</h4>\n        <ul>\n            <li><strong>Công nghệ vải thoáng khí:</strong> Giúp luồng không khí lưu thông tối đa, kiểm soát mồ hôi hiệu quả, giữ cơ thể luôn mát mẻ.</li>\n            <li><strong>Co giãn 4 chiều linh hoạt:</strong> Đảm bảo sự đàn hồi tuyệt đối, không gây gò bó, cho phép bạn tự do thực hiện các động tác vươn người, chạy nhảy.</li>\n            <li><strong>Đường may tỉ mỉ:</strong> Từng chi tiết được gia công chắc chắn, không gây cọ xát hay kích ứng da trong quá trình vận động mạnh.</li>\n        </ul>\n\n        <h4>2. Hướng dẫn sử dụng và bảo quản đúng cách</h4>\n        <ul>\n            <li>Giặt máy ở nhiệt độ thường (hoặc nước lạnh), lộn trái trang phục trước khi giặt để bảo vệ bề mặt vải và logo.</li>\n            <li>Tuyệt đối không dùng chất tẩy rửa mạnh để tránh làm phai màu và phá vỡ cấu trúc sợi vải.</li>\n            <li>Phơi ở nơi thoáng mát, có gió tự nhiên. Tránh ánh nắng gắt chiếu trực tiếp.</li>\n            <li>Không nên ủi ở nhiệt độ cao vì chất liệu thun thể thao rất nhạy cảm với nhiệt độ lớn.</li>\n        </ul>\n        <h3>Tại sao nên chọn mua tại Axeron Sport?</h3>\n        <p>Với phương châm mang đến những sản phẩm thể thao chất lượng cao và dẫn đầu xu hướng, Axeron Sport cam kết 100% sản phẩm <strong>test san phamxxxxxxxx</strong> đều được kiểm định chất lượng chặt chẽ trước khi trao đến tay khách hàng. Đội ngũ tư vấn viên nhiệt tình của chúng tôi luôn sẵn sàng hỗ trợ để bạn có thể chọn lựa được sản phẩm ưng ý nhất. Nâng tầm hiệu suất tập luyện ngay hôm nay!</p>\n    ', 100000.00, 200, 1, 1, 0, 999, NULL, 0, '2026-06-14 22:53:41', '2026-06-16 21:10:03'),
 (179, 334, NULL, 'SP Test Gợi Ý Thứ 1', 'sp-test-goi-y-thu-1', '<p>Đây là sản phẩm test gợi ý 1. Nội dung mô tả của SP Test Gợi Ý Thứ 1.</p>', 1000000.00, 100, 1, 0, 0, 999, 5.00, 10, '2026-06-14 23:44:19', '2026-06-17 07:12:46'),
@@ -4246,7 +4274,7 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (271, 113, NULL, 'Quần Short Tập Gym Nam Puma', 'quan-short-tap-gym-nam-puma-0fc7b', '<p>Đây là <strong>Quần Short Tập Gym Nam Puma</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 430000.00, 100, 1, 0, 1, 999, 4.20, 5, '2026-06-17 07:59:26', '2026-06-17 08:48:19'),
 (272, 113, NULL, 'Quần Short Chạy Bộ Nam Reebok', 'quan-short-chay-bo-nam-reebok-6f617', '<p>Đây là <strong>Quần Short Chạy Bộ Nam Reebok</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 940000.00, 100, 1, 0, 0, 999, 4.33, 3, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
 (273, 113, NULL, 'Quần Short Thể Thao Asics Nam', 'quan-short-the-thao-asics-nam-5fcd7', '<p>Đây là <strong>Quần Short Thể Thao Asics Nam</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 620000.00, 100, 1, 0, 0, 999, 5.00, 3, '2026-06-17 07:59:26', '2026-06-17 08:41:16'),
-(274, 113, NULL, 'Quần Short Nam DL Core Pro', 'quan-short-nam-dl-core-pro-ebe7f', '<p>Đây là <strong>Quần Short Nam DL Core Pro</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 990000.00, 100, 1, 0, 0, 999, 4.75, 4, '2026-06-17 07:59:26', '2026-06-17 20:26:31'),
+(274, 113, NULL, 'Quần Short Nam DL Core Pro', 'quan-short-nam-dl-core-pro-ebe7f', '<p>Đây là <strong>Quần Short Nam DL Core Pro</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 990000.00, 100, 1, 0, 0, 999, 4.80, 5, '2026-06-17 07:59:26', '2026-06-25 12:38:11'),
 (275, 114, NULL, 'Quần Dài Nam Signature 8E6D', 'quan-dai-nam-signature-8e6d-7966c', '<p>Đây là <strong>Quần Dài Nam Signature 8E6D</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 260000.00, 100, 1, 0, 0, 999, 4.60, 5, '2026-06-17 07:59:26', '2026-06-17 08:41:17'),
 (276, 114, NULL, 'Quần Dài Nam Signature DAF8', 'quan-dai-nam-signature-daf8-5d1e6', '<p>Đây là <strong>Quần Dài Nam Signature DAF8</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1120000.00, 100, 1, 0, 1, 999, 4.40, 5, '2026-06-17 07:59:26', '2026-06-17 08:49:40'),
 (277, 114, NULL, 'Quần Dài Thể Thao Nam DL Tech', 'quan-dai-the-thao-nam-dl-tech-be304', '<p>Đây là <strong>Quần Dài Thể Thao Nam DL Tech</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1030000.00, 100, 1, 0, 1, 999, 4.50, 4, '2026-06-17 07:59:26', '2026-06-17 20:26:34'),
@@ -4345,7 +4373,7 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (369, 304, NULL, 'Vợt Pickleball - Phiên Bản Cao Cấp 1', 'vot-pickleball-phien-ban-cao-cap-1-440ce', '<p>Đây là <strong>Vợt Pickleball - Phiên Bản Cao Cấp 1</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1100000.00, 100, 1, 0, 0, 999, 4.33, 3, '2026-06-17 07:59:26', '2026-06-18 00:59:59'),
 (370, 304, NULL, 'Vợt Pickleball - Phiên Bản Cao Cấp 2', 'vot-pickleball-phien-ban-cao-cap-2-3e342', '<p>Đây là <strong>Vợt Pickleball - Phiên Bản Cao Cấp 2</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 210000.00, 100, 1, 0, 1, 999, 4.20, 5, '2026-06-17 07:59:26', '2026-06-17 13:17:10'),
 (371, 304, NULL, 'Vợt Pickleball - Phiên Bản Cao Cấp 3', 'vot-pickleball-phien-ban-cao-cap-3-4ca0e', '<p>Đây là <strong>Vợt Pickleball - Phiên Bản Cao Cấp 3</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 250000.00, 100, 1, 0, 1, 999, 4.00, 3, '2026-06-17 07:59:26', '2026-06-17 13:17:09'),
-(372, 304, NULL, 'Vợt Pickleball - Phiên Bản Cao Cấp 4', 'vot-pickleball-phien-ban-cao-cap-4-d9a41', '<p>Đây là <strong>Vợt Pickleball - Phiên Bản Cao Cấp 4</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 960000.00, 100, 1, 0, 1, 999, 5.00, 3, '2026-06-17 07:59:26', '2026-06-18 00:59:06'),
+(372, 304, NULL, 'Vợt Pickleball - Phiên Bản Cao Cấp 4', 'vot-pickleball-phien-ban-cao-cap-4-d9a41', '<p>Đây là <strong>Vợt Pickleball - Phiên Bản Cao Cấp 4</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 960000.00, 100, 1, 0, 1, 999, 4.00, 4, '2026-06-17 07:59:26', '2026-06-25 12:39:20'),
 (373, 304, NULL, 'Vợt Pickleball - Phiên Bản Cao Cấp 5', 'vot-pickleball-phien-ban-cao-cap-5-e7aeb', '<p>Đây là <strong>Vợt Pickleball - Phiên Bản Cao Cấp 5</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 1330000.00, 100, 1, 0, 1, 999, 5.00, 5, '2026-06-17 07:59:26', '2026-06-17 13:17:09'),
 (374, 304, NULL, 'Vợt Pickleball - Phiên Bản Cao Cấp 6', 'vot-pickleball-phien-ban-cao-cap-6-0f111', '<p>Đây là <strong>Vợt Pickleball - Phiên Bản Cao Cấp 6</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 580000.00, 100, 1, 0, 1, 999, 4.33, 3, '2026-06-17 07:59:26', '2026-06-17 13:17:08'),
 (375, 305, NULL, 'Bóng Pickleball - Phiên Bản Cao Cấp 1', 'bong-pickleball-phien-ban-cao-cap-1-2463f', '<p>Đây là <strong>Bóng Pickleball - Phiên Bản Cao Cấp 1</strong>. Sản phẩm chính hãng cao cấp, chất liệu siêu nhẹ, thoáng khí. Phù hợp cho mọi hoạt động thể thao cường độ cao. Thiết kế ôm form, tôn dáng, mang lại sự thoải mái tối đa.</p><ul><li>Chất liệu: 100% Cao cấp</li><li>Tính năng: Thấm hút mồ hôi, co giãn 4 chiều</li><li>Thương hiệu: Axeron</li></ul>', 630000.00, 100, 1, 0, 1, 999, 4.00, 4, '2026-06-17 07:59:26', '2026-06-17 13:18:26'),
@@ -4497,7 +4525,7 @@ INSERT INTO `products` (`product_id`, `category_id`, `brand_id`, `product_name`,
 (519, 214, NULL, 'Chân Váy - Mẫu Mới Cập Nhật 285', 'chan-vay-mau-moi-cap-nhat-285-576c0', '<p>Sản phẩm <strong>Chân Váy - Mẫu Mới Cập Nhật 285</strong> mới nhất vừa cập bến. Thiết kế hiện đại, chất liệu bền bỉ, phù hợp với mọi nhu cầu tập luyện và thi đấu. Sản phẩm hỗ trợ tối đa cho các vận động viên và người yêu thể thao.</p><ul><li>Phân loại: Chân Váy</li><li>Cam kết chất lượng cao cấp</li><li>Bảo hành chính hãng Axeron</li></ul>', 1070000.00, 50, 1, 0, 1, 999, 4.25, 4, '2026-06-17 08:22:09', '2026-06-17 13:05:03'),
 (520, 322, NULL, 'Bộ Bóng Chuyền Nam - Mẫu Mới Cập Nhật 158', 'bo-bong-chuyen-nam-mau-moi-cap-nhat-158-bf567', '<p>Sản phẩm <strong>Bộ Bóng Chuyền Nam - Mẫu Mới Cập Nhật 158</strong> mới nhất vừa cập bến. Thiết kế hiện đại, chất liệu bền bỉ, phù hợp với mọi nhu cầu tập luyện và thi đấu. Sản phẩm hỗ trợ tối đa cho các vận động viên và người yêu thể thao.</p><ul><li>Phân loại: Bộ Bóng Chuyền Nam</li><li>Cam kết chất lượng cao cấp</li><li>Bảo hành chính hãng Axeron</li></ul>', 1040000.00, 50, 1, 0, 0, 999, 5.00, 4, '2026-06-17 08:22:09', '2026-06-17 08:41:17'),
 (521, 330, NULL, 'Bộ Pickleball Nữ - Mẫu Mới Cập Nhật 279', 'bo-pickleball-nu-mau-moi-cap-nhat-279-42134', '<p>Sản phẩm <strong>Bộ Pickleball Nữ - Mẫu Mới Cập Nhật 279</strong> mới nhất vừa cập bến. Thiết kế hiện đại, chất liệu bền bỉ, phù hợp với mọi nhu cầu tập luyện và thi đấu. Sản phẩm hỗ trợ tối đa cho các vận động viên và người yêu thể thao.</p><ul><li>Phân loại: Bộ Pickleball Nữ</li><li>Cam kết chất lượng cao cấp</li><li>Bảo hành chính hãng Axeron</li></ul>', 370000.00, 50, 1, 0, 1, 999, 4.00, 4, '2026-06-17 08:22:09', '2026-06-17 13:08:41'),
-(522, 32, 5, 'vợt mới', 'vt-mi', 'day la vot pickleball moi', 100000.00, 0, 1, 0, 0, 999, NULL, 0, '2026-06-19 13:24:43', '2026-06-19 13:24:43');
+(522, 32, 5, 'vợt mới', 'vt-mi', 'day la vot pickleball moi', 100000.00, 5, 1, 0, 0, 999, NULL, 0, '2026-06-19 13:24:43', '2026-06-25 03:24:48');
 
 -- --------------------------------------------------------
 
@@ -6284,9 +6312,9 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (248, 144, 'DEFAULT-144-1781113313', 'default', 'default', 0.00, 21, 1, 0),
 (249, 165, 'DEFAULT-165-1781113453', 'default', 'default', 0.00, 10, 1, 0),
 (250, 169, 'SP-TEST-01', 'Xanh', 'XL', 0.00, 10, 1, 0),
-(254, 174, 'TEST-84B78D', 'Mặc định', 'Free Size', 0.00, 991, 1, 0),
-(255, 175, 'TEST-F66E00', 'Mặc định', 'Free Size', 0.00, 999, 1, 0),
-(256, 176, 'TEST-B404DD', 'Mặc định', 'Free Size', 0.00, 995, 1, 0),
+(254, 174, 'TEST-84B78D', 'Mặc định', 'Free Size', 0.00, 992, 1, 0),
+(255, 175, 'TEST-F66E00', 'Mặc định', 'Free Size', 0.00, 998, 1, 0),
+(256, 176, 'TEST-B404DD', 'Mặc định', 'Free Size', 0.00, 994, 1, 0),
 (257, 63, 'DEFAULT-63-1781233659', 'default', 'default', 0.00, 67, 1, 0),
 (259, 178, 'h123', 'Xanh lá', '32', 0.00, 200, 0, 1),
 (260, 179, 'TEST-VAR-6A2EDA6337D11-1', 'Mặc định', 'Free Size', 0.00, 100, 1, 0),
@@ -8305,7 +8333,7 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `sku`, `color`, `siz
 (2271, 521, 'AXE-NEW-8bd19ed4', 'Đỏ', 'S', 0.00, 7, 1, 0),
 (2272, 521, 'AXE-NEW-0e162d04', 'Đỏ', 'M', 0.00, 14, 1, 0),
 (2273, 521, 'AXE-NEW-3bc7ea40', 'Đỏ', 'L', 0.00, 16, 1, 0),
-(2274, 522, 'sky-ad-pickle', 'Đen', '12', 0.00, 0, 1, 0),
+(2274, 522, 'sky-ad-pickle', 'Đen', '12', 0.00, 5, 1, 0),
 (2275, 77, 'DEFAULT-77-1781934732', 'default', 'default', 0.00, 16, 1, 0),
 (2276, 76, 'DEFAULT-76-1781934735', 'default', 'default', 0.00, 10, 1, 0),
 (2277, 75, 'DEFAULT-75-1781976945', 'default', 'default', 0.00, 35, 1, 0),
@@ -9187,7 +9215,13 @@ INSERT INTO `product_view_logs` (`view_id`, `user_id`, `product_id`, `viewed_at`
 (1012, 2, 176, '2026-06-24 13:59:13'),
 (1013, 2, 176, '2026-06-24 13:59:19'),
 (1014, 2, 80, '2026-06-24 13:59:36'),
-(1015, 2, 1, '2026-06-24 22:12:20');
+(1015, 2, 1, '2026-06-24 22:12:20'),
+(1022, 2, 274, '2026-06-25 12:37:39'),
+(1023, 2, 274, '2026-06-25 12:37:58'),
+(1024, 2, 176, '2026-06-25 12:38:27'),
+(1025, 2, 176, '2026-06-25 12:38:51'),
+(1026, 2, 372, '2026-06-25 12:39:01'),
+(1027, 2, 372, '2026-06-25 12:39:19');
 
 -- --------------------------------------------------------
 
@@ -9221,7 +9255,7 @@ CREATE TABLE `promotions` (
 INSERT INTO `promotions` (`promo_id`, `promo_code`, `promo_name`, `description`, `type`, `discount_type`, `discount_value`, `min_order_value`, `max_discount`, `usage_limit`, `used_count`, `start_date`, `end_date`, `is_active`, `created_at`, `updated_at`) VALUES
 (10, 'DISCOUNT5', 'Giảm 5%', NULL, 'product', 'percent', 5.00, 0.00, NULL, NULL, 0, '2026-06-14 00:15:15', '2027-06-14 00:15:15', 1, '2026-06-14 05:15:15', '2026-06-14 05:20:26'),
 (11, 'FLASH10', 'SIÊU SALE 40%', NULL, 'flashsale', 'percent', 40.00, 0.00, NULL, NULL, 0, '2026-06-14 00:00:00', '2027-06-14 00:00:00', 1, '2026-06-14 05:15:15', '2026-06-20 14:05:01'),
-(12, 'TEST-BANK', 'test banking', NULL, 'voucher', 'fixed', 25000.00, 0.00, NULL, NULL, 6, '2026-06-14 00:00:00', '2027-06-14 00:00:00', 1, '2026-06-14 22:35:34', '2026-06-21 16:30:48'),
+(12, 'TEST-BANK', 'test banking', NULL, 'voucher', 'fixed', 25000.00, 0.00, NULL, NULL, 6, '2026-06-14 00:00:00', '2027-06-14 00:00:00', 1, '2026-06-14 22:35:34', '2026-06-25 12:40:36'),
 (14, 'DISCOUNT30', 'GIẢM 30%', NULL, 'voucher', 'percent', 30.00, 0.00, NULL, NULL, 0, '2026-06-18 00:00:00', '2027-06-18 00:00:00', 1, '2026-06-18 12:59:10', '2026-06-18 12:59:24'),
 (15, 'DISCOUNT20', 'GIẢM 20%', NULL, 'voucher', 'percent', 20.00, 0.00, NULL, NULL, 0, '2026-06-18 00:00:00', '2027-06-18 00:00:00', 1, '2026-06-18 12:59:49', '2026-06-18 13:00:01');
 
@@ -11189,7 +11223,11 @@ INSERT INTO `reviews` (`review_id`, `product_id`, `user_id`, `rating`, `comment`
 (1411, 176, 2, 5, 'đồ xấu, không mua lại', 'pending', '2026-06-21 16:22:09', '2026-06-21 16:23:28', 1, 33, 'negative'),
 (1412, 1, 2, 1, 'đồ đẹp, chất lượng', 'pending', '2026-06-21 16:22:59', '2026-06-21 16:23:21', 1, 51488, 'positive'),
 (1413, 1, 2, 1, 'sản phẩm tốt, chất lượng', 'approved', '2026-06-21 16:24:10', '2026-06-21 16:24:42', 1, 51488, 'positive'),
-(1414, 176, 2, 3, 'sản phẩm tệ, không nên mua chút nào', 'approved', '2026-06-24 13:58:22', '2026-06-24 13:59:18', 1, 33, 'negative');
+(1414, 176, 2, 3, 'sản phẩm tệ, không nên mua chút nào', 'approved', '2026-06-24 13:58:22', '2026-06-24 13:59:18', 1, 33, 'negative'),
+(1415, 175, 62, 3, 'chất lượng quá tệ, không thể sử dụng được, tôi muốn trả hàng', 'pending', '2026-06-25 01:14:07', '2026-06-25 12:38:15', 1, 51499, 'negative'),
+(1416, 274, 2, 5, 'chất lượng rất tốt, nên mua nha mọi người', 'approved', '2026-06-25 12:37:55', '2026-06-25 12:38:11', 0, 50474, 'positive'),
+(1417, 176, 2, 5, 'sử dụng rất ổn, sẽ mua lại lần sau', 'approved', '2026-06-25 12:38:48', '2026-06-25 12:38:53', 0, 33, 'positive'),
+(1418, 372, 2, 1, 'Không thể sử dụng được, tôi muốn trả hàng', 'approved', '2026-06-25 12:39:16', '2026-06-25 12:39:20', 0, 50874, 'negative');
 
 -- --------------------------------------------------------
 
@@ -11717,8 +11755,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `facebook_id`, `phone`, `password_hash`, `avatar_url`, `gender`, `date_of_birth`, `is_active`, `is_deleted`, `locked_until`, `login_attempts`, `remember_token`, `email_verified`, `created_at`, `updated_at`, `review_banned`) VALUES
-(1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658732/axeron-products/product_6a31f46c9149a_1781658732.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$bPoB5BDe7Gjx0mbBmyZKbuHjkin5qsktAQD2HpnqSsdiTINo9EVVW', 1, '2026-05-29 19:17:55', '2026-06-24 00:41:42', 0),
-(2, 3, 'Bug', 'bug@gmail.com', NULL, NULL, '0987654321', '$2y$10$Gkk3hUDtMjFp.tQVdy0vne4zrVU.2avITZkr87q1AahfN4eccyZJ.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658734/axeron-products/product_6a31f46ea7054_1781658734.png', NULL, '2004-10-21', 1, 0, NULL, 0, '$2y$10$pJR5i04DFgZWQb4VYtAnBO0d2DQx1Q./oGRg8asO7W5IUaiKslS.i', 1, '2026-06-11 01:07:16', '2026-06-24 22:08:07', 0),
+(1, 1, 'Quản Trị Viên', 'admin@gmail.com', NULL, NULL, '0901000001', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658732/axeron-products/product_6a31f46c9149a_1781658732.png', NULL, NULL, 1, 0, NULL, 0, '$2y$10$1ewITQcm2qg2ZQQQzo5ypumDcb/wde6OavL6QqwMMyUHK0.NGXmHe', 1, '2026-05-29 19:17:55', '2026-06-25 00:49:15', 0),
+(2, 3, 'Bug', 'bug@gmail.com', NULL, NULL, '0987654321', '$2y$10$Gkk3hUDtMjFp.tQVdy0vne4zrVU.2avITZkr87q1AahfN4eccyZJ.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658734/axeron-products/product_6a31f46ea7054_1781658734.png', NULL, '2004-10-21', 1, 0, NULL, 0, '$2y$10$KWjnTzLZyNynhslT3lRz3.UQlHJF5UTb0KAqfq/LP4JChshN3f3pq', 1, '2026-06-11 01:07:16', '2026-06-25 12:34:46', 0),
 (3, 4, 'Staff Tài Khoản', 'nvacc@gmail.com', NULL, NULL, '0901000004', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658736/axeron-products/product_6a31f47043c86_1781658736.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:18', 0),
 (4, 5, 'Staff Sản Phẩm', 'nvsp@gmail.com', NULL, NULL, '0901000005', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658739/axeron-products/product_6a31f472a8677_1781658738.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:20', 0),
 (5, 6, 'Staff Đơn Hàng', 'nvorder@gmail.com', NULL, NULL, '0901000006', '$2y$10$w9aoVDTN7R7vivnQVT.dr.9jcaUTbPYOQSa9ZN8v.VgGGY4brzuP.', 'https://res.cloudinary.com/dv2auu0jx/image/upload/v1781658741/axeron-products/product_6a31f474e2a23_1781658740.jpg', NULL, NULL, 1, 0, NULL, 0, NULL, 1, '2026-06-06 03:16:45', '2026-06-17 08:12:23', 0),
@@ -11763,7 +11801,11 @@ INSERT INTO `users` (`user_id`, `role_id`, `full_name`, `email`, `google_id`, `f
 (56, 3, 'Deleted User', 'deleted_56_1782282815@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-24 13:20:39', '2026-06-24 13:33:35', 0),
 (57, 3, 'Deleted User', 'deleted_57_1782283203@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 0, '2026-06-24 13:34:04', '2026-06-24 13:40:03', 0),
 (58, 3, 'Deleted User', 'deleted_58_1782283661@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-24 13:40:26', '2026-06-24 13:47:41', 0),
-(59, 3, 'Lê Hữu Lợi', 'vancedloile@gmail.com', NULL, NULL, '0772130908', '$2y$10$dN8bJqoMXvGbmbHlX8bsZunwY4VKxVP2I/44Va2gL/v9mkqoYhmdy', '/assets/uploads/avatars/avatar_59_1782284106.png', 'male', '2004-01-21', 1, 0, NULL, 0, NULL, 1, '2026-06-24 13:50:08', '2026-06-24 13:55:42', 0);
+(59, 3, 'Deleted User', 'deleted_59_1782317330@deleted.local', NULL, NULL, NULL, NULL, NULL, 'male', '2004-01-21', 0, 1, NULL, 0, NULL, 1, '2026-06-24 13:50:08', '2026-06-24 23:08:50', 0),
+(60, 3, 'Deleted User', 'deleted_60_1782317325@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-24 23:07:41', '2026-06-24 23:08:45', 0),
+(61, 3, 'Deleted User', 'deleted_61_1782320011@deleted.local', NULL, NULL, NULL, NULL, NULL, 'male', '2004-10-21', 0, 1, NULL, 1, NULL, 1, '2026-06-24 23:11:09', '2026-06-24 23:53:31', 0),
+(62, 3, 'Deleted User', 'deleted_62_1782327724@deleted.local', NULL, NULL, NULL, NULL, NULL, 'male', '2004-10-21', 0, 1, NULL, 0, NULL, 1, '2026-06-25 00:03:26', '2026-06-25 02:02:16', 0),
+(63, 3, 'Deleted User', 'deleted_63_1782320999@deleted.local', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL, 0, NULL, 1, '2026-06-25 00:09:01', '2026-06-25 00:09:59', 0);
 
 -- --------------------------------------------------------
 
@@ -11795,8 +11837,7 @@ INSERT INTO `user_addresses` (`address_id`, `user_id`, `recipient_name`, `phone`
 (4, 10, 'Phạm Thị Dung', '0945678901', 'Đà Nẵng', 'Phường Hải Châu 1', '', '23 Trần Phú', 1, '2026-05-29 19:17:55'),
 (5, 11, 'Hoàng Văn Em', '0956789012', 'TP Hồ Chí Minh', 'Phường Tân Phong', '', '5 Nguyễn Văn Linh', 1, '2026-05-29 19:17:55'),
 (6, 13, 'Nguyễn Thị Phương', '0967890123', 'TP Hồ Chí Minh', 'Phường Linh Trung', '', '100 Võ Văn Ngân', 1, '2026-05-29 19:17:55'),
-(13, 2, 'Bug', '0987654321', 'TP. Hồ Chí Minh', 'Thị trấn Nhà Bè', '', '6/21 Huỳnh Tấn Phát', 1, '2026-06-11 01:23:24'),
-(18, 59, 'Lê Hữu Lợi', '0772130908', 'Yên Bái', 'Phường Long Châu', '', '192 Nguyễn Huệ, phường Long Châu, tỉnh Vĩnh Long', 1, '2026-06-24 13:55:06');
+(13, 2, 'Bug', '0987654321', 'TP. Hồ Chí Minh', 'Thị trấn Nhà Bè', '', '6/21 Huỳnh Tấn Phát', 1, '2026-06-11 01:23:24');
 
 -- --------------------------------------------------------
 
@@ -11828,11 +11869,17 @@ INSERT INTO `user_recently_viewed` (`user_id`, `product_id`, `viewed_at`) VALUES
 (2, 78, '2026-06-24 00:09:22'),
 (2, 79, '2026-06-24 00:09:13'),
 (2, 80, '2026-06-24 13:59:36'),
-(2, 176, '2026-06-24 13:59:19'),
+(2, 176, '2026-06-25 12:38:51'),
 (2, 214, '2026-06-24 00:09:34'),
 (2, 215, '2026-06-24 00:09:32'),
+(2, 274, '2026-06-25 12:37:58'),
 (2, 368, '2026-06-24 13:19:22'),
-(56, 74, '2026-06-24 13:21:32');
+(2, 372, '2026-06-25 12:39:19'),
+(56, 74, '2026-06-24 13:21:32'),
+(61, 1, '2026-06-24 23:21:58'),
+(62, 174, '2026-06-25 00:14:04'),
+(62, 175, '2026-06-25 01:14:10'),
+(62, 176, '2026-06-25 00:51:12');
 
 -- --------------------------------------------------------
 
@@ -12223,13 +12270,13 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT cho bảng `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `cart_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -12259,31 +12306,31 @@ ALTER TABLE `contact_messages`
 -- AUTO_INCREMENT cho bảng `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51497;
+  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51501;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1621;
+  MODIFY `order_item_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1625;
 
 --
 -- AUTO_INCREMENT cho bảng `order_status_logs`
 --
 ALTER TABLE `order_status_logs`
-  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
 
 --
 -- AUTO_INCREMENT cho bảng `password_resets`
 --
 ALTER TABLE `password_resets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT cho bảng `payment_transactions`
@@ -12313,7 +12360,7 @@ ALTER TABLE `product_variants`
 -- AUTO_INCREMENT cho bảng `product_view_logs`
 --
 ALTER TABLE `product_view_logs`
-  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1016;
+  MODIFY `view_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1028;
 
 --
 -- AUTO_INCREMENT cho bảng `promotions`
@@ -12337,7 +12384,7 @@ ALTER TABLE `promotion_products`
 -- AUTO_INCREMENT cho bảng `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1415;
+  MODIFY `review_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1419;
 
 --
 -- AUTO_INCREMENT cho bảng `roles`
@@ -12349,7 +12396,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT cho bảng `search_logs`
 --
 ALTER TABLE `search_logs`
-  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=300;
+  MODIFY `log_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=310;
 
 --
 -- AUTO_INCREMENT cho bảng `shipping_methods`
@@ -12373,13 +12420,13 @@ ALTER TABLE `site_settings`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT cho bảng `user_addresses`
 --
 ALTER TABLE `user_addresses`
-  MODIFY `address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `address_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT cho bảng `user_wishlists`

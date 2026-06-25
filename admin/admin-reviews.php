@@ -95,47 +95,106 @@ $reviews = $db->select("
 ", $params);
 ?>
 
-<div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
-    <div class="bg-white py-3 px-2 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-        <span class="text-sm text-gray-500 font-medium">Tổng Đánh Giá</span>
-        <span class="text-xl font-bold text-gray-800 mt-1"><?= number_format($stats['total'] ?? 0) ?></span>
-    </div>
-    <div class="bg-white py-3 px-2 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-        <div class="flex items-center gap-0.5">
-            <?php for($i=0; $i<5; $i++): ?><span class="material-symbols-outlined text-yellow-500 text-lg" style="font-variation-settings: 'FILL' 1, 'wght' 700;">star</span><?php endfor; ?>
+<?php
+$totalReviews = $stats['total'] ?? 0;
+$avgScore = $totalReviews > 0 ? (($stats['star_5']*5 + $stats['star_4']*4 + $stats['star_3']*3 + $stats['star_2']*2 + $stats['star_1']*1) / $totalReviews) : 0;
+$avgScoreFormatted = number_format($avgScore, 1);
+
+function renderStarBar($starLabel, $count, $total) {
+    $percent = $total > 0 ? round(($count / $total) * 100) : 0;
+    return '
+    <div class="flex items-center gap-3 w-full">
+        <span class="text-sm font-medium text-gray-600 w-8">'.$starLabel.' <span class="material-symbols-outlined !text-[12px] text-yellow-500 relative -top-[1px]">star</span></span>
+        <div class="flex-1 h-2.5 bg-gray-100 rounded-full overflow-hidden">
+            <div class="h-full bg-yellow-400 rounded-full" style="width: '.$percent.'%"></div>
         </div>
-        <span class="text-xl font-bold text-gray-800 mt-1"><?= number_format($stats['star_5'] ?? 0) ?></span>
-    </div>
-    <div class="bg-white py-3 px-2 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-        <div class="flex items-center gap-0.5">
-            <?php for($i=0; $i<4; $i++): ?><span class="material-symbols-outlined text-yellow-500 text-lg" style="font-variation-settings: 'FILL' 1, 'wght' 700;">star</span><?php endfor; ?>
+        <span class="text-sm font-medium text-gray-600 w-10 text-right">'.$count.'</span>
+    </div>';
+}
+?>
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+    <div class="flex flex-col md:flex-row items-center gap-8 md:gap-16">
+        <!-- Average Score Section -->
+        <div class="flex flex-col items-center text-center">
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">ĐIỂM TRUNG BÌNH</h3>
+            <div class="text-5xl font-black text-gray-900 tracking-tight"><?= $avgScoreFormatted ?></div>
+            <div class="flex gap-0.5 mt-2 mb-1">
+                <?php for($i=1; $i<=5; $i++): ?>
+                    <span class="material-symbols-outlined text-2xl <?= $i <= round($avgScore) ? 'text-yellow-400' : 'text-gray-200' ?>" style="font-variation-settings: 'FILL' 1, 'wght' 400;">star</span>
+                <?php endfor; ?>
+            </div>
+            <div class="text-sm text-gray-500 font-medium mt-1"><span class="font-bold text-gray-700"><?= number_format($totalReviews) ?></span> bài đánh giá</div>
         </div>
-        <span class="text-xl font-bold text-gray-800 mt-1"><?= number_format($stats['star_4'] ?? 0) ?></span>
-    </div>
-    <div class="bg-white py-3 px-2 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-        <div class="flex items-center gap-0.5">
-            <?php for($i=0; $i<3; $i++): ?><span class="material-symbols-outlined text-yellow-500 text-lg" style="font-variation-settings: 'FILL' 1, 'wght' 700;">star</span><?php endfor; ?>
+        
+        <!-- Divider -->
+        <div class="hidden md:block w-px h-32 bg-gray-100"></div>
+        
+        <!-- Progress Bars Section -->
+        <div class="flex-1 w-full max-w-lg flex flex-col gap-2.5">
+            <?= renderStarBar(5, $stats['star_5'], $totalReviews) ?>
+            <?= renderStarBar(4, $stats['star_4'], $totalReviews) ?>
+            <?= renderStarBar(3, $stats['star_3'], $totalReviews) ?>
+            <?= renderStarBar(2, $stats['star_2'], $totalReviews) ?>
+            <?= renderStarBar(1, $stats['star_1'], $totalReviews) ?>
         </div>
-        <span class="text-xl font-bold text-gray-800 mt-1"><?= number_format($stats['star_3'] ?? 0) ?></span>
-    </div>
-    <div class="bg-white py-3 px-2 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-        <div class="flex items-center gap-0.5">
-            <?php for($i=0; $i<2; $i++): ?><span class="material-symbols-outlined text-yellow-500 text-lg" style="font-variation-settings: 'FILL' 1, 'wght' 700;">star</span><?php endfor; ?>
+        
+        <!-- Analytics insights (optional) -->
+        <div class="hidden lg:flex flex-col gap-4 pl-8 border-l border-gray-100">
+            <div class="bg-green-50 rounded-lg p-3 border border-green-100">
+                <div class="flex items-center gap-2 text-green-700 font-semibold text-sm mb-1">
+                    <span class="material-symbols-outlined !text-lg">trending_up</span> Hài lòng cao
+                </div>
+                <div class="text-xs text-green-600 font-medium">
+                    <?= $totalReviews > 0 ? round((($stats['star_5']+$stats['star_4'])/$totalReviews)*100) : 0 ?>% đánh giá từ 4-5 sao.
+                </div>
+            </div>
+            <div class="bg-red-50 rounded-lg p-3 border border-red-100">
+                <div class="flex items-center gap-2 text-red-700 font-semibold text-sm mb-1">
+                    <span class="material-symbols-outlined !text-lg">warning</span> Cần cải thiện
+                </div>
+                <div class="text-xs text-red-600 font-medium">
+                    <?= $totalReviews > 0 ? round((($stats['star_1']+$stats['star_2'])/$totalReviews)*100) : 0 ?>% đánh giá từ 1-2 sao.
+                </div>
+            </div>
         </div>
-        <span class="text-xl font-bold text-gray-800 mt-1"><?= number_format($stats['star_2'] ?? 0) ?></span>
-    </div>
-    <div class="bg-white py-3 px-2 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-        <div class="flex items-center gap-0.5">
-            <span class="material-symbols-outlined text-yellow-500 text-lg" style="font-variation-settings: 'FILL' 1, 'wght' 700;">star</span>
-        </div>
-        <span class="text-xl font-bold text-gray-800 mt-1"><?= number_format($stats['star_1'] ?? 0) ?></span>
     </div>
 </div>
 
 
 
-<div class="mb-6 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-    <form method="GET" class="flex flex-col md:flex-row gap-4 items-end flex-wrap">
+<?php
+$pendingReviewCount = $db->selectOne("SELECT COUNT(*) as count FROM reviews WHERE status = 'pending' AND is_deleted = 0")['count'] ?? 0;
+
+$tabs = [
+    'all' => 'Tất cả',
+    'pending' => 'Chờ duyệt ' . ($pendingReviewCount > 0 ? '<span class="ml-1.5 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-white bg-red-500 rounded-full animate-pulse">'.$pendingReviewCount.'</span>' : ''),
+    'approved' => 'Đã duyệt',
+    'rejected' => 'Từ chối',
+    'hidden' => 'Bị ẩn',
+    'deleted' => 'Đã xóa'
+];
+?>
+<div class="mb-5 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <!-- Tabs Header -->
+    <div class="border-b border-gray-100 bg-gray-50/50 px-4">
+        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500">
+            <?php foreach ($tabs as $key => $label): ?>
+                <?php 
+                $isActive = $statusFilter === $key;
+                $activeClass = $isActive ? 'text-axeron-red border-axeron-red border-b-2 font-bold' : 'border-transparent hover:text-gray-800 hover:border-gray-300 border-b-2';
+                ?>
+                <li class="mr-6">
+                    <a href="#" onclick="document.getElementById('statusInput').value='<?= $key ?>'; document.getElementById('filterForm').submit(); return false;" class="inline-flex items-center py-3.5 transition-all <?= $activeClass ?>">
+                        <?= $label ?>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    
+    <!-- Filter Form Body -->
+    <div class="p-4">
+    <form method="GET" id="filterForm" class="flex flex-col md:flex-row gap-4 items-end flex-wrap">
         <input type="hidden" name="action" value="reviews">
         <div class="flex-grow min-w-[200px]">
             <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Tìm kiếm</label>
@@ -147,17 +206,7 @@ $reviews = $db->select("
                 </div>
             </div>
         </div>
-        <div>
-            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Trạng thái</label>
-            <select name="status" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none">
-                <option value="all" <?= $statusFilter === 'all' ? 'selected' : '' ?>>Tất cả</option>
-                <option value="pending" <?= $statusFilter === 'pending' ? 'selected' : '' ?>>Chờ duyệt</option>
-                <option value="approved" <?= $statusFilter === 'approved' ? 'selected' : '' ?>>Đã duyệt</option>
-                <option value="rejected" <?= $statusFilter === 'rejected' ? 'selected' : '' ?>>Từ chối</option>
-                <option value="hidden" <?= $statusFilter === 'hidden' ? 'selected' : '' ?>>Ẩn</option>
-                <option value="deleted" <?= $statusFilter === 'deleted' ? 'selected' : '' ?>>Đã xóa</option>
-            </select>
-        </div>
+        <input type="hidden" name="status" id="statusInput" value="<?= htmlspecialchars($statusFilter) ?>">
         <div>
             <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Đánh giá sao</label>
             <select name="rating" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axeron-red outline-none">
@@ -185,6 +234,7 @@ $reviews = $db->select("
             <?php endif; ?>
         </div>
     </form>
+    </div>
 </div>
 
 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -233,17 +283,26 @@ $reviews = $db->select("
                         </div>
                         <?php 
                         $senClass = match($review['sentiment'] ?? '') {
-                            'positive' => 'bg-green-100 text-green-700',
-                            'negative' => 'bg-red-100 text-red-700',
-                            default => 'bg-gray-100 text-gray-600'
+                            'positive' => 'bg-green-50 text-green-700 border-green-200',
+                            'negative' => 'bg-red-50 text-red-700 border-red-200 shadow-[0_0_8px_rgba(239,68,68,0.3)]',
+                            default => 'bg-gray-50 text-gray-600 border-gray-200'
+                        };
+                        $senIcon = match($review['sentiment'] ?? '') {
+                            'positive' => '😍',
+                            'negative' => '😡',
+                            default => '😐'
                         };
                         $senText = match($review['sentiment'] ?? '') {
-                            'positive' => '😍 Tích cực',
-                            'negative' => '😡 Tiêu cực',
-                            default => '😐 Trung tính'
+                            'positive' => 'Tích cực (AI)',
+                            'negative' => 'Tiêu cực (AI)',
+                            default => 'Trung tính (AI)'
                         };
                         ?>
-                        <span class="inline-block px-2 py-0.5 rounded text-[10px] font-medium <?= $senClass ?>"><?= $senText ?></span>
+                        <div class="mt-1.5 flex items-center">
+                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[10px] font-bold border <?= $senClass ?>">
+                                <span class="text-sm"><?= $senIcon ?></span> <?= $senText ?>
+                            </span>
+                        </div>
                     </td>
                     <td class="px-4 py-3 text-sm text-gray-500"><?= date('d/m/Y', strtotime($review['created_at'])) ?></td>
                     <td class="px-4 py-3">
