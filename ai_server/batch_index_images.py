@@ -1,17 +1,55 @@
 import os
 import pymysql
 import requests
+import pickle
+import torch
+import torch.nn as nn
+from torchvision import models, transforms
 from io import BytesIO
 from PIL import Image
-from app import extract_image_vector, load_image_features, save_image_features
+
+print("Loading model ResNet50 for Visual Search...")
+weights = models.ResNet50_Weights.DEFAULT
+resnet = models.resnet50(weights=weights)
+resnet_model = nn.Sequential(*list(resnet.children())[:-1])
+resnet_model.eval()
+
+preprocess_image = transforms.Compose([
+    transforms.Resize(256),
+    transforms.CenterCrop(224),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+])
+
+FEATURE_FILE = 'image_features.pkl'
+
+def load_image_features():
+    if os.path.exists(FEATURE_FILE):
+        with open(FEATURE_FILE, 'rb') as f:
+            return pickle.load(f)
+    return {}
+
+def save_image_features(features):
+    with open(FEATURE_FILE, 'wb') as f:
+        pickle.dump(features, f)
+
+def extract_image_vector(image):
+    img_t = preprocess_image(image.convert('RGB'))
+    batch_t = torch.unsqueeze(img_t, 0)
+    with torch.no_grad():
+        features = resnet_model(batch_t)
+    return features.squeeze().numpy()
 
 def main():
+    from dotenv import load_dotenv, find_dotenv
+    load_dotenv(find_dotenv())
+    
     print("Connecting to database...")
     conn = pymysql.connect(
-        host='127.0.0.1',
-        user='root',
-        password='',
-        database='sports_shop',
+        host=os.environ.get('DB_HOST', '127.0.0.1'),
+        user=os.environ.get('DB_USER', 'root'),
+        password=os.environ.get('DB_PASS', ''),
+        database=os.environ.get('DB_NAME', 'sports_shop'),
         cursorclass=pymysql.cursors.DictCursor
     )
     
