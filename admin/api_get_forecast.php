@@ -39,13 +39,14 @@ try {
     }
 
     // 2. GỌI API PYTHON ĐỂ LẤY DỰ BÁO 30 NGÀY TỚI
-    $ch = curl_init('http://localhost:5000/forecast_revenue');
+    $ch = curl_init('http://127.0.0.1:5000/forecast_revenue');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($historical_data));
     curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
     
     // Đặt timeout 30s vì model Prophet có thể mất vài giây để train
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
     curl_setopt($ch, CURLOPT_TIMEOUT, 30); 
 
     $response = curl_exec($ch);

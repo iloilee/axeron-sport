@@ -134,7 +134,8 @@ if (isset($_FILES['search_image']) && $_FILES['search_image']['error'] == 0) {
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, ['file' => $cfile]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 3);
         $response = curl_exec($ch);
         curl_close($ch);
 
@@ -158,6 +159,7 @@ if (isset($_FILES['search_image']) && $_FILES['search_image']['error'] == 0) {
         // Sử dụng cURL để gọi API (Timeout 3s)
         $ch = curl_init($apiUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
         curl_setopt($ch, CURLOPT_TIMEOUT, 3);
         $response = curl_exec($ch);
         curl_close($ch);
