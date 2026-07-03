@@ -148,7 +148,8 @@ if ($needSearch) {
     $keywords = [];
     foreach ($words as $w) {
         $w = trim($w);
-        if (mb_strlen($w, 'UTF-8') >= 2 && !in_array($w, $stopWords) && !is_numeric($w)) {
+        // Bỏ is_numeric() để chatbot có thể tìm các số hiệu model như Astrox 99, DL 200...
+        if (mb_strlen($w, 'UTF-8') >= 2 && !in_array($w, $stopWords)) {
             $keywords[] = $w;
         }
     }
@@ -171,15 +172,42 @@ if ($needSearch) {
     }
     $relevanceSql = implode(' + ', $relevanceParts);
     
+    $orderClause = "ORDER BY relevance DESC";
+    if (preg_match('/(thấp nhất|rẻ nhất|giảm dần|ít tiền|rẻ|thấp)/i', $msgLower)) {
+        $orderClause = "ORDER BY relevance DESC, p.base_price ASC";
+    } elseif (preg_match('/(cao nhất|đắt nhất|mắc nhất|tăng dần|đắt|mắc)/i', $msgLower)) {
+        $orderClause = "ORDER BY relevance DESC, p.base_price DESC";
+    } elseif (preg_match('/(mới nhất|mới)/i', $msgLower)) {
+        $orderClause = "ORDER BY relevance DESC, p.created_at DESC";
+    }
+    
+    // Đọc số lượng sản phẩm cần lấy (mặc định 5, tối đa 10)
+    $limit = 5;
+    if (preg_match('/(\d+)\s+sản phẩm/i', $msgLower, $matches) || preg_match('/top\s+(\d+)/i', $msgLower, $matches)) {
+        $limit = max(1, min(10, (int)$matches[1]));
+    }
+    
+    // Bắt thêm yêu cầu về giá (Ví dụ: dưới 500k, dưới 2 triệu)
+    $priceWhere = "";
+    if (preg_match('/(dưới|nhỏ hơn|tối đa)\s*(\d+)\s*(tr|triệu|k|ngàn|nghìn)/i', $msgLower, $matches)) {
+        $maxPrice = (int)$matches[2];
+        $unit = mb_strtolower($matches[3]);
+        if ($unit == 'tr' || $unit == 'triệu') $maxPrice *= 1000000;
+        if ($unit == 'k' || $unit == 'ngàn' || $unit == 'nghìn') $maxPrice *= 1000;
+        if ($maxPrice > 1000) {
+            $priceWhere = " AND p.base_price <= " . $maxPrice;
+        }
+    }
+    
     $results = $db->select("
-        SELECT p.product_name, p.slug, p.base_price, p.stock_quantity, c.category_name,
+        SELECT p.product_name, p.slug, p.base_price, p.stock_quantity, c.category_name, p.created_at,
         ($relevanceSql) as relevance
         FROM products p
         LEFT JOIN categories c ON p.category_id = c.category_id
-        WHERE p.is_visible = 1 
+        WHERE p.is_visible = 1 $priceWhere
         HAVING relevance > 0
-        ORDER BY relevance DESC
-        LIMIT 5
+        $orderClause
+        LIMIT $limit
     ", $params);
     
     if ($results) {
@@ -224,11 +252,13 @@ function callGeminiAPI($payload) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     
-    // Tối ưu hóa kết nối cURL
+    // Tối ưu hóa kết nối cURL và thêm Timeout bảo vệ hệ thống
     curl_setopt($ch, CURLOPT_ENCODING, ""); // Hỗ trợ gzip
     curl_setopt($ch, CURLOPT_TCP_KEEPALIVE, 1);
     curl_setopt($ch, CURLOPT_TCP_KEEPIDLE, 120);
     curl_setopt($ch, CURLOPT_TCP_KEEPINTVL, 60);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5); // Connect timeout 5s
+    curl_setopt($ch, CURLOPT_TIMEOUT, 20); // Đợi Gemini phản hồi tối đa 20s
     
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
