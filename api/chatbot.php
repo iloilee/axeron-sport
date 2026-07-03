@@ -91,6 +91,8 @@ $context[] = "- Tên cửa hàng: " . ($contactInfo['site_name'] ?? 'Axeron Spor
 $context[] = "- Số điện thoại: " . ($contactInfo['contact_phone'] ?? '1800 0021');
 $context[] = "- Địa chỉ: " . ($contactInfo['contact_address'] ?? '456 Nguyễn Thị Thập, Quận 7, TP.HCM');
 $context[] = "- Giờ làm việc: " . ($contactInfo['contact_work_hours'] ?? '08:30 - 21:30');
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+$context[] = "- THỜI GIAN HIỆN TẠI (Theo giờ Việt Nam): " . date('H:i d/m/Y') . " (Lưu ý mốc thời gian này để chào hỏi khách hợp lý).";
 
 // Lịch sử
 $history = $db->select("
@@ -98,7 +100,7 @@ $history = $db->select("
     FROM chat_messages 
     WHERE session_id = ? 
     ORDER BY message_id DESC 
-    LIMIT 6
+    LIMIT 10
 ", [$session_id]);
 $history = array_reverse($history);
 

@@ -289,6 +289,13 @@ $policyTermsUrl = formatFooterUrl($policyTermsUrl);
                 Chào bạn! Mình là trợ lý AI thông minh của Axeron Sport. Mình có thể giúp gì cho bạn hôm nay?
             </div>
         </div>
+        
+        <!-- Quick Replies -->
+        <div id="chat-quick-replies" class="flex flex-wrap gap-2 mt-2 ml-10">
+            <button onclick="sendQuickReply('Giày chạy bộ nào đang giảm giá?')" class="text-[11px] border border-axeron-red text-axeron-red bg-white px-3 py-1.5 rounded-full hover:bg-axeron-red hover:text-white transition-colors shadow-sm">Giày chạy bộ sale</button>
+            <button onclick="sendQuickReply('Tư vấn vợt cầu lông cho người mới')" class="text-[11px] border border-axeron-red text-axeron-red bg-white px-3 py-1.5 rounded-full hover:bg-axeron-red hover:text-white transition-colors shadow-sm">Vợt cầu lông</button>
+            <button onclick="sendQuickReply('Làm sao để kiểm tra đơn hàng?')" class="text-[11px] border border-axeron-red text-axeron-red bg-white px-3 py-1.5 rounded-full hover:bg-axeron-red hover:text-white transition-colors shadow-sm">Tra cứu đơn hàng</button>
+        </div>
     </div>
     
     <!-- Input Area -->
@@ -347,6 +354,14 @@ async function loadChatHistory() {
     }
 }
 
+function sendQuickReply(text) {
+    const input = document.getElementById('chat-input');
+    input.value = text;
+    document.getElementById('chat-submit-btn').click();
+    const quickReplies = document.getElementById('chat-quick-replies');
+    if (quickReplies) quickReplies.style.display = 'none';
+}
+
 function appendMessage(sender, text, isHtml = false) {
     const container = document.getElementById('chat-messages');
     const msgDiv = document.createElement('div');
@@ -362,15 +377,32 @@ function appendMessage(sender, text, isHtml = false) {
     // Markdown formatting logic
     let formattedText = text;
     if (sender === 'bot' && !isHtml) {
+        // Handle headers
+        formattedText = formattedText.replace(/^### (.*)$/gm, '<h3 class="font-bold text-md mt-2 mb-1">$1</h3>');
+        formattedText = formattedText.replace(/^## (.*)$/gm, '<h2 class="font-bold text-lg mt-2 mb-1">$1</h2>');
+        
         // Handle bold
         formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold">$1</strong>');
-        // Handle italic
-        formattedText = formattedText.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        // Handle italic (simplified to avoid conflict with bold)
+        formattedText = formattedText.replace(/(?<!\*)\*(?!\*)(.*?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+        
         // Handle lists
         formattedText = formattedText.replace(/^- (.*)$/gm, '<li class="ml-4 list-disc">$1</li>');
-        formattedText = formattedText.replace(/(\<li class="ml-4 list-disc"\>.*\<\/li\>)/s, '<ul class="my-2">$1</ul>');
+        formattedText = formattedText.replace(/^\d+\.\s+(.*)$/gm, '<li class="ml-4 list-decimal">$1</li>');
+        
+        // Wrap lists in ul/ol
+        formattedText = formattedText.replace(/((?:<li class="ml-4 list-disc">.*?<\/li>\n?)+)/g, '<ul class="my-2">$1</ul>');
+        formattedText = formattedText.replace(/((?:<li class="ml-4 list-decimal">.*?<\/li>\n?)+)/g, '<ol class="my-2">$1</ol>');
+        
+        // Handle links
+        formattedText = formattedText.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-blue-600 dark:text-blue-400 font-medium hover:underline" target="_blank">$1</a>');
+        
         // Handle newlines
         formattedText = formattedText.replace(/\n/g, '<br>');
+        
+        // Clean up empty lines caused by lists
+        formattedText = formattedText.replace(/<\/ul><br>/g, '</ul>');
+        formattedText = formattedText.replace(/<\/ol><br>/g, '</ol>');
         
         // Custom style for product cards from AI if any
         if (formattedText.includes('[PRODUCT_CARD]')) {
