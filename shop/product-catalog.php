@@ -118,8 +118,8 @@ $semanticScoreMap = [];
 $aiServerStatus = true;
 
 if (!$disableAi) {
-    // Ping nhanh port 5000 để kiểm tra server có online không (Timeout siêu thấp: 0.1s)
-    $fp = @fsockopen("127.0.0.1", 5000, $errno, $errstr, 0.1);
+    // Ping nhanh port 5000 để kiểm tra server có online không (Timeout: 0.5s)
+    $fp = @fsockopen("127.0.0.1", 5000, $errno, $errstr, 0.5);
     if (!$fp) {
         $aiServerStatus = false;
     } else {
@@ -155,9 +155,12 @@ if (isset($_FILES['search_image']) && $_FILES['search_image']['error'] == 0) {
         // 1. Gọi API sang Server Python lấy ID đã được xếp hạng
         $apiUrl = "http://127.0.0.1:5000/api/search?keyword=" . urlencode($search);
         
-        // Sử dụng context để set timeout (1.5 giây để đảm bảo CPU xử lý kịp mô hình)
-        $ctx = stream_context_create(['http' => ['timeout' => 1.5]]);
-        $response = @file_get_contents($apiUrl, false, $ctx);
+        // Sử dụng cURL để gọi API (Timeout 3s)
+        $ch = curl_init($apiUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+        $response = curl_exec($ch);
+        curl_close($ch);
         
         if ($response === false) {
             $aiServerStatus = false;
