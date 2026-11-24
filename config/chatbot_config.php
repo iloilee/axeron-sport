@@ -9,9 +9,14 @@ $apiKey = getenv('GEMINI_API_KEY') ?: '';
 
 // ĐIỀN API KEY CỦA GOOGLE GEMINI TẠI ĐÂY (hoặc sử dụng .env)
 define('GEMINI_API_KEY', $apiKey);
-// Model sử dụng
-define('GEMINI_MODEL', 'gemini-2.5-flash');
-// define('GEMINI_MODEL', 'gemini-2.5-flash-lite');
+// Model sử dụng mặc định (ưu tiên dòng Flash-Lite nhẹ, quota Free Tier cao)
+$model = getenv('GEMINI_MODEL') ?: 'gemini-2.5-flash-lite';
+define('GEMINI_MODEL', $model);
+
+// Danh sách model dự phòng khi model chính bị 429 (hết quota) / 503 / 404
+$fallbackEnv = getenv('GEMINI_FALLBACK_MODELS') ?: 'gemini-2.5-flash-lite,gemini-2.5-flash';
+$fallbackList = array_values(array_unique(array_filter(array_map('trim', explode(',', $fallbackEnv)))));
+define('GEMINI_FALLBACK_MODELS', $fallbackList);
 
 // System prompt mặc định để định hình nhân cách và kiến thức cơ bản cho AI
 define('CHATBOT_SYSTEM_PROMPT', '

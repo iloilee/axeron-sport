@@ -4,7 +4,6 @@
  * Xử lý logic AI Chatbot với Gemini Function Calling
  */
 
-session_start();
 require_once '../config/session.php';
 require_once '../config/database.php';
 require_once '../config/chatbot_config.php';
@@ -67,7 +66,7 @@ if (!$session_id) {
 // 2. Lưu tin nhắn của người dùng
 $db->query("INSERT INTO chat_messages (session_id, sender_type, content) VALUES (?, 'user', ?)", [$session_id, $message]);
 
-if (empty(GEMINI_API_KEY)) {
+if (empty(GEMINI_API_KEY) || GEMINI_API_KEY === 'YOUR_API_KEY_HERE') {
     $errorMsg = "Xin lỗi, hiện tại hệ thống AI đang được bảo trì (Thiếu API Key). Vui lòng thử lại sau.";
     $db->query("INSERT INTO chat_messages (session_id, sender_type, content) VALUES (?, 'bot', ?)", [$session_id, $errorMsg]);
     jsonResponse(true, 'Success', ['reply' => $errorMsg, 'session_id' => $session_id]);
@@ -245,8 +244,8 @@ $payload = [
     "contents" => $geminiHistory
 ];
 
-function callGeminiAPI($payload) {
-    $url = "https://generativelanguage.googleapis.com/v1beta/models/" . GEMINI_MODEL . ":generateContent?key=" . GEMINI_API_KEY;
+function callGeminiAPI($payload, $model = GEMINI_MODEL) {
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/" . $model . ":generateContent?key=" . GEMINI_API_KEY;
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
@@ -269,25 +268,43 @@ function callGeminiAPI($payload) {
     return [$httpCode, json_decode($response, true)];
 }
 
-// Vì đã tiêm kết quả DB vào Prompt, chỉ cần gọi 1 lần
-list($httpCode, $data) = callGeminiAPI($payload);
+// Thử lần lượt model chính và danh sách model dự phòng miễn phí nếu gặp 429/503/404
+$modelsToTry = array_values(array_unique(array_merge([GEMINI_MODEL], GEMINI_FALLBACK_MODELS)));
+$httpCode = 0;
+$data = null;
 $replyMsg = "Xin lỗi, tôi đang gặp lỗi kỹ thuật khi kết nối đến AI.";
+$gotValidReply = false;
 
-if ($httpCode == 200 && isset($data['candidates'][0]['content']['parts'])) {
-    $parts = $data['candidates'][0]['content']['parts'];
-    $responseText = "";
-    foreach ($parts as $part) {
-        if (isset($part['text'])) {
-            $responseText .= $part['text'];
+foreach ($modelsToTry as $tryModel) {
+    list($httpCode, $data) = callGeminiAPI($payload, $tryModel);
+
+    if ($httpCode == 200 && isset($data['candidates'][0]['content']['parts'])) {
+        $parts = $data['candidates'][0]['content']['parts'];
+        $responseText = "";
+        foreach ($parts as $part) {
+            if (isset($part['text'])) {
+                $responseText .= $part['text'];
+            }
         }
+        $replyMsg = $responseText;
+        $gotValidReply = true;
+        break;
     }
-    $replyMsg = $responseText;
-} else {
+
+    if (in_array((int)$httpCode, [429, 503, 404], true)) {
+        error_log("Gemini model $tryModel returned HTTP $httpCode, trying next fallback...");
+        continue;
+    }
+
+    break;
+}
+
+if (!$gotValidReply) {
     if ($httpCode == 429) {
-        $replyMsg = "Hệ thống AI đang bị quá tải (Quota Exceeded). Vui lòng thử lại sau!";
+        $replyMsg = "Hệ thống AI đang tạm hết lượt miễn phí trong phút/ngày (Quota Exceeded). Vui lòng thử lại sau ít phút!";
     } else {
         error_log("Gemini API Error $httpCode: " . json_encode($data));
-        $replyMsg = "Lỗi kết nối AI (Code: $httpCode). Chi tiết: " . ($data['error']['message'] ?? 'Unknown');
+        $replyMsg = "Xin lỗi, trợ lý AI hiện đang tạm gián đoạn kết nối. Bạn vui lòng thử lại sau hoặc liên hệ hotline cửa hàng nhé!";
     }
 }
 
